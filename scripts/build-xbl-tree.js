@@ -48,14 +48,20 @@ var files = [
 ];
 
 var idToBinding = {};
+var idToFeatures = {};
 var bindingTree = {};
 var outputHTML = [];
 
 function printSingleBinding(binding) {
   var html = `
       <details open>
-      <summary>${binding}</summary>
+      <summary>${binding}
   `;
+
+  html += `<em>Used features: `;
+  html += idToFeatures[binding].map(feature => `<code>${feature}</code>`).join(", ");
+
+  html += `</em></summary>`;
 
   if (bindingTree[binding]) {
     html += `<ul>`
@@ -69,13 +75,19 @@ function printSingleBinding(binding) {
   return html;
 }
 
-
 Promise.all(files.map(file => {
   var res = request('GET', file);
   return xmlom.parseString(res.getBody('utf8'));
 })).then(docs => {
   docs.forEach(doc => {
     doc.find('binding').forEach(binding => {
+      idToFeatures[binding.attrs.id] = [];
+      for (let feature of ['resources', 'implementation', 'property', 'field', 'content', 'handler', 'method', 'constructor', 'destructor']) {
+        if (binding.find(feature).length) {
+          idToFeatures[binding.attrs.id].push(`${feature} (${binding.find(feature).length})`);
+        }
+      }
+
       idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1];
     });
   });
@@ -96,6 +108,7 @@ Promise.all(files.map(file => {
   fs.writeFileSync('index.html', `
     <style>
       li,ul { list-style: none; }
+      em { padding-left: 10px; color: #999; }
       summary {padding: 4px 0; position: relative; width: 100%; }
     </style>
     <a href="https://github.com/bgrins/xbl-analysis">Link to code</a>
