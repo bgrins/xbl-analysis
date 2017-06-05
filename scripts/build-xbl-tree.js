@@ -98,7 +98,9 @@ Promise.all(files.map(file => {
       li,ul { list-style: none; }
       summary {padding: 4px 0; position: relative; width: 100%; }
     </style>
-
+    <a href="https://github.com/bgrins/xbl-analysis">Link to code</a>
+    <h1>List of XBL Components</h1>
+    <p>A child in the tree means that it extends the parent</p>
     ${outputHTML.join('')}`
   );
 });
