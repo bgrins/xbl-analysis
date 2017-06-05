@@ -1,0 +1,13 @@
+{
+  "name": "xbl-analysis",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "start": "node scripts/build-xbl-tree"
+  },
+  "author": "",
+  "dependencies": {
+    "sync-request": "^4.0.3",
+    "xmlom": "^2.1.1"
+  }
+}
