@@ -105,6 +105,9 @@ Promise.all(files.map(file => {
     outputHTML.push(printSingleBinding(rootBinding))
   }
 
+  var totalBindings = 0;
+  for (let _ in idToBinding) { totalBindings++; }
+
   fs.writeFileSync('index.html', `
     <style>
       li,ul { list-style: none; }
@@ -113,6 +116,7 @@ Promise.all(files.map(file => {
     </style>
     <a href="https://github.com/bgrins/xbl-analysis">Link to code</a>
     <h1>List of XBL Components</h1>
+    <p>The script processed ${totalBindings} bindings.</p>
     <p>A child in the tree means that it extends the parent</p>
     ${outputHTML.join('')}`
   );
