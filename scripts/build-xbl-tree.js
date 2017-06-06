@@ -50,6 +50,7 @@ var files = [
 
 var idToBinding = {};
 var idToFeatures = {};
+var idToUrls = {};
 var idToNumInstances = {};
 var bindingTree = {};
 var outputHTML = [];
@@ -68,7 +69,7 @@ function printSingleBinding(binding) {
   totalPrintedBindings++;
   var html = `
       <details open>
-      <summary>${binding} (${idToNumInstances[binding]} total instances)
+      <summary><a href="${idToUrls[binding]}" target="_blank">${binding}</a> (${idToNumInstances[binding]} total instances)
   `;
 
   html += `<em>Used features: `;
@@ -91,9 +92,10 @@ Promise.all(files.map(file => {
   var res = request('GET', file);
   return xmlom.parseString(res.getBody('utf8'));
 })).then(docs => {
-  docs.forEach(doc => {
+  docs.forEach((doc, i) => {
     doc.find('binding').forEach(binding => {
       idToFeatures[binding.attrs.id] = [];
+      idToUrls[binding.attrs.id] = files[i].replace('raw-file', 'file');
       for (let feature of ['resources', 'implementation', 'property', 'field', 'content', 'handler', 'method', 'constructor', 'destructor']) {
         if (binding.find(feature).length) {
           idToFeatures[binding.attrs.id].push(`${feature} (${binding.find(feature).length})`);
@@ -132,7 +134,7 @@ Promise.all(files.map(file => {
   for (let _ in idToBinding) { totalBindings++; }
 
   if (totalBindings != totalPrintedBindings) {
-    console.warn(`There are some orphaned bindings. Expected ${totalBindings} but found ${totalPrintedBindings}`);
+    console.warn(`There are some orphaned bindings. Expected ${totalBindings} but printed ${totalPrintedBindings}`);
   }
   fs.writeFileSync('index.html', `
     <style>
