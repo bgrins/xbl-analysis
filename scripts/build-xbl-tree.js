@@ -1,6 +1,7 @@
 var xmlom = require('xmlom');
 var fs = require('fs');
 var request = require('sync-request');
+var sortedBindings = require('./sorted-bindings').map(url => url.split('#')[1]);
 
 var files = [
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/autocomplete.xml',
@@ -96,6 +97,23 @@ Promise.all(files.map(file => {
   for (let id in idToBinding) {
     bindingTree[idToBinding[id]] = (bindingTree[idToBinding[id]] || []);
     bindingTree[idToBinding[id]].push(id);
+  }
+
+  for (let binding in bindingTree) {
+    bindingTree[binding] = bindingTree[binding].sort((a, b) => {
+      let firstInd = sortedBindings.indexOf(a);
+      let secondInd = sortedBindings.indexOf(b);
+
+      if (firstInd === -1) {
+        console.warn(`Found an unexpected binding while sorting: ${a}`);
+        firstInd = Infinity;
+      }
+      if (secondInd === -1) {
+        console.warn(`Found an unexpected binding while sorting: ${b}`);
+        secondInd = Infinity;
+      }
+      return firstInd - secondInd;
+    });
   }
 
   console.log("idToBinding:", idToBinding);
