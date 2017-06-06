@@ -1,7 +1,7 @@
 var xmlom = require('xmlom');
 var fs = require('fs');
 var request = require('sync-request');
-var sortedBindings = require('./sorted-bindings').map(url => url.split('#')[1]);
+var sortedBindings = require('./sorted-bindings');
 
 var files = [
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/autocomplete.xml',
@@ -50,18 +50,29 @@ var files = [
 
 var idToBinding = {};
 var idToFeatures = {};
+var idToNumInstances = {};
 var bindingTree = {};
 var outputHTML = [];
+var totalPrintedBindings = 0;
+
+function getTotalInstances(binding) {
+  if (!sortedBindings[binding]) {
+    console.warn(`No usage data for ${binding}`);
+  }
+  return (bindingTree[binding] || []).reduce((a, val) => {
+    return a + getTotalInstances(val);
+  }, sortedBindings[binding] || 0);
+}
 
 function printSingleBinding(binding) {
+  totalPrintedBindings++;
   var html = `
       <details open>
-      <summary>${binding}
+      <summary>${binding} (${idToNumInstances[binding]} total instances)
   `;
 
   html += `<em>Used features: `;
   html += idToFeatures[binding].map(feature => `<code>${feature}</code>`).join(", ");
-
   html += `</em></summary>`;
 
   if (bindingTree[binding]) {
@@ -89,7 +100,7 @@ Promise.all(files.map(file => {
         }
       }
 
-      idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1];
+      idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1] || "NO_EXTENDS";
     });
   });
 }).then(() => {
@@ -99,33 +110,30 @@ Promise.all(files.map(file => {
     bindingTree[idToBinding[id]].push(id);
   }
 
+  for (let id in idToBinding) {
+    idToNumInstances[id] = getTotalInstances(id);
+  }
+
   for (let binding in bindingTree) {
     bindingTree[binding] = bindingTree[binding].sort((a, b) => {
-      let firstInd = sortedBindings.indexOf(a);
-      let secondInd = sortedBindings.indexOf(b);
-
-      if (firstInd === -1) {
-        console.warn(`Found an unexpected binding while sorting: ${a}`);
-        firstInd = Infinity;
-      }
-      if (secondInd === -1) {
-        console.warn(`Found an unexpected binding while sorting: ${b}`);
-        secondInd = Infinity;
-      }
-      return firstInd - secondInd;
+      return idToNumInstances[b] - idToNumInstances[a];
     });
   }
 
+  console.log("idToNumInstances:", idToNumInstances);
   console.log("idToBinding:", idToBinding);
   console.log("bindingTree:", bindingTree);
 
-  for (let rootBinding of bindingTree[undefined]) {
+  for (let rootBinding of bindingTree["NO_EXTENDS"]) {
     outputHTML.push(printSingleBinding(rootBinding))
   }
 
   var totalBindings = 0;
   for (let _ in idToBinding) { totalBindings++; }
 
+  if (totalBindings != totalPrintedBindings) {
+    console.warn(`There are some orphaned bindings. Expected ${totalBindings} but found ${totalPrintedBindings}`);
+  }
   fs.writeFileSync('index.html', `
     <style>
       li,ul { list-style: none; }
