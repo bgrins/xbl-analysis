@@ -145,15 +145,30 @@ Promise.all(files.map(file => {
     console.warn(`There are some orphaned bindings. Expected ${totalBindings} but printed ${totalPrintedBindings}`);
   }
   fs.writeFileSync('index.html', `
+    <head>
+    <meta charset="utf-8">
+    <title>XBL Component Tree</title>
     <style>
       li,ul { list-style: none; }
       em { padding-left: 10px; color: #999; }
       summary {padding: 4px 0; position: relative; width: 100%; }
     </style>
+    </head>
     <a href="https://github.com/bgrins/xbl-analysis">Link to code</a>
-    <h1>List of XBL Components</h1>
-    <p>The script processed ${totalBindings} bindings.</p>
-    <p>A child in the tree means that it extends the parent</p>
+    <h1>XBL Component Tree</h1>
+    <p>About this data:</p>
+    <ul>
+      <li>This script processes xml files where bindings are declared in toolkit/content/widgets</li>
+      <li>From these files, <strong>${totalBindings}</strong> bindings were detected.</li>
+      <li>A child in the tree means that it extends the parent</li>
+      <li>The tree is sorted based on number of instances of the bindings as described below</li>
+    </ul>
+    <p>About the "total instances" data:</p>
+    <ul>
+      <li>It is a count of how many elements have a particular binding applied (including bindings that are not directly appled to the element but created through the <code>extends</code> feature)</li>
+      <li>It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox</li>
+      <li>The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a></small></li>
+    </ul>
     ${outputHTML.join('')}`
   );
 });
