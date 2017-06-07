@@ -50,6 +50,7 @@ var files = [
 
 var idToBinding = {};
 var idToFeatures = {};
+var featureCounts = Object.create(null);
 var idToUrls = {};
 var idToNumInstances = {};
 var bindingTree = {};
@@ -104,10 +105,21 @@ Promise.all(files.map(file => {
     doc.find('binding').forEach(binding => {
       idToFeatures[binding.attrs.id] = [];
       idToUrls[binding.attrs.id] = files[i].replace('raw-file', 'file');
-      for (let feature of ['resources', 'implementation', 'property', 'field', 'content', 'handler', 'method', 'constructor', 'destructor']) {
+
+      // Handle the easier features to count, where we just need to detect a node:
+      for (let feature of ['resources', 'property', 'field', 'content', 'handler', 'method', 'constructor', 'destructor']) {
+        featureCounts[feature] = featureCounts[feature] || 0;
         if (binding.find(feature).length) {
+          featureCounts[feature] += binding.find(feature).length;
           idToFeatures[binding.attrs.id].push(`${feature} (${binding.find(feature).length})`);
         }
+      }
+
+      // Count implementation[implements] uses:
+      featureCounts['implements'] = featureCounts['implements'] || 0;
+      if (binding.find('implementation').length && binding.find('implementation')[0].attrs.implements) {
+        featureCounts['implements']++;
+        idToFeatures[binding.attrs.id].push(`implements (${binding.find('implementation')[0].attrs.implements})`);
       }
 
       idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1] || "NO_EXTENDS";
@@ -144,6 +156,13 @@ Promise.all(files.map(file => {
   if (totalBindings != totalPrintedBindings) {
     console.warn(`There are some orphaned bindings. Expected ${totalBindings} but printed ${totalPrintedBindings}`);
   }
+
+  let featureStr = Object.entries(featureCounts)
+                          .sort((a, b) => b[1] - a[1])
+                          .map(([key,value]) => `
+                            <code>${key}</code>: <strong>${value}</strong>`)
+                          .join(',');
+
   fs.writeFileSync('index.html', `
     <head>
     <meta charset="utf-8">
@@ -162,6 +181,7 @@ Promise.all(files.map(file => {
       <li>From these files, <strong>${totalBindings}</strong> bindings were detected.</li>
       <li>A child in the tree means that it extends the parent</li>
       <li>The tree is sorted based on number of instances of the bindings as described below</li>
+      <li>Features used: ${featureStr}</li>
     </ul>
     <p>About the "total instances" data:</p>
     <ul>
@@ -169,6 +189,6 @@ Promise.all(files.map(file => {
       <li>It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox</li>
       <li>The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a></small></li>
     </ul>
-    ${outputHTML.join('')}`
-  );
+    ${outputHTML.join('')}
+  `);
 });
