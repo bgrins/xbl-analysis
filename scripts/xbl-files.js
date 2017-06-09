@@ -1,4 +1,7 @@
-module.exports = [
+var xmlom = require('xmlom');
+var request = require('sync-request');
+
+var files = module.exports.files = [
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/autocomplete.xml',
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/browser.xml',
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/button.xml',
@@ -42,3 +45,18 @@ module.exports = [
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/videocontrols.xml',
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/wizard.xml',
 ];
+
+module.exports.getParsedFiles = () => {
+  return Promise.all(files.map(file => {
+    var res = request('GET', file);
+    var body = res.getBody('utf8');
+    body = body.replace(/#ifdef XP_(.*)/g, '')
+               .replace(/#ifndef XP_(.*)/g, '')
+               .replace(/#ifdef MOZ_WIDGET_GTK/g, '')
+               .replace(/#else/g, '')
+               .replace(/#endif/g, '')
+               .replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
+
+    return xmlom.parseString(body);
+  }))
+};

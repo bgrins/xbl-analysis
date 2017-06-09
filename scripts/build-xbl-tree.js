@@ -1,8 +1,7 @@
-var xmlom = require('xmlom');
+
 var fs = require('fs');
-var request = require('sync-request');
 var sortedBindings = require('./sorted-bindings');
-var files = require('./xbl-files');
+var {getParsedFiles, files} = require('./xbl-files');
 
 var idToBinding = {};
 var idToFeatures = {};
@@ -45,18 +44,7 @@ function printSingleBinding(binding) {
   return html;
 }
 
-Promise.all(files.map(file => {
-  var res = request('GET', file);
-  var body = res.getBody('utf8');
-  body = body.replace(/#ifdef XP_(.*)/g, '')
-             .replace(/#ifndef XP_(.*)/g, '')
-             .replace(/#ifdef MOZ_WIDGET_GTK/g, '')
-             .replace(/#else/g, '')
-             .replace(/#endif/g, '')
-             .replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
-
-  return xmlom.parseString(body);
-})).then(docs => {
+getParsedFiles().then(docs => {
   docs.forEach((doc, i) => {
     doc.find('binding').forEach(binding => {
       idToFeatures[binding.attrs.id] = [];
