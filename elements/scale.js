@@ -2,6 +2,10 @@ class XblScale extends XblBasecontrol {
   constructor() {
     super();
   }
-  connectedCallback() {}
+  connectedCallback() {
+    this.textContent = "Hello xbl-scale";
+    this.setAttribute("foo", "bar");
+  }
   disconnectedCallback() {}
 }
+customElements.define("xbl-scale", XblScale);

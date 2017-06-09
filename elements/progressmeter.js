@@ -2,6 +2,10 @@ class XblProgressmeter extends HTMLElement {
   constructor() {
     super();
   }
-  connectedCallback() {}
+  connectedCallback() {
+    this.textContent = "Hello xbl-progressmeter";
+    this.setAttribute("foo", "bar");
+  }
   disconnectedCallback() {}
 }
+customElements.define("xbl-progressmeter", XblProgressmeter);

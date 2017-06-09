@@ -1,7 +1,11 @@
-class XblVideoControls extends HTMLElement {
+class XblVideocontrols extends HTMLElement {
   constructor() {
     super();
   }
-  connectedCallback() {}
+  connectedCallback() {
+    this.textContent = "Hello xbl-videocontrols";
+    this.setAttribute("foo", "bar");
+  }
   disconnectedCallback() {}
 }
+customElements.define("xbl-videocontrols", XblVideocontrols);

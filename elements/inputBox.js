@@ -2,6 +2,10 @@ class XblInputBox extends HTMLElement {
   constructor() {
     super();
   }
-  connectedCallback() {}
+  connectedCallback() {
+    this.textContent = "Hello xbl-input-box";
+    this.setAttribute("foo", "bar");
+  }
   disconnectedCallback() {}
 }
+customElements.define("xbl-input-box", XblInputBox);

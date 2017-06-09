@@ -1,7 +1,11 @@
-class XblSuppressChangeEvent extends XblScale {
+class XblSuppresschangeevent extends XblScale {
   constructor() {
     super();
   }
-  connectedCallback() {}
+  connectedCallback() {
+    this.textContent = "Hello xbl-suppresschangeevent";
+    this.setAttribute("foo", "bar");
+  }
   disconnectedCallback() {}
 }
+customElements.define("xbl-suppresschangeevent", XblSuppresschangeevent);

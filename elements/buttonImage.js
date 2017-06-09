@@ -2,6 +2,10 @@ class XblButtonImage extends XblButton {
   constructor() {
     super();
   }
-  connectedCallback() {}
+  connectedCallback() {
+    this.textContent = "Hello xbl-button-image";
+    this.setAttribute("foo", "bar");
+  }
   disconnectedCallback() {}
 }
+customElements.define("xbl-button-image", XblButtonImage);

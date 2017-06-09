@@ -2,6 +2,10 @@ class XblScrollbar extends XblScrollbarBase {
   constructor() {
     super();
   }
-  connectedCallback() {}
+  connectedCallback() {
+    this.textContent = "Hello xbl-scrollbar";
+    this.setAttribute("foo", "bar");
+  }
   disconnectedCallback() {}
 }
+customElements.define("xbl-scrollbar", XblScrollbar);

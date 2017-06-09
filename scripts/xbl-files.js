@@ -1,5 +1,5 @@
 var xmlom = require('xmlom');
-var request = require('sync-request');
+var request = require('request-promise-native');
 
 var files = module.exports.files = [
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/autocomplete.xml',
@@ -48,15 +48,15 @@ var files = module.exports.files = [
 
 module.exports.getParsedFiles = () => {
   return Promise.all(files.map(file => {
-    var res = request('GET', file);
-    var body = res.getBody('utf8');
-    body = body.replace(/#ifdef XP_(.*)/g, '')
-               .replace(/#ifndef XP_(.*)/g, '')
-               .replace(/#ifdef MOZ_WIDGET_GTK/g, '')
-               .replace(/#else/g, '')
-               .replace(/#endif/g, '')
-               .replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
+    return request(file).then(body => {
+      body = body.replace(/#ifdef XP_(.*)/g, '')
+                .replace(/#ifndef XP_(.*)/g, '')
+                .replace(/#ifdef MOZ_WIDGET_GTK/g, '')
+                .replace(/#else/g, '')
+                .replace(/#endif/g, '')
+                .replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
 
-    return xmlom.parseString(body);
-  }))
+      return xmlom.parseString(body);
+    });
+  }));
 };

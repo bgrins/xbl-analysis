@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "start": "node scripts/build-xbl-tree"
+    "start": "node scripts/build-xbl-tree",
+    "elements": "node scripts/build-custom-elements"
   },
   "author": "",
   "dependencies": {
-    "sync-request": "^4.0.3",
+    "prettier": "^1.4.4",
+    "request": "^2.81.0",
+    "request-promise-native": "^1.0.4",
     "xmlom": "^2.1.1"
   }
 }

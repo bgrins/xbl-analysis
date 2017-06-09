@@ -2,6 +2,10 @@ class XblSearchTextbox extends XblTextbox {
   constructor() {
     super();
   }
-  connectedCallback() {}
+  connectedCallback() {
+    this.textContent = "Hello xbl-search-textbox";
+    this.setAttribute("foo", "bar");
+  }
   disconnectedCallback() {}
 }
+customElements.define("xbl-search-textbox", XblSearchTextbox);
