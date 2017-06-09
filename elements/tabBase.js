@@ -3,8 +3,11 @@ class XblTabBase extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-tab-base";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-tab-base ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

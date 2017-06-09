@@ -3,8 +3,12 @@ class XblToolbarDrag extends XblToolbar {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-toolbar-drag";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-toolbar-drag ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

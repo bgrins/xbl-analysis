@@ -3,8 +3,16 @@ class XblPopup extends XblPopupBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-popup";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+<children>
+</children>
+</arrowscrollbox>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-popup ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,44 @@ class XblAutocompleteRichlistitem extends XblRichlistitem {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-autocomplete-richlistitem";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" xbl:inherits="selected,current,type">
+</image>
+<image anonid="site-icon" class="ac-site-icon" xbl:inherits="src=image,selected,type">
+</image>
+<hbox class="ac-title" align="center" xbl:inherits="selected">
+<description class="ac-text-overflow-container">
+<description anonid="title-text" class="ac-title-text" xbl:inherits="selected">
+</description>
+</description>
+</hbox>
+<hbox anonid="tags" class="ac-tags" align="center" xbl:inherits="selected">
+<description class="ac-text-overflow-container">
+<description anonid="tags-text" class="ac-tags-text" xbl:inherits="selected">
+</description>
+</description>
+</hbox>
+<hbox anonid="separator" class="ac-separator" align="center" xbl:inherits="selected,actiontype,type">
+<description class="ac-separator-text">
+</description>
+</hbox>
+<hbox class="ac-url" align="center" xbl:inherits="selected,actiontype">
+<description class="ac-text-overflow-container">
+<description anonid="url-text" class="ac-url-text" xbl:inherits="selected">
+</description>
+</description>
+</hbox>
+<hbox class="ac-action" align="center" xbl:inherits="selected,actiontype">
+<description class="ac-text-overflow-container">
+<description anonid="action-text" class="ac-action-text" xbl:inherits="selected">
+</description>
+</description>
+</hbox>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-autocomplete-richlistitem ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

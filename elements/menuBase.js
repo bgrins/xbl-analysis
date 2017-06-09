@@ -3,8 +3,12 @@ class XblMenuBase extends XblMenuitemBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-menu-base";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-menu-base ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,14 @@ class XblMenucaption extends XblMenuBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-menucaption";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<label class="menu-text" xbl:inherits="value=label,crop" crop="right">
+</label>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-menucaption ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

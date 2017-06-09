@@ -3,8 +3,15 @@ class XblPrefpane extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-prefpane";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<vbox class="content-box" xbl:inherits="flex">
+<children>
+</children>
+</vbox>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-prefpane ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

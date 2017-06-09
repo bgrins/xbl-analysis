@@ -3,8 +3,12 @@ class XblRemoteBrowser extends XblBrowser {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-remote-browser";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-remote-browser ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

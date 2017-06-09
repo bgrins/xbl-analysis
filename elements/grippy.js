@@ -3,8 +3,11 @@ class XblGrippy extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-grippy";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-grippy ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,15 @@ class XblListhead extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-listhead";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<listheaditem>
+<children includes="listheader">
+</children>
+</listheaditem>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-listhead ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

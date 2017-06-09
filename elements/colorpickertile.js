@@ -3,8 +3,11 @@ class XblColorpickertile extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-colorpickertile";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-colorpickertile ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,17 @@ class XblListheader extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-listheader";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<image class="listheader-icon">
+</image>
+<label class="listheader-label" xbl:inherits="value=label,crop" flex="1" crop="right">
+</label>
+<image class="listheader-sortdirection" xbl:inherits="sortDirection">
+</image>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-listheader ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

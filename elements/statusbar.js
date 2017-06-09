@@ -3,8 +3,17 @@ class XblStatusbar extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-statusbar";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<children>
+</children>
+<statusbarpanel class="statusbar-resizerpanel">
+<resizer dir="bottomend">
+</resizer>
+</statusbarpanel>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-statusbar ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

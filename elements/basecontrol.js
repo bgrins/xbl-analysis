@@ -3,8 +3,11 @@ class XblBasecontrol extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-basecontrol";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-basecontrol ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,12 @@ class XblButtonRepeat extends XblButton {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-button-repeat";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-button-repeat ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

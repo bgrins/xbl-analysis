@@ -3,8 +3,11 @@ class XblToolbarBase extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-toolbar-base";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-toolbar-base ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

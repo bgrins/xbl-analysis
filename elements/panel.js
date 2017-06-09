@@ -3,8 +3,12 @@ class XblPanel extends XblPopupBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-panel";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-panel ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

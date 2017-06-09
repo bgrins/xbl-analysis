@@ -3,8 +3,11 @@ class XblStringbundle extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-stringbundle";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-stringbundle ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

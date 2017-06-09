@@ -3,8 +3,19 @@ class XblNotificationbox extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-notificationbox";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<stack xbl:inherits="hidden=notificationshidden" class="notificationbox-stack">
+<spacer>
+</spacer>
+<children includes="notification">
+</children>
+</stack>
+<children>
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-notificationbox ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

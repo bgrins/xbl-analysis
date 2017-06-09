@@ -3,8 +3,12 @@ class XblScaleslider extends XblBasecontrol {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-scaleslider";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-scaleslider ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

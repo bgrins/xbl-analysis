@@ -3,8 +3,20 @@ class XblMenucaptionInmenulist extends XblMenucaption {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-menucaption-inmenulist";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<hbox class="menu-iconic-left" align="center" pack="center" xbl:inherits="selected,disabled,checked">
+<image class="menu-iconic-icon" xbl:inherits="src=image,validate,src">
+</image>
+</hbox>
+<label class="menu-iconic-text" flex="1" xbl:inherits="value=label,crop,highlightable" crop="right">
+</label>
+<label class="menu-iconic-highlightable-text" xbl:inherits="xbl:text=label,crop,highlightable" crop="right">
+</label>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-menucaption-inmenulist ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

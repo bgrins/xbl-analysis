@@ -3,8 +3,16 @@ class XblLabelControl extends XblTextLabel {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-label-control";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<children>
+</children>
+<span anonid="accessKeyParens">
+</span>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-label-control ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

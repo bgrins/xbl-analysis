@@ -3,8 +3,11 @@ class XblWizardBase extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-wizard-base";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-wizard-base ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,20 @@ class XblColumnpicker extends XblTreeBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-columnpicker";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<image class="tree-columnpicker-icon">
+</image>
+<menupopup anonid="popup">
+<menuseparator anonid="menuseparator">
+</menuseparator>
+<menuitem anonid="menuitem" label="&restoreColumnOrder.label;">
+</menuitem>
+</menupopup>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-columnpicker ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

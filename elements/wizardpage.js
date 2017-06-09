@@ -3,8 +3,12 @@ class XblWizardpage extends XblWizardBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-wizardpage";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-wizardpage ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

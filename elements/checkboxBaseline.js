@@ -3,8 +3,20 @@ class XblCheckboxBaseline extends XblBasetext {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-checkbox-baseline";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<image class="checkbox-check" xbl:inherits="checked,disabled">
+</image>
+<hbox class="checkbox-label-box" flex="1">
+<image class="checkbox-icon" xbl:inherits="src">
+</image>
+<label class="checkbox-label" xbl:inherits="xbl:text=label,accesskey,crop" flex="1">
+</label>
+</hbox>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-checkbox-baseline ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

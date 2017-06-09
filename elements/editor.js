@@ -3,8 +3,11 @@ class XblEditor extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-editor";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-editor ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

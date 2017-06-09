@@ -3,8 +3,12 @@ class XblAutocompleteRichlistbox extends XblRichlistbox {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-autocomplete-richlistbox";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-autocomplete-richlistbox ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,14 @@ class XblRichlistitem extends XblListitem {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-richlistitem";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<children>
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-richlistitem ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

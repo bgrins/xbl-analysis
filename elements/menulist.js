@@ -3,8 +3,24 @@ class XblMenulist extends XblMenulistBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-menulist";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<hbox class="menulist-label-box" flex="1">
+<image class="menulist-icon" xbl:inherits="src=image,src">
+</image>
+<label class="menulist-label" xbl:inherits="value=label,crop,accesskey,highlightable" crop="right" flex="1">
+</label>
+<label class="menulist-highlightable-label" xbl:inherits="xbl:text=label,crop,accesskey,highlightable" crop="right" flex="1">
+</label>
+</hbox>
+<dropmarker class="menulist-dropmarker" type="menu" xbl:inherits="disabled,open">
+</dropmarker>
+<children includes="menupopup">
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-menulist ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,16 @@ class XblToolbarpaletteitem extends XblToolbarBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-toolbarpaletteitem";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<hbox class="toolbarpaletteitem-box" flex="1" xbl:inherits="type,place">
+<children>
+</children>
+</hbox>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-toolbarpaletteitem ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

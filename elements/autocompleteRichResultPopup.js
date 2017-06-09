@@ -3,8 +3,18 @@ class XblAutocompleteRichResultPopup extends XblAutocompleteBasePopup {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-autocomplete-rich-result-popup";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1">
+</richlistbox>
+<hbox>
+<children>
+</children>
+</hbox>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-autocomplete-rich-result-popup ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,14 @@ class XblToolbarbuttonImage extends XblToolbarbutton {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-toolbarbutton-image";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<image class="toolbarbutton-icon" xbl:inherits="src=image">
+</image>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-toolbarbutton-image ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,12 @@ class XblToolbarMenubarAutohide extends XblToolbar {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-toolbar-menubar-autohide";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-toolbar-menubar-autohide ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,11 @@ class XblPopupBase extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-popup-base";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-popup-base ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

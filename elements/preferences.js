@@ -3,8 +3,11 @@ class XblPreferences extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-preferences";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-preferences ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

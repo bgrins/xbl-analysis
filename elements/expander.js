@@ -3,8 +3,23 @@ class XblExpander extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-expander";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<hbox align="center">
+<button type="disclosure" class="expanderButton" anonid="disclosure" xbl:inherits="disabled" mousethrough="always">
+</button>
+<label class="header expanderButton" anonid="label" xbl:inherits="value=label,disabled" mousethrough="always" flex="1">
+</label>
+<button anonid="clear-button" xbl:inherits="label=clearlabel,disabled=cleardisabled,hidden=clearhidden" mousethrough="always" icon="clear">
+</button>
+</hbox>
+<vbox flex="1" anonid="settings" class="settingsContainer" collapsed="true" xbl:inherits="align">
+<children>
+</children>
+</vbox>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-expander ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

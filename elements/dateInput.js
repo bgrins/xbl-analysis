@@ -3,8 +3,12 @@ class XblDateInput extends XblDatetimeInputBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-date-input";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-date-input ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

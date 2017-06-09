@@ -3,8 +3,12 @@ class XblAutocompleteBasePopup extends XblPopup {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-autocomplete-base-popup";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-autocomplete-base-popup ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

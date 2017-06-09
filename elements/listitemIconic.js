@@ -3,8 +3,16 @@ class XblListitemIconic extends XblListitem {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-listitem-iconic";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<children>
+<listcell class="listcell-iconic" xbl:inherits="label,image,crop,disabled,flexlabel">
+</listcell>
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-listitem-iconic ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

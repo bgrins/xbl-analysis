@@ -3,8 +3,12 @@ class XblTimepicker extends XblDatetimepickerBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-timepicker";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-timepicker ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

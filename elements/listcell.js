@@ -3,8 +3,16 @@ class XblListcell extends XblBasecontrol {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-listcell";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<children>
+<label class="listcell-label" xbl:inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</label>
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-listcell ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

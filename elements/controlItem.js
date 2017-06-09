@@ -3,8 +3,12 @@ class XblControlItem extends XblBasetext {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-control-item";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-control-item ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

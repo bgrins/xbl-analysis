@@ -3,8 +3,16 @@ class XblMenubuttonItem extends XblMenuitemBase {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-menubutton-item";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<label class="menubutton-text" flex="1" xbl:inherits="value=label,accesskey,crop" crop="right">
+</label>
+<children includes="menupopup">
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-menubutton-item ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

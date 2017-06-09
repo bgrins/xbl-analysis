@@ -3,8 +3,12 @@ class XblTextLink extends XblTextLabel {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-text-link";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-text-link ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

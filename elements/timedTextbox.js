@@ -3,8 +3,12 @@ class XblTimedTextbox extends XblTextbox {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-timed-textbox";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-timed-textbox ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

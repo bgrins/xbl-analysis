@@ -3,8 +3,14 @@ class XblMenulistPopuponly extends XblMenulist {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-menulist-popuponly";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<children includes="menupopup">
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-menulist-popuponly ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

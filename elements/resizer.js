@@ -3,8 +3,11 @@ class XblResizer extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-resizer";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-resizer ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

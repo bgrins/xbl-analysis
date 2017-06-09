@@ -3,8 +3,13 @@ class XblDropmarker extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-dropmarker";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<image class="dropmarker-icon">
+</image>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-dropmarker ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

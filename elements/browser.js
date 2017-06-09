@@ -3,8 +3,13 @@ class XblBrowser extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-browser";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<children>
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-browser ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

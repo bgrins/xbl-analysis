@@ -3,8 +3,11 @@ class XblImage extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-image";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-image ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,17 @@ class XblAutocompleteTreerows extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-autocomplete-treerows";
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<hbox flex="1" class="tree-bodybox">
+<children>
+</children>
+</hbox>
+<scrollbar xbl:inherits="collapsed=hidescrollbar" orient="vertical" class="tree-scrollbar">
+</scrollbar>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-autocomplete-treerows ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

@@ -3,8 +3,16 @@ class XblListitem extends XblBasetext {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-listitem";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<children>
+<listcell xbl:inherits="label,crop,disabled,flexlabel">
+</listcell>
+</children>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-listitem ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

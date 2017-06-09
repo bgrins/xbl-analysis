@@ -3,8 +3,14 @@ class XblButtonImage extends XblButton {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-button-image";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    this.innerHTML = `<image class="button-image-icon" xbl:inherits="src=image">
+</image>`;
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-button-image ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

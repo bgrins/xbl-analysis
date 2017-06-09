@@ -3,8 +3,12 @@ class XblHistoryDropmarker extends XblDropmarker {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-history-dropmarker";
+    super.connectedCallback();
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-history-dropmarker ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }

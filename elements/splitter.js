@@ -3,8 +3,11 @@ class XblSplitter extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.textContent = "Hello xbl-splitter";
     this.setAttribute("foo", "bar");
+
+    let name = document.createElement("span");
+    name.textContent = "Creating xbl-splitter ";
+    this.prepend(name);
   }
   disconnectedCallback() {}
 }
