@@ -10,9 +10,8 @@ class XblPanebutton extends XblRadio {
 </image>
 <label class="paneButtonLabel" xbl:inherits="value=label">
 </label>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-panebutton ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-panebutton");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

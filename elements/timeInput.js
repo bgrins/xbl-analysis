@@ -6,9 +6,8 @@ class XblTimeInput extends XblDatetimeInputBase {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-time-input ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-time-input");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

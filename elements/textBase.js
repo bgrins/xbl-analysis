@@ -5,9 +5,8 @@ class XblTextBase extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-text-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-text-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

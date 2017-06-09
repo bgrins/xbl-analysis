@@ -6,9 +6,8 @@ class XblTabpanels extends XblTabBase {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-tabpanels ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-tabpanels");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

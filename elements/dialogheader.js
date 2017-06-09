@@ -9,9 +9,8 @@ class XblDialogheader extends HTMLElement {
 </label>
 <label class="dialogheader-description" xbl:inherits="value=description">
 </label>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-dialogheader ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-dialogheader");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

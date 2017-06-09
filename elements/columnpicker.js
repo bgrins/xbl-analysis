@@ -14,9 +14,8 @@ class XblColumnpicker extends XblTreeBase {
 <menuitem anonid="menuitem" label="&restoreColumnOrder.label;">
 </menuitem>
 </menupopup>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-columnpicker ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-columnpicker");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

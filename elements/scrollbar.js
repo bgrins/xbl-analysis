@@ -18,9 +18,8 @@ class XblScrollbar extends XblScrollbarBase {
 </scrollbarbutton>
 <scrollbarbutton sbattr="scrollbar-down-bottom" type="increment" xbl:inherits="curpos,maxpos,disabled,sborient=orient">
 </scrollbarbutton>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-scrollbar ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-scrollbar");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

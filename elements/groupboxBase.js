@@ -5,9 +5,8 @@ class XblGroupboxBase extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-groupbox-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-groupbox-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

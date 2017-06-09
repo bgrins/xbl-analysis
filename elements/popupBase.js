@@ -5,9 +5,8 @@ class XblPopupBase extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-popup-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-popup-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

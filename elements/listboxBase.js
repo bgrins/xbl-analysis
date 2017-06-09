@@ -6,9 +6,8 @@ class XblListboxBase extends XblBasecontrol {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listbox-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-listbox-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

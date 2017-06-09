@@ -6,9 +6,8 @@ class XblRadiogroup extends XblBasecontrol {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-radiogroup ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-radiogroup");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

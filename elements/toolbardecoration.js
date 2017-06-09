@@ -6,9 +6,8 @@ class XblToolbardecoration extends XblToolbarBase {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-toolbardecoration ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-toolbardecoration");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

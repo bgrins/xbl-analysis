@@ -11,9 +11,8 @@ class XblStatusbar extends HTMLElement {
 <resizer dir="bottomend">
 </resizer>
 </statusbarpanel>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-statusbar ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-statusbar");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

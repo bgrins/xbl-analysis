@@ -23,9 +23,9 @@ getParsedFiles().then(docs => {
     });
   });
 
-  scripts = getOrderedScripts(extendsMap).map(file => `<script src="${file}"></script>`).join('\n');
-  var elements = sampleElements.map(element => `<xbl-${element}></xbl-${element}><br />`).join('\n');
-  fs.writeFileSync('elements/index.html', `
+  scripts = getOrderedScripts(extendsMap).map(file => `<script src="elements/${file}"></script>`).join('\n');
+  var elements = sampleElements.map(element => `<strong>${element}:</strong> <xbl-${element}></xbl-${element}><br />`).join('\n');
+  fs.writeFileSync('elements.html', `
     <!doctype html>
     <html>
       <head>
@@ -33,7 +33,7 @@ getParsedFiles().then(docs => {
         <title>Custom Elements</title>
         <style>
         </style>
-        <script src="../static/custom-elements.min.js"></script>
+        <script src="static/custom-elements.min.js"></script>
         ${scripts}
       </head>
       <body>
@@ -112,6 +112,10 @@ function getJSForBinding(binding) {
     console.log("No content for binding", binding.attrs.id);
   }
 
+  if (binding.attrs.id == "checkbox-baseline") {
+    childMarkup.unshift("<input type='checkbox' />")
+  }
+
   var innerHTML = content.length ?
         "this.innerHTML = `" + childMarkup.join('\n') + "`;" :
         "";
@@ -125,9 +129,8 @@ function getJSForBinding(binding) {
       this.setAttribute('foo', 'bar');
 
       ${innerHTML}
-      let name = document.createElement('span');
-      name.textContent = "Creating ${elementName} ";
-      this.prepend(name);
+      let comment = document.createComment('Creating ${elementName}');
+      this.prepend(comment);
     }
     disconnectedCallback() { }
   `);

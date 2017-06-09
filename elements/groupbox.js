@@ -14,9 +14,8 @@ class XblGroupbox extends XblGroupboxBase {
 <children>
 </children>
 </box>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-groupbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-groupbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

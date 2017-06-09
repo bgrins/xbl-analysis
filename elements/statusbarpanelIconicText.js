@@ -10,9 +10,10 @@ class XblStatusbarpanelIconicText extends XblStatusbarpanel {
 </image>
 <label class="statusbarpanel-text" xbl:inherits="value=label,crop">
 </label>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-statusbarpanel-iconic-text ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-statusbarpanel-iconic-text"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

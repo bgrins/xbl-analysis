@@ -5,9 +5,8 @@ class XblWindowdragbox extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-windowdragbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-windowdragbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -16,9 +16,8 @@ class XblArrowpanel extends XblPanel {
 </children>
 </box>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-arrowpanel ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-arrowpanel");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

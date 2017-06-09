@@ -6,9 +6,8 @@ class XblTreebody extends XblTreeBase {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-treebody ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-treebody");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

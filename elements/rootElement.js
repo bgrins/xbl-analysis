@@ -5,9 +5,8 @@ class XblRootElement extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-root-element ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-root-element");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

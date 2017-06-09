@@ -6,9 +6,8 @@ class XblTreecolBase extends XblTreeBase {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-treecol-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-treecol-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

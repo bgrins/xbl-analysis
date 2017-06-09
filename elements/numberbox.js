@@ -12,9 +12,8 @@ class XblNumberbox extends XblTextbox {
 </hbox>
 <spinbuttons anonid="buttons" xbl:inherits="disabled,hidden=hidespinbuttons">
 </spinbuttons>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-numberbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-numberbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

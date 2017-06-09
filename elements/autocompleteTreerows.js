@@ -11,9 +11,8 @@ class XblAutocompleteTreerows extends HTMLElement {
 </hbox>
 <scrollbar xbl:inherits="collapsed=hidescrollbar" orient="vertical" class="tree-scrollbar">
 </scrollbar>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autocomplete-treerows ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-autocomplete-treerows");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

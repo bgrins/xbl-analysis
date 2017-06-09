@@ -6,9 +6,8 @@ class XblMenubar extends XblToolbarBase {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menubar ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menubar");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

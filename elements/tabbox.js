@@ -6,9 +6,8 @@ class XblTabbox extends XblTabBase {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-tabbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-tabbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -40,9 +40,8 @@ class XblDialog extends XblRootElement {
 <button dlgtype="disclosure" class="dialog-button" hidden="true">
 </button>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-dialog ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-dialog");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

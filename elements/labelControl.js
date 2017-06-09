@@ -10,9 +10,8 @@ class XblLabelControl extends XblTextLabel {
 </children>
 <span anonid="accessKeyParens">
 </span>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-label-control ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-label-control");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

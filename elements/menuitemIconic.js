@@ -20,9 +20,8 @@ class XblMenuitemIconic extends XblMenuitem {
 <label class="menu-iconic-accel" xbl:inherits="value=acceltext">
 </label>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menuitem-iconic ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menuitem-iconic");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

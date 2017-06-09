@@ -12,9 +12,8 @@ class XblAutocompleteTree extends XblTree {
 <children>
 </children>
 </treerows>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autocomplete-tree ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-autocomplete-tree");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

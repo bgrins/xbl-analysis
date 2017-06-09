@@ -19,9 +19,8 @@ class XblNotification extends HTMLElement {
 <toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" xbl:inherits="hidden=hideclose" tooltiptext="&closeNotification.tooltip;" oncommand="document.getBindingParent(this).dismiss();">
 </toolbarbutton>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-notification ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-notification");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

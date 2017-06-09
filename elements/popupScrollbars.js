@@ -10,9 +10,8 @@ class XblPopupScrollbars extends XblPopup {
 <children>
 </children>
 </scrollbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-popup-scrollbars ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-popup-scrollbars");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

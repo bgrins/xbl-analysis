@@ -14,9 +14,8 @@ class XblToolbarbutton extends XblButtonBase {
 </label>
 <label class="toolbarbutton-multiline-text" flex="1" xbl:inherits="xbl:text=label,accesskey,wrap">
 </label>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-toolbarbutton ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-toolbarbutton");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

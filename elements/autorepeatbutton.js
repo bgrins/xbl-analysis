@@ -8,9 +8,8 @@ class XblAutorepeatbutton extends XblScrollboxBase {
 
     this.innerHTML = `<image class="autorepeatbutton-icon">
 </image>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autorepeatbutton ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-autorepeatbutton");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

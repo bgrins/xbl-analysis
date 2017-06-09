@@ -16,9 +16,8 @@ class XblWizardHeader extends XblWizardBase {
 <image class="wizard-header-icon" xbl:inherits="src=iconsrc">
 </image>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-wizard-header ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-wizard-header");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

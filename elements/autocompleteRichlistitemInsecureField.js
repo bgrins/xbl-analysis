@@ -38,9 +38,10 @@ class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistit
 </description>
 </description>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autocomplete-richlistitem-insecure-field ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-autocomplete-richlistitem-insecure-field"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

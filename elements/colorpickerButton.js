@@ -12,9 +12,8 @@ class XblColorpickerButton extends XblBasecontrol {
 <colorpicker xbl:inherits="palettename,disabled" allowevents="true" anonid="colorpicker">
 </colorpicker>
 </panel>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-colorpicker-button ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-colorpicker-button");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

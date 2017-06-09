@@ -5,9 +5,8 @@ class XblScalethumb extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-scalethumb ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-scalethumb");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

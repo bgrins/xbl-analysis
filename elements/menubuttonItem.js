@@ -10,9 +10,8 @@ class XblMenubuttonItem extends XblMenuitemBase {
 </label>
 <children includes="menupopup">
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menubutton-item ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menubutton-item");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

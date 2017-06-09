@@ -25,9 +25,8 @@ class XblInputBox extends HTMLElement {
 <menuitem label="&selectAllCmd.label;" accesskey="&selectAllCmd.accesskey;" cmd="cmd_selectAll">
 </menuitem>
 </menupopup>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-input-box ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-input-box");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

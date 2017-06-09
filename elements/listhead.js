@@ -9,9 +9,8 @@ class XblListhead extends HTMLElement {
 <children includes="listheader">
 </children>
 </listheaditem>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listhead ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-listhead");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -45,9 +45,8 @@ class XblPopupNotification extends HTMLElement {
 <button anonid="button" class="popup-notification-button" default="true" label="&defaultButton.label;" accesskey="&defaultButton.accesskey;" xbl:inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,disabled=mainactiondisabled">
 </button>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-popup-notification ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-popup-notification");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

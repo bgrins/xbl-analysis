@@ -36,9 +36,8 @@ class XblDatepickerPopup extends XblDatepicker {
 <datepicker anonid="grid" type="grid" class="datepicker-popupgrid" xbl:inherits="disabled,readonly,firstdayofweek">
 </datepicker>
 </panel>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-datepicker-popup ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-datepicker-popup");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

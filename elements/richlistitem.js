@@ -8,9 +8,8 @@ class XblRichlistitem extends XblListitem {
 
     this.innerHTML = `<children>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-richlistitem ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-richlistitem");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

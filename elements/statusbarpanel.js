@@ -9,9 +9,8 @@ class XblStatusbarpanel extends HTMLElement {
 <label class="statusbarpanel-text" xbl:inherits="value=label,crop" crop="right" flex="1">
 </label>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-statusbarpanel ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-statusbarpanel");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

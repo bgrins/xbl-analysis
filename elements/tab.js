@@ -12,9 +12,8 @@ class XblTab extends XblControlItem {
 <label class="tab-text" xbl:inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation">
 </label>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-tab ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-tab");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

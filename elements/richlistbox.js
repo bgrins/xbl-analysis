@@ -12,9 +12,8 @@ class XblRichlistbox extends XblListboxBase {
 <children>
 </children>
 </scrollbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-richlistbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-richlistbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

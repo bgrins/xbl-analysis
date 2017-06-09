@@ -14,9 +14,10 @@ class XblMenuitemIconicNoaccel extends XblMenuitem {
 </label>
 <label class="menu-iconic-highlightable-text" xbl:inherits="xbl:text=label,crop,accesskey,highlightable" crop="right">
 </label>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menuitem-iconic-noaccel ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-menuitem-iconic-noaccel"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

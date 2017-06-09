@@ -11,9 +11,8 @@ class XblListheader extends HTMLElement {
 </label>
 <image class="listheader-sortdirection" xbl:inherits="sortDirection">
 </image>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listheader ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-listheader");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

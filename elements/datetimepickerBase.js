@@ -30,9 +30,8 @@ class XblDatetimepickerBase extends XblBasecontrol {
 </hbox>
 <spinbuttons anonid="buttons" xbl:inherits="disabled" onup="this.parentNode._increaseOrDecrease(1);" ondown="this.parentNode._increaseOrDecrease(-1);">
 </spinbuttons>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-datetimepicker-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-datetimepicker-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

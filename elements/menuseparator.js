@@ -6,9 +6,8 @@ class XblMenuseparator extends XblMenuitemBase {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menuseparator ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menuseparator");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

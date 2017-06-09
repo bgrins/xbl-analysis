@@ -42,9 +42,8 @@ class XblInputBoxSpell extends XblInputBox {
 </menupopup>
 </menu>
 </menupopup>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-input-box-spell ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-input-box-spell");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -12,9 +12,8 @@ class XblListcellCheckbox extends XblListcell {
 <label class="listcell-label" xbl:inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
 </label>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listcell-checkbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-listcell-checkbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -18,9 +18,10 @@ class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
 </spacer>
 <toolbarbutton class="scrollbutton-down" xbl:inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" anonid="scrollbutton-down" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(1);" onmouseout="_pauseScroll();">
 </toolbarbutton>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-arrowscrollbox-clicktoscroll ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-arrowscrollbox-clicktoscroll"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

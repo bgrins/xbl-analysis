@@ -50,9 +50,8 @@ class XblPrefwindow extends XblDialog {
 <children>
 </children>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-prefwindow ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-prefwindow");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

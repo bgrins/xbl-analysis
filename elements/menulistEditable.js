@@ -14,9 +14,8 @@ class XblMenulistEditable extends XblMenulist {
 </dropmarker>
 <children includes="menupopup">
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menulist-editable ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menulist-editable");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

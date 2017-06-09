@@ -8,9 +8,8 @@ class XblButtonImage extends XblButton {
 
     this.innerHTML = `<image class="button-image-icon" xbl:inherits="src=image">
 </image>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-button-image ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-button-image");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

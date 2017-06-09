@@ -38,9 +38,10 @@ class XblAutocompleteRichlistitem extends XblRichlistitem {
 </description>
 </description>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autocomplete-richlistitem ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-autocomplete-richlistitem"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

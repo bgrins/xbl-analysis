@@ -8,9 +8,8 @@ class XblTreecolImage extends XblTreecolBase {
 
     this.innerHTML = `<image class="treecol-icon" xbl:inherits="src">
 </image>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-treecol-image ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-treecol-image");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -6,9 +6,8 @@ class XblCheckbox extends XblCheckboxBaseline {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-checkbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-checkbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

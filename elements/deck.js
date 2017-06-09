@@ -5,9 +5,8 @@ class XblDeck extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-deck ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-deck");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

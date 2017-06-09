@@ -11,9 +11,8 @@ class XblTextbox extends HTMLElement {
 <input class="textbox-input" anonid="input" xbl:inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
 </input>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-textbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-textbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

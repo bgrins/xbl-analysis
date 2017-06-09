@@ -34,9 +34,8 @@ class XblFindbar extends XblToolbar {
 </hbox>
 <toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="&findCloseButton.tooltip;" oncommand="close();">
 </toolbarbutton>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-findbar ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-findbar");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

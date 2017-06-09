@@ -12,9 +12,10 @@ class XblToolbarpaletteitemPalette extends XblToolbarpaletteitem {
 </hbox>
 <label xbl:inherits="value=title">
 </label>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-toolbarpaletteitem-palette ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-toolbarpaletteitem-palette"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

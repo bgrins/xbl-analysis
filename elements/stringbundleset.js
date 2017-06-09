@@ -5,9 +5,8 @@ class XblStringbundleset extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-stringbundleset ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-stringbundleset");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -162,9 +162,8 @@ class XblColorpicker extends XblBasecontrol {
 </image>
 </hbox>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-colorpicker ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-colorpicker");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

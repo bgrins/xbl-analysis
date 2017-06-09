@@ -6,9 +6,8 @@ class XblDatetimePopup extends XblArrowpanel {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-datetime-popup ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-datetime-popup");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

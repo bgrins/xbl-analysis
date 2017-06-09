@@ -18,9 +18,8 @@ class XblSearchTextbox extends XblTextbox {
 </image>
 </deck>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-search-textbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-search-textbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

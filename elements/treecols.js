@@ -11,9 +11,8 @@ class XblTreecols extends HTMLElement {
 </hbox>
 <treecolpicker class="treecol-image" fixed="true" xbl:inherits="tooltiptext=pickertooltiptext">
 </treecolpicker>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-treecols ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-treecols");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -18,9 +18,8 @@ class XblMenulist extends XblMenulistBase {
 </dropmarker>
 <children includes="menupopup">
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menulist ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menulist");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

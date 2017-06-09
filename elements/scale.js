@@ -10,9 +10,8 @@ class XblScale extends XblBasecontrol {
 <thumb class="scale-thumb" xbl:inherits="disabled,orient">
 </thumb>
 </slider>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-scale ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-scale");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

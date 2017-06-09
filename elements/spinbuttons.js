@@ -12,9 +12,8 @@ class XblSpinbuttons extends XblBasecontrol {
 <button anonid="decreaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-down" xbl:inherits="disabled,disabled=decreasedisabled">
 </button>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-spinbuttons ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-spinbuttons");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

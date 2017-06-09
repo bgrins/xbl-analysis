@@ -14,9 +14,10 @@ class XblAutocompleteResultPopup extends XblAutocompleteBasePopup {
 <treechildren class="autocomplete-treebody">
 </treechildren>
 </tree>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autocomplete-result-popup ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-autocomplete-result-popup"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -7,9 +7,8 @@ class XblBrowser extends HTMLElement {
 
     this.innerHTML = `<children>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-browser ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-browser");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

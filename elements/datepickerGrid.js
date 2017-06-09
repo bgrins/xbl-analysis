@@ -178,9 +178,8 @@ class XblDatepickerGrid extends XblDatepicker {
 </rows>
 </grid>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-datepicker-grid ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-datepicker-grid");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

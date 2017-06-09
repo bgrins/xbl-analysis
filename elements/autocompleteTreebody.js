@@ -5,9 +5,8 @@ class XblAutocompleteTreebody extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autocomplete-treebody ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-autocomplete-treebody");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

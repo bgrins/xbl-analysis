@@ -16,9 +16,8 @@ class XblWizard extends XblRootElement {
 </children>
 <hbox class="wizard-buttons" anonid="Buttons" xbl:inherits="pagestep,firstpage,lastpage">
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-wizard ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-wizard");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

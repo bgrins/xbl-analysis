@@ -26,9 +26,8 @@ class XblAutocomplete extends XblTextbox {
 </popupset>
 <children includes="toolbarbutton">
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autocomplete ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-autocomplete");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

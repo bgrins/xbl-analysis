@@ -10,9 +10,10 @@ class XblListitemCheckboxIconic extends XblListitemCheckbox {
 <listcell type="checkbox" class="listcell-iconic" xbl:inherits="label,image,crop,checked,disabled,flexlabel">
 </listcell>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listitem-checkbox-iconic ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-listitem-checkbox-iconic"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

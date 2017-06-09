@@ -48,9 +48,8 @@ class XblWizardButtons extends XblWizardBase {
 </button>
 </hbox>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-wizard-buttons ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-wizard-buttons");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

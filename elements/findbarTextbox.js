@@ -6,9 +6,8 @@ class XblFindbarTextbox extends XblTextbox {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-findbar-textbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-findbar-textbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

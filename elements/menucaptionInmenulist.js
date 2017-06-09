@@ -14,9 +14,8 @@ class XblMenucaptionInmenulist extends XblMenucaption {
 </label>
 <label class="menu-iconic-highlightable-text" xbl:inherits="xbl:text=label,crop,highlightable" crop="right">
 </label>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menucaption-inmenulist ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menucaption-inmenulist");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

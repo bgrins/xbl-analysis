@@ -10,9 +10,8 @@ class XblMenuMenubar extends XblMenuBase {
 </label>
 <children includes="menupopup">
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menu-menubar ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menu-menubar");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

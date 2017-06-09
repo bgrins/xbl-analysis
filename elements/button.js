@@ -18,9 +18,8 @@ class XblButton extends XblButtonBase {
 </label>
 </children>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-button ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-button");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

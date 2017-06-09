@@ -10,9 +10,8 @@ class XblPopup extends XblPopupBase {
 <children>
 </children>
 </arrowscrollbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-popup ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-popup");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

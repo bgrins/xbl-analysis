@@ -17,9 +17,8 @@ class XblExpander extends HTMLElement {
 <children>
 </children>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-expander ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-expander");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

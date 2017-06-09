@@ -12,9 +12,8 @@ class XblMenuButton extends XblMenuButtonBase {
 </toolbarbutton>
 <dropmarker type="menu-button" class="toolbarbutton-menubutton-dropmarker" anonid="dropmarker" xbl:inherits="align,dir,pack,orient,disabled,label,open,consumeanchor">
 </dropmarker>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menu-button ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menu-button");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

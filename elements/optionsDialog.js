@@ -28,9 +28,8 @@ class XblOptionsdialog extends XblDialog {
 </iframe>
 </vbox>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-optionsdialog ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-optionsdialog");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

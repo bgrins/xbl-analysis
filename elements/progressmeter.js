@@ -9,9 +9,8 @@ class XblProgressmeter extends HTMLElement {
 </spacer>
 <spacer class="progress-remainder" xbl:inherits="mode">
 </spacer>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-progressmeter ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-progressmeter");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

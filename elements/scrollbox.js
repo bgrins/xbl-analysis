@@ -10,9 +10,8 @@ class XblScrollbox extends XblScrollboxBase {
 <children>
 </children>
 </box>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-scrollbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-scrollbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

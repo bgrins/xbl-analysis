@@ -8,9 +8,8 @@ class XblStatusbarpanelIconic extends XblStatusbarpanel {
 
     this.innerHTML = `<image class="statusbarpanel-icon" xbl:inherits="src,src=image">
 </image>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-statusbarpanel-iconic ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-statusbarpanel-iconic");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

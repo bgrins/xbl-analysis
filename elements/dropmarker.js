@@ -7,9 +7,8 @@ class XblDropmarker extends HTMLElement {
 
     this.innerHTML = `<image class="dropmarker-icon">
 </image>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-dropmarker ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-dropmarker");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

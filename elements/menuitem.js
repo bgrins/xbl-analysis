@@ -12,9 +12,8 @@ class XblMenuitem extends XblMenuitemBase {
 <label class="menu-accel" xbl:inherits="value=acceltext">
 </label>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menuitem ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menuitem");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

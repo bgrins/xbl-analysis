@@ -24,9 +24,8 @@ class XblMenuIconic extends XblMenuBase {
 </hbox>
 <children includes="menupopup|template">
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-menu-iconic ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-menu-iconic");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

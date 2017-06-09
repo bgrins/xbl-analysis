@@ -6,9 +6,8 @@ class XblScrollboxBase extends XblBasecontrol {
     super.connectedCallback();
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-scrollbox-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-scrollbox-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -22,9 +22,8 @@ class XblTree extends XblTreeBase {
 <scrollcorner xbl:inherits="collapsed=hidevscroll">
 </scrollcorner>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-tree ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-tree");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

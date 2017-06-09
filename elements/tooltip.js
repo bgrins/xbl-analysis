@@ -10,9 +10,8 @@ class XblTooltip extends XblPopupBase {
 <label class="tooltip-label" xbl:inherits="xbl:text=label" flex="1">
 </label>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-tooltip ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-tooltip");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -12,9 +12,8 @@ class XblTextarea extends XblTextbox {
 </children>
 </textarea>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-textarea ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-textarea");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

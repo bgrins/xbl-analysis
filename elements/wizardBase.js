@@ -5,9 +5,8 @@ class XblWizardBase extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-wizard-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-wizard-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

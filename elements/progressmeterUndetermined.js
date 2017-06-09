@@ -10,9 +10,10 @@ class XblProgressmeterUndetermined extends XblProgressmeter {
 <spacer class="progress-bar" anonid="spacer" top="0" style="margin-right: -1000px;">
 </spacer>
 </stack>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-progressmeter-undetermined ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-progressmeter-undetermined"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

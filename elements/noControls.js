@@ -11,9 +11,8 @@ class XblNocontrols extends HTMLElement {
 </box>
 </box>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-nocontrols ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-nocontrols");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -12,9 +12,8 @@ class XblListcellIconic extends XblListcell {
 <label class="listcell-label" xbl:inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
 </label>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listcell-iconic ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-listcell-iconic");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

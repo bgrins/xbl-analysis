@@ -12,9 +12,8 @@ class XblCaption extends XblBasetext {
 <label class="caption-text" flex="1" xbl:inherits="default,value=label,crop,accesskey">
 </label>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-caption ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-caption");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

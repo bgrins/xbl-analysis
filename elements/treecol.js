@@ -10,9 +10,8 @@ class XblTreecol extends XblTreecolBase {
 </label>
 <image class="treecol-sortdirection" xbl:inherits="sortDirection,hidden=hideheader">
 </image>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-treecol ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-treecol");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

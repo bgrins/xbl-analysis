@@ -14,9 +14,8 @@ class XblFilefield extends XblBasetext {
 <textbox class="fileFieldLabel" xbl:inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true">
 </textbox>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-filefield ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-filefield");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

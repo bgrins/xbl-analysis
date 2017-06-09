@@ -13,9 +13,8 @@ class XblNotificationbox extends HTMLElement {
 </stack>
 <children>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-notificationbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-notificationbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

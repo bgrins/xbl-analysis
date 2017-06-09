@@ -11,9 +11,8 @@ class XblDatetimeInputBase extends HTMLElement {
 <button class="datetime-reset-button" anonid="reset-button" tabindex="-1" xbl:inherits="disabled">
 </button>
 </div>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-datetime-input-base ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-datetime-input-base");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

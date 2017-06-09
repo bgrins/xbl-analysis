@@ -12,9 +12,8 @@ class XblTabs extends XblBasecontrol {
 </children>
 <spacer class="tabs-right" flex="1">
 </spacer>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-tabs ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-tabs");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

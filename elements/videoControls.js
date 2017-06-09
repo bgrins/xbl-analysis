@@ -67,9 +67,8 @@ class XblVideocontrols extends HTMLElement {
 </div>
 </div>
 </div>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-videocontrols ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-videocontrols");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

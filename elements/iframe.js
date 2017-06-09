@@ -5,9 +5,8 @@ class XblIframe extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-iframe ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-iframe");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

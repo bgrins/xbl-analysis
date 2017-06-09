@@ -18,9 +18,8 @@ class XblArrowscrollbox extends XblScrollboxBase {
 </spacer>
 <autorepeatbutton class="autorepeatbutton-down" anonid="scrollbutton-down" xbl:inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" oncommand="_autorepeatbuttonScroll(event);">
 </autorepeatbutton>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-arrowscrollbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-arrowscrollbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

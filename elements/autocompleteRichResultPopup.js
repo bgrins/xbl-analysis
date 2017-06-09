@@ -12,9 +12,10 @@ class XblAutocompleteRichResultPopup extends XblAutocompleteBasePopup {
 <children>
 </children>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-autocomplete-rich-result-popup ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-autocomplete-rich-result-popup"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

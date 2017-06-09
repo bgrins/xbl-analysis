@@ -10,9 +10,8 @@ class XblToolbarpaletteitem extends XblToolbarBase {
 <children>
 </children>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-toolbarpaletteitem ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-toolbarpaletteitem");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

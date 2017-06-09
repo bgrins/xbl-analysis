@@ -20,9 +20,8 @@ class XblListbox extends XblListboxBase {
 </children>
 </listboxbody>
 </listrows>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listbox ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-listbox");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

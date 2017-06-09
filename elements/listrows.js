@@ -5,9 +5,8 @@ class XblListrows extends HTMLElement {
   connectedCallback() {
     this.setAttribute("foo", "bar");
 
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listrows ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-listrows");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

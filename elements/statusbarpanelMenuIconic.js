@@ -10,9 +10,10 @@ class XblStatusbarpanelMenuIconic extends XblStatusbarpanel {
 </image>
 <children>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-statusbarpanel-menu-iconic ";
-    this.prepend(name);
+    let comment = document.createComment(
+      "Creating xbl-statusbarpanel-menu-iconic"
+    );
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -14,9 +14,8 @@ class XblRadio extends XblControlItem {
 <label class="radio-label" xbl:inherits="xbl:text=label,accesskey,crop" flex="1">
 </label>
 </hbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-radio ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-radio");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

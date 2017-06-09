@@ -72,9 +72,8 @@ class XblTouchcontrols extends XblVideocontrols {
 </vbox>
 </vbox>
 </stack>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-touchcontrols ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-touchcontrols");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

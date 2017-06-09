@@ -10,9 +10,8 @@ class XblListitem extends XblBasetext {
 <listcell xbl:inherits="label,crop,disabled,flexlabel">
 </listcell>
 </children>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-listitem ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-listitem");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

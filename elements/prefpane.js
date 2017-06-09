@@ -9,9 +9,8 @@ class XblPrefpane extends HTMLElement {
 <children>
 </children>
 </vbox>`;
-    let name = document.createElement("span");
-    name.textContent = "Creating xbl-prefpane ";
-    this.prepend(name);
+    let comment = document.createComment("Creating xbl-prefpane");
+    this.prepend(comment);
   }
   disconnectedCallback() {}
 }
