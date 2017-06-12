@@ -4,7 +4,7 @@ class XblDatepickerPopup extends XblDatepicker {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="textbox-input-box datetimepicker-input-box" align="center" allowevents="true" xbl:inherits="context,disabled,readonly">
 <hbox class="datetimepicker-input-subbox" align="baseline">
@@ -40,5 +40,9 @@ class XblDatepickerPopup extends XblDatepicker {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get open() {
+    return this.hasAttribute("open");
+  }
 }
 customElements.define("xbl-datepicker-popup", XblDatepickerPopup);

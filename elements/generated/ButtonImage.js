@@ -4,7 +4,7 @@ class XblButtonImage extends XblButton {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<image class="button-image-icon" xbl:inherits="src=image">
 </image>`;

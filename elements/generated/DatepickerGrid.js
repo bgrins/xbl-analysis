@@ -4,7 +4,7 @@ class XblDatepickerGrid extends XblDatepicker {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<vbox class="datepicker-mainbox">
 <hbox class="datepicker-monthbox" align="center">
@@ -182,5 +182,9 @@ class XblDatepickerGrid extends XblDatepicker {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get selectedItem() {
+    return this._selectedItem;
+  }
 }
 customElements.define("xbl-datepicker-grid", XblDatepickerGrid);

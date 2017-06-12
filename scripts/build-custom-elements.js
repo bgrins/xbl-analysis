@@ -128,7 +128,7 @@ function getJSForBinding(binding) {
     }
     connectedCallback() {
       ${hasExtends ? 'super.connectedCallback()' : ''}
-      this.setAttribute('foo', 'bar');
+      console.log(this, 'connected');
 
       ${innerHTML}
       let comment = document.createComment('Creating ${elementName}');
@@ -136,6 +136,27 @@ function getJSForBinding(binding) {
     }
     disconnectedCallback() { }
   `);
+
+  // <property>
+  for (let property of binding.find('property')) {
+    if (property.attrs.onset) {
+      js.push(`
+        set ${property.attrs.name}(val) {
+          ${property.attrs.onset}
+        }
+      `);
+    }
+    if (property.attrs.onget) {
+      js.push(`
+        get ${property.attrs.name}() {
+          ${property.attrs.onget}
+        }
+      `);
+    }
+  }
+
+  // <method>
+  // TODO
 
   js.push('}');
 

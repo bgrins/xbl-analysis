@@ -4,7 +4,7 @@ class XblAutocompleteBasePopup extends XblPopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment(
       "Creating xbl-autocomplete-base-popup"
@@ -12,5 +12,21 @@ class XblAutocompleteBasePopup extends XblPopup {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get input() {
+    return this.mInput;
+  }
+
+  get overrideValue() {
+    return null;
+  }
+
+  get popupOpen() {
+    return this.mPopupOpen;
+  }
+
+  get isPopupHidingTick() {
+    return this.mIsPopupHidingTick;
+  }
 }
 customElements.define("xbl-autocomplete-base-popup", XblAutocompleteBasePopup);

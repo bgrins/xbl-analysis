@@ -4,7 +4,7 @@ class XblSpinbuttons extends XblBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<vbox class="spinbuttons-box" flex="1">
 <button anonid="increaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-up" xbl:inherits="disabled,disabled=increasedisabled">
@@ -16,5 +16,25 @@ class XblSpinbuttons extends XblBasecontrol {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set increaseDisabled(val) {
+    if (val) this._increaseButton.setAttribute("disabled", "true");
+    else this._increaseButton.removeAttribute("disabled");
+    return val;
+  }
+
+  get increaseDisabled() {
+    return this._increaseButton.getAttribute("disabled") == "true";
+  }
+
+  set decreaseDisabled(val) {
+    if (val) this._decreaseButton.setAttribute("disabled", "true");
+    else this._decreaseButton.removeAttribute("disabled");
+    return val;
+  }
+
+  get decreaseDisabled() {
+    return this._decreaseButton.getAttribute("disabled") == "true";
+  }
 }
 customElements.define("xbl-spinbuttons", XblSpinbuttons);

@@ -4,7 +4,7 @@ class XblTreecol extends XblTreecolBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<label class="treecol-text" xbl:inherits="crop,value=label" flex="1" crop="right">
 </label>

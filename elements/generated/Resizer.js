@@ -3,7 +3,7 @@ class XblResizer extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-resizer");
     this.prepend(comment);

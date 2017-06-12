@@ -4,7 +4,7 @@ class XblTimeInput extends XblDatetimeInputBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-time-input");
     this.prepend(comment);

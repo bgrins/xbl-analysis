@@ -4,7 +4,7 @@ class XblScrollbox extends XblScrollboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<box class="box-inherit scrollbox-innerbox" xbl:inherits="orient,align,pack,dir" flex="1">
 <children>

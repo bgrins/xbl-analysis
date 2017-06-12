@@ -4,7 +4,7 @@ class XblCaption extends XblBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children>
 <image class="caption-icon" xbl:inherits="src=image">

@@ -4,7 +4,7 @@ class XblTooltip extends XblPopupBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children>
 <label class="tooltip-label" xbl:inherits="xbl:text=label" flex="1">
@@ -14,5 +14,24 @@ class XblTooltip extends XblPopupBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set label(val) {
+    this.setAttribute("label", val);
+    return val;
+  }
+
+  get label() {
+    return this.getAttribute("label");
+  }
+
+  set page(val) {
+    if (val) this.setAttribute("page", "true");
+    else this.removeAttribute("page");
+    return val;
+  }
+
+  get page() {
+    return this.getAttribute("page") == "true";
+  }
 }
 customElements.define("xbl-tooltip", XblTooltip);

@@ -4,11 +4,24 @@ class XblTimedTextbox extends XblTextbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-timed-textbox");
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set timeout(val) {
+    this.setAttribute("timeout", val);
+    return val;
+  }
+
+  get timeout() {
+    return parseInt(this.getAttribute("timeout")) || 0;
+  }
+
+  get value() {
+    return this.inputField.value;
+  }
 }
 customElements.define("xbl-timed-textbox", XblTimedTextbox);

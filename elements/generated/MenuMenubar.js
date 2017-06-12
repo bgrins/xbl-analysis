@@ -4,7 +4,7 @@ class XblMenuMenubar extends XblMenuBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<label class="menubar-text" xbl:inherits="value=label,accesskey,crop" crop="right">
 </label>

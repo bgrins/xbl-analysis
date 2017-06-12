@@ -4,7 +4,7 @@ class XblRadio extends XblControlItem {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<image class="radio-check" xbl:inherits="disabled,selected">
 </image>
@@ -18,5 +18,9 @@ class XblRadio extends XblControlItem {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get radioGroup() {
+    return this.control;
+  }
 }
 customElements.define("xbl-radio", XblRadio);

@@ -4,7 +4,7 @@ class XblMenuitemIconic extends XblMenuitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="menu-iconic-left" align="center" pack="center" xbl:inherits="selected,_moz-menuactive,disabled,checked">
 <image class="menu-iconic-icon" xbl:inherits="src=image,validate,src">

@@ -4,7 +4,7 @@ class XblTreecolImage extends XblTreecolBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<image class="treecol-icon" xbl:inherits="src">
 </image>`;

@@ -4,7 +4,7 @@ class XblToolbarpaletteitemPalette extends XblToolbarpaletteitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="toolbarpaletteitem-box" xbl:inherits="type,place">
 <children>

@@ -4,7 +4,7 @@ class XblTreecolBase extends XblTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-treecol-base");
     this.prepend(comment);

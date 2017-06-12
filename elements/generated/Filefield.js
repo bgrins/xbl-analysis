@@ -4,7 +4,7 @@ class XblFilefield extends XblBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<stringbundle anonid="bundle" src="chrome://global/locale/filefield.properties">
 </stringbundle>
@@ -18,5 +18,13 @@ class XblFilefield extends XblBasetext {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get label() {
+    return this.getAttribute("label");
+  }
+
+  get file() {
+    return this._file;
+  }
 }
 customElements.define("xbl-filefield", XblFilefield);

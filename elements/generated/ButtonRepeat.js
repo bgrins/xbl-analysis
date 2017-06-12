@@ -4,7 +4,7 @@ class XblButtonRepeat extends XblButton {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-button-repeat");
     this.prepend(comment);

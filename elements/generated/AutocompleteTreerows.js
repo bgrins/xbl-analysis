@@ -3,7 +3,7 @@ class XblAutocompleteTreerows extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox flex="1" class="tree-bodybox">
 <children>

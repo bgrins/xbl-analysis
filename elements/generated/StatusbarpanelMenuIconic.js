@@ -4,7 +4,7 @@ class XblStatusbarpanelMenuIconic extends XblStatusbarpanel {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<image class="statusbarpanel-icon" xbl:inherits="src,src=image">
 </image>

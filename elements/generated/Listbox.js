@@ -4,7 +4,7 @@ class XblListbox extends XblListboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children includes="listcols">
 <listcols>
@@ -24,5 +24,13 @@ class XblListbox extends XblListboxBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get listBoxObject() {
+    return this.boxObject;
+  }
+
+  get itemCount() {
+    return this.listBoxObject.getRowCount();
+  }
 }
 customElements.define("xbl-listbox", XblListbox);

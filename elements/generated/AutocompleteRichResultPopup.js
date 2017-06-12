@@ -4,7 +4,7 @@ class XblAutocompleteRichResultPopup extends XblAutocompleteBasePopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1">
 </richlistbox>
@@ -18,6 +18,26 @@ class XblAutocompleteRichResultPopup extends XblAutocompleteBasePopup {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get selectedIndex() {
+    return this.richlistbox.selectedIndex;
+  }
+
+  get siteIconStart() {
+    return this._siteIconStart;
+  }
+
+  get overflowPadding() {
+    return Number(this.getAttribute("overflowpadding"));
+  }
+
+  set view(val) {
+    return val;
+  }
+
+  get view() {
+    return this.mInput.controller;
+  }
 }
 customElements.define(
   "xbl-autocomplete-rich-result-popup",

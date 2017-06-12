@@ -4,7 +4,7 @@ class XblPanel extends XblPopupBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-panel");
     this.prepend(comment);

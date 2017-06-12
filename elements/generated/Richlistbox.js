@@ -4,7 +4,7 @@ class XblRichlistbox extends XblListboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children includes="listheader">
 </children>
@@ -16,5 +16,9 @@ class XblRichlistbox extends XblListboxBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get itemCount() {
+    return this.children.length;
+  }
 }
 customElements.define("xbl-richlistbox", XblRichlistbox);

@@ -4,7 +4,7 @@ class XblMenulist extends XblMenulistBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="menulist-label-box" flex="1">
 <image class="menulist-icon" xbl:inherits="src=image,src">
@@ -22,5 +22,61 @@ class XblMenulist extends XblMenulistBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get value() {
+    return this.getAttribute("value");
+  }
+
+  get inputField() {
+    return null;
+  }
+
+  set crop(val) {
+    this.setAttribute("crop", val);
+    return val;
+  }
+
+  get crop() {
+    return this.getAttribute("crop");
+  }
+
+  set image(val) {
+    this.setAttribute("image", val);
+    return val;
+  }
+
+  get image() {
+    return this.getAttribute("image");
+  }
+
+  get label() {
+    return this.getAttribute("label");
+  }
+
+  set description(val) {
+    this.setAttribute("description", val);
+    return val;
+  }
+
+  get description() {
+    return this.getAttribute("description");
+  }
+
+  get editable() {
+    return this.getAttribute("editable") == "true";
+  }
+
+  set open(val) {
+    this.menuBoxObject.openMenu(val);
+    return val;
+  }
+
+  get open() {
+    return this.hasAttribute("open");
+  }
+
+  get itemCount() {
+    return this.menupopup ? this.menupopup.childNodes.length : 0;
+  }
 }
 customElements.define("xbl-menulist", XblMenulist);

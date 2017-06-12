@@ -4,7 +4,7 @@ class XblMenuIconic extends XblMenuBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="menu-iconic-left" align="center" pack="center">
 <image class="menu-iconic-icon" xbl:inherits="src=image">

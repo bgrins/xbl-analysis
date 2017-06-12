@@ -4,7 +4,7 @@ class XblArrowscrollbox extends XblScrollboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<autorepeatbutton class="autorepeatbutton-up" anonid="scrollbutton-up" xbl:inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" oncommand="_autorepeatbuttonScroll(event);">
 </autorepeatbutton>

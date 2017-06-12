@@ -4,7 +4,7 @@ class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistit
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" xbl:inherits="selected,current,type">
 </image>

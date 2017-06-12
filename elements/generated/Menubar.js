@@ -4,11 +4,20 @@ class XblMenubar extends XblToolbarBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-menubar");
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set statusbar(val) {
+    this.setAttribute("statusbar", val);
+    return val;
+  }
+
+  get statusbar() {
+    return this.getAttribute("statusbar");
+  }
 }
 customElements.define("xbl-menubar", XblMenubar);

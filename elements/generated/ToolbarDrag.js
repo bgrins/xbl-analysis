@@ -4,7 +4,7 @@ class XblToolbarDrag extends XblToolbar {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-toolbar-drag");
     this.prepend(comment);

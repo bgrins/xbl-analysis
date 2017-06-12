@@ -3,7 +3,7 @@ class XblStringbundleset extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-stringbundleset");
     this.prepend(comment);

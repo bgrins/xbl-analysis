@@ -3,7 +3,7 @@ class XblDatetimeInputBase extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<div class="datetime-input-box-wrapper" anonid="input-box-wrapper" xbl:inherits="context,disabled,readonly">
 <span class="datetime-input-edit-wrapper" anonid="edit-wrapper">

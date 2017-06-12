@@ -3,7 +3,7 @@ class XblListheader extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<image class="listheader-icon">
 </image>

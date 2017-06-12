@@ -4,7 +4,7 @@ class XblMenulistDescription extends XblMenulist {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="menulist-label-box" flex="1">
 <image class="menulist-icon" xbl:inherits="src=image,src">

@@ -4,7 +4,7 @@ class XblDatetimepickerBase extends XblBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="datetimepicker-input-box" align="center" xbl:inherits="context,disabled,readonly">
 <hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
@@ -34,5 +34,19 @@ class XblDatetimepickerBase extends XblBasecontrol {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get dateValue() {
+    return new Date(this._dateValue);
+  }
+
+  set readOnly(val) {
+    if (val) this.setAttribute("readonly", "true");
+    else this.removeAttribute("readonly");
+    return val;
+  }
+
+  get readOnly() {
+    return this.getAttribute("readonly") == "true";
+  }
 }
 customElements.define("xbl-datetimepicker-base", XblDatetimepickerBase);

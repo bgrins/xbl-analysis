@@ -4,7 +4,7 @@ class XblColorpickerButton extends XblBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<image class="colorpicker-button-colorbox" anonid="colorbox" flex="1" xbl:inherits="disabled">
 </image>
@@ -16,5 +16,13 @@ class XblColorpickerButton extends XblBasecontrol {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set open(val) {
+    this.showPopup();
+  }
+
+  get open() {
+    return this.getAttribute("open") == "true";
+  }
 }
 customElements.define("xbl-colorpicker-button", XblColorpickerButton);

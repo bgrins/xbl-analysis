@@ -3,11 +3,20 @@ class XblImage extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-image");
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set src(val) {
+    this.setAttribute("src", val);
+    return val;
+  }
+
+  get src() {
+    return this.getAttribute("src");
+  }
 }
 customElements.define("xbl-image", XblImage);

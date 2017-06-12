@@ -4,7 +4,7 @@ class XblSearchTextbox extends XblTextbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children>
 </children>
@@ -22,5 +22,22 @@ class XblSearchTextbox extends XblTextbox {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set timeout(val) {
+    this.setAttribute("timeout", val);
+    return val;
+  }
+
+  get timeout() {
+    return parseInt(this.getAttribute("timeout")) || 500;
+  }
+
+  get searchButton() {
+    return this.getAttribute("searchbutton") == "true";
+  }
+
+  get value() {
+    return this.inputField.value;
+  }
 }
 customElements.define("xbl-search-textbox", XblSearchTextbox);

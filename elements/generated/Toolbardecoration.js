@@ -4,7 +4,7 @@ class XblToolbardecoration extends XblToolbarBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-toolbardecoration");
     this.prepend(comment);

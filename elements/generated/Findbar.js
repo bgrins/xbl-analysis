@@ -4,7 +4,7 @@ class XblFindbar extends XblToolbar {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
 <hbox anonid="findbar-textbox-wrapper" align="stretch">
@@ -38,5 +38,28 @@ class XblFindbar extends XblToolbar {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set _findMode(val) {
+    this.__findMode = val;
+    this._updateBrowserWithState();
+    return val;
+  }
+
+  get _findMode() {
+    return this.__findMode;
+  }
+
+  set prefillWithSelection(val) {
+    this.setAttribute("prefillwithselection", val);
+    return val;
+  }
+
+  get prefillWithSelection() {
+    return this.getAttribute("prefillwithselection") != "false";
+  }
+
+  get findMode() {
+    return this._findMode;
+  }
 }
 customElements.define("xbl-findbar", XblFindbar);

@@ -4,7 +4,7 @@ class XblColorpicker extends XblBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<vbox flex="1">
 <hbox>

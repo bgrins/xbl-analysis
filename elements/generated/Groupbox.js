@@ -4,7 +4,7 @@ class XblGroupbox extends XblGroupboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="groupbox-title" align="center" pack="start">
 <children includes="caption">

@@ -4,7 +4,7 @@ class XblPanebutton extends XblRadio {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<image class="paneButtonIcon" xbl:inherits="src">
 </image>

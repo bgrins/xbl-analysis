@@ -3,7 +3,7 @@ class XblVideocontrols extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<div anonid="controlsContainer" class="controlsContainer" role="none">
 <div anonid="statusOverlay" class="statusOverlay stackItem" hidden="true">

@@ -4,7 +4,7 @@ class XblListitemIconic extends XblListitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children>
 <listcell class="listcell-iconic" xbl:inherits="label,image,crop,disabled,flexlabel">

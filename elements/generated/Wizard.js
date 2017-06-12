@@ -4,7 +4,7 @@ class XblWizard extends XblRootElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="wizard-header" anonid="Header">
 </hbox>
@@ -20,5 +20,47 @@ class XblWizard extends XblRootElement {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set title(val) {
+    return (document.title = val);
+  }
+
+  get title() {
+    return document.title;
+  }
+
+  set canAdvance(val) {
+    this._nextButton.disabled = !val;
+    return (this._canAdvance = val);
+  }
+
+  get canAdvance() {
+    return this._canAdvance;
+  }
+
+  set canRewind(val) {
+    this._backButton.disabled = !val;
+    return (this._canRewind = val);
+  }
+
+  get canRewind() {
+    return this._canRewind;
+  }
+
+  get pageStep() {
+    return this._pageStack.length;
+  }
+
+  get currentPage() {
+    return this._currentPage;
+  }
+
+  get pageIndex() {
+    return this._currentPage ? this._currentPage.pageIndex : -1;
+  }
+
+  get onFirstPage() {
+    return this._pageStack.length == 1;
+  }
 }
 customElements.define("xbl-wizard", XblWizard);

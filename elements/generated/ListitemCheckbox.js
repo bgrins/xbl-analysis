@@ -4,7 +4,7 @@ class XblListitemCheckbox extends XblListitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children>
 <listcell type="checkbox" xbl:inherits="label,crop,checked,disabled,flexlabel">
@@ -14,5 +14,9 @@ class XblListitemCheckbox extends XblListitem {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get checked() {
+    return this.getAttribute("checked") == "true";
+  }
 }
 customElements.define("xbl-listitem-checkbox", XblListitemCheckbox);

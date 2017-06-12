@@ -4,7 +4,7 @@ class XblDatetimePopup extends XblArrowpanel {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-datetime-popup");
     this.prepend(comment);

@@ -4,7 +4,7 @@ class XblWizardHeader extends XblWizardBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="wizard-header-box-1" flex="1">
 <vbox class="wizard-header-box-text" flex="1">

@@ -4,7 +4,7 @@ class XblWizardButtons extends XblWizardBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<vbox class="wizard-buttons-box-1" flex="1">
 <separator class="wizard-buttons-separator groove">

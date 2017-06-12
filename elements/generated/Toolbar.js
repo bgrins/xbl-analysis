@@ -4,11 +4,20 @@ class XblToolbar extends XblToolbarBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-toolbar");
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set toolbarName(val) {
+    this.setAttribute("toolbarname", val);
+    return val;
+  }
+
+  get toolbarName() {
+    return this.getAttribute("toolbarname");
+  }
 }
 customElements.define("xbl-toolbar", XblToolbar);

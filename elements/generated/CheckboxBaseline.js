@@ -4,7 +4,7 @@ class XblCheckboxBaseline extends XblBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<input type='checkbox' />
 <image class="checkbox-check" xbl:inherits="checked,disabled">
@@ -19,5 +19,13 @@ class XblCheckboxBaseline extends XblBasetext {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set checked(val) {
+    return this.setChecked(val);
+  }
+
+  get checked() {
+    return this.getAttribute("checked") == "true";
+  }
 }
 customElements.define("xbl-checkbox-baseline", XblCheckboxBaseline);

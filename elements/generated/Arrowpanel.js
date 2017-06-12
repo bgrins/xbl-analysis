@@ -4,7 +4,7 @@ class XblArrowpanel extends XblPanel {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<vbox anonid="container" class="panel-arrowcontainer" flex="1" xbl:inherits="side,panelopen">
 <box anonid="arrowbox" class="panel-arrowbox">

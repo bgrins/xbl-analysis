@@ -4,11 +4,15 @@ class XblTextLabel extends XblTextBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-text-label");
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get control() {
+    return getAttribute("control");
+  }
 }
 customElements.define("xbl-text-label", XblTextLabel);

@@ -4,7 +4,7 @@ class XblTreebody extends XblTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-treebody");
     this.prepend(comment);

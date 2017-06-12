@@ -4,7 +4,7 @@ class XblMenulistPopuponly extends XblMenulist {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children includes="menupopup">
 </children>`;

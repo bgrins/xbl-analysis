@@ -3,7 +3,7 @@ class XblExpander extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox align="center">
 <button type="disclosure" class="expanderButton" anonid="disclosure" xbl:inherits="disabled" mousethrough="always">

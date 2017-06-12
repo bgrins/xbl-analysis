@@ -3,7 +3,7 @@ class XblNotificationbox extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<stack xbl:inherits="hidden=notificationshidden" class="notificationbox-stack">
 <spacer>
@@ -17,5 +17,9 @@ class XblNotificationbox extends BaseElement {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get notificationsHidden() {
+    return this.getAttribute("notificationshidden") == "true";
+  }
 }
 customElements.define("xbl-notificationbox", XblNotificationbox);

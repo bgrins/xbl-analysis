@@ -4,7 +4,7 @@ class XblScrollboxBase extends XblBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-scrollbox-base");
     this.prepend(comment);

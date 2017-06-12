@@ -3,7 +3,7 @@ class XblTreecols extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox class="tree-scrollable-columns" flex="1">
 <children includes="treecol|splitter">

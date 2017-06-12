@@ -3,7 +3,7 @@ class XblNocontrols extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<vbox flex="1" class="statusOverlay" hidden="true">
 <box flex="1">

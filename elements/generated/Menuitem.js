@@ -4,7 +4,7 @@ class XblMenuitem extends XblMenuitemBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<label class="menu-text" xbl:inherits="value=label,accesskey,crop,highlightable" crop="right">
 </label>

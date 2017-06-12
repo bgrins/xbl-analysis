@@ -4,7 +4,7 @@ class XblToolbarbuttonBadged extends XblToolbarbutton {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>

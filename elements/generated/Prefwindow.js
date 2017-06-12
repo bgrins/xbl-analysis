@@ -4,7 +4,7 @@ class XblPrefwindow extends XblDialog {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<windowdragbox orient="vertical">
 <radiogroup anonid="selector" orient="horizontal" class="paneSelector chromeclass-toolbar" role="listbox">
@@ -54,5 +54,37 @@ class XblPrefwindow extends XblDialog {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get preferencePanes() {
+    return this.getElementsByTagName("prefpane");
+  }
+
+  get type() {
+    return this.getAttribute("type");
+  }
+
+  get _paneDeck() {
+    return document.getAnonymousElementByAttribute(this, "anonid", "paneDeck");
+  }
+
+  get _paneDeckContainer() {
+    return document.getAnonymousElementByAttribute(
+      this,
+      "class",
+      "paneDeckContainer"
+    );
+  }
+
+  get _selector() {
+    return document.getAnonymousElementByAttribute(this, "anonid", "selector");
+  }
+
+  get lastSelected() {
+    return this.getAttribute("lastSelected");
+  }
+
+  set currentPane(val) {
+    return (this._currentPane = val);
+  }
 }
 customElements.define("xbl-prefwindow", XblPrefwindow);

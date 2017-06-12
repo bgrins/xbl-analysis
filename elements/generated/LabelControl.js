@@ -4,7 +4,7 @@ class XblLabelControl extends XblTextLabel {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children>
 </children>
@@ -14,5 +14,14 @@ class XblLabelControl extends XblTextLabel {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get labeledControlElement() {
+    var control = this.control;
+    return control ? document.getElementById(control) : null;
+  }
+
+  get control() {
+    return this.getAttribute("control");
+  }
 }
 customElements.define("xbl-label-control", XblLabelControl);

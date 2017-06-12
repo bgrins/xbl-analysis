@@ -4,7 +4,7 @@ class XblAutocompleteTree extends XblTree {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<children includes="treecols">
 </children>

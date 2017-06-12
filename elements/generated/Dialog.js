@@ -4,7 +4,7 @@ class XblDialog extends XblRootElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<vbox class="box-inherit dialog-content-box" flex="1">
 <children>
@@ -44,5 +44,14 @@ class XblDialog extends XblRootElement {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set buttons(val) {
+    this._configureButtons(val);
+    return val;
+  }
+
+  get buttons() {
+    return this.getAttribute("buttons");
+  }
 }
 customElements.define("xbl-dialog", XblDialog);

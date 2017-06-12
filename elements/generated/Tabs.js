@@ -4,7 +4,7 @@ class XblTabs extends XblBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<spacer class="tabs-left">
 </spacer>
@@ -16,5 +16,13 @@ class XblTabs extends XblBasecontrol {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get itemCount() {
+    return this.childNodes.length;
+  }
+
+  get value() {
+    return this.getAttribute("value");
+  }
 }
 customElements.define("xbl-tabs", XblTabs);

@@ -3,7 +3,7 @@ class XblDialogheader extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<label class="dialogheader-title" xbl:inherits="value=title,crop" crop="right" flex="1">
 </label>

@@ -4,7 +4,7 @@ class XblAutocompleteResultPopup extends XblAutocompleteBasePopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<tree anonid="tree" class="autocomplete-tree plain" hidecolumnpicker="true" flex="1" seltype="single">
 <treecols anonid="treecols">
@@ -20,6 +20,22 @@ class XblAutocompleteResultPopup extends XblAutocompleteBasePopup {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get showCommentColumn() {
+    return this.mShowCommentColumn;
+  }
+
+  get showImageColumn() {
+    return this.mShowImageColumn;
+  }
+
+  get selectedIndex() {
+    return this.tree.currentIndex;
+  }
+
+  get view() {
+    return this.mView;
+  }
 }
 customElements.define(
   "xbl-autocomplete-result-popup",

@@ -4,7 +4,7 @@ class XblTouchcontrols extends XblVideocontrols {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<stack flex="1">
 <vbox anonid="statusOverlay" flex="1" class="statusOverlay" hidden="true">

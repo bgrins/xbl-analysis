@@ -4,7 +4,7 @@ class XblProgressmeterUndetermined extends XblProgressmeter {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<stack class="progress-remainder" flex="1" anonid="stack" style="overflow: -moz-hidden-unscrollable;">
 <spacer class="progress-bar" anonid="spacer" top="0" style="margin-right: -1000px;">

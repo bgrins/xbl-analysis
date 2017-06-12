@@ -3,7 +3,7 @@ class XblPopupNotification extends BaseElement {
     super();
   }
   connectedCallback() {
-    this.setAttribute("foo", "bar");
+    console.log(this, "connected");
 
     this.innerHTML = `<hbox align="start" class="popup-notification-body-container">
 <image class="popup-notification-icon" xbl:inherits="popupid,src=icon,class=iconclass">
