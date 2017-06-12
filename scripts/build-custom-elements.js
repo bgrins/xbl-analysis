@@ -19,13 +19,13 @@ getParsedFiles().then(docs => {
 
       sampleElements.push(binding.attrs.id);
       jsFiles.push(fileName);
-      fs.writeFileSync(`elements/${fileName}`, prettier.format(getJSForBinding(binding)));
+      fs.writeFileSync(`elements/generated/${fileName}`, prettier.format(getJSForBinding(binding)));
     });
   });
 
-  scripts = getOrderedScripts(extendsMap).map(file => `<script src="elements/${file}"></script>`).join('\n');
+  scripts = getOrderedScripts(extendsMap).map(file => `<script src="generated/${file}"></script>`).join('\n');
   var elements = sampleElements.map(element => `<strong>${element}:</strong> <xbl-${element}></xbl-${element}><br />`).join('\n');
-  fs.writeFileSync('elements.html', `
+  fs.writeFileSync('elements/index.html', `
     <!doctype html>
     <html>
       <head>
@@ -33,7 +33,8 @@ getParsedFiles().then(docs => {
         <title>Custom Elements</title>
         <style>
         </style>
-        <script src="static/custom-elements.min.js"></script>
+        <script src="../static/custom-elements.min.js"></script>
+        <script src="base-element.js"></script>
         ${scripts}
       </head>
       <body>
