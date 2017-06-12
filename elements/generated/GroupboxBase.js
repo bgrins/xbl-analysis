@@ -1,4 +1,4 @@
-class XblGroupboxBase extends HTMLElement {
+class XblGroupboxBase extends BaseElement {
   constructor() {
     super();
   }

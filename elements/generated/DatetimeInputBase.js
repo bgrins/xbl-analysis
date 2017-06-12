@@ -1,4 +1,4 @@
-class XblDatetimeInputBase extends HTMLElement {
+class XblDatetimeInputBase extends BaseElement {
   constructor() {
     super();
   }

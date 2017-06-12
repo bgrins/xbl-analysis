@@ -1,4 +1,4 @@
-class XblStringbundleset extends HTMLElement {
+class XblStringbundleset extends BaseElement {
   constructor() {
     super();
   }

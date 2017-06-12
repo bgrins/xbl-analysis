@@ -1,4 +1,4 @@
-class XblPreference extends HTMLElement {
+class XblPreference extends BaseElement {
   constructor() {
     super();
   }

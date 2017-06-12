@@ -1,4 +1,4 @@
-class XblDeck extends HTMLElement {
+class XblDeck extends BaseElement {
   constructor() {
     super();
   }

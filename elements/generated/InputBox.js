@@ -1,4 +1,4 @@
-class XblInputBox extends HTMLElement {
+class XblInputBox extends BaseElement {
   constructor() {
     super();
   }

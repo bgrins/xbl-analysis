@@ -24,7 +24,7 @@ getParsedFiles().then(docs => {
   });
 
   scripts = getOrderedScripts(extendsMap).map(file => `<script src="generated/${file}"></script>`).join('\n');
-  var elements = sampleElements.map(element => `<strong>${element}:</strong> <xbl-${element}></xbl-${element}><br />`).join('\n');
+  var elements = sampleElements.map(element => `<strong>${element}:</strong> <xbl-${element} observes="observe-test-target"></xbl-${element}><br />`).join('\n');
   fs.writeFileSync('elements/index.html', `
     <!doctype html>
     <html>
@@ -39,6 +39,7 @@ getParsedFiles().then(docs => {
       </head>
       <body>
       <h1>Sample Elements</h1>
+      <div id="observe-test-target" observeAttributeName="observeAttributeValue"></div>
       ${elements}
       </body>
     </html>
@@ -89,7 +90,7 @@ function getJSForBinding(binding) {
   if (hasExtends) {
     js.push(`extends Xbl${formatExtends(binding.attrs.extends)} `);
   } else {
-    js.push(`extends HTMLElement `);
+    js.push(`extends BaseElement `);
   }
 
   js.push('{')

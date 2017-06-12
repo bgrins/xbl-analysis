@@ -1,4 +1,4 @@
-class XblNotificationbox extends HTMLElement {
+class XblNotificationbox extends BaseElement {
   constructor() {
     super();
   }

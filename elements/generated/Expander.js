@@ -1,4 +1,4 @@
-class XblExpander extends HTMLElement {
+class XblExpander extends BaseElement {
   constructor() {
     super();
   }

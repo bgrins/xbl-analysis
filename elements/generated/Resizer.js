@@ -1,4 +1,4 @@
-class XblResizer extends HTMLElement {
+class XblResizer extends BaseElement {
   constructor() {
     super();
   }

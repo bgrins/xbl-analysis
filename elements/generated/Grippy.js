@@ -1,4 +1,4 @@
-class XblGrippy extends HTMLElement {
+class XblGrippy extends BaseElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class XblColorpickertile extends HTMLElement {
+class XblColorpickertile extends BaseElement {
   constructor() {
     super();
   }

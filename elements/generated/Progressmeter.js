@@ -1,4 +1,4 @@
-class XblProgressmeter extends HTMLElement {
+class XblProgressmeter extends BaseElement {
   constructor() {
     super();
   }

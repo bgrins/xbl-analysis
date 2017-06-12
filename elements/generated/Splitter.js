@@ -1,4 +1,4 @@
-class XblSplitter extends HTMLElement {
+class XblSplitter extends BaseElement {
   constructor() {
     super();
   }

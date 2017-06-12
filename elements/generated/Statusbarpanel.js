@@ -1,4 +1,4 @@
-class XblStatusbarpanel extends HTMLElement {
+class XblStatusbarpanel extends BaseElement {
   constructor() {
     super();
   }

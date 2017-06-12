@@ -1,4 +1,4 @@
-class XblListheader extends HTMLElement {
+class XblListheader extends BaseElement {
   constructor() {
     super();
   }

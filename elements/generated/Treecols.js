@@ -1,4 +1,4 @@
-class XblTreecols extends HTMLElement {
+class XblTreecols extends BaseElement {
   constructor() {
     super();
   }

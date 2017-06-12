@@ -1,4 +1,4 @@
-class XblNocontrols extends HTMLElement {
+class XblNocontrols extends BaseElement {
   constructor() {
     super();
   }

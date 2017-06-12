@@ -1,4 +1,4 @@
-class XblVideocontrols extends HTMLElement {
+class XblVideocontrols extends BaseElement {
   constructor() {
     super();
   }

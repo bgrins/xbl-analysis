@@ -1,4 +1,4 @@
-class XblIframe extends HTMLElement {
+class XblIframe extends BaseElement {
   constructor() {
     super();
   }

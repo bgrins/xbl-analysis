@@ -1,4 +1,4 @@
-class XblWizardBase extends HTMLElement {
+class XblWizardBase extends BaseElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class XblTabBase extends HTMLElement {
+class XblTabBase extends BaseElement {
   constructor() {
     super();
   }

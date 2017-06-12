@@ -1,4 +1,4 @@
-class XblToolbarBase extends HTMLElement {
+class XblToolbarBase extends BaseElement {
   constructor() {
     super();
   }

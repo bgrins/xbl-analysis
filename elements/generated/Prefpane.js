@@ -1,4 +1,4 @@
-class XblPrefpane extends HTMLElement {
+class XblPrefpane extends BaseElement {
   constructor() {
     super();
   }

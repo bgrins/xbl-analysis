@@ -1,4 +1,4 @@
-class XblListrows extends HTMLElement {
+class XblListrows extends BaseElement {
   constructor() {
     super();
   }

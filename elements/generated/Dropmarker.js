@@ -1,4 +1,4 @@
-class XblDropmarker extends HTMLElement {
+class XblDropmarker extends BaseElement {
   constructor() {
     super();
   }

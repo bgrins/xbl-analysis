@@ -1,4 +1,4 @@
-class XblThumb extends HTMLElement {
+class XblThumb extends BaseElement {
   constructor() {
     super();
   }

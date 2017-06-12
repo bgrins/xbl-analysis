@@ -1,4 +1,4 @@
-class XblEditor extends HTMLElement {
+class XblEditor extends BaseElement {
   constructor() {
     super();
   }

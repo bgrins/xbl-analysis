@@ -1,4 +1,4 @@
-class XblImage extends HTMLElement {
+class XblImage extends BaseElement {
   constructor() {
     super();
   }

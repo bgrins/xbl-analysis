@@ -1,4 +1,4 @@
-class XblPopupBase extends HTMLElement {
+class XblPopupBase extends BaseElement {
   constructor() {
     super();
   }

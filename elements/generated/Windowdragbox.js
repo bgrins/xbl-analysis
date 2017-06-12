@@ -1,4 +1,4 @@
-class XblWindowdragbox extends HTMLElement {
+class XblWindowdragbox extends BaseElement {
   constructor() {
     super();
   }

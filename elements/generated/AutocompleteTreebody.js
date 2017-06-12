@@ -1,4 +1,4 @@
-class XblAutocompleteTreebody extends HTMLElement {
+class XblAutocompleteTreebody extends BaseElement {
   constructor() {
     super();
   }

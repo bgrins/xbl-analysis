@@ -1,4 +1,4 @@
-class XblScalethumb extends HTMLElement {
+class XblScalethumb extends BaseElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class XblBrowser extends HTMLElement {
+class XblBrowser extends BaseElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class XblRootElement extends HTMLElement {
+class XblRootElement extends BaseElement {
   constructor() {
     super();
   }

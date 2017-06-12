@@ -1,4 +1,4 @@
-class XblScrollbarBase extends HTMLElement {
+class XblScrollbarBase extends BaseElement {
   constructor() {
     super();
   }

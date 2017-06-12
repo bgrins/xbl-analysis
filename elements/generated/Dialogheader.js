@@ -1,4 +1,4 @@
-class XblDialogheader extends HTMLElement {
+class XblDialogheader extends BaseElement {
   constructor() {
     super();
   }
