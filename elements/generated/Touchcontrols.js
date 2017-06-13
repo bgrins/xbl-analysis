@@ -10,18 +10,18 @@ class XblTouchcontrols extends XblVideocontrols {
 <vbox anonid="statusOverlay" flex="1" class="statusOverlay" hidden="true">
 <box anonid="statusIcon" class="statusIcon">
 </box>
-<label class="errorLabel" anonid="errorAborted">
-</label>
-<label class="errorLabel" anonid="errorNetwork">
-</label>
-<label class="errorLabel" anonid="errorDecode">
-</label>
-<label class="errorLabel" anonid="errorSrcNotSupported">
-</label>
-<label class="errorLabel" anonid="errorNoSource">
-</label>
-<label class="errorLabel" anonid="errorGeneric">
-</label>
+<xbl-text-label class="errorLabel" anonid="errorAborted">
+</xbl-text-label>
+<xbl-text-label class="errorLabel" anonid="errorNetwork">
+</xbl-text-label>
+<xbl-text-label class="errorLabel" anonid="errorDecode">
+</xbl-text-label>
+<xbl-text-label class="errorLabel" anonid="errorSrcNotSupported">
+</xbl-text-label>
+<xbl-text-label class="errorLabel" anonid="errorNoSource">
+</xbl-text-label>
+<xbl-text-label class="errorLabel" anonid="errorGeneric">
+</xbl-text-label>
 </vbox>
 <vbox anonid="controlsOverlay" class="controlsOverlay">
 <spacer anonid="controlsSpacer" class="controlsSpacer" flex="1">
@@ -36,8 +36,8 @@ class XblTouchcontrols extends XblVideocontrols {
 <hbox class="buttonsBar">
 <button anonid="playButton" class="playButton" playlabel="&playButton.playLabel;" pauselabel="&playButton.pauseLabel;">
 </button>
-<label anonid="positionLabel" class="positionLabel" role="presentation">
-</label>
+<xbl-text-label anonid="positionLabel" class="positionLabel" role="presentation">
+</xbl-text-label>
 <stack anonid="scrubberStack" class="scrubberStack">
 <box class="backgroundBar">
 </box>
@@ -50,8 +50,8 @@ class XblTouchcontrols extends XblVideocontrols {
 <scale anonid="scrubber" class="scrubber" movetoclick="true">
 </scale>
 </stack>
-<label anonid="durationLabel" class="durationLabel" role="presentation">
-</label>
+<xbl-text-label anonid="durationLabel" class="durationLabel" role="presentation">
+</xbl-text-label>
 <button anonid="muteButton" class="muteButton" mutelabel="&muteButton.muteLabel;" unmutelabel="&muteButton.unmuteLabel;">
 </button>
 <stack anonid="volumeStack" class="volumeStack">

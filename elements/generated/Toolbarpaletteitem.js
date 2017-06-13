@@ -6,7 +6,7 @@ class XblToolbarpaletteitem extends XblToolbarBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="toolbarpaletteitem-box" flex="1" xbl:inherits="type,place">
+    this.innerHTML = `<hbox class="toolbarpaletteitem-box" flex="1" inherits="type,place">
 <children>
 </children>
 </hbox>`;

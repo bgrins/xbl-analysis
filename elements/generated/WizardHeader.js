@@ -8,12 +8,12 @@ class XblWizardHeader extends XblWizardBase {
 
     this.innerHTML = `<hbox class="wizard-header-box-1" flex="1">
 <vbox class="wizard-header-box-text" flex="1">
-<label class="wizard-header-label" xbl:inherits="xbl:text=label">
-</label>
-<label class="wizard-header-description" xbl:inherits="xbl:text=description">
-</label>
+<xbl-text-label class="wizard-header-label" inherits="text=label">
+</xbl-text-label>
+<xbl-text-label class="wizard-header-description" inherits="text=description">
+</xbl-text-label>
 </vbox>
-<image class="wizard-header-icon" xbl:inherits="src=iconsrc">
+<image class="wizard-header-icon" inherits="src=iconsrc">
 </image>
 </hbox>`;
     let comment = document.createComment("Creating xbl-wizard-header");

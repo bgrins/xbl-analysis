@@ -10,7 +10,7 @@ class XblTreerows extends XblTreeBase {
 <children>
 </children>
 </hbox>
-<scrollbar height="0" minwidth="0" minheight="0" orient="vertical" xbl:inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;">
+<scrollbar height="0" minwidth="0" minheight="0" orient="vertical" inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;">
 </scrollbar>`;
     let comment = document.createComment("Creating xbl-treerows");
     this.prepend(comment);

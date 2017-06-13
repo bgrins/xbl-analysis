@@ -7,8 +7,8 @@ class XblListcell extends XblBasecontrol {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<label class="listcell-label" xbl:inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
-</label>
+<xbl-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</xbl-text-label>
 </children>`;
     let comment = document.createComment("Creating xbl-listcell");
     this.prepend(comment);

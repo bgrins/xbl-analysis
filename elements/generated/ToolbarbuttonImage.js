@@ -6,7 +6,7 @@ class XblToolbarbuttonImage extends XblToolbarbutton {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="toolbarbutton-icon" xbl:inherits="src=image">
+    this.innerHTML = `<image class="toolbarbutton-icon" inherits="src=image">
 </image>`;
     let comment = document.createComment("Creating xbl-toolbarbutton-image");
     this.prepend(comment);

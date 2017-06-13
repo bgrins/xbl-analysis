@@ -8,14 +8,14 @@ class XblButton extends XblButtonBase {
 
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>
-<hbox class="box-inherit button-box" xbl:inherits="align,dir,pack,orient" align="center" pack="center" flex="1" anonid="button-box">
+<hbox class="box-inherit button-box" inherits="align,dir,pack,orient" align="center" pack="center" flex="1" anonid="button-box">
 <children>
-<image class="button-icon" xbl:inherits="src=image">
+<image class="button-icon" inherits="src=image">
 </image>
-<label class="button-text" xbl:inherits="value=label,accesskey,crop,highlightable">
-</label>
-<label class="button-highlightable-text" xbl:inherits="xbl:text=label,accesskey,crop,highlightable">
-</label>
+<xbl-text-label class="button-text" inherits="value=label,accesskey,crop,highlightable">
+</xbl-text-label>
+<xbl-text-label class="button-highlightable-text" inherits="text=label,accesskey,crop,highlightable">
+</xbl-text-label>
 </children>
 </hbox>`;
     let comment = document.createComment("Creating xbl-button");

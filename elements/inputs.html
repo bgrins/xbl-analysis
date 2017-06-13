@@ -12,10 +12,19 @@
         <script src="generated/BaseText.js"></script>
         <script src="generated/CheckboxBaseline.js"></script>
         <script src="generated/Checkbox.js"></script>
+        <script src="generated/TextBase.js"></script>
+        <script src="generated/TextLabel.js"></script>
     </head>
     <body>
-        <xbl-checkbox></xbl-checkbox><br />
-        <xbl-checkbox checked></xbl-checkbox><br />
-        <xbl-checkbox label="foo"></xbl-checkbox><br />
+        <!-- <xbl-checkbox></xbl-checkbox><br />
+        <xbl-checkbox checked></xbl-checkbox><br /> -->
+        <xbl-checkbox id="labeled" label="foo"></xbl-checkbox><br />
+
+        <script>
+        setTimeout(() => {
+            document.querySelector("#labeled").setAttribute("src", "data:image/svg+xml,<svg width='10' height='10' xmlns='http://www.w3.org/2000/svg'><rect fill='red' width='10' height='10' /></svg>");
+            document.querySelector("#labeled").setAttribute("label", "Changed");
+        }, 1000)
+        </script>
     </body>
 </html>

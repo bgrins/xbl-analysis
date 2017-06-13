@@ -7,14 +7,14 @@ class XblMenulistDescription extends XblMenulist {
     console.log(this, "connected");
 
     this.innerHTML = `<hbox class="menulist-label-box" flex="1">
-<image class="menulist-icon" xbl:inherits="src=image,src">
+<image class="menulist-icon" inherits="src=image,src">
 </image>
-<label class="menulist-label" xbl:inherits="value=label,crop,accesskey" crop="right" flex="1">
-</label>
-<label class="menulist-label menulist-description" xbl:inherits="value=description" crop="right" flex="10000">
-</label>
+<xbl-text-label class="menulist-label" inherits="value=label,crop,accesskey" crop="right" flex="1">
+</xbl-text-label>
+<xbl-text-label class="menulist-label menulist-description" inherits="value=description" crop="right" flex="10000">
+</xbl-text-label>
 </hbox>
-<dropmarker class="menulist-dropmarker" type="menu" xbl:inherits="disabled,open">
+<dropmarker class="menulist-dropmarker" type="menu" inherits="disabled,open">
 </dropmarker>
 <children includes="menupopup">
 </children>`;

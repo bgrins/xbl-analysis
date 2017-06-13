@@ -9,7 +9,7 @@ class XblTreecols extends BaseElement {
 <children includes="treecol|splitter">
 </children>
 </hbox>
-<treecolpicker class="treecol-image" fixed="true" xbl:inherits="tooltiptext=pickertooltiptext">
+<treecolpicker class="treecol-image" fixed="true" inherits="tooltiptext=pickertooltiptext">
 </treecolpicker>`;
     let comment = document.createComment("Creating xbl-treecols");
     this.prepend(comment);

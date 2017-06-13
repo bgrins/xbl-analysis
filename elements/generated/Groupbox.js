@@ -10,7 +10,7 @@ class XblGroupbox extends XblGroupboxBase {
 <children includes="caption">
 </children>
 </hbox>
-<box flex="1" class="groupbox-body" xbl:inherits="orient,align,pack">
+<box flex="1" class="groupbox-body" inherits="orient,align,pack">
 <children>
 </children>
 </box>`;

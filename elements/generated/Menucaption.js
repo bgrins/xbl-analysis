@@ -6,8 +6,8 @@ class XblMenucaption extends XblMenuBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<label class="menu-text" xbl:inherits="value=label,crop" crop="right">
-</label>`;
+    this.innerHTML = `<xbl-text-label class="menu-text" inherits="value=label,crop" crop="right">
+</xbl-text-label>`;
     let comment = document.createComment("Creating xbl-menucaption");
     this.prepend(comment);
   }

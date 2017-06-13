@@ -7,18 +7,18 @@ class XblMenuIconic extends XblMenuBase {
     console.log(this, "connected");
 
     this.innerHTML = `<hbox class="menu-iconic-left" align="center" pack="center">
-<image class="menu-iconic-icon" xbl:inherits="src=image">
+<image class="menu-iconic-icon" inherits="src=image">
 </image>
 </hbox>
-<label class="menu-iconic-text" flex="1" xbl:inherits="value=label,accesskey,crop,highlightable" crop="right">
-</label>
-<label class="menu-iconic-highlightable-text" xbl:inherits="xbl:text=label,crop,accesskey,highlightable" crop="right">
-</label>
+<xbl-text-label class="menu-iconic-text" flex="1" inherits="value=label,accesskey,crop,highlightable" crop="right">
+</xbl-text-label>
+<xbl-text-label class="menu-iconic-highlightable-text" inherits="text=label,crop,accesskey,highlightable" crop="right">
+</xbl-text-label>
 <hbox class="menu-accel-container" anonid="accel">
-<label class="menu-iconic-accel" xbl:inherits="value=acceltext">
-</label>
+<xbl-text-label class="menu-iconic-accel" inherits="value=acceltext">
+</xbl-text-label>
 </hbox>
-<hbox align="center" class="menu-right" xbl:inherits="_moz-menuactive,disabled">
+<hbox align="center" class="menu-right" inherits="_moz-menuactive,disabled">
 <image>
 </image>
 </hbox>

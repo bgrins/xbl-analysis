@@ -7,10 +7,10 @@ class XblCaption extends XblBasetext {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<image class="caption-icon" xbl:inherits="src=image">
+<image class="caption-icon" inherits="src=image">
 </image>
-<label class="caption-text" flex="1" xbl:inherits="default,value=label,crop,accesskey">
-</label>
+<xbl-text-label class="caption-text" flex="1" inherits="default,value=label,crop,accesskey">
+</xbl-text-label>
 </children>`;
     let comment = document.createComment("Creating xbl-caption");
     this.prepend(comment);

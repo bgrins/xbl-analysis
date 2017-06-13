@@ -103,11 +103,12 @@ function getJSForBinding(binding) {
     function printChild(child) {
       let attrs = '';
       for (var attr in child.attrs) {
-        attrs += ' ' + attr + '="' + child.attrs[attr].replace('"', '\"') + '"';
+        attrs += ' ' + attr.replace('xbl:', '') + '="' + child.attrs[attr].replace('"', '\"').replace(/xbl\:/g, '') + '"';
       }
-      childMarkup.push(`<${child.name}${attrs}>`);
+      let name = child.name === "label" ? 'xbl-text-label' : child.name;
+      childMarkup.push(`<${name}${attrs}>`);
       child.children.forEach(printChild);
-      childMarkup.push(`</${child.name}>`);
+      childMarkup.push(`</${name}>`);
     }
     content[0].children.forEach(printChild);
   } else {

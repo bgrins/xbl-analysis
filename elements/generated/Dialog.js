@@ -10,7 +10,7 @@ class XblDialog extends XblRootElement {
 <children>
 </children>
 </vbox>
-<hbox class="dialog-button-box" anonid="buttons" xbl:inherits="pack=buttonpack,align=buttonalign,dir=buttondir,orient=buttonorient">
+<hbox class="dialog-button-box" anonid="buttons" inherits="pack=buttonpack,align=buttonalign,dir=buttondir,orient=buttonorient">
 <button dlgtype="disclosure" class="dialog-button" hidden="true">
 </button>
 <button dlgtype="help" class="dialog-button" hidden="true">
@@ -23,13 +23,13 @@ class XblDialog extends XblRootElement {
 </spacer>
 <button dlgtype="cancel" class="dialog-button">
 </button>
-<button dlgtype="accept" class="dialog-button" xbl:inherits="disabled=buttondisabledaccept">
+<button dlgtype="accept" class="dialog-button" inherits="disabled=buttondisabledaccept">
 </button>
 <button dlgtype="extra2" class="dialog-button" hidden="true">
 </button>
 <spacer anonid="spacer" flex="1" hidden="true">
 </spacer>
-<button dlgtype="accept" class="dialog-button" xbl:inherits="disabled=buttondisabledaccept">
+<button dlgtype="accept" class="dialog-button" inherits="disabled=buttondisabledaccept">
 </button>
 <button dlgtype="extra1" class="dialog-button" hidden="true">
 </button>

@@ -7,7 +7,7 @@ class XblListitem extends XblBasetext {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell xbl:inherits="label,crop,disabled,flexlabel">
+<listcell inherits="label,crop,disabled,flexlabel">
 </listcell>
 </children>`;
     let comment = document.createComment("Creating xbl-listitem");

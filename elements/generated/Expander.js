@@ -6,14 +6,14 @@ class XblExpander extends BaseElement {
     console.log(this, "connected");
 
     this.innerHTML = `<hbox align="center">
-<button type="disclosure" class="expanderButton" anonid="disclosure" xbl:inherits="disabled" mousethrough="always">
+<button type="disclosure" class="expanderButton" anonid="disclosure" inherits="disabled" mousethrough="always">
 </button>
-<label class="header expanderButton" anonid="label" xbl:inherits="value=label,disabled" mousethrough="always" flex="1">
-</label>
-<button anonid="clear-button" xbl:inherits="label=clearlabel,disabled=cleardisabled,hidden=clearhidden" mousethrough="always" icon="clear">
+<xbl-text-label class="header expanderButton" anonid="label" inherits="value=label,disabled" mousethrough="always" flex="1">
+</xbl-text-label>
+<button anonid="clear-button" inherits="label=clearlabel,disabled=cleardisabled,hidden=clearhidden" mousethrough="always" icon="clear">
 </button>
 </hbox>
-<vbox flex="1" anonid="settings" class="settingsContainer" collapsed="true" xbl:inherits="align">
+<vbox flex="1" anonid="settings" class="settingsContainer" collapsed="true" inherits="align">
 <children>
 </children>
 </vbox>`;

@@ -5,7 +5,7 @@ class XblNotificationbox extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<stack xbl:inherits="hidden=notificationshidden" class="notificationbox-stack">
+    this.innerHTML = `<stack inherits="hidden=notificationshidden" class="notificationbox-stack">
 <spacer>
 </spacer>
 <children includes="notification">

@@ -5,6 +5,7 @@ class BaseElement extends HTMLElement {
   constructor() {
     super();
     this.observerConnector = new ObserverConnector(this);
+    this.inheritsConnector = new InheritsConnector(this);
   }
 
   connectedCallback() {
@@ -22,6 +23,71 @@ class BaseElement extends HTMLElement {
       this.observerConnector.watch(newValue);
     }
   }
+}
+
+function InheritsConnector(host) {
+  this._host = host;
+  this._nodesToAttributes = new Map();
+  this.watch();
+}
+InheritsConnector.prototype.destroy = function() {
+
+}
+InheritsConnector.prototype.setInherits = function(node) {
+  let inherits = node.getAttribute("inherits");
+  console.log("Addd node", node, inherits);
+  if (inherits) {
+    this._nodesToAttributes.set(node, inherits.split(','));
+  }
+}
+InheritsConnector.prototype.watch = function() {
+  if (this._observer) {
+    this._observer.disconnect();
+    this._observer = null;
+  }
+
+  function setInherits(node) {
+  }
+  this._observer = new MutationObserver(mutations => {
+    console.log("Inherits changes", mutations);
+    mutations.forEach(mutation => {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach(added => {
+          if (added.nodeType !== 1) {
+            return;
+          }
+          this.setInherits(added);
+          [...added.querySelectorAll("[inherits]")].forEach(child => this.setInherits(child));
+        });
+      }
+
+      if (mutation.type === "attributes" && mutation.target === this._host) {
+        for (let [node, list] of this._nodesToAttributes.entries()) {
+          console.log("attribute changed", node, list, list.includes(mutation.attributeName));
+
+          // Handle both inherits="accesskey" and inherits="text=label"
+          list.forEach(a => {
+            console.log(a, mutation.attributeName);
+            if (a === mutation.attributeName) {
+              node.setAttribute(a, this._host.getAttribute(a));
+            } else if (a.endsWith('=' + mutation.attributeName)) {
+              let mapFrom = a.split('=')[1];
+              let mapTo = a.split('=')[0];
+              node.setAttribute(mapTo, this._host.getAttribute(mapFrom));
+            }
+          });
+        }
+      }
+    });
+
+    // this.copyAttributes();
+  });
+  this._observer.observe(this._host, {
+    attributes: true,
+    subtree: true,
+    childList: true,
+  });
+
 }
 
 function ObserverConnector(host) {

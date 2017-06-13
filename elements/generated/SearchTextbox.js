@@ -8,13 +8,13 @@ class XblSearchTextbox extends XblTextbox {
 
     this.innerHTML = `<children>
 </children>
-<hbox class="textbox-input-box" flex="1" xbl:inherits="context,spellcheck" align="center">
-<input class="textbox-input" anonid="input" mozactionhint="search" xbl:inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint,spellcheck">
+<hbox class="textbox-input-box" flex="1" inherits="context,spellcheck" align="center">
+<input class="textbox-input" anonid="input" mozactionhint="search" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint,spellcheck">
 </input>
 <deck class="textbox-search-icons" anonid="search-icons">
-<image class="textbox-search-icon" anonid="searchbutton-icon" xbl:inherits="src=image,label=searchbuttonlabel,searchbutton,disabled">
+<image class="textbox-search-icon" anonid="searchbutton-icon" inherits="src=image,label=searchbuttonlabel,searchbutton,disabled">
 </image>
-<image class="textbox-search-clear" onclick="document.getBindingParent(this)._clearSearch();" label="&searchTextBox.clear.label;" xbl:inherits="disabled">
+<image class="textbox-search-clear" onclick="document.getBindingParent(this)._clearSearch();" label="&searchTextBox.clear.label;" inherits="disabled">
 </image>
 </deck>
 </hbox>`;

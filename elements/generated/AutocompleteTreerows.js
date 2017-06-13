@@ -9,7 +9,7 @@ class XblAutocompleteTreerows extends BaseElement {
 <children>
 </children>
 </hbox>
-<scrollbar xbl:inherits="collapsed=hidescrollbar" orient="vertical" class="tree-scrollbar">
+<scrollbar inherits="collapsed=hidescrollbar" orient="vertical" class="tree-scrollbar">
 </scrollbar>`;
     let comment = document.createComment("Creating xbl-autocomplete-treerows");
     this.prepend(comment);

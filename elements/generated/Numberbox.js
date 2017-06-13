@@ -6,11 +6,11 @@ class XblNumberbox extends XblTextbox {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="textbox-input-box numberbox-input-box" flex="1" xbl:inherits="context,disabled,focused">
-<input class="numberbox-input textbox-input" anonid="input" xbl:inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey">
+    this.innerHTML = `<hbox class="textbox-input-box numberbox-input-box" flex="1" inherits="context,disabled,focused">
+<input class="numberbox-input textbox-input" anonid="input" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey">
 </input>
 </hbox>
-<spinbuttons anonid="buttons" xbl:inherits="disabled,hidden=hidespinbuttons">
+<spinbuttons anonid="buttons" inherits="disabled,hidden=hidespinbuttons">
 </spinbuttons>`;
     let comment = document.createComment("Creating xbl-numberbox");
     this.prepend(comment);

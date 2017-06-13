@@ -7,9 +7,9 @@ class XblSpinbuttons extends XblBasecontrol {
     console.log(this, "connected");
 
     this.innerHTML = `<vbox class="spinbuttons-box" flex="1">
-<button anonid="increaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-up" xbl:inherits="disabled,disabled=increasedisabled">
+<button anonid="increaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-up" inherits="disabled,disabled=increasedisabled">
 </button>
-<button anonid="decreaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-down" xbl:inherits="disabled,disabled=decreasedisabled">
+<button anonid="decreaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-down" inherits="disabled,disabled=decreasedisabled">
 </button>
 </vbox>`;
     let comment = document.createComment("Creating xbl-spinbuttons");

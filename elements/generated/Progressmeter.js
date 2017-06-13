@@ -5,9 +5,9 @@ class XblProgressmeter extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<spacer class="progress-bar" xbl:inherits="mode">
+    this.innerHTML = `<spacer class="progress-bar" inherits="mode">
 </spacer>
-<spacer class="progress-remainder" xbl:inherits="mode">
+<spacer class="progress-remainder" inherits="mode">
 </spacer>`;
     let comment = document.createComment("Creating xbl-progressmeter");
     this.prepend(comment);

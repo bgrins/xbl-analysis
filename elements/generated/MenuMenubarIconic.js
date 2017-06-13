@@ -6,10 +6,10 @@ class XblMenuMenubarIconic extends XblMenuBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="menubar-left" xbl:inherits="src=image">
+    this.innerHTML = `<image class="menubar-left" inherits="src=image">
 </image>
-<label class="menubar-text" xbl:inherits="value=label,accesskey,crop" crop="right">
-</label>
+<xbl-text-label class="menubar-text" inherits="value=label,accesskey,crop" crop="right">
+</xbl-text-label>
 <children includes="menupopup">
 </children>`;
     let comment = document.createComment("Creating xbl-menu-menubar-iconic");

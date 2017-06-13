@@ -7,9 +7,9 @@ class XblListheader extends BaseElement {
 
     this.innerHTML = `<image class="listheader-icon">
 </image>
-<label class="listheader-label" xbl:inherits="value=label,crop" flex="1" crop="right">
-</label>
-<image class="listheader-sortdirection" xbl:inherits="sortDirection">
+<xbl-text-label class="listheader-label" inherits="value=label,crop" flex="1" crop="right">
+</xbl-text-label>
+<image class="listheader-sortdirection" inherits="sortDirection">
 </image>`;
     let comment = document.createComment("Creating xbl-listheader");
     this.prepend(comment);

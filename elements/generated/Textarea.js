@@ -6,8 +6,8 @@ class XblTextarea extends XblTextbox {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="textbox-input-box" flex="1" xbl:inherits="context,spellcheck">
-<textarea class="textbox-textarea" anonid="input" xbl:inherits="xbl:text=value,disabled,tabindex,rows,cols,readonly,wrap,placeholder,mozactionhint,spellcheck">
+    this.innerHTML = `<hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
+<textarea class="textbox-textarea" anonid="input" inherits="text=value,disabled,tabindex,rows,cols,readonly,wrap,placeholder,mozactionhint,spellcheck">
 <children>
 </children>
 </textarea>

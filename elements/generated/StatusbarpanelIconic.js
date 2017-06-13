@@ -6,7 +6,7 @@ class XblStatusbarpanelIconic extends XblStatusbarpanel {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="statusbarpanel-icon" xbl:inherits="src,src=image">
+    this.innerHTML = `<image class="statusbarpanel-icon" inherits="src,src=image">
 </image>`;
     let comment = document.createComment("Creating xbl-statusbarpanel-iconic");
     this.prepend(comment);

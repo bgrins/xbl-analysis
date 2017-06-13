@@ -15,7 +15,7 @@ class XblListbox extends XblListboxBase {
 <listrows>
 <children includes="listhead">
 </children>
-<listboxbody xbl:inherits="rows,size,minheight">
+<listboxbody inherits="rows,size,minheight">
 <children includes="listitem">
 </children>
 </listboxbody>

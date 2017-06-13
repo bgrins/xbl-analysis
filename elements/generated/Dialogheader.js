@@ -5,10 +5,10 @@ class XblDialogheader extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<label class="dialogheader-title" xbl:inherits="value=title,crop" crop="right" flex="1">
-</label>
-<label class="dialogheader-description" xbl:inherits="value=description">
-</label>`;
+    this.innerHTML = `<xbl-text-label class="dialogheader-title" inherits="value=title,crop" crop="right" flex="1">
+</xbl-text-label>
+<xbl-text-label class="dialogheader-description" inherits="value=description">
+</xbl-text-label>`;
     let comment = document.createComment("Creating xbl-dialogheader");
     this.prepend(comment);
   }

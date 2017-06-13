@@ -5,7 +5,7 @@ class XblPrefpane extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox class="content-box" xbl:inherits="flex">
+    this.innerHTML = `<vbox class="content-box" inherits="flex">
 <children>
 </children>
 </vbox>`;

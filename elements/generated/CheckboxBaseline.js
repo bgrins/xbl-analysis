@@ -7,13 +7,13 @@ class XblCheckboxBaseline extends XblBasetext {
     console.log(this, "connected");
 
     this.innerHTML = `<input type='checkbox' />
-<image class="checkbox-check" xbl:inherits="checked,disabled">
+<image class="checkbox-check" inherits="checked,disabled">
 </image>
 <hbox class="checkbox-label-box" flex="1">
-<image class="checkbox-icon" xbl:inherits="src">
+<image class="checkbox-icon" inherits="src">
 </image>
-<label class="checkbox-label" xbl:inherits="xbl:text=label,accesskey,crop" flex="1">
-</label>
+<xbl-text-label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1">
+</xbl-text-label>
 </hbox>`;
     let comment = document.createComment("Creating xbl-checkbox-baseline");
     this.prepend(comment);

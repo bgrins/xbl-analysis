@@ -6,13 +6,13 @@ class XblRadio extends XblControlItem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="radio-check" xbl:inherits="disabled,selected">
+    this.innerHTML = `<image class="radio-check" inherits="disabled,selected">
 </image>
 <hbox class="radio-label-box" align="center" flex="1">
-<image class="radio-icon" xbl:inherits="src">
+<image class="radio-icon" inherits="src">
 </image>
-<label class="radio-label" xbl:inherits="xbl:text=label,accesskey,crop" flex="1">
-</label>
+<xbl-text-label class="radio-label" inherits="text=label,accesskey,crop" flex="1">
+</xbl-text-label>
 </hbox>`;
     let comment = document.createComment("Creating xbl-radio");
     this.prepend(comment);

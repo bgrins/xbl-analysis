@@ -6,8 +6,8 @@ class XblMenubuttonItem extends XblMenuitemBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<label class="menubutton-text" flex="1" xbl:inherits="value=label,accesskey,crop" crop="right">
-</label>
+    this.innerHTML = `<xbl-text-label class="menubutton-text" flex="1" inherits="value=label,accesskey,crop" crop="right">
+</xbl-text-label>
 <children includes="menupopup">
 </children>`;
     let comment = document.createComment("Creating xbl-menubutton-item");

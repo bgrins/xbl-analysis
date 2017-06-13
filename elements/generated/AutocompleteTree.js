@@ -8,7 +8,7 @@ class XblAutocompleteTree extends XblTree {
 
     this.innerHTML = `<children includes="treecols">
 </children>
-<treerows class="autocomplete-treerows tree-rows" xbl:inherits="hidescrollbar" flex="1">
+<treerows class="autocomplete-treerows tree-rows" inherits="hidescrollbar" flex="1">
 <children>
 </children>
 </treerows>`;

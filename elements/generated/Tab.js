@@ -6,11 +6,11 @@ class XblTab extends XblControlItem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="tab-middle box-inherit" xbl:inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
-<image class="tab-icon" xbl:inherits="validate,src=image" role="presentation">
+    this.innerHTML = `<hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
+<image class="tab-icon" inherits="validate,src=image" role="presentation">
 </image>
-<label class="tab-text" xbl:inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation">
-</label>
+<xbl-text-label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation">
+</xbl-text-label>
 </hbox>`;
     let comment = document.createComment("Creating xbl-tab");
     this.prepend(comment);

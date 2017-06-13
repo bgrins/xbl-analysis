@@ -8,41 +8,41 @@ class XblDatepickerGrid extends XblDatepicker {
 
     this.innerHTML = `<vbox class="datepicker-mainbox">
 <hbox class="datepicker-monthbox" align="center">
-<button class="datepicker-previous datepicker-button" type="repeat" xbl:inherits="disabled" oncommand="document.getBindingParent(this)._increaseOrDecreaseMonth(-1);">
+<button class="datepicker-previous datepicker-button" type="repeat" inherits="disabled" oncommand="document.getBindingParent(this)._increaseOrDecreaseMonth(-1);">
 </button>
 <spacer flex="1">
 </spacer>
 <deck anonid="monthlabeldeck">
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
-<label class="datepicker-gridlabel" value="">
-</label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" value="">
+</xbl-text-label>
 </deck>
-<label anonid="yearlabel" class="datepicker-gridlabel">
-</label>
+<xbl-text-label anonid="yearlabel" class="datepicker-gridlabel">
+</xbl-text-label>
 <spacer flex="1">
 </spacer>
-<button class="datepicker-next datepicker-button" type="repeat" xbl:inherits="disabled" oncommand="document.getBindingParent(this)._increaseOrDecreaseMonth(1);">
+<button class="datepicker-next datepicker-button" type="repeat" inherits="disabled" oncommand="document.getBindingParent(this)._increaseOrDecreaseMonth(1);">
 </button>
 </hbox>
 <grid class="datepicker-grid" role="grid">
@@ -64,116 +64,116 @@ class XblDatepickerGrid extends XblDatepicker {
 </columns>
 <rows anonid="datebox">
 <row anonid="dayofweekbox">
-<label class="datepicker-weeklabel" role="columnheader">
-</label>
-<label class="datepicker-weeklabel" role="columnheader">
-</label>
-<label class="datepicker-weeklabel" role="columnheader">
-</label>
-<label class="datepicker-weeklabel" role="columnheader">
-</label>
-<label class="datepicker-weeklabel" role="columnheader">
-</label>
-<label class="datepicker-weeklabel" role="columnheader">
-</label>
-<label class="datepicker-weeklabel" role="columnheader">
-</label>
+<xbl-text-label class="datepicker-weeklabel" role="columnheader">
+</xbl-text-label>
+<xbl-text-label class="datepicker-weeklabel" role="columnheader">
+</xbl-text-label>
+<xbl-text-label class="datepicker-weeklabel" role="columnheader">
+</xbl-text-label>
+<xbl-text-label class="datepicker-weeklabel" role="columnheader">
+</xbl-text-label>
+<xbl-text-label class="datepicker-weeklabel" role="columnheader">
+</xbl-text-label>
+<xbl-text-label class="datepicker-weeklabel" role="columnheader">
+</xbl-text-label>
+<xbl-text-label class="datepicker-weeklabel" role="columnheader">
+</xbl-text-label>
 </row>
 <row>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
 </row>
 <row>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
 </row>
 <row>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
 </row>
 <row>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
 </row>
 <row>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
 </row>
 <row>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
-<label class="datepicker-gridlabel" role="gridcell">
-</label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
+<xbl-text-label class="datepicker-gridlabel" role="gridcell">
+</xbl-text-label>
 </row>
 </rows>
 </grid>

@@ -7,8 +7,8 @@ class XblTextbox extends BaseElement {
 
     this.innerHTML = `<children>
 </children>
-<hbox class="textbox-input-box" flex="1" xbl:inherits="context,spellcheck">
-<input class="textbox-input" anonid="input" xbl:inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
+<hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
+<input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
 </input>
 </hbox>`;
     let comment = document.createComment("Creating xbl-textbox");

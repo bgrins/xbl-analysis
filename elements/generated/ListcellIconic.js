@@ -7,10 +7,10 @@ class XblListcellIconic extends XblListcell {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<image class="listcell-icon" xbl:inherits="src=image">
+<image class="listcell-icon" inherits="src=image">
 </image>
-<label class="listcell-label" xbl:inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
-</label>
+<xbl-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</xbl-text-label>
 </children>`;
     let comment = document.createComment("Creating xbl-listcell-iconic");
     this.prepend(comment);

@@ -6,8 +6,8 @@ class XblStatusbarpanel extends BaseElement {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<label class="statusbarpanel-text" xbl:inherits="value=label,crop" crop="right" flex="1">
-</label>
+<xbl-text-label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1">
+</xbl-text-label>
 </children>`;
     let comment = document.createComment("Creating xbl-statusbarpanel");
     this.prepend(comment);

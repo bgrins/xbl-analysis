@@ -6,8 +6,8 @@ class XblScale extends XblBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<slider anonid="slider" class="scale-slider" snap="true" flex="1" xbl:inherits="disabled,orient,dir,curpos=value,minpos=min,maxpos=max,increment,pageincrement,movetoclick">
-<thumb class="scale-thumb" xbl:inherits="disabled,orient">
+    this.innerHTML = `<slider anonid="slider" class="scale-slider" snap="true" flex="1" inherits="disabled,orient,dir,curpos=value,minpos=min,maxpos=max,increment,pageincrement,movetoclick">
+<thumb class="scale-thumb" inherits="disabled,orient">
 </thumb>
 </slider>`;
     let comment = document.createComment("Creating xbl-scale");

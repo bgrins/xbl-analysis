@@ -7,7 +7,7 @@ class XblListitemCheckbox extends XblListitem {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell type="checkbox" xbl:inherits="label,crop,checked,disabled,flexlabel">
+<listcell type="checkbox" inherits="label,crop,checked,disabled,flexlabel">
 </listcell>
 </children>`;
     let comment = document.createComment("Creating xbl-listitem-checkbox");

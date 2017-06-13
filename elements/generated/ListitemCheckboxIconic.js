@@ -7,7 +7,7 @@ class XblListitemCheckboxIconic extends XblListitemCheckbox {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell type="checkbox" class="listcell-iconic" xbl:inherits="label,image,crop,checked,disabled,flexlabel">
+<listcell type="checkbox" class="listcell-iconic" inherits="label,image,crop,checked,disabled,flexlabel">
 </listcell>
 </children>`;
     let comment = document.createComment(

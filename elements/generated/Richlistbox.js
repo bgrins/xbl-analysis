@@ -8,7 +8,7 @@ class XblRichlistbox extends XblListboxBase {
 
     this.innerHTML = `<children includes="listheader">
 </children>
-<scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" xbl:inherits="dir,pack">
+<scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
 <children>
 </children>
 </scrollbox>`;

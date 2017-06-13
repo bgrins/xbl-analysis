@@ -6,11 +6,11 @@ class XblMenuitem extends XblMenuitemBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<label class="menu-text" xbl:inherits="value=label,accesskey,crop,highlightable" crop="right">
-</label>
+    this.innerHTML = `<xbl-text-label class="menu-text" inherits="value=label,accesskey,crop,highlightable" crop="right">
+</xbl-text-label>
 <hbox class="menu-accel-container" anonid="accel">
-<label class="menu-accel" xbl:inherits="value=acceltext">
-</label>
+<xbl-text-label class="menu-accel" inherits="value=acceltext">
+</xbl-text-label>
 </hbox>`;
     let comment = document.createComment("Creating xbl-menuitem");
     this.prepend(comment);

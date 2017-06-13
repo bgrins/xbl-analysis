@@ -6,10 +6,10 @@ class XblPanebutton extends XblRadio {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="paneButtonIcon" xbl:inherits="src">
+    this.innerHTML = `<image class="paneButtonIcon" inherits="src">
 </image>
-<label class="paneButtonLabel" xbl:inherits="value=label">
-</label>`;
+<xbl-text-label class="paneButtonLabel" inherits="value=label">
+</xbl-text-label>`;
     let comment = document.createComment("Creating xbl-panebutton");
     this.prepend(comment);
   }

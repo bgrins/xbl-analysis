@@ -6,7 +6,7 @@ class XblButtonImage extends XblButton {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="button-image-icon" xbl:inherits="src=image">
+    this.innerHTML = `<image class="button-image-icon" inherits="src=image">
 </image>`;
     let comment = document.createComment("Creating xbl-button-image");
     this.prepend(comment);

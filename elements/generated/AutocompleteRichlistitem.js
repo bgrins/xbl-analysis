@@ -6,35 +6,35 @@ class XblAutocompleteRichlistitem extends XblRichlistitem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" xbl:inherits="selected,current,type">
+    this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
 </image>
-<image anonid="site-icon" class="ac-site-icon" xbl:inherits="src=image,selected,type">
+<image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
 </image>
-<hbox class="ac-title" align="center" xbl:inherits="selected">
+<hbox class="ac-title" align="center" inherits="selected">
 <description class="ac-text-overflow-container">
-<description anonid="title-text" class="ac-title-text" xbl:inherits="selected">
+<description anonid="title-text" class="ac-title-text" inherits="selected">
 </description>
 </description>
 </hbox>
-<hbox anonid="tags" class="ac-tags" align="center" xbl:inherits="selected">
+<hbox anonid="tags" class="ac-tags" align="center" inherits="selected">
 <description class="ac-text-overflow-container">
-<description anonid="tags-text" class="ac-tags-text" xbl:inherits="selected">
+<description anonid="tags-text" class="ac-tags-text" inherits="selected">
 </description>
 </description>
 </hbox>
-<hbox anonid="separator" class="ac-separator" align="center" xbl:inherits="selected,actiontype,type">
+<hbox anonid="separator" class="ac-separator" align="center" inherits="selected,actiontype,type">
 <description class="ac-separator-text">
 </description>
 </hbox>
-<hbox class="ac-url" align="center" xbl:inherits="selected,actiontype">
+<hbox class="ac-url" align="center" inherits="selected,actiontype">
 <description class="ac-text-overflow-container">
-<description anonid="url-text" class="ac-url-text" xbl:inherits="selected">
+<description anonid="url-text" class="ac-url-text" inherits="selected">
 </description>
 </description>
 </hbox>
-<hbox class="ac-action" align="center" xbl:inherits="selected,actiontype">
+<hbox class="ac-action" align="center" inherits="selected,actiontype">
 <description class="ac-text-overflow-container">
-<description anonid="action-text" class="ac-action-text" xbl:inherits="selected">
+<description anonid="action-text" class="ac-action-text" inherits="selected">
 </description>
 </description>
 </hbox>`;

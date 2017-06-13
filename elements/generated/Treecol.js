@@ -6,9 +6,9 @@ class XblTreecol extends XblTreecolBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<label class="treecol-text" xbl:inherits="crop,value=label" flex="1" crop="right">
-</label>
-<image class="treecol-sortdirection" xbl:inherits="sortDirection,hidden=hideheader">
+    this.innerHTML = `<xbl-text-label class="treecol-text" inherits="crop,value=label" flex="1" crop="right">
+</xbl-text-label>
+<image class="treecol-sortdirection" inherits="sortDirection,hidden=hideheader">
 </image>`;
     let comment = document.createComment("Creating xbl-treecol");
     this.prepend(comment);

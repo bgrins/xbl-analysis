@@ -10,14 +10,14 @@ class XblMenuVertical extends XblToolbarbutton {
 </children>
 <hbox flex="1" align="center">
 <vbox flex="1" align="center">
-<image class="toolbarbutton-icon" xbl:inherits="validate,src=image,label,consumeanchor">
+<image class="toolbarbutton-icon" inherits="validate,src=image,label,consumeanchor">
 </image>
-<label class="toolbarbutton-text" crop="right" flex="1" xbl:inherits="value=label,accesskey,crop,dragover-top,wrap">
-</label>
-<label class="toolbarbutton-multiline-text" flex="1" xbl:inherits="xbl:text=label,accesskey,wrap">
-</label>
+<xbl-text-label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,dragover-top,wrap">
+</xbl-text-label>
+<xbl-text-label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap">
+</xbl-text-label>
 </vbox>
-<dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" xbl:inherits="disabled,label">
+<dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label">
 </dropmarker>
 </hbox>`;
     let comment = document.createComment("Creating xbl-menu-vertical");

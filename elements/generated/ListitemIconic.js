@@ -7,7 +7,7 @@ class XblListitemIconic extends XblListitem {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell class="listcell-iconic" xbl:inherits="label,image,crop,disabled,flexlabel">
+<listcell class="listcell-iconic" inherits="label,image,crop,disabled,flexlabel">
 </listcell>
 </children>`;
     let comment = document.createComment("Creating xbl-listitem-iconic");

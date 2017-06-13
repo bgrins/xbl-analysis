@@ -8,10 +8,10 @@ class XblFilefield extends XblBasetext {
 
     this.innerHTML = `<stringbundle anonid="bundle" src="chrome://global/locale/filefield.properties">
 </stringbundle>
-<hbox class="fileFieldContentBox" align="center" flex="1" xbl:inherits="disabled">
-<image class="fileFieldIcon" xbl:inherits="src=image,disabled">
+<hbox class="fileFieldContentBox" align="center" flex="1" inherits="disabled">
+<image class="fileFieldIcon" inherits="src=image,disabled">
 </image>
-<textbox class="fileFieldLabel" xbl:inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true">
+<textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true">
 </textbox>
 </hbox>`;
     let comment = document.createComment("Creating xbl-filefield");

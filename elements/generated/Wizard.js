@@ -14,7 +14,7 @@ class XblWizard extends XblRootElement {
 </deck>
 <children>
 </children>
-<hbox class="wizard-buttons" anonid="Buttons" xbl:inherits="pagestep,firstpage,lastpage">
+<hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage">
 </hbox>`;
     let comment = document.createComment("Creating xbl-wizard");
     this.prepend(comment);

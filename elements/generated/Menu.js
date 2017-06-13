@@ -8,13 +8,13 @@ class XblMenu extends XblToolbarbutton {
 
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>
-<image class="toolbarbutton-icon" xbl:inherits="validate,src=image,label,type,consumeanchor">
+<image class="toolbarbutton-icon" inherits="validate,src=image,label,type,consumeanchor">
 </image>
-<label class="toolbarbutton-text" crop="right" flex="1" xbl:inherits="value=label,accesskey,crop,dragover-top,wrap">
-</label>
-<label class="toolbarbutton-multiline-text" flex="1" xbl:inherits="xbl:text=label,accesskey,wrap">
-</label>
-<dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" xbl:inherits="disabled,label">
+<xbl-text-label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,dragover-top,wrap">
+</xbl-text-label>
+<xbl-text-label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap">
+</xbl-text-label>
+<dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label">
 </dropmarker>`;
     let comment = document.createComment("Creating xbl-menu");
     this.prepend(comment);

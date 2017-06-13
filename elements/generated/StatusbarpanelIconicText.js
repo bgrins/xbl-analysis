@@ -6,10 +6,10 @@ class XblStatusbarpanelIconicText extends XblStatusbarpanel {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="statusbarpanel-icon" xbl:inherits="src,src=image">
+    this.innerHTML = `<image class="statusbarpanel-icon" inherits="src,src=image">
 </image>
-<label class="statusbarpanel-text" xbl:inherits="value=label,crop">
-</label>`;
+<xbl-text-label class="statusbarpanel-text" inherits="value=label,crop">
+</xbl-text-label>`;
     let comment = document.createComment(
       "Creating xbl-statusbarpanel-iconic-text"
     );
