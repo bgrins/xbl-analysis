@@ -10,5 +10,8 @@ class XblTreeBase extends XblBasecontrol {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+  _isAccelPressed(aEvent) {
+    return aEvent.getModifierState("Accel");
+  }
 }
 customElements.define("xbl-tree-base", XblTreeBase);

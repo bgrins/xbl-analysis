@@ -44,6 +44,9 @@ class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistit
     this.prepend(comment);
   }
   disconnectedCallback() {}
+  _getSearchTokens(aSearch) {
+    return [this._learnMoreString.toLowerCase()];
+  }
 }
 customElements.define(
   "xbl-autocomplete-richlistitem-insecure-field",

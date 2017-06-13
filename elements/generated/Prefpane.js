@@ -66,5 +66,76 @@ class XblPrefpane extends BaseElement {
   get loaded() {
     return !this.src ? true : this._loaded;
   }
+  writePreferences(aFlushToDisk) {
+    // Write all values to preferences.
+    if (this._deferredValueUpdateElements.size) {
+      this._finalizeDeferredElements();
+    }
+
+    var preferences = this.preferences;
+    for (var i = 0; i < preferences.length; ++i) {
+      var preference = preferences[i];
+      preference.batching = true;
+      preference.valueFromPreferences = preference.value;
+      preference.batching = false;
+    }
+    if (aFlushToDisk) {
+      var psvc = Components.classes[
+        "@mozilla.org/preferences-service;1"
+      ].getService(Components.interfaces.nsIPrefService);
+      psvc.savePrefFile(null);
+    }
+  }
+  preferenceForElement(aElement) {}
+  getPreferenceElement(aStartElement) {
+    var temp = aStartElement;
+    while (
+      temp &&
+      temp.nodeType == Node.ELEMENT_NODE &&
+      !temp.hasAttribute("preference")
+    )
+      temp = temp.parentNode;
+    return temp && temp.nodeType == Node.ELEMENT_NODE ? temp : aStartElement;
+  }
+  _deferredValueUpdate(aElement) {
+    delete aElement._deferredValueUpdateTask;
+    let preference = document.getElementById(
+      aElement.getAttribute("preference")
+    );
+    let prefVal = preference.getElementValue(aElement);
+    preference.value = prefVal;
+    this._deferredValueUpdateElements.delete(aElement);
+  }
+  _finalizeDeferredElements() {
+    for (let el of this._deferredValueUpdateElements) {
+      if (el._deferredValueUpdateTask) {
+        el._deferredValueUpdateTask.finalize();
+      }
+    }
+  }
+  userChangedValue(aElement) {
+    let element = this.getPreferenceElement(aElement);
+    if (element.hasAttribute("preference")) {
+      if (element.getAttribute("delayprefsave") != "true") {
+        var preference = document.getElementById(
+          element.getAttribute("preference")
+        );
+        var prefVal = preference.getElementValue(element);
+        preference.value = prefVal;
+      } else {
+        if (!element._deferredValueUpdateTask) {
+          element._deferredValueUpdateTask = new this.DeferredTask(
+            this._deferredValueUpdate.bind(this, element),
+            1000
+          );
+          this._deferredValueUpdateElements.add(element);
+        } else {
+          // Each time the preference is changed, restart the delay.
+          element._deferredValueUpdateTask.disarm();
+        }
+        element._deferredValueUpdateTask.arm();
+      }
+    }
+  }
 }
 customElements.define("xbl-prefpane", XblPrefpane);

@@ -28,5 +28,32 @@ class XblAutocompleteBasePopup extends XblPopup {
   get isPopupHidingTick() {
     return this.mIsPopupHidingTick;
   }
+  closePopup() {
+    if (this.mPopupOpen) {
+      this.hidePopup();
+      this.removeAttribute("width");
+    }
+  }
+  getNextIndex(aReverse, aAmount, aIndex, aMaxRow) {
+    if (aMaxRow < 0) return -1;
+
+    var newIdx = aIndex + (aReverse ? -1 : 1) * aAmount;
+    if ((aReverse && aIndex == -1) || (newIdx > aMaxRow && aIndex != aMaxRow))
+      newIdx = aMaxRow;
+    else if ((!aReverse && aIndex == -1) || (newIdx < 0 && aIndex != 0))
+      newIdx = 0;
+
+    if ((newIdx < 0 && aIndex == 0) || (newIdx > aMaxRow && aIndex == aMaxRow))
+      aIndex = -1;
+    else aIndex = newIdx;
+
+    return aIndex;
+  }
+  onPopupClick(aEvent) {
+    var controller = this.view.QueryInterface(
+      Components.interfaces.nsIAutoCompleteController
+    );
+    controller.handleEnter(true, aEvent);
+  }
 }
 customElements.define("xbl-autocomplete-base-popup", XblAutocompleteBasePopup);

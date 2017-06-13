@@ -82,5 +82,28 @@ class XblEditor extends BaseElement {
   get isSyntheticDocument() {
     return this.contentDocument.isSyntheticDocument;
   }
+  makeEditable(editortype, waitForUrlLoad) {
+    this.editingSession.makeWindowEditable(
+      this.contentWindow,
+      editortype,
+      waitForUrlLoad,
+      true,
+      false
+    );
+    this.setAttribute("editortype", editortype);
+
+    this.docShell
+      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+      .getInterface(
+        Components.interfaces.nsIURIContentListener
+      ).parentContentListener = this._editorContentListener;
+  }
+  getEditor(containingWindow) {
+    return this.editingSession.getEditorForWindow(containingWindow);
+  }
+  getHTMLEditor(containingWindow) {
+    var editor = this.editingSession.getEditorForWindow(containingWindow);
+    return editor.QueryInterface(Components.interfaces.nsIHTMLEditor);
+  }
 }
 customElements.define("xbl-editor", XblEditor);

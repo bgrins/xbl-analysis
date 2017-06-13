@@ -29,5 +29,23 @@ class XblTab extends XblControlItem {
   get linkedPanel() {
     return this.getAttribute("linkedpanel");
   }
+  _setPositionAttributes(aSelected) {
+    if (this.previousSibling && this.previousSibling.localName == "tab") {
+      if (aSelected)
+        this.previousSibling.setAttribute("beforeselected", "true");
+      else this.previousSibling.removeAttribute("beforeselected");
+      this.removeAttribute("first-tab");
+    } else {
+      this.setAttribute("first-tab", "true");
+    }
+
+    if (this.nextSibling && this.nextSibling.localName == "tab") {
+      if (aSelected) this.nextSibling.setAttribute("afterselected", "true");
+      else this.nextSibling.removeAttribute("afterselected");
+      this.removeAttribute("last-tab");
+    } else {
+      this.setAttribute("last-tab", "true");
+    }
+  }
 }
 customElements.define("xbl-tab", XblTab);

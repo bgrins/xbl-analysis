@@ -39,5 +39,120 @@ class XblPopupBase extends BaseElement {
   get anchorNode() {
     return this.popupBoxObject.anchorNode;
   }
+  openPopup(
+    aAnchorElement,
+    aPosition,
+    aX,
+    aY,
+    aIsContextMenu,
+    aAttributesOverride,
+    aTriggerEvent
+  ) {
+    try {
+      var popupBox = this.popupBoxObject;
+      if (popupBox)
+        popupBox.openPopup(
+          aAnchorElement,
+          aPosition,
+          aX,
+          aY,
+          aIsContextMenu,
+          aAttributesOverride,
+          aTriggerEvent
+        );
+    } catch (e) {}
+  }
+  openPopupAtScreen(aX, aY, aIsContextMenu, aTriggerEvent) {
+    try {
+      var popupBox = this.popupBoxObject;
+      if (popupBox)
+        popupBox.openPopupAtScreen(aX, aY, aIsContextMenu, aTriggerEvent);
+    } catch (e) {}
+  }
+  openPopupAtScreenRect(
+    aPosition,
+    aX,
+    aY,
+    aWidth,
+    aHeight,
+    aIsContextMenu,
+    aAttributesOverride,
+    aTriggerEvent
+  ) {
+    try {
+      var popupBox = this.popupBoxObject;
+      if (popupBox)
+        popupBox.openPopupAtScreenRect(
+          aPosition,
+          aX,
+          aY,
+          aWidth,
+          aHeight,
+          aIsContextMenu,
+          aAttributesOverride,
+          aTriggerEvent
+        );
+    } catch (e) {}
+  }
+  showPopup(element, xpos, ypos, popuptype, anchoralignment, popupalignment) {
+    var popupBox = null;
+    var menuBox = null;
+    try {
+      popupBox = this.popupBoxObject;
+    } catch (e) {}
+    try {
+      menuBox = this.parentNode.boxObject;
+    } catch (e) {}
+    if (menuBox instanceof MenuBoxObject) menuBox.openMenu(true);
+    else if (popupBox)
+      popupBox.showPopup(
+        element,
+        this,
+        xpos,
+        ypos,
+        popuptype,
+        anchoralignment,
+        popupalignment
+      );
+  }
+  hidePopup(cancel) {
+    var popupBox = null;
+    var menuBox = null;
+    try {
+      popupBox = this.popupBoxObject;
+    } catch (e) {}
+    try {
+      menuBox = this.parentNode.boxObject;
+    } catch (e) {}
+    if (menuBox instanceof MenuBoxObject) menuBox.openMenu(false);
+    else if (popupBox instanceof PopupBoxObject) popupBox.hidePopup(cancel);
+  }
+  enableKeyboardNavigator(aEnableKeyboardNavigator) {
+    this.popupBoxObject.enableKeyboardNavigator(aEnableKeyboardNavigator);
+  }
+  enableRollup(aEnableRollup) {
+    this.popupBoxObject.enableRollup(aEnableRollup);
+  }
+  sizeTo(aWidth, aHeight) {
+    this.popupBoxObject.sizeTo(aWidth, aHeight);
+  }
+  moveTo(aLeft, aTop) {
+    this.popupBoxObject.moveTo(aLeft, aTop);
+  }
+  moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride) {
+    this.popupBoxObject.moveToAnchor(
+      aAnchorElement,
+      aPosition,
+      aX,
+      aY,
+      aAttributesOverride
+    );
+  }
+  getOuterScreenRect() {
+    return this.popupBoxObject.getOuterScreenRect();
+  }
+  setConstraintRect(aRect) {
+    this.popupBoxObject.setConstraintRect(aRect);
+  }
 }
 customElements.define("xbl-popup-base", XblPopupBase);

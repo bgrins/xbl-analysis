@@ -39,5 +39,29 @@ class XblSearchTextbox extends XblTextbox {
   get value() {
     return this.inputField.value;
   }
+  _fireCommand(me) {
+    if (me._timer) clearTimeout(me._timer);
+    me._timer = null;
+    me.doCommand();
+  }
+  _iconClick() {
+    if (this.searchButton) this._enterSearch();
+    else this.focus();
+  }
+  _enterSearch() {
+    if (this.disabled) return;
+    if (this.searchButton && this.value && !this.readOnly)
+      this._searchIcons.selectedIndex = 1;
+    this._fireCommand(this);
+  }
+  _clearSearch() {
+    if (!this.disabled && !this.readOnly && this.value) {
+      this.value = "";
+      this._fireCommand(this);
+      this._searchIcons.selectedIndex = 0;
+      return true;
+    }
+    return false;
+  }
 }
 customElements.define("xbl-search-textbox", XblSearchTextbox);

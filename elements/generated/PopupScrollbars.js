@@ -14,5 +14,19 @@ class XblPopupScrollbars extends XblPopup {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+  enableDragScrolling(overItem) {
+    if (!this._draggingState) {
+      this.setCaptureAlways();
+      this._draggingState = overItem
+        ? this.DRAG_OVER_POPUP
+        : this.DRAG_OVER_BUTTON;
+    }
+  }
+  _clearScrollTimer() {
+    if (this._scrollTimer) {
+      this.ownerGlobal.clearInterval(this._scrollTimer);
+      this._scrollTimer = 0;
+    }
+  }
 }
 customElements.define("xbl-popup-scrollbars", XblPopupScrollbars);

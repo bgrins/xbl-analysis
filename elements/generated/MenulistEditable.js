@@ -52,5 +52,34 @@ class XblMenulistEditable extends XblMenulist {
   get readOnly() {
     return this.inputField.readOnly;
   }
+  _selectInputFieldValueInList() {
+    if (this.hasAttribute("disableautoselect")) return;
+
+    // Find and select the menuitem that matches inputField's "value"
+    var arr = null;
+    var popup = this.menupopup;
+
+    if (popup)
+      arr = popup.getElementsByAttribute("label", this.inputField.value);
+
+    this.setSelectionInternal(arr ? arr.item(0) : null);
+  }
+  setSelectionInternal(val) {
+    // This is called internally to set selected item
+    //  without triggering infinite loop
+    //  when using selectedItem's setter
+    if (this.mSelectedInternal == val) return val;
+
+    if (this.mSelectedInternal)
+      this.mSelectedInternal.removeAttribute("selected");
+
+    this.mSelectedInternal = val;
+
+    if (val) val.setAttribute("selected", "true");
+
+    // Do NOT change the "value", which is owned by inputField
+    return val;
+  }
+  select() {}
 }
 customElements.define("xbl-menulist-editable", XblMenulistEditable);

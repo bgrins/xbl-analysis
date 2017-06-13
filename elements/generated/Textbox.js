@@ -160,5 +160,39 @@ class XblTextbox extends BaseElement {
   get selectionEnd() {
     return this.inputField.selectionEnd;
   }
+  reset() {
+    this.value = this.defaultValue;
+    try {
+      this.editor.transactionManager.clear();
+      return true;
+    } catch (e) {}
+    return false;
+  }
+  select() {}
+  setSelectionRange(aSelectionStart, aSelectionEnd) {}
+  _setNewlineHandling() {
+    var str = this.getAttribute("newlines");
+    if (str && this.editor) {
+      const nsIPlaintextEditor = Components.interfaces.nsIPlaintextEditor;
+      for (var x in nsIPlaintextEditor) {
+        if (/^eNewlines/.test(x)) {
+          if (str == RegExp.rightContext.toLowerCase()) {
+            this.editor.QueryInterface(nsIPlaintextEditor).newlineHandling =
+              nsIPlaintextEditor[x];
+            break;
+          }
+        }
+      }
+    }
+  }
+  _maybeSelectAll() {
+    if (
+      !this.mIgnoreClick &&
+      this.clickSelectsAll &&
+      document.activeElement == this.inputField &&
+      this.inputField.selectionStart == this.inputField.selectionEnd
+    )
+      this.editor.selectAll();
+  }
 }
 customElements.define("xbl-textbox", XblTextbox);

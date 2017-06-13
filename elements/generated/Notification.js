@@ -77,5 +77,42 @@ class XblNotification extends BaseElement {
   get persistence() {
     return parseInt(this.getAttribute("persistence")) || 0;
   }
+  dismiss() {
+    if (this.eventCallback) {
+      this.eventCallback("dismissed");
+    }
+    this.close();
+  }
+  close() {
+    var control = this.control;
+    if (control) control.removeNotification(this);
+    else this.hidden = true;
+  }
+  _doButtonCommand(aEvent) {
+    if (!("buttonInfo" in aEvent.target)) return;
+
+    var button = aEvent.target.buttonInfo;
+    if (button.popup) {
+      document
+        .getElementById(button.popup)
+        .openPopup(
+          aEvent.originalTarget,
+          "after_start",
+          0,
+          0,
+          false,
+          false,
+          aEvent
+        );
+      aEvent.stopPropagation();
+    } else {
+      var callback = button.callback;
+      if (callback) {
+        var result = callback(this, button, aEvent.target);
+        if (!result) this.close();
+        aEvent.stopPropagation();
+      }
+    }
+  }
 }
 customElements.define("xbl-notification", XblNotification);

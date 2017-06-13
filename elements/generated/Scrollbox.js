@@ -14,5 +14,6 @@ class XblScrollbox extends XblScrollboxBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+  scrollByIndex(index) {}
 }
 customElements.define("xbl-scrollbox", XblScrollbox);

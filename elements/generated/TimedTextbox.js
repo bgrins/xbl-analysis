@@ -23,5 +23,9 @@ class XblTimedTextbox extends XblTextbox {
   get value() {
     return this.inputField.value;
   }
+  _fireCommand(me) {
+    me._timer = null;
+    me.doCommand();
+  }
 }
 customElements.define("xbl-timed-textbox", XblTimedTextbox);

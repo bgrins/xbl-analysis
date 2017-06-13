@@ -33,5 +33,16 @@ class XblTooltip extends XblPopupBase {
   get page() {
     return this.getAttribute("page") == "true";
   }
+  fillInPageTooltip(tipElement) {
+    let tttp = this.textProvider;
+    let textObj = {},
+      dirObj = {};
+    let shouldChangeText = tttp.getNodeText(tipElement, textObj, dirObj);
+    if (shouldChangeText) {
+      this.style.direction = dirObj.value;
+      this.label = textObj.value;
+    }
+    return shouldChangeText;
+  }
 }
 customElements.define("xbl-tooltip", XblTooltip);

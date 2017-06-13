@@ -48,5 +48,22 @@ class XblDatetimepickerBase extends XblBasecontrol {
   get readOnly() {
     return this.getAttribute("readonly") == "true";
   }
+  _fireEvent(aEventName, aTarget) {}
+  _setValueOnChange(aField) {
+    if (!this._hasEntry) return;
+
+    if (
+      aField == this._fieldOne ||
+      aField == this._fieldTwo ||
+      aField == this._fieldThree
+    ) {
+      var value = Number(aField.value);
+      if (isNaN(value)) value = 0;
+
+      value = this._constrainValue(aField, value, true);
+      this._setFieldValue(aField, value);
+    }
+  }
+  _init() {}
 }
 customElements.define("xbl-datetimepicker-base", XblDatetimepickerBase);

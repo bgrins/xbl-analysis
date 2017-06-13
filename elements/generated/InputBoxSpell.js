@@ -46,5 +46,58 @@ class XblInputBoxSpell extends XblInputBox {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+  _doPopupItemEnablingSpell(popupNode) {
+    var spellui = this.spellCheckerUI;
+    if (!spellui || !spellui.canSpellCheck) {
+      this._setMenuItemVisibility("spell-no-suggestions", false);
+      this._setMenuItemVisibility("spell-check-enabled", false);
+      this._setMenuItemVisibility("spell-check-separator", false);
+      this._setMenuItemVisibility("spell-add-to-dictionary", false);
+      this._setMenuItemVisibility("spell-undo-add-to-dictionary", false);
+      this._setMenuItemVisibility("spell-suggestions-separator", false);
+      this._setMenuItemVisibility("spell-dictionaries", false);
+      return;
+    }
+
+    spellui.initFromEvent(document.popupRangeParent, document.popupRangeOffset);
+
+    var enabled = spellui.enabled;
+    var showUndo = spellui.canSpellCheck && spellui.canUndo();
+    this._enabledCheckbox.setAttribute("checked", enabled);
+
+    var overMisspelling = spellui.overMisspelling;
+    this._setMenuItemVisibility("spell-add-to-dictionary", overMisspelling);
+    this._setMenuItemVisibility("spell-undo-add-to-dictionary", showUndo);
+    this._setMenuItemVisibility(
+      "spell-suggestions-separator",
+      overMisspelling || showUndo
+    );
+
+    // suggestion list
+    var numsug = spellui.addSuggestionsToMenu(
+      popupNode,
+      this._suggestionsSeparator,
+      5
+    );
+    this._setMenuItemVisibility(
+      "spell-no-suggestions",
+      overMisspelling && numsug == 0
+    );
+
+    // dictionary list
+    var numdicts = spellui.addDictionaryListToMenu(
+      this._dictionariesMenu,
+      null
+    );
+    this._setMenuItemVisibility("spell-dictionaries", enabled && numdicts > 1);
+
+    this._doPopupItemEnabling(popupNode);
+  }
+  _doPopupItemDisabling() {
+    if (this.spellCheckerUI) {
+      this.spellCheckerUI.clearSuggestionsFromMenu();
+      this.spellCheckerUI.clearDictionaryListFromMenu();
+    }
+  }
 }
 customElements.define("xbl-input-box-spell", XblInputBoxSpell);

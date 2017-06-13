@@ -157,7 +157,13 @@ function getJSForBinding(binding) {
   }
 
   // <method>
-  // TODO
+  for (let method of binding.find('method')) {
+    js.push(`${method.attrs.name}(`);
+    js.push(`${method.find('parameter').map(p => p.attrs.name).join(',')}`);
+    js.push(`) {`);
+    js.push(method.find('body')[0].cdata);
+    js.push(`}`);
+  }
 
   js.push('}');
 

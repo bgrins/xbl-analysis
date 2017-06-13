@@ -27,5 +27,16 @@ class XblCheckboxBaseline extends XblBasetext {
   get checked() {
     return this.getAttribute("checked") == "true";
   }
+  setChecked(aValue) {
+    var change = aValue != (this.getAttribute("checked") == "true");
+    if (aValue) this.setAttribute("checked", "true");
+    else this.removeAttribute("checked");
+    if (change) {
+      var event = document.createEvent("Events");
+      event.initEvent("CheckboxStateChange", true, true);
+      this.dispatchEvent(event);
+    }
+    return aValue;
+  }
 }
 customElements.define("xbl-checkbox-baseline", XblCheckboxBaseline);

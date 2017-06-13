@@ -21,5 +21,21 @@ class XblExpander extends BaseElement {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+  onCommand(aEvent) {
+    var element = aEvent.originalTarget;
+    var button = element.getAttribute("anonid");
+    switch (button) {
+      case "disclosure":
+      case "label":
+        if (this.open == "true") this.open = false;
+        else this.open = true;
+        break;
+      case "clear-button":
+        var event = document.createEvent("Events");
+        event.initEvent("clear", true, true);
+        this.dispatchEvent(event);
+        break;
+    }
+  }
 }
 customElements.define("xbl-expander", XblExpander);

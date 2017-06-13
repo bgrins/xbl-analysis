@@ -24,5 +24,77 @@ class XblColorpickerButton extends XblBasecontrol {
   get open() {
     return this.getAttribute("open") == "true";
   }
+  initialize() {
+    this.mColorBox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "colorbox"
+    );
+    this.mColorBox.setAttribute(
+      "src",
+      "data:image/svg+xml,<svg style='background-color: " +
+        encodeURIComponent(this.color) +
+        "' xmlns='http://www.w3.org/2000/svg' />"
+    );
+
+    var popup = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "colorpopup"
+    );
+    popup._colorPicker = this;
+
+    this.mPicker = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "colorpicker"
+    );
+  }
+  _fireEvent(aTarget, aEventName) {
+    try {
+      var event = document.createEvent("Events");
+      event.initEvent(aEventName, true, true);
+      var cancel = !aTarget.dispatchEvent(event);
+      if (aTarget.hasAttribute("on" + aEventName)) {
+        var fn = new Function("event", aTarget.getAttribute("on" + aEventName));
+        var rv = fn.call(aTarget, event);
+        if (rv == false) cancel = true;
+      }
+      return !cancel;
+    } catch (e) {
+      dump(e);
+    }
+    return false;
+  }
+  showPopup() {
+    this.mPicker.parentNode.openPopup(this, "after_start", 0, 0, false, false);
+  }
+  hidePopup() {
+    this.mPicker.parentNode.hidePopup();
+  }
+  onPopupShowing() {
+    if ("resetHover" in this.mPicker) this.mPicker.resetHover();
+    document.addEventListener("keydown", this.mPicker, true);
+    this.mPicker.mIsPopup = true;
+    // Initialize to current button's color
+    this.mPicker.initColor(this.color);
+  }
+  onPopupHiding() {
+    // Removes the key listener
+    document.removeEventListener("keydown", this.mPicker, true);
+    this.mPicker.mIsPopup = false;
+  }
+  pickerChange() {
+    this.color = this.mPicker.color;
+    setTimeout(
+      function(aPopup) {
+        aPopup.hidePopup();
+      },
+      1,
+      this.mPicker.parentNode
+    );
+
+    this._fireEvent(this, "change");
+  }
 }
 customElements.define("xbl-colorpicker-button", XblColorpickerButton);

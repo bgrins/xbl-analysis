@@ -54,5 +54,59 @@ class XblScale extends XblBasecontrol {
   get pageIncrement() {
     return this._getIntegerAttribute("pageincrement", 10);
   }
+  _getIntegerAttribute(aAttr, aDefaultValue) {}
+  _setIntegerAttribute(aAttr, aValue) {
+    var intvalue = parseInt(aValue, 10);
+    if (!isNaN(intvalue)) {
+      if (aAttr == "curpos") {
+        if (intvalue < this.min) intvalue = this.min;
+        else if (intvalue > this.max) intvalue = this.max;
+      }
+      this._slider.setAttribute(aAttr, intvalue);
+    }
+    return aValue;
+  }
+  decrease() {
+    var newpos = this.value - this.increment;
+    var startpos = this.min;
+    this.value = newpos > startpos ? newpos : startpos;
+  }
+  increase() {
+    var newpos = this.value + this.increment;
+    var endpos = this.max;
+    this.value = newpos < endpos ? newpos : endpos;
+  }
+  decreasePage() {
+    var newpos = this.value - this.pageIncrement;
+    var startpos = this.min;
+    this.value = newpos > startpos ? newpos : startpos;
+  }
+  increasePage() {
+    var newpos = this.value + this.pageIncrement;
+    var endpos = this.max;
+    this.value = newpos < endpos ? newpos : endpos;
+  }
+  valueChanged(which, newValue, userChanged) {
+    switch (which) {
+      case "curpos":
+        this.setAttribute("value", newValue);
+
+        // in the future, only fire the change event when userChanged
+        // or _userChanged is true
+        var changeEvent = document.createEvent("Events");
+        changeEvent.initEvent("change", true, true);
+        this.dispatchEvent(changeEvent);
+        break;
+
+      case "minpos":
+        this.setAttribute("min", newValue);
+        break;
+
+      case "maxpos":
+        this.setAttribute("max", newValue);
+        break;
+    }
+  }
+  dragStateChanged(isDragging) {}
 }
 customElements.define("xbl-scale", XblScale);

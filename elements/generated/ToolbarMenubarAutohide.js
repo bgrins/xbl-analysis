@@ -12,6 +12,28 @@ class XblToolbarMenubarAutohide extends XblToolbar {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+  _setInactive() {
+    this.setAttribute("inactive", "true");
+  }
+  _setInactiveAsync() {
+    this._inactiveTimeout = setTimeout(
+      function(self) {
+        if (self.getAttribute("autohide") == "true") {
+          self._inactiveTimeout = null;
+          self._setInactive();
+        }
+      },
+      0,
+      this
+    );
+  }
+  _setActive() {
+    if (this._inactiveTimeout) {
+      clearTimeout(this._inactiveTimeout);
+      this._inactiveTimeout = null;
+    }
+    this.removeAttribute("inactive");
+  }
 }
 customElements.define(
   "xbl-toolbar-menubar-autohide",

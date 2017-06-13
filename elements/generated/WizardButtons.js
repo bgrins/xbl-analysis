@@ -52,5 +52,12 @@ class XblWizardButtons extends XblWizardBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+  onPageChange() {
+    if (this.getAttribute("lastpage") == "true") {
+      this._wizardButtonDeck.setAttribute("selectedIndex", 0);
+    } else {
+      this._wizardButtonDeck.setAttribute("selectedIndex", 1);
+    }
+  }
 }
 customElements.define("xbl-wizard-buttons", XblWizardButtons);
