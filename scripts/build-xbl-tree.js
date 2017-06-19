@@ -11,6 +11,7 @@ var idToNumInstances = {};
 var bindingTree = {};
 var outputHTML = [];
 var totalPrintedBindings = 0;
+var totalPrintedFiles = 0;
 
 function getTotalInstances(binding) {
   if (!sortedBindings[binding]) {
@@ -45,13 +46,14 @@ function printSingleBinding(binding) {
 }
 
 getParsedFiles().then(docs => {
+  totalPrintedFiles = docs.length;
   docs.forEach((doc, i) => {
     doc.find('binding').forEach(binding => {
       idToFeatures[binding.attrs.id] = [];
       idToUrls[binding.attrs.id] = files[i].replace('raw-file', 'file');
 
       // Handle the easier features to count, where we just need to detect a node:
-      for (let feature of ['resources', 'property', 'field', 'content', 'handler', 'method', 'constructor', 'destructor']) {
+      for (let feature of ['resources', 'property', 'field', 'content', 'handler', 'method', 'children', 'constructor', 'destructor']) {
         featureCounts[feature] = featureCounts[feature] || 0;
         if (binding.find(feature).length) {
           featureCounts[feature] += binding.find(feature).length;
@@ -70,7 +72,6 @@ getParsedFiles().then(docs => {
     });
   });
 }).then(() => {
-
   for (let id in idToBinding) {
     bindingTree[idToBinding[id]] = (bindingTree[idToBinding[id]] || []);
     bindingTree[idToBinding[id]].push(id);
@@ -121,18 +122,17 @@ getParsedFiles().then(docs => {
     <h1>XBL Component Tree</h1>
     <p>About this data:</p>
     <ul>
-      <li>This script processes xml files where bindings are declared in toolkit/content/widgets</li>
-      <li>From these files, <strong>${totalBindings}</strong> bindings were detected.</li>
+      <li>This script processes xml files where bindings are declared in toolkit/content/widgets.
+          From these ${totalPrintedFiles} files, <strong>${totalBindings}</strong> bindings were detected.</li>
       <li>A child in the tree means that it extends the parent</li>
-      <li>The tree is sorted based on number of instances of the bindings as described below</li>
       <li>Features used: ${featureStr}</li>
     </ul>
-    <p>About the "total instances" data:</p>
-    <ul>
-      <li>It is a count of how many elements have a particular binding applied (including bindings that are not directly appled to the element but created through the <code>extends</code> feature)</li>
-      <li>It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox</li>
-      <li>The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a></small></li>
-    </ul>
+    <p>About "total instances":
+       This is a count of how many elements have a particular binding applied
+       (including bindings that are not directly appled to the element but created through the <code>extends</code> feature).
+       It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
+       The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a>.
+    </p>
     ${outputHTML.join('')}
   `);
 });
