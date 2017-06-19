@@ -5,6 +5,7 @@ var {getParsedFiles, files} = require('./xbl-files');
 
 var idToBinding = {};
 var idToFeatures = {};
+var idToFeatureAttrs = {};
 var featureCounts = Object.create(null);
 var idToUrls = {};
 var idToNumInstances = {};
@@ -22,15 +23,24 @@ function getTotalInstances(binding) {
   }, sortedBindings[binding] || 0);
 }
 
+function getAllFeaturesAndSubFeatures(binding) {
+  let features = idToFeatureAttrs[binding];
+  if (bindingTree[binding]) {
+    for (let subBinding of bindingTree[binding]) {
+      features = features.concat(getAllFeaturesAndSubFeatures(subBinding));
+    }
+  }
+  return features.filter((feature, i) => features.indexOf(feature) === i);
+}
 function printSingleBinding(binding) {
   totalPrintedBindings++;
   var html = `
-      <details open>
+      <details open ${getAllFeaturesAndSubFeatures(binding).join(' ')}>
       <summary><a href="${idToUrls[binding]}" target="_blank">${binding}</a> (${idToNumInstances[binding]} total instances)
   `;
 
   html += `<em>Used features: `;
-  html += idToFeatures[binding].map(feature => `<code>${feature}</code>`).join(", ");
+  html += idToFeatures[binding].map((feature, i) => `<code highlight='${idToFeatureAttrs[binding][i]}'>${feature}</code>`).join(", ");
   html += `</em></summary>`;
 
   if (bindingTree[binding]) {
@@ -50,6 +60,7 @@ getParsedFiles().then(docs => {
   docs.forEach((doc, i) => {
     doc.find('binding').forEach(binding => {
       idToFeatures[binding.attrs.id] = [];
+      idToFeatureAttrs[binding.attrs.id] = [];
       idToUrls[binding.attrs.id] = files[i].replace('raw-file', 'file');
 
       // Handle the easier features to count, where we just need to detect a node:
@@ -58,6 +69,7 @@ getParsedFiles().then(docs => {
         if (binding.find(feature).length) {
           featureCounts[feature] += binding.find(feature).length;
           idToFeatures[binding.attrs.id].push(`${feature} (${binding.find(feature).length})`);
+          idToFeatureAttrs[binding.attrs.id].push(`${feature}`);
         }
       }
 
@@ -66,6 +78,7 @@ getParsedFiles().then(docs => {
       if (binding.find('implementation').length && binding.find('implementation')[0].attrs.implements) {
         featureCounts['implements']++;
         idToFeatures[binding.attrs.id].push(`implements (${binding.find('implementation')[0].attrs.implements})`);
+        idToFeatureAttrs[binding.attrs.id].push('implements');
       }
 
       idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1] || "NO_EXTENDS";
@@ -102,10 +115,18 @@ getParsedFiles().then(docs => {
     console.warn(`There are some orphaned bindings. Expected ${totalBindings} but printed ${totalPrintedBindings}`);
   }
 
+  let featureElements = Object.entries(featureCounts)
+                         .map(([key]) => `<div id=${key}></div>`)
+                         .join('\n');
+  // If we want to hide nodes without these features, then add this:
+  // #${key}:target ~ #container details:not([${key}]) { display: none; }
+  let featureCss = Object.entries(featureCounts)
+                         .map(([key]) => `#${key}:target ~ #container [highlight=${key}]{ background: yellow; }`)
+                         .join('\n');
   let featureStr = Object.entries(featureCounts)
                           .sort((a, b) => b[1] - a[1])
                           .map(([key,value]) => `
-                            <code>${key}</code>: <strong>${value}</strong>`)
+                            <code><a href='#${key}'>${key}</a></code>: <strong>${value}</strong>`)
                           .join(',');
 
   fs.writeFileSync('index.html', `
@@ -116,8 +137,10 @@ getParsedFiles().then(docs => {
       li,ul { list-style: none; }
       em { padding-left: 10px; color: #999; }
       summary {padding: 4px 0; position: relative; width: 100%; }
+      ${featureCss}
     </style>
     </head>
+    ${featureElements}
     <a href="https://github.com/bgrins/xbl-analysis">Link to code</a>
     <h1>XBL Component Tree</h1>
     <p>About this data:</p>
@@ -133,6 +156,8 @@ getParsedFiles().then(docs => {
        It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
        The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a>.
     </p>
+    <div id='container'>
     ${outputHTML.join('')}
+    </div>
   `);
 });
