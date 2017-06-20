@@ -77,6 +77,15 @@ class XblNotification extends BaseElement {
   get persistence() {
     return parseInt(this.getAttribute("persistence")) || 0;
   }
+
+  get control() {
+    var parent = this.parentNode;
+    while (parent) {
+      if (parent.localName == "notificationbox") return parent;
+      parent = parent.parentNode;
+    }
+    return null;
+  }
   dismiss() {
     if (this.eventCallback) {
       this.eventCallback("dismissed");

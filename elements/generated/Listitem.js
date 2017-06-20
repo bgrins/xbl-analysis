@@ -15,6 +15,18 @@ class XblListitem extends XblBasetext {
   }
   disconnectedCallback() {}
 
+  set current(val) {
+    if (val) this.setAttribute("current", "true");
+    else this.removeAttribute("current");
+
+    let control = this.control;
+    if (!control || !control.suppressMenuItemEvent) {
+      this._fireEvent(val ? "DOMMenuItemActive" : "DOMMenuItemInactive");
+    }
+
+    return val;
+  }
+
   get current() {
     return this.getAttribute("current") == "true";
   }
@@ -37,8 +49,25 @@ class XblListitem extends XblBasetext {
     return this.getAttribute("label");
   }
 
+  set selected(val) {
+    if (val) this.setAttribute("selected", "true");
+    else this.removeAttribute("selected");
+
+    return val;
+  }
+
   get selected() {
     return this.getAttribute("selected") == "true";
+  }
+
+  get control() {
+    var parent = this.parentNode;
+    while (parent) {
+      if (parent instanceof Components.interfaces.nsIDOMXULSelectControlElement)
+        return parent;
+      parent = parent.parentNode;
+    }
+    return null;
   }
   _fireEvent(name) {
     var event = document.createEvent("Events");

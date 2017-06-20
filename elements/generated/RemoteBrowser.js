@@ -3,6 +3,12 @@ class XblRemoteBrowser extends XblBrowser {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-remote-browser");
+    this.prepend(comment);
+
     try {
       /*
            * Don't try to send messages from this function. The message manager for
@@ -58,16 +64,57 @@ class XblRemoteBrowser extends XblBrowser {
       this._controller = new RemoteController(this);
       this.controllers.appendController(this._controller);
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-remote-browser");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 
+  get securityUI() {
+    if (!this._securityUI) {
+      // Don't attempt to create the remote web progress if the
+      // messageManager has already gone away
+      if (!this.messageManager) return null;
+
+      let jsm = "resource://gre/modules/RemoteSecurityUI.jsm";
+      let RemoteSecurityUI = Components.utils.import(jsm, {}).RemoteSecurityUI;
+      this._securityUI = new RemoteSecurityUI();
+    }
+
+    // We want to double-wrap the JS implemented interface, so that QI and instanceof works.
+    var ptr = Components.classes[
+      "@mozilla.org/supports-interface-pointer;1"
+    ].createInstance(Components.interfaces.nsISupportsInterfacePointer);
+    ptr.data = this._securityUI;
+    return ptr.data.QueryInterface(Components.interfaces.nsISecureBrowserUI);
+  }
+
   get webNavigation() {
     return this._remoteWebNavigation;
+  }
+
+  get webProgress() {
+    if (!this._remoteWebProgress) {
+      // Don't attempt to create the remote web progress if the
+      // messageManager has already gone away
+      if (!this.messageManager) return null;
+
+      let jsm = "resource://gre/modules/RemoteWebProgress.jsm";
+      let { RemoteWebProgressManager } = Components.utils.import(jsm, {});
+      this._remoteWebProgressManager = new RemoteWebProgressManager(this);
+      this._remoteWebProgress = this._remoteWebProgressManager.topLevelWebProgress;
+    }
+    return this._remoteWebProgress;
+  }
+
+  get finder() {
+    if (!this._remoteFinder) {
+      // Don't attempt to create the remote finder if the
+      // messageManager has already gone away
+      if (!this.messageManager) return null;
+
+      let jsm = "resource://gre/modules/RemoteFinder.jsm";
+      let { RemoteFinder } = Components.utils.import(jsm, {});
+      this._remoteFinder = new RemoteFinder(this);
+    }
+    return this._remoteFinder;
   }
 
   get documentURI() {
@@ -80,6 +127,11 @@ class XblRemoteBrowser extends XblBrowser {
 
   get contentTitle() {
     return this._contentTitle;
+  }
+
+  set characterSet(val) {
+    this.messageManager.sendAsyncMessage("UpdateCharacterSet", { value: val });
+    this._characterSet = val;
   }
 
   get characterSet() {
@@ -114,8 +166,74 @@ class XblRemoteBrowser extends XblBrowser {
     return this._imageDocument;
   }
 
+  set fullZoom(val) {
+    let changed = val.toFixed(2) != this._fullZoom.toFixed(2);
+
+    this._fullZoom = val;
+    try {
+      this.messageManager.sendAsyncMessage("FullZoom", { value: val });
+    } catch (ex) {}
+
+    if (changed) {
+      let event = new Event("FullZoomChange", { bubbles: true });
+      this.dispatchEvent(event);
+    }
+  }
+
+  get fullZoom() {
+    return this._fullZoom;
+  }
+
+  set textZoom(val) {
+    let changed = val.toFixed(2) != this._textZoom.toFixed(2);
+
+    this._textZoom = val;
+    try {
+      this.messageManager.sendAsyncMessage("TextZoom", { value: val });
+    } catch (ex) {}
+
+    if (changed) {
+      let event = new Event("TextZoomChange", { bubbles: true });
+      this.dispatchEvent(event);
+    }
+  }
+
+  get textZoom() {
+    return this._textZoom;
+  }
+
+  get isSyntheticDocument() {
+    return this._isSyntheticDocument;
+  }
+
+  get hasContentOpener() {
+    let { frameLoader } = this.QueryInterface(
+      Components.interfaces.nsIFrameLoaderOwner
+    );
+    return frameLoader.tabParent.hasContentOpener;
+  }
+
   get outerWindowID() {
     return this._outerWindowID;
+  }
+
+  get innerWindowID() {
+    return this._innerWindowID;
+  }
+
+  set docShellIsActive(val) {
+    let { frameLoader } = this.QueryInterface(
+      Components.interfaces.nsIFrameLoaderOwner
+    );
+    frameLoader.tabParent.docShellIsActive = val;
+    return val;
+  }
+
+  get docShellIsActive() {
+    let { frameLoader } = this.QueryInterface(
+      Components.interfaces.nsIFrameLoaderOwner
+    );
+    return frameLoader.tabParent.docShellIsActive;
   }
 
   get manifestURI() {

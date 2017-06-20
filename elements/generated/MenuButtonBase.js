@@ -3,19 +3,41 @@ class XblMenuButtonBase extends XblButtonBase {
     super();
   }
   connectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-menu-button-base");
     this.prepend(comment);
+
+    try {
+      undefined;
+    } catch (e) {}
   }
   disconnectedCallback() {}
 
+  set buttonover(val) {
+    var v = val || val == "true";
+    if (!v && this.buttondown) {
+      this.buttondown = false;
+      this._pendingActive = true;
+    } else if (this._pendingActive) {
+      this.buttondown = true;
+      this._pendingActive = false;
+    }
+
+    if (v) this.setAttribute("buttonover", "true");
+    else this.removeAttribute("buttonover");
+    return val;
+  }
+
   get buttonover() {
     return this.getAttribute("buttonover");
+  }
+
+  set buttondown(val) {
+    if (val || val == "true") this.setAttribute("buttondown", "true");
+    else this.removeAttribute("buttondown");
+    return val;
   }
 
   get buttondown() {

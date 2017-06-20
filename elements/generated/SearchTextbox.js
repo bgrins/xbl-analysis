@@ -3,11 +3,6 @@ class XblSearchTextbox extends XblTextbox {
     super();
   }
   connectedCallback() {
-    try {
-      // Ensure the button state is up to date:
-      this.searchButton = this.searchButton;
-      this._searchButtonIcon.addEventListener("click", e => this._iconClick(e));
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -25,6 +20,12 @@ class XblSearchTextbox extends XblTextbox {
 </hbox>`;
     let comment = document.createComment("Creating xbl-search-textbox");
     this.prepend(comment);
+
+    try {
+      // Ensure the button state is up to date:
+      this.searchButton = this.searchButton;
+      this._searchButtonIcon.addEventListener("click", e => this._iconClick(e));
+    } catch (e) {}
   }
   disconnectedCallback() {}
 
@@ -37,8 +38,33 @@ class XblSearchTextbox extends XblTextbox {
     return parseInt(this.getAttribute("timeout")) || 500;
   }
 
+  set searchButton(val) {
+    if (val) {
+      this.setAttribute("searchbutton", "true");
+      this.removeAttribute("aria-autocomplete");
+      // Hack for the button to get the right accessible:
+      this._searchButtonIcon.setAttribute("onclick", "true");
+    } else {
+      this.removeAttribute("searchbutton");
+      this._searchButtonIcon.removeAttribute("onclick");
+      this.setAttribute("aria-autocomplete", "list");
+    }
+    return val;
+  }
+
   get searchButton() {
     return this.getAttribute("searchbutton") == "true";
+  }
+
+  set value(val) {
+    this.inputField.value = val;
+
+    if (val) this._searchIcons.selectedIndex = this.searchButton ? 0 : 1;
+    else this._searchIcons.selectedIndex = 0;
+
+    if (this._timer) clearTimeout(this._timer);
+
+    return val;
   }
 
   get value() {

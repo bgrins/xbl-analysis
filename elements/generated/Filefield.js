@@ -19,8 +19,29 @@ class XblFilefield extends XblBasetext {
   }
   disconnectedCallback() {}
 
+  set label(val) {
+    undefined;
+  }
+
   get label() {
     return this.getAttribute("label");
+  }
+
+  set file(val) {
+    this._file = val;
+    if (val) {
+      this.image = this._getIconURLForFile(val);
+      this.label = this._getDisplayNameForFile(val);
+    } else {
+      this.removeAttribute("image");
+      var bundle = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "bundle"
+      );
+      this.label = bundle.getString("downloadHelperNoneSelected");
+    }
+    return val;
   }
 
   get file() {

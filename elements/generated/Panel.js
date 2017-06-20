@@ -3,6 +3,12 @@ class XblPanel extends XblPopupBase {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-panel");
+    this.prepend(comment);
+
     try {
       if (this.getAttribute("backdrag") == "true" && !this._draggableStarted) {
         this._draggableStarted = true;
@@ -19,11 +25,6 @@ class XblPanel extends XblPopupBase {
         } catch (e) {}
       }
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-panel");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

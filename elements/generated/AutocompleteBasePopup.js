@@ -28,6 +28,10 @@ class XblAutocompleteBasePopup extends XblPopup {
   get isPopupHidingTick() {
     return this.mIsPopupHidingTick;
   }
+
+  get maxRows() {
+    return (this.mInput && this.mInput.maxRows) || this.defaultMaxRows;
+  }
   closePopup() {
     if (this.mPopupOpen) {
       this.hidePopup();

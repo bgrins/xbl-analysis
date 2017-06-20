@@ -183,8 +183,35 @@ class XblDatepickerGrid extends XblDatepicker {
   }
   disconnectedCallback() {}
 
+  set selectedItem(val) {
+    if (!val.value) return val;
+    if (val.parentNode.parentNode != this.dateField) return val;
+
+    if (this._selectedItem) this._selectedItem.removeAttribute("selected");
+    this._selectedItem = val;
+    val.setAttribute("selected", "true");
+    this._displayedDate.setDate(val.value);
+    return val;
+  }
+
   get selectedItem() {
     return this._selectedItem;
+  }
+
+  set displayedMonth(val) {
+    undefined;
+  }
+
+  get displayedMonth() {
+    undefined;
+  }
+
+  set displayedYear(val) {
+    undefined;
+  }
+
+  get displayedYear() {
+    undefined;
   }
   _init() {
     var locale =

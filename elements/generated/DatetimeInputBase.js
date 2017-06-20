@@ -3,6 +3,17 @@ class XblDatetimeInputBase extends BaseElement {
     super();
   }
   connectedCallback() {
+    console.log(this, "connected");
+
+    this.innerHTML = `<div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly">
+<span class="datetime-input-edit-wrapper" anonid="edit-wrapper">
+</span>
+<button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled">
+</button>
+</div>`;
+    let comment = document.createComment("Creating xbl-datetime-input-base");
+    this.prepend(comment);
+
     try {
       this.DEBUG = false;
       this.mInputElement = this.parentNode;
@@ -49,19 +60,12 @@ class XblDatetimeInputBase extends BaseElement {
         mozSystemGroup: true
       });
     } catch (e) {}
-
-    console.log(this, "connected");
-
-    this.innerHTML = `<div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly">
-<span class="datetime-input-edit-wrapper" anonid="edit-wrapper">
-</span>
-<button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled">
-</button>
-</div>`;
-    let comment = document.createComment("Creating xbl-datetime-input-base");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get EVENTS() {
+    return ["click", "focus", "blur", "copy", "cut", "paste", "mousedown"];
+  }
   log(aMsg) {
     if (this.DEBUG) {
       dump("[DateTimeBox] " + aMsg + "\n");

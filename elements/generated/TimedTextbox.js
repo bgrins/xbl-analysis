@@ -3,6 +3,12 @@ class XblTimedTextbox extends XblTextbox {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-timed-textbox");
+    this.prepend(comment);
+
     try {
       try {
         var consoleService = Components.classes[
@@ -23,11 +29,6 @@ class XblTimedTextbox extends XblTextbox {
         consoleService.logMessage(scriptError);
       } catch (e) {}
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-timed-textbox");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 
@@ -38,6 +39,12 @@ class XblTimedTextbox extends XblTextbox {
 
   get timeout() {
     return parseInt(this.getAttribute("timeout")) || 0;
+  }
+
+  set value(val) {
+    this.inputField.value = val;
+    if (this._timer) clearTimeout(this._timer);
+    return val;
   }
 
   get value() {

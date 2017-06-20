@@ -3,9 +3,6 @@ class XblDatepickerPopup extends XblDatepicker {
     super();
   }
   connectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -41,11 +38,36 @@ class XblDatepickerPopup extends XblDatepicker {
 </panel>`;
     let comment = document.createComment("Creating xbl-datepicker-popup");
     this.prepend(comment);
+
+    try {
+      undefined;
+    } catch (e) {}
   }
   disconnectedCallback() {}
 
+  set open(val) {
+    if (this.boxObject instanceof MenuBoxObject) this.boxObject.openMenu(val);
+    return val;
+  }
+
   get open() {
     return this.hasAttribute("open");
+  }
+
+  set displayedMonth(val) {
+    undefined;
+  }
+
+  get displayedMonth() {
+    undefined;
+  }
+
+  set displayedYear(val) {
+    undefined;
+  }
+
+  get displayedYear() {
+    undefined;
   }
 }
 customElements.define("xbl-datepicker-popup", XblDatepickerPopup);

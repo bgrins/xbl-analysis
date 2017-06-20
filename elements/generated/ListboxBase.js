@@ -15,6 +15,44 @@ class XblListboxBase extends XblBasecontrol {
     this.selectItem(val);
   }
 
+  get selectedItem() {
+    return this.selectedItems.length > 0 ? this.selectedItems[0] : null;
+  }
+
+  set selectedIndex(val) {
+    if (val >= 0) {
+      // This is a micro-optimization so that a call to getIndexOfItem or
+      // getItemAtIndex caused by _fireOnSelect (especially for derived
+      // widgets) won't loop the children.
+      this._selecting = {
+        item: this.getItemAtIndex(val),
+        index: val
+      };
+      this.selectItem(this._selecting.item);
+      delete this._selecting;
+    } else {
+      this.clearSelection();
+      this.currentItem = null;
+    }
+  }
+
+  get selectedIndex() {
+    if (this.selectedItems.length > 0)
+      return this.getIndexOfItem(this.selectedItems[0]);
+    return -1;
+  }
+
+  set value(val) {
+    var kids = this.getElementsByAttribute("value", val);
+    if (kids && kids.item(0)) this.selectItem(kids[0]);
+    return val;
+  }
+
+  get value() {
+    if (this.selectedItems.length > 0) return this.selectedItem.value;
+    return null;
+  }
+
   set selType(val) {
     this.setAttribute("seltype", val);
     return val;
@@ -24,12 +62,29 @@ class XblListboxBase extends XblBasecontrol {
     return this.getAttribute("seltype");
   }
 
+  set currentItem(val) {
+    undefined;
+  }
+
   get currentItem() {
     return this._currentItem;
   }
 
+  set currentIndex(val) {
+    if (val >= 0) this.currentItem = this.getItemAtIndex(val);
+    else this.currentItem = null;
+  }
+
+  get currentIndex() {
+    undefined;
+  }
+
   get selectedCount() {
     return this.selectedItems.length;
+  }
+
+  set disableKeyNavigation(val) {
+    undefined;
   }
 
   get disableKeyNavigation() {

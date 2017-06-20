@@ -15,6 +15,15 @@ class XblListitemCheckbox extends XblListitem {
   }
   disconnectedCallback() {}
 
+  set checked(val) {
+    if (val) this.setAttribute("checked", "true");
+    else this.removeAttribute("checked");
+    var event = document.createEvent("Events");
+    event.initEvent("CheckboxStateChange", true, true);
+    this.dispatchEvent(event);
+    return val;
+  }
+
   get checked() {
     return this.getAttribute("checked") == "true";
   }

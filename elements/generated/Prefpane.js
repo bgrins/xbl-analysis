@@ -58,6 +58,19 @@ class XblPrefpane extends BaseElement {
     return this.getElementsByTagName("preference");
   }
 
+  get helpTopic() {
+    // if there are tabs, and the selected tab provides a helpTopic, return that
+    var box = this.getElementsByTagName("tabbox");
+    if (box[0]) {
+      var tab = box[0].selectedTab;
+      if (tab && tab.hasAttribute("helpTopic"))
+        return tab.getAttribute("helpTopic");
+    }
+
+    // otherwise, return the helpTopic of the current panel
+    return this.getAttribute("helpTopic");
+  }
+
   set loaded(val) {
     this._loaded = val;
     return val;
@@ -65,6 +78,22 @@ class XblPrefpane extends BaseElement {
 
   get loaded() {
     return !this.src ? true : this._loaded;
+  }
+
+  get DeferredTask() {
+    let module = {};
+    Components.utils.import("resource://gre/modules/DeferredTask.jsm", module);
+    Object.defineProperty(this, "DeferredTask", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: module.DeferredTask
+    });
+    return module.DeferredTask;
+  }
+
+  get contentHeight() {
+    undefined;
   }
   writePreferences(aFlushToDisk) {
     // Write all values to preferences.

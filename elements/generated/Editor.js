@@ -3,6 +3,11 @@ class XblEditor extends BaseElement {
     super();
   }
   connectedCallback() {
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-editor");
+    this.prepend(comment);
+
     try {
       // Make window editable immediately only
       //   if the "editortype" attribute is supplied
@@ -10,13 +15,35 @@ class XblEditor extends BaseElement {
       //   where the type is determined during the apps's window.onload handler.
       if (this.editortype) this.makeEditable(this.editortype, true);
     } catch (e) {}
-
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-editor");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get finder() {
+    if (!this._finder) {
+      if (!this.docShell) return null;
+
+      let Finder = Components.utils.import(
+        "resource://gre/modules/Finder.jsm",
+        {}
+      ).Finder;
+      this._finder = new Finder(this.docShell);
+    }
+    return this._finder;
+  }
+
+  get fastFind() {
+    if (!this._fastFind) {
+      if (!("@mozilla.org/typeaheadfind;1" in Components.classes)) return null;
+
+      if (!this.docShell) return null;
+
+      this._fastFind = Components.classes[
+        "@mozilla.org/typeaheadfind;1"
+      ].createInstance(Components.interfaces.nsITypeAheadFind);
+      this._fastFind.init(this.docShell);
+    }
+    return this._fastFind;
+  }
 
   set editortype(val) {
     this.setAttribute("editortype", val);
@@ -33,6 +60,13 @@ class XblEditor extends BaseElement {
 
   get contentDocument() {
     return this.webNavigation.document;
+  }
+
+  get docShell() {
+    let frameLoader = this.QueryInterface(
+      Components.interfaces.nsIFrameLoaderOwner
+    ).frameLoader;
+    return frameLoader ? frameLoader.docShell : null;
   }
 
   get currentURI() {
@@ -89,6 +123,20 @@ class XblEditor extends BaseElement {
 
   get isSyntheticDocument() {
     return this.contentDocument.isSyntheticDocument;
+  }
+
+  get messageManager() {
+    var owner = this.QueryInterface(Components.interfaces.nsIFrameLoaderOwner);
+    if (!owner.frameLoader) {
+      return null;
+    }
+    return owner.frameLoader.messageManager;
+  }
+
+  get outerWindowID() {
+    return this.contentWindow
+      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+      .getInterface(Components.interfaces.nsIDOMWindowUtils).outerWindowID;
   }
   makeEditable(editortype, waitForUrlLoad) {
     this.editingSession.makeWindowEditable(

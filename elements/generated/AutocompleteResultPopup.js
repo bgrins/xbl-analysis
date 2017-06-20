@@ -21,16 +21,64 @@ class XblAutocompleteResultPopup extends XblAutocompleteBasePopup {
   }
   disconnectedCallback() {}
 
+  set showCommentColumn(val) {
+    if (!val && this.mShowCommentColumn) {
+      // reset the flex on the value column and remove the comment column
+      document
+        .getElementById("treecolAutoCompleteValue")
+        .setAttribute("flex", 1);
+      this.removeColumn("treecolAutoCompleteComment");
+    } else if (val && !this.mShowCommentColumn) {
+      // reset the flex on the value column and add the comment column
+      document
+        .getElementById("treecolAutoCompleteValue")
+        .setAttribute("flex", 2);
+      this.addColumn({ id: "treecolAutoCompleteComment", flex: 1 });
+    }
+    this.mShowCommentColumn = val;
+    return val;
+  }
+
   get showCommentColumn() {
     return this.mShowCommentColumn;
+  }
+
+  set showImageColumn(val) {
+    if (!val && this.mShowImageColumn) {
+      // remove the image column
+      this.removeColumn("treecolAutoCompleteImage");
+    } else if (val && !this.mShowImageColumn) {
+      // add the image column
+      this.addColumn({ id: "treecolAutoCompleteImage", flex: 1 });
+    }
+    this.mShowImageColumn = val;
+    return val;
   }
 
   get showImageColumn() {
     return this.mShowImageColumn;
   }
 
+  set selectedIndex(val) {
+    this.tree.view.selection.select(val);
+    if (this.tree.treeBoxObject.height > 0)
+      this.tree.treeBoxObject.ensureRowIsVisible(val < 0 ? 0 : val);
+    // Fire select event on xul:tree so that accessibility API
+    // support layer can fire appropriate accessibility events.
+    var event = document.createEvent("Events");
+    event.initEvent("select", true, true);
+    this.tree.dispatchEvent(event);
+    return val;
+  }
+
   get selectedIndex() {
     return this.tree.currentIndex;
+  }
+
+  set view(val) {
+    // We must do this by hand because the tree binding may not be ready yet
+    this.mView = val;
+    this.tree.boxObject.view = val;
   }
 
   get view() {

@@ -3,12 +3,6 @@ class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
     super();
   }
   connectedCallback() {
-    try {
-      this._scrollDelay = this._prefBranch.getIntPref(
-        "toolkit.scrollbox.clickToScroll.scrollDelay",
-        this._scrollDelay
-      );
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -28,6 +22,13 @@ class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
       "Creating xbl-arrowscrollbox-clicktoscroll"
     );
     this.prepend(comment);
+
+    try {
+      this._scrollDelay = this._prefBranch.getIntPref(
+        "toolkit.scrollbox.clickToScroll.scrollDelay",
+        this._scrollDelay
+      );
+    } catch (e) {}
   }
   disconnectedCallback() {}
   notify(aTimer) {

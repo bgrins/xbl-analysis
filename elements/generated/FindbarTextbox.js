@@ -10,6 +10,10 @@ class XblFindbarTextbox extends XblTextbox {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get findbar() {
+    undefined;
+  }
   _handleEnter(aEvent) {
     if (this.findbar._findMode == this.findbar.FIND_NORMAL) {
       let findString = this.findbar._findField;

@@ -3,6 +3,12 @@ class XblSuppresschangeevent extends XblScale {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-suppresschangeevent");
+    this.prepend(comment);
+
     try {
       /* eslint-enable no-multi-spaces */
       this.positionValue = "";
@@ -15,13 +21,12 @@ class XblSuppresschangeevent extends XblScale {
       this.Utils = document.getBindingParent(this.parentNode).Utils;
       this.valueBar = this.Utils.progressBar;
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-suppresschangeevent");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get accessibleName() {
+    undefined;
+  }
   valueChanged(which, newValue, userChanged) {
     // This method is a copy of the base binding's valueChanged(), except that it does
     // not dispatch a |change| event (to avoid exposing the event to web content), and

@@ -19,6 +19,16 @@ class XblMenulistEditable extends XblMenulist {
   }
   disconnectedCallback() {}
 
+  get inputField() {
+    if (!this.mInputField)
+      this.mInputField = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "input"
+      );
+    return this.mInputField;
+  }
+
   set label(val) {
     this.inputField.value = val;
     return val;
@@ -28,8 +38,56 @@ class XblMenulistEditable extends XblMenulist {
     return this.inputField.value;
   }
 
+  set value(val) {
+    // Override menulist's value setter to refer to the inputField's value
+    // (Allows using "menulist.value" instead of "menulist.inputField.value")
+    this.inputField.value = val;
+    this.setAttribute("value", val);
+    this.setAttribute("label", val);
+    this._selectInputFieldValueInList();
+    return val;
+  }
+
   get value() {
     return this.inputField.value;
+  }
+
+  set selectedItem(val) {
+    var oldval = this.mSelectedInternal;
+    if (oldval == val) return val;
+
+    if (val && !this.contains(val)) return val;
+
+    // This doesn't touch inputField.value or "value" and "label" attributes
+    this.setSelectionInternal(val);
+    if (val) {
+      // Editable menulist uses "label" as its "value"
+      var label = val.getAttribute("label");
+      this.inputField.value = label;
+      this.setAttribute("value", label);
+      this.setAttribute("label", label);
+    } else {
+      this.inputField.value = "";
+      this.removeAttribute("value");
+      this.removeAttribute("label");
+    }
+
+    var event = document.createEvent("Events");
+    event.initEvent("select", true, true);
+    this.dispatchEvent(event);
+
+    event = document.createEvent("Events");
+    event.initEvent("ValueChange", true, true);
+    this.dispatchEvent(event);
+
+    return val;
+  }
+
+  get selectedItem() {
+    // Make sure internally-selected item
+    //  is in sync with inputField.value
+    this._selectInputFieldValueInList();
+    return this.mSelectedInternal;
   }
 
   set disableautoselect(val) {
@@ -40,6 +98,12 @@ class XblMenulistEditable extends XblMenulist {
 
   get disableautoselect() {
     return this.hasAttribute("disableautoselect");
+  }
+
+  get editor() {
+    const nsIDOMNSEditableElement =
+      Components.interfaces.nsIDOMNSEditableElement;
+    return this.inputField.QueryInterface(nsIDOMNSEditableElement).editor;
   }
 
   set readOnly(val) {

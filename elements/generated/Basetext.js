@@ -46,5 +46,22 @@ class XblBasetext extends XblBasecontrol {
   get command() {
     return this.getAttribute("command");
   }
+
+  set accessKey(val) {
+    // Always store on the control
+    this.setAttribute("accesskey", val);
+    // If there is a label, change the accesskey on the labelElement
+    // if it's also set there
+    if (this.labelElement) {
+      this.labelElement.accessKey = val;
+    }
+    return val;
+  }
+
+  get accessKey() {
+    return this.labelElement
+      ? this.labelElement.accessKey
+      : this.getAttribute("accesskey");
+  }
 }
 customElements.define("xbl-basetext", XblBasetext);

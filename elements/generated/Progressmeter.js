@@ -23,6 +23,27 @@ class XblProgressmeter extends BaseElement {
     return this.getAttribute("mode");
   }
 
+  set value(val) {
+    var p = Math.round(val);
+    var max = Math.round(this.max);
+    if (p < 0) p = 0;
+    else if (p > max) p = max;
+    var c = this.value;
+    if (p != c) {
+      var delta = p - c;
+      if (delta < 0) delta = -delta;
+      if (delta > 3 || p == 0 || p == max) {
+        this.setAttribute("value", p);
+        // Fire DOM event so that accessible value change events occur
+        var event = document.createEvent("Events");
+        event.initEvent("ValueChange", true, true);
+        this.dispatchEvent(event);
+      }
+    }
+
+    return val;
+  }
+
   get value() {
     return this.getAttribute("value") || "0";
   }

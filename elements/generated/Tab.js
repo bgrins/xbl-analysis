@@ -17,8 +17,29 @@ class XblTab extends XblControlItem {
   }
   disconnectedCallback() {}
 
+  get control() {
+    var parent = this.parentNode;
+    if (parent instanceof Components.interfaces.nsIDOMXULSelectControlElement)
+      return parent;
+    return null;
+  }
+
   get selected() {
     return this.getAttribute("selected") == "true";
+  }
+
+  set _selected(val) {
+    if (val) {
+      this.setAttribute("selected", "true");
+      this.setAttribute("visuallyselected", "true");
+    } else {
+      this.removeAttribute("selected");
+      this.removeAttribute("visuallyselected");
+    }
+
+    this._setPositionAttributes(val);
+
+    return val;
   }
 
   set linkedPanel(val) {
@@ -28,6 +49,18 @@ class XblTab extends XblControlItem {
 
   get linkedPanel() {
     return this.getAttribute("linkedpanel");
+  }
+
+  get TelemetryStopwatch() {
+    let module = {};
+    Cu.import("resource://gre/modules/TelemetryStopwatch.jsm", module);
+    Object.defineProperty(this, "TelemetryStopwatch", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: module.TelemetryStopwatch
+    });
+    return module.TelemetryStopwatch;
   }
   _setPositionAttributes(aSelected) {
     if (this.previousSibling && this.previousSibling.localName == "tab") {

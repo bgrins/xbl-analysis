@@ -3,6 +3,12 @@ class XblDatetimePopup extends XblArrowpanel {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-datetime-popup");
+    this.prepend(comment);
+
     try {
       this.mozIntl = Components.classes["@mozilla.org/mozintl;1"].getService(
         Components.interfaces.mozIMozIntl
@@ -10,13 +16,12 @@ class XblDatetimePopup extends XblArrowpanel {
       // Notify DateTimePickerHelper.jsm that binding is ready.
       this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-datetime-popup");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get dateTimePopupFrame() {
+    undefined;
+  }
   openPicker(type, anchor, detail) {
     this.type = type;
     this.pickerState = {};

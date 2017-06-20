@@ -3,19 +3,6 @@ class XblAutocomplete extends XblTextbox {
     super();
   }
   connectedCallback() {
-    try {
-      this.mController = Components.classes[
-        "@mozilla.org/autocomplete/controller;1"
-      ].getService(Components.interfaces.nsIAutoCompleteController);
-
-      this._searchBeginHandler = this.initEventHandler("searchbegin");
-      this._searchCompleteHandler = this.initEventHandler("searchcomplete");
-      this._textEnteredHandler = this.initEventHandler("textentered");
-      this._textRevertedHandler = this.initEventHandler("textreverted");
-
-      // For security reasons delay searches on pasted values.
-      this.inputField.controllers.insertControllerAt(0, this._pasteController);
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -41,8 +28,51 @@ class XblAutocomplete extends XblTextbox {
 </children>`;
     let comment = document.createComment("Creating xbl-autocomplete");
     this.prepend(comment);
+
+    try {
+      this.mController = Components.classes[
+        "@mozilla.org/autocomplete/controller;1"
+      ].getService(Components.interfaces.nsIAutoCompleteController);
+
+      this._searchBeginHandler = this.initEventHandler("searchbegin");
+      this._searchCompleteHandler = this.initEventHandler("searchcomplete");
+      this._textEnteredHandler = this.initEventHandler("textentered");
+      this._textRevertedHandler = this.initEventHandler("textreverted");
+
+      // For security reasons delay searches on pasted values.
+      this.inputField.controllers.insertControllerAt(0, this._pasteController);
+    } catch (e) {}
   }
   disconnectedCallback() {}
+
+  get popup() {
+    // Memoize the result in a field rather than replacing this property,
+    // so that it can be reset along with the binding.
+    if (this._popup) {
+      return this._popup;
+    }
+
+    let popup = null;
+    let popupId = this.getAttribute("autocompletepopup");
+    if (popupId) {
+      popup = document.getElementById(popupId);
+    }
+    if (!popup) {
+      popup = document.createElement("panel");
+      popup.setAttribute("type", "autocomplete");
+      popup.setAttribute("noautofocus", "true");
+
+      let popupset = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "popupset"
+      );
+      popupset.appendChild(popup);
+    }
+    popup.mInput = this;
+
+    return (this._popup = popup);
+  }
 
   get controller() {
     return this.mController;
@@ -126,6 +156,17 @@ class XblAutocomplete extends XblTextbox {
     return val;
   }
 
+  get timeout() {
+    // For security reasons delay searches on pasted values.
+    if (this._valueIsPasted) {
+      let t = parseInt(this.getAttribute("pastetimeout"));
+      return isNaN(t) ? 1000 : t;
+    }
+
+    let t = parseInt(this.getAttribute("timeout"));
+    return isNaN(t) ? 50 : t;
+  }
+
   set searchParam(val) {
     this.setAttribute("autocompletesearchparam", val);
     return val;
@@ -140,12 +181,54 @@ class XblAutocomplete extends XblTextbox {
     return this.mSearchNames.length;
   }
 
+  get PrivateBrowsingUtils() {
+    let module = {};
+    Components.utils.import(
+      "resource://gre/modules/PrivateBrowsingUtils.jsm",
+      module
+    );
+    Object.defineProperty(this, "PrivateBrowsingUtils", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: module.PrivateBrowsingUtils
+    });
+    return module.PrivateBrowsingUtils;
+  }
+
   get inPrivateContext() {
     return this.PrivateBrowsingUtils.isWindowPrivate(window);
   }
 
   get noRollupOnCaretMove() {
     return this.popup.getAttribute("norolluponanchor") == "true";
+  }
+
+  set textValue(val) {
+    if (typeof this.onBeforeTextValueSet == "function")
+      val = this.onBeforeTextValueSet(val);
+
+    this.value = val;
+
+    // Completing a result should simulate the user typing the result, so
+    // fire an input event.
+    let evt = document.createEvent("UIEvents");
+    evt.initUIEvent("input", true, false, window, 0);
+    this.mIgnoreInput = true;
+    this.dispatchEvent(evt);
+    this.mIgnoreInput = false;
+
+    return this.value;
+  }
+
+  get textValue() {
+    if (typeof this.onBeforeTextValueGet == "function") {
+      let result = this.onBeforeTextValueGet();
+      if (result) {
+        return result.value;
+      }
+    }
+    return this.value;
   }
 
   get editable() {
@@ -161,8 +244,42 @@ class XblAutocomplete extends XblTextbox {
     return this.getAttribute("crop");
   }
 
+  set open(val) {
+    if (val) this.showHistoryPopup();
+    else this.closePopup();
+  }
+
   get open() {
     return this.getAttribute("open") == "true";
+  }
+
+  set value(val) {
+    this.mIgnoreInput = true;
+
+    if (typeof this.onBeforeValueSet == "function")
+      val = this.onBeforeValueSet(val);
+
+    if (typeof this.trimValue == "function" && !this._disableTrim)
+      val = this.trimValue(val);
+
+    this.valueIsTyped = false;
+    this.inputField.value = val;
+
+    if (typeof this.formatValue == "function") this.formatValue();
+
+    this.mIgnoreInput = false;
+    var event = document.createEvent("Events");
+    event.initEvent("ValueChange", true, true);
+    this.inputField.dispatchEvent(event);
+    return val;
+  }
+
+  get value() {
+    if (typeof this.onBeforeValueGet == "function") {
+      var result = this.onBeforeValueGet();
+      if (result) return result.value;
+    }
+    return this.inputField.value;
   }
 
   get focused() {

@@ -28,6 +28,10 @@ class XblPopupBase extends BaseElement {
     return this.getAttribute("position");
   }
 
+  get popupBoxObject() {
+    undefined;
+  }
+
   get state() {
     return this.popupBoxObject.popupState;
   }
@@ -38,6 +42,22 @@ class XblPopupBase extends BaseElement {
 
   get anchorNode() {
     return this.popupBoxObject.anchorNode;
+  }
+
+  set autoPosition(val) {
+    return (this.popupBoxObject.autoPosition = val);
+  }
+
+  get autoPosition() {
+    return this.popupBoxObject.autoPosition;
+  }
+
+  get alignmentPosition() {
+    return this.popupBoxObject.alignmentPosition;
+  }
+
+  get alignmentOffset() {
+    return this.popupBoxObject.alignmentOffset;
   }
   openPopup(
     aAnchorElement,

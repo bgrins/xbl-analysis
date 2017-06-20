@@ -19,8 +19,54 @@ class XblAutocompleteRichResultPopup extends XblAutocompleteBasePopup {
   }
   disconnectedCallback() {}
 
+  set selectedIndex(val) {
+    this.richlistbox.selectedIndex = val;
+    // Since ensureElementIsVisible may cause an expensive Layout flush,
+    // invoke it only if there may be a scrollbar, so if we could fetch
+    // more results than we can show at once.
+    // maxResults is the maximum number of fetched results, maxRows is the
+    // maximum number of rows we show at once, without a scrollbar.
+    if (this.mPopupOpen && this.maxResults > this.maxRows) {
+      // when clearing the selection (val == -1, so selectedItem will be
+      // null), we want to scroll back to the top.  see bug #406194
+      this.richlistbox.ensureElementIsVisible(
+        this.richlistbox.selectedItem || this.richlistbox.firstChild
+      );
+    }
+    return val;
+  }
+
   get selectedIndex() {
     return this.richlistbox.selectedIndex;
+  }
+
+  get maxResults() {
+    // This is how many richlistitems will be kept around.
+    // Note, this getter may be overridden, or instances
+    // can have the nomaxresults attribute set to have no
+    // limit.
+    if (this.getAttribute("nomaxresults") == "true") {
+      return Infinity;
+    }
+
+    return 20;
+  }
+
+  get _matchCount() {
+    return Math.min(this.mInput.controller.matchCount, this.maxResults);
+  }
+
+  set siteIconStart(val) {
+    if (val != this._siteIconStart) {
+      this._siteIconStart = val;
+      for (let item of this.richlistbox.childNodes) {
+        let changed = item.adjustSiteIconStart(val);
+        if (changed) {
+          item.handleOverUnderflow();
+        }
+      }
+    }
+    return val;
   }
 
   get siteIconStart() {

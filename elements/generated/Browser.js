@@ -3,6 +3,13 @@ class XblBrowser extends BaseElement {
     super();
   }
   connectedCallback() {
+    console.log(this, "connected");
+
+    this.innerHTML = `<children>
+</children>`;
+    let comment = document.createComment("Creating xbl-browser");
+    this.prepend(comment);
+
     try {
       try {
         // |webNavigation.sessionHistory| will have been set by the frame
@@ -72,15 +79,14 @@ class XblBrowser extends BaseElement {
         }
       }
     } catch (e) {}
-
-    console.log(this, "connected");
-
-    this.innerHTML = `<children>
-</children>`;
-    let comment = document.createComment("Creating xbl-browser");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get autoscrollEnabled() {
+    if (this.getAttribute("autoscroll") == "false") return false;
+
+    return this.mPrefs.getBoolPref("general.autoScroll", true);
+  }
 
   get canGoBack() {
     return this.webNavigation.canGoBack;
@@ -88,6 +94,27 @@ class XblBrowser extends BaseElement {
 
   get canGoForward() {
     return this.webNavigation.canGoForward;
+  }
+
+  set homePage(val) {
+    this.setAttribute("homepage", val);
+    return val;
+  }
+
+  get homePage() {
+    var uri;
+
+    if (this.hasAttribute("homepage")) uri = this.getAttribute("homepage");
+    else uri = "http://www.mozilla.org/"; // widget pride
+
+    return uri;
+  }
+
+  get currentURI() {
+    if (this.webNavigation) {
+      return this.webNavigation.currentURI;
+    }
+    return null;
   }
 
   get documentURI() {
@@ -102,6 +129,38 @@ class XblBrowser extends BaseElement {
     return this.mPrefs.QueryInterface(Components.interfaces.nsIPrefService);
   }
 
+  set sameProcessAsFrameLoader(val) {
+    this._sameProcessAsFrameLoader = Cu.getWeakReference(val);
+  }
+
+  get sameProcessAsFrameLoader() {
+    return (
+      this._sameProcessAsFrameLoader && this._sameProcessAsFrameLoader.get()
+    );
+  }
+
+  get docShell() {
+    if (this._docShell) return this._docShell;
+
+    let frameLoader = this.QueryInterface(
+      Components.interfaces.nsIFrameLoaderOwner
+    ).frameLoader;
+    if (!frameLoader) return null;
+    this._docShell = frameLoader.docShell;
+    return this._docShell;
+  }
+
+  get loadContext() {
+    if (this._loadContext) return this._loadContext;
+
+    let frameLoader = this.QueryInterface(
+      Components.interfaces.nsIFrameLoaderOwner
+    ).frameLoader;
+    if (!frameLoader) return null;
+    this._loadContext = frameLoader.loadContext;
+    return this._loadContext;
+  }
+
   get autoCompletePopup() {
     return document.getElementById(this.getAttribute("autocompletepopup"));
   }
@@ -110,8 +169,130 @@ class XblBrowser extends BaseElement {
     return document.getElementById(this.getAttribute("datetimepicker"));
   }
 
+  set docShellIsActive(val) {
+    if (this.docShell) return (this.docShell.isActive = val);
+    return false;
+  }
+
+  get docShellIsActive() {
+    return this.docShell && this.docShell.isActive;
+  }
+
+  get imageDocument() {
+    var document = this.contentDocument;
+    if (
+      !document ||
+      !(document instanceof Components.interfaces.nsIImageDocument)
+    )
+      return null;
+
+    try {
+      return {
+        width: document.imageRequest.image.width,
+        height: document.imageRequest.image.height
+      };
+    } catch (e) {}
+    return null;
+  }
+
   get isRemoteBrowser() {
     return this.getAttribute("remote") == "true";
+  }
+
+  get remoteType() {
+    if (!this.isRemoteBrowser) {
+      return null;
+    }
+
+    let remoteType = this.getAttribute("remoteType");
+    if (remoteType) {
+      return remoteType;
+    }
+
+    let E10SUtils = Components.utils.import(
+      "resource://gre/modules/E10SUtils.jsm",
+      {}
+    ).E10SUtils;
+    return E10SUtils.DEFAULT_REMOTE_TYPE;
+  }
+
+  get messageManager() {
+    var owner = this.QueryInterface(Components.interfaces.nsIFrameLoaderOwner);
+    if (!owner.frameLoader) {
+      return null;
+    }
+    return owner.frameLoader.messageManager;
+  }
+
+  get webNavigation() {
+    if (!this._webNavigation) {
+      if (!this.docShell) {
+        return null;
+      }
+      this._webNavigation = this.docShell.QueryInterface(
+        Components.interfaces.nsIWebNavigation
+      );
+    }
+    return this._webNavigation;
+  }
+
+  get webBrowserFind() {
+    if (!this._webBrowserFind)
+      this._webBrowserFind = this.docShell
+        .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+        .getInterface(Components.interfaces.nsIWebBrowserFind);
+    return this._webBrowserFind;
+  }
+
+  get finder() {
+    if (!this._finder) {
+      if (!this.docShell) return null;
+
+      let Finder = Components.utils.import(
+        "resource://gre/modules/Finder.jsm",
+        {}
+      ).Finder;
+      this._finder = new Finder(this.docShell);
+    }
+    return this._finder;
+  }
+
+  get fastFind() {
+    if (!this._fastFind) {
+      if (!("@mozilla.org/typeaheadfind;1" in Components.classes)) return null;
+
+      var tabBrowser = this.getTabBrowser();
+      if (tabBrowser && "fastFind" in tabBrowser)
+        return (this._fastFind = tabBrowser.fastFind);
+
+      if (!this.docShell) return null;
+
+      this._fastFind = Components.classes[
+        "@mozilla.org/typeaheadfind;1"
+      ].createInstance(Components.interfaces.nsITypeAheadFind);
+      this._fastFind.init(this.docShell);
+    }
+    return this._fastFind;
+  }
+
+  get outerWindowID() {
+    return this.contentWindow
+      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+      .getInterface(Components.interfaces.nsIDOMWindowUtils).outerWindowID;
+  }
+
+  get innerWindowID() {
+    try {
+      return this.contentWindow
+        .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+        .getInterface(Components.interfaces.nsIDOMWindowUtils)
+        .currentInnerWindowID;
+    } catch (e) {
+      if (e.result != Cr.NS_ERROR_NOT_AVAILABLE) {
+        throw e;
+      }
+      return null;
+    }
   }
 
   get webProgress() {
@@ -165,6 +346,11 @@ class XblBrowser extends BaseElement {
     return this.contentDocument.title;
   }
 
+  set characterSet(val) {
+    this.docShell.charset = val;
+    this.docShell.gatherCharsetMenuTelemetry();
+  }
+
   get characterSet() {
     return this.docShell.charset;
   }
@@ -187,6 +373,52 @@ class XblBrowser extends BaseElement {
     return this.getAttribute("showresizer") == "true";
   }
 
+  get manifestURI() {
+    return (
+      this.contentDocument.documentElement &&
+      this.contentDocument.documentElement.getAttribute("manifest")
+    );
+  }
+
+  set fullZoom(val) {
+    this.markupDocumentViewer.fullZoom = val;
+  }
+
+  get fullZoom() {
+    return this.markupDocumentViewer.fullZoom;
+  }
+
+  set textZoom(val) {
+    this.markupDocumentViewer.textZoom = val;
+  }
+
+  get textZoom() {
+    return this.markupDocumentViewer.textZoom;
+  }
+
+  get effectiveTextZoom() {
+    return this.markupDocumentViewer.effectiveTextZoom;
+  }
+
+  get isSyntheticDocument() {
+    return this.contentDocument.mozSyntheticDocument;
+  }
+
+  get hasContentOpener() {
+    return !!this.contentWindow.opener;
+  }
+
+  get mStrBundle() {
+    if (!this._mStrBundle) {
+      // need to create string bundle manually instead of using <xul:stringbundle/>
+      // see bug 63370 for details
+      this._mStrBundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
+        .getService(Components.interfaces.nsIStringBundleService)
+        .createBundle("chrome://global/locale/browser.properties");
+    }
+    return this._mStrBundle;
+  }
+
   get pageReport() {
     return this.blockedPopups;
   }
@@ -197,6 +429,33 @@ class XblBrowser extends BaseElement {
 
   get audioBlocked() {
     return this._audioBlocked;
+  }
+
+  set securityUI(val) {
+    this.docShell.securityUI = val;
+  }
+
+  get securityUI() {
+    if (!this.docShell.securityUI) {
+      const SECUREBROWSERUI_CONTRACTID = "@mozilla.org/secure_browser_ui;1";
+      if (
+        !this.hasAttribute("disablesecurity") &&
+        SECUREBROWSERUI_CONTRACTID in Components.classes
+      ) {
+        var securityUI = Components.classes[
+          SECUREBROWSERUI_CONTRACTID
+        ].createInstance(Components.interfaces.nsISecureBrowserUI);
+        securityUI.init(this.contentWindow);
+      }
+    }
+
+    return this.docShell.securityUI;
+  }
+
+  set userTypedValue(val) {
+    this.urlbarChangeTracker.userTyped();
+    this._userTypedValue = val;
+    return val;
   }
 
   get userTypedValue() {

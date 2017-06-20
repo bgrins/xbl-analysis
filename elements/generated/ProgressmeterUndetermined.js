@@ -3,9 +3,6 @@ class XblProgressmeterUndetermined extends XblProgressmeter {
     super();
   }
   connectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -17,6 +14,10 @@ class XblProgressmeterUndetermined extends XblProgressmeter {
       "Creating xbl-progressmeter-undetermined"
     );
     this.prepend(comment);
+
+    try {
+      undefined;
+    } catch (e) {}
   }
   disconnectedCallback() {}
   _init() {

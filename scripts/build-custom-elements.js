@@ -123,21 +123,22 @@ function getJSForBinding(binding) {
         "this.innerHTML = `" + childMarkup.join('\n') + "`;" :
         "";
 
-  let constructor = (binding.find("constructor") || [])[0];
+  let xblconstructor = (binding.find("constructor") || [])[0];
   // Try / catch since many components will fail when loaded in a tab due to chrome references
-  constructor = constructor ? `try { ${constructor.cdata} } catch(e) { }` : '';
+  xblconstructor = xblconstructor ? `try { ${xblconstructor.cdata} } catch(e) { }` : '';
   js.push(`
     constructor() {
       super();
     }
     connectedCallback() {
-      ${constructor}
       ${hasExtends ? 'super.connectedCallback()' : ''}
       console.log(this, 'connected');
 
       ${innerHTML}
       let comment = document.createComment('Creating ${elementName}');
       this.prepend(comment);
+
+      ${xblconstructor}
     }
     disconnectedCallback() { }
   `);
@@ -150,11 +151,23 @@ function getJSForBinding(binding) {
           ${property.attrs.onset}
         }
       `);
+    } else if(property.find('setter').length) {
+      js.push(`
+        set ${property.attrs.name}(val) {
+          ${property.find('setter')[0].cdata}
+        }
+      `);
     }
     if (property.attrs.onget) {
       js.push(`
         get ${property.attrs.name}() {
           ${property.attrs.onget}
+        }
+      `);
+    } else if(property.find('getter').length) {
+      js.push(`
+        get ${property.attrs.name}() {
+          ${property.find('getter')[0].cdata}
         }
       `);
     }

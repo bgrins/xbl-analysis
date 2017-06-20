@@ -14,5 +14,20 @@ class XblMenuitemBase extends XblControlItem {
   get selected() {
     return this.getAttribute("selected") == "true";
   }
+
+  get control() {
+    var parent = this.parentNode;
+    if (
+      parent &&
+      parent.parentNode instanceof
+        Components.interfaces.nsIDOMXULSelectControlElement
+    )
+      return parent.parentNode;
+    return null;
+  }
+
+  get parentContainer() {
+    undefined;
+  }
 }
 customElements.define("xbl-menuitem-base", XblMenuitemBase);

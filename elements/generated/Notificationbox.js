@@ -18,8 +18,27 @@ class XblNotificationbox extends BaseElement {
   }
   disconnectedCallback() {}
 
+  get _allowAnimation() {
+    var prefs = Components.classes[
+      "@mozilla.org/preferences-service;1"
+    ].getService(Components.interfaces.nsIPrefBranch);
+    return prefs.getBoolPref("toolkit.cosmeticAnimations.enabled");
+  }
+
+  set notificationsHidden(val) {
+    if (val) this.setAttribute("notificationshidden", true);
+    else this.removeAttribute("notificationshidden");
+    return val;
+  }
+
   get notificationsHidden() {
     return this.getAttribute("notificationshidden") == "true";
+  }
+
+  get allNotifications() {
+    var closedNotification = this._closedNotification;
+    var notifications = this.getElementsByTagName("notification");
+    return Array.filter(notifications, n => n != closedNotification);
   }
   getNotificationWithValue(aValue) {
     var notifications = this.allNotifications;

@@ -3,9 +3,6 @@ class XblColorpickerButton extends XblBasecontrol {
     super();
   }
   connectedCallback() {
-    try {
-      this.initialize();
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -17,6 +14,10 @@ class XblColorpickerButton extends XblBasecontrol {
 </panel>`;
     let comment = document.createComment("Creating xbl-colorpicker-button");
     this.prepend(comment);
+
+    try {
+      this.initialize();
+    } catch (e) {}
   }
   disconnectedCallback() {}
 
@@ -26,6 +27,21 @@ class XblColorpickerButton extends XblBasecontrol {
 
   get open() {
     return this.getAttribute("open") == "true";
+  }
+
+  set color(val) {
+    this.mColorBox.setAttribute(
+      "src",
+      "data:image/svg+xml,<svg style='background-color: " +
+        encodeURIComponent(val) +
+        "' xmlns='http://www.w3.org/2000/svg' />"
+    );
+    this.setAttribute("color", val);
+    return val;
+  }
+
+  get color() {
+    return this.getAttribute("color");
   }
   initialize() {
     this.mColorBox = document.getAnonymousElementByAttribute(

@@ -3,12 +3,6 @@ class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistit
     super();
   }
   connectedCallback() {
-    try {
-      // Unlike other autocomplete items, the height of the insecure warning
-      // increases by wrapping. So "forceHandleUnderflow" is for container to
-      // recalculate an item's height and width.
-      this.classList.add("forceHandleUnderflow");
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -48,8 +42,24 @@ class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistit
       "Creating xbl-autocomplete-richlistitem-insecure-field"
     );
     this.prepend(comment);
+
+    try {
+      // Unlike other autocomplete items, the height of the insecure warning
+      // increases by wrapping. So "forceHandleUnderflow" is for container to
+      // recalculate an item's height and width.
+      this.classList.add("forceHandleUnderflow");
+    } catch (e) {}
   }
   disconnectedCallback() {}
+
+  get _learnMoreString() {
+    if (!this.__learnMoreString) {
+      this.__learnMoreString = Services.strings
+        .createBundle("chrome://passwordmgr/locale/passwordmgr.properties")
+        .GetStringFromName("insecureFieldWarningLearnMore");
+    }
+    return this.__learnMoreString;
+  }
   _getSearchTokens(aSearch) {
     return [this._learnMoreString.toLowerCase()];
   }

@@ -3,6 +3,11 @@ class XblResizer extends BaseElement {
     super();
   }
   connectedCallback() {
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-resizer");
+    this.prepend(comment);
+
     try {
       // don't do this for viewport resizers; causes a crash related to
       // bugs 563665 and 581536 otherwise
@@ -21,11 +26,6 @@ class XblResizer extends BaseElement {
         this.setAttribute("rtl", "true");
       }
     } catch (e) {}
-
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-resizer");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

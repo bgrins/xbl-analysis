@@ -3,13 +3,6 @@ class XblScale extends XblBasecontrol {
     super();
   }
   connectedCallback() {
-    try {
-      this._userChanged = false;
-      var value = parseInt(this.getAttribute("value"), 10);
-      if (!isNaN(value)) this.value = value;
-      else if (this.min > 0) this.value = this.min;
-      else if (this.max < 0) this.value = this.max;
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -19,6 +12,14 @@ class XblScale extends XblBasecontrol {
 </slider>`;
     let comment = document.createComment("Creating xbl-scale");
     this.prepend(comment);
+
+    try {
+      this._userChanged = false;
+      var value = parseInt(this.getAttribute("value"), 10);
+      if (!isNaN(value)) this.value = value;
+      else if (this.min > 0) this.value = this.min;
+      else if (this.max < 0) this.value = this.max;
+    } catch (e) {}
   }
   disconnectedCallback() {}
 
@@ -60,6 +61,10 @@ class XblScale extends XblBasecontrol {
 
   get pageIncrement() {
     return this._getIntegerAttribute("pageincrement", 10);
+  }
+
+  get _slider() {
+    undefined;
   }
   _getIntegerAttribute(aAttr, aDefaultValue) {}
   _setIntegerAttribute(aAttr, aValue) {

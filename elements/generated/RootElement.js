@@ -3,6 +3,11 @@ class XblRootElement extends BaseElement {
     super();
   }
   connectedCallback() {
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-root-element");
+    this.prepend(comment);
+
     try {
       if (this.hasAttribute("lightweightthemes")) {
         let temp = {};
@@ -15,11 +20,6 @@ class XblRootElement extends BaseElement {
         );
       }
     } catch (e) {}
-
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-root-element");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -3,6 +3,12 @@ class XblToolbar extends XblToolbarBase {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-toolbar");
+    this.prepend(comment);
+
     try {
       if (document.readyState == "complete") {
         this._init();
@@ -16,11 +22,6 @@ class XblToolbar extends XblToolbarBase {
         });
       }
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-toolbar");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 
@@ -31,6 +32,120 @@ class XblToolbar extends XblToolbarBase {
 
   get toolbarName() {
     return this.getAttribute("toolbarname");
+  }
+
+  get toolbox() {
+    if (this._toolbox) return this._toolbox;
+
+    let toolboxId = this.getAttribute("toolboxid");
+    if (toolboxId) {
+      let toolbox = document.getElementById(toolboxId);
+      if (!toolbox) {
+        let tbName = this.toolbarName;
+        if (tbName) tbName = " (" + tbName + ")";
+        else tbName = "";
+        throw new Error(
+          `toolbar ID ${this
+            .id}${tbName}: toolboxid attribute '${toolboxId}' points to a toolbox that doesn't exist`
+        );
+      }
+
+      if (toolbox.externalToolbars.indexOf(this) == -1)
+        toolbox.externalToolbars.push(this);
+
+      return (this._toolbox = toolbox);
+    }
+
+    return (this._toolbox = this.parentNode &&
+      this.parentNode.localName == "toolbox"
+      ? this.parentNode
+      : null);
+  }
+
+  set currentSet(val) {
+    if (val == this.currentSet) return val;
+
+    var ids = val == "__empty" ? [] : val.split(",");
+
+    var nodeidx = 0;
+    var paletteItems = {},
+      added = {};
+
+    var palette = this.toolbox ? this.toolbox.palette : null;
+
+    // build a cache of items in the toolbarpalette
+    var paletteChildren = palette ? palette.childNodes : [];
+    for (let c = 0; c < paletteChildren.length; c++) {
+      let curNode = paletteChildren[c];
+      paletteItems[curNode.id] = curNode;
+    }
+
+    var children = this.childNodes;
+
+    // iterate over the ids to use on the toolbar
+    for (let i = 0; i < ids.length; i++) {
+      let id = ids[i];
+      // iterate over the existing nodes on the toolbar. nodeidx is the
+      // spot where we want to insert items.
+      let found = false;
+      for (let c = nodeidx; c < children.length; c++) {
+        let curNode = children[c];
+        if (this._idFromNode(curNode) == id) {
+          // the node already exists. If c equals nodeidx, we haven't
+          // iterated yet, so the item is already in the right position.
+          // Otherwise, insert it here.
+          if (c != nodeidx) {
+            this.insertBefore(curNode, children[nodeidx]);
+          }
+
+          added[curNode.id] = true;
+          nodeidx++;
+          found = true;
+          break;
+        }
+      }
+      if (found) {
+        // move on to the next id
+        continue;
+      }
+
+      // the node isn't already on the toolbar, so add a new one.
+      var nodeToAdd = paletteItems[id] || this._getToolbarItem(id);
+      if (nodeToAdd && !(nodeToAdd.id in added)) {
+        added[nodeToAdd.id] = true;
+        this.insertBefore(nodeToAdd, children[nodeidx] || null);
+        nodeToAdd.setAttribute("removable", "true");
+        nodeidx++;
+      }
+    }
+
+    // remove any leftover removable nodes
+    for (let i = children.length - 1; i >= nodeidx; i--) {
+      let curNode = children[i];
+
+      let curNodeId = this._idFromNode(curNode);
+      // skip over fixed items
+      if (curNodeId && curNode.getAttribute("removable") == "true") {
+        if (palette) palette.appendChild(curNode);
+        else this.removeChild(curNode);
+      }
+    }
+
+    return val;
+  }
+
+  get currentSet() {
+    var node = this.firstChild;
+    var currentSet = [];
+    while (node) {
+      var id = this._idFromNode(node);
+      if (id) {
+        currentSet.push(id);
+      }
+      node = node.nextSibling;
+    }
+
+    return currentSet.join(",") || "__empty";
   }
   _init() {
     // Searching for the toolbox palette in the toolbar binding because

@@ -3,9 +3,6 @@ class XblDatetimepickerBase extends XblBasecontrol {
     super();
   }
   connectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -35,8 +32,24 @@ class XblDatetimepickerBase extends XblBasecontrol {
 </spinbuttons>`;
     let comment = document.createComment("Creating xbl-datetimepicker-base");
     this.prepend(comment);
+
+    try {
+      undefined;
+    } catch (e) {}
   }
   disconnectedCallback() {}
+
+  get _currentField() {
+    undefined;
+  }
+
+  set dateValue(val) {
+    if (!(val instanceof Date)) throw "Invalid Date";
+
+    this._setValueNoSync(val);
+    if (this.attachedControl) this.attachedControl._setValueNoSync(val);
+    return val;
+  }
 
   get dateValue() {
     return new Date(this._dateValue);

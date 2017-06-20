@@ -3,9 +3,6 @@ class XblLabelControl extends XblTextLabel {
     super();
   }
   connectedCallback() {
-    try {
-      this.formatAccessKey(true);
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -15,12 +12,51 @@ class XblLabelControl extends XblTextLabel {
 </span>`;
     let comment = document.createComment("Creating xbl-label-control");
     this.prepend(comment);
+
+    try {
+      this.formatAccessKey(true);
+    } catch (e) {}
   }
   disconnectedCallback() {}
+
+  set accessKey(val) {
+    // If this label already has an accesskey attribute store it here as well
+    if (this.hasAttribute("accesskey")) {
+      this.setAttribute("accesskey", val);
+    }
+    var control = this.labeledControlElement;
+    if (control) {
+      control.setAttribute("accesskey", val);
+    }
+    this.formatAccessKey(false);
+    return val;
+  }
+
+  get accessKey() {
+    var accessKey = null;
+    var labeledEl = this.labeledControlElement;
+    if (labeledEl) {
+      accessKey = labeledEl.getAttribute("accesskey");
+    }
+    if (!accessKey) {
+      accessKey = this.getAttribute("accesskey");
+    }
+    return accessKey ? accessKey[0] : null;
+  }
 
   get labeledControlElement() {
     var control = this.control;
     return control ? document.getElementById(control) : null;
+  }
+
+  set control(val) {
+    var control = this.labeledControlElement;
+    if (control) {
+      control.labelElement = null; // No longer pointed to be this label
+    }
+    this.setAttribute("control", val);
+    this.formatAccessKey(false);
+    return val;
   }
 
   get control() {

@@ -3,6 +3,40 @@ class XblFindbar extends XblToolbar {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    this.innerHTML = `<hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
+<hbox anonid="findbar-textbox-wrapper" align="stretch">
+<textbox anonid="findbar-textbox" class="findbar-textbox findbar-find-fast" inherits="flash">
+</textbox>
+<toolbarbutton anonid="find-previous" class="findbar-find-previous tabbable" tooltiptext="&previous.tooltip;" oncommand="onFindAgainCommand(true);" disabled="true" inherits="accesskey=findpreviousaccesskey">
+</toolbarbutton>
+<toolbarbutton anonid="find-next" class="findbar-find-next tabbable" tooltiptext="&next.tooltip;" oncommand="onFindAgainCommand(false);" disabled="true" inherits="accesskey=findnextaccesskey">
+</toolbarbutton>
+</hbox>
+<toolbarbutton anonid="highlight" class="findbar-highlight findbar-button tabbable" label="&highlightAll.label;" accesskey="&highlightAll.accesskey;" tooltiptext="&highlightAll.tooltiptext;" oncommand="toggleHighlight(this.checked);" type="checkbox" inherits="accesskey=highlightaccesskey">
+</toolbarbutton>
+<toolbarbutton anonid="find-case-sensitive" class="findbar-case-sensitive findbar-button tabbable" label="&caseSensitive.label;" accesskey="&caseSensitive.accesskey;" tooltiptext="&caseSensitive.tooltiptext;" oncommand="_setCaseSensitivity(this.checked ? 1 : 0);" type="checkbox" inherits="accesskey=matchcaseaccesskey">
+</toolbarbutton>
+<toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="&entireWord.label;" accesskey="&entireWord.accesskey;" tooltiptext="&entireWord.tooltiptext;" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey">
+</toolbarbutton>
+<xbl-text-label anonid="match-case-status" class="findbar-find-fast">
+</xbl-text-label>
+<xbl-text-label anonid="entire-word-status" class="findbar-find-fast">
+</xbl-text-label>
+<xbl-text-label anonid="found-matches" class="findbar-find-fast found-matches" hidden="true">
+</xbl-text-label>
+<image anonid="find-status-icon" class="findbar-find-fast find-status-icon">
+</image>
+<description anonid="find-status" control="findbar-textbox" class="findbar-find-fast findbar-find-status">
+</description>
+</hbox>
+<toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="&findCloseButton.tooltip;" oncommand="close();">
+</toolbarbutton>`;
+    let comment = document.createComment("Creating xbl-findbar");
+    this.prepend(comment);
+
     try {
       // These elements are accessed frequently and are therefore cached
       this._findField = this.getElement("findbar-textbox");
@@ -64,39 +98,6 @@ class XblFindbar extends XblToolbar {
           this
         );
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    this.innerHTML = `<hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
-<hbox anonid="findbar-textbox-wrapper" align="stretch">
-<textbox anonid="findbar-textbox" class="findbar-textbox findbar-find-fast" inherits="flash">
-</textbox>
-<toolbarbutton anonid="find-previous" class="findbar-find-previous tabbable" tooltiptext="&previous.tooltip;" oncommand="onFindAgainCommand(true);" disabled="true" inherits="accesskey=findpreviousaccesskey">
-</toolbarbutton>
-<toolbarbutton anonid="find-next" class="findbar-find-next tabbable" tooltiptext="&next.tooltip;" oncommand="onFindAgainCommand(false);" disabled="true" inherits="accesskey=findnextaccesskey">
-</toolbarbutton>
-</hbox>
-<toolbarbutton anonid="highlight" class="findbar-highlight findbar-button tabbable" label="&highlightAll.label;" accesskey="&highlightAll.accesskey;" tooltiptext="&highlightAll.tooltiptext;" oncommand="toggleHighlight(this.checked);" type="checkbox" inherits="accesskey=highlightaccesskey">
-</toolbarbutton>
-<toolbarbutton anonid="find-case-sensitive" class="findbar-case-sensitive findbar-button tabbable" label="&caseSensitive.label;" accesskey="&caseSensitive.accesskey;" tooltiptext="&caseSensitive.tooltiptext;" oncommand="_setCaseSensitivity(this.checked ? 1 : 0);" type="checkbox" inherits="accesskey=matchcaseaccesskey">
-</toolbarbutton>
-<toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="&entireWord.label;" accesskey="&entireWord.accesskey;" tooltiptext="&entireWord.tooltiptext;" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey">
-</toolbarbutton>
-<xbl-text-label anonid="match-case-status" class="findbar-find-fast">
-</xbl-text-label>
-<xbl-text-label anonid="entire-word-status" class="findbar-find-fast">
-</xbl-text-label>
-<xbl-text-label anonid="found-matches" class="findbar-find-fast found-matches" hidden="true">
-</xbl-text-label>
-<image anonid="find-status-icon" class="findbar-find-fast find-status-icon">
-</image>
-<description anonid="find-status" control="findbar-textbox" class="findbar-find-fast findbar-find-status">
-</description>
-</hbox>
-<toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="&findCloseButton.tooltip;" oncommand="close();">
-</toolbarbutton>`;
-    let comment = document.createComment("Creating xbl-findbar");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 
@@ -121,6 +122,81 @@ class XblFindbar extends XblToolbar {
 
   get findMode() {
     return this._findMode;
+  }
+
+  get hasTransactions() {
+    if (this._findField.value) return true;
+
+    // Watch out for lazy editor init
+    if (this._findField.editor) {
+      let tm = this._findField.editor.transactionManager;
+      return !!(tm.numberOfUndoItems || tm.numberOfRedoItems);
+    }
+    return false;
+  }
+
+  set browser(val) {
+    if (this._browser) {
+      if (this._browser.messageManager) {
+        this._browser.messageManager.removeMessageListener(
+          "Findbar:Keypress",
+          this
+        );
+        this._browser.messageManager.removeMessageListener(
+          "Findbar:Mouseup",
+          this
+        );
+      }
+      let finder = this._browser.finder;
+      if (finder) finder.removeResultListener(this);
+    }
+
+    this._browser = val;
+    if (this._browser) {
+      // Need to do this to ensure the correct initial state.
+      this._updateBrowserWithState();
+      this._browser.messageManager.addMessageListener("Findbar:Keypress", this);
+      this._browser.messageManager.addMessageListener("Findbar:Mouseup", this);
+      this._browser.finder.addResultListener(this);
+
+      this._findField.value = this._browser._lastSearchString;
+    }
+    return val;
+  }
+
+  get browser() {
+    if (!this._browser) {
+      this._browser = document.getElementById(this.getAttribute("browserid"));
+    }
+    return this._browser;
+  }
+
+  get _prefsvc() {
+    if (!this.__prefsvc) {
+      this.__prefsvc = Components.classes[
+        "@mozilla.org/preferences-service;1"
+      ].getService(Components.interfaces.nsIPrefBranch);
+    }
+    return this.__prefsvc;
+  }
+
+  get pluralForm() {
+    if (!this._pluralForm) {
+      this._pluralForm = Components.utils.import(
+        "resource://gre/modules/PluralForm.jsm",
+        {}
+      ).PluralForm;
+    }
+    return this._pluralForm;
+  }
+
+  get strBundle() {
+    if (!this._strBundle) {
+      this._strBundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
+        .getService(Components.interfaces.nsIStringBundleService)
+        .createBundle("chrome://global/locale/findbar.properties");
+    }
+    return this._strBundle;
   }
   getElement(aAnonymousID) {
     return document.getAnonymousElementByAttribute(

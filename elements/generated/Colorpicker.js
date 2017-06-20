@@ -3,9 +3,6 @@ class XblColorpicker extends XblBasecontrol {
     super();
   }
   connectedCallback() {
-    try {
-      this.initialize();
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -167,8 +164,81 @@ class XblColorpicker extends XblBasecontrol {
 </vbox>`;
     let comment = document.createComment("Creating xbl-colorpicker");
     this.prepend(comment);
+
+    try {
+      this.initialize();
+    } catch (e) {}
   }
   disconnectedCallback() {}
+
+  set color(val) {
+    if (!val) return val;
+    var uppercaseVal = val.toUpperCase();
+    // Translate standard HTML color strings:
+    if (uppercaseVal[0] != "#") {
+      switch (uppercaseVal) {
+        case "GREEN":
+          uppercaseVal = "#008000";
+          break;
+        case "LIME":
+          uppercaseVal = "#00FF00";
+          break;
+        case "OLIVE":
+          uppercaseVal = "#808000";
+          break;
+        case "TEAL":
+          uppercaseVal = "#008080";
+          break;
+        case "YELLOW":
+          uppercaseVal = "#FFFF00";
+          break;
+        case "RED":
+          uppercaseVal = "#FF0000";
+          break;
+        case "MAROON":
+          uppercaseVal = "#800000";
+          break;
+        case "PURPLE":
+          uppercaseVal = "#800080";
+          break;
+        case "FUCHSIA":
+          uppercaseVal = "#FF00FF";
+          break;
+        case "NAVY":
+          uppercaseVal = "#000080";
+          break;
+        case "BLUE":
+          uppercaseVal = "#0000FF";
+          break;
+        case "AQUA":
+          uppercaseVal = "#00FFFF";
+          break;
+        case "WHITE":
+          uppercaseVal = "#FFFFFF";
+          break;
+        case "SILVER":
+          uppercaseVal = "#C0C0C0";
+          break;
+        case "GRAY":
+          uppercaseVal = "#808080";
+          break;
+        default:
+          // BLACK
+          uppercaseVal = "#000000";
+          break;
+      }
+    }
+    var cells = this.mBox.getElementsByAttribute("color", uppercaseVal);
+    if (cells.item(0)) {
+      this.selectCell(cells[0]);
+      this.hoverCell(this.mSelectedCell);
+    }
+    return val;
+  }
+
+  get color() {
+    return this.mSelectedCell ? this.mSelectedCell.getAttribute("color") : null;
+  }
   initColor(aColor) {
     // Use this to initialize color without
     //  triggering the "onselect" handler,

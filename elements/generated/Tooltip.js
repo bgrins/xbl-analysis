@@ -33,6 +33,15 @@ class XblTooltip extends XblPopupBase {
   get page() {
     return this.getAttribute("page") == "true";
   }
+
+  get textProvider() {
+    if (!this._textProvider) {
+      this._textProvider = Components.classes[
+        "@mozilla.org/embedcomp/default-tooltiptextprovider;1"
+      ].getService(Components.interfaces.nsITooltipTextProvider);
+    }
+    return this._textProvider;
+  }
   fillInPageTooltip(tipElement) {
     let tttp = this.textProvider;
     let textObj = {},

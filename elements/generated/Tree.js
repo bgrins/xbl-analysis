@@ -109,6 +109,16 @@ class XblTree extends XblTreeBase {
     return this.hasAttribute("enableColumnDrag");
   }
 
+  get inputField() {
+    if (!this._inputField)
+      this._inputField = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "input"
+      );
+    return this._inputField;
+  }
+
   set disableKeyNavigation(val) {
     if (val) this.setAttribute("disableKeyNavigation", "true");
     else this.removeAttribute("disableKeyNavigation");
@@ -133,6 +143,12 @@ class XblTree extends XblTreeBase {
 
   get _selectDelay() {
     return this.getAttribute("_selectDelay") || 50;
+  }
+
+  get _cellSelType() {
+    var seltype = this.selType;
+    if (seltype == "cell" || seltype == "text") return seltype;
+    return null;
   }
   _ensureColumnOrder() {
     if (!this._columnsDirty) return;

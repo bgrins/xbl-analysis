@@ -3,16 +3,43 @@ class XblTreecolBase extends XblTreeBase {
     super();
   }
   connectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-treecol-base");
     this.prepend(comment);
+
+    try {
+      undefined;
+    } catch (e) {}
   }
   disconnectedCallback() {}
+
+  set ordinal(val) {
+    this.setAttribute("ordinal", val);
+    return val;
+  }
+
+  get ordinal() {
+    var val = this.getAttribute("ordinal");
+    if (val == "") return "1";
+
+    return "" + (val == "0" ? 0 : parseInt(val));
+  }
+
+  get _previousVisibleColumn() {
+    var sib = this.boxObject.previousSibling;
+    while (sib) {
+      if (
+        sib.localName == "treecol" &&
+        sib.boxObject.width > 0 &&
+        sib.parentNode == this.parentNode
+      )
+        return sib;
+      sib = sib.boxObject.previousSibling;
+    }
+    return null;
+  }
   _onDragMouseMove(aEvent) {
     var col = document.treecolDragging;
     if (!col) return;

@@ -3,6 +3,12 @@ class XblToolbox extends XblToolbarBase {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-toolbox");
+    this.prepend(comment);
+
     try {
       // Look to see if there is a toolbarset.
       this.toolbarset = this.firstChild;
@@ -19,13 +25,18 @@ class XblToolbox extends XblToolbarBase {
         }
       }
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-toolbox");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set customizing(val) {
+    if (val) this.setAttribute("customizing", "true");
+    else this.removeAttribute("customizing");
+    return val;
+  }
+
+  get customizing() {
+    return this.getAttribute("customizing") == "true";
+  }
   appendCustomToolbar(aName, aCurrentSet) {
     if (!this.toolbarset) return null;
     var toolbar = document.createElementNS(

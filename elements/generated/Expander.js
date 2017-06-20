@@ -3,22 +3,6 @@ class XblExpander extends BaseElement {
     super();
   }
   connectedCallback() {
-    try {
-      var settings = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "settings"
-      );
-      var expander = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "disclosure"
-      );
-      var open = this.getAttribute("open") == "true";
-      settings.collapsed = !open;
-      expander.open = open;
-    } catch (e) {}
-
     console.log(this, "connected");
 
     this.innerHTML = `<hbox align="center">
@@ -35,8 +19,46 @@ class XblExpander extends BaseElement {
 </vbox>`;
     let comment = document.createComment("Creating xbl-expander");
     this.prepend(comment);
+
+    try {
+      var settings = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "settings"
+      );
+      var expander = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "disclosure"
+      );
+      var open = this.getAttribute("open") == "true";
+      settings.collapsed = !open;
+      expander.open = open;
+    } catch (e) {}
   }
   disconnectedCallback() {}
+
+  set open(val) {
+    var settings = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "settings"
+    );
+    var expander = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "disclosure"
+    );
+    settings.collapsed = !val;
+    expander.open = val;
+    if (val) this.setAttribute("open", "true");
+    else this.setAttribute("open", "false");
+    return val;
+  }
+
+  get open() {
+    undefined;
+  }
   onCommand(aEvent) {
     var element = aEvent.originalTarget;
     var button = element.getAttribute("anonid");

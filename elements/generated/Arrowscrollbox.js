@@ -3,10 +3,6 @@ class XblArrowscrollbox extends XblScrollboxBase {
     super();
   }
   connectedCallback() {
-    try {
-      this.setAttribute("notoverflowing", "true");
-      this._updateScrollButtonsDisabledState();
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -24,8 +20,121 @@ class XblArrowscrollbox extends XblScrollboxBase {
 </autorepeatbutton>`;
     let comment = document.createComment("Creating xbl-arrowscrollbox");
     this.prepend(comment);
+
+    try {
+      this.setAttribute("notoverflowing", "true");
+      this._updateScrollButtonsDisabledState();
+    } catch (e) {}
   }
   disconnectedCallback() {}
+
+  get _prefBranch() {
+    if (this.__prefBranch === null) {
+      this.__prefBranch = Components.classes[
+        "@mozilla.org/preferences-service;1"
+      ].getService(Components.interfaces.nsIPrefBranch);
+    }
+    return this.__prefBranch;
+  }
+
+  get scrollIncrement() {
+    if (this._scrollIncrement === null) {
+      this._scrollIncrement = this._prefBranch.getIntPref(
+        "toolkit.scrollbox.scrollIncrement",
+        20
+      );
+    }
+    return this._scrollIncrement;
+  }
+
+  set smoothScroll(val) {
+    this._smoothScroll = val;
+    return val;
+  }
+
+  get smoothScroll() {
+    if (this._smoothScroll === null) {
+      if (this.hasAttribute("smoothscroll")) {
+        this._smoothScroll = this.getAttribute("smoothscroll") == "true";
+      } else {
+        this._smoothScroll = this._prefBranch.getBoolPref(
+          "toolkit.scrollbox.smoothScroll",
+          true
+        );
+      }
+    }
+    return this._smoothScroll;
+  }
+
+  get scrollBoxObject() {
+    if (!this._scrollBoxObject) {
+      this._scrollBoxObject = this._scrollbox.boxObject;
+    }
+    return this._scrollBoxObject;
+  }
+
+  get scrollClientRect() {
+    return this._scrollbox.getBoundingClientRect();
+  }
+
+  get scrollClientSize() {
+    return this.orient == "vertical"
+      ? this._scrollbox.clientHeight
+      : this._scrollbox.clientWidth;
+  }
+
+  get scrollSize() {
+    return this.orient == "vertical"
+      ? this._scrollbox.scrollHeight
+      : this._scrollbox.scrollWidth;
+  }
+
+  get lineScrollAmount() {
+    // line scroll amout should be the width (at horizontal scrollbox) or
+    // the height (at vertical scrollbox) of the scrolled elements.
+    // However, the elements may have different width or height.  So,
+    // for consistent speed, let's use avalage with of the elements.
+    var elements = this._getScrollableElements();
+    if (!elements.length) {
+      // Returning 0 shouldn't be problem because if there is no
+      // scrollable elements, it's impossible to scroll anyway.
+      return 0;
+    }
+
+    if (this._isRTLScrollbox) elements.reverse();
+
+    var [start, end] = this._startEndProps;
+    var low = 0;
+    var high = elements.length - 1;
+    // XXX If the total width is 0, do we need something more?
+    var totalWidth =
+      elements[high].getBoundingClientRect()[end] -
+      elements[low].getBoundingClientRect()[start];
+    return totalWidth / elements.length;
+  }
+
+  get scrollPaddingRect() {
+    // This assumes that this._scrollbox doesn't have any border.
+    var outerRect = this.scrollClientRect;
+    var innerRect = {};
+    innerRect.left = outerRect.left - this._scrollbox.scrollLeft;
+    innerRect.top = outerRect.top - this._scrollbox.scrollTop;
+    innerRect.right = innerRect.left + this._scrollbox.scrollWidth;
+    innerRect.bottom = innerRect.top + this._scrollbox.scrollHeight;
+    return innerRect;
+  }
+
+  set scrollPosition(val) {
+    if (this.orient == "vertical") this._scrollbox.scrollTop = val;
+    else this._scrollbox.scrollLeft = val;
+    return val;
+  }
+
+  get scrollPosition() {
+    return this.orient == "vertical"
+      ? this._scrollbox.scrollTop
+      : this._scrollbox.scrollLeft;
+  }
   _boundsWithoutFlushing(element) {
     if (!("_DOMWindowUtils" in this)) {
       try {

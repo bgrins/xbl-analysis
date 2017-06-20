@@ -3,6 +3,22 @@ class XblWizard extends XblRootElement {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    this.innerHTML = `<hbox class="wizard-header" anonid="Header">
+</hbox>
+<deck class="wizard-page-box" flex="1" anonid="Deck">
+<children includes="wizardpage">
+</children>
+</deck>
+<children>
+</children>
+<hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage">
+</hbox>`;
+    let comment = document.createComment("Creating xbl-wizard");
+    this.prepend(comment);
+
     try {
       this._canAdvance = true;
       this._canRewind = false;
@@ -56,21 +72,6 @@ class XblWizard extends XblRootElement {
       // give focus to the first focusable element in the dialog
       window.addEventListener("load", this._setInitialFocus);
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    this.innerHTML = `<hbox class="wizard-header" anonid="Header">
-</hbox>
-<deck class="wizard-page-box" flex="1" anonid="Deck">
-<children includes="wizardpage">
-</children>
-</deck>
-<children>
-</children>
-<hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage">
-</hbox>`;
-    let comment = document.createComment("Creating xbl-wizard");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 
@@ -104,8 +105,63 @@ class XblWizard extends XblRootElement {
     return this._pageStack.length;
   }
 
+  get wizardPages() {
+    var xulns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    return this.getElementsByTagNameNS(xulns, "wizardpage");
+  }
+
+  set currentPage(val) {
+    if (!val) return val;
+
+    this._currentPage = val;
+
+    // Setting this attribute allows wizard's clients to dynamically
+    // change the styles of each page based on purpose of the page.
+    this.setAttribute("currentpageid", val.pageid);
+    if (this.onFirstPage) {
+      this.canRewind = false;
+      this.setAttribute("firstpage", "true");
+      if (/Linux/.test(navigator.platform)) {
+        this._backButton.setAttribute("hidden", "true");
+      }
+    } else {
+      this.canRewind = true;
+      this.setAttribute("firstpage", "false");
+      if (/Linux/.test(navigator.platform)) {
+        this._backButton.setAttribute("hidden", "false");
+      }
+    }
+
+    if (this.onLastPage) {
+      this.canAdvance = true;
+      this.setAttribute("lastpage", "true");
+    } else {
+      this.setAttribute("lastpage", "false");
+    }
+
+    this._deck.setAttribute("selectedIndex", val.pageIndex);
+    this._advanceFocusToPage(val);
+
+    this._adjustWizardHeader();
+    this._wizardButtons.onPageChange();
+
+    this._fireEvent(val, "pageshow");
+
+    return val;
+  }
+
   get currentPage() {
     return this._currentPage;
+  }
+
+  set pageIndex(val) {
+    if (val < 0 || val >= this.pageCount) return val;
+
+    var page = this.wizardPages[val];
+    this._pageStack[this._pageStack.length - 1] = page;
+    this.currentPage = page;
+
+    return val;
   }
 
   get pageIndex() {
@@ -114,6 +170,16 @@ class XblWizard extends XblRootElement {
 
   get onFirstPage() {
     return this._pageStack.length == 1;
+  }
+
+  get onLastPage() {
+    var cp = this.currentPage;
+    return (
+      cp &&
+      ((this._accessMethod == "sequential" &&
+        cp.pageIndex == this.pageCount - 1) ||
+        (this._accessMethod == "random" && cp.next == ""))
+    );
   }
   getButton(aDlgType) {
     var btns = this.getElementsByAttribute("dlgtype", aDlgType);

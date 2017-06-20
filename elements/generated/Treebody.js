@@ -3,14 +3,15 @@ class XblTreebody extends XblTreeBase {
     super();
   }
   connectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-treebody");
     this.prepend(comment);
+
+    try {
+      undefined;
+    } catch (e) {}
   }
   disconnectedCallback() {}
 }

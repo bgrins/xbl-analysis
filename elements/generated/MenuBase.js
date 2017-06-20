@@ -11,8 +11,32 @@ class XblMenuBase extends XblMenuitemBase {
   }
   disconnectedCallback() {}
 
+  set open(val) {
+    this.boxObject.openMenu(val);
+    return val;
+  }
+
   get open() {
     return this.hasAttribute("open");
+  }
+
+  get openedWithKey() {
+    return this.boxObject.openedWithKey;
+  }
+
+  get itemCount() {
+    undefined;
+  }
+
+  get menupopup() {
+    const XUL_NS =
+      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+    for (var child = this.firstChild; child; child = child.nextSibling) {
+      if (child.namespaceURI == XUL_NS && child.localName == "menupopup")
+        return child;
+    }
+    return null;
   }
   appendItem(aLabel, aValue) {}
   insertItemAt(aIndex, aLabel, aValue) {}

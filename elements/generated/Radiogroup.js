@@ -3,6 +3,12 @@ class XblRadiogroup extends XblBasecontrol {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-radiogroup");
+    this.prepend(comment);
+
     try {
       if (this.getAttribute("disabled") == "true") this.disabled = true;
 
@@ -19,20 +25,140 @@ class XblRadiogroup extends XblBasecontrol {
       if (value) this.value = value;
       else this.selectedIndex = 0;
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-radiogroup");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  set value(val) {
+    this.setAttribute("value", val);
+    var children = this._getRadioChildren();
+    for (var i = 0; i < children.length; i++) {
+      if (String(children[i].value) == String(val)) {
+        this.selectedItem = children[i];
+        break;
+      }
+    }
+    return val;
+  }
 
   get value() {
     return this.getAttribute("value");
   }
 
+  set disabled(val) {
+    if (val) this.setAttribute("disabled", "true");
+    else this.removeAttribute("disabled");
+    var children = this._getRadioChildren();
+    for (var i = 0; i < children.length; ++i) {
+      children[i].disabled = val;
+    }
+    return val;
+  }
+
+  get disabled() {
+    if (this.getAttribute("disabled") == "true") return true;
+    var children = this._getRadioChildren();
+    for (var i = 0; i < children.length; ++i) {
+      if (
+        !children[i].hidden &&
+        !children[i].collapsed &&
+        !children[i].disabled
+      )
+        return false;
+    }
+    return true;
+  }
+
   get itemCount() {
     return this._getRadioChildren().length;
+  }
+
+  set selectedIndex(val) {
+    this.selectedItem = this._getRadioChildren()[val];
+    return val;
+  }
+
+  get selectedIndex() {
+    var children = this._getRadioChildren();
+    for (var i = 0; i < children.length; ++i) {
+      if (children[i].selected) return i;
+    }
+    return -1;
+  }
+
+  set selectedItem(val) {
+    var focused = this.getAttribute("focused") == "true";
+    var alreadySelected = false;
+
+    if (val) {
+      alreadySelected = val.getAttribute("selected") == "true";
+      val.setAttribute("focused", focused);
+      val.setAttribute("selected", "true");
+      this.setAttribute("value", val.value);
+    } else {
+      this.removeAttribute("value");
+    }
+
+    // uncheck all other group nodes
+    var children = this._getRadioChildren();
+    var previousItem = null;
+    for (var i = 0; i < children.length; ++i) {
+      if (children[i] != val) {
+        if (children[i].getAttribute("selected") == "true")
+          previousItem = children[i];
+
+        children[i].removeAttribute("selected");
+        children[i].removeAttribute("focused");
+      }
+    }
+
+    var event = document.createEvent("Events");
+    event.initEvent("select", false, true);
+    this.dispatchEvent(event);
+
+    if (!alreadySelected && focused) {
+      // Only report if actual change
+      var myEvent;
+      if (val) {
+        myEvent = document.createEvent("Events");
+        myEvent.initEvent("RadioStateChange", true, true);
+        val.dispatchEvent(myEvent);
+      }
+
+      if (previousItem) {
+        myEvent = document.createEvent("Events");
+        myEvent.initEvent("RadioStateChange", true, true);
+        previousItem.dispatchEvent(myEvent);
+      }
+    }
+
+    return val;
+  }
+
+  get selectedItem() {
+    var children = this._getRadioChildren();
+    for (var i = 0; i < children.length; ++i) {
+      if (children[i].selected) return children[i];
+    }
+    return null;
+  }
+
+  set focusedItem(val) {
+    if (val) val.setAttribute("focused", "true");
+
+    // unfocus all other group nodes
+    var children = this._getRadioChildren();
+    for (var i = 0; i < children.length; ++i) {
+      if (children[i] != val) children[i].removeAttribute("focused");
+    }
+    return val;
+  }
+
+  get focusedItem() {
+    var children = this._getRadioChildren();
+    for (var i = 0; i < children.length; ++i) {
+      if (children[i].getAttribute("focused") == "true") return children[i];
+    }
+    return null;
   }
   checkAdjacentElement(aNextFlag) {
     var currentElement = this.focusedItem || this.selectedItem;

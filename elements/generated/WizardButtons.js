@@ -52,6 +52,24 @@ class XblWizardButtons extends XblWizardBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get defaultButton() {
+    const kXULNS =
+      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    var buttons = this._wizardButtonDeck.selectedPanel.getElementsByTagNameNS(
+      kXULNS,
+      "button"
+    );
+    for (var i = 0; i < buttons.length; i++) {
+      if (
+        buttons[i].getAttribute("default") == "true" &&
+        !buttons[i].hidden &&
+        !buttons[i].disabled
+      )
+        return buttons[i];
+    }
+    return null;
+  }
   onPageChange() {
     if (this.getAttribute("lastpage") == "true") {
       this._wizardButtonDeck.setAttribute("selectedIndex", 0);

@@ -3,6 +3,11 @@ class XblPreference extends BaseElement {
     super();
   }
   connectedCallback() {
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-preference");
+    this.prepend(comment);
+
     try {
       this._constructed = true;
 
@@ -48,16 +53,19 @@ class XblPreference extends BaseElement {
       } else this._value = this.valueFromPreferences;
       this.preferences._constructAfterChildren();
     } catch (e) {}
-
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-preference");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 
+  get instantApply() {
+    undefined;
+  }
+
   get preferences() {
     return this.parentNode;
+  }
+
+  set name(val) {
+    undefined;
   }
 
   get name() {
@@ -97,6 +105,165 @@ class XblPreference extends BaseElement {
 
   get value() {
     return this._value;
+  }
+
+  get locked() {
+    undefined;
+  }
+
+  set disabled(val) {
+    if (val) this.setAttribute("disabled", "true");
+    else this.removeAttribute("disabled");
+
+    if (!this.id) return val;
+
+    var elements = document.getElementsByAttribute("preference", this.id);
+    for (var i = 0; i < elements.length; ++i) {
+      elements[i].disabled = val;
+
+      var labels = document.getElementsByAttribute("control", elements[i].id);
+      for (var j = 0; j < labels.length; ++j) labels[j].disabled = val;
+    }
+
+    return val;
+  }
+
+  get disabled() {
+    undefined;
+  }
+
+  set tabIndex(val) {
+    if (val) this.setAttribute("tabindex", val);
+    else this.removeAttribute("tabindex");
+
+    if (!this.id) return val;
+
+    var elements = document.getElementsByAttribute("preference", this.id);
+    for (var i = 0; i < elements.length; ++i) {
+      elements[i].tabIndex = val;
+
+      var labels = document.getElementsByAttribute("control", elements[i].id);
+      for (var j = 0; j < labels.length; ++j) labels[j].tabIndex = val;
+    }
+
+    return val;
+  }
+
+  get tabIndex() {
+    undefined;
+  }
+
+  get hasUserValue() {
+    return (
+      this.preferences.rootBranch.prefHasUserValue(this.name) &&
+      this.value !== undefined
+    );
+  }
+
+  get defaultValue() {
+    this._useDefault = true;
+    var val = this.valueFromPreferences;
+    this._useDefault = false;
+    return val;
+  }
+
+  get _branch() {
+    undefined;
+  }
+
+  set valueFromPreferences(val) {
+    // Exit early if nothing to do.
+    if (this.readonly || this.valueFromPreferences == val) return val;
+
+    // The special value undefined means 'reset preference to default'.
+    if (val === undefined) {
+      this.preferences.rootBranch.clearUserPref(this.name);
+      return val;
+    }
+
+    // Force a resync of preferences with value.
+    switch (this.type) {
+      case "int":
+        this.preferences.rootBranch.setIntPref(this.name, val);
+        break;
+      case "bool":
+        this.preferences.rootBranch.setBoolPref(
+          this.name,
+          this.inverted ? !val : val
+        );
+        break;
+      case "wstring":
+        var pls = Components.classes[
+          "@mozilla.org/pref-localizedstring;1"
+        ].createInstance(Components.interfaces.nsIPrefLocalizedString);
+        pls.data = val;
+        this.preferences.rootBranch.setComplexValue(
+          this.name,
+          Components.interfaces.nsIPrefLocalizedString,
+          pls
+        );
+        break;
+      case "string":
+      case "unichar":
+      case "fontname":
+        this.preferences.rootBranch.setStringPref(this.name, val);
+        break;
+      case "file":
+        var lf;
+        if (typeof val == "string") {
+          lf = Components.classes["@mozilla.org/file/local;1"].createInstance(
+            Components.interfaces.nsILocalFile
+          );
+          lf.persistentDescriptor = val;
+          if (!lf.exists()) lf.initWithPath(val);
+        } else lf = val.QueryInterface(Components.interfaces.nsILocalFile);
+        this.preferences.rootBranch.setComplexValue(
+          this.name,
+          Components.interfaces.nsILocalFile,
+          lf
+        );
+        break;
+      default:
+        this._reportUnknownType();
+    }
+    if (!this.batching) this.preferences.service.savePrefFile(null);
+    return val;
+  }
+
+  get valueFromPreferences() {
+    try {
+      // Force a resync of value with preferences.
+      switch (this.type) {
+        case "int":
+          return this._branch.getIntPref(this.name);
+        case "bool":
+          var val = this._branch.getBoolPref(this.name);
+          return this.inverted ? !val : val;
+        case "wstring":
+          return this._branch.getComplexValue(
+            this.name,
+            Components.interfaces.nsIPrefLocalizedString
+          ).data;
+        case "string":
+        case "unichar":
+          return this._branch.getStringPref(this.name);
+        case "fontname":
+          var family = this._branch.getStringPref(this.name);
+          var fontEnumerator = Components.classes[
+            "@mozilla.org/gfx/fontenumerator;1"
+          ].createInstance(Components.interfaces.nsIFontEnumerator);
+          return fontEnumerator.getStandardFamilyName(family);
+        case "file":
+          var f = this._branch.getComplexValue(
+            this.name,
+            Components.interfaces.nsILocalFile
+          );
+          return f;
+        default:
+          this._reportUnknownType();
+      }
+    } catch (e) {}
+    return null;
   }
   _setValue(aValue) {
     if (this.value !== aValue) {

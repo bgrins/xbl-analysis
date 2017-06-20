@@ -3,6 +3,12 @@ class XblDateInput extends XblDatetimeInputBase {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-date-input");
+    this.prepend(comment);
+
     try {
       /* eslint-enable no-multi-spaces */
 
@@ -25,11 +31,6 @@ class XblDateInput extends XblDatetimeInputBase {
         this.setFieldsFromInputValue();
       }
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-date-input");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
   buildEditFields() {

@@ -46,6 +46,29 @@ class XblInputBoxSpell extends XblInputBox {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get spellCheckerUI() {
+    if (!this._spellCheckInitialized) {
+      this._spellCheckInitialized = true;
+
+      const CI = Components.interfaces;
+      if (!(document instanceof CI.nsIDOMXULDocument)) return null;
+
+      var textbox = document.getBindingParent(this);
+      if (!textbox || !(textbox instanceof CI.nsIDOMXULTextBoxElement))
+        return null;
+
+      try {
+        Components.utils.import(
+          "resource://gre/modules/InlineSpellChecker.jsm",
+          this
+        );
+        this.InlineSpellCheckerUI = new this.InlineSpellChecker(textbox.editor);
+      } catch (ex) {}
+    }
+
+    return this.InlineSpellCheckerUI;
+  }
   _doPopupItemEnablingSpell(popupNode) {
     var spellui = this.spellCheckerUI;
     if (!spellui || !spellui.canSpellCheck) {

@@ -3,18 +3,6 @@ class XblDialog extends XblRootElement {
     super();
   }
   connectedCallback() {
-    try {
-      this._configureButtons(this.buttons);
-
-      // listen for when window is closed via native close buttons
-      window.addEventListener("close", this._closeHandler);
-
-      // for things that we need to initialize after onload fires
-      window.addEventListener("load", this.postLoadInit);
-
-      window.moveToAlertPosition = this.moveToAlertPosition;
-      window.centerWindowOnScreen = this.centerWindowOnScreen;
-    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
@@ -54,6 +42,19 @@ class XblDialog extends XblRootElement {
 </hbox>`;
     let comment = document.createComment("Creating xbl-dialog");
     this.prepend(comment);
+
+    try {
+      this._configureButtons(this.buttons);
+
+      // listen for when window is closed via native close buttons
+      window.addEventListener("close", this._closeHandler);
+
+      // for things that we need to initialize after onload fires
+      window.addEventListener("load", this.postLoadInit);
+
+      window.moveToAlertPosition = this.moveToAlertPosition;
+      window.centerWindowOnScreen = this.centerWindowOnScreen;
+    } catch (e) {}
   }
   disconnectedCallback() {}
 
@@ -64,6 +65,28 @@ class XblDialog extends XblRootElement {
 
   get buttons() {
     return this.getAttribute("buttons");
+  }
+
+  set defaultButton(val) {
+    this._setDefaultButton(val);
+    return val;
+  }
+
+  get defaultButton() {
+    if (this.hasAttribute("defaultButton"))
+      return this.getAttribute("defaultButton");
+    return "accept"; // default to the accept button
+  }
+
+  get mStrBundle() {
+    if (!this._mStrBundle) {
+      // need to create string bundle manually instead of using <xul:stringbundle/>
+      // see bug 63370 for details
+      this._mStrBundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
+        .getService(Components.interfaces.nsIStringBundleService)
+        .createBundle("chrome://global/locale/dialog.properties");
+    }
+    return this._mStrBundle;
   }
   acceptDialog() {
     return this._doButtonCommand("accept");

@@ -3,6 +3,17 @@ class XblTextbox extends BaseElement {
     super();
   }
   connectedCallback() {
+    console.log(this, "connected");
+
+    this.innerHTML = `<children>
+</children>
+<hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
+<input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
+</input>
+</hbox>`;
+    let comment = document.createComment("Creating xbl-textbox");
+    this.prepend(comment);
+
     try {
       var str = this.boxObject.getProperty("value");
       if (str) {
@@ -15,19 +26,18 @@ class XblTextbox extends BaseElement {
       if (this.hasAttribute("emptytext"))
         this.placeholder = this.getAttribute("emptytext");
     } catch (e) {}
-
-    console.log(this, "connected");
-
-    this.innerHTML = `<children>
-</children>
-<hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
-<input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
-</input>
-</hbox>`;
-    let comment = document.createComment("Creating xbl-textbox");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get inputField() {
+    if (!this.mInputField)
+      this.mInputField = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "input"
+      );
+    return this.mInputField;
+  }
 
   set value(val) {
     this.inputField.value = val;
@@ -146,6 +156,17 @@ class XblTextbox extends BaseElement {
 
   get clickSelectsAll() {
     return this.getAttribute("clickSelectsAll") == "true";
+  }
+
+  get editor() {
+    if (!this.mEditor) {
+      const nsIDOMNSEditableElement =
+        Components.interfaces.nsIDOMNSEditableElement;
+      this.mEditor = this.inputField.QueryInterface(
+        nsIDOMNSEditableElement
+      ).editor;
+    }
+    return this.mEditor;
   }
 
   get controllers() {

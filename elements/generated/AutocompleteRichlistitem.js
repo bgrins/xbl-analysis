@@ -3,6 +3,46 @@ class XblAutocompleteRichlistitem extends XblRichlistitem {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
+</image>
+<image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
+</image>
+<hbox class="ac-title" align="center" inherits="selected">
+<description class="ac-text-overflow-container">
+<description anonid="title-text" class="ac-title-text" inherits="selected">
+</description>
+</description>
+</hbox>
+<hbox anonid="tags" class="ac-tags" align="center" inherits="selected">
+<description class="ac-text-overflow-container">
+<description anonid="tags-text" class="ac-tags-text" inherits="selected">
+</description>
+</description>
+</hbox>
+<hbox anonid="separator" class="ac-separator" align="center" inherits="selected,actiontype,type">
+<description class="ac-separator-text">
+</description>
+</hbox>
+<hbox class="ac-url" align="center" inherits="selected,actiontype">
+<description class="ac-text-overflow-container">
+<description anonid="url-text" class="ac-url-text" inherits="selected">
+</description>
+</description>
+</hbox>
+<hbox class="ac-action" align="center" inherits="selected,actiontype">
+<description class="ac-text-overflow-container">
+<description anonid="action-text" class="ac-action-text" inherits="selected">
+</description>
+</description>
+</hbox>`;
+    let comment = document.createComment(
+      "Creating xbl-autocomplete-richlistitem"
+    );
+    this.prepend(comment);
+
     try {
       this._typeIcon = document.getAnonymousElementByAttribute(
         this,
@@ -46,47 +86,45 @@ class XblAutocompleteRichlistitem extends XblRichlistitem {
       );
       this._adjustAcItem();
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
-</image>
-<image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
-</image>
-<hbox class="ac-title" align="center" inherits="selected">
-<description class="ac-text-overflow-container">
-<description anonid="title-text" class="ac-title-text" inherits="selected">
-</description>
-</description>
-</hbox>
-<hbox anonid="tags" class="ac-tags" align="center" inherits="selected">
-<description class="ac-text-overflow-container">
-<description anonid="tags-text" class="ac-tags-text" inherits="selected">
-</description>
-</description>
-</hbox>
-<hbox anonid="separator" class="ac-separator" align="center" inherits="selected,actiontype,type">
-<description class="ac-separator-text">
-</description>
-</hbox>
-<hbox class="ac-url" align="center" inherits="selected,actiontype">
-<description class="ac-text-overflow-container">
-<description anonid="url-text" class="ac-url-text" inherits="selected">
-</description>
-</description>
-</hbox>
-<hbox class="ac-action" align="center" inherits="selected,actiontype">
-<description class="ac-text-overflow-container">
-<description anonid="action-text" class="ac-action-text" inherits="selected">
-</description>
-</description>
-</hbox>`;
-    let comment = document.createComment(
-      "Creating xbl-autocomplete-richlistitem"
-    );
-    this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get label() {
+    // This property is a string that is read aloud by screen readers,
+    // so it must not contain anything that should not be user-facing.
+
+    let parts = [this.getAttribute("title"), this.getAttribute("displayurl")];
+    let label = parts.filter(str => str).join(" ");
+
+    // allow consumers that have extended popups to override
+    // the label values for the richlistitems
+    let panel = this.parentNode.parentNode;
+    if (panel.createResultLabel) {
+      return panel.createResultLabel(this, label);
+    }
+
+    return label;
+  }
+
+  get _stringBundle() {
+    if (!this.__stringBundle) {
+      this.__stringBundle = Services.strings.createBundle(
+        "chrome://global/locale/autocomplete.properties"
+      );
+    }
+    return this.__stringBundle;
+  }
+
+  get boundaryCutoff() {
+    if (!this._boundaryCutoff) {
+      this._boundaryCutoff = Components.classes[
+        "@mozilla.org/preferences-service;1"
+      ]
+        .getService(Components.interfaces.nsIPrefBranch)
+        .getIntPref("toolkit.autocomplete.richBoundaryCutoff");
+    }
+    return this._boundaryCutoff;
+  }
   _cleanup() {
     this.removeAttribute("url");
     this.removeAttribute("image");

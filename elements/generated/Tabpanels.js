@@ -10,6 +10,54 @@ class XblTabpanels extends XblTabBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get tabbox() {
+    // Memoize the result in a field rather than replacing this property,
+    // so that it can be reset along with the binding.
+    if (this._tabbox) {
+      return this._tabbox;
+    }
+
+    let parent = this.parentNode;
+    while (parent) {
+      if (parent.localName == "tabbox") {
+        break;
+      }
+      parent = parent.parentNode;
+    }
+
+    return (this._tabbox = parent);
+  }
+
+  set selectedIndex(val) {
+    if (val < 0 || val >= this.childNodes.length) return val;
+    var panel = this._selectedPanel;
+    this._selectedPanel = this.childNodes[val];
+    this.setAttribute("selectedIndex", val);
+    if (this._selectedPanel != panel) {
+      var event = document.createEvent("Events");
+      event.initEvent("select", true, true);
+      this.dispatchEvent(event);
+    }
+    return val;
+  }
+
+  get selectedIndex() {
+    var indexStr = this.getAttribute("selectedIndex");
+    return indexStr ? parseInt(indexStr) : -1;
+  }
+
+  set selectedPanel(val) {
+    var selectedIndex = -1;
+    for (var panel = val; panel != null; panel = panel.previousSibling)
+      ++selectedIndex;
+    this.selectedIndex = selectedIndex;
+    return val;
+  }
+
+  get selectedPanel() {
+    return this._selectedPanel;
+  }
   getRelatedElement(aTabPanelElm) {
     if (!aTabPanelElm) return null;
 

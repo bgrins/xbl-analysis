@@ -11,16 +11,89 @@ class XblTimepicker extends XblDatetimepickerBase {
   }
   disconnectedCallback() {}
 
+  set value(val) {
+    var items = val.match(/^([0-9]{1,2})\:([0-9]{1,2})\:?([0-9]{1,2})?$/);
+    if (!items) throw "Invalid Time";
+
+    var dt = this.dateValue;
+    dt.setHours(items[1]);
+    dt.setMinutes(items[2]);
+    dt.setSeconds(items[3] ? items[3] : 0);
+    this.dateValue = dt;
+    return val;
+  }
+
+  get value() {
+    var minute = this._dateValue.getMinutes();
+    if (minute < 10) minute = "0" + minute;
+
+    var second = this._dateValue.getSeconds();
+    if (second < 10) second = "0" + second;
+    return this._dateValue.getHours() + ":" + minute + ":" + second;
+  }
+
+  set hour(val) {
+    var valnum = Number(val);
+    if (isNaN(valnum) || valnum < 0 || valnum > 23) throw "Invalid Hour";
+    this._setFieldValue(this.hourField, valnum);
+    return val;
+  }
+
   get hour() {
     return this._dateValue.getHours();
+  }
+
+  set minute(val) {
+    var valnum = Number(val);
+    if (isNaN(valnum) || valnum < 0 || valnum > 59) throw "Invalid Minute";
+    this._setFieldValue(this.minuteField, valnum);
+    return val;
   }
 
   get minute() {
     return this._dateValue.getMinutes();
   }
 
+  set second(val) {
+    var valnum = Number(val);
+    if (isNaN(valnum) || valnum < 0 || valnum > 59) throw "Invalid Second";
+    this._setFieldValue(this.secondField, valnum);
+    return val;
+  }
+
   get second() {
     return this._dateValue.getSeconds();
+  }
+
+  set isPM(val) {
+    if (val) {
+      if (this.hour < 12) this.hour += 12;
+    } else if (this.hour >= 12) this.hour -= 12;
+    return val;
+  }
+
+  get isPM() {
+    return this.hour >= 12;
+  }
+
+  set hideSeconds(val) {
+    undefined;
+  }
+
+  get hideSeconds() {
+    undefined;
+  }
+
+  set increment(val) {
+    if (typeof val == "number") this.setAttribute("increment", val);
+    return val;
+  }
+
+  get increment() {
+    var increment = this.getAttribute("increment");
+    increment = Number(increment);
+    if (isNaN(increment) || increment <= 0 || increment >= 60) return 1;
+    return increment;
   }
   _setValueNoSync(aValue) {
     var dt = new Date(aValue);

@@ -10,6 +10,13 @@ class XblIframe extends BaseElement {
   }
   disconnectedCallback() {}
 
+  get docShell() {
+    let frameLoader = this.QueryInterface(
+      Components.interfaces.nsIFrameLoaderOwner
+    ).frameLoader;
+    return frameLoader ? frameLoader.docShell : null;
+  }
+
   get contentWindow() {
     return this.docShell
       .QueryInterface(Components.interfaces.nsIInterfaceRequestor)

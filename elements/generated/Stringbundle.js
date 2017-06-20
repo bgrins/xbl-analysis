@@ -9,6 +9,36 @@ class XblStringbundle extends BaseElement {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get stringBundle() {
+    if (!this._bundle) {
+      try {
+        this._bundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
+          .getService(Components.interfaces.nsIStringBundleService)
+          .createBundle(this.src);
+      } catch (e) {
+        dump("Failed to get stringbundle:\n");
+        dump(e + "\n");
+      }
+    }
+    return this._bundle;
+  }
+
+  set src(val) {
+    this._bundle = null;
+    this.setAttribute("src", val);
+    return val;
+  }
+
+  get src() {
+    return this.getAttribute("src");
+  }
+
+  get strings() {
+    // Note: this is a sucky method name! Should be:
+    //       readonly attribute nsISimpleEnumerator strings;
+    return this.stringBundle.getSimpleEnumeration();
+  }
   getString(aStringKey) {
     try {
       return this.stringBundle.GetStringFromName(aStringKey);

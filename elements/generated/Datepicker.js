@@ -11,12 +11,51 @@ class XblDatepicker extends XblDatetimepickerBase {
   }
   disconnectedCallback() {}
 
+  set value(val) {
+    var results = val.match(/^([0-9]{1,4})\-([0-9]{1,2})\-([0-9]{1,2})$/);
+    if (!results) throw "Invalid Date";
+
+    this.dateValue = new Date(results[1] + "/" + results[2] + "/" + results[3]);
+    this.setAttribute("value", this.value);
+    return val;
+  }
+
+  get value() {
+    var month = this._dateValue.getMonth();
+    month = month < 9 ? (month = "0" + ++month) : month + 1;
+
+    var date = this._dateValue.getDate();
+    if (date < 10) date = "0" + date;
+    return this._dateValue.getFullYear() + "-" + month + "-" + date;
+  }
+
+  set year(val) {
+    var valnum = Number(val);
+    if (isNaN(valnum) || valnum < 1 || valnum > 9999) throw "Invalid Year";
+    this._setFieldValue(this.yearField, valnum);
+    return val;
+  }
+
   get year() {
     return this._dateValue.getFullYear();
   }
 
+  set month(val) {
+    var valnum = Number(val);
+    if (isNaN(valnum) || valnum < 0 || valnum > 11) throw "Invalid Month";
+    this._setFieldValue(this.monthField, valnum);
+    return val;
+  }
+
   get month() {
     return this._dateValue.getMonth();
+  }
+
+  set date(val) {
+    var valnum = Number(val);
+    if (isNaN(valnum) || valnum < 1 || valnum > 31) throw "Invalid Date";
+    this._setFieldValue(this.dateField, valnum);
+    return val;
   }
 
   get date() {

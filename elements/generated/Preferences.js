@@ -9,6 +9,18 @@ class XblPreferences extends BaseElement {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get type() {
+    return document.documentElement.type || "";
+  }
+
+  get instantApply() {
+    var doc = document.documentElement;
+    return this.type == "child"
+      ? doc.instantApply
+      : doc.instantApply ||
+          this.rootBranch.getBoolPref("browser.preferences.instantApply");
+  }
   _constructAfterChildren() {
     // This method will be called after each one of the child
     // <preference> elements is constructed. Its purpose is to propagate

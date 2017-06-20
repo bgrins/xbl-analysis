@@ -3,6 +3,18 @@ class XblTabs extends XblBasecontrol {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    this.innerHTML = `<spacer class="tabs-left">
+</spacer>
+<children>
+</children>
+<spacer class="tabs-right" flex="1">
+</spacer>`;
+    let comment = document.createComment("Creating xbl-tabs");
+    this.prepend(comment);
+
     try {
       // first and last tabs need to be able to have unique styles
       // and also need to select first tab on startup.
@@ -31,17 +43,6 @@ class XblTabs extends XblBasecontrol {
       if (value) this.value = value;
       else this.selectedIndex = 0;
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    this.innerHTML = `<spacer class="tabs-left">
-</spacer>
-<children>
-</children>
-<spacer class="tabs-right" flex="1">
-</spacer>`;
-    let comment = document.createComment("Creating xbl-tabs");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 
@@ -49,8 +50,93 @@ class XblTabs extends XblBasecontrol {
     return this.childNodes.length;
   }
 
+  set value(val) {
+    this.setAttribute("value", val);
+    var children = this.childNodes;
+    for (var c = children.length - 1; c >= 0; c--) {
+      if (children[c].value == val) {
+        this.selectedIndex = c;
+        break;
+      }
+    }
+    return val;
+  }
+
   get value() {
     return this.getAttribute("value");
+  }
+
+  get tabbox() {
+    // Memoize the result in a field rather than replacing this property,
+    // so that it can be reset along with the binding.
+    if (this._tabbox) {
+      return this._tabbox;
+    }
+
+    let parent = this.parentNode;
+    while (parent) {
+      if (parent.localName == "tabbox") {
+        break;
+      }
+      parent = parent.parentNode;
+    }
+
+    return (this._tabbox = parent);
+  }
+
+  set selectedIndex(val) {
+    var tab = this.getItemAtIndex(val);
+    if (tab) {
+      var alreadySelected = tab.selected;
+
+      Array.forEach(this.childNodes, function(aTab) {
+        if (aTab.selected && aTab != tab) aTab._selected = false;
+      });
+      tab._selected = true;
+
+      this.setAttribute("value", tab.value);
+
+      let linkedPanel = this.getRelatedElement(tab);
+      if (linkedPanel) {
+        this.tabbox.setAttribute("selectedIndex", val);
+
+        // This will cause an onselect event to fire for the tabpanel
+        // element.
+        this.tabbox.tabpanels.selectedPanel = linkedPanel;
+      }
+
+      if (!alreadySelected) {
+        // Fire an onselect event for the tabs element.
+        var event = document.createEvent("Events");
+        event.initEvent("select", true, true);
+        this.dispatchEvent(event);
+      }
+    }
+    return val;
+  }
+
+  get selectedIndex() {
+    const tabs = this.childNodes;
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].selected) return i;
+    }
+    return -1;
+  }
+
+  set selectedItem(val) {
+    if (val && !val.selected)
+      // The selectedIndex setter ignores invalid values
+      // such as -1 if |val| isn't one of our child nodes.
+      this.selectedIndex = this.getIndexOfItem(val);
+    return val;
+  }
+
+  get selectedItem() {
+    const tabs = this.childNodes;
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].selected) return tabs[i];
+    }
+    return null;
   }
   getRelatedElement(aTabElm) {
     if (!aTabElm) return null;

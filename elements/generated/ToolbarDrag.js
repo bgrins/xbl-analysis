@@ -3,6 +3,12 @@ class XblToolbarDrag extends XblToolbar {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    let comment = document.createComment("Creating xbl-toolbar-drag");
+    this.prepend(comment);
+
     try {
       if (!this._draggableStarted) {
         this._draggableStarted = true;
@@ -23,11 +29,6 @@ class XblToolbarDrag extends XblToolbar {
         } catch (e) {}
       }
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-toolbar-drag");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

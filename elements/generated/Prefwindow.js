@@ -3,6 +3,56 @@ class XblPrefwindow extends XblDialog {
     super();
   }
   connectedCallback() {
+    super.connectedCallback();
+    console.log(this, "connected");
+
+    this.innerHTML = `<windowdragbox orient="vertical">
+<radiogroup anonid="selector" orient="horizontal" class="paneSelector chromeclass-toolbar" role="listbox">
+</radiogroup>
+</windowdragbox>
+<hbox flex="1" class="paneDeckContainer">
+<deck anonid="paneDeck" flex="1">
+<children includes="prefpane">
+</children>
+</deck>
+</hbox>
+<hbox anonid="dlg-buttons" class="prefWindow-dlgbuttons" pack="end">
+<button dlgtype="disclosure" class="dialog-button" hidden="true">
+</button>
+<button dlgtype="help" class="dialog-button" hidden="true" icon="help">
+</button>
+<button dlgtype="extra2" class="dialog-button" hidden="true">
+</button>
+<button dlgtype="extra1" class="dialog-button" hidden="true">
+</button>
+<spacer anonid="spacer" flex="1">
+</spacer>
+<button dlgtype="cancel" class="dialog-button" icon="cancel">
+</button>
+<button dlgtype="accept" class="dialog-button" icon="accept">
+</button>
+<button dlgtype="extra2" class="dialog-button" hidden="true">
+</button>
+<spacer anonid="spacer" flex="1">
+</spacer>
+<button dlgtype="accept" class="dialog-button" icon="accept">
+</button>
+<button dlgtype="extra1" class="dialog-button" hidden="true">
+</button>
+<button dlgtype="cancel" class="dialog-button" icon="cancel">
+</button>
+<button dlgtype="help" class="dialog-button" hidden="true" icon="help">
+</button>
+<button dlgtype="disclosure" class="dialog-button" hidden="true">
+</button>
+</hbox>
+<hbox>
+<children>
+</children>
+</hbox>`;
+    let comment = document.createComment("Creating xbl-prefwindow");
+    this.prepend(comment);
+
     try {
       if (this.type != "child") {
         if (!this._instantApplyInitialized) {
@@ -73,55 +123,6 @@ class XblPrefwindow extends XblDialog {
 
       if (panes.length == 1) this._selector.setAttribute("collapsed", "true");
     } catch (e) {}
-    super.connectedCallback();
-    console.log(this, "connected");
-
-    this.innerHTML = `<windowdragbox orient="vertical">
-<radiogroup anonid="selector" orient="horizontal" class="paneSelector chromeclass-toolbar" role="listbox">
-</radiogroup>
-</windowdragbox>
-<hbox flex="1" class="paneDeckContainer">
-<deck anonid="paneDeck" flex="1">
-<children includes="prefpane">
-</children>
-</deck>
-</hbox>
-<hbox anonid="dlg-buttons" class="prefWindow-dlgbuttons" pack="end">
-<button dlgtype="disclosure" class="dialog-button" hidden="true">
-</button>
-<button dlgtype="help" class="dialog-button" hidden="true" icon="help">
-</button>
-<button dlgtype="extra2" class="dialog-button" hidden="true">
-</button>
-<button dlgtype="extra1" class="dialog-button" hidden="true">
-</button>
-<spacer anonid="spacer" flex="1">
-</spacer>
-<button dlgtype="cancel" class="dialog-button" icon="cancel">
-</button>
-<button dlgtype="accept" class="dialog-button" icon="accept">
-</button>
-<button dlgtype="extra2" class="dialog-button" hidden="true">
-</button>
-<spacer anonid="spacer" flex="1">
-</spacer>
-<button dlgtype="accept" class="dialog-button" icon="accept">
-</button>
-<button dlgtype="extra1" class="dialog-button" hidden="true">
-</button>
-<button dlgtype="cancel" class="dialog-button" icon="cancel">
-</button>
-<button dlgtype="help" class="dialog-button" hidden="true" icon="help">
-</button>
-<button dlgtype="disclosure" class="dialog-button" hidden="true">
-</button>
-</hbox>
-<hbox>
-<children>
-</children>
-</hbox>`;
-    let comment = document.createComment("Creating xbl-prefwindow");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 
@@ -149,12 +150,50 @@ class XblPrefwindow extends XblDialog {
     return document.getAnonymousElementByAttribute(this, "anonid", "selector");
   }
 
+  set lastSelected(val) {
+    undefined;
+  }
+
   get lastSelected() {
     return this.getAttribute("lastSelected");
   }
 
   set currentPane(val) {
     return (this._currentPane = val);
+  }
+
+  get currentPane() {
+    undefined;
+  }
+
+  get _shouldAnimate() {
+    var psvc = Components.classes[
+      "@mozilla.org/preferences-service;1"
+    ].getService(Components.interfaces.nsIPrefBranch);
+    return psvc.getBoolPref(
+      "browser.preferences.animateFadeIn",
+      /Mac/.test(navigator.platform)
+    );
+  }
+
+  get _sizeIncrement() {
+    var lastSelectedPane = document.getElementById(this.lastSelected);
+    var increment = this._animateIncrement * this._multiplier;
+    var newHeight = this._currentHeight + increment;
+    if (
+      (this._multiplier > 0 &&
+        this._currentHeight >= lastSelectedPane.contentHeight) ||
+      (this._multiplier < 0 &&
+        this._currentHeight <= lastSelectedPane.contentHeight)
+    )
+      return 0;
+
+    if (
+      (this._multiplier > 0 && newHeight > lastSelectedPane.contentHeight) ||
+      (this._multiplier < 0 && newHeight < lastSelectedPane.contentHeight)
+    )
+      increment = this._animateRemainder * this._multiplier;
+    return increment;
   }
   _makePaneButton(aPaneElement) {
     var radio = document.createElement("radio");

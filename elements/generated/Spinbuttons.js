@@ -17,6 +17,14 @@ class XblSpinbuttons extends XblBasecontrol {
   }
   disconnectedCallback() {}
 
+  get _increaseButton() {
+    undefined;
+  }
+
+  get _decreaseButton() {
+    undefined;
+  }
+
   set increaseDisabled(val) {
     if (val) this._increaseButton.setAttribute("disabled", "true");
     else this._increaseButton.removeAttribute("disabled");
