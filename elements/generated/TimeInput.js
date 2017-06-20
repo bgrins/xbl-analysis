@@ -217,27 +217,23 @@ class XblTimeInput extends XblDatetimeInputBase {
     this.notifyPicker();
   }
   setInputValueFromFields() {
-    if (!this.isAnyValueAvailable(false)) {
-      this.mInputElement.setUserInput("");
+    if (this.isAnyFieldEmpty()) {
+      // Clear input element's value if any of the field has been cleared,
+      // otherwise update the validity state, since it may become "not"
+      // invalid if fields are not complete.
+      if (this.mInputElement.value) {
+        this.mInputElement.setUserInput("");
+      } else {
+        this.mInputElement.updateValidityState();
+      }
+      // We still need to notify picker in case any of the field has
+      // changed.
+      this.notifyPicker();
       return;
     }
 
     let { hour, minute, second, millisecond } = this.getCurrentValue();
     let dayPeriod = this.getDayPeriodValue();
-
-    if (
-      this.isEmpty(hour) ||
-      this.isEmpty(minute) ||
-      (this.mDayPeriodField && this.isEmpty(dayPeriod)) ||
-      (this.mSecondField && this.isEmpty(second)) ||
-      (this.mMillisecField && this.isEmpty(millisecond))
-    ) {
-      // We still need to notify picker in case any of the field has
-      // changed. If we can set input element value, then notifyPicker
-      // will be called in setFieldsFromInputValue().
-      this.notifyPicker();
-      return;
-    }
 
     // Convert to a valid time string according to:
     // https://html.spec.whatwg.org/multipage/infrastructure.html#valid-time-string
@@ -266,7 +262,12 @@ class XblTimeInput extends XblDatetimeInputBase {
       time += "." + millisecond;
     }
 
+    if (time == this.mInputElement.value) {
+      return;
+    }
+
     this.log("setInputValueFromFields: " + time);
+    this.notifyPicker();
     this.mInputElement.setUserInput(time);
   }
   setFieldsFromPicker(aValue) {
@@ -286,6 +287,9 @@ class XblTimeInput extends XblDatetimeInputBase {
     if (!this.isEmpty(minute)) {
       this.setFieldValue(this.mMinuteField, minute);
     }
+
+    // Update input element's .value if needed.
+    this.setInputValueFromFields();
   }
   clearInputFields(aFromInputElement) {
     this.log("clearInputFields");
@@ -335,7 +339,11 @@ class XblTimeInput extends XblDatetimeInputBase {
     }
 
     if (!aFromInputElement) {
-      this.mInputElement.setUserInput("");
+      if (this.mInputElement.value) {
+        this.mInputElement.setUserInput("");
+      } else {
+        this.mInputElement.updateValidityState();
+      }
     }
   }
   incrementFieldValue(aTargetField, aTimes) {
@@ -513,7 +521,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     this.mDayPeriodField.textContent = aValue;
     this.updateResetButtonVisibility();
   }
-  isAnyValueAvailable(aForPicker) {
+  isAnyFieldAvailable(aForPicker) {
     let { hour, minute, second, millisecond } = this.getCurrentValue();
     let dayPeriod = this.getDayPeriodValue();
 
@@ -531,6 +539,18 @@ class XblTimeInput extends XblDatetimeInputBase {
       (this.mDayPeriodField && !this.isEmpty(dayPeriod)) ||
       (this.mSecondField && !this.isEmpty(second)) ||
       (this.mMillisecField && !this.isEmpty(millisecond))
+    );
+  }
+  isAnyFieldEmpty() {
+    let { hour, minute, second, millisecond } = this.getCurrentValue();
+    let dayPeriod = this.getDayPeriodValue();
+
+    return (
+      this.isEmpty(hour) ||
+      this.isEmpty(minute) ||
+      (this.mDayPeriodField && this.isEmpty(dayPeriod)) ||
+      (this.mSecondField && this.isEmpty(second)) ||
+      (this.mMillisecField && this.isEmpty(millisecond))
     );
   }
   getCurrentValue() {

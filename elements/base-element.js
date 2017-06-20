@@ -35,21 +35,32 @@ InheritsConnector.prototype.destroy = function() {
 }
 InheritsConnector.prototype.setInherits = function(node) {
   let inherits = node.getAttribute("inherits");
-  console.log("Addd node", node, inherits);
   if (inherits) {
     this._nodesToAttributes.set(node, inherits.split(','));
   }
 }
+InheritsConnector.prototype.copyAttribute = function(attributeName) {
+  for (let [node, list] of this._nodesToAttributes.entries()) {
+    // Handle both inherits="accesskey" and inherits="text=label"
+    list.forEach(a => {
+      if (a === attributeName) {
+        node.setAttribute(a, this._host.getAttribute(a));
+      } else if (a.endsWith('=' + attributeName)) {
+        let mapFrom = a.split('=')[1];
+        let mapTo = a.split('=')[0];
+        node.setAttribute(mapTo, this._host.getAttribute(mapFrom));
+      }
+    });
+  }
+};
+
 InheritsConnector.prototype.watch = function() {
   if (this._observer) {
     this._observer.disconnect();
     this._observer = null;
   }
 
-  function setInherits(node) {
-  }
   this._observer = new MutationObserver(mutations => {
-    console.log("Inherits changes", mutations);
     mutations.forEach(mutation => {
       if (mutation.type === "childList") {
         mutation.addedNodes.forEach(added => {
@@ -58,25 +69,17 @@ InheritsConnector.prototype.watch = function() {
           }
           this.setInherits(added);
           [...added.querySelectorAll("[inherits]")].forEach(child => this.setInherits(child));
+          for (var i = 0; i < this._host.attributes.length; i++) {
+            var attrib = this._host.attributes[i];
+            if (attrib.name !== "id") {
+              this.copyAttribute(attrib.name);
+            }
+          }
         });
       }
 
       if (mutation.type === "attributes" && mutation.target === this._host) {
-        for (let [node, list] of this._nodesToAttributes.entries()) {
-          console.log("attribute changed", node, list, list.includes(mutation.attributeName));
-
-          // Handle both inherits="accesskey" and inherits="text=label"
-          list.forEach(a => {
-            console.log(a, mutation.attributeName);
-            if (a === mutation.attributeName) {
-              node.setAttribute(a, this._host.getAttribute(a));
-            } else if (a.endsWith('=' + mutation.attributeName)) {
-              let mapFrom = a.split('=')[1];
-              let mapTo = a.split('=')[0];
-              node.setAttribute(mapTo, this._host.getAttribute(mapFrom));
-            }
-          });
-        }
+        this.copyAttribute(mutation.attributeName);
       }
     });
 
@@ -119,7 +122,6 @@ ObserverConnector.prototype.watch = function(targetID) {
   this._observeTarget = document.getElementById(targetID);
   if (this._observeTarget) {
     this._observer = new MutationObserver(mutations => {
-      console.log("Observed changes", mutations);
       mutations.forEach(mutation => {
         if (!this._observeTarget.hasAttribute(mutation.attributeName)) {
           this.removeAttribute(mutation.attributeName);

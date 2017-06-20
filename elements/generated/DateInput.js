@@ -106,7 +106,11 @@ class XblDateInput extends XblDatetimeInputBase {
     }
 
     if (!aFromInputElement) {
-      this.mInputElement.setUserInput("");
+      if (this.mInputElement.value) {
+        this.mInputElement.setUserInput("");
+      } else {
+        this.mInputElement.updateValidityState();
+      }
     }
   }
   setFieldsFromInputValue() {
@@ -125,50 +129,23 @@ class XblDateInput extends XblDatetimeInputBase {
 
     this.notifyPicker();
   }
-  getDaysInMonth(aMonth, aYear) {
-    // Javascript's month is 0-based, so this means last day of the
-    // previous month.
-    return new Date(aYear, aMonth, 0).getDate();
-  }
-  isFieldInvalid(aField) {
-    let value = this.getFieldValue(aField);
-    if (this.isEmpty(value)) {
-      return true;
-    }
-
-    let min = Number(aField.getAttribute("min"));
-    let max = Number(aField.getAttribute("max"));
-
-    if (value < min || value > max) {
-      return true;
-    }
-
-    return false;
-  }
   setInputValueFromFields() {
-    if (!this.isAnyValueAvailable(false)) {
-      this.mInputElement.setUserInput("");
-      return;
-    }
-
-    if (
-      this.isFieldInvalid(this.mYearField) ||
-      this.isFieldInvalid(this.mMonthField) ||
-      this.isFieldInvalid(this.mDayField)
-    ) {
+    if (this.isAnyFieldEmpty()) {
+      // Clear input element's value if any of the field has been cleared,
+      // otherwise update the validity state, since it may become "not"
+      // invalid if fields are not complete.
+      if (this.mInputElement.value) {
+        this.mInputElement.setUserInput("");
+      } else {
+        this.mInputElement.updateValidityState();
+      }
       // We still need to notify picker in case any of the field has
-      // changed. If we can set input element value, then notifyPicker
-      // will be called in setFieldsFromInputValue().
+      // changed.
       this.notifyPicker();
       return;
     }
 
     let { year, month, day } = this.getCurrentValue();
-    if (day > this.getDaysInMonth(month, year)) {
-      // Don't set invalid date, otherwise input element's value will be
-      // set to empty.
-      return;
-    }
 
     // Convert to a valid date string according to:
     // https://html.spec.whatwg.org/multipage/infrastructure.html#valid-date-string
@@ -178,7 +155,12 @@ class XblDateInput extends XblDatetimeInputBase {
 
     let date = [year, month, day].join("-");
 
+    if (date == this.mInputElement.value) {
+      return;
+    }
+
     this.log("setInputValueFromFields: " + date);
+    this.notifyPicker();
     this.mInputElement.setUserInput(date);
   }
   setFieldsFromPicker(aValue) {
@@ -197,6 +179,9 @@ class XblDateInput extends XblDatetimeInputBase {
     if (!this.isEmpty(day)) {
       this.setFieldValue(this.mDayField, day);
     }
+
+    // Update input element's .value if needed.
+    this.setInputValueFromFields();
   }
   handleKeypress(aEvent) {
     if (this.isDisabled() || this.isReadonly()) {
@@ -339,10 +324,15 @@ class XblDateInput extends XblDatetimeInputBase {
     aField.textContent = formatted;
     this.updateResetButtonVisibility();
   }
-  isAnyValueAvailable(aForPicker) {
+  isAnyFieldAvailable(aForPicker) {
     let { year, month, day } = this.getCurrentValue();
 
     return !this.isEmpty(year) || !this.isEmpty(month) || !this.isEmpty(day);
+  }
+  isAnyFieldEmpty() {
+    let { year, month, day } = this.getCurrentValue();
+
+    return this.isEmpty(year) || this.isEmpty(month) || this.isEmpty(day);
   }
 }
 customElements.define("xbl-date-input", XblDateInput);

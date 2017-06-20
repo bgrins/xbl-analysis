@@ -6,7 +6,7 @@
         <title>Custom Elements</title>
         <style>
         </style>
-        <script src="../static/custom-elements.min.js"></script>
+        <script src="../static/webcomponents-sd-ce.js"></script>
         <script src="base-element.js"></script>
         <script src="generated/BaseControl.js"></script>
         <script src="generated/BaseText.js"></script>
@@ -18,13 +18,14 @@
     <body>
         <!-- <xbl-checkbox></xbl-checkbox><br />
         <xbl-checkbox checked></xbl-checkbox><br /> -->
-        <xbl-checkbox id="labeled" label="foo"></xbl-checkbox><br />
+        <xbl-checkbox id="labeled" label="foo" accesskey="f"
+           src="data:image/svg+xml,<svg width='10' height='10' xmlns='http://www.w3.org/2000/svg'><rect fill='red' width='10' height='10' /></svg>"></xbl-checkbox><br />
 
         <script>
-        setTimeout(() => {
-            document.querySelector("#labeled").setAttribute("src", "data:image/svg+xml,<svg width='10' height='10' xmlns='http://www.w3.org/2000/svg'><rect fill='red' width='10' height='10' /></svg>");
-            document.querySelector("#labeled").setAttribute("label", "Changed");
-        }, 1000)
+        // setTimeout(() => {
+        //     document.querySelector("#labeled").setAttribute("src", "data:image/svg+xml,<svg width='10' height='10' xmlns='http://www.w3.org/2000/svg'><rect fill='red' width='10' height='10' /></svg>");
+        //     document.querySelector("#labeled").setAttribute("label", "Changed");
+        // }, 1000)
         </script>
     </body>
 </html>

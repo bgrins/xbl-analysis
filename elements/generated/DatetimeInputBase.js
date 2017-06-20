@@ -76,7 +76,7 @@ class XblDatetimeInputBase extends BaseElement {
     return field;
   }
   updateResetButtonVisibility() {
-    if (this.isAnyValueAvailable(false)) {
+    if (this.isAnyFieldAvailable(false)) {
       this.mResetButton.style.visibility = "visible";
     } else {
       this.mResetButton.style.visibility = "hidden";
@@ -132,6 +132,20 @@ class XblDatetimeInputBase extends BaseElement {
   }
   setValueFromPicker(aValue) {
     this.setFieldsFromPicker(aValue);
+  }
+  hasBadInput() {
+    // Incomplete field does not imply bad input.
+    if (this.isAnyFieldEmpty()) {
+      return false;
+    }
+
+    // All fields are available but input element's value is empty implies
+    // it has been sanitized.
+    if (!this.mInputElement.value) {
+      return true;
+    }
+
+    return false;
   }
   advanceToNextField(aReverse) {
     this.log("advanceToNextField");
@@ -252,9 +266,9 @@ class XblDatetimeInputBase extends BaseElement {
   handleKeypress() {}
   handleKeyboardNav() {}
   getCurrentValue() {}
-  isAnyValueAvailable() {}
+  isAnyFieldAvailable() {}
   notifyPicker() {
-    if (this.mIsPickerOpen && this.isAnyValueAvailable(true)) {
+    if (this.mIsPickerOpen && this.isAnyFieldAvailable(true)) {
       this.mInputElement.updateDateTimePicker(this.getCurrentValue());
     }
   }
@@ -327,10 +341,6 @@ class XblDatetimeInputBase extends BaseElement {
         aEvent.target
     );
 
-    if (document.activeElement == this.mInputElement) {
-      return;
-    }
-
     if (aEvent.target == this.mInputElement && this.mIsPickerOpen) {
       this.mInputElement.closeDateTimePicker();
     }
@@ -363,7 +373,7 @@ class XblDatetimeInputBase extends BaseElement {
       }
       case "ArrowRight":
       case "ArrowLeft": {
-        this.advanceToNextField(aEvent.key == "ArrowRight" ? false : true);
+        this.advanceToNextField(!(aEvent.key == "ArrowRight"));
         aEvent.preventDefault();
         break;
       }
