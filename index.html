@@ -6,16 +6,27 @@
       li,ul { list-style: none; }
       em { padding-left: 10px; color: #999; }
       summary {padding: 4px 0; position: relative; width: 100%; }
-      #resources:target ~ #container [highlight=resources]{ background: yellow; }
-#property:target ~ #container [highlight=property]{ background: yellow; }
-#field:target ~ #container [highlight=field]{ background: yellow; }
-#content:target ~ #container [highlight=content]{ background: yellow; }
-#handler:target ~ #container [highlight=handler]{ background: yellow; }
-#method:target ~ #container [highlight=method]{ background: yellow; }
-#children:target ~ #container [highlight=children]{ background: yellow; }
-#constructor:target ~ #container [highlight=constructor]{ background: yellow; }
-#destructor:target ~ #container [highlight=destructor]{ background: yellow; }
-#implements:target ~ #container [highlight=implements]{ background: yellow; }
+      .highlights { border: solid 1px; padding: 5px; margin: 5px }
+      #resources:target ~ * [highlight=resources] { background: yellow; }
+#resources:target ~ #container details:not([resources]) > summary { opacity: .5; }
+#property:target ~ * [highlight=property] { background: yellow; }
+#property:target ~ #container details:not([property]) > summary { opacity: .5; }
+#field:target ~ * [highlight=field] { background: yellow; }
+#field:target ~ #container details:not([field]) > summary { opacity: .5; }
+#content:target ~ * [highlight=content] { background: yellow; }
+#content:target ~ #container details:not([content]) > summary { opacity: .5; }
+#handler:target ~ * [highlight=handler] { background: yellow; }
+#handler:target ~ #container details:not([handler]) > summary { opacity: .5; }
+#method:target ~ * [highlight=method] { background: yellow; }
+#method:target ~ #container details:not([method]) > summary { opacity: .5; }
+#children:target ~ * [highlight=children] { background: yellow; }
+#children:target ~ #container details:not([children]) > summary { opacity: .5; }
+#constructor:target ~ * [highlight=constructor] { background: yellow; }
+#constructor:target ~ #container details:not([constructor]) > summary { opacity: .5; }
+#destructor:target ~ * [highlight=destructor] { background: yellow; }
+#destructor:target ~ #container details:not([destructor]) > summary { opacity: .5; }
+#implements:target ~ * [highlight=implements] { background: yellow; }
+#implements:target ~ #container details:not([implements]) > summary { opacity: .5; }
     </style>
     </head>
     <div id=resources></div>
@@ -36,16 +47,16 @@
           From these 42 files, <strong>175</strong> bindings were detected.</li>
       <li>A child in the tree means that it extends the parent</li>
       <li>Features used: 
-                            <code><a href='#method'>method</a></code>: <strong>552</strong>,
-                            <code><a href='#property'>property</a></code>: <strong>449</strong>,
-                            <code><a href='#field'>field</a></code>: <strong>312</strong>,
-                            <code><a href='#handler'>handler</a></code>: <strong>238</strong>,
-                            <code><a href='#content'>content</a></code>: <strong>113</strong>,
-                            <code><a href='#children'>children</a></code>: <strong>87</strong>,
-                            <code><a href='#resources'>resources</a></code>: <strong>62</strong>,
-                            <code><a href='#constructor'>constructor</a></code>: <strong>52</strong>,
-                            <code><a href='#implements'>implements</a></code>: <strong>39</strong>,
-                            <code><a href='#destructor'>destructor</a></code>: <strong>22</strong></li>
+                            <code>method</code>: <strong>553</strong>,
+                            <code>property</code>: <strong>449</strong>,
+                            <code>field</code>: <strong>312</strong>,
+                            <code>handler</code>: <strong>238</strong>,
+                            <code>content</code>: <strong>113</strong>,
+                            <code>children</code>: <strong>87</strong>,
+                            <code>resources</code>: <strong>62</strong>,
+                            <code>constructor</code>: <strong>52</strong>,
+                            <code>implements</code>: <strong>39</strong>,
+                            <code>destructor</code>: <strong>22</strong></li>
     </ul>
     <p>About "total instances":
        This is a count of how many elements have a particular binding applied
@@ -53,12 +64,25 @@
        It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
        The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a>.
     </p>
+    <div class='highlights'>
+    Highlights: <a href='#'>clear</a> | 
+                                    <a href='#method' highlight="method">method</a> | 
+                                    <a href='#property' highlight="property">property</a> | 
+                                    <a href='#field' highlight="field">field</a> | 
+                                    <a href='#handler' highlight="handler">handler</a> | 
+                                    <a href='#content' highlight="content">content</a> | 
+                                    <a href='#children' highlight="children">children</a> | 
+                                    <a href='#resources' highlight="resources">resources</a> | 
+                                    <a href='#constructor' highlight="constructor">constructor</a> | 
+                                    <a href='#implements' highlight="implements">implements</a> | 
+                                    <a href='#destructor' highlight="destructor">destructor</a>
+    </div>
     <div id='container'>
     
-      <details open property implements field content handler method children constructor>
+      <details open property implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/text.xml" target="_blank">text-base</a> (1149 total instances)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULDescriptionElement)</code></em></summary><ul><li>
-      <details open property implements field content handler method children constructor>
+      <details open property implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/text.xml" target="_blank">text-label</a> (1076 total instances)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='implements'>implements (nsIDOMXULLabelElement)</code></em></summary><ul><li>
       <details open property field content handler method children constructor implements>
@@ -67,19 +91,19 @@
       <details open property handler method>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/text.xml" target="_blank">text-link</a> (19 total instances)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (1)</code></em></summary></details></li></ul></details></li></ul></details>
-      <details open property implements field resources content children method handler constructor destructor>
+      <details open property implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/general.xml" target="_blank">basecontrol</a> (864 total instances)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='implements'>implements (nsIDOMXULControlElement)</code></em></summary><ul><li>
-      <details open property field implements resources content children method handler constructor destructor>
+      <details open property field implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/general.xml" target="_blank">basetext</a> (558 total instances)
   <em>Used features: <code highlight='property'>property (5)</code>, <code highlight='field'>field (1)</code>, <code highlight='implements'>implements (nsIDOMXULLabeledControlElement)</code></em></summary><ul><li>
-      <details open property resources implements content children method handler constructor destructor field>
+      <details open property>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/general.xml" target="_blank">control-item</a> (388 total instances)
   <em>Used features: <code highlight='property'>property (1)</code></em></summary><ul><li>
-      <details open resources property implements content children method>
+      <details open resources property implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/menu.xml" target="_blank">menuitem-base</a> (385 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement, nsIDOMXULContainerItemElement)</code></em></summary><ul><li>
-      <details open content children>
+      <details open content>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/menu.xml" target="_blank">menuitem</a> (277 total instances)
   <em>Used features: <code highlight='content'>content (1)</code></em></summary><ul><li>
       <details open content children>
@@ -94,7 +118,7 @@
       <details open >
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/menu.xml" target="_blank">menuseparator</a> (94 total instances)
   <em>Used features: </em></summary></details></li><li>
-      <details open property method implements content children>
+      <details open property method implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/menu.xml" target="_blank">menu-base</a> (14 total instances)
   <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='method'>method (5)</code>, <code highlight='implements'>implements (nsIDOMXULContainerElement)</code></em></summary><ul><li>
       <details open content children>
@@ -124,7 +148,7 @@
       <details open resources property field content handler method implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/tabbox.xml" target="_blank">tab</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code></em></summary></details></li></ul></details></li><li>
-      <details open property handler method implements resources content children field constructor>
+      <details open property handler method implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/button.xml" target="_blank">button-base</a> (159 total instances)
   <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIDOMXULButtonElement)</code></em></summary><ul><li>
       <details open resources content children>
@@ -154,13 +178,13 @@
       <details open >
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/button.xml" target="_blank">button-repeat</a> (0 total instances)
   <em>Used features: </em></summary></details></li></ul></details></li><li>
-      <details open property field handler method constructor implements resources content children>
+      <details open property field handler method constructor implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/button.xml" target="_blank">menu-button-base</a> (1 total instances)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em></summary><ul><li>
       <details open resources content children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/toolbarbutton.xml" target="_blank">menu-button</a> (1 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open property content handler method implements resources>
+      <details open property content handler method implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/checkbox.xml" target="_blank">checkbox-baseline</a> (11 total instances)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULCheckboxElement)</code></em></summary><ul><li>
       <details open resources>
@@ -172,7 +196,7 @@
       <details open resources content children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/groupbox.xml" target="_blank">caption</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li><li>
-      <details open resources property content handler method children implements field destructor constructor>
+      <details open resources property content handler method children implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/listbox.xml" target="_blank">listitem</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code></em></summary><ul><li>
       <details open content children>
@@ -184,7 +208,7 @@
       <details open content children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/listbox.xml" target="_blank">listitem-checkbox-iconic</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details></li><li>
-      <details open resources property field content children destructor handler method constructor implements>
+      <details open resources property field content children destructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/richlistbox.xml" target="_blank">richlistitem</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
       <details open property field content handler method constructor implements>
@@ -193,7 +217,7 @@
       <details open property content handler method constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-richlistitem-insecure-field</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details></li></ul></details></li></ul></details></li></ul></details></li><li>
-      <details open resources content method children property field handler constructor destructor implements>
+      <details open resources>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/scrollbox.xml" target="_blank">scrollbox-base</a> (296 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
       <details open content>
@@ -202,13 +226,13 @@
       <details open content method children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/scrollbox.xml" target="_blank">scrollbox</a> (80 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li><li>
-      <details open property field content handler method children constructor destructor implements>
+      <details open property field content handler method children constructor destructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/scrollbox.xml" target="_blank">arrowscrollbox</a> (72 total instances)
   <em>Used features: <code highlight='property'>property (10)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (12)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
       <details open field content method children constructor destructor implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/scrollbox.xml" target="_blank">arrowscrollbox-clicktoscroll</a> (0 total instances)
   <em>Used features: <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (7)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsITimerCallback, nsIDOMEventListener)</code></em></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open resources property content handler method children constructor destructor implements>
+      <details open resources>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/menulist.xml" target="_blank">menulist-base</a> (4 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
       <details open property content handler method children constructor destructor implements>
@@ -223,7 +247,7 @@
       <details open content children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/menulist.xml" target="_blank">menulist-description</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open resources method property field content handler children implements constructor>
+      <details open resources method>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/tree.xml" target="_blank">tree-base</a> (3 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='method'>method (1)</code></em></summary><ul><li>
       <details open property field content handler method children implements>
@@ -232,7 +256,7 @@
       <details open content children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-tree</a> (1 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code></em></summary></details></li></ul></details></li><li>
-      <details open property handler method constructor content>
+      <details open property handler method constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/tree.xml" target="_blank">treecol-base</a> (1 total instances)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code></em></summary><ul><li>
       <details open content>
@@ -250,7 +274,7 @@
       <details open field handler constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/tree.xml" target="_blank">treebody</a> (0 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details></li><li>
-      <details open property field handler method implements resources content children constructor destructor>
+      <details open property field handler method implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/listbox.xml" target="_blank">listbox-base</a> (2 total instances)
   <em>Used features: <code highlight='property'>property (10)</code>, <code highlight='field'>field (9)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (17)</code>, <code highlight='implements'>implements (nsIDOMXULMultiSelectControlElement)</code></em></summary><ul><li>
       <details open resources property field content handler method children constructor destructor>
@@ -295,7 +319,7 @@
       <details open property field handler method>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/datetimepicker.xml" target="_blank">timepicker</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='field'>field (9)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (6)</code></em></summary></details></li><li>
-      <details open property field method content handler constructor>
+      <details open property field method>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/datetimepicker.xml" target="_blank">datepicker</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='field'>field (6)</code>, <code highlight='method'>method (6)</code></em></summary><ul><li>
       <details open property field content handler method>
@@ -316,16 +340,16 @@
       <details open property implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/general.xml" target="_blank">image</a> (534 total instances)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='implements'>implements (nsIDOMXULImageElement)</code></em></summary></details>
-      <details open resources property method implements field content handler children constructor>
+      <details open resources property method implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/popup.xml" target="_blank">popup-base</a> (89 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (9)</code>, <code highlight='method'>method (12)</code>, <code highlight='implements'>implements (nsIDOMXULPopupElement)</code></em></summary><ul><li>
-      <details open field content handler children method property implements resources>
+      <details open field content handler children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/popup.xml" target="_blank">popup</a> (61 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='children'>children (1)</code></em></summary><ul><li>
       <details open field content handler method children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/popup.xml" target="_blank">popup-scrollbars</a> (4 total instances)
   <em>Used features: <code highlight='field'>field (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (2)</code>, <code highlight='children'>children (1)</code></em></summary></details></li><li>
-      <details open property field handler method implements resources content children>
+      <details open property field handler method implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-base-popup</a> (1 total instances)
   <em>Used features: <code highlight='property'>property (5)</code>, <code highlight='field'>field (5)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code></em></summary><ul><li>
       <details open resources property field content handler method children implements>
@@ -334,10 +358,10 @@
       <details open resources property field content method>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-result-popup</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (7)</code></em></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open field handler constructor implements content method children resources property>
+      <details open field handler constructor implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/popup.xml" target="_blank">panel</a> (19 total instances)
   <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULPopupElement)</code></em></summary><ul><li>
-      <details open field content handler method children resources property constructor>
+      <details open field content handler method children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/popup.xml" target="_blank">arrowpanel</a> (16 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code></em></summary><ul><li>
       <details open resources property field method constructor>
@@ -346,13 +370,13 @@
       <details open property field content handler method children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/popup.xml" target="_blank">tooltip</a> (9 total instances)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details>
-      <details open resources property field method constructor handler destructor content implements children>
+      <details open resources>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/toolbar.xml" target="_blank">toolbar-base</a> (39 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
       <details open >
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/toolbar.xml" target="_blank">toolbardecoration</a> (33 total instances)
   <em>Used features: </em></summary></details></li><li>
-      <details open property field method constructor handler destructor resources content implements>
+      <details open property field method constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/toolbar.xml" target="_blank">toolbar</a> (4 total instances)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (5)</code>, <code highlight='constructor'>constructor (1)</code></em></summary><ul><li>
       <details open field handler method constructor destructor>
@@ -376,7 +400,7 @@
       <details open content children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/toolbar.xml" target="_blank">toolbarpaletteitem-palette</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details></li></ul></details>
-      <details open resources content handler>
+      <details open resources content>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/general.xml" target="_blank">dropmarker</a> (24 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code></em></summary><ul><li>
       <details open handler>
@@ -394,7 +418,7 @@
       <details open property field content handler method children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/notification.xml" target="_blank">notificationbox</a> (4 total instances)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (14)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (10)</code>, <code highlight='children'>children (2)</code></em></summary></details>
-      <details open content method children property field>
+      <details open content method children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/textbox.xml" target="_blank">input-box</a> (4 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code></em></summary><ul><li>
       <details open property field content method children>
@@ -424,7 +448,7 @@
       <details open content children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/textbox.xml" target="_blank">textarea</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details>
-      <details open handler content>
+      <details open handler>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/scrollbar.xml" target="_blank">scrollbar-base</a> (1 total instances)
   <em>Used features: <code highlight='handler'>handler (4)</code></em></summary><ul><li>
       <details open content>
@@ -439,7 +463,7 @@
       <details open resources content children constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/tree.xml" target="_blank">treecols</a> (1 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
-      <details open resources property field method implements constructor destructor>
+      <details open resources>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/tabbox.xml" target="_blank">tab-base</a> (1 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
       <details open property field method implements>
@@ -451,10 +475,10 @@
       <details open content children>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-treerows</a> (1 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details>
-      <details open field constructor destructor resources property content handler method children implements>
+      <details open field constructor destructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/general.xml" target="_blank">root-element</a> (1 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
-      <details open resources property field content handler method children constructor destructor implements>
+      <details open resources property field content handler method children constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/dialog.xml" target="_blank">dialog</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (12)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary><ul><li>
       <details open content children>
@@ -475,7 +499,7 @@
       <details open >
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/scrollbar.xml" target="_blank">thumb</a> (1 total instances)
   <em>Used features: </em></summary></details>
-      <details open resources property content field method constructor>
+      <details open resources property content>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/progressmeter.xml" target="_blank">progressmeter</a> (1 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code></em></summary><ul><li>
       <details open field content method constructor>
@@ -486,13 +510,13 @@
   <em>Used features: </em></summary></details>
       <details open resources property content method constructor destructor implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/datetimebox.xml" target="_blank">datetime-input-base</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (31)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDateTimeInputArea)</code></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (32)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDateTimeInputArea)</code></em></summary><ul><li>
       <details open resources method constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/datetimebox.xml" target="_blank">date-input</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='method'>method (13)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='method'>method (12)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li><li>
       <details open resources method constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/datetimebox.xml" target="_blank">time-input</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='method'>method (17)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='method'>method (18)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details>
       <details open property field method implements>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/preferences.xml" target="_blank">preferences</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIObserver)</code></em></summary></details>
@@ -538,7 +562,7 @@
       <details open field constructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/general.xml" target="_blank">windowdragbox</a> (0 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
-      <details open resources content children>
+      <details open resources>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/groupbox.xml" target="_blank">groupbox-base</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
       <details open content children>
@@ -568,7 +592,7 @@
       <details open resources content constructor destructor>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/videocontrols.xml" target="_blank">noControls</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details>
-      <details open resources property field content method>
+      <details open resources>
       <summary><a href="https://hg.mozilla.org/mozilla-central/file/tip/toolkit/content/widgets/wizard.xml" target="_blank">wizard-base</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
       <details open property field>

@@ -23,19 +23,10 @@ function getTotalInstances(binding) {
   }, sortedBindings[binding] || 0);
 }
 
-function getAllFeaturesAndSubFeatures(binding) {
-  let features = idToFeatureAttrs[binding];
-  if (bindingTree[binding]) {
-    for (let subBinding of bindingTree[binding]) {
-      features = features.concat(getAllFeaturesAndSubFeatures(subBinding));
-    }
-  }
-  return features.filter((feature, i) => features.indexOf(feature) === i);
-}
 function printSingleBinding(binding) {
   totalPrintedBindings++;
   var html = `
-      <details open ${getAllFeaturesAndSubFeatures(binding).join(' ')}>
+      <details open ${idToFeatureAttrs[binding].join(' ')}>
       <summary><a href="${idToUrls[binding]}" target="_blank">${binding}</a> (${idToNumInstances[binding]} total instances)
   `;
 
@@ -118,16 +109,21 @@ getParsedFiles().then(docs => {
   let featureElements = Object.entries(featureCounts)
                          .map(([key]) => `<div id=${key}></div>`)
                          .join('\n');
-  // If we want to hide nodes without these features, then add this:
-  // #${key}:target ~ #container details:not([${key}]) { display: none; }
   let featureCss = Object.entries(featureCounts)
-                         .map(([key]) => `#${key}:target ~ #container [highlight=${key}]{ background: yellow; }`)
+                         .map(([key]) =>
+`#${key}:target ~ * [highlight=${key}] { background: yellow; }
+#${key}:target ~ #container details:not([${key}]) > summary { opacity: .5; }`)
                          .join('\n');
   let featureStr = Object.entries(featureCounts)
                           .sort((a, b) => b[1] - a[1])
                           .map(([key,value]) => `
-                            <code><a href='#${key}'>${key}</a></code>: <strong>${value}</strong>`)
+                            <code>${key}</code>: <strong>${value}</strong>`)
                           .join(',');
+  let featureHighlightStr = Object.entries(featureCounts)
+                                  .sort((a, b) => b[1] - a[1])
+                                  .map(([key,value]) => `
+                                    <a href='#${key}' highlight="${key}">${key}</a>`);
+  featureHighlightStr.unshift(`<a href='#'>clear</a>`);
 
   fs.writeFileSync('index.html', `
     <head>
@@ -137,6 +133,7 @@ getParsedFiles().then(docs => {
       li,ul { list-style: none; }
       em { padding-left: 10px; color: #999; }
       summary {padding: 4px 0; position: relative; width: 100%; }
+      .highlights { border: solid 1px; padding: 5px; margin: 5px }
       ${featureCss}
     </style>
     </head>
@@ -156,6 +153,9 @@ getParsedFiles().then(docs => {
        It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
        The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a>.
     </p>
+    <div class='highlights'>
+    Highlights: ${featureHighlightStr.join(" | ")}
+    </div>
     <div id='container'>
     ${outputHTML.join('')}
     </div>
