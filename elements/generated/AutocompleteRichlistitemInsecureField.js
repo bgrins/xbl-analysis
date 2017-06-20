@@ -3,6 +3,12 @@ class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistit
     super();
   }
   connectedCallback() {
+    try {
+      // Unlike other autocomplete items, the height of the insecure warning
+      // increases by wrapping. So "forceHandleUnderflow" is for container to
+      // recalculate an item's height and width.
+      this.classList.add("forceHandleUnderflow");
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

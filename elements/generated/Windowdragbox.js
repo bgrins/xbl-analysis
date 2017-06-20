@@ -3,6 +3,10 @@ class XblWindowdragbox extends BaseElement {
     super();
   }
   connectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
+
     console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-windowdragbox");

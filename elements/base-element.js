@@ -1,4 +1,5 @@
 
+
 // https://html.spec.whatwg.org/multipage/scripting.html#custom-elements-autonomous-example
 
 class BaseElement extends HTMLElement {

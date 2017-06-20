@@ -3,6 +3,9 @@ class XblColorpicker extends XblBasecontrol {
     super();
   }
   connectedCallback() {
+    try {
+      this.initialize();
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

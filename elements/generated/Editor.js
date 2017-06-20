@@ -3,6 +3,14 @@ class XblEditor extends BaseElement {
     super();
   }
   connectedCallback() {
+    try {
+      // Make window editable immediately only
+      //   if the "editortype" attribute is supplied
+      // This allows using same contentWindow for different editortypes,
+      //   where the type is determined during the apps's window.onload handler.
+      if (this.editortype) this.makeEditable(this.editortype, true);
+    } catch (e) {}
+
     console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-editor");

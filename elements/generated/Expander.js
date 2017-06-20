@@ -3,6 +3,22 @@ class XblExpander extends BaseElement {
     super();
   }
   connectedCallback() {
+    try {
+      var settings = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "settings"
+      );
+      var expander = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "disclosure"
+      );
+      var open = this.getAttribute("open") == "true";
+      settings.collapsed = !open;
+      expander.open = open;
+    } catch (e) {}
+
     console.log(this, "connected");
 
     this.innerHTML = `<hbox align="center">

@@ -3,6 +3,61 @@ class XblRemoteBrowser extends XblBrowser {
     super();
   }
   connectedCallback() {
+    try {
+      /*
+           * Don't try to send messages from this function. The message manager for
+           * the <browser> element may not be initialized yet.
+           */
+
+      this._remoteWebNavigation = Components.classes[
+        "@mozilla.org/remote-web-navigation;1"
+      ].createInstance(Components.interfaces.nsIWebNavigation);
+      this._remoteWebNavigationImpl = this._remoteWebNavigation.wrappedJSObject;
+      this._remoteWebNavigationImpl.swapBrowser(this);
+
+      // Initialize contentPrincipal to the about:blank principal for this loadcontext
+      let { Services } = Components.utils.import(
+        "resource://gre/modules/Services.jsm",
+        {}
+      );
+      let aboutBlank = Services.io.newURI("about:blank");
+      let ssm = Services.scriptSecurityManager;
+      this._contentPrincipal = ssm.getLoadContextCodebasePrincipal(
+        aboutBlank,
+        this.loadContext
+      );
+
+      this.messageManager.addMessageListener("Browser:Init", this);
+      this.messageManager.addMessageListener("DOMTitleChanged", this);
+      this.messageManager.addMessageListener("ImageDocumentLoaded", this);
+      this.messageManager.addMessageListener("FullZoomChange", this);
+      this.messageManager.addMessageListener("TextZoomChange", this);
+      this.messageManager.addMessageListener("ZoomChangeUsingMouseWheel", this);
+      this.messageManager.addMessageListener("DOMFullscreen:RequestExit", this);
+      this.messageManager.addMessageListener(
+        "DOMFullscreen:RequestRollback",
+        this
+      );
+      this.messageManager.addMessageListener("MozApplicationManifest", this);
+      this.messageManager.loadFrameScript(
+        "chrome://global/content/browser-child.js",
+        true
+      );
+
+      if (this.hasAttribute("selectmenulist")) {
+        this.messageManager.addMessageListener("Forms:ShowDropDown", this);
+        this.messageManager.addMessageListener("Forms:HideDropDown", this);
+      }
+
+      if (!this.hasAttribute("disablehistory")) {
+        Services.obs.addObserver(this, "browser:purge-session-history", true);
+      }
+
+      let jsm = "resource://gre/modules/RemoteController.jsm";
+      let RemoteController = Components.utils.import(jsm, {}).RemoteController;
+      this._controller = new RemoteController(this);
+      this.controllers.appendController(this._controller);
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

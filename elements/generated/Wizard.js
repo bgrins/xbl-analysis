@@ -3,6 +3,59 @@ class XblWizard extends XblRootElement {
     super();
   }
   connectedCallback() {
+    try {
+      this._canAdvance = true;
+      this._canRewind = false;
+      this._hasLoaded = false;
+
+      this._pageStack = [];
+
+      try {
+        // need to create string bundle manually instead of using <xul:stringbundle/>
+        // see bug 63370 for details
+        this._bundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
+          .getService(Components.interfaces.nsIStringBundleService)
+          .createBundle("chrome://global/locale/wizard.properties");
+      } catch (e) {
+        // This fails in remote XUL, which has to provide titles for all pages
+        // see bug 142502
+      }
+
+      // get anonymous content references
+      this._wizardHeader = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "Header"
+      );
+      this._wizardButtons = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "Buttons"
+      );
+      this._deck = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "Deck"
+      );
+
+      this._initWizardButton("back");
+      this._initWizardButton("next");
+      this._initWizardButton("finish");
+      this._initWizardButton("cancel");
+      this._initWizardButton("extra1");
+      this._initWizardButton("extra2");
+
+      this._initPages();
+
+      window.addEventListener("close", this._closeHandler);
+
+      // start off on the first page
+      this.pageCount = this.wizardPages.length;
+      this.advance();
+
+      // give focus to the first focusable element in the dialog
+      window.addEventListener("load", this._setInitialFocus);
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

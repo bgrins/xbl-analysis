@@ -3,6 +3,11 @@ class XblRichlistbox extends XblListboxBase {
     super();
   }
   connectedCallback() {
+    try {
+      // add a template build listener
+      if (this.builder) this.builder.addListener(this._builderListener);
+      else this._refreshSelection();
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

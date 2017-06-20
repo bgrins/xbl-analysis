@@ -3,6 +3,9 @@ class XblLabelControl extends XblTextLabel {
     super();
   }
   connectedCallback() {
+    try {
+      this.formatAccessKey(true);
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

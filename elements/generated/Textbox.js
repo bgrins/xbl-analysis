@@ -3,6 +3,19 @@ class XblTextbox extends BaseElement {
     super();
   }
   connectedCallback() {
+    try {
+      var str = this.boxObject.getProperty("value");
+      if (str) {
+        this.inputField.value = str;
+        this.boxObject.removeProperty("value");
+      }
+
+      this._setNewlineHandling();
+
+      if (this.hasAttribute("emptytext"))
+        this.placeholder = this.getAttribute("emptytext");
+    } catch (e) {}
+
     console.log(this, "connected");
 
     this.innerHTML = `<children>

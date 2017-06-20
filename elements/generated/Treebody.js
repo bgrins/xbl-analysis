@@ -3,6 +3,9 @@ class XblTreebody extends XblTreeBase {
     super();
   }
   connectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

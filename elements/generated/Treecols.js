@@ -3,6 +3,15 @@ class XblTreecols extends BaseElement {
     super();
   }
   connectedCallback() {
+    try {
+      // Set resizeafter="farthest" on the splitters if nothing else has been
+      // specified.
+      Array.forEach(this.getElementsByTagName("splitter"), function(splitter) {
+        if (!splitter.hasAttribute("resizeafter"))
+          splitter.setAttribute("resizeafter", "farthest");
+      });
+    } catch (e) {}
+
     console.log(this, "connected");
 
     this.innerHTML = `<hbox class="tree-scrollable-columns" flex="1">

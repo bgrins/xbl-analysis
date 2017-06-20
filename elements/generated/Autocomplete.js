@@ -3,6 +3,19 @@ class XblAutocomplete extends XblTextbox {
     super();
   }
   connectedCallback() {
+    try {
+      this.mController = Components.classes[
+        "@mozilla.org/autocomplete/controller;1"
+      ].getService(Components.interfaces.nsIAutoCompleteController);
+
+      this._searchBeginHandler = this.initEventHandler("searchbegin");
+      this._searchCompleteHandler = this.initEventHandler("searchcomplete");
+      this._textEnteredHandler = this.initEventHandler("textentered");
+      this._textRevertedHandler = this.initEventHandler("textreverted");
+
+      // For security reasons delay searches on pasted values.
+      this.inputField.controllers.insertControllerAt(0, this._pasteController);
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

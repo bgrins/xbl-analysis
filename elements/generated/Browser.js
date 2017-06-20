@@ -3,6 +3,76 @@ class XblBrowser extends BaseElement {
     super();
   }
   connectedCallback() {
+    try {
+      try {
+        // |webNavigation.sessionHistory| will have been set by the frame
+        // loader when creating the docShell as long as this xul:browser
+        // doesn't have the 'disablehistory' attribute set.
+        if (this.docShell && this.webNavigation.sessionHistory) {
+          var os = Components.classes[
+            "@mozilla.org/observer-service;1"
+          ].getService(Components.interfaces.nsIObserverService);
+          os.addObserver(this, "browser:purge-session-history", true);
+
+          // enable global history if we weren't told otherwise
+          if (
+            !this.hasAttribute("disableglobalhistory") &&
+            !this.isRemoteBrowser
+          ) {
+            try {
+              this.docShell.useGlobalHistory = true;
+            } catch (ex) {
+              // This can occur if the Places database is locked
+              Components.utils.reportError(
+                "Error enabling browser global history: " + ex
+              );
+            }
+          }
+        }
+      } catch (e) {
+        Components.utils.reportError(e);
+      }
+      try {
+        // Ensures the securityUI is initialized.
+        var securityUI = this.securityUI; // eslint-disable-line no-unused-vars
+      } catch (e) {}
+
+      // tabbrowser.xml sets "sameProcessAsFrameLoader" as a direct property
+      // on some browsers before they are put into a DOM (and get a
+      // binding).  This hack makes sure that we hold a weak reference to
+      // the other browser (and go through the proper getter and setter).
+      if (this.hasOwnProperty("sameProcessAsFrameLoader")) {
+        var sameProcessAsFrameLoader = this.sameProcessAsFrameLoader;
+        delete this.sameProcessAsFrameLoader;
+        this.sameProcessAsFrameLoader = sameProcessAsFrameLoader;
+      }
+
+      if (!this.isRemoteBrowser) {
+        this.addEventListener("pagehide", this.onPageHide, true);
+      }
+
+      if (this.messageManager) {
+        this.messageManager.addMessageListener(
+          "PopupBlocking:UpdateBlockedPopups",
+          this
+        );
+        this.messageManager.addMessageListener("Autoscroll:Start", this);
+        this.messageManager.addMessageListener("Autoscroll:Cancel", this);
+        this.messageManager.addMessageListener("AudioPlayback:Start", this);
+        this.messageManager.addMessageListener("AudioPlayback:Stop", this);
+        this.messageManager.addMessageListener(
+          "AudioPlayback:BlockStart",
+          this
+        );
+        this.messageManager.addMessageListener("AudioPlayback:BlockStop", this);
+
+        if (this.hasAttribute("selectmenulist")) {
+          this.messageManager.addMessageListener("Forms:ShowDropDown", this);
+          this.messageManager.addMessageListener("Forms:HideDropDown", this);
+        }
+      }
+    } catch (e) {}
+
     console.log(this, "connected");
 
     this.innerHTML = `<children>

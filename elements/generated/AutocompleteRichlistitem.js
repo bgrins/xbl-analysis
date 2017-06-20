@@ -3,6 +3,49 @@ class XblAutocompleteRichlistitem extends XblRichlistitem {
     super();
   }
   connectedCallback() {
+    try {
+      this._typeIcon = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "type-icon"
+      );
+      this._siteIcon = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "site-icon"
+      );
+      this._titleText = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "title-text"
+      );
+      this._tags = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "tags"
+      );
+      this._tagsText = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "tags-text"
+      );
+      this._separator = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "separator"
+      );
+      this._urlText = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "url-text"
+      );
+      this._actionText = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "action-text"
+      );
+      this._adjustAcItem();
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

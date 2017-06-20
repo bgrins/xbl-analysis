@@ -3,6 +3,10 @@ class XblArrowscrollbox extends XblScrollboxBase {
     super();
   }
   connectedCallback() {
+    try {
+      this.setAttribute("notoverflowing", "true");
+      this._updateScrollButtonsDisabledState();
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

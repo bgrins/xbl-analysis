@@ -3,6 +3,11 @@ class XblSearchTextbox extends XblTextbox {
     super();
   }
   connectedCallback() {
+    try {
+      // Ensure the button state is up to date:
+      this.searchButton = this.searchButton;
+      this._searchButtonIcon.addEventListener("click", e => this._iconClick(e));
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

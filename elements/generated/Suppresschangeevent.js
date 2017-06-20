@@ -3,6 +3,18 @@ class XblSuppresschangeevent extends XblScale {
     super();
   }
   connectedCallback() {
+    try {
+      /* eslint-enable no-multi-spaces */
+      this.positionValue = "";
+      this.durationValue = "";
+      this.valueBar = null;
+      this.isDragging = false;
+      this.isPausedByDragging = false;
+
+      this.type = this.getAttribute("class");
+      this.Utils = document.getBindingParent(this.parentNode).Utils;
+      this.valueBar = this.Utils.progressBar;
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

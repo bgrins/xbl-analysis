@@ -3,6 +3,76 @@ class XblPrefwindow extends XblDialog {
     super();
   }
   connectedCallback() {
+    try {
+      if (this.type != "child") {
+        if (!this._instantApplyInitialized) {
+          let psvc = Components.classes[
+            "@mozilla.org/preferences-service;1"
+          ].getService(Components.interfaces.nsIPrefBranch);
+          this.instantApply = psvc.getBoolPref(
+            "browser.preferences.instantApply"
+          );
+        }
+        if (this.instantApply) {
+          var docElt = document.documentElement;
+          var acceptButton = docElt.getButton("accept");
+          acceptButton.hidden = true;
+          var cancelButton = docElt.getButton("cancel");
+          if (/Mac/.test(navigator.platform)) {
+            // no buttons on Mac except Help
+            cancelButton.hidden = true;
+            // Move Help button to the end
+            document.getAnonymousElementByAttribute(
+              this,
+              "anonid",
+              "spacer"
+            ).hidden = true;
+            // Also, don't fire onDialogAccept on enter
+            acceptButton.disabled = true;
+          } else {
+            // morph the Cancel button into the Close button
+            cancelButton.setAttribute("icon", "close");
+            cancelButton.label = docElt.getAttribute("closebuttonlabel");
+            cancelButton.accesskey = docElt.getAttribute(
+              "closebuttonaccesskey"
+            );
+          }
+        }
+      }
+      this.setAttribute("animated", this._shouldAnimate ? "true" : "false");
+      var panes = this.preferencePanes;
+
+      var lastPane = null;
+      if (this.lastSelected) {
+        lastPane = document.getElementById(this.lastSelected);
+        if (!lastPane) {
+          this.lastSelected = "";
+        }
+      }
+
+      var paneToLoad;
+      if (
+        "arguments" in window &&
+        window.arguments[0] &&
+        document.getElementById(window.arguments[0]) &&
+        document.getElementById(window.arguments[0]).nodeName == "prefpane"
+      ) {
+        paneToLoad = document.getElementById(window.arguments[0]);
+        this.lastSelected = paneToLoad.id;
+      } else if (lastPane) paneToLoad = lastPane;
+      else paneToLoad = panes[0];
+
+      for (var i = 0; i < panes.length; ++i) {
+        this._makePaneButton(panes[i]);
+        if (panes[i].loaded) {
+          // Inline pane content, fire load event to force initialization.
+          this._fireEvent("paneload", panes[i]);
+        }
+      }
+      this.showPane(paneToLoad);
+
+      if (panes.length == 1) this._selector.setAttribute("collapsed", "true");
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

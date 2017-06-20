@@ -3,6 +3,18 @@ class XblDialog extends XblRootElement {
     super();
   }
   connectedCallback() {
+    try {
+      this._configureButtons(this.buttons);
+
+      // listen for when window is closed via native close buttons
+      window.addEventListener("close", this._closeHandler);
+
+      // for things that we need to initialize after onload fires
+      window.addEventListener("load", this.postLoadInit);
+
+      window.moveToAlertPosition = this.moveToAlertPosition;
+      window.centerWindowOnScreen = this.centerWindowOnScreen;
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

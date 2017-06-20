@@ -3,6 +3,28 @@ class XblDateInput extends XblDatetimeInputBase {
     super();
   }
   connectedCallback() {
+    try {
+      /* eslint-enable no-multi-spaces */
+
+      this.mMinMonth = 1;
+      this.mMaxMonth = 12;
+      this.mMinDay = 1;
+      this.mMaxDay = 31;
+      this.mMinYear = 1;
+      // Maximum year limited by ECMAScript date object range, year <= 275760.
+      this.mMaxYear = 275760;
+      this.mMonthDayLength = 2;
+      this.mYearLength = 4;
+      this.mMonthPageUpDownInterval = 3;
+      this.mDayPageUpDownInterval = 7;
+      this.mYearPageUpDownInterval = 10;
+
+      this.buildEditFields();
+
+      if (this.mInputElement.value) {
+        this.setFieldsFromInputValue();
+      }
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

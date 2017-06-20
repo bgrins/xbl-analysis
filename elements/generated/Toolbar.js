@@ -3,6 +3,19 @@ class XblToolbar extends XblToolbarBase {
     super();
   }
   connectedCallback() {
+    try {
+      if (document.readyState == "complete") {
+        this._init();
+      } else {
+        // Need to wait until XUL overlays are loaded. See bug 554279.
+        let self = this;
+        document.addEventListener("readystatechange", function(event) {
+          if (document.readyState != "complete") return;
+          document.removeEventListener("readystatechange", arguments.callee);
+          self._init();
+        });
+      }
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

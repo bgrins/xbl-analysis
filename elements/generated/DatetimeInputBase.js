@@ -3,6 +3,53 @@ class XblDatetimeInputBase extends BaseElement {
     super();
   }
   connectedCallback() {
+    try {
+      this.DEBUG = false;
+      this.mInputElement = this.parentNode;
+      this.mLocales = window.getAppLocalesAsBCP47();
+
+      this.mIsRTL = false;
+      let intlUtils = window.intlUtils;
+      if (intlUtils) {
+        this.mIsRTL =
+          intlUtils.getLocaleInfo(this.mLocales).direction === "rtl";
+      }
+
+      if (this.mIsRTL) {
+        let inputBoxWrapper = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "input-box-wrapper"
+        );
+        inputBoxWrapper.dir = "rtl";
+      }
+
+      this.mMin = this.mInputElement.min;
+      this.mMax = this.mInputElement.max;
+      this.mStep = this.mInputElement.step;
+      this.mIsPickerOpen = false;
+
+      this.mResetButton = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "reset-button"
+      );
+      this.mResetButton.style.visibility = "hidden";
+
+      this.EVENTS.forEach(eventName => {
+        this.addEventListener(eventName, this, { mozSystemGroup: true });
+      });
+      // Handle keypress separately since we need to catch it on capturing.
+      this.addEventListener("keypress", this, {
+        capture: true,
+        mozSystemGroup: true
+      });
+      // This is to close the picker when input element blurs.
+      this.mInputElement.addEventListener("blur", this, {
+        mozSystemGroup: true
+      });
+    } catch (e) {}
+
     console.log(this, "connected");
 
     this.innerHTML = `<div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly">

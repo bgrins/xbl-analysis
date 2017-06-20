@@ -3,6 +3,22 @@ class XblRadiogroup extends XblBasecontrol {
     super();
   }
   connectedCallback() {
+    try {
+      if (this.getAttribute("disabled") == "true") this.disabled = true;
+
+      var children = this._getRadioChildren();
+      var length = children.length;
+      for (var i = 0; i < length; i++) {
+        if (children[i].getAttribute("selected") == "true") {
+          this.selectedIndex = i;
+          return;
+        }
+      }
+
+      var value = this.value;
+      if (value) this.value = value;
+      else this.selectedIndex = 0;
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

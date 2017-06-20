@@ -33,7 +33,7 @@ getParsedFiles().then(docs => {
         <title>Custom Elements</title>
         <style>
         </style>
-        <script src="../static/custom-elements.min.js"></script>
+        <script src="../static/webcomponents-sd-ce.js"></script>
         <script src="base-element.js"></script>
         ${scripts}
       </head>
@@ -123,11 +123,15 @@ function getJSForBinding(binding) {
         "this.innerHTML = `" + childMarkup.join('\n') + "`;" :
         "";
 
+  let constructor = (binding.find("constructor") || [])[0];
+  // Try / catch since many components will fail when loaded in a tab due to chrome references
+  constructor = constructor ? `try { ${constructor.cdata} } catch(e) { }` : '';
   js.push(`
     constructor() {
       super();
     }
     connectedCallback() {
+      ${constructor}
       ${hasExtends ? 'super.connectedCallback()' : ''}
       console.log(this, 'connected');
 

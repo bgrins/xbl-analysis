@@ -3,6 +3,52 @@ class XblPreference extends BaseElement {
     super();
   }
   connectedCallback() {
+    try {
+      this._constructed = true;
+
+      // if the element has been inserted without the name attribute set,
+      // we have nothing to do here
+      if (!this.name) return;
+
+      this.preferences.rootBranchInternal.addObserver(
+        this.name,
+        this.preferences
+      );
+      // In non-instant apply mode, we must try and use the last saved state
+      // from any previous opens of a child dialog instead of the value from
+      // preferences, to pick up any edits a user may have made.
+
+      var secMan = Components.classes[
+        "@mozilla.org/scriptsecuritymanager;1"
+      ].getService(Components.interfaces.nsIScriptSecurityManager);
+      if (
+        this.preferences.type == "child" &&
+        !this.instantApply &&
+        window.opener &&
+        secMan.isSystemPrincipal(window.opener.document.nodePrincipal)
+      ) {
+        var pdoc = window.opener.document;
+
+        // Try to find a preference element for the same preference.
+        var preference = null;
+        var parentPreferences = pdoc.getElementsByTagName("preferences");
+        for (var k = 0; k < parentPreferences.length && !preference; ++k) {
+          var parentPrefs = parentPreferences[k].getElementsByAttribute(
+            "name",
+            this.name
+          );
+          for (var l = 0; l < parentPrefs.length && !preference; ++l) {
+            if (parentPrefs[l].localName == "preference")
+              preference = parentPrefs[l];
+          }
+        }
+
+        // Don't use the value setter here, we don't want updateElements to be prematurely fired.
+        this._value = preference ? preference.value : this.valueFromPreferences;
+      } else this._value = this.valueFromPreferences;
+      this.preferences._constructAfterChildren();
+    } catch (e) {}
+
     console.log(this, "connected");
 
     let comment = document.createComment("Creating xbl-preference");

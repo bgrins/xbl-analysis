@@ -3,6 +3,9 @@ class XblMenulist extends XblMenulistBase {
     super();
   }
   connectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

@@ -3,6 +3,9 @@ class XblTabbox extends XblTabBase {
     super();
   }
   connectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

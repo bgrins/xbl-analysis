@@ -3,6 +3,13 @@ class XblDatetimePopup extends XblArrowpanel {
     super();
   }
   connectedCallback() {
+    try {
+      this.mozIntl = Components.classes["@mozilla.org/mozintl;1"].getService(
+        Components.interfaces.mozIMozIntl
+      );
+      // Notify DateTimePickerHelper.jsm that binding is ready.
+      this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

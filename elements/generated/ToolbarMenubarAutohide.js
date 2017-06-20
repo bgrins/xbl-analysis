@@ -3,6 +3,9 @@ class XblToolbarMenubarAutohide extends XblToolbar {
     super();
   }
   connectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

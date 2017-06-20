@@ -3,6 +3,11 @@ class XblRadio extends XblControlItem {
     super();
   }
   connectedCallback() {
+    try {
+      // Just clear out the parent's cached list of radio children
+      var control = this.control;
+      if (control) control._radioChildren = null;
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

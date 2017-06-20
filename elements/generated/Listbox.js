@@ -3,6 +3,14 @@ class XblListbox extends XblListboxBase {
     super();
   }
   connectedCallback() {
+    try {
+      var count = this.itemCount;
+      for (var index = 0; index < count; index++) {
+        var item = this.getItemAtIndex(index);
+        if (item.getAttribute("selected") == "true")
+          this.selectedItems.append(item);
+      }
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

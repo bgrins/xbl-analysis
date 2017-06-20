@@ -3,6 +3,22 @@ class XblPanel extends XblPopupBase {
     super();
   }
   connectedCallback() {
+    try {
+      if (this.getAttribute("backdrag") == "true" && !this._draggableStarted) {
+        this._draggableStarted = true;
+        try {
+          let tmp = {};
+          Components.utils.import(
+            "resource://gre/modules/WindowDraggingUtils.jsm",
+            tmp
+          );
+          let draghandle = new tmp.WindowDraggingElement(this);
+          draghandle.mouseDownCheck = function() {
+            return this._dragBindingAlive;
+          };
+        } catch (e) {}
+      }
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

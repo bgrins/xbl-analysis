@@ -3,6 +3,26 @@ class XblTimedTextbox extends XblTextbox {
     super();
   }
   connectedCallback() {
+    try {
+      try {
+        var consoleService = Components.classes[
+          "@mozilla.org/consoleservice;1"
+        ].getService(Components.interfaces.nsIConsoleService);
+        var scriptError = Components.classes[
+          "@mozilla.org/scripterror;1"
+        ].createInstance(Components.interfaces.nsIScriptError);
+        scriptError.init(
+          'Timed textboxes are deprecated. Consider using type="search" instead.',
+          this.ownerDocument.location.href,
+          null,
+          null,
+          null,
+          scriptError.warningFlag,
+          "XUL Widgets"
+        );
+        consoleService.logMessage(scriptError);
+      } catch (e) {}
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 

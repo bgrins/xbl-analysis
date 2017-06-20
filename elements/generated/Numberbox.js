@@ -3,6 +3,15 @@ class XblNumberbox extends XblTextbox {
     super();
   }
   connectedCallback() {
+    try {
+      if (this.max < this.min) this.max = this.min;
+
+      var dsymbol = Number(5.4).toLocaleString().match(/\D/);
+      if (dsymbol != null) this.decimalSymbol = dsymbol[0];
+
+      var value = this.inputField.value || 0;
+      this._validateValue(value, false);
+    } catch (e) {}
     super.connectedCallback();
     console.log(this, "connected");
 
