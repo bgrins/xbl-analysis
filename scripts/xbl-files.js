@@ -1,7 +1,25 @@
 var xmlom = require('xmlom');
 var request = require('request-promise-native');
 
-var files = module.exports.files = [
+var browserFiles = [
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/base/content/browser-tabPreviews.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/base/content/pageinfo/feeds.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/base/content/pageinfo/pageInfo.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/base/content/tabbrowser.xml',
+  // 'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/base/content/urlbarBindings.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/customizableui/content/panelUI.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/customizableui/content/toolbar.xml',
+  // 'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/downloads/content/download.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/places/content/menu.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/places/content/tree.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/preferences/handlers.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/preferences/siteListItem.xml',
+  // 'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/search/content/search.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/components/translation/translation-infobar.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/extensions/formautofill/content/formautofill.xml',
+  'https://hg.mozilla.org/mozilla-central/raw-file/tip/browser/themes/linux/places/organizer.xml',
+];
+var toolkitFiles = [
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/autocomplete.xml',
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/browser.xml',
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/button.xml',
@@ -45,9 +63,10 @@ var files = module.exports.files = [
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/videocontrols.xml',
   'https://hg.mozilla.org/mozilla-central/raw-file/tip/toolkit/content/widgets/wizard.xml',
 ];
+var allFiles = module.exports.files = browserFiles.concat(toolkitFiles);
 
 module.exports.getParsedFiles = () => {
-  return Promise.all(files.map(file => {
+  return Promise.all(allFiles.map(file => {
     return request(file).then(body => {
       body = body.replace(/#ifdef XP_(.*)/g, '')
                 .replace(/#ifndef XP_(.*)/g, '')
@@ -55,7 +74,7 @@ module.exports.getParsedFiles = () => {
                 .replace(/#else/g, '')
                 .replace(/#endif/g, '')
                 .replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
-
+      console.log(`requested ${file}`);
       return xmlom.parseString(body);
     });
   }));
