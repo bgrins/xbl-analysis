@@ -8,7 +8,8 @@ class AccessKeyLabel extends BaseElement {
 
     const shadowRoot = this.attachShadow({mode: 'open'});
 
-    shadowRoot.innerHTML = `<label inherits="for=control">Foo</label>
+    // TODO: Copy text in
+    shadowRoot.innerHTML = `<label inherits="for=control">Bar</label>
 <span anonid="accessKeyParens">
 </span>`;
     this.formatAccessKey(true);
@@ -80,7 +81,8 @@ class AccessKeyLabel extends BaseElement {
     if (firstTime && !accessKey) return;
 
     if (this.mInsertSeparator === undefined) {
-      this.mUnderlineAccesskey = this.mAlwaysAppendAccessKey = this.mAlwaysAppendAccessKey = true;
+      this.mUnderlineAccesskey = true;
+      this.mInsertSeparator = this.mAlwaysAppendAccessKey = false;
       // try {
         // var prefs = Components.classes[
         //   "@mozilla.org/preferences-service;1"
