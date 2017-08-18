@@ -12,8 +12,13 @@ class FirefoxTabbox extends FirefoxTabBase {
     try {
       undefined;
     } catch (e) {}
+    this._eventNode = this;
   }
   disconnectedCallback() {}
+
+  get _handleMetaAltArrows() {
+    return /Mac/.test(navigator.platform);
+  }
 
   set handleCtrlTab(val) {
     this.setAttribute("handleCtrlTab", val);

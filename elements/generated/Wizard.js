@@ -72,6 +72,39 @@ class FirefoxWizard extends FirefoxRootElement {
       // give focus to the first focusable element in the dialog
       window.addEventListener("load", this._setInitialFocus);
     } catch (e) {}
+    this.pageCount = 0;
+    this._accessMethod = null;
+    this._pageStack = null;
+    this._currentPage = null;
+    this._canAdvance = "";
+    this._canRewind = "";
+    this._wizardHeader = "";
+    this._wizardButtons = "";
+    this._deck = "";
+    this._backButton = "";
+    this._nextButton = "";
+    this._cancelButton = "";
+    this._backFunc = function() {
+      document.documentElement.rewind();
+    };
+    this._nextFunc = function() {
+      document.documentElement.advance();
+    };
+    this._finishFunc = function() {
+      document.documentElement.advance();
+    };
+    this._cancelFunc = function() {
+      document.documentElement.cancel();
+    };
+    this._extra1Func = function() {
+      document.documentElement.extra1();
+    };
+    this._extra2Func = function() {
+      document.documentElement.extra2();
+    };
+    this._closeHandler = function(event) {
+      if (document.documentElement.cancel()) event.preventDefault();
+    };
   }
   disconnectedCallback() {}
 

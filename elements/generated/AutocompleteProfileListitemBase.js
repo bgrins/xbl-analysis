@@ -14,6 +14,7 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
     try {
       undefined;
     } catch (e) {}
+    this.selectedByMouseOver = true;
   }
   disconnectedCallback() {}
 

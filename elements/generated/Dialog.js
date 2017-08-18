@@ -55,6 +55,10 @@ class FirefoxDialog extends FirefoxRootElement {
       window.moveToAlertPosition = this.moveToAlertPosition;
       window.centerWindowOnScreen = this.centerWindowOnScreen;
     } catch (e) {}
+    this._mStrBundle = null;
+    this._closeHandler = function(event) {
+      if (!document.documentElement.cancelDialog()) event.preventDefault();
+    };
   }
   disconnectedCallback() {}
 

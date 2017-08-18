@@ -21,6 +21,8 @@ class FirefoxNotification extends BaseElement {
 </hbox>`;
     let comment = document.createComment("Creating firefox-notification");
     this.prepend(comment);
+
+    this.timeout = 0;
   }
   disconnectedCallback() {}
 

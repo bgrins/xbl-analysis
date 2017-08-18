@@ -20,8 +20,26 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       if (this.builder) this.builder.addListener(this._builderListener);
       else this._refreshSelection();
     } catch (e) {}
+    this._scrollbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "main-box"
+    );
+    this.scrollBoxObject = this._scrollbox.boxObject;
+    this._currentIndex = null;
   }
   disconnectedCallback() {}
+
+  get _builderListener() {
+    return {
+      mOuter: this,
+      item: null,
+      willRebuild(builder) {},
+      didRebuild(builder) {
+        this.mOuter._refreshSelection();
+      }
+    };
+  }
 
   get itemCount() {
     return this.children.length;

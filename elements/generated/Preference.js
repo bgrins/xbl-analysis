@@ -66,6 +66,10 @@ class FirefoxPreference extends BaseElement {
         this.preferences._constructAfterChildren();
       }
     } catch (e) {}
+    this._constructed = false;
+    this._value = null;
+    this._useDefault = false;
+    this.batching = false;
   }
   disconnectedCallback() {}
 

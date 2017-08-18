@@ -32,6 +32,34 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       this.setAttribute("notoverflowing", "true");
       this._updateScrollButtonsDisabledState();
     } catch (e) {}
+    this._scrollbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "scrollbox"
+    );
+    this._scrollButtonUp = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "scrollbutton-up"
+    );
+    this._scrollButtonDown = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "scrollbutton-down"
+    );
+    this.__prefBranch = null;
+    this._scrollIncrement = null;
+    this._scrollBoxObject = null;
+    this._startEndProps = this.orient == "vertical"
+      ? ["top", "bottom"]
+      : ["left", "right"];
+    this._isRTLScrollbox =
+      this.orient != "vertical" &&
+      document.defaultView.getComputedStyle(this._scrollbox).direction == "rtl";
+    this._scrollTarget = null;
+    this._prevMouseScrolls = [null, null];
+    this._touchStart = -1;
+    this._scrollButtonUpdatePending = false;
   }
   disconnectedCallback() {}
 

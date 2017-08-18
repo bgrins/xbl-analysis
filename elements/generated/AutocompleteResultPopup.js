@@ -18,6 +18,15 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
       "Creating firefox-autocomplete-result-popup"
     );
     this.prepend(comment);
+
+    this.mShowCommentColumn = false;
+    this.mShowImageColumn = false;
+    this.tree = document.getAnonymousElementByAttribute(this, "anonid", "tree");
+    this.treecols = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "treecols"
+    );
   }
   disconnectedCallback() {}
 

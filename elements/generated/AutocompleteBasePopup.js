@@ -10,8 +10,17 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       "Creating firefox-autocomplete-base-popup"
     );
     this.prepend(comment);
+
+    this.mInput = null;
+    this.mPopupOpen = false;
+    this.mIsPopupHidingTick = false;
+    this._normalMaxRows = -1;
   }
   disconnectedCallback() {}
+
+  get defaultMaxRows() {
+    return 6;
+  }
 
   get input() {
     return this.mInput;

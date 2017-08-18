@@ -25,6 +25,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       if (value) this.value = value;
       else this.selectedIndex = 0;
     } catch (e) {}
+    this._radioChildren = null;
   }
   disconnectedCallback() {}
 

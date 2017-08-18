@@ -9,6 +9,8 @@ class FirefoxAutocompleteTreebody extends BaseElement {
       "Creating firefox-autocomplete-treebody"
     );
     this.prepend(comment);
+
+    this.mLastMoveTime = Date.now();
   }
   disconnectedCallback() {}
 }

@@ -12,6 +12,7 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
     try {
       undefined;
     } catch (e) {}
+    this._pendingActive = false;
   }
   disconnectedCallback() {}
 

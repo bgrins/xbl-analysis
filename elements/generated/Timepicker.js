@@ -8,6 +8,16 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
 
     let comment = document.createComment("Creating firefox-timepicker");
     this.prepend(comment);
+
+    this.is24HourClock = false;
+    this.hourLeadingZero = false;
+    this.minuteLeadingZero = true;
+    this.secondLeadingZero = true;
+    this.amIndicator = "AM";
+    this.pmIndicator = "PM";
+    this.hourField = null;
+    this.minuteField = null;
+    this.secondField = null;
   }
   disconnectedCallback() {}
 

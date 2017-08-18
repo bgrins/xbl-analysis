@@ -8,6 +8,8 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
 
     let comment = document.createComment("Creating firefox-findbar-textbox");
     this.prepend(comment);
+
+    this._findbar = null;
   }
   disconnectedCallback() {}
 

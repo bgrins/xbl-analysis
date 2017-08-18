@@ -10,6 +10,8 @@ class FirefoxRichlistitem extends FirefoxListitem {
 </children>`;
     let comment = document.createComment("Creating firefox-richlistitem");
     this.prepend(comment);
+
+    this.selectedByMouseOver = false;
   }
   disconnectedCallback() {}
 

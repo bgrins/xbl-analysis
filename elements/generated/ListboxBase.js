@@ -8,6 +8,16 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
     let comment = document.createComment("Creating firefox-listbox-base");
     this.prepend(comment);
+
+    this._lastKeyTime = 0;
+    this._incrementalString = "";
+    this.selectedItems = new ChromeNodeList();
+    this._suppressOnSelect = false;
+    this._userSelecting = false;
+    this._mayReverse = false;
+    this._selectTimeout = null;
+    this._currentItem = null;
+    this._selectionStart = null;
   }
   disconnectedCallback() {}
 

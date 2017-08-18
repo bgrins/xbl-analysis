@@ -126,6 +126,22 @@ function getJSForBinding(binding) {
   let xblconstructor = (binding.find("constructor") || [])[0];
   // Try / catch since many components will fail when loaded in a tab due to chrome references
   xblconstructor = xblconstructor ? `try { ${xblconstructor.cdata} } catch(e) { }` : '';
+
+  // <field>
+  let fields = [];
+  for (let field of binding.find('field')) {
+    if (field.attrs.readonly) {
+      continue;
+    }
+
+    // Work around fields like _weekStart in the datepicker where the value is coming from a dtd.
+    // Just print an empty string in that case.
+    let data = (field.cdata || field.value || "").trim();
+    data = (data.length === 0) ? '""' : data;
+    fields.push(`this.${field.attrs.name} = ${data};`)
+    // XXX: Can fields have their value in an attribute like properties?
+  }
+
   js.push(`
     constructor() {
       super();
@@ -139,9 +155,24 @@ function getJSForBinding(binding) {
       this.prepend(comment);
 
       ${xblconstructor}
+      ${fields.join('\n')}
     }
     disconnectedCallback() { }
   `);
+
+  for (let field of binding.find('field')) {
+    if (!field.attrs.readonly) {
+      continue;
+    }
+
+    let data = (field.cdata || field.value || "").trim();
+    data = (data.length === 0) ? '""' : data;
+    js.push(`
+      get ${field.attrs.name}() {
+        return ${data};
+      }
+    `);
+  }
 
   // <property>
   for (let property of binding.find('property')) {

@@ -31,6 +31,7 @@ class FirefoxListbox extends FirefoxListboxBase {
           this.selectedItems.append(item);
       }
     } catch (e) {}
+    this._touchY = -1;
   }
   disconnectedCallback() {}
 

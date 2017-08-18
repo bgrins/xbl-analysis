@@ -24,6 +24,15 @@ class FirefoxTree extends FirefoxTreeBase {
 </hbox>`;
     let comment = document.createComment("Creating firefox-tree");
     this.prepend(comment);
+
+    this.pageUpOrDownMovesSelection = !/Mac/.test(navigator.platform);
+    this._inputField = null;
+    this._editingRow = -1;
+    this._editingColumn = null;
+    this._columnsDirty = true;
+    this._lastKeyTime = 0;
+    this._incrementalString = "";
+    this._touchY = -1;
   }
   disconnectedCallback() {}
 

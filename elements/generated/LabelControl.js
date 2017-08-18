@@ -16,6 +16,9 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     try {
       this.formatAccessKey(true);
     } catch (e) {}
+    this.mUnderlineAccesskey = !/Mac/.test(navigator.platform);
+    this.mInsertSeparator = "";
+    this.mAlwaysAppendAccessKey = false;
   }
   disconnectedCallback() {}
 

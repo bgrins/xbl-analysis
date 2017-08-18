@@ -42,6 +42,9 @@ class FirefoxTabbrowserTab extends FirefoxTab {
         this.updateLastAccessed();
       }
     } catch (e) {}
+    this.muteReason = undefined;
+    this.mOverCloseButton = false;
+    this.mCorrespondingMenuitem = null;
   }
   disconnectedCallback() {}
 

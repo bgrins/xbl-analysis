@@ -10,6 +10,8 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
       "Creating firefox-tabbrowser-tabpanels"
     );
     this.prepend(comment);
+
+    this._selectedIndex = 0;
   }
   disconnectedCallback() {}
 

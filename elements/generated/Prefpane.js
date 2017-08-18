@@ -11,6 +11,14 @@ class FirefoxPrefpane extends BaseElement {
 </vbox>`;
     let comment = document.createComment("Creating firefox-prefpane");
     this.prepend(comment);
+
+    this._loaded = false;
+    this._deferredValueUpdateElements = new Set();
+    this._content = document.getAnonymousElementByAttribute(
+      this,
+      "class",
+      "content-box"
+    );
   }
   disconnectedCallback() {}
 

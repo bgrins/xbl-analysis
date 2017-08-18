@@ -8,6 +8,10 @@ class FirefoxMenubar extends FirefoxToolbarBase {
 
     let comment = document.createComment("Creating firefox-menubar");
     this.prepend(comment);
+
+    this._active = false;
+    this._statusbar = null;
+    this._originalStatusText = null;
   }
   disconnectedCallback() {}
 

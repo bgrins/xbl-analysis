@@ -29,6 +29,7 @@ class FirefoxTimedTextbox extends FirefoxTextbox {
         consoleService.logMessage(scriptError);
       } catch (e) {}
     } catch (e) {}
+    this._timer = null;
   }
   disconnectedCallback() {}
 

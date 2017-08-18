@@ -90,8 +90,58 @@ class FirefoxBrowser extends BaseElement {
         }
       }
     } catch (e) {}
+    this._sameProcessAsFrameLoader = null;
+    this._docShell = null;
+    this._loadContext = null;
+    this._webNavigation = null;
+    this._webBrowserFind = null;
+    this._finder = null;
+    this._fastFind = null;
+    this._lastSearchString = null;
+    this._contentWindow = null;
+    this._mStrBundle = null;
+    this.blockedPopups = null;
+    this._audioMuted = false;
+    this._mediaBlocked = true;
+    this._hasAnyPlayingMediaBeenBlocked = false;
+    this._shouldSendUnselectedTabHover = false;
+    this._unselectedTabHoverMessageListenerCount = 0;
+    this.urlbarChangeTracker = {
+      _startedLoadSinceLastUserTyping: false,
+
+      startedLoad() {
+        this._startedLoadSinceLastUserTyping = true;
+      },
+      finishedLoad() {
+        this._startedLoadSinceLastUserTyping = false;
+      },
+      userTyped() {
+        this._startedLoadSinceLastUserTyping = false;
+      }
+    };
+    this._userTypedValue = null;
+    this.mFormFillAttached = false;
+    this.isShowingMessage = false;
+    this.droppedLinkHandler = null;
+    this.mIconURL = null;
+    this.lastURI = null;
+    this.mDestroyed = false;
+    this._AUTOSCROLL_SNAP = 10;
+    this._scrolling = false;
+    this._startX = null;
+    this._startY = null;
+    this._autoScrollPopup = null;
+    this._autoScrollNeedsCleanup = false;
+    this._autoScrollScrollId = null;
+    this._autoScrollPresShellId = null;
   }
   disconnectedCallback() {}
+
+  get mPrefs() {
+    return Components.classes["@mozilla.org/preferences-service;1"].getService(
+      Components.interfaces.nsIPrefBranch
+    );
+  }
 
   get autoscrollEnabled() {
     if (this.getAttribute("autoscroll") == "false") return false;

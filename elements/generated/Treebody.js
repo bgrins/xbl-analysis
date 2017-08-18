@@ -12,6 +12,7 @@ class FirefoxTreebody extends FirefoxTreeBase {
     try {
       undefined;
     } catch (e) {}
+    this._lastSelectedRow = -1;
   }
   disconnectedCallback() {}
 }

@@ -44,6 +44,23 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
 </menupopup>`;
     let comment = document.createComment("Creating firefox-input-box-spell");
     this.prepend(comment);
+
+    this._spellCheckInitialized = false;
+    this._enabledCheckbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "spell-check-enabled"
+    );
+    this._suggestionsSeparator = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "spell-no-suggestions"
+    );
+    this._dictionariesMenu = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "spell-dictionaries-menu"
+    );
   }
   disconnectedCallback() {}
 

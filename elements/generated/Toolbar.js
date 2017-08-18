@@ -22,6 +22,8 @@ class FirefoxToolbar extends FirefoxToolbarBase {
         });
       }
     } catch (e) {}
+    this._toolbox = null;
+    this._newElementCount = 0;
   }
   disconnectedCallback() {}
 

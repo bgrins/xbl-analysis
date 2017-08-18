@@ -11,6 +11,7 @@ class FirefoxWindowdragbox extends BaseElement {
     try {
       undefined;
     } catch (e) {}
+    this._dragBindingAlive = true;
   }
   disconnectedCallback() {}
 }

@@ -18,6 +18,8 @@ class FirefoxArrowpanel extends FirefoxPanel {
 </vbox>`;
     let comment = document.createComment("Creating firefox-arrowpanel");
     this.prepend(comment);
+
+    this._fadeTimer = null;
   }
   disconnectedCallback() {}
   sizeTo(aWidth, aHeight) {

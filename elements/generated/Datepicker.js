@@ -8,6 +8,13 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
 
     let comment = document.createComment("Creating firefox-datepicker");
     this.prepend(comment);
+
+    this.yearLeadingZero = false;
+    this.monthLeadingZero = true;
+    this.dateLeadingZero = true;
+    this.yearField = "";
+    this.monthField = "";
+    this.dateField = "";
   }
   disconnectedCallback() {}
 

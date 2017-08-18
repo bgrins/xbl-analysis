@@ -14,5 +14,13 @@ class FirefoxPopup extends FirefoxPopupBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get scrollBox() {
+    return document.getAnonymousElementByAttribute(
+      this,
+      "class",
+      "popup-internal-box"
+    );
+  }
 }
 customElements.define("firefox-popup", FirefoxPopup);

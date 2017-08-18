@@ -12,6 +12,13 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
 </scrollbox>`;
     let comment = document.createComment("Creating firefox-popup-scrollbars");
     this.prepend(comment);
+
+    this.AUTOSCROLL_INTERVAL = 25;
+    this.NOT_DRAGGING = 0;
+    this.DRAG_OVER_BUTTON = -1;
+    this.DRAG_OVER_POPUP = 1;
+    this._draggingState = this.NOT_DRAGGING;
+    this._scrollTimer = 0;
   }
   disconnectedCallback() {}
   enableDragScrolling(overItem) {

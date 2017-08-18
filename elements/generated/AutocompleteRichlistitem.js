@@ -86,6 +86,9 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       );
       this._adjustAcItem();
     } catch (e) {}
+    this._boundaryCutoff = null;
+    this._inOverflow = false;
+    this._textToSubURI = null;
   }
   disconnectedCallback() {}
 

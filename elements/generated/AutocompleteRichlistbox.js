@@ -10,6 +10,9 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
       "Creating firefox-autocomplete-richlistbox"
     );
     this.prepend(comment);
+
+    this.mLastMoveTime = Date.now();
+    this.mousedOverIndex = -1;
   }
   disconnectedCallback() {}
 }

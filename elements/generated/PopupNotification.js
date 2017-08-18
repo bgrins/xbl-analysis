@@ -49,5 +49,41 @@ class FirefoxPopupNotification extends BaseElement {
     this.prepend(comment);
   }
   disconnectedCallback() {}
+
+  get checkbox() {
+    return document.getAnonymousElementByAttribute(this, "anonid", "checkbox");
+  }
+
+  get closebutton() {
+    return document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "closebutton"
+    );
+  }
+
+  get button() {
+    return document.getAnonymousElementByAttribute(this, "anonid", "button");
+  }
+
+  get secondaryButton() {
+    return document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "secondarybutton"
+    );
+  }
+
+  get menubutton() {
+    return document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "menubutton"
+    );
+  }
+
+  get menupopup() {
+    return document.getAnonymousElementByAttribute(this, "anonid", "menupopup");
+  }
 }
 customElements.define("firefox-popup-notification", FirefoxPopupNotification);

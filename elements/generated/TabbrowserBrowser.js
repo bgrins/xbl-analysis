@@ -8,6 +8,8 @@ class FirefoxTabbrowserBrowser extends FirefoxBrowser {
 
     let comment = document.createComment("Creating firefox-tabbrowser-browser");
     this.prepend(comment);
+
+    this.tabModalPromptBox = null;
   }
   disconnectedCallback() {}
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {

@@ -7,6 +7,8 @@ class FirefoxStringbundle extends BaseElement {
 
     let comment = document.createComment("Creating firefox-stringbundle");
     this.prepend(comment);
+
+    this._bundle = null;
   }
   disconnectedCallback() {}
 

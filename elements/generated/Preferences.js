@@ -11,6 +11,19 @@ class FirefoxPreferences extends BaseElement {
     try {
       this._preferenceChildren = this.getElementsByTagName("preference");
     } catch (e) {}
+    this.service = Components.classes[
+      "@mozilla.org/preferences-service;1"
+    ].getService(Components.interfaces.nsIPrefService);
+    this.rootBranch = Components.classes[
+      "@mozilla.org/preferences-service;1"
+    ].getService(Components.interfaces.nsIPrefBranch);
+    this.defaultBranch = this.service.getDefaultBranch("");
+    this.rootBranchInternal = Components.classes[
+      "@mozilla.org/preferences-service;1"
+    ].getService(Components.interfaces.nsIPrefBranch);
+    this._constructedChildrenCount = 0;
+    this._preferenceChildren = null;
+    this._constructAfterChildrenCalled = false;
   }
   disconnectedCallback() {}
 

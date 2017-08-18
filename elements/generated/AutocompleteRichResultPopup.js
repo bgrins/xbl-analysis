@@ -16,6 +16,14 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
       "Creating firefox-autocomplete-rich-result-popup"
     );
     this.prepend(comment);
+
+    this._currentIndex = 0;
+    this._rlbAnimated = false;
+    this.richlistbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "richlistbox"
+    );
   }
   disconnectedCallback() {}
 

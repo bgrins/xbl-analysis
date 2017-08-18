@@ -29,6 +29,8 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
         this._scrollDelay
       );
     } catch (e) {}
+    this._scrollIndex = 0;
+    this._scrollDelay = 150;
   }
   disconnectedCallback() {}
   notify(aTimer) {

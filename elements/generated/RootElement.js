@@ -20,6 +20,7 @@ class FirefoxRootElement extends BaseElement {
         );
       }
     } catch (e) {}
+    this._lightweightTheme = null;
   }
   disconnectedCallback() {}
 }

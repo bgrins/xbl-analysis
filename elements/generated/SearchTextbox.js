@@ -28,6 +28,17 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
       this.searchButton = this.searchButton;
       this._searchButtonIcon.addEventListener("click", e => this._iconClick(e));
     } catch (e) {}
+    this._timer = null;
+    this._searchIcons = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "search-icons"
+    );
+    this._searchButtonIcon = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "searchbutton-icon"
+    );
   }
   disconnectedCallback() {}
 

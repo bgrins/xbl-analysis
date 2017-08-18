@@ -38,6 +38,41 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
     try {
       undefined;
     } catch (e) {}
+    this._dateValue = null;
+    this._fieldOne = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "input-one"
+    );
+    this._fieldTwo = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "input-two"
+    );
+    this._fieldThree = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "input-three"
+    );
+    this._fieldAMPM = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "input-ampm"
+    );
+    this._separatorFirst = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "sep-first"
+    );
+    this._separatorSecond = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "sep-second"
+    );
+    this._lastFocusedField = null;
+    this._hasEntry = true;
+    this._valueEntered = false;
+    this.attachedControl = null;
   }
   disconnectedCallback() {}
 

@@ -50,8 +50,68 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
       this._setPositionalAttributes();
     } catch (e) {}
+    this.mTabstripWidth = 0;
+    this.mTabstrip = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "arrowscrollbox"
+    );
+    this._firstTab = null;
+    this._lastTab = null;
+    this._afterSelectedTab = null;
+    this._beforeHoveredTab = null;
+    this._afterHoveredTab = null;
+    this._hoveredTab = null;
+    this.restoreTabsButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "restore-tabs-button"
+    );
+    this._restoreTabsButtonWrapperWidth = 0;
+    this.windowUtils = window
+      .QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIDOMWindowUtils);
+    this._blockDblClick = false;
+    this._tabDropIndicator = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "tab-drop-indicator"
+    );
+    this._dragOverDelay = 350;
+    this._dragTime = 0;
+    this._propagatedVisibilityOnce = false;
+    this._closeButtonsUpdatePending = false;
+    this._closingTabsSpacer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "closing-tabs-spacer"
+    );
+    this._tabDefaultMaxWidth = NaN;
+    this._lastTabClosedByMouse = false;
+    this._hasTabTempMaxWidth = false;
+    this._lastNumPinned = 0;
+    this._pinnedTabsLayoutCache = null;
+    this._animateElement = this.mTabstrip._scrollButtonDown;
   }
   disconnectedCallback() {}
+
+  get tabbrowser() {
+    return document.getElementById(this.getAttribute("tabbrowser"));
+  }
+
+  get tabbox() {
+    return this.tabbrowser.mTabBox;
+  }
+
+  get contextMenu() {
+    return document.getElementById("tabContextMenu");
+  }
+
+  get _container() {
+    return this.parentNode && this.parentNode.localName == "toolbar"
+      ? this.parentNode
+      : this;
+  }
 
   get restoreTabsButtonWrapperWidth() {
     undefined;

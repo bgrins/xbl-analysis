@@ -25,6 +25,10 @@ class FirefoxToolbox extends FirefoxToolbarBase {
         }
       }
     } catch (e) {}
+    this.palette = null;
+    this.toolbarset = null;
+    this.customToolbarCount = 0;
+    this.externalToolbars = [];
   }
   disconnectedCallback() {}
 

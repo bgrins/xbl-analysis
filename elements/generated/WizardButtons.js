@@ -53,6 +53,14 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
   }
   disconnectedCallback() {}
 
+  get _wizardButtonDeck() {
+    return document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "WizardButtonDeck"
+    );
+  }
+
   get defaultButton() {
     const kXULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";

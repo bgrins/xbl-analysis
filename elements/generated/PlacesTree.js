@@ -13,6 +13,8 @@ class FirefoxPlacesTree extends FirefoxTree {
       // Force an initial build.
       if (this.place) this.place = this.place;
     } catch (e) {}
+    this._contextMenuShown = false;
+    this._active = true;
   }
   disconnectedCallback() {}
 

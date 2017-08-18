@@ -64,6 +64,28 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       this._controller = new RemoteController(this);
       this.controllers.appendController(this._controller);
     } catch (e) {}
+    this._securityUI = null;
+    this._controller = null;
+    this._selectParentHelper = null;
+    this._remoteWebNavigation = null;
+    this._remoteWebProgress = null;
+    this._remoteFinder = null;
+    this._documentURI = null;
+    this._documentContentType = null;
+    this._contentTitle = "";
+    this._characterSet = "";
+    this._mayEnableCharacterEncodingMenu = null;
+    this._contentWindow = null;
+    this._contentPrincipal = null;
+    this._imageDocument = null;
+    this._fullZoom = 1;
+    this._textZoom = 1;
+    this._isSyntheticDocument = false;
+    this._outerWindowID = null;
+    this._innerWindowID = null;
+    this._manifestURI = "";
+    this.mDestroyed = false;
+    this._permitUnloadId = 0;
   }
   disconnectedCallback() {}
 

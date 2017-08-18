@@ -29,6 +29,7 @@ class FirefoxToolbarDrag extends FirefoxToolbar {
         } catch (e) {}
       }
     } catch (e) {}
+    this._dragBindingAlive = true;
   }
   disconnectedCallback() {}
 }

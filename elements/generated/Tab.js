@@ -17,6 +17,10 @@ class FirefoxTab extends FirefoxControlItem {
   }
   disconnectedCallback() {}
 
+  get arrowKeysShouldWrap() {
+    return /Mac/.test(navigator.platform);
+  }
+
   get control() {
     var parent = this.parentNode;
     if (parent instanceof Components.interfaces.nsIDOMXULSelectControlElement)

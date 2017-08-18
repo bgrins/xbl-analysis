@@ -98,6 +98,65 @@ class FirefoxFindbar extends FirefoxToolbar {
           this
         );
     } catch (e) {}
+    this.FIND_NORMAL = 0;
+    this.FIND_TYPEAHEAD = 1;
+    this.FIND_LINKS = 2;
+    this.__findMode = 0;
+    this._flashFindBar = 0;
+    this._initialFlashFindBarCount = 6;
+    this._startFindDeferred = null;
+    this._browser = null;
+    this.__prefsvc = null;
+    this._observer = {
+      _self: this,
+
+      QueryInterface(aIID) {
+        if (
+          aIID.equals(Components.interfaces.nsIObserver) ||
+          aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+          aIID.equals(Components.interfaces.nsISupports)
+        )
+          return this;
+
+        throw Components.results.NS_ERROR_NO_INTERFACE;
+      },
+
+      observe(aSubject, aTopic, aPrefName) {
+        if (aTopic != "nsPref:changed") return;
+
+        let prefsvc = this._self._prefsvc;
+
+        switch (aPrefName) {
+          case "accessibility.typeaheadfind":
+            this._self._findAsYouType = prefsvc.getBoolPref(aPrefName);
+            break;
+          case "accessibility.typeaheadfind.linksonly":
+            this._self._typeAheadLinksOnly = prefsvc.getBoolPref(aPrefName);
+            break;
+          case "accessibility.typeaheadfind.casesensitive":
+            this._self._setCaseSensitivity(prefsvc.getIntPref(aPrefName));
+            break;
+          case "findbar.entireword":
+            this._self._entireWord = prefsvc.getBoolPref(aPrefName);
+            this._self.toggleEntireWord(this._self._entireWord, true);
+            break;
+          case "findbar.highlightAll":
+            this._self.toggleHighlight(prefsvc.getBoolPref(aPrefName), true);
+            break;
+          case "findbar.modalHighlight":
+            this._self._useModalHighlight = prefsvc.getBoolPref(aPrefName);
+            if (this._self.browser.finder)
+              this._self.browser.finder.onModalHighlightChange(
+                this._self._useModalHighlight
+              );
+            break;
+        }
+      }
+    };
+    this._destroyed = false;
+    this._pluralForm = null;
+    this._strBundle = null;
+    this._xulBrowserWindow = null;
   }
   disconnectedCallback() {}
 

@@ -14,6 +14,48 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
     try {
       undefined;
     } catch (e) {}
+    this._inactiveTimeout = null;
+    this._contextMenuListener = {
+      toolbar: this,
+      contextMenu: null,
+
+      get active() {
+        return !!this.contextMenu;
+      },
+
+      init(event) {
+        var node = event.target;
+        while (node != this.toolbar) {
+          if (node.localName == "menupopup") return;
+          node = node.parentNode;
+        }
+
+        var contextMenuId = this.toolbar.getAttribute("context");
+        if (!contextMenuId) return;
+
+        this.contextMenu = document.getElementById(contextMenuId);
+        if (!this.contextMenu) return;
+
+        this.contextMenu.addEventListener("popupshown", this);
+        this.contextMenu.addEventListener("popuphiding", this);
+        this.toolbar.addEventListener("mousemove", this);
+      },
+      handleEvent(event) {
+        switch (event.type) {
+          case "popupshown":
+            this.toolbar.removeEventListener("mousemove", this);
+            break;
+          case "popuphiding":
+          case "mousemove":
+            this.toolbar._setInactiveAsync();
+            this.toolbar.removeEventListener("mousemove", this);
+            this.contextMenu.removeEventListener("popuphiding", this);
+            this.contextMenu.removeEventListener("popupshown", this);
+            this.contextMenu = null;
+            break;
+        }
+      }
+    };
   }
   disconnectedCallback() {}
   _setInactive() {

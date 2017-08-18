@@ -8,6 +8,8 @@ class FirefoxBasetext extends FirefoxBasecontrol {
 
     let comment = document.createComment("Creating firefox-basetext");
     this.prepend(comment);
+
+    this.labelElement = "";
   }
   disconnectedCallback() {}
 

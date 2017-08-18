@@ -8,6 +8,8 @@ class FirefoxWizardpage extends FirefoxWizardBase {
 
     let comment = document.createComment("Creating firefox-wizardpage");
     this.prepend(comment);
+
+    this.pageIndex = -1;
   }
   disconnectedCallback() {}
 

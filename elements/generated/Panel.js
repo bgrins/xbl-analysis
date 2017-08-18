@@ -25,6 +25,8 @@ class FirefoxPanel extends FirefoxPopupBase {
         } catch (e) {}
       }
     } catch (e) {}
+    this._prevFocus = 0;
+    this._dragBindingAlive = true;
   }
   disconnectedCallback() {}
 }

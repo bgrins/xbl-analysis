@@ -19,6 +19,22 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
   }
   disconnectedCallback() {}
 
+  get TIME_PICKER_WIDTH() {
+    return "12em";
+  }
+
+  get TIME_PICKER_HEIGHT() {
+    return "21em";
+  }
+
+  get DATE_PICKER_WIDTH() {
+    return "23.1em";
+  }
+
+  get DATE_PICKER_HEIGHT() {
+    return "20.7em";
+  }
+
   get dateTimePopupFrame() {
     undefined;
   }

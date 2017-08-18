@@ -24,6 +24,10 @@ class FirefoxNumberbox extends FirefoxTextbox {
       var value = this.inputField.value || 0;
       this._validateValue(value, false);
     } catch (e) {}
+    this._valueEntered = false;
+    this._spinButtons = null;
+    this._value = 0;
+    this.decimalSymbol = ".";
   }
   disconnectedCallback() {}
 

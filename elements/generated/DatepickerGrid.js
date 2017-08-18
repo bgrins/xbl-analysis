@@ -180,6 +180,27 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
 </vbox>`;
     let comment = document.createComment("Creating firefox-datepicker-grid");
     this.prepend(comment);
+
+    this._hasEntry = false;
+    this._weekStart = "";
+    this._displayedDate = null;
+    this._todayItem = null;
+    this.yearField = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "yearlabel"
+    );
+    this.monthField = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "monthlabeldeck"
+    );
+    this.dateField = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "datebox"
+    );
+    this._selectedItem = null;
   }
   disconnectedCallback() {}
 

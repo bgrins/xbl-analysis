@@ -135,8 +135,156 @@ class FirefoxTabbrowser extends BaseElement {
         true
       );
     } catch (e) {}
+    this._visibleTabs = null;
+    this.mStringBundle = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "tbstringbundle"
+    );
+    this.mCurrentTab = null;
+    this._lastRelatedTabMap = new WeakMap();
+    this.mCurrentBrowser = null;
+    this.mProgressListeners = [];
+    this.mTabsProgressListeners = [];
+    this._tabListeners = new Map();
+    this._tabFilters = new Map();
+    this.mIsBusy = false;
+    this._outerWindowIDBrowserMap = new Map();
+    this._autoScrollPopup = null;
+    this._previewMode = false;
+    this._lastFindValue = "";
+    this._contentWaitingCount = 0;
+    this.tabAnimationsInProgress = 0;
+    this.serializationHelper = Cc[
+      "@mozilla.org/network/serialization-helper;1"
+    ].getService(Ci.nsISerializationHelper);
+    this.mIconLoadingPrincipal = null;
+    this._tabSwitchID = null;
+    this._preloadedBrowser = null;
+    this._browserBindingProperties = [
+      "canGoBack",
+      "canGoForward",
+      "goBack",
+      "goForward",
+      "permitUnload",
+      "reload",
+      "reloadWithFlags",
+      "stop",
+      "loadURI",
+      "loadURIWithFlags",
+      "goHome",
+      "homePage",
+      "gotoIndex",
+      "currentURI",
+      "documentURI",
+      "preferences",
+      "imageDocument",
+      "isRemoteBrowser",
+      "messageManager",
+      "getTabBrowser",
+      "finder",
+      "fastFind",
+      "sessionHistory",
+      "contentTitle",
+      "characterSet",
+      "fullZoom",
+      "textZoom",
+      "webProgress",
+      "addProgressListener",
+      "removeProgressListener",
+      "audioPlaybackStarted",
+      "audioPlaybackStopped",
+      "pauseMedia",
+      "stopMedia",
+      "resumeMedia",
+      "mute",
+      "unmute",
+      "blockedPopups",
+      "lastURI",
+      "purgeSessionHistory",
+      "stopScroll",
+      "startScroll",
+      "userTypedValue",
+      "userTypedClear",
+      "mediaBlocked"
+    ];
+    this._removingTabs = [];
+    this._windowIsClosing = false;
+    this._printPreviewBrowsers = new Set();
+    this._switcher = null;
+    this._soundPlayingAttrRemovalTimer = 0;
+    this._hoverTabTimer = null;
   }
   disconnectedCallback() {}
+
+  get tabContainer() {
+    return document.getElementById(this.getAttribute("tabcontainer"));
+  }
+
+  get tabs() {
+    return this.tabContainer.childNodes;
+  }
+
+  get closingTabsEnum() {
+    return { ALL: 0, OTHER: 1, TO_END: 2 };
+  }
+
+  get mURIFixup() {
+    return Components.classes["@mozilla.org/docshell/urifixup;1"].getService(
+      Components.interfaces.nsIURIFixup
+    );
+  }
+
+  get _unifiedComplete() {
+    return Components.classes[
+      "@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
+    ].getService(Components.interfaces.mozIPlacesAutoComplete);
+  }
+
+  get mTabBox() {
+    return document.getAnonymousElementByAttribute(this, "anonid", "tabbox");
+  }
+
+  get mPanelContainer() {
+    return document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "panelcontainer"
+    );
+  }
+
+  get arrowKeysShouldWrap() {
+    return AppConstants == "macosx";
+  }
+
+  get _tabForBrowser() {
+    return new WeakMap();
+  }
+
+  get browsers() {
+    return; // This defines a proxy which allows us to access browsers by
+    // index without actually creating a full array of browsers.
+    new Proxy([], {
+      has: (target, name) => {
+        if (typeof name == "string" && Number.isInteger(parseInt(name))) {
+          return name in this.tabs;
+        }
+        return false;
+      },
+      get: (target, name) => {
+        if (name == "length") {
+          return this.tabs.length;
+        }
+        if (typeof name == "string" && Number.isInteger(parseInt(name))) {
+          if (!(name in this.tabs)) {
+            return undefined;
+          }
+          return this.tabs[name].linkedBrowser;
+        }
+        return target[name];
+      }
+    });
+  }
 
   get tabContextMenu() {
     return this.tabContainer.contextMenu;

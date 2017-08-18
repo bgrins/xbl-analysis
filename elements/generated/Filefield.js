@@ -16,6 +16,8 @@ class FirefoxFilefield extends FirefoxBasetext {
 </hbox>`;
     let comment = document.createComment("Creating firefox-filefield");
     this.prepend(comment);
+
+    this._file = null;
   }
   disconnectedCallback() {}
 

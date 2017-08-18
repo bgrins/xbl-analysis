@@ -123,6 +123,19 @@ class FirefoxPrefwindow extends FirefoxDialog {
 
       if (panes.length == 1) this._selector.setAttribute("collapsed", "true");
     } catch (e) {}
+    this._instantApplyInitialized = false;
+    this.instantApply = false;
+    this._currentPane = null;
+    this._initialized = false;
+    this._animateTimer = null;
+    this._fadeTimer = null;
+    this._animateDelay = 15;
+    this._animateIncrement = 40;
+    this._fadeDelay = 5;
+    this._fadeIncrement = 0.4;
+    this._animateRemainder = 0;
+    this._currentHeight = 0;
+    this._multiplier = 0;
   }
   disconnectedCallback() {}
 

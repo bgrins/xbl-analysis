@@ -10,6 +10,8 @@ class FirefoxTabbrowserRemoteBrowser extends FirefoxRemoteBrowser {
       "Creating firefox-tabbrowser-remote-browser"
     );
     this.prepend(comment);
+
+    this.tabModalPromptBox = null;
   }
   disconnectedCallback() {}
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {

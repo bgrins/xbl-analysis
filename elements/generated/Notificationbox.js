@@ -15,8 +15,53 @@ class FirefoxNotificationbox extends BaseElement {
 </children>`;
     let comment = document.createComment("Creating firefox-notificationbox");
     this.prepend(comment);
+
+    this.currentNotification = null;
+    this._closedNotification = null;
+    this._blockingCanvas = null;
+    this._animating = false;
   }
   disconnectedCallback() {}
+
+  get PRIORITY_INFO_LOW() {
+    return 1;
+  }
+
+  get PRIORITY_INFO_MEDIUM() {
+    return 2;
+  }
+
+  get PRIORITY_INFO_HIGH() {
+    return 3;
+  }
+
+  get PRIORITY_WARNING_LOW() {
+    return 4;
+  }
+
+  get PRIORITY_WARNING_MEDIUM() {
+    return 5;
+  }
+
+  get PRIORITY_WARNING_HIGH() {
+    return 6;
+  }
+
+  get PRIORITY_CRITICAL_LOW() {
+    return 7;
+  }
+
+  get PRIORITY_CRITICAL_MEDIUM() {
+    return 8;
+  }
+
+  get PRIORITY_CRITICAL_HIGH() {
+    return 9;
+  }
+
+  get PRIORITY_CRITICAL_BLOCK() {
+    return 10;
+  }
 
   get _allowAnimation() {
     var prefs = Components.classes[
