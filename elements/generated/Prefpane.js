@@ -1,4 +1,4 @@
-class XblPrefpane extends BaseElement {
+class FirefoxPrefpane extends BaseElement {
   constructor() {
     super();
   }
@@ -9,7 +9,7 @@ class XblPrefpane extends BaseElement {
 <children>
 </children>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-prefpane");
+    let comment = document.createComment("Creating firefox-prefpane");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -167,4 +167,4 @@ class XblPrefpane extends BaseElement {
     }
   }
 }
-customElements.define("xbl-prefpane", XblPrefpane);
+customElements.define("firefox-prefpane", FirefoxPrefpane);

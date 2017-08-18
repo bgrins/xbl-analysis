@@ -1,4 +1,4 @@
-class XblListcellCheckboxIconic extends XblListcellCheckbox {
+class FirefoxListcellCheckboxIconic extends FirefoxListcellCheckbox {
   constructor() {
     super();
   }
@@ -11,17 +11,17 @@ class XblListcellCheckboxIconic extends XblListcellCheckbox {
 </image>
 <image class="listcell-icon" inherits="src=image">
 </image>
-<xbl-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
-</xbl-text-label>
+<firefox-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</firefox-text-label>
 </children>`;
     let comment = document.createComment(
-      "Creating xbl-listcell-checkbox-iconic"
+      "Creating firefox-listcell-checkbox-iconic"
     );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
 customElements.define(
-  "xbl-listcell-checkbox-iconic",
-  XblListcellCheckboxIconic
+  "firefox-listcell-checkbox-iconic",
+  FirefoxListcellCheckboxIconic
 );

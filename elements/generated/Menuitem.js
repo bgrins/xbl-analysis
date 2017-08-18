@@ -1,4 +1,4 @@
-class XblMenuitem extends XblMenuitemBase {
+class FirefoxMenuitem extends FirefoxMenuitemBase {
   constructor() {
     super();
   }
@@ -6,15 +6,15 @@ class XblMenuitem extends XblMenuitemBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<xbl-text-label class="menu-text" inherits="value=label,accesskey,crop,highlightable" crop="right">
-</xbl-text-label>
+    this.innerHTML = `<firefox-text-label class="menu-text" inherits="value=label,accesskey,crop,highlightable" crop="right">
+</firefox-text-label>
 <hbox class="menu-accel-container" anonid="accel">
-<xbl-text-label class="menu-accel" inherits="value=acceltext">
-</xbl-text-label>
+<firefox-text-label class="menu-accel" inherits="value=acceltext">
+</firefox-text-label>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-menuitem");
+    let comment = document.createComment("Creating firefox-menuitem");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menuitem", XblMenuitem);
+customElements.define("firefox-menuitem", FirefoxMenuitem);

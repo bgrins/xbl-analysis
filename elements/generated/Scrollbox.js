@@ -1,4 +1,4 @@
-class XblScrollbox extends XblScrollboxBase {
+class FirefoxScrollbox extends FirefoxScrollboxBase {
   constructor() {
     super();
   }
@@ -10,10 +10,10 @@ class XblScrollbox extends XblScrollboxBase {
 <children>
 </children>
 </box>`;
-    let comment = document.createComment("Creating xbl-scrollbox");
+    let comment = document.createComment("Creating firefox-scrollbox");
     this.prepend(comment);
   }
   disconnectedCallback() {}
   scrollByIndex(index) {}
 }
-customElements.define("xbl-scrollbox", XblScrollbox);
+customElements.define("firefox-scrollbox", FirefoxScrollbox);

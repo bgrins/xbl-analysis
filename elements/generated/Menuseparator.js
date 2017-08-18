@@ -1,4 +1,4 @@
-class XblMenuseparator extends XblMenuitemBase {
+class FirefoxMenuseparator extends FirefoxMenuitemBase {
   constructor() {
     super();
   }
@@ -6,9 +6,9 @@ class XblMenuseparator extends XblMenuitemBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-menuseparator");
+    let comment = document.createComment("Creating firefox-menuseparator");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menuseparator", XblMenuseparator);
+customElements.define("firefox-menuseparator", FirefoxMenuseparator);

@@ -1,4 +1,4 @@
-class XblControlItem extends XblBasetext {
+class FirefoxControlItem extends FirefoxBasetext {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblControlItem extends XblBasetext {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-control-item");
+    let comment = document.createComment("Creating firefox-control-item");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -20,4 +20,4 @@ class XblControlItem extends XblBasetext {
     return this.getAttribute("value");
   }
 }
-customElements.define("xbl-control-item", XblControlItem);
+customElements.define("firefox-control-item", FirefoxControlItem);

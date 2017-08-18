@@ -1,4 +1,4 @@
-class XblListheader extends BaseElement {
+class FirefoxListheader extends BaseElement {
   constructor() {
     super();
   }
@@ -7,13 +7,13 @@ class XblListheader extends BaseElement {
 
     this.innerHTML = `<image class="listheader-icon">
 </image>
-<xbl-text-label class="listheader-label" inherits="value=label,crop" flex="1" crop="right">
-</xbl-text-label>
+<firefox-text-label class="listheader-label" inherits="value=label,crop" flex="1" crop="right">
+</firefox-text-label>
 <image class="listheader-sortdirection" inherits="sortDirection">
 </image>`;
-    let comment = document.createComment("Creating xbl-listheader");
+    let comment = document.createComment("Creating firefox-listheader");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-listheader", XblListheader);
+customElements.define("firefox-listheader", FirefoxListheader);

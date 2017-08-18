@@ -1,4 +1,4 @@
-class XblDateInput extends XblDatetimeInputBase {
+class FirefoxDateInput extends FirefoxDatetimeInputBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblDateInput extends XblDatetimeInputBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-date-input");
+    let comment = document.createComment("Creating firefox-date-input");
     this.prepend(comment);
 
     try {
@@ -358,4 +358,4 @@ class XblDateInput extends XblDatetimeInputBase {
     return this.isEmpty(year) || this.isEmpty(month) || this.isEmpty(day);
   }
 }
-customElements.define("xbl-date-input", XblDateInput);
+customElements.define("firefox-date-input", FirefoxDateInput);

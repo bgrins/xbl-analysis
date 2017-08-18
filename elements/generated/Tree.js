@@ -1,4 +1,4 @@
-class XblTree extends XblTreeBase {
+class FirefoxTree extends FirefoxTreeBase {
   constructor() {
     super();
   }
@@ -22,7 +22,7 @@ class XblTree extends XblTreeBase {
 <scrollcorner inherits="collapsed=hidevscroll">
 </scrollcorner>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-tree");
+    let comment = document.createComment("Creating firefox-tree");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -596,4 +596,4 @@ class XblTree extends XblTreeBase {
     return this.changeOpenState(this.currentIndex);
   }
 }
-customElements.define("xbl-tree", XblTree);
+customElements.define("firefox-tree", FirefoxTree);

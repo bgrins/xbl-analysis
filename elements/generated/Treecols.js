@@ -1,4 +1,4 @@
-class XblTreecols extends BaseElement {
+class FirefoxTreecols extends BaseElement {
   constructor() {
     super();
   }
@@ -11,7 +11,7 @@ class XblTreecols extends BaseElement {
 </hbox>
 <treecolpicker class="treecol-image" fixed="true" inherits="tooltiptext=pickertooltiptext">
 </treecolpicker>`;
-    let comment = document.createComment("Creating xbl-treecols");
+    let comment = document.createComment("Creating firefox-treecols");
     this.prepend(comment);
 
     try {
@@ -25,4 +25,4 @@ class XblTreecols extends BaseElement {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-treecols", XblTreecols);
+customElements.define("firefox-treecols", FirefoxTreecols);

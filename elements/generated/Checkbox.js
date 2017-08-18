@@ -1,4 +1,4 @@
-class XblCheckbox extends XblCheckboxBaseline {
+class FirefoxCheckbox extends FirefoxCheckboxBaseline {
   constructor() {
     super();
   }
@@ -6,9 +6,9 @@ class XblCheckbox extends XblCheckboxBaseline {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-checkbox");
+    let comment = document.createComment("Creating firefox-checkbox");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-checkbox", XblCheckbox);
+customElements.define("firefox-checkbox", FirefoxCheckbox);

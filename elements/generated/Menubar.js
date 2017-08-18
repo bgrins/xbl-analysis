@@ -1,4 +1,4 @@
-class XblMenubar extends XblToolbarBase {
+class FirefoxMenubar extends FirefoxToolbarBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblMenubar extends XblToolbarBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-menubar");
+    let comment = document.createComment("Creating firefox-menubar");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -25,4 +25,4 @@ class XblMenubar extends XblToolbarBase {
     if (newText != this._statusbar.label) this._statusbar.label = newText;
   }
 }
-customElements.define("xbl-menubar", XblMenubar);
+customElements.define("firefox-menubar", FirefoxMenubar);

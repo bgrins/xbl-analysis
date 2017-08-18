@@ -1,11 +1,11 @@
-class XblImage extends BaseElement {
+class FirefoxImage extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-image");
+    let comment = document.createComment("Creating firefox-image");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -19,4 +19,4 @@ class XblImage extends BaseElement {
     return this.getAttribute("src");
   }
 }
-customElements.define("xbl-image", XblImage);
+customElements.define("firefox-image", FirefoxImage);

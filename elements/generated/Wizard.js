@@ -1,4 +1,4 @@
-class XblWizard extends XblRootElement {
+class FirefoxWizard extends FirefoxRootElement {
   constructor() {
     super();
   }
@@ -16,7 +16,7 @@ class XblWizard extends XblRootElement {
 </children>
 <hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage">
 </hbox>`;
-    let comment = document.createComment("Creating xbl-wizard");
+    let comment = document.createComment("Creating firefox-wizard");
     this.prepend(comment);
 
     try {
@@ -367,4 +367,4 @@ class XblWizard extends XblRootElement {
     return noCancel;
   }
 }
-customElements.define("xbl-wizard", XblWizard);
+customElements.define("firefox-wizard", FirefoxWizard);

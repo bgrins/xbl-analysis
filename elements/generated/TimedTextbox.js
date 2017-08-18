@@ -1,4 +1,4 @@
-class XblTimedTextbox extends XblTextbox {
+class FirefoxTimedTextbox extends FirefoxTextbox {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTimedTextbox extends XblTextbox {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-timed-textbox");
+    let comment = document.createComment("Creating firefox-timed-textbox");
     this.prepend(comment);
 
     try {
@@ -55,4 +55,4 @@ class XblTimedTextbox extends XblTextbox {
     me.doCommand();
   }
 }
-customElements.define("xbl-timed-textbox", XblTimedTextbox);
+customElements.define("firefox-timed-textbox", FirefoxTimedTextbox);

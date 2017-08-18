@@ -1,4 +1,4 @@
-class XblMenuitemIconicNoaccel extends XblMenuitem {
+class FirefoxMenuitemIconicNoaccel extends FirefoxMenuitem {
   constructor() {
     super();
   }
@@ -10,15 +10,18 @@ class XblMenuitemIconicNoaccel extends XblMenuitem {
 <image class="menu-iconic-icon" inherits="src=image,validate,src">
 </image>
 </hbox>
-<xbl-text-label class="menu-iconic-text" flex="1" inherits="value=label,accesskey,crop,highlightable" crop="right">
-</xbl-text-label>
-<xbl-text-label class="menu-iconic-highlightable-text" inherits="text=label,crop,accesskey,highlightable" crop="right">
-</xbl-text-label>`;
+<firefox-text-label class="menu-iconic-text" flex="1" inherits="value=label,accesskey,crop,highlightable" crop="right">
+</firefox-text-label>
+<firefox-text-label class="menu-iconic-highlightable-text" inherits="text=label,crop,accesskey,highlightable" crop="right">
+</firefox-text-label>`;
     let comment = document.createComment(
-      "Creating xbl-menuitem-iconic-noaccel"
+      "Creating firefox-menuitem-iconic-noaccel"
     );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menuitem-iconic-noaccel", XblMenuitemIconicNoaccel);
+customElements.define(
+  "firefox-menuitem-iconic-noaccel",
+  FirefoxMenuitemIconicNoaccel
+);

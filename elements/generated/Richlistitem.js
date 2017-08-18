@@ -1,4 +1,4 @@
-class XblRichlistitem extends XblListitem {
+class FirefoxRichlistitem extends FirefoxListitem {
   constructor() {
     super();
   }
@@ -8,7 +8,7 @@ class XblRichlistitem extends XblListitem {
 
     this.innerHTML = `<children>
 </children>`;
-    let comment = document.createComment("Creating xbl-richlistitem");
+    let comment = document.createComment("Creating firefox-richlistitem");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -36,4 +36,4 @@ class XblRichlistitem extends XblListitem {
       : this.label;
   }
 }
-customElements.define("xbl-richlistitem", XblRichlistitem);
+customElements.define("firefox-richlistitem", FirefoxRichlistitem);

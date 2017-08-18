@@ -1,4 +1,4 @@
-class XblButtonBase extends XblBasetext {
+class FirefoxButtonBase extends FirefoxBasetext {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblButtonBase extends XblBasetext {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-button-base");
+    let comment = document.createComment("Creating firefox-button-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -139,4 +139,4 @@ class XblButtonBase extends XblBasetext {
     }
   }
 }
-customElements.define("xbl-button-base", XblButtonBase);
+customElements.define("firefox-button-base", FirefoxButtonBase);

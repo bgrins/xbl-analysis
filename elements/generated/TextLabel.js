@@ -1,4 +1,4 @@
-class XblTextLabel extends XblTextBase {
+class FirefoxTextLabel extends FirefoxTextBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTextLabel extends XblTextBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-text-label");
+    let comment = document.createComment("Creating firefox-text-label");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -31,4 +31,4 @@ class XblTextLabel extends XblTextBase {
     return getAttribute("control");
   }
 }
-customElements.define("xbl-text-label", XblTextLabel);
+customElements.define("firefox-text-label", FirefoxTextLabel);

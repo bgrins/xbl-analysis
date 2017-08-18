@@ -1,4 +1,4 @@
-class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
+class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
   constructor() {
     super();
   }
@@ -19,7 +19,7 @@ class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
 <toolbarbutton class="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" anonid="scrollbutton-down" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(1);" onmouseout="_pauseScroll();">
 </toolbarbutton>`;
     let comment = document.createComment(
-      "Creating xbl-arrowscrollbox-clicktoscroll"
+      "Creating firefox-arrowscrollbox-clicktoscroll"
     );
     this.prepend(comment);
 
@@ -114,6 +114,6 @@ class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
   }
 }
 customElements.define(
-  "xbl-arrowscrollbox-clicktoscroll",
-  XblArrowscrollboxClicktoscroll
+  "firefox-arrowscrollbox-clicktoscroll",
+  FirefoxArrowscrollboxClicktoscroll
 );

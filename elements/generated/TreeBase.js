@@ -1,4 +1,4 @@
-class XblTreeBase extends XblBasecontrol {
+class FirefoxTreeBase extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTreeBase extends XblBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-tree-base");
+    let comment = document.createComment("Creating firefox-tree-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -14,4 +14,4 @@ class XblTreeBase extends XblBasecontrol {
     return aEvent.getModifierState("Accel");
   }
 }
-customElements.define("xbl-tree-base", XblTreeBase);
+customElements.define("firefox-tree-base", FirefoxTreeBase);

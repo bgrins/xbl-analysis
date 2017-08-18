@@ -1,4 +1,4 @@
-class XblNotificationbox extends BaseElement {
+class FirefoxNotificationbox extends BaseElement {
   constructor() {
     super();
   }
@@ -13,7 +13,7 @@ class XblNotificationbox extends BaseElement {
 </stack>
 <children>
 </children>`;
-    let comment = document.createComment("Creating xbl-notificationbox");
+    let comment = document.createComment("Creating firefox-notificationbox");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -304,4 +304,4 @@ class XblNotificationbox extends BaseElement {
     }
   }
 }
-customElements.define("xbl-notificationbox", XblNotificationbox);
+customElements.define("firefox-notificationbox", FirefoxNotificationbox);

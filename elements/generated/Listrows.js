@@ -1,13 +1,13 @@
-class XblListrows extends BaseElement {
+class FirefoxListrows extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-listrows");
+    let comment = document.createComment("Creating firefox-listrows");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-listrows", XblListrows);
+customElements.define("firefox-listrows", FirefoxListrows);

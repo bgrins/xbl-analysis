@@ -1,4 +1,4 @@
-class XblFindbarTextbox extends XblTextbox {
+class FirefoxFindbarTextbox extends FirefoxTextbox {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblFindbarTextbox extends XblTextbox {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-findbar-textbox");
+    let comment = document.createComment("Creating firefox-findbar-textbox");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -35,4 +35,4 @@ class XblFindbarTextbox extends XblTextbox {
     }
   }
 }
-customElements.define("xbl-findbar-textbox", XblFindbarTextbox);
+customElements.define("firefox-findbar-textbox", FirefoxFindbarTextbox);

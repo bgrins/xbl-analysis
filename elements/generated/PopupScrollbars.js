@@ -1,4 +1,4 @@
-class XblPopupScrollbars extends XblPopup {
+class FirefoxPopupScrollbars extends FirefoxPopup {
   constructor() {
     super();
   }
@@ -10,7 +10,7 @@ class XblPopupScrollbars extends XblPopup {
 <children>
 </children>
 </scrollbox>`;
-    let comment = document.createComment("Creating xbl-popup-scrollbars");
+    let comment = document.createComment("Creating firefox-popup-scrollbars");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -29,4 +29,4 @@ class XblPopupScrollbars extends XblPopup {
     }
   }
 }
-customElements.define("xbl-popup-scrollbars", XblPopupScrollbars);
+customElements.define("firefox-popup-scrollbars", FirefoxPopupScrollbars);

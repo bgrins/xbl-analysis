@@ -1,4 +1,4 @@
-class XblVideocontrols extends BaseElement {
+class FirefoxVideocontrols extends BaseElement {
   constructor() {
     super();
   }
@@ -67,7 +67,7 @@ class XblVideocontrols extends BaseElement {
 </div>
 </div>
 </div>`;
-    let comment = document.createComment("Creating xbl-videocontrols");
+    let comment = document.createComment("Creating firefox-videocontrols");
     this.prepend(comment);
 
     try {
@@ -1991,4 +1991,4 @@ class XblVideocontrols extends BaseElement {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-videocontrols", XblVideocontrols);
+customElements.define("firefox-videocontrols", FirefoxVideocontrols);

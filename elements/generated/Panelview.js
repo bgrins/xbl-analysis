@@ -1,4 +1,4 @@
-class XblPanelview extends BaseElement {
+class FirefoxPanelview extends BaseElement {
   constructor() {
     super();
   }
@@ -8,12 +8,12 @@ class XblPanelview extends BaseElement {
     this.innerHTML = `<box class="panel-header" anonid="header">
 <toolbarbutton anonid="back" class="subviewbutton subviewbutton-iconic subviewbutton-back" closemenu="none" tabindex="0" tooltip="&backCmd.label;" onclick="document.getBindingParent(this).panelMultiView.goBack(); this.blur()">
 </toolbarbutton>
-<xbl-text-label inherits="value=title">
-</xbl-text-label>
+<firefox-text-label inherits="value=title">
+</firefox-text-label>
 </box>
 <children>
 </children>`;
-    let comment = document.createComment("Creating xbl-panelview");
+    let comment = document.createComment("Creating firefox-panelview");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -34,4 +34,4 @@ class XblPanelview extends BaseElement {
     return this.parentNode;
   }
 }
-customElements.define("xbl-panelview", XblPanelview);
+customElements.define("firefox-panelview", FirefoxPanelview);

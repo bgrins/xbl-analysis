@@ -1,4 +1,4 @@
-class XblScaleslider extends XblBasecontrol {
+class FirefoxScaleslider extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -6,9 +6,9 @@ class XblScaleslider extends XblBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-scaleslider");
+    let comment = document.createComment("Creating firefox-scaleslider");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-scaleslider", XblScaleslider);
+customElements.define("firefox-scaleslider", FirefoxScaleslider);

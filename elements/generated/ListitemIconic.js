@@ -1,4 +1,4 @@
-class XblListitemIconic extends XblListitem {
+class FirefoxListitemIconic extends FirefoxListitem {
   constructor() {
     super();
   }
@@ -10,9 +10,9 @@ class XblListitemIconic extends XblListitem {
 <listcell class="listcell-iconic" inherits="label,image,crop,disabled,flexlabel">
 </listcell>
 </children>`;
-    let comment = document.createComment("Creating xbl-listitem-iconic");
+    let comment = document.createComment("Creating firefox-listitem-iconic");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-listitem-iconic", XblListitemIconic);
+customElements.define("firefox-listitem-iconic", FirefoxListitemIconic);

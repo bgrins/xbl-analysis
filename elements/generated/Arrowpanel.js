@@ -1,4 +1,4 @@
-class XblArrowpanel extends XblPanel {
+class FirefoxArrowpanel extends FirefoxPanel {
   constructor() {
     super();
   }
@@ -16,7 +16,7 @@ class XblArrowpanel extends XblPanel {
 </children>
 </box>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-arrowpanel");
+    let comment = document.createComment("Creating firefox-arrowpanel");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -100,4 +100,4 @@ class XblArrowpanel extends XblPanel {
     }
   }
 }
-customElements.define("xbl-arrowpanel", XblArrowpanel);
+customElements.define("firefox-arrowpanel", FirefoxArrowpanel);

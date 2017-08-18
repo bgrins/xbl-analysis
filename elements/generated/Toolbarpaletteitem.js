@@ -1,4 +1,4 @@
-class XblToolbarpaletteitem extends XblToolbarBase {
+class FirefoxToolbarpaletteitem extends FirefoxToolbarBase {
   constructor() {
     super();
   }
@@ -10,9 +10,9 @@ class XblToolbarpaletteitem extends XblToolbarBase {
 <children>
 </children>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-toolbarpaletteitem");
+    let comment = document.createComment("Creating firefox-toolbarpaletteitem");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-toolbarpaletteitem", XblToolbarpaletteitem);
+customElements.define("firefox-toolbarpaletteitem", FirefoxToolbarpaletteitem);

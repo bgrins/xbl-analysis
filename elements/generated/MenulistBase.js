@@ -1,4 +1,4 @@
-class XblMenulistBase extends XblBasecontrol {
+class FirefoxMenulistBase extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -6,9 +6,9 @@ class XblMenulistBase extends XblBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-menulist-base");
+    let comment = document.createComment("Creating firefox-menulist-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menulist-base", XblMenulistBase);
+customElements.define("firefox-menulist-base", FirefoxMenulistBase);

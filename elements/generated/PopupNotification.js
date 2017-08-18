@@ -1,4 +1,4 @@
-class XblPopupNotification extends BaseElement {
+class FirefoxPopupNotification extends BaseElement {
   constructor() {
     super();
   }
@@ -11,8 +11,8 @@ class XblPopupNotification extends BaseElement {
 <vbox flex="1" pack="start" class="popup-notification-body" inherits="popupid">
 <hbox align="start">
 <vbox flex="1">
-<xbl-text-label class="popup-notification-origin header" inherits="value=origin,tooltiptext=origin" crop="center">
-</xbl-text-label>
+<firefox-text-label class="popup-notification-origin header" inherits="value=origin,tooltiptext=origin" crop="center">
+</firefox-text-label>
 <description class="popup-notification-description" inherits="text=label,popupid">
 </description>
 </vbox>
@@ -21,8 +21,8 @@ class XblPopupNotification extends BaseElement {
 </hbox>
 <children includes="popupnotificationcontent">
 </children>
-<xbl-text-label class="text-link popup-notification-learnmore-link" inherits="onclick=learnmoreclick,href=learnmoreurl">
-</xbl-text-label>
+<firefox-text-label class="text-link popup-notification-learnmore-link" inherits="onclick=learnmoreclick,href=learnmoreurl">
+</firefox-text-label>
 <checkbox anonid="checkbox" inherits="hidden=checkboxhidden,checked=checkboxchecked,label=checkboxlabel,oncommand=checkboxcommand">
 </checkbox>
 <description class="popup-notification-warning" inherits="hidden=warninghidden,text=warninglabel">
@@ -45,9 +45,9 @@ class XblPopupNotification extends BaseElement {
 <button anonid="button" class="popup-notification-button" default="true" label="&defaultButton.label;" accesskey="&defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,disabled=mainactiondisabled">
 </button>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-popup-notification");
+    let comment = document.createComment("Creating firefox-popup-notification");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-popup-notification", XblPopupNotification);
+customElements.define("firefox-popup-notification", FirefoxPopupNotification);

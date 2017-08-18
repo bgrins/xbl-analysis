@@ -1,4 +1,4 @@
-class XblToolbarMenubarAutohide extends XblToolbar {
+class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
   constructor() {
     super();
   }
@@ -7,7 +7,7 @@ class XblToolbarMenubarAutohide extends XblToolbar {
     console.log(this, "connected");
 
     let comment = document.createComment(
-      "Creating xbl-toolbar-menubar-autohide"
+      "Creating firefox-toolbar-menubar-autohide"
     );
     this.prepend(comment);
 
@@ -40,6 +40,6 @@ class XblToolbarMenubarAutohide extends XblToolbar {
   }
 }
 customElements.define(
-  "xbl-toolbar-menubar-autohide",
-  XblToolbarMenubarAutohide
+  "firefox-toolbar-menubar-autohide",
+  FirefoxToolbarMenubarAutohide
 );

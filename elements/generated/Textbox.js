@@ -1,4 +1,4 @@
-class XblTextbox extends BaseElement {
+class FirefoxTextbox extends BaseElement {
   constructor() {
     super();
   }
@@ -11,7 +11,7 @@ class XblTextbox extends BaseElement {
 <input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
 </input>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-textbox");
+    let comment = document.createComment("Creating firefox-textbox");
     this.prepend(comment);
 
     try {
@@ -229,4 +229,4 @@ class XblTextbox extends BaseElement {
       this.editor.selectAll();
   }
 }
-customElements.define("xbl-textbox", XblTextbox);
+customElements.define("firefox-textbox", FirefoxTextbox);

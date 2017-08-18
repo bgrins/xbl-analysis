@@ -1,4 +1,4 @@
-class XblAutocompleteCreditcardInsecureField extends XblAutocompleteProfileListitemBase {
+class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProfileListitemBase {
   constructor() {
     super();
   }
@@ -9,7 +9,7 @@ class XblAutocompleteCreditcardInsecureField extends XblAutocompleteProfileListi
     this.innerHTML = `<div anonid="autofill-item-box" class="autofill-insecure-item">
 </div>`;
     let comment = document.createComment(
-      "Creating xbl-autocomplete-creditcard-insecure-field"
+      "Creating firefox-autocomplete-creditcard-insecure-field"
     );
     this.prepend(comment);
 
@@ -42,6 +42,6 @@ class XblAutocompleteCreditcardInsecureField extends XblAutocompleteProfileListi
   }
 }
 customElements.define(
-  "xbl-autocomplete-creditcard-insecure-field",
-  XblAutocompleteCreditcardInsecureField
+  "firefox-autocomplete-creditcard-insecure-field",
+  FirefoxAutocompleteCreditcardInsecureField
 );

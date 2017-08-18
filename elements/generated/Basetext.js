@@ -1,4 +1,4 @@
-class XblBasetext extends XblBasecontrol {
+class FirefoxBasetext extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblBasetext extends XblBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-basetext");
+    let comment = document.createComment("Creating firefox-basetext");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -64,4 +64,4 @@ class XblBasetext extends XblBasecontrol {
       : this.getAttribute("accesskey");
   }
 }
-customElements.define("xbl-basetext", XblBasetext);
+customElements.define("firefox-basetext", FirefoxBasetext);

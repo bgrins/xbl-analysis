@@ -1,4 +1,4 @@
-class XblGroupbox extends XblGroupboxBase {
+class FirefoxGroupbox extends FirefoxGroupboxBase {
   constructor() {
     super();
   }
@@ -14,9 +14,9 @@ class XblGroupbox extends XblGroupboxBase {
 <children>
 </children>
 </box>`;
-    let comment = document.createComment("Creating xbl-groupbox");
+    let comment = document.createComment("Creating firefox-groupbox");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-groupbox", XblGroupbox);
+customElements.define("firefox-groupbox", FirefoxGroupbox);

@@ -1,4 +1,4 @@
-class XblAutocompleteProfileListitemFooter extends XblAutocompleteProfileListitemBase {
+class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfileListitemBase {
   constructor() {
     super();
   }
@@ -13,7 +13,7 @@ class XblAutocompleteProfileListitemFooter extends XblAutocompleteProfileListite
 </div>
 </div>`;
     let comment = document.createComment(
-      "Creating xbl-autocomplete-profile-listitem-footer"
+      "Creating firefox-autocomplete-profile-listitem-footer"
     );
     this.prepend(comment);
 
@@ -148,6 +148,6 @@ class XblAutocompleteProfileListitemFooter extends XblAutocompleteProfileListite
   }
 }
 customElements.define(
-  "xbl-autocomplete-profile-listitem-footer",
-  XblAutocompleteProfileListitemFooter
+  "firefox-autocomplete-profile-listitem-footer",
+  FirefoxAutocompleteProfileListitemFooter
 );

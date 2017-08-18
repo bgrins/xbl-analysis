@@ -1,4 +1,4 @@
-class XblListcell extends XblBasecontrol {
+class FirefoxListcell extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -7,12 +7,12 @@ class XblListcell extends XblBasecontrol {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<xbl-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
-</xbl-text-label>
+<firefox-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</firefox-text-label>
 </children>`;
-    let comment = document.createComment("Creating xbl-listcell");
+    let comment = document.createComment("Creating firefox-listcell");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-listcell", XblListcell);
+customElements.define("firefox-listcell", FirefoxListcell);

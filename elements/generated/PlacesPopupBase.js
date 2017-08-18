@@ -1,4 +1,4 @@
-class XblPlacesPopupBase extends XblPopup {
+class FirefoxPlacesPopupBase extends FirefoxPopup {
   constructor() {
     super();
   }
@@ -16,7 +16,7 @@ class XblPlacesPopupBase extends XblPopup {
 </children>
 </arrowscrollbox>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-places-popup-base");
+    let comment = document.createComment("Creating firefox-places-popup-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -137,4 +137,4 @@ class XblPlacesPopupBase extends XblPopup {
     this._indicatorBar.hidden = true;
   }
 }
-customElements.define("xbl-places-popup-base", XblPlacesPopupBase);
+customElements.define("firefox-places-popup-base", FirefoxPlacesPopupBase);

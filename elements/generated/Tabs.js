@@ -1,4 +1,4 @@
-class XblTabs extends XblBasecontrol {
+class FirefoxTabs extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -12,7 +12,7 @@ class XblTabs extends XblBasecontrol {
 </children>
 <spacer class="tabs-right" flex="1">
 </spacer>`;
-    let comment = document.createComment("Creating xbl-tabs");
+    let comment = document.createComment("Creating firefox-tabs");
     this.prepend(comment);
 
     try {
@@ -263,4 +263,4 @@ class XblTabs extends XblBasecontrol {
     return remove;
   }
 }
-customElements.define("xbl-tabs", XblTabs);
+customElements.define("firefox-tabs", FirefoxTabs);

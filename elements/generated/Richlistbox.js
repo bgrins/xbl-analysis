@@ -1,4 +1,4 @@
-class XblRichlistbox extends XblListboxBase {
+class FirefoxRichlistbox extends FirefoxListboxBase {
   constructor() {
     super();
   }
@@ -12,7 +12,7 @@ class XblRichlistbox extends XblListboxBase {
 <children>
 </children>
 </scrollbox>`;
-    let comment = document.createComment("Creating xbl-richlistbox");
+    let comment = document.createComment("Creating firefox-richlistbox");
     this.prepend(comment);
 
     try {
@@ -309,4 +309,4 @@ class XblRichlistbox extends XblListboxBase {
   }
   fireActiveItemEvent() {}
 }
-customElements.define("xbl-richlistbox", XblRichlistbox);
+customElements.define("firefox-richlistbox", FirefoxRichlistbox);

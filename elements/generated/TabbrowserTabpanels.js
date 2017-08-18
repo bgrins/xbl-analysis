@@ -1,4 +1,4 @@
-class XblTabbrowserTabpanels extends XblTabpanels {
+class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
   constructor() {
     super();
   }
@@ -6,7 +6,9 @@ class XblTabbrowserTabpanels extends XblTabpanels {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-tabbrowser-tabpanels");
+    let comment = document.createComment(
+      "Creating firefox-tabbrowser-tabpanels"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -36,4 +38,7 @@ class XblTabbrowserTabpanels extends XblTabpanels {
     return this._selectedIndex;
   }
 }
-customElements.define("xbl-tabbrowser-tabpanels", XblTabbrowserTabpanels);
+customElements.define(
+  "firefox-tabbrowser-tabpanels",
+  FirefoxTabbrowserTabpanels
+);

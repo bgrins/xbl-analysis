@@ -1,4 +1,4 @@
-class XblRemoteBrowser extends XblBrowser {
+class FirefoxRemoteBrowser extends FirefoxBrowser {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblRemoteBrowser extends XblBrowser {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-remote-browser");
+    let comment = document.createComment("Creating firefox-remote-browser");
     this.prepend(comment);
 
     try {
@@ -505,4 +505,4 @@ class XblRemoteBrowser extends XblBrowser {
     );
   }
 }
-customElements.define("xbl-remote-browser", XblRemoteBrowser);
+customElements.define("firefox-remote-browser", FirefoxRemoteBrowser);

@@ -1,4 +1,4 @@
-class XblTabbox extends XblTabBase {
+class FirefoxTabbox extends FirefoxTabBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTabbox extends XblTabBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-tabbox");
+    let comment = document.createComment("Creating firefox-tabbox");
     this.prepend(comment);
 
     try {
@@ -162,4 +162,4 @@ class XblTabbox extends XblTabBase {
     }
   }
 }
-customElements.define("xbl-tabbox", XblTabbox);
+customElements.define("firefox-tabbox", FirefoxTabbox);

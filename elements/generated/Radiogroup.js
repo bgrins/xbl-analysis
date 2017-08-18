@@ -1,4 +1,4 @@
-class XblRadiogroup extends XblBasecontrol {
+class FirefoxRadiogroup extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblRadiogroup extends XblBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-radiogroup");
+    let comment = document.createComment("Creating firefox-radiogroup");
     this.prepend(comment);
 
     try {
@@ -270,4 +270,4 @@ class XblRadiogroup extends XblBasecontrol {
     return remove;
   }
 }
-customElements.define("xbl-radiogroup", XblRadiogroup);
+customElements.define("firefox-radiogroup", FirefoxRadiogroup);

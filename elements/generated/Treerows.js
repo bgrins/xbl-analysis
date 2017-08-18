@@ -1,4 +1,4 @@
-class XblTreerows extends XblTreeBase {
+class FirefoxTreerows extends FirefoxTreeBase {
   constructor() {
     super();
   }
@@ -12,9 +12,9 @@ class XblTreerows extends XblTreeBase {
 </hbox>
 <scrollbar height="0" minwidth="0" minheight="0" orient="vertical" inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;">
 </scrollbar>`;
-    let comment = document.createComment("Creating xbl-treerows");
+    let comment = document.createComment("Creating firefox-treerows");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-treerows", XblTreerows);
+customElements.define("firefox-treerows", FirefoxTreerows);

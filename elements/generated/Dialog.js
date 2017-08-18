@@ -1,4 +1,4 @@
-class XblDialog extends XblRootElement {
+class FirefoxDialog extends FirefoxRootElement {
   constructor() {
     super();
   }
@@ -40,7 +40,7 @@ class XblDialog extends XblRootElement {
 <button dlgtype="disclosure" class="dialog-button" hidden="true">
 </button>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-dialog");
+    let comment = document.createComment("Creating firefox-dialog");
     this.prepend(comment);
 
     try {
@@ -381,4 +381,4 @@ class XblDialog extends XblRootElement {
     if (btn) this._doButtonCommand(this.defaultButton);
   }
 }
-customElements.define("xbl-dialog", XblDialog);
+customElements.define("firefox-dialog", FirefoxDialog);

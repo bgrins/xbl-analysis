@@ -1,4 +1,4 @@
-class XblToolbarbutton extends XblButtonBase {
+class FirefoxToolbarbutton extends FirefoxButtonBase {
   constructor() {
     super();
   }
@@ -10,15 +10,15 @@ class XblToolbarbutton extends XblButtonBase {
 </children>
 <image class="toolbarbutton-icon" inherits="validate,src=image,label,consumeanchor">
 </image>
-<xbl-text-label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,wrap">
-</xbl-text-label>
-<xbl-text-label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap">
-</xbl-text-label>
+<firefox-text-label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,wrap">
+</firefox-text-label>
+<firefox-text-label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap">
+</firefox-text-label>
 <children includes="box">
 </children>`;
-    let comment = document.createComment("Creating xbl-toolbarbutton");
+    let comment = document.createComment("Creating firefox-toolbarbutton");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-toolbarbutton", XblToolbarbutton);
+customElements.define("firefox-toolbarbutton", FirefoxToolbarbutton);

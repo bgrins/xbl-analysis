@@ -1,4 +1,4 @@
-class XblStatuspanel extends BaseElement {
+class FirefoxStatuspanel extends BaseElement {
   constructor() {
     super();
   }
@@ -6,10 +6,10 @@ class XblStatuspanel extends BaseElement {
     console.log(this, "connected");
 
     this.innerHTML = `<hbox class="statuspanel-inner">
-<xbl-text-label class="statuspanel-label" role="status" aria-live="off" inherits="value=label,crop,mirror" flex="1" crop="end">
-</xbl-text-label>
+<firefox-text-label class="statuspanel-label" role="status" aria-live="off" inherits="value=label,crop,mirror" flex="1" crop="end">
+</firefox-text-label>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-statuspanel");
+    let comment = document.createComment("Creating firefox-statuspanel");
     this.prepend(comment);
 
     try {
@@ -94,4 +94,4 @@ class XblStatuspanel extends BaseElement {
   }
   _mirror() {}
 }
-customElements.define("xbl-statuspanel", XblStatuspanel);
+customElements.define("firefox-statuspanel", FirefoxStatuspanel);

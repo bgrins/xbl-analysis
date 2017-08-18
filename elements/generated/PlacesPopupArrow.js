@@ -1,4 +1,4 @@
-class XblPlacesPopupArrow extends XblPlacesPopupBase {
+class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
   constructor() {
     super();
   }
@@ -22,7 +22,7 @@ class XblPlacesPopupArrow extends XblPlacesPopupBase {
 </arrowscrollbox>
 </box>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-places-popup-arrow");
+    let comment = document.createComment("Creating firefox-places-popup-arrow");
     this.prepend(comment);
 
     try {
@@ -106,4 +106,4 @@ class XblPlacesPopupArrow extends XblPlacesPopupBase {
     arrow.hidden = false;
   }
 }
-customElements.define("xbl-places-popup-arrow", XblPlacesPopupArrow);
+customElements.define("firefox-places-popup-arrow", FirefoxPlacesPopupArrow);

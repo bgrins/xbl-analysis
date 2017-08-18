@@ -1,4 +1,4 @@
-class XblListhead extends BaseElement {
+class FirefoxListhead extends BaseElement {
   constructor() {
     super();
   }
@@ -9,9 +9,9 @@ class XblListhead extends BaseElement {
 <children includes="listheader">
 </children>
 </listheaditem>`;
-    let comment = document.createComment("Creating xbl-listhead");
+    let comment = document.createComment("Creating firefox-listhead");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-listhead", XblListhead);
+customElements.define("firefox-listhead", FirefoxListhead);

@@ -1,4 +1,4 @@
-class XblAutocompleteTreerows extends BaseElement {
+class FirefoxAutocompleteTreerows extends BaseElement {
   constructor() {
     super();
   }
@@ -11,9 +11,14 @@ class XblAutocompleteTreerows extends BaseElement {
 </hbox>
 <scrollbar inherits="collapsed=hidescrollbar" orient="vertical" class="tree-scrollbar">
 </scrollbar>`;
-    let comment = document.createComment("Creating xbl-autocomplete-treerows");
+    let comment = document.createComment(
+      "Creating firefox-autocomplete-treerows"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-autocomplete-treerows", XblAutocompleteTreerows);
+customElements.define(
+  "firefox-autocomplete-treerows",
+  FirefoxAutocompleteTreerows
+);

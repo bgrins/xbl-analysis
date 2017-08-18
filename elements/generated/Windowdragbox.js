@@ -1,11 +1,11 @@
-class XblWindowdragbox extends BaseElement {
+class FirefoxWindowdragbox extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-windowdragbox");
+    let comment = document.createComment("Creating firefox-windowdragbox");
     this.prepend(comment);
 
     try {
@@ -14,4 +14,4 @@ class XblWindowdragbox extends BaseElement {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-windowdragbox", XblWindowdragbox);
+customElements.define("firefox-windowdragbox", FirefoxWindowdragbox);

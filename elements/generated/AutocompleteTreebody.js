@@ -1,13 +1,18 @@
-class XblAutocompleteTreebody extends BaseElement {
+class FirefoxAutocompleteTreebody extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-autocomplete-treebody");
+    let comment = document.createComment(
+      "Creating firefox-autocomplete-treebody"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-autocomplete-treebody", XblAutocompleteTreebody);
+customElements.define(
+  "firefox-autocomplete-treebody",
+  FirefoxAutocompleteTreebody
+);

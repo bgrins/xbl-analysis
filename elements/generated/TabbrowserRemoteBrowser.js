@@ -1,4 +1,4 @@
-class XblTabbrowserRemoteBrowser extends XblRemoteBrowser {
+class FirefoxTabbrowserRemoteBrowser extends FirefoxRemoteBrowser {
   constructor() {
     super();
   }
@@ -7,7 +7,7 @@ class XblTabbrowserRemoteBrowser extends XblRemoteBrowser {
     console.log(this, "connected");
 
     let comment = document.createComment(
-      "Creating xbl-tabbrowser-remote-browser"
+      "Creating firefox-tabbrowser-remote-browser"
     );
     this.prepend(comment);
   }
@@ -26,6 +26,6 @@ class XblTabbrowserRemoteBrowser extends XblRemoteBrowser {
   }
 }
 customElements.define(
-  "xbl-tabbrowser-remote-browser",
-  XblTabbrowserRemoteBrowser
+  "firefox-tabbrowser-remote-browser",
+  FirefoxTabbrowserRemoteBrowser
 );

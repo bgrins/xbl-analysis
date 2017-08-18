@@ -1,4 +1,4 @@
-class XblProgressmeterUndetermined extends XblProgressmeter {
+class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
   constructor() {
     super();
   }
@@ -11,7 +11,7 @@ class XblProgressmeterUndetermined extends XblProgressmeter {
 </spacer>
 </stack>`;
     let comment = document.createComment(
-      "Creating xbl-progressmeter-undetermined"
+      "Creating firefox-progressmeter-undetermined"
     );
     this.prepend(comment);
 
@@ -66,6 +66,6 @@ class XblProgressmeterUndetermined extends XblProgressmeter {
   }
 }
 customElements.define(
-  "xbl-progressmeter-undetermined",
-  XblProgressmeterUndetermined
+  "firefox-progressmeter-undetermined",
+  FirefoxProgressmeterUndetermined
 );

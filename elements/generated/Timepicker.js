@@ -1,4 +1,4 @@
-class XblTimepicker extends XblDatetimepickerBase {
+class FirefoxTimepicker extends FirefoxDatetimepickerBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTimepicker extends XblDatetimepickerBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-timepicker");
+    let comment = document.createComment("Creating firefox-timepicker");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -225,4 +225,4 @@ class XblTimepicker extends XblDatetimepickerBase {
     this.hideSeconds = this.hideSeconds;
   }
 }
-customElements.define("xbl-timepicker", XblTimepicker);
+customElements.define("firefox-timepicker", FirefoxTimepicker);

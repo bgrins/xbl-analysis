@@ -1,4 +1,4 @@
-class XblNumberbox extends XblTextbox {
+class FirefoxNumberbox extends FirefoxTextbox {
   constructor() {
     super();
   }
@@ -12,7 +12,7 @@ class XblNumberbox extends XblTextbox {
 </hbox>
 <spinbuttons anonid="buttons" inherits="disabled,hidden=hidespinbuttons">
 </spinbuttons>`;
-    let comment = document.createComment("Creating xbl-numberbox");
+    let comment = document.createComment("Creating firefox-numberbox");
     this.prepend(comment);
 
     try {
@@ -154,4 +154,4 @@ class XblNumberbox extends XblTextbox {
   }
   _fireChange() {}
 }
-customElements.define("xbl-numberbox", XblNumberbox);
+customElements.define("firefox-numberbox", FirefoxNumberbox);

@@ -1,4 +1,4 @@
-class XblAutocompleteRichlistitem extends XblRichlistitem {
+class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
   constructor() {
     super();
   }
@@ -39,7 +39,7 @@ class XblAutocompleteRichlistitem extends XblRichlistitem {
 </description>
 </hbox>`;
     let comment = document.createComment(
-      "Creating xbl-autocomplete-richlistitem"
+      "Creating firefox-autocomplete-richlistitem"
     );
     this.prepend(comment);
 
@@ -757,6 +757,6 @@ class XblAutocompleteRichlistitem extends XblRichlistitem {
   }
 }
 customElements.define(
-  "xbl-autocomplete-richlistitem",
-  XblAutocompleteRichlistitem
+  "firefox-autocomplete-richlistitem",
+  FirefoxAutocompleteRichlistitem
 );

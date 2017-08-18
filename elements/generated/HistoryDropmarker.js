@@ -1,4 +1,4 @@
-class XblHistoryDropmarker extends XblDropmarker {
+class FirefoxHistoryDropmarker extends FirefoxDropmarker {
   constructor() {
     super();
   }
@@ -6,9 +6,9 @@ class XblHistoryDropmarker extends XblDropmarker {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-history-dropmarker");
+    let comment = document.createComment("Creating firefox-history-dropmarker");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-history-dropmarker", XblHistoryDropmarker);
+customElements.define("firefox-history-dropmarker", FirefoxHistoryDropmarker);

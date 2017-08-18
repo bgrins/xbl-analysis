@@ -1,4 +1,4 @@
-class XblHandlerBase extends XblRichlistitem {
+class FirefoxHandlerBase extends FirefoxRichlistitem {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblHandlerBase extends XblRichlistitem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-handler-base");
+    let comment = document.createComment("Creating firefox-handler-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -15,4 +15,4 @@ class XblHandlerBase extends XblRichlistitem {
     undefined;
   }
 }
-customElements.define("xbl-handler-base", XblHandlerBase);
+customElements.define("firefox-handler-base", FirefoxHandlerBase);

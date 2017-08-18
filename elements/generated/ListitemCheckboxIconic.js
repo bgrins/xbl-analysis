@@ -1,4 +1,4 @@
-class XblListitemCheckboxIconic extends XblListitemCheckbox {
+class FirefoxListitemCheckboxIconic extends FirefoxListitemCheckbox {
   constructor() {
     super();
   }
@@ -11,13 +11,13 @@ class XblListitemCheckboxIconic extends XblListitemCheckbox {
 </listcell>
 </children>`;
     let comment = document.createComment(
-      "Creating xbl-listitem-checkbox-iconic"
+      "Creating firefox-listitem-checkbox-iconic"
     );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
 customElements.define(
-  "xbl-listitem-checkbox-iconic",
-  XblListitemCheckboxIconic
+  "firefox-listitem-checkbox-iconic",
+  FirefoxListitemCheckboxIconic
 );

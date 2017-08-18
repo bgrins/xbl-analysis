@@ -1,4 +1,4 @@
-class XblButtonImage extends XblButton {
+class FirefoxButtonImage extends FirefoxButton {
   constructor() {
     super();
   }
@@ -8,9 +8,9 @@ class XblButtonImage extends XblButton {
 
     this.innerHTML = `<image class="button-image-icon" inherits="src=image">
 </image>`;
-    let comment = document.createComment("Creating xbl-button-image");
+    let comment = document.createComment("Creating firefox-button-image");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-button-image", XblButtonImage);
+customElements.define("firefox-button-image", FirefoxButtonImage);

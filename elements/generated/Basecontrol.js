@@ -1,11 +1,11 @@
-class XblBasecontrol extends BaseElement {
+class FirefoxBasecontrol extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-basecontrol");
+    let comment = document.createComment("Creating firefox-basecontrol");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -30,4 +30,4 @@ class XblBasecontrol extends BaseElement {
     return parseInt(this.getAttribute("tabindex")) || 0;
   }
 }
-customElements.define("xbl-basecontrol", XblBasecontrol);
+customElements.define("firefox-basecontrol", FirefoxBasecontrol);

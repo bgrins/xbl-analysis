@@ -1,4 +1,4 @@
-class XblBrowser extends BaseElement {
+class FirefoxBrowser extends BaseElement {
   constructor() {
     super();
   }
@@ -7,7 +7,7 @@ class XblBrowser extends BaseElement {
 
     this.innerHTML = `<children>
 </children>`;
-    let comment = document.createComment("Creating xbl-browser");
+    let comment = document.createComment("Creating firefox-browser");
     this.prepend(comment);
 
     try {
@@ -1264,4 +1264,4 @@ class XblBrowser extends BaseElement {
     return true;
   }
 }
-customElements.define("xbl-browser", XblBrowser);
+customElements.define("firefox-browser", FirefoxBrowser);

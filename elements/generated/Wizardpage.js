@@ -1,4 +1,4 @@
-class XblWizardpage extends XblWizardBase {
+class FirefoxWizardpage extends FirefoxWizardBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblWizardpage extends XblWizardBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-wizardpage");
+    let comment = document.createComment("Creating firefox-wizardpage");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -29,4 +29,4 @@ class XblWizardpage extends XblWizardBase {
     return this.getAttribute("next");
   }
 }
-customElements.define("xbl-wizardpage", XblWizardpage);
+customElements.define("firefox-wizardpage", FirefoxWizardpage);

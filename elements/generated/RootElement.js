@@ -1,11 +1,11 @@
-class XblRootElement extends BaseElement {
+class FirefoxRootElement extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-root-element");
+    let comment = document.createComment("Creating firefox-root-element");
     this.prepend(comment);
 
     try {
@@ -23,4 +23,4 @@ class XblRootElement extends BaseElement {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-root-element", XblRootElement);
+customElements.define("firefox-root-element", FirefoxRootElement);

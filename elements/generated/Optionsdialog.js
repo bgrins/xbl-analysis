@@ -1,4 +1,4 @@
-class XblOptionsdialog extends XblDialog {
+class FirefoxOptionsdialog extends FirefoxDialog {
   constructor() {
     super();
   }
@@ -28,9 +28,9 @@ class XblOptionsdialog extends XblDialog {
 </iframe>
 </vbox>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-optionsdialog");
+    let comment = document.createComment("Creating firefox-optionsdialog");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-optionsdialog", XblOptionsdialog);
+customElements.define("firefox-optionsdialog", FirefoxOptionsdialog);

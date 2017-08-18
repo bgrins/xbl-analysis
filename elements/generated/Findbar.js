@@ -1,4 +1,4 @@
-class XblFindbar extends XblToolbar {
+class FirefoxFindbar extends FirefoxToolbar {
   constructor() {
     super();
   }
@@ -21,12 +21,12 @@ class XblFindbar extends XblToolbar {
 </toolbarbutton>
 <toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="&entireWord.label;" accesskey="&entireWord.accesskey;" tooltiptext="&entireWord.tooltiptext;" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey">
 </toolbarbutton>
-<xbl-text-label anonid="match-case-status" class="findbar-find-fast">
-</xbl-text-label>
-<xbl-text-label anonid="entire-word-status" class="findbar-find-fast">
-</xbl-text-label>
-<xbl-text-label anonid="found-matches" class="findbar-find-fast found-matches" hidden="true">
-</xbl-text-label>
+<firefox-text-label anonid="match-case-status" class="findbar-find-fast">
+</firefox-text-label>
+<firefox-text-label anonid="entire-word-status" class="findbar-find-fast">
+</firefox-text-label>
+<firefox-text-label anonid="found-matches" class="findbar-find-fast found-matches" hidden="true">
+</firefox-text-label>
 <image anonid="find-status-icon" class="findbar-find-fast find-status-icon">
 </image>
 <description anonid="find-status" control="findbar-textbox" class="findbar-find-fast findbar-find-status">
@@ -34,7 +34,7 @@ class XblFindbar extends XblToolbar {
 </hbox>
 <toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="&findCloseButton.tooltip;" oncommand="close();">
 </toolbarbutton>`;
-    let comment = document.createComment("Creating xbl-findbar");
+    let comment = document.createComment("Creating firefox-findbar");
     this.prepend(comment);
 
     try {
@@ -875,4 +875,4 @@ class XblFindbar extends XblToolbar {
     return true;
   }
 }
-customElements.define("xbl-findbar", XblFindbar);
+customElements.define("firefox-findbar", FirefoxFindbar);

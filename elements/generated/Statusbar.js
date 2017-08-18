@@ -1,4 +1,4 @@
-class XblStatusbar extends BaseElement {
+class FirefoxStatusbar extends BaseElement {
   constructor() {
     super();
   }
@@ -11,9 +11,9 @@ class XblStatusbar extends BaseElement {
 <resizer dir="bottomend">
 </resizer>
 </statusbarpanel>`;
-    let comment = document.createComment("Creating xbl-statusbar");
+    let comment = document.createComment("Creating firefox-statusbar");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-statusbar", XblStatusbar);
+customElements.define("firefox-statusbar", FirefoxStatusbar);

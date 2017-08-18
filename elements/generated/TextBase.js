@@ -1,11 +1,11 @@
-class XblTextBase extends BaseElement {
+class FirefoxTextBase extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-text-base");
+    let comment = document.createComment("Creating firefox-text-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -38,4 +38,4 @@ class XblTextBase extends BaseElement {
     return this.getAttribute("crop");
   }
 }
-customElements.define("xbl-text-base", XblTextBase);
+customElements.define("firefox-text-base", FirefoxTextBase);

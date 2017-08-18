@@ -1,4 +1,4 @@
-class XblSuppresschangeevent extends XblScale {
+class FirefoxSuppresschangeevent extends FirefoxScale {
   constructor() {
     super();
   }
@@ -6,7 +6,9 @@ class XblSuppresschangeevent extends XblScale {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-suppresschangeevent");
+    let comment = document.createComment(
+      "Creating firefox-suppresschangeevent"
+    );
     this.prepend(comment);
 
     try {
@@ -88,4 +90,7 @@ class XblSuppresschangeevent extends XblScale {
     }
   }
 }
-customElements.define("xbl-suppresschangeevent", XblSuppresschangeevent);
+customElements.define(
+  "firefox-suppresschangeevent",
+  FirefoxSuppresschangeevent
+);

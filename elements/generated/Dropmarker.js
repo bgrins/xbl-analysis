@@ -1,4 +1,4 @@
-class XblDropmarker extends BaseElement {
+class FirefoxDropmarker extends BaseElement {
   constructor() {
     super();
   }
@@ -7,9 +7,9 @@ class XblDropmarker extends BaseElement {
 
     this.innerHTML = `<image class="dropmarker-icon">
 </image>`;
-    let comment = document.createComment("Creating xbl-dropmarker");
+    let comment = document.createComment("Creating firefox-dropmarker");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-dropmarker", XblDropmarker);
+customElements.define("firefox-dropmarker", FirefoxDropmarker);

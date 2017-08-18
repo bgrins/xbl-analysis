@@ -1,4 +1,4 @@
-class XblPanel extends XblPopupBase {
+class FirefoxPanel extends FirefoxPopupBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblPanel extends XblPopupBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-panel");
+    let comment = document.createComment("Creating firefox-panel");
     this.prepend(comment);
 
     try {
@@ -28,4 +28,4 @@ class XblPanel extends XblPopupBase {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-panel", XblPanel);
+customElements.define("firefox-panel", FirefoxPanel);

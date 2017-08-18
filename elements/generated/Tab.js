@@ -1,4 +1,4 @@
-class XblTab extends XblControlItem {
+class FirefoxTab extends FirefoxControlItem {
   constructor() {
     super();
   }
@@ -9,10 +9,10 @@ class XblTab extends XblControlItem {
     this.innerHTML = `<hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
 <image class="tab-icon" inherits="validate,src=image" role="presentation">
 </image>
-<xbl-text-label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation">
-</xbl-text-label>
+<firefox-text-label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation">
+</firefox-text-label>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-tab");
+    let comment = document.createComment("Creating firefox-tab");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -81,4 +81,4 @@ class XblTab extends XblControlItem {
     }
   }
 }
-customElements.define("xbl-tab", XblTab);
+customElements.define("firefox-tab", FirefoxTab);

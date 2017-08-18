@@ -1,4 +1,4 @@
-class XblAutocompleteResultPopup extends XblAutocompleteBasePopup {
+class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
   constructor() {
     super();
   }
@@ -15,7 +15,7 @@ class XblAutocompleteResultPopup extends XblAutocompleteBasePopup {
 </treechildren>
 </tree>`;
     let comment = document.createComment(
-      "Creating xbl-autocomplete-result-popup"
+      "Creating firefox-autocomplete-result-popup"
     );
     this.prepend(comment);
   }
@@ -172,6 +172,6 @@ class XblAutocompleteResultPopup extends XblAutocompleteBasePopup {
   }
 }
 customElements.define(
-  "xbl-autocomplete-result-popup",
-  XblAutocompleteResultPopup
+  "firefox-autocomplete-result-popup",
+  FirefoxAutocompleteResultPopup
 );

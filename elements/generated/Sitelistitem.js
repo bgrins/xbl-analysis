@@ -1,4 +1,4 @@
-class XblSitelistitem extends XblRichlistitem {
+class FirefoxSitelistitem extends FirefoxRichlistitem {
   constructor() {
     super();
   }
@@ -8,21 +8,21 @@ class XblSitelistitem extends XblRichlistitem {
 
     this.innerHTML = `<hbox flex="1">
 <hbox flex="4" width="50" class="item-box" align="center" inherits="tooltiptext=host">
-<xbl-text-label flex="1" crop="end" inherits="value=host">
-</xbl-text-label>
+<firefox-text-label flex="1" crop="end" inherits="value=host">
+</firefox-text-label>
 </hbox>
 <hbox flex="2" width="50" class="item-box" align="center" inherits="tooltiptext=status">
-<xbl-text-label flex="1" crop="end" inherits="value=status">
-</xbl-text-label>
+<firefox-text-label flex="1" crop="end" inherits="value=status">
+</firefox-text-label>
 </hbox>
 <hbox flex="1" width="50" class="item-box" align="center" inherits="tooltiptext=usage">
-<xbl-text-label flex="1" crop="end" inherits="value=usage">
-</xbl-text-label>
+<firefox-text-label flex="1" crop="end" inherits="value=usage">
+</firefox-text-label>
 </hbox>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-sitelistitem");
+    let comment = document.createComment("Creating firefox-sitelistitem");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-sitelistitem", XblSitelistitem);
+customElements.define("firefox-sitelistitem", FirefoxSitelistitem);

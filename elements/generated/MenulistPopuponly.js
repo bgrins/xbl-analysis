@@ -1,4 +1,4 @@
-class XblMenulistPopuponly extends XblMenulist {
+class FirefoxMenulistPopuponly extends FirefoxMenulist {
   constructor() {
     super();
   }
@@ -8,9 +8,9 @@ class XblMenulistPopuponly extends XblMenulist {
 
     this.innerHTML = `<children includes="menupopup">
 </children>`;
-    let comment = document.createComment("Creating xbl-menulist-popuponly");
+    let comment = document.createComment("Creating firefox-menulist-popuponly");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menulist-popuponly", XblMenulistPopuponly);
+customElements.define("firefox-menulist-popuponly", FirefoxMenulistPopuponly);

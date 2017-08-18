@@ -1,4 +1,4 @@
-class XblColumnpicker extends XblTreeBase {
+class FirefoxColumnpicker extends FirefoxTreeBase {
   constructor() {
     super();
   }
@@ -14,7 +14,7 @@ class XblColumnpicker extends XblTreeBase {
 <menuitem anonid="menuitem" label="&restoreColumnOrder.label;">
 </menuitem>
 </menupopup>`;
-    let comment = document.createComment("Creating xbl-columnpicker");
+    let comment = document.createComment("Creating firefox-columnpicker");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -60,4 +60,4 @@ class XblColumnpicker extends XblTreeBase {
     }
   }
 }
-customElements.define("xbl-columnpicker", XblColumnpicker);
+customElements.define("firefox-columnpicker", FirefoxColumnpicker);

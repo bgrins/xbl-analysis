@@ -1,11 +1,11 @@
-class XblEditor extends BaseElement {
+class FirefoxEditor extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-editor");
+    let comment = document.createComment("Creating firefox-editor");
     this.prepend(comment);
 
     try {
@@ -162,4 +162,4 @@ class XblEditor extends BaseElement {
     return editor.QueryInterface(Components.interfaces.nsIHTMLEditor);
   }
 }
-customElements.define("xbl-editor", XblEditor);
+customElements.define("firefox-editor", FirefoxEditor);

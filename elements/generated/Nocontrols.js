@@ -1,4 +1,4 @@
-class XblNocontrols extends BaseElement {
+class FirefoxNocontrols extends BaseElement {
   constructor() {
     super();
   }
@@ -11,7 +11,7 @@ class XblNocontrols extends BaseElement {
 </box>
 </box>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-nocontrols");
+    let comment = document.createComment("Creating firefox-nocontrols");
     this.prepend(comment);
 
     try {
@@ -140,4 +140,4 @@ class XblNocontrols extends BaseElement {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-nocontrols", XblNocontrols);
+customElements.define("firefox-nocontrols", FirefoxNocontrols);

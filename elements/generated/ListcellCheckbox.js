@@ -1,4 +1,4 @@
-class XblListcellCheckbox extends XblListcell {
+class FirefoxListcellCheckbox extends FirefoxListcell {
   constructor() {
     super();
   }
@@ -9,12 +9,12 @@ class XblListcellCheckbox extends XblListcell {
     this.innerHTML = `<children>
 <image class="listcell-check" inherits="checked,disabled">
 </image>
-<xbl-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
-</xbl-text-label>
+<firefox-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</firefox-text-label>
 </children>`;
-    let comment = document.createComment("Creating xbl-listcell-checkbox");
+    let comment = document.createComment("Creating firefox-listcell-checkbox");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-listcell-checkbox", XblListcellCheckbox);
+customElements.define("firefox-listcell-checkbox", FirefoxListcellCheckbox);

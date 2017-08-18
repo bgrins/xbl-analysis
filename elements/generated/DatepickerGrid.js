@@ -1,4 +1,4 @@
-class XblDatepickerGrid extends XblDatepicker {
+class FirefoxDatepickerGrid extends FirefoxDatepicker {
   constructor() {
     super();
   }
@@ -13,33 +13,33 @@ class XblDatepickerGrid extends XblDatepicker {
 <spacer flex="1">
 </spacer>
 <deck anonid="monthlabeldeck">
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" value="">
-</xbl-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" value="">
+</firefox-text-label>
 </deck>
-<xbl-text-label anonid="yearlabel" class="datepicker-gridlabel">
-</xbl-text-label>
+<firefox-text-label anonid="yearlabel" class="datepicker-gridlabel">
+</firefox-text-label>
 <spacer flex="1">
 </spacer>
 <button class="datepicker-next datepicker-button" type="repeat" inherits="disabled" oncommand="document.getBindingParent(this)._increaseOrDecreaseMonth(1);">
@@ -64,121 +64,121 @@ class XblDatepickerGrid extends XblDatepicker {
 </columns>
 <rows anonid="datebox">
 <row anonid="dayofweekbox">
-<xbl-text-label class="datepicker-weeklabel" role="columnheader">
-</xbl-text-label>
-<xbl-text-label class="datepicker-weeklabel" role="columnheader">
-</xbl-text-label>
-<xbl-text-label class="datepicker-weeklabel" role="columnheader">
-</xbl-text-label>
-<xbl-text-label class="datepicker-weeklabel" role="columnheader">
-</xbl-text-label>
-<xbl-text-label class="datepicker-weeklabel" role="columnheader">
-</xbl-text-label>
-<xbl-text-label class="datepicker-weeklabel" role="columnheader">
-</xbl-text-label>
-<xbl-text-label class="datepicker-weeklabel" role="columnheader">
-</xbl-text-label>
+<firefox-text-label class="datepicker-weeklabel" role="columnheader">
+</firefox-text-label>
+<firefox-text-label class="datepicker-weeklabel" role="columnheader">
+</firefox-text-label>
+<firefox-text-label class="datepicker-weeklabel" role="columnheader">
+</firefox-text-label>
+<firefox-text-label class="datepicker-weeklabel" role="columnheader">
+</firefox-text-label>
+<firefox-text-label class="datepicker-weeklabel" role="columnheader">
+</firefox-text-label>
+<firefox-text-label class="datepicker-weeklabel" role="columnheader">
+</firefox-text-label>
+<firefox-text-label class="datepicker-weeklabel" role="columnheader">
+</firefox-text-label>
 </row>
 <row>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
 </row>
 <row>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
 </row>
 <row>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
 </row>
 <row>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
 </row>
 <row>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
 </row>
 <row>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
-<xbl-text-label class="datepicker-gridlabel" role="gridcell">
-</xbl-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
+<firefox-text-label class="datepicker-gridlabel" role="gridcell">
+</firefox-text-label>
 </row>
 </rows>
 </grid>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-datepicker-grid");
+    let comment = document.createComment("Creating firefox-datepicker-grid");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -372,4 +372,4 @@ class XblDatepickerGrid extends XblDatepicker {
     );
   }
 }
-customElements.define("xbl-datepicker-grid", XblDatepickerGrid);
+customElements.define("firefox-datepicker-grid", FirefoxDatepickerGrid);

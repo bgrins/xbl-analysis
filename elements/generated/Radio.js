@@ -1,4 +1,4 @@
-class XblRadio extends XblControlItem {
+class FirefoxRadio extends FirefoxControlItem {
   constructor() {
     super();
   }
@@ -11,10 +11,10 @@ class XblRadio extends XblControlItem {
 <hbox class="radio-label-box" align="center" flex="1">
 <image class="radio-icon" inherits="src">
 </image>
-<xbl-text-label class="radio-label" inherits="text=label,accesskey,crop" flex="1">
-</xbl-text-label>
+<firefox-text-label class="radio-label" inherits="text=label,accesskey,crop" flex="1">
+</firefox-text-label>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-radio");
+    let comment = document.createComment("Creating firefox-radio");
     this.prepend(comment);
 
     try {
@@ -60,4 +60,4 @@ class XblRadio extends XblControlItem {
     return parent;
   }
 }
-customElements.define("xbl-radio", XblRadio);
+customElements.define("firefox-radio", FirefoxRadio);

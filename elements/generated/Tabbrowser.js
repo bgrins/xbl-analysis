@@ -1,4 +1,4 @@
-class XblTabbrowser extends BaseElement {
+class FirefoxTabbrowser extends BaseElement {
   constructor() {
     super();
   }
@@ -23,7 +23,7 @@ class XblTabbrowser extends BaseElement {
 </tabbox>
 <children>
 </children>`;
-    let comment = document.createComment("Creating xbl-tabbrowser");
+    let comment = document.createComment("Creating firefox-tabbrowser");
     this.prepend(comment);
 
     try {
@@ -5174,4 +5174,4 @@ class XblTabbrowser extends BaseElement {
     return "panel-" + outerID + "-" + ++this._uniquePanelIDCounter;
   }
 }
-customElements.define("xbl-tabbrowser", XblTabbrowser);
+customElements.define("firefox-tabbrowser", FirefoxTabbrowser);

@@ -1,4 +1,4 @@
-class XblStatusbarpanelMenuIconic extends XblStatusbarpanel {
+class FirefoxStatusbarpanelMenuIconic extends FirefoxStatusbarpanel {
   constructor() {
     super();
   }
@@ -11,13 +11,13 @@ class XblStatusbarpanelMenuIconic extends XblStatusbarpanel {
 <children>
 </children>`;
     let comment = document.createComment(
-      "Creating xbl-statusbarpanel-menu-iconic"
+      "Creating firefox-statusbarpanel-menu-iconic"
     );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
 customElements.define(
-  "xbl-statusbarpanel-menu-iconic",
-  XblStatusbarpanelMenuIconic
+  "firefox-statusbarpanel-menu-iconic",
+  FirefoxStatusbarpanelMenuIconic
 );

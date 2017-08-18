@@ -1,4 +1,4 @@
-class XblTabbrowserBrowser extends XblBrowser {
+class FirefoxTabbrowserBrowser extends FirefoxBrowser {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTabbrowserBrowser extends XblBrowser {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-tabbrowser-browser");
+    let comment = document.createComment("Creating firefox-tabbrowser-browser");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -23,4 +23,4 @@ class XblTabbrowserBrowser extends XblBrowser {
     _loadURIWithFlags(this, aURI, params);
   }
 }
-customElements.define("xbl-tabbrowser-browser", XblTabbrowserBrowser);
+customElements.define("firefox-tabbrowser-browser", FirefoxTabbrowserBrowser);

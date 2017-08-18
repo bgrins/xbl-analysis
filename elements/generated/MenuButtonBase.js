@@ -1,4 +1,4 @@
-class XblMenuButtonBase extends XblButtonBase {
+class FirefoxMenuButtonBase extends FirefoxButtonBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblMenuButtonBase extends XblButtonBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-menu-button-base");
+    let comment = document.createComment("Creating firefox-menu-button-base");
     this.prepend(comment);
 
     try {
@@ -80,4 +80,4 @@ class XblMenuButtonBase extends XblButtonBase {
     document.removeEventListener("mouseup", this, true);
   }
 }
-customElements.define("xbl-menu-button-base", XblMenuButtonBase);
+customElements.define("firefox-menu-button-base", FirefoxMenuButtonBase);

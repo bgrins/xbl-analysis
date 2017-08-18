@@ -1,4 +1,4 @@
-class XblLabelControl extends XblTextLabel {
+class FirefoxLabelControl extends FirefoxTextLabel {
   constructor() {
     super();
   }
@@ -10,7 +10,7 @@ class XblLabelControl extends XblTextLabel {
 </children>
 <span anonid="accessKeyParens">
 </span>`;
-    let comment = document.createComment("Creating xbl-label-control");
+    let comment = document.createComment("Creating firefox-label-control");
     this.prepend(comment);
 
     try {
@@ -220,4 +220,4 @@ class XblLabelControl extends XblTextLabel {
     element.remove();
   }
 }
-customElements.define("xbl-label-control", XblLabelControl);
+customElements.define("firefox-label-control", FirefoxLabelControl);

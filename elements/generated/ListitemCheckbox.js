@@ -1,4 +1,4 @@
-class XblListitemCheckbox extends XblListitem {
+class FirefoxListitemCheckbox extends FirefoxListitem {
   constructor() {
     super();
   }
@@ -10,7 +10,7 @@ class XblListitemCheckbox extends XblListitem {
 <listcell type="checkbox" inherits="label,crop,checked,disabled,flexlabel">
 </listcell>
 </children>`;
-    let comment = document.createComment("Creating xbl-listitem-checkbox");
+    let comment = document.createComment("Creating firefox-listitem-checkbox");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -28,4 +28,4 @@ class XblListitemCheckbox extends XblListitem {
     return this.getAttribute("checked") == "true";
   }
 }
-customElements.define("xbl-listitem-checkbox", XblListitemCheckbox);
+customElements.define("firefox-listitem-checkbox", FirefoxListitemCheckbox);

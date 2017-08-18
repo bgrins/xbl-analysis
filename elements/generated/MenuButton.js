@@ -1,4 +1,4 @@
-class XblMenuButton extends XblMenuButtonBase {
+class FirefoxMenuButton extends FirefoxMenuButtonBase {
   constructor() {
     super();
   }
@@ -12,9 +12,9 @@ class XblMenuButton extends XblMenuButtonBase {
 </toolbarbutton>
 <dropmarker type="menu-button" class="toolbarbutton-menubutton-dropmarker" anonid="dropmarker" inherits="align,dir,pack,orient,disabled,label,open,consumeanchor">
 </dropmarker>`;
-    let comment = document.createComment("Creating xbl-menu-button");
+    let comment = document.createComment("Creating firefox-menu-button");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menu-button", XblMenuButton);
+customElements.define("firefox-menu-button", FirefoxMenuButton);

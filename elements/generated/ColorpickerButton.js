@@ -1,4 +1,4 @@
-class XblColorpickerButton extends XblBasecontrol {
+class FirefoxColorpickerButton extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -12,7 +12,7 @@ class XblColorpickerButton extends XblBasecontrol {
 <colorpicker inherits="palettename,disabled" allowevents="true" anonid="colorpicker">
 </colorpicker>
 </panel>`;
-    let comment = document.createComment("Creating xbl-colorpicker-button");
+    let comment = document.createComment("Creating firefox-colorpicker-button");
     this.prepend(comment);
 
     try {
@@ -116,4 +116,4 @@ class XblColorpickerButton extends XblBasecontrol {
     this._fireEvent(this, "change");
   }
 }
-customElements.define("xbl-colorpicker-button", XblColorpickerButton);
+customElements.define("firefox-colorpicker-button", FirefoxColorpickerButton);

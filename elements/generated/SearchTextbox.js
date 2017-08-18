@@ -1,4 +1,4 @@
-class XblSearchTextbox extends XblTextbox {
+class FirefoxSearchTextbox extends FirefoxTextbox {
   constructor() {
     super();
   }
@@ -20,7 +20,7 @@ class XblSearchTextbox extends XblTextbox {
 </image>
 </deck>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-search-textbox");
+    let comment = document.createComment("Creating firefox-search-textbox");
     this.prepend(comment);
 
     try {
@@ -97,4 +97,4 @@ class XblSearchTextbox extends XblTextbox {
     return false;
   }
 }
-customElements.define("xbl-search-textbox", XblSearchTextbox);
+customElements.define("firefox-search-textbox", FirefoxSearchTextbox);

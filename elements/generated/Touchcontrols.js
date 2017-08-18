@@ -1,4 +1,4 @@
-class XblTouchcontrols extends XblVideocontrols {
+class FirefoxTouchcontrols extends FirefoxVideocontrols {
   constructor() {
     super();
   }
@@ -10,18 +10,18 @@ class XblTouchcontrols extends XblVideocontrols {
 <vbox anonid="statusOverlay" flex="1" class="statusOverlay" hidden="true">
 <box anonid="statusIcon" class="statusIcon">
 </box>
-<xbl-text-label class="errorLabel" anonid="errorAborted">
-</xbl-text-label>
-<xbl-text-label class="errorLabel" anonid="errorNetwork">
-</xbl-text-label>
-<xbl-text-label class="errorLabel" anonid="errorDecode">
-</xbl-text-label>
-<xbl-text-label class="errorLabel" anonid="errorSrcNotSupported">
-</xbl-text-label>
-<xbl-text-label class="errorLabel" anonid="errorNoSource">
-</xbl-text-label>
-<xbl-text-label class="errorLabel" anonid="errorGeneric">
-</xbl-text-label>
+<firefox-text-label class="errorLabel" anonid="errorAborted">
+</firefox-text-label>
+<firefox-text-label class="errorLabel" anonid="errorNetwork">
+</firefox-text-label>
+<firefox-text-label class="errorLabel" anonid="errorDecode">
+</firefox-text-label>
+<firefox-text-label class="errorLabel" anonid="errorSrcNotSupported">
+</firefox-text-label>
+<firefox-text-label class="errorLabel" anonid="errorNoSource">
+</firefox-text-label>
+<firefox-text-label class="errorLabel" anonid="errorGeneric">
+</firefox-text-label>
 </vbox>
 <vbox anonid="controlsOverlay" class="controlsOverlay">
 <spacer anonid="controlsSpacer" class="controlsSpacer" flex="1">
@@ -36,8 +36,8 @@ class XblTouchcontrols extends XblVideocontrols {
 <hbox class="buttonsBar">
 <button anonid="playButton" class="playButton" playlabel="&playButton.playLabel;" pauselabel="&playButton.pauseLabel;">
 </button>
-<xbl-text-label anonid="positionLabel" class="positionLabel" role="presentation">
-</xbl-text-label>
+<firefox-text-label anonid="positionLabel" class="positionLabel" role="presentation">
+</firefox-text-label>
 <stack anonid="scrubberStack" class="scrubberStack">
 <box class="backgroundBar">
 </box>
@@ -50,8 +50,8 @@ class XblTouchcontrols extends XblVideocontrols {
 <scale anonid="scrubber" class="scrubber" movetoclick="true">
 </scale>
 </stack>
-<xbl-text-label anonid="durationLabel" class="durationLabel" role="presentation">
-</xbl-text-label>
+<firefox-text-label anonid="durationLabel" class="durationLabel" role="presentation">
+</firefox-text-label>
 <button anonid="muteButton" class="muteButton" mutelabel="&muteButton.muteLabel;" unmutelabel="&muteButton.unmuteLabel;">
 </button>
 <stack anonid="volumeStack" class="volumeStack">
@@ -72,7 +72,7 @@ class XblTouchcontrols extends XblVideocontrols {
 </vbox>
 </vbox>
 </stack>`;
-    let comment = document.createComment("Creating xbl-touchcontrols");
+    let comment = document.createComment("Creating firefox-touchcontrols");
     this.prepend(comment);
 
     try {
@@ -276,4 +276,4 @@ class XblTouchcontrols extends XblVideocontrols {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-touchcontrols", XblTouchcontrols);
+customElements.define("firefox-touchcontrols", FirefoxTouchcontrols);

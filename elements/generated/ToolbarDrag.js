@@ -1,4 +1,4 @@
-class XblToolbarDrag extends XblToolbar {
+class FirefoxToolbarDrag extends FirefoxToolbar {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblToolbarDrag extends XblToolbar {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-toolbar-drag");
+    let comment = document.createComment("Creating firefox-toolbar-drag");
     this.prepend(comment);
 
     try {
@@ -32,4 +32,4 @@ class XblToolbarDrag extends XblToolbar {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-toolbar-drag", XblToolbarDrag);
+customElements.define("firefox-toolbar-drag", FirefoxToolbarDrag);

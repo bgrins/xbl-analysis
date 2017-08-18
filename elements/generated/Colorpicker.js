@@ -1,4 +1,4 @@
-class XblColorpicker extends XblBasecontrol {
+class FirefoxColorpicker extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -162,7 +162,7 @@ class XblColorpicker extends XblBasecontrol {
 </image>
 </hbox>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-colorpicker");
+    let comment = document.createComment("Creating firefox-colorpicker");
     this.prepend(comment);
 
     try {
@@ -377,4 +377,4 @@ class XblColorpicker extends XblBasecontrol {
     }
   }
 }
-customElements.define("xbl-colorpicker", XblColorpicker);
+customElements.define("firefox-colorpicker", FirefoxColorpicker);

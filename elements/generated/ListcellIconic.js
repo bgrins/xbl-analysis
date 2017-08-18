@@ -1,4 +1,4 @@
-class XblListcellIconic extends XblListcell {
+class FirefoxListcellIconic extends FirefoxListcell {
   constructor() {
     super();
   }
@@ -9,12 +9,12 @@ class XblListcellIconic extends XblListcell {
     this.innerHTML = `<children>
 <image class="listcell-icon" inherits="src=image">
 </image>
-<xbl-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
-</xbl-text-label>
+<firefox-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</firefox-text-label>
 </children>`;
-    let comment = document.createComment("Creating xbl-listcell-iconic");
+    let comment = document.createComment("Creating firefox-listcell-iconic");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-listcell-iconic", XblListcellIconic);
+customElements.define("firefox-listcell-iconic", FirefoxListcellIconic);

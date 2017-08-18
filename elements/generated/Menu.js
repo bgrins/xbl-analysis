@@ -1,4 +1,4 @@
-class XblMenu extends XblToolbarbutton {
+class FirefoxMenu extends FirefoxToolbarbutton {
   constructor() {
     super();
   }
@@ -10,15 +10,15 @@ class XblMenu extends XblToolbarbutton {
 </children>
 <image class="toolbarbutton-icon" inherits="validate,src=image,label,type,consumeanchor">
 </image>
-<xbl-text-label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,dragover-top,wrap">
-</xbl-text-label>
-<xbl-text-label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap">
-</xbl-text-label>
+<firefox-text-label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,dragover-top,wrap">
+</firefox-text-label>
+<firefox-text-label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap">
+</firefox-text-label>
 <dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label">
 </dropmarker>`;
-    let comment = document.createComment("Creating xbl-menu");
+    let comment = document.createComment("Creating firefox-menu");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menu", XblMenu);
+customElements.define("firefox-menu", FirefoxMenu);

@@ -1,4 +1,4 @@
-class XblMenulistEditable extends XblMenulist {
+class FirefoxMenulistEditable extends FirefoxMenulist {
   constructor() {
     super();
   }
@@ -14,7 +14,7 @@ class XblMenulistEditable extends XblMenulist {
 </dropmarker>
 <children includes="menupopup">
 </children>`;
-    let comment = document.createComment("Creating xbl-menulist-editable");
+    let comment = document.createComment("Creating firefox-menulist-editable");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -146,4 +146,4 @@ class XblMenulistEditable extends XblMenulist {
   }
   select() {}
 }
-customElements.define("xbl-menulist-editable", XblMenulistEditable);
+customElements.define("firefox-menulist-editable", FirefoxMenulistEditable);

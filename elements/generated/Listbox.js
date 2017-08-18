@@ -1,4 +1,4 @@
-class XblListbox extends XblListboxBase {
+class FirefoxListbox extends FirefoxListboxBase {
   constructor() {
     super();
   }
@@ -20,7 +20,7 @@ class XblListbox extends XblListboxBase {
 </children>
 </listboxbody>
 </listrows>`;
-    let comment = document.createComment("Creating xbl-listbox");
+    let comment = document.createComment("Creating firefox-listbox");
     this.prepend(comment);
 
     try {
@@ -87,4 +87,4 @@ class XblListbox extends XblListboxBase {
     return pageOffset;
   }
 }
-customElements.define("xbl-listbox", XblListbox);
+customElements.define("firefox-listbox", FirefoxListbox);

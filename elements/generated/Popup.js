@@ -1,4 +1,4 @@
-class XblPopup extends XblPopupBase {
+class FirefoxPopup extends FirefoxPopupBase {
   constructor() {
     super();
   }
@@ -10,9 +10,9 @@ class XblPopup extends XblPopupBase {
 <children>
 </children>
 </arrowscrollbox>`;
-    let comment = document.createComment("Creating xbl-popup");
+    let comment = document.createComment("Creating firefox-popup");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-popup", XblPopup);
+customElements.define("firefox-popup", FirefoxPopup);

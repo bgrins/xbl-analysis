@@ -1,4 +1,4 @@
-class XblTimeInput extends XblDatetimeInputBase {
+class FirefoxTimeInput extends FirefoxDatetimeInputBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-time-input");
+    let comment = document.createComment("Creating firefox-time-input");
     this.prepend(comment);
 
     try {
@@ -665,4 +665,4 @@ class XblTimeInput extends XblDatetimeInputBase {
     return time;
   }
 }
-customElements.define("xbl-time-input", XblTimeInput);
+customElements.define("firefox-time-input", FirefoxTimeInput);

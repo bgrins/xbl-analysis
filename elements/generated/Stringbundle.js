@@ -1,11 +1,11 @@
-class XblStringbundle extends BaseElement {
+class FirefoxStringbundle extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-stringbundle");
+    let comment = document.createComment("Creating firefox-stringbundle");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -72,4 +72,4 @@ class XblStringbundle extends BaseElement {
     }
   }
 }
-customElements.define("xbl-stringbundle", XblStringbundle);
+customElements.define("firefox-stringbundle", FirefoxStringbundle);

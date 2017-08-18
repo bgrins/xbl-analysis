@@ -1,4 +1,4 @@
-class XblScale extends XblBasecontrol {
+class FirefoxScale extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -10,7 +10,7 @@ class XblScale extends XblBasecontrol {
 <thumb class="scale-thumb" inherits="disabled,orient">
 </thumb>
 </slider>`;
-    let comment = document.createComment("Creating xbl-scale");
+    let comment = document.createComment("Creating firefox-scale");
     this.prepend(comment);
 
     try {
@@ -121,4 +121,4 @@ class XblScale extends XblBasecontrol {
   }
   dragStateChanged(isDragging) {}
 }
-customElements.define("xbl-scale", XblScale);
+customElements.define("firefox-scale", FirefoxScale);

@@ -1,4 +1,4 @@
-class XblMenuMenubarIconic extends XblMenuBase {
+class FirefoxMenuMenubarIconic extends FirefoxMenuBase {
   constructor() {
     super();
   }
@@ -8,13 +8,15 @@ class XblMenuMenubarIconic extends XblMenuBase {
 
     this.innerHTML = `<image class="menubar-left" inherits="src=image">
 </image>
-<xbl-text-label class="menubar-text" inherits="value=label,accesskey,crop" crop="right">
-</xbl-text-label>
+<firefox-text-label class="menubar-text" inherits="value=label,accesskey,crop" crop="right">
+</firefox-text-label>
 <children includes="menupopup">
 </children>`;
-    let comment = document.createComment("Creating xbl-menu-menubar-iconic");
+    let comment = document.createComment(
+      "Creating firefox-menu-menubar-iconic"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menu-menubar-iconic", XblMenuMenubarIconic);
+customElements.define("firefox-menu-menubar-iconic", FirefoxMenuMenubarIconic);

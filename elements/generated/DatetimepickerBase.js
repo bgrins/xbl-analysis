@@ -1,4 +1,4 @@
-class XblDatetimepickerBase extends XblBasecontrol {
+class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -11,14 +11,14 @@ class XblDatetimepickerBase extends XblBasecontrol {
 <input class="datetimepicker-input textbox-input" anonid="input-one" size="2" maxlength="2" inherits="disabled,readonly">
 </input>
 </hbox>
-<xbl-text-label anonid="sep-first" class="datetimepicker-separator" value=":">
-</xbl-text-label>
+<firefox-text-label anonid="sep-first" class="datetimepicker-separator" value=":">
+</firefox-text-label>
 <hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
 <input class="datetimepicker-input textbox-input" anonid="input-two" size="2" maxlength="2" inherits="disabled,readonly">
 </input>
 </hbox>
-<xbl-text-label anonid="sep-second" class="datetimepicker-separator" value=":">
-</xbl-text-label>
+<firefox-text-label anonid="sep-second" class="datetimepicker-separator" value=":">
+</firefox-text-label>
 <hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
 <input class="datetimepicker-input textbox-input" anonid="input-three" size="2" maxlength="2" inherits="disabled,readonly">
 </input>
@@ -30,7 +30,9 @@ class XblDatetimepickerBase extends XblBasecontrol {
 </hbox>
 <spinbuttons anonid="buttons" inherits="disabled" onup="this.parentNode._increaseOrDecrease(1);" ondown="this.parentNode._increaseOrDecrease(-1);">
 </spinbuttons>`;
-    let comment = document.createComment("Creating xbl-datetimepicker-base");
+    let comment = document.createComment(
+      "Creating firefox-datetimepicker-base"
+    );
     this.prepend(comment);
 
     try {
@@ -82,4 +84,4 @@ class XblDatetimepickerBase extends XblBasecontrol {
   }
   _init() {}
 }
-customElements.define("xbl-datetimepicker-base", XblDatetimepickerBase);
+customElements.define("firefox-datetimepicker-base", FirefoxDatetimepickerBase);

@@ -1,4 +1,4 @@
-class XblToolbarpaletteitemPalette extends XblToolbarpaletteitem {
+class FirefoxToolbarpaletteitemPalette extends FirefoxToolbarpaletteitem {
   constructor() {
     super();
   }
@@ -10,16 +10,16 @@ class XblToolbarpaletteitemPalette extends XblToolbarpaletteitem {
 <children>
 </children>
 </hbox>
-<xbl-text-label inherits="value=title">
-</xbl-text-label>`;
+<firefox-text-label inherits="value=title">
+</firefox-text-label>`;
     let comment = document.createComment(
-      "Creating xbl-toolbarpaletteitem-palette"
+      "Creating firefox-toolbarpaletteitem-palette"
     );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
 customElements.define(
-  "xbl-toolbarpaletteitem-palette",
-  XblToolbarpaletteitemPalette
+  "firefox-toolbarpaletteitem-palette",
+  FirefoxToolbarpaletteitemPalette
 );

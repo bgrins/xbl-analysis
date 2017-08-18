@@ -1,4 +1,4 @@
-class XblFeed extends XblRichlistitem {
+class FirefoxFeed extends FirefoxRichlistitem {
   constructor() {
     super();
   }
@@ -10,14 +10,14 @@ class XblFeed extends XblRichlistitem {
 <hbox flex="1">
 <textbox flex="1" readonly="true" inherits="value=name" class="feedTitle">
 </textbox>
-<xbl-text-label inherits="value=type">
-</xbl-text-label>
+<firefox-text-label inherits="value=type">
+</firefox-text-label>
 </hbox>
 <vbox>
 <vbox align="start">
 <hbox>
-<xbl-text-label inherits="value=feedURL,tooltiptext=feedURL" class="text-link" flex="1" onclick="openUILink(this.value, event);" crop="end">
-</xbl-text-label>
+<firefox-text-label inherits="value=feedURL,tooltiptext=feedURL" class="text-link" flex="1" onclick="openUILink(this.value, event);" crop="end">
+</firefox-text-label>
 </hbox>
 </vbox>
 </vbox>
@@ -28,9 +28,9 @@ class XblFeed extends XblRichlistitem {
 </button>
 </hbox>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-feed");
+    let comment = document.createComment("Creating firefox-feed");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-feed", XblFeed);
+customElements.define("firefox-feed", FirefoxFeed);

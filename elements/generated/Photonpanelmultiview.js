@@ -1,4 +1,4 @@
-class XblPhotonpanelmultiview extends XblPanelmultiview {
+class FirefoxPhotonpanelmultiview extends FirefoxPanelmultiview {
   constructor() {
     super();
   }
@@ -16,9 +16,14 @@ class XblPhotonpanelmultiview extends XblPanelmultiview {
 <box anonid="offscreenViewStack" class="panel-viewstack">
 </box>
 </box>`;
-    let comment = document.createComment("Creating xbl-photonpanelmultiview");
+    let comment = document.createComment(
+      "Creating firefox-photonpanelmultiview"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-photonpanelmultiview", XblPhotonpanelmultiview);
+customElements.define(
+  "firefox-photonpanelmultiview",
+  FirefoxPhotonpanelmultiview
+);

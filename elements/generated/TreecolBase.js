@@ -1,4 +1,4 @@
-class XblTreecolBase extends XblTreeBase {
+class FirefoxTreecolBase extends FirefoxTreeBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTreecolBase extends XblTreeBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-treecol-base");
+    let comment = document.createComment("Creating firefox-treecol-base");
     this.prepend(comment);
 
     try {
@@ -164,4 +164,4 @@ class XblTreecolBase extends XblTreeBase {
     aEvent.preventDefault();
   }
 }
-customElements.define("xbl-treecol-base", XblTreecolBase);
+customElements.define("firefox-treecol-base", FirefoxTreecolBase);

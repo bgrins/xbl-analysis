@@ -1,4 +1,4 @@
-class XblPrefwindow extends XblDialog {
+class FirefoxPrefwindow extends FirefoxDialog {
   constructor() {
     super();
   }
@@ -50,7 +50,7 @@ class XblPrefwindow extends XblDialog {
 <children>
 </children>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-prefwindow");
+    let comment = document.createComment("Creating firefox-prefwindow");
     this.prepend(comment);
 
     try {
@@ -424,4 +424,4 @@ class XblPrefwindow extends XblDialog {
     return win;
   }
 }
-customElements.define("xbl-prefwindow", XblPrefwindow);
+customElements.define("firefox-prefwindow", FirefoxPrefwindow);

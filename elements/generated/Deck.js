@@ -1,11 +1,11 @@
-class XblDeck extends BaseElement {
+class FirefoxDeck extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-deck");
+    let comment = document.createComment("Creating firefox-deck");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -35,4 +35,4 @@ class XblDeck extends BaseElement {
     return this.childNodes[this.selectedIndex];
   }
 }
-customElements.define("xbl-deck", XblDeck);
+customElements.define("firefox-deck", FirefoxDeck);

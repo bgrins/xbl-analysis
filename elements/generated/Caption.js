@@ -1,4 +1,4 @@
-class XblCaption extends XblBasetext {
+class FirefoxCaption extends FirefoxBasetext {
   constructor() {
     super();
   }
@@ -9,12 +9,12 @@ class XblCaption extends XblBasetext {
     this.innerHTML = `<children>
 <image class="caption-icon" inherits="src=image">
 </image>
-<xbl-text-label class="caption-text" flex="1" inherits="default,value=label,crop,accesskey">
-</xbl-text-label>
+<firefox-text-label class="caption-text" flex="1" inherits="default,value=label,crop,accesskey">
+</firefox-text-label>
 </children>`;
-    let comment = document.createComment("Creating xbl-caption");
+    let comment = document.createComment("Creating firefox-caption");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-caption", XblCaption);
+customElements.define("firefox-caption", FirefoxCaption);

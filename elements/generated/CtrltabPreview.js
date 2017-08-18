@@ -1,4 +1,4 @@
-class XblCtrltabPreview extends XblButtonBase {
+class FirefoxCtrltabPreview extends FirefoxButtonBase {
   constructor() {
     super();
   }
@@ -12,17 +12,17 @@ class XblCtrltabPreview extends XblButtonBase {
 <children>
 </children>
 </hbox>
-<xbl-text-label inherits="value=label" crop="end" class="plain">
-</xbl-text-label>
+<firefox-text-label inherits="value=label" crop="end" class="plain">
+</firefox-text-label>
 </vbox>
 <hbox class="ctrlTab-favicon-container" inherits="hidden=noicon">
 <image class="ctrlTab-favicon" inherits="src=image">
 </image>
 </hbox>
 </stack>`;
-    let comment = document.createComment("Creating xbl-ctrltab-preview");
+    let comment = document.createComment("Creating firefox-ctrltab-preview");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-ctrltab-preview", XblCtrltabPreview);
+customElements.define("firefox-ctrltab-preview", FirefoxCtrltabPreview);

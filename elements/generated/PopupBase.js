@@ -1,11 +1,11 @@
-class XblPopupBase extends BaseElement {
+class FirefoxPopupBase extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-popup-base");
+    let comment = document.createComment("Creating firefox-popup-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -190,4 +190,4 @@ class XblPopupBase extends BaseElement {
     this.popupBoxObject.setConstraintRect(aRect);
   }
 }
-customElements.define("xbl-popup-base", XblPopupBase);
+customElements.define("firefox-popup-base", FirefoxPopupBase);

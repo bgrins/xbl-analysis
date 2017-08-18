@@ -24,7 +24,7 @@ getParsedFiles().then(docs => {
   });
 
   scripts = getOrderedScripts(extendsMap).map(file => `<script src="generated/${file}"></script>`).join('\n');
-  var elements = sampleElements.map(element => `<strong>${element}:</strong> <xbl-${element} observes="observe-test-target"></xbl-${element}><br />`).join('\n');
+  var elements = sampleElements.map(element => `<strong>${element}:</strong> <firefox-${element} observes="observe-test-target"></firefox-${element}><br />`).join('\n');
   fs.writeFileSync('elements/index.html', `
     <!doctype html>
     <html>
@@ -83,12 +83,12 @@ function titleCase(str) {
 
 function getJSForBinding(binding) {
   let js = [];
-  let elementName = 'xbl-' + binding.attrs.id;
+  let elementName = 'firefox-' + binding.attrs.id;
   let className = titleCase(elementName);
   let hasExtends = !!formatExtends(binding.attrs.extends);
   js.push(`class ${className} `);
   if (hasExtends) {
-    js.push(`extends Xbl${formatExtends(binding.attrs.extends)} `);
+    js.push(`extends Firefox${formatExtends(binding.attrs.extends)} `);
   } else {
     js.push(`extends BaseElement `);
   }
@@ -105,7 +105,7 @@ function getJSForBinding(binding) {
       for (var attr in child.attrs) {
         attrs += ' ' + attr.replace('xbl:', '') + '="' + child.attrs[attr].replace('"', '\"').replace(/xbl\:/g, '') + '"';
       }
-      let name = child.name === "label" ? 'xbl-text-label' : child.name;
+      let name = child.name === "label" ? 'firefox-text-label' : child.name;
       childMarkup.push(`<${name}${attrs}>`);
       child.children.forEach(printChild);
       childMarkup.push(`</${name}>`);

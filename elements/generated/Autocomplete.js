@@ -1,4 +1,4 @@
-class XblAutocomplete extends XblTextbox {
+class FirefoxAutocomplete extends FirefoxTextbox {
   constructor() {
     super();
   }
@@ -26,7 +26,7 @@ class XblAutocomplete extends XblTextbox {
 </popupset>
 <children includes="toolbarbutton">
 </children>`;
-    let comment = document.createComment("Creating xbl-autocomplete");
+    let comment = document.createComment("Creating firefox-autocomplete");
     this.prepend(comment);
 
     try {
@@ -565,4 +565,4 @@ class XblAutocomplete extends XblTextbox {
     this.resetActionType();
   }
 }
-customElements.define("xbl-autocomplete", XblAutocomplete);
+customElements.define("firefox-autocomplete", FirefoxAutocomplete);

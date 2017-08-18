@@ -1,13 +1,13 @@
-class XblColorpickertile extends BaseElement {
+class FirefoxColorpickertile extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-colorpickertile");
+    let comment = document.createComment("Creating firefox-colorpickertile");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-colorpickertile", XblColorpickertile);
+customElements.define("firefox-colorpickertile", FirefoxColorpickertile);

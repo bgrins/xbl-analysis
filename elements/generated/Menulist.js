@@ -1,4 +1,4 @@
-class XblMenulist extends XblMenulistBase {
+class FirefoxMenulist extends FirefoxMenulistBase {
   constructor() {
     super();
   }
@@ -9,16 +9,16 @@ class XblMenulist extends XblMenulistBase {
     this.innerHTML = `<hbox class="menulist-label-box" flex="1">
 <image class="menulist-icon" inherits="src=image,src">
 </image>
-<xbl-text-label class="menulist-label" inherits="value=label,crop,accesskey,highlightable" crop="right" flex="1">
-</xbl-text-label>
-<xbl-text-label class="menulist-highlightable-label" inherits="text=label,crop,accesskey,highlightable" crop="right" flex="1">
-</xbl-text-label>
+<firefox-text-label class="menulist-label" inherits="value=label,crop,accesskey,highlightable" crop="right" flex="1">
+</firefox-text-label>
+<firefox-text-label class="menulist-highlightable-label" inherits="text=label,crop,accesskey,highlightable" crop="right" flex="1">
+</firefox-text-label>
 </hbox>
 <dropmarker class="menulist-dropmarker" type="menu" inherits="disabled,open">
 </dropmarker>
 <children includes="menupopup">
 </children>`;
-    let comment = document.createComment("Creating xbl-menulist");
+    let comment = document.createComment("Creating firefox-menulist");
     this.prepend(comment);
 
     try {
@@ -291,4 +291,4 @@ class XblMenulist extends XblMenulistBase {
     if (popup) this.removeChild(popup);
   }
 }
-customElements.define("xbl-menulist", XblMenulist);
+customElements.define("firefox-menulist", FirefoxMenulist);

@@ -1,4 +1,4 @@
-class XblFilefield extends XblBasetext {
+class FirefoxFilefield extends FirefoxBasetext {
   constructor() {
     super();
   }
@@ -14,7 +14,7 @@ class XblFilefield extends XblBasetext {
 <textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true">
 </textbox>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-filefield");
+    let comment = document.createComment("Creating firefox-filefield");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -83,4 +83,4 @@ class XblFilefield extends XblBasetext {
     return "moz-icon://" + urlspec + "?size=16";
   }
 }
-customElements.define("xbl-filefield", XblFilefield);
+customElements.define("firefox-filefield", FirefoxFilefield);

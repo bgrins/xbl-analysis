@@ -1,4 +1,4 @@
-class XblAutocompleteProfileListitemBase extends XblRichlistitem {
+class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
   constructor() {
     super();
   }
@@ -7,7 +7,7 @@ class XblAutocompleteProfileListitemBase extends XblRichlistitem {
     console.log(this, "connected");
 
     let comment = document.createComment(
-      "Creating xbl-autocomplete-profile-listitem-base"
+      "Creating firefox-autocomplete-profile-listitem-base"
     );
     this.prepend(comment);
 
@@ -51,6 +51,6 @@ class XblAutocompleteProfileListitemBase extends XblRichlistitem {
   }
 }
 customElements.define(
-  "xbl-autocomplete-profile-listitem-base",
-  XblAutocompleteProfileListitemBase
+  "firefox-autocomplete-profile-listitem-base",
+  FirefoxAutocompleteProfileListitemBase
 );

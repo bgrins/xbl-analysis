@@ -1,4 +1,4 @@
-class XblInputBoxSpell extends XblInputBox {
+class FirefoxInputBoxSpell extends FirefoxInputBox {
   constructor() {
     super();
   }
@@ -42,7 +42,7 @@ class XblInputBoxSpell extends XblInputBox {
 </menupopup>
 </menu>
 </menupopup>`;
-    let comment = document.createComment("Creating xbl-input-box-spell");
+    let comment = document.createComment("Creating firefox-input-box-spell");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -123,4 +123,4 @@ class XblInputBoxSpell extends XblInputBox {
     }
   }
 }
-customElements.define("xbl-input-box-spell", XblInputBoxSpell);
+customElements.define("firefox-input-box-spell", FirefoxInputBoxSpell);

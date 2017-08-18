@@ -1,4 +1,4 @@
-class XblListboxBase extends XblBasecontrol {
+class FirefoxListboxBase extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblListboxBase extends XblBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-listbox-base");
+    let comment = document.createComment("Creating firefox-listbox-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -312,4 +312,4 @@ class XblListboxBase extends XblBasecontrol {
   }
   _selectTimeoutHandler(aMe) {}
 }
-customElements.define("xbl-listbox-base", XblListboxBase);
+customElements.define("firefox-listbox-base", FirefoxListboxBase);

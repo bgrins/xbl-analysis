@@ -1,4 +1,4 @@
-class XblTextLink extends XblTextLabel {
+class FirefoxTextLink extends FirefoxTextLabel {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTextLink extends XblTextLabel {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-text-link");
+    let comment = document.createComment("Creating firefox-text-link");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -101,4 +101,4 @@ class XblTextLink extends XblTextLabel {
     win.open(href);
   }
 }
-customElements.define("xbl-text-link", XblTextLink);
+customElements.define("firefox-text-link", FirefoxTextLink);

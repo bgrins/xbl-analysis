@@ -1,4 +1,4 @@
-class XblStatusbarpanel extends BaseElement {
+class FirefoxStatusbarpanel extends BaseElement {
   constructor() {
     super();
   }
@@ -6,10 +6,10 @@ class XblStatusbarpanel extends BaseElement {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<xbl-text-label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1">
-</xbl-text-label>
+<firefox-text-label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1">
+</firefox-text-label>
 </children>`;
-    let comment = document.createComment("Creating xbl-statusbarpanel");
+    let comment = document.createComment("Creating firefox-statusbarpanel");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -41,4 +41,4 @@ class XblStatusbarpanel extends BaseElement {
     return this.getAttribute("src");
   }
 }
-customElements.define("xbl-statusbarpanel", XblStatusbarpanel);
+customElements.define("firefox-statusbarpanel", FirefoxStatusbarpanel);

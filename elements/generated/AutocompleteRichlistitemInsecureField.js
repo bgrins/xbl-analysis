@@ -1,4 +1,4 @@
-class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistitem {
+class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRichlistitem {
   constructor() {
     super();
   }
@@ -39,7 +39,7 @@ class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistit
 </description>
 </hbox>`;
     let comment = document.createComment(
-      "Creating xbl-autocomplete-richlistitem-insecure-field"
+      "Creating firefox-autocomplete-richlistitem-insecure-field"
     );
     this.prepend(comment);
 
@@ -65,6 +65,6 @@ class XblAutocompleteRichlistitemInsecureField extends XblAutocompleteRichlistit
   }
 }
 customElements.define(
-  "xbl-autocomplete-richlistitem-insecure-field",
-  XblAutocompleteRichlistitemInsecureField
+  "firefox-autocomplete-richlistitem-insecure-field",
+  FirefoxAutocompleteRichlistitemInsecureField
 );

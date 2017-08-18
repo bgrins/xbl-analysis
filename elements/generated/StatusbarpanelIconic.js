@@ -1,4 +1,4 @@
-class XblStatusbarpanelIconic extends XblStatusbarpanel {
+class FirefoxStatusbarpanelIconic extends FirefoxStatusbarpanel {
   constructor() {
     super();
   }
@@ -8,9 +8,14 @@ class XblStatusbarpanelIconic extends XblStatusbarpanel {
 
     this.innerHTML = `<image class="statusbarpanel-icon" inherits="src,src=image">
 </image>`;
-    let comment = document.createComment("Creating xbl-statusbarpanel-iconic");
+    let comment = document.createComment(
+      "Creating firefox-statusbarpanel-iconic"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-statusbarpanel-iconic", XblStatusbarpanelIconic);
+customElements.define(
+  "firefox-statusbarpanel-iconic",
+  FirefoxStatusbarpanelIconic
+);

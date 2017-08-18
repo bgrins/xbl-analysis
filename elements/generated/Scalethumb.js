@@ -1,13 +1,13 @@
-class XblScalethumb extends BaseElement {
+class FirefoxScalethumb extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-scalethumb");
+    let comment = document.createComment("Creating firefox-scalethumb");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-scalethumb", XblScalethumb);
+customElements.define("firefox-scalethumb", FirefoxScalethumb);

@@ -1,4 +1,4 @@
-class XblPlacesTree extends XblTree {
+class FirefoxPlacesTree extends FirefoxTree {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblPlacesTree extends XblTree {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-places-tree");
+    let comment = document.createComment("Creating firefox-places-tree");
     this.prepend(comment);
 
     try {
@@ -606,4 +606,4 @@ class XblPlacesTree extends XblTree {
   }
   destroyContextMenu(aPopup) {}
 }
-customElements.define("xbl-places-tree", XblPlacesTree);
+customElements.define("firefox-places-tree", FirefoxPlacesTree);

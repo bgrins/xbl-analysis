@@ -1,4 +1,4 @@
-class XblTabbrowserAlltabsPopup extends XblPopup {
+class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
   constructor() {
     super();
   }
@@ -7,7 +7,7 @@ class XblTabbrowserAlltabsPopup extends XblPopup {
     console.log(this, "connected");
 
     let comment = document.createComment(
-      "Creating xbl-tabbrowser-alltabs-popup"
+      "Creating firefox-tabbrowser-alltabs-popup"
     );
     this.prepend(comment);
   }
@@ -117,6 +117,6 @@ class XblTabbrowserAlltabsPopup extends XblPopup {
   }
 }
 customElements.define(
-  "xbl-tabbrowser-alltabs-popup",
-  XblTabbrowserAlltabsPopup
+  "firefox-tabbrowser-alltabs-popup",
+  FirefoxTabbrowserAlltabsPopup
 );

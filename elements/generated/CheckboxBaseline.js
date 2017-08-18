@@ -1,4 +1,4 @@
-class XblCheckboxBaseline extends XblBasetext {
+class FirefoxCheckboxBaseline extends FirefoxBasetext {
   constructor() {
     super();
   }
@@ -12,10 +12,10 @@ class XblCheckboxBaseline extends XblBasetext {
 <hbox class="checkbox-label-box" flex="1">
 <image class="checkbox-icon" inherits="src">
 </image>
-<xbl-text-label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1">
-</xbl-text-label>
+<firefox-text-label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1">
+</firefox-text-label>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-checkbox-baseline");
+    let comment = document.createComment("Creating firefox-checkbox-baseline");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -39,4 +39,4 @@ class XblCheckboxBaseline extends XblBasetext {
     return aValue;
   }
 }
-customElements.define("xbl-checkbox-baseline", XblCheckboxBaseline);
+customElements.define("firefox-checkbox-baseline", FirefoxCheckboxBaseline);

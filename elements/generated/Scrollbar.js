@@ -1,4 +1,4 @@
-class XblScrollbar extends XblScrollbarBase {
+class FirefoxScrollbar extends FirefoxScrollbarBase {
   constructor() {
     super();
   }
@@ -18,9 +18,9 @@ class XblScrollbar extends XblScrollbarBase {
 </scrollbarbutton>
 <scrollbarbutton sbattr="scrollbar-down-bottom" type="increment" inherits="curpos,maxpos,disabled,sborient=orient">
 </scrollbarbutton>`;
-    let comment = document.createComment("Creating xbl-scrollbar");
+    let comment = document.createComment("Creating firefox-scrollbar");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-scrollbar", XblScrollbar);
+customElements.define("firefox-scrollbar", FirefoxScrollbar);

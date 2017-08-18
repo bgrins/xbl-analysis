@@ -1,4 +1,4 @@
-class XblExpander extends BaseElement {
+class FirefoxExpander extends BaseElement {
   constructor() {
     super();
   }
@@ -8,8 +8,8 @@ class XblExpander extends BaseElement {
     this.innerHTML = `<hbox align="center">
 <button type="disclosure" class="expanderButton" anonid="disclosure" inherits="disabled" mousethrough="always">
 </button>
-<xbl-text-label class="header expanderButton" anonid="label" inherits="value=label,disabled" mousethrough="always" flex="1">
-</xbl-text-label>
+<firefox-text-label class="header expanderButton" anonid="label" inherits="value=label,disabled" mousethrough="always" flex="1">
+</firefox-text-label>
 <button anonid="clear-button" inherits="label=clearlabel,disabled=cleardisabled,hidden=clearhidden" mousethrough="always" icon="clear">
 </button>
 </hbox>
@@ -17,7 +17,7 @@ class XblExpander extends BaseElement {
 <children>
 </children>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-expander");
+    let comment = document.createComment("Creating firefox-expander");
     this.prepend(comment);
 
     try {
@@ -76,4 +76,4 @@ class XblExpander extends BaseElement {
     }
   }
 }
-customElements.define("xbl-expander", XblExpander);
+customElements.define("firefox-expander", FirefoxExpander);

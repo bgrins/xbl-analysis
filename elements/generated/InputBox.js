@@ -1,4 +1,4 @@
-class XblInputBox extends BaseElement {
+class FirefoxInputBox extends BaseElement {
   constructor() {
     super();
   }
@@ -25,7 +25,7 @@ class XblInputBox extends BaseElement {
 <menuitem label="&selectAllCmd.label;" accesskey="&selectAllCmd.accesskey;" cmd="cmd_selectAll">
 </menuitem>
 </menupopup>`;
-    let comment = document.createComment("Creating xbl-input-box");
+    let comment = document.createComment("Creating firefox-input-box");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -57,4 +57,4 @@ class XblInputBox extends BaseElement {
     controller.doCommand(command);
   }
 }
-customElements.define("xbl-input-box", XblInputBox);
+customElements.define("firefox-input-box", FirefoxInputBox);

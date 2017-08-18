@@ -1,4 +1,4 @@
-class XblPanebutton extends XblRadio {
+class FirefoxPanebutton extends FirefoxRadio {
   constructor() {
     super();
   }
@@ -8,11 +8,11 @@ class XblPanebutton extends XblRadio {
 
     this.innerHTML = `<image class="paneButtonIcon" inherits="src">
 </image>
-<xbl-text-label class="paneButtonLabel" inherits="value=label">
-</xbl-text-label>`;
-    let comment = document.createComment("Creating xbl-panebutton");
+<firefox-text-label class="paneButtonLabel" inherits="value=label">
+</firefox-text-label>`;
+    let comment = document.createComment("Creating firefox-panebutton");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-panebutton", XblPanebutton);
+customElements.define("firefox-panebutton", FirefoxPanebutton);

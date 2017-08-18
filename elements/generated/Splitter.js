@@ -1,13 +1,13 @@
-class XblSplitter extends BaseElement {
+class FirefoxSplitter extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-splitter");
+    let comment = document.createComment("Creating firefox-splitter");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-splitter", XblSplitter);
+customElements.define("firefox-splitter", FirefoxSplitter);

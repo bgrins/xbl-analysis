@@ -1,4 +1,4 @@
-class XblDatepicker extends XblDatetimepickerBase {
+class FirefoxDatepicker extends FirefoxDatetimepickerBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblDatepicker extends XblDatetimepickerBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-datepicker");
+    let comment = document.createComment("Creating firefox-datepicker");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -258,4 +258,4 @@ class XblDatepicker extends XblDatetimepickerBase {
     this.yearField.maxLength = twoDigitYear ? 2 : 4;
   }
 }
-customElements.define("xbl-datepicker", XblDatepicker);
+customElements.define("firefox-datepicker", FirefoxDatepicker);

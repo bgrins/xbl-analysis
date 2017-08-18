@@ -1,4 +1,4 @@
-class XblTabbrowserTab extends XblTab {
+class FirefoxTabbrowserTab extends FirefoxTab {
   constructor() {
     super();
   }
@@ -25,8 +25,8 @@ class XblTabbrowserTab extends XblTab {
 <image inherits="crashed,busy,soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="overlay-icon" class="tab-icon-overlay" role="presentation">
 </image>
 <hbox class="tab-label-container" inherits="pinned,selected=visuallyselected,labeldirection" onoverflow="this.setAttribute('textoverflow', 'true');" onunderflow="this.removeAttribute('textoverflow');" flex="1">
-<xbl-text-label class="tab-text tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation">
-</xbl-text-label>
+<firefox-text-label class="tab-text tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation">
+</firefox-text-label>
 </hbox>
 <image inherits="soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="soundplaying-icon" class="tab-icon-sound" role="presentation">
 </image>
@@ -34,7 +34,7 @@ class XblTabbrowserTab extends XblTab {
 </toolbarbutton>
 </hbox>
 </stack>`;
-    let comment = document.createComment("Creating xbl-tabbrowser-tab");
+    let comment = document.createComment("Creating firefox-tabbrowser-tab");
     this.prepend(comment);
 
     try {
@@ -280,4 +280,4 @@ class XblTabbrowserTab extends XblTab {
     ContextualIdentityService.setTabStyle(this);
   }
 }
-customElements.define("xbl-tabbrowser-tab", XblTabbrowserTab);
+customElements.define("firefox-tabbrowser-tab", FirefoxTabbrowserTab);

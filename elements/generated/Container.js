@@ -1,4 +1,4 @@
-class XblContainer extends BaseElement {
+class FirefoxContainer extends BaseElement {
   constructor() {
     super();
   }
@@ -9,8 +9,8 @@ class XblContainer extends BaseElement {
 <hbox flex="1" align="center">
 <hbox inherits="data-identity-icon=containerIcon,data-identity-color=containerColor" height="24" width="24" class="userContext-icon">
 </hbox>
-<xbl-text-label flex="1" crop="end" inherits="text=containerName,highlightable">
-</xbl-text-label>
+<firefox-text-label flex="1" crop="end" inherits="text=containerName,highlightable">
+</firefox-text-label>
 </hbox>
 <hbox flex="1" align="right">
 <button anonid="preferencesButton" label="&preferencesButton.label;" inherits="value=userContextId" onclick="gContainersPane.onPreferenceClick(event.originalTarget)">
@@ -19,9 +19,9 @@ class XblContainer extends BaseElement {
 </button>
 </hbox>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-container");
+    let comment = document.createComment("Creating firefox-container");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-container", XblContainer);
+customElements.define("firefox-container", FirefoxContainer);

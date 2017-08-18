@@ -1,4 +1,4 @@
-class XblDatetimeInputBase extends BaseElement {
+class FirefoxDatetimeInputBase extends BaseElement {
   constructor() {
     super();
   }
@@ -11,7 +11,9 @@ class XblDatetimeInputBase extends BaseElement {
 <button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled">
 </button>
 </div>`;
-    let comment = document.createComment("Creating xbl-datetime-input-base");
+    let comment = document.createComment(
+      "Creating firefox-datetime-input-base"
+    );
     this.prepend(comment);
 
     try {
@@ -470,4 +472,4 @@ class XblDatetimeInputBase extends BaseElement {
     }
   }
 }
-customElements.define("xbl-datetime-input-base", XblDatetimeInputBase);
+customElements.define("firefox-datetime-input-base", FirefoxDatetimeInputBase);

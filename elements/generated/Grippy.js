@@ -1,13 +1,13 @@
-class XblGrippy extends BaseElement {
+class FirefoxGrippy extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-grippy");
+    let comment = document.createComment("Creating firefox-grippy");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-grippy", XblGrippy);
+customElements.define("firefox-grippy", FirefoxGrippy);

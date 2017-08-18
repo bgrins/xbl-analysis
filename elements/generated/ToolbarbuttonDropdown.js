@@ -1,4 +1,4 @@
-class XblToolbarbuttonDropdown extends XblMenuBase {
+class FirefoxToolbarbuttonDropdown extends FirefoxMenuBase {
   constructor() {
     super();
   }
@@ -8,15 +8,20 @@ class XblToolbarbuttonDropdown extends XblMenuBase {
 
     this.innerHTML = `<image class="menubar-left" inherits="src=image">
 </image>
-<xbl-text-label class="menubar-text" inherits="value=label,accesskey,crop" crop="right">
-</xbl-text-label>
+<firefox-text-label class="menubar-text" inherits="value=label,accesskey,crop" crop="right">
+</firefox-text-label>
 <hbox class="menubar-right">
 </hbox>
 <children includes="menupopup">
 </children>`;
-    let comment = document.createComment("Creating xbl-toolbarbutton-dropdown");
+    let comment = document.createComment(
+      "Creating firefox-toolbarbutton-dropdown"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-toolbarbutton-dropdown", XblToolbarbuttonDropdown);
+customElements.define(
+  "firefox-toolbarbutton-dropdown",
+  FirefoxToolbarbuttonDropdown
+);

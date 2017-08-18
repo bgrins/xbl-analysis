@@ -1,4 +1,4 @@
-class XblTranslationbar extends XblNotification {
+class FirefoxTranslationbar extends FirefoxNotification {
   constructor() {
     super();
   }
@@ -19,8 +19,8 @@ class XblTranslationbar extends XblNotification {
 <description class="translation-welcome-body" anonid="welcomeBody">
 </description>
 <hbox align="center">
-<xbl-text-label anonid="learnMore" class="plain text-link" onclick="openUILinkIn('https://support.mozilla.org/kb/automatic-translation', 'tab'); this.parentNode.parentNode.parentNode.hidePopup();">
-</xbl-text-label>
+<firefox-text-label anonid="learnMore" class="plain text-link" onclick="openUILinkIn('https://support.mozilla.org/kb/automatic-translation', 'tab'); this.parentNode.parentNode.parentNode.hidePopup();">
+</firefox-text-label>
 <spacer flex="1">
 </spacer>
 <button class="translate-infobar-element" anonid="thanksButton" onclick="this.parentNode.parentNode.parentNode.hidePopup();">
@@ -30,52 +30,52 @@ class XblTranslationbar extends XblNotification {
 </panel>
 <deck anonid="translationStates" selectedIndex="0">
 <hbox class="translate-offer-box" align="center">
-<xbl-text-label class="translate-infobar-element" value="&translation.thisPageIsIn.label;">
-</xbl-text-label>
+<firefox-text-label class="translate-infobar-element" value="&translation.thisPageIsIn.label;">
+</firefox-text-label>
 <menulist class="translate-infobar-element" anonid="detectedLanguage">
 <menupopup>
 </menupopup>
 </menulist>
-<xbl-text-label class="translate-infobar-element" value="&translation.translateThisPage.label;">
-</xbl-text-label>
+<firefox-text-label class="translate-infobar-element" value="&translation.translateThisPage.label;">
+</firefox-text-label>
 <button class="translate-infobar-element" label="&translation.translate.button;" anonid="translate" oncommand="document.getBindingParent(this).translate();">
 </button>
 <button class="translate-infobar-element" label="&translation.notNow.button;" anonid="notNow" oncommand="document.getBindingParent(this).closeCommand();">
 </button>
 </hbox>
 <vbox class="translating-box" pack="center">
-<xbl-text-label class="translate-infobar-element" value="&translation.translatingContent.label;">
-</xbl-text-label>
+<firefox-text-label class="translate-infobar-element" value="&translation.translatingContent.label;">
+</firefox-text-label>
 </vbox>
 <hbox class="translated-box" align="center">
-<xbl-text-label class="translate-infobar-element" value="&translation.translatedFrom.label;">
-</xbl-text-label>
+<firefox-text-label class="translate-infobar-element" value="&translation.translatedFrom.label;">
+</firefox-text-label>
 <menulist class="translate-infobar-element" anonid="fromLanguage" oncommand="document.getBindingParent(this).translate()">
 <menupopup>
 </menupopup>
 </menulist>
-<xbl-text-label class="translate-infobar-element" value="&translation.translatedTo.label;">
-</xbl-text-label>
+<firefox-text-label class="translate-infobar-element" value="&translation.translatedTo.label;">
+</firefox-text-label>
 <menulist class="translate-infobar-element" anonid="toLanguage" oncommand="document.getBindingParent(this).translate()">
 <menupopup>
 </menupopup>
 </menulist>
-<xbl-text-label class="translate-infobar-element" value="&translation.translatedToSuffix.label;">
-</xbl-text-label>
+<firefox-text-label class="translate-infobar-element" value="&translation.translatedToSuffix.label;">
+</firefox-text-label>
 <button anonid="showOriginal" class="translate-infobar-element" label="&translation.showOriginal.button;" oncommand="document.getBindingParent(this).showOriginal();">
 </button>
 <button anonid="showTranslation" class="translate-infobar-element" label="&translation.showTranslation.button;" oncommand="document.getBindingParent(this).showTranslation();">
 </button>
 </hbox>
 <hbox class="translation-error" align="center">
-<xbl-text-label class="translate-infobar-element" value="&translation.errorTranslating.label;">
-</xbl-text-label>
+<firefox-text-label class="translate-infobar-element" value="&translation.errorTranslating.label;">
+</firefox-text-label>
 <button class="translate-infobar-element" label="&translation.tryAgain.button;" anonid="tryAgain" oncommand="document.getBindingParent(this).translate();">
 </button>
 </hbox>
 <vbox class="translation-unavailable" pack="center">
-<xbl-text-label class="translate-infobar-element" value="&translation.serviceUnavailable.label;">
-</xbl-text-label>
+<firefox-text-label class="translate-infobar-element" value="&translation.serviceUnavailable.label;">
+</firefox-text-label>
 </vbox>
 </deck>
 <spacer flex="1">
@@ -93,15 +93,15 @@ class XblTranslationbar extends XblNotification {
 <menuitem class="subviewbutton panel-subview-footer" oncommand="document.getBindingParent(this).openProviderAttribution();">
 <deck anonid="translationEngine" selectedIndex="0">
 <hbox class="translation-attribution">
-<xbl-text-label>
-</xbl-text-label>
+<firefox-text-label>
+</firefox-text-label>
 <image src="chrome://browser/content/microsoft-translator-attribution.png" aria-label="Microsoft Translator">
 </image>
-<xbl-text-label>
-</xbl-text-label>
+<firefox-text-label>
+</firefox-text-label>
 </hbox>
-<xbl-text-label class="translation-attribution">
-</xbl-text-label>
+<firefox-text-label class="translation-attribution">
+</firefox-text-label>
 </deck>
 </menuitem>
 </menupopup>
@@ -110,7 +110,7 @@ class XblTranslationbar extends XblNotification {
 <toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="&closeNotification.tooltip;" oncommand="document.getBindingParent(this).closeCommand();">
 </toolbarbutton>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-translationbar");
+    let comment = document.createComment("Creating firefox-translationbar");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -357,4 +357,4 @@ class XblTranslationbar extends XblNotification {
     Translation.openProviderAttribution();
   }
 }
-customElements.define("xbl-translationbar", XblTranslationbar);
+customElements.define("firefox-translationbar", FirefoxTranslationbar);

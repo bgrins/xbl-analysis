@@ -1,13 +1,13 @@
-class XblThumb extends BaseElement {
+class FirefoxThumb extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-thumb");
+    let comment = document.createComment("Creating firefox-thumb");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-thumb", XblThumb);
+customElements.define("firefox-thumb", FirefoxThumb);

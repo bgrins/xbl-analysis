@@ -1,17 +1,17 @@
-class XblDialogheader extends BaseElement {
+class FirefoxDialogheader extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<xbl-text-label class="dialogheader-title" inherits="value=title,crop" crop="right" flex="1">
-</xbl-text-label>
-<xbl-text-label class="dialogheader-description" inherits="value=description">
-</xbl-text-label>`;
-    let comment = document.createComment("Creating xbl-dialogheader");
+    this.innerHTML = `<firefox-text-label class="dialogheader-title" inherits="value=title,crop" crop="right" flex="1">
+</firefox-text-label>
+<firefox-text-label class="dialogheader-description" inherits="value=description">
+</firefox-text-label>`;
+    let comment = document.createComment("Creating firefox-dialogheader");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-dialogheader", XblDialogheader);
+customElements.define("firefox-dialogheader", FirefoxDialogheader);

@@ -1,4 +1,4 @@
-class XblNotification extends BaseElement {
+class FirefoxNotification extends BaseElement {
   constructor() {
     super();
   }
@@ -19,7 +19,7 @@ class XblNotification extends BaseElement {
 <toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="&closeNotification.tooltip;" oncommand="document.getBindingParent(this).dismiss();">
 </toolbarbutton>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-notification");
+    let comment = document.createComment("Creating firefox-notification");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -124,4 +124,4 @@ class XblNotification extends BaseElement {
     }
   }
 }
-customElements.define("xbl-notification", XblNotification);
+customElements.define("firefox-notification", FirefoxNotification);

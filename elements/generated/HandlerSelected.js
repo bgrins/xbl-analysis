@@ -1,4 +1,4 @@
-class XblHandlerSelected extends XblHandlerBase {
+class FirefoxHandlerSelected extends FirefoxHandlerBase {
   constructor() {
     super();
   }
@@ -10,8 +10,8 @@ class XblHandlerSelected extends XblHandlerBase {
 <hbox flex="1" align="center" inherits="tooltiptext=typeDescription">
 <image src="moz-icon://goat?size=16" class="typeIcon" inherits="src=typeIcon" height="16" width="16">
 </image>
-<xbl-text-label flex="1" crop="end" inherits="value=typeDescription">
-</xbl-text-label>
+<firefox-text-label flex="1" crop="end" inherits="value=typeDescription">
+</firefox-text-label>
 </hbox>
 <hbox flex="1">
 <menulist class="actionsMenu" flex="1" crop="end" selectedIndex="1" inherits="tooltiptext=actionDescription" oncommand="Services.prefs.getBoolPref('browser.preferences.useOldOrganization') ?                           gApplicationsPane.onSelectAction(event.originalTarget) :                           gMainPane.onSelectAction(event.originalTarget)">
@@ -20,7 +20,7 @@ class XblHandlerSelected extends XblHandlerBase {
 </menulist>
 </hbox>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-handler-selected");
+    let comment = document.createComment("Creating firefox-handler-selected");
     this.prepend(comment);
 
     try {
@@ -29,4 +29,4 @@ class XblHandlerSelected extends XblHandlerBase {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-handler-selected", XblHandlerSelected);
+customElements.define("firefox-handler-selected", FirefoxHandlerSelected);

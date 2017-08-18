@@ -1,11 +1,11 @@
-class XblResizer extends BaseElement {
+class FirefoxResizer extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-resizer");
+    let comment = document.createComment("Creating firefox-resizer");
     this.prepend(comment);
 
     try {
@@ -29,4 +29,4 @@ class XblResizer extends BaseElement {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-resizer", XblResizer);
+customElements.define("firefox-resizer", FirefoxResizer);

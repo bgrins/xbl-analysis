@@ -1,11 +1,11 @@
-class XblIframe extends BaseElement {
+class FirefoxIframe extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-iframe");
+    let comment = document.createComment("Creating firefox-iframe");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -31,4 +31,4 @@ class XblIframe extends BaseElement {
     return this.webNavigation.document;
   }
 }
-customElements.define("xbl-iframe", XblIframe);
+customElements.define("firefox-iframe", FirefoxIframe);

@@ -1,4 +1,4 @@
-class XblMenuBase extends XblMenuitemBase {
+class FirefoxMenuBase extends FirefoxMenuitemBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblMenuBase extends XblMenuitemBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-menu-base");
+    let comment = document.createComment("Creating firefox-menu-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -67,4 +67,4 @@ class XblMenuBase extends XblMenuitemBase {
     return menupopup.childNodes[aIndex];
   }
 }
-customElements.define("xbl-menu-base", XblMenuBase);
+customElements.define("firefox-menu-base", FirefoxMenuBase);

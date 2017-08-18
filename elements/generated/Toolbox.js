@@ -1,4 +1,4 @@
-class XblToolbox extends XblToolbarBase {
+class FirefoxToolbox extends FirefoxToolbarBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblToolbox extends XblToolbarBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-toolbox");
+    let comment = document.createComment("Creating firefox-toolbox");
     this.prepend(comment);
 
     try {
@@ -57,4 +57,4 @@ class XblToolbox extends XblToolbarBase {
     return toolbar;
   }
 }
-customElements.define("xbl-toolbox", XblToolbox);
+customElements.define("firefox-toolbox", FirefoxToolbox);

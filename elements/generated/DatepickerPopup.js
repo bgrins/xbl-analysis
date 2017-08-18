@@ -1,4 +1,4 @@
-class XblDatepickerPopup extends XblDatepicker {
+class FirefoxDatepickerPopup extends FirefoxDatepicker {
   constructor() {
     super();
   }
@@ -11,14 +11,14 @@ class XblDatepickerPopup extends XblDatepicker {
 <input class="datetimepicker-input textbox-input" anonid="input-one" size="2" maxlength="2" inherits="disabled,readonly">
 </input>
 </hbox>
-<xbl-text-label anonid="sep-first" class="datetimepicker-separator" value=":">
-</xbl-text-label>
+<firefox-text-label anonid="sep-first" class="datetimepicker-separator" value=":">
+</firefox-text-label>
 <hbox class="datetimepicker-input-subbox" align="baseline">
 <input class="datetimepicker-input textbox-input" anonid="input-two" size="2" maxlength="2" inherits="disabled,readonly">
 </input>
 </hbox>
-<xbl-text-label anonid="sep-second" class="datetimepicker-separator" value=":">
-</xbl-text-label>
+<firefox-text-label anonid="sep-second" class="datetimepicker-separator" value=":">
+</firefox-text-label>
 <hbox class="datetimepicker-input-subbox" align="center">
 <input class="datetimepicker-input textbox-input" anonid="input-three" size="2" maxlength="2" inherits="disabled,readonly">
 </input>
@@ -36,7 +36,7 @@ class XblDatepickerPopup extends XblDatepicker {
 <datepicker anonid="grid" type="grid" class="datepicker-popupgrid" inherits="disabled,readonly,firstdayofweek">
 </datepicker>
 </panel>`;
-    let comment = document.createComment("Creating xbl-datepicker-popup");
+    let comment = document.createComment("Creating firefox-datepicker-popup");
     this.prepend(comment);
 
     try {
@@ -70,4 +70,4 @@ class XblDatepickerPopup extends XblDatepicker {
     undefined;
   }
 }
-customElements.define("xbl-datepicker-popup", XblDatepickerPopup);
+customElements.define("firefox-datepicker-popup", FirefoxDatepickerPopup);

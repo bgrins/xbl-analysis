@@ -1,4 +1,4 @@
-class XblTabbrowserArrowscrollbox extends XblArrowscrollboxClicktoscroll {
+class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll {
   constructor() {
     super();
   }
@@ -7,7 +7,7 @@ class XblTabbrowserArrowscrollbox extends XblArrowscrollboxClicktoscroll {
     console.log(this, "connected");
 
     let comment = document.createComment(
-      "Creating xbl-tabbrowser-arrowscrollbox"
+      "Creating firefox-tabbrowser-arrowscrollbox"
     );
     this.prepend(comment);
   }
@@ -24,6 +24,6 @@ class XblTabbrowserArrowscrollbox extends XblArrowscrollboxClicktoscroll {
   }
 }
 customElements.define(
-  "xbl-tabbrowser-arrowscrollbox",
-  XblTabbrowserArrowscrollbox
+  "firefox-tabbrowser-arrowscrollbox",
+  FirefoxTabbrowserArrowscrollbox
 );

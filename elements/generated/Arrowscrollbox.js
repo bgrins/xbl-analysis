@@ -1,4 +1,4 @@
-class XblArrowscrollbox extends XblScrollboxBase {
+class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
   constructor() {
     super();
   }
@@ -18,7 +18,7 @@ class XblArrowscrollbox extends XblScrollboxBase {
 </spacer>
 <autorepeatbutton class="autorepeatbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" oncommand="_autorepeatbuttonScroll(event);">
 </autorepeatbutton>`;
-    let comment = document.createComment("Creating xbl-arrowscrollbox");
+    let comment = document.createComment("Creating firefox-arrowscrollbox");
     this.prepend(comment);
 
     try {
@@ -349,4 +349,4 @@ class XblArrowscrollbox extends XblScrollboxBase {
     });
   }
 }
-customElements.define("xbl-arrowscrollbox", XblArrowscrollbox);
+customElements.define("firefox-arrowscrollbox", FirefoxArrowscrollbox);

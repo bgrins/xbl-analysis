@@ -1,4 +1,4 @@
-class XblViewbutton extends XblRadio {
+class FirefoxViewbutton extends FirefoxRadio {
   constructor() {
     super();
   }
@@ -8,11 +8,11 @@ class XblViewbutton extends XblRadio {
 
     this.innerHTML = `<image class="viewButtonIcon" inherits="src">
 </image>
-<xbl-text-label class="viewButtonLabel" inherits="value=label">
-</xbl-text-label>`;
-    let comment = document.createComment("Creating xbl-viewbutton");
+<firefox-text-label class="viewButtonLabel" inherits="value=label">
+</firefox-text-label>`;
+    let comment = document.createComment("Creating firefox-viewbutton");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-viewbutton", XblViewbutton);
+customElements.define("firefox-viewbutton", FirefoxViewbutton);

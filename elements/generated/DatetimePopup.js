@@ -1,4 +1,4 @@
-class XblDatetimePopup extends XblArrowpanel {
+class FirefoxDatetimePopup extends FirefoxArrowpanel {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblDatetimePopup extends XblArrowpanel {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-datetime-popup");
+    let comment = document.createComment("Creating firefox-datetime-popup");
     this.prepend(comment);
 
     try {
@@ -310,4 +310,4 @@ class XblDatetimePopup extends XblArrowpanel {
     }
   }
 }
-customElements.define("xbl-datetime-popup", XblDatetimePopup);
+customElements.define("firefox-datetime-popup", FirefoxDatetimePopup);

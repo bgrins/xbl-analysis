@@ -1,4 +1,4 @@
-class XblTreecolImage extends XblTreecolBase {
+class FirefoxTreecolImage extends FirefoxTreecolBase {
   constructor() {
     super();
   }
@@ -8,9 +8,9 @@ class XblTreecolImage extends XblTreecolBase {
 
     this.innerHTML = `<image class="treecol-icon" inherits="src">
 </image>`;
-    let comment = document.createComment("Creating xbl-treecol-image");
+    let comment = document.createComment("Creating firefox-treecol-image");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-treecol-image", XblTreecolImage);
+customElements.define("firefox-treecol-image", FirefoxTreecolImage);

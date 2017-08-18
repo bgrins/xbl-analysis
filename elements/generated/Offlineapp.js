@@ -1,4 +1,4 @@
-class XblOfflineapp extends XblListitem {
+class FirefoxOfflineapp extends FirefoxListitem {
   constructor() {
     super();
   }
@@ -12,9 +12,9 @@ class XblOfflineapp extends XblListitem {
 <listcell inherits="label=usage">
 </listcell>
 </children>`;
-    let comment = document.createComment("Creating xbl-offlineapp");
+    let comment = document.createComment("Creating firefox-offlineapp");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-offlineapp", XblOfflineapp);
+customElements.define("firefox-offlineapp", FirefoxOfflineapp);

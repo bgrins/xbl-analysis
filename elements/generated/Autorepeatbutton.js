@@ -1,4 +1,4 @@
-class XblAutorepeatbutton extends XblScrollboxBase {
+class FirefoxAutorepeatbutton extends FirefoxScrollboxBase {
   constructor() {
     super();
   }
@@ -8,9 +8,9 @@ class XblAutorepeatbutton extends XblScrollboxBase {
 
     this.innerHTML = `<image class="autorepeatbutton-icon">
 </image>`;
-    let comment = document.createComment("Creating xbl-autorepeatbutton");
+    let comment = document.createComment("Creating firefox-autorepeatbutton");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-autorepeatbutton", XblAutorepeatbutton);
+customElements.define("firefox-autorepeatbutton", FirefoxAutorepeatbutton);

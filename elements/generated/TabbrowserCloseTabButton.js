@@ -1,4 +1,4 @@
-class XblTabbrowserCloseTabButton extends XblToolbarbuttonImage {
+class FirefoxTabbrowserCloseTabButton extends FirefoxToolbarbuttonImage {
   constructor() {
     super();
   }
@@ -7,13 +7,13 @@ class XblTabbrowserCloseTabButton extends XblToolbarbuttonImage {
     console.log(this, "connected");
 
     let comment = document.createComment(
-      "Creating xbl-tabbrowser-close-tab-button"
+      "Creating firefox-tabbrowser-close-tab-button"
     );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
 customElements.define(
-  "xbl-tabbrowser-close-tab-button",
-  XblTabbrowserCloseTabButton
+  "firefox-tabbrowser-close-tab-button",
+  FirefoxTabbrowserCloseTabButton
 );

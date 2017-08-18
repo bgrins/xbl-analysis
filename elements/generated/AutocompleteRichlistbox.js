@@ -1,4 +1,4 @@
-class XblAutocompleteRichlistbox extends XblRichlistbox {
+class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
   constructor() {
     super();
   }
@@ -7,13 +7,13 @@ class XblAutocompleteRichlistbox extends XblRichlistbox {
     console.log(this, "connected");
 
     let comment = document.createComment(
-      "Creating xbl-autocomplete-richlistbox"
+      "Creating firefox-autocomplete-richlistbox"
     );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
 customElements.define(
-  "xbl-autocomplete-richlistbox",
-  XblAutocompleteRichlistbox
+  "firefox-autocomplete-richlistbox",
+  FirefoxAutocompleteRichlistbox
 );

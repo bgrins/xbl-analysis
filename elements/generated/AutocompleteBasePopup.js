@@ -1,4 +1,4 @@
-class XblAutocompleteBasePopup extends XblPopup {
+class FirefoxAutocompleteBasePopup extends FirefoxPopup {
   constructor() {
     super();
   }
@@ -7,7 +7,7 @@ class XblAutocompleteBasePopup extends XblPopup {
     console.log(this, "connected");
 
     let comment = document.createComment(
-      "Creating xbl-autocomplete-base-popup"
+      "Creating firefox-autocomplete-base-popup"
     );
     this.prepend(comment);
   }
@@ -60,4 +60,7 @@ class XblAutocompleteBasePopup extends XblPopup {
     controller.handleEnter(true, aEvent);
   }
 }
-customElements.define("xbl-autocomplete-base-popup", XblAutocompleteBasePopup);
+customElements.define(
+  "firefox-autocomplete-base-popup",
+  FirefoxAutocompleteBasePopup
+);

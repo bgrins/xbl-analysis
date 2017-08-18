@@ -1,11 +1,11 @@
-class XblPreferences extends BaseElement {
+class FirefoxPreferences extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-preferences");
+    let comment = document.createComment("Creating firefox-preferences");
     this.prepend(comment);
 
     try {
@@ -59,4 +59,4 @@ class XblPreferences extends BaseElement {
     }
   }
 }
-customElements.define("xbl-preferences", XblPreferences);
+customElements.define("firefox-preferences", FirefoxPreferences);

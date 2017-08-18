@@ -1,4 +1,4 @@
-class XblTooltip extends XblPopupBase {
+class FirefoxTooltip extends FirefoxPopupBase {
   constructor() {
     super();
   }
@@ -7,10 +7,10 @@ class XblTooltip extends XblPopupBase {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<xbl-text-label class="tooltip-label" inherits="text=label" flex="1">
-</xbl-text-label>
+<firefox-text-label class="tooltip-label" inherits="text=label" flex="1">
+</firefox-text-label>
 </children>`;
-    let comment = document.createComment("Creating xbl-tooltip");
+    let comment = document.createComment("Creating firefox-tooltip");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -54,4 +54,4 @@ class XblTooltip extends XblPopupBase {
     return shouldChangeText;
   }
 }
-customElements.define("xbl-tooltip", XblTooltip);
+customElements.define("firefox-tooltip", FirefoxTooltip);

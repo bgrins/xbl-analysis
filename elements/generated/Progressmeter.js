@@ -1,4 +1,4 @@
-class XblProgressmeter extends BaseElement {
+class FirefoxProgressmeter extends BaseElement {
   constructor() {
     super();
   }
@@ -9,7 +9,7 @@ class XblProgressmeter extends BaseElement {
 </spacer>
 <spacer class="progress-remainder" inherits="mode">
 </spacer>`;
-    let comment = document.createComment("Creating xbl-progressmeter");
+    let comment = document.createComment("Creating firefox-progressmeter");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -58,4 +58,4 @@ class XblProgressmeter extends BaseElement {
     return this.getAttribute("max") || "100";
   }
 }
-customElements.define("xbl-progressmeter", XblProgressmeter);
+customElements.define("firefox-progressmeter", FirefoxProgressmeter);

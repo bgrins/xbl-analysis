@@ -1,4 +1,4 @@
-class XblTabbrowserTabs extends XblTabs {
+class FirefoxTabbrowserTabs extends FirefoxTabs {
   constructor() {
     super();
   }
@@ -24,7 +24,7 @@ class XblTabbrowserTabs extends XblTabs {
 <spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;">
 </spacer>
 </arrowscrollbox>`;
-    let comment = document.createComment("Creating xbl-tabbrowser-tabs");
+    let comment = document.createComment("Creating firefox-tabbrowser-tabs");
     this.prepend(comment);
 
     try {
@@ -689,4 +689,4 @@ class XblTabbrowserTabs extends XblTabs {
     return document.getElementById(aTab.linkedPanel);
   }
 }
-customElements.define("xbl-tabbrowser-tabs", XblTabbrowserTabs);
+customElements.define("firefox-tabbrowser-tabs", FirefoxTabbrowserTabs);

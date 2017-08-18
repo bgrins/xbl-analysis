@@ -1,13 +1,13 @@
-class XblToolbarBase extends BaseElement {
+class FirefoxToolbarBase extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-toolbar-base");
+    let comment = document.createComment("Creating firefox-toolbar-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-toolbar-base", XblToolbarBase);
+customElements.define("firefox-toolbar-base", FirefoxToolbarBase);

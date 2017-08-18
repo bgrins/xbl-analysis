@@ -1,4 +1,4 @@
-class XblAutocompleteTree extends XblTree {
+class FirefoxAutocompleteTree extends FirefoxTree {
   constructor() {
     super();
   }
@@ -12,9 +12,9 @@ class XblAutocompleteTree extends XblTree {
 <children>
 </children>
 </treerows>`;
-    let comment = document.createComment("Creating xbl-autocomplete-tree");
+    let comment = document.createComment("Creating firefox-autocomplete-tree");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-autocomplete-tree", XblAutocompleteTree);
+customElements.define("firefox-autocomplete-tree", FirefoxAutocompleteTree);

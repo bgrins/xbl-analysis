@@ -1,4 +1,4 @@
-class XblTreebody extends XblTreeBase {
+class FirefoxTreebody extends FirefoxTreeBase {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblTreebody extends XblTreeBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-treebody");
+    let comment = document.createComment("Creating firefox-treebody");
     this.prepend(comment);
 
     try {
@@ -15,4 +15,4 @@ class XblTreebody extends XblTreeBase {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-treebody", XblTreebody);
+customElements.define("firefox-treebody", FirefoxTreebody);

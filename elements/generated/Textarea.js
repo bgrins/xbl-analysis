@@ -1,4 +1,4 @@
-class XblTextarea extends XblTextbox {
+class FirefoxTextarea extends FirefoxTextbox {
   constructor() {
     super();
   }
@@ -12,9 +12,9 @@ class XblTextarea extends XblTextbox {
 </children>
 </textarea>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-textarea");
+    let comment = document.createComment("Creating firefox-textarea");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-textarea", XblTextarea);
+customElements.define("firefox-textarea", FirefoxTextarea);

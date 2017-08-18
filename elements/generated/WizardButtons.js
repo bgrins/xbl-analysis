@@ -1,4 +1,4 @@
-class XblWizardButtons extends XblWizardBase {
+class FirefoxWizardButtons extends FirefoxWizardBase {
   constructor() {
     super();
   }
@@ -48,7 +48,7 @@ class XblWizardButtons extends XblWizardBase {
 </button>
 </hbox>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-wizard-buttons");
+    let comment = document.createComment("Creating firefox-wizard-buttons");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -78,4 +78,4 @@ class XblWizardButtons extends XblWizardBase {
     }
   }
 }
-customElements.define("xbl-wizard-buttons", XblWizardButtons);
+customElements.define("firefox-wizard-buttons", FirefoxWizardButtons);

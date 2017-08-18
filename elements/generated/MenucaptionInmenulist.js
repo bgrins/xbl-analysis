@@ -1,4 +1,4 @@
-class XblMenucaptionInmenulist extends XblMenucaption {
+class FirefoxMenucaptionInmenulist extends FirefoxMenucaption {
   constructor() {
     super();
   }
@@ -10,13 +10,18 @@ class XblMenucaptionInmenulist extends XblMenucaption {
 <image class="menu-iconic-icon" inherits="src=image,validate,src">
 </image>
 </hbox>
-<xbl-text-label class="menu-iconic-text" flex="1" inherits="value=label,crop,highlightable" crop="right">
-</xbl-text-label>
-<xbl-text-label class="menu-iconic-highlightable-text" inherits="text=label,crop,highlightable" crop="right">
-</xbl-text-label>`;
-    let comment = document.createComment("Creating xbl-menucaption-inmenulist");
+<firefox-text-label class="menu-iconic-text" flex="1" inherits="value=label,crop,highlightable" crop="right">
+</firefox-text-label>
+<firefox-text-label class="menu-iconic-highlightable-text" inherits="text=label,crop,highlightable" crop="right">
+</firefox-text-label>`;
+    let comment = document.createComment(
+      "Creating firefox-menucaption-inmenulist"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-menucaption-inmenulist", XblMenucaptionInmenulist);
+customElements.define(
+  "firefox-menucaption-inmenulist",
+  FirefoxMenucaptionInmenulist
+);

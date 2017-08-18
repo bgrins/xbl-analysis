@@ -1,11 +1,13 @@
-class XblToolbarMenubarStub extends BaseElement {
+class FirefoxToolbarMenubarStub extends BaseElement {
   constructor() {
     super();
   }
   connectedCallback() {
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-toolbar-menubar-stub");
+    let comment = document.createComment(
+      "Creating firefox-toolbar-menubar-stub"
+    );
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -27,4 +29,7 @@ class XblToolbarMenubarStub extends BaseElement {
     return null;
   }
 }
-customElements.define("xbl-toolbar-menubar-stub", XblToolbarMenubarStub);
+customElements.define(
+  "firefox-toolbar-menubar-stub",
+  FirefoxToolbarMenubarStub
+);

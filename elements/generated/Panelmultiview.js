@@ -1,4 +1,4 @@
-class XblPanelmultiview extends BaseElement {
+class FirefoxPanelmultiview extends BaseElement {
   constructor() {
     super();
   }
@@ -17,7 +17,7 @@ class XblPanelmultiview extends BaseElement {
 </vbox>
 </stack>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-panelmultiview");
+    let comment = document.createComment("Creating firefox-panelmultiview");
     this.prepend(comment);
 
     try {
@@ -30,4 +30,4 @@ class XblPanelmultiview extends BaseElement {
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-panelmultiview", XblPanelmultiview);
+customElements.define("firefox-panelmultiview", FirefoxPanelmultiview);

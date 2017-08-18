@@ -1,4 +1,4 @@
-class XblMenuitemBase extends XblControlItem {
+class FirefoxMenuitemBase extends FirefoxControlItem {
   constructor() {
     super();
   }
@@ -6,7 +6,7 @@ class XblMenuitemBase extends XblControlItem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    let comment = document.createComment("Creating xbl-menuitem-base");
+    let comment = document.createComment("Creating firefox-menuitem-base");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -30,4 +30,4 @@ class XblMenuitemBase extends XblControlItem {
     undefined;
   }
 }
-customElements.define("xbl-menuitem-base", XblMenuitemBase);
+customElements.define("firefox-menuitem-base", FirefoxMenuitemBase);

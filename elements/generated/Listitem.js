@@ -1,4 +1,4 @@
-class XblListitem extends XblBasetext {
+class FirefoxListitem extends FirefoxBasetext {
   constructor() {
     super();
   }
@@ -10,7 +10,7 @@ class XblListitem extends XblBasetext {
 <listcell inherits="label,crop,disabled,flexlabel">
 </listcell>
 </children>`;
-    let comment = document.createComment("Creating xbl-listitem");
+    let comment = document.createComment("Creating firefox-listitem");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -75,4 +75,4 @@ class XblListitem extends XblBasetext {
     this.dispatchEvent(event);
   }
 }
-customElements.define("xbl-listitem", XblListitem);
+customElements.define("firefox-listitem", FirefoxListitem);

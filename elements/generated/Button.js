@@ -1,4 +1,4 @@
-class XblButton extends XblButtonBase {
+class FirefoxButton extends FirefoxButtonBase {
   constructor() {
     super();
   }
@@ -12,15 +12,15 @@ class XblButton extends XblButtonBase {
 <children>
 <image class="button-icon" inherits="src=image">
 </image>
-<xbl-text-label class="button-text" inherits="value=label,accesskey,crop,highlightable">
-</xbl-text-label>
-<xbl-text-label class="button-highlightable-text" inherits="text=label,accesskey,crop,highlightable">
-</xbl-text-label>
+<firefox-text-label class="button-text" inherits="value=label,accesskey,crop,highlightable">
+</firefox-text-label>
+<firefox-text-label class="button-highlightable-text" inherits="text=label,accesskey,crop,highlightable">
+</firefox-text-label>
 </children>
 </hbox>`;
-    let comment = document.createComment("Creating xbl-button");
+    let comment = document.createComment("Creating firefox-button");
     this.prepend(comment);
   }
   disconnectedCallback() {}
 }
-customElements.define("xbl-button", XblButton);
+customElements.define("firefox-button", FirefoxButton);

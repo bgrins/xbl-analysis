@@ -1,4 +1,4 @@
-class XblSpinbuttons extends XblBasecontrol {
+class FirefoxSpinbuttons extends FirefoxBasecontrol {
   constructor() {
     super();
   }
@@ -12,7 +12,7 @@ class XblSpinbuttons extends XblBasecontrol {
 <button anonid="decreaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-down" inherits="disabled,disabled=decreasedisabled">
 </button>
 </vbox>`;
-    let comment = document.createComment("Creating xbl-spinbuttons");
+    let comment = document.createComment("Creating firefox-spinbuttons");
     this.prepend(comment);
   }
   disconnectedCallback() {}
@@ -45,4 +45,4 @@ class XblSpinbuttons extends XblBasecontrol {
     return this._decreaseButton.getAttribute("disabled") == "true";
   }
 }
-customElements.define("xbl-spinbuttons", XblSpinbuttons);
+customElements.define("firefox-spinbuttons", FirefoxSpinbuttons);
