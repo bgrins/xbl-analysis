@@ -28,6 +28,10 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
           "resource://gre/modules/AppConstants.jsm",
           {}
         ).AppConstants);
+      },
+      set(val) {
+        delete this["AppConstants"];
+        return (this["AppConstants"] = val);
       }
     });
     Object.defineProperty(this, "_indicatorBar", {
@@ -40,6 +44,10 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
           "class",
           "menupopup-drop-indicator-bar"
         ));
+      },
+      set(val) {
+        delete this["_indicatorBar"];
+        return (this["_indicatorBar"] = val);
       }
     });
     Object.defineProperty(this, "_scrollBox", {
@@ -52,6 +60,10 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
           "class",
           "popup-internal-box"
         ));
+      },
+      set(val) {
+        delete this["_scrollBox"];
+        return (this["_scrollBox"] = val);
       }
     });
     Object.defineProperty(this, "_rootView", {
@@ -60,6 +72,10 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       get() {
         delete this._rootView;
         return (this._rootView = PlacesUIUtils.getViewForNode(this));
+      },
+      set(val) {
+        delete this["_rootView"];
+        return (this["_rootView"] = val);
       }
     });
     Object.defineProperty(this, "_overFolder", {
@@ -202,6 +218,10 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
             }
           }
         });
+      },
+      set(val) {
+        delete this["_overFolder"];
+        return (this["_overFolder"] = val);
       }
     });
   }

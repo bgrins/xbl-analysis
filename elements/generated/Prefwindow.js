@@ -59,6 +59,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._instantApplyInitialized;
         return (this._instantApplyInitialized = false);
+      },
+      set(val) {
+        delete this["_instantApplyInitialized"];
+        return (this["_instantApplyInitialized"] = val);
       }
     });
     Object.defineProperty(this, "instantApply", {
@@ -67,6 +71,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this.instantApply;
         return (this.instantApply = false);
+      },
+      set(val) {
+        delete this["instantApply"];
+        return (this["instantApply"] = val);
       }
     });
     Object.defineProperty(this, "_currentPane", {
@@ -75,6 +83,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._currentPane;
         return (this._currentPane = null);
+      },
+      set(val) {
+        delete this["_currentPane"];
+        return (this["_currentPane"] = val);
       }
     });
     Object.defineProperty(this, "_initialized", {
@@ -83,6 +95,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._initialized;
         return (this._initialized = false);
+      },
+      set(val) {
+        delete this["_initialized"];
+        return (this["_initialized"] = val);
       }
     });
     Object.defineProperty(this, "_animateTimer", {
@@ -91,6 +107,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._animateTimer;
         return (this._animateTimer = null);
+      },
+      set(val) {
+        delete this["_animateTimer"];
+        return (this["_animateTimer"] = val);
       }
     });
     Object.defineProperty(this, "_fadeTimer", {
@@ -99,6 +119,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._fadeTimer;
         return (this._fadeTimer = null);
+      },
+      set(val) {
+        delete this["_fadeTimer"];
+        return (this["_fadeTimer"] = val);
       }
     });
     Object.defineProperty(this, "_animateDelay", {
@@ -107,6 +131,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._animateDelay;
         return (this._animateDelay = 15);
+      },
+      set(val) {
+        delete this["_animateDelay"];
+        return (this["_animateDelay"] = val);
       }
     });
     Object.defineProperty(this, "_animateIncrement", {
@@ -115,6 +143,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._animateIncrement;
         return (this._animateIncrement = 40);
+      },
+      set(val) {
+        delete this["_animateIncrement"];
+        return (this["_animateIncrement"] = val);
       }
     });
     Object.defineProperty(this, "_fadeDelay", {
@@ -123,6 +155,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._fadeDelay;
         return (this._fadeDelay = 5);
+      },
+      set(val) {
+        delete this["_fadeDelay"];
+        return (this["_fadeDelay"] = val);
       }
     });
     Object.defineProperty(this, "_fadeIncrement", {
@@ -131,6 +167,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._fadeIncrement;
         return (this._fadeIncrement = 0.4);
+      },
+      set(val) {
+        delete this["_fadeIncrement"];
+        return (this["_fadeIncrement"] = val);
       }
     });
     Object.defineProperty(this, "_animateRemainder", {
@@ -139,6 +179,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._animateRemainder;
         return (this._animateRemainder = 0);
+      },
+      set(val) {
+        delete this["_animateRemainder"];
+        return (this["_animateRemainder"] = val);
       }
     });
     Object.defineProperty(this, "_currentHeight", {
@@ -147,6 +191,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._currentHeight;
         return (this._currentHeight = 0);
+      },
+      set(val) {
+        delete this["_currentHeight"];
+        return (this["_currentHeight"] = val);
       }
     });
     Object.defineProperty(this, "_multiplier", {
@@ -155,6 +203,10 @@ class FirefoxPrefwindow extends FirefoxDialog {
       get() {
         delete this._multiplier;
         return (this._multiplier = 0);
+      },
+      set(val) {
+        delete this["_multiplier"];
+        return (this["_multiplier"] = val);
       }
     });
 

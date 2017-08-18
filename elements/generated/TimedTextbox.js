@@ -15,6 +15,10 @@ class FirefoxTimedTextbox extends FirefoxTextbox {
       get() {
         delete this._timer;
         return (this._timer = null);
+      },
+      set(val) {
+        delete this["_timer"];
+        return (this["_timer"] = val);
       }
     });
 

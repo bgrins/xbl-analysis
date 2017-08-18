@@ -23,6 +23,10 @@ class FirefoxFilefield extends FirefoxBasetext {
       get() {
         delete this._file;
         return (this._file = null);
+      },
+      set(val) {
+        delete this["_file"];
+        return (this["_file"] = val);
       }
     });
   }

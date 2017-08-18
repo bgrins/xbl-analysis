@@ -49,6 +49,10 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       get() {
         delete this._boundaryCutoff;
         return (this._boundaryCutoff = null);
+      },
+      set(val) {
+        delete this["_boundaryCutoff"];
+        return (this["_boundaryCutoff"] = val);
       }
     });
     Object.defineProperty(this, "_inOverflow", {
@@ -57,6 +61,10 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       get() {
         delete this._inOverflow;
         return (this._inOverflow = false);
+      },
+      set(val) {
+        delete this["_inOverflow"];
+        return (this["_inOverflow"] = val);
       }
     });
     Object.defineProperty(this, "_textToSubURI", {
@@ -65,6 +73,10 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       get() {
         delete this._textToSubURI;
         return (this._textToSubURI = null);
+      },
+      set(val) {
+        delete this["_textToSubURI"];
+        return (this["_textToSubURI"] = val);
       }
     });
 

@@ -29,6 +29,10 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       get() {
         delete this._scrollIndex;
         return (this._scrollIndex = 0);
+      },
+      set(val) {
+        delete this["_scrollIndex"];
+        return (this["_scrollIndex"] = val);
       }
     });
     Object.defineProperty(this, "_scrollDelay", {
@@ -37,6 +41,10 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       get() {
         delete this._scrollDelay;
         return (this._scrollDelay = 150);
+      },
+      set(val) {
+        delete this["_scrollDelay"];
+        return (this["_scrollDelay"] = val);
       }
     });
 

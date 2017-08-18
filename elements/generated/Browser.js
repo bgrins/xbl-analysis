@@ -16,6 +16,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._sameProcessAsFrameLoader;
         return (this._sameProcessAsFrameLoader = null);
+      },
+      set(val) {
+        delete this["_sameProcessAsFrameLoader"];
+        return (this["_sameProcessAsFrameLoader"] = val);
       }
     });
     Object.defineProperty(this, "_docShell", {
@@ -24,6 +28,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._docShell;
         return (this._docShell = null);
+      },
+      set(val) {
+        delete this["_docShell"];
+        return (this["_docShell"] = val);
       }
     });
     Object.defineProperty(this, "_loadContext", {
@@ -32,6 +40,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._loadContext;
         return (this._loadContext = null);
+      },
+      set(val) {
+        delete this["_loadContext"];
+        return (this["_loadContext"] = val);
       }
     });
     Object.defineProperty(this, "_webNavigation", {
@@ -40,6 +52,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._webNavigation;
         return (this._webNavigation = null);
+      },
+      set(val) {
+        delete this["_webNavigation"];
+        return (this["_webNavigation"] = val);
       }
     });
     Object.defineProperty(this, "_webBrowserFind", {
@@ -48,6 +64,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._webBrowserFind;
         return (this._webBrowserFind = null);
+      },
+      set(val) {
+        delete this["_webBrowserFind"];
+        return (this["_webBrowserFind"] = val);
       }
     });
     Object.defineProperty(this, "_finder", {
@@ -56,6 +76,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._finder;
         return (this._finder = null);
+      },
+      set(val) {
+        delete this["_finder"];
+        return (this["_finder"] = val);
       }
     });
     Object.defineProperty(this, "_fastFind", {
@@ -64,6 +88,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._fastFind;
         return (this._fastFind = null);
+      },
+      set(val) {
+        delete this["_fastFind"];
+        return (this["_fastFind"] = val);
       }
     });
     Object.defineProperty(this, "_lastSearchString", {
@@ -72,6 +100,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._lastSearchString;
         return (this._lastSearchString = null);
+      },
+      set(val) {
+        delete this["_lastSearchString"];
+        return (this["_lastSearchString"] = val);
       }
     });
     Object.defineProperty(this, "_contentWindow", {
@@ -80,6 +112,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._contentWindow;
         return (this._contentWindow = null);
+      },
+      set(val) {
+        delete this["_contentWindow"];
+        return (this["_contentWindow"] = val);
       }
     });
     Object.defineProperty(this, "mPrefs", {
@@ -90,6 +126,10 @@ class FirefoxBrowser extends BaseElement {
         return (this.mPrefs = Components.classes[
           "@mozilla.org/preferences-service;1"
         ].getService(Components.interfaces.nsIPrefBranch));
+      },
+      set(val) {
+        delete this["mPrefs"];
+        return (this["mPrefs"] = val);
       }
     });
     Object.defineProperty(this, "_mStrBundle", {
@@ -98,6 +138,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._mStrBundle;
         return (this._mStrBundle = null);
+      },
+      set(val) {
+        delete this["_mStrBundle"];
+        return (this["_mStrBundle"] = val);
       }
     });
     Object.defineProperty(this, "blockedPopups", {
@@ -106,6 +150,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this.blockedPopups;
         return (this.blockedPopups = null);
+      },
+      set(val) {
+        delete this["blockedPopups"];
+        return (this["blockedPopups"] = val);
       }
     });
     Object.defineProperty(this, "_audioMuted", {
@@ -114,6 +162,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._audioMuted;
         return (this._audioMuted = false);
+      },
+      set(val) {
+        delete this["_audioMuted"];
+        return (this["_audioMuted"] = val);
       }
     });
     Object.defineProperty(this, "_mediaBlocked", {
@@ -122,6 +174,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._mediaBlocked;
         return (this._mediaBlocked = true);
+      },
+      set(val) {
+        delete this["_mediaBlocked"];
+        return (this["_mediaBlocked"] = val);
       }
     });
     Object.defineProperty(this, "_hasAnyPlayingMediaBeenBlocked", {
@@ -130,6 +186,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._hasAnyPlayingMediaBeenBlocked;
         return (this._hasAnyPlayingMediaBeenBlocked = false);
+      },
+      set(val) {
+        delete this["_hasAnyPlayingMediaBeenBlocked"];
+        return (this["_hasAnyPlayingMediaBeenBlocked"] = val);
       }
     });
     Object.defineProperty(this, "_shouldSendUnselectedTabHover", {
@@ -138,6 +198,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._shouldSendUnselectedTabHover;
         return (this._shouldSendUnselectedTabHover = false);
+      },
+      set(val) {
+        delete this["_shouldSendUnselectedTabHover"];
+        return (this["_shouldSendUnselectedTabHover"] = val);
       }
     });
     Object.defineProperty(this, "_unselectedTabHoverMessageListenerCount", {
@@ -146,6 +210,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._unselectedTabHoverMessageListenerCount;
         return (this._unselectedTabHoverMessageListenerCount = 0);
+      },
+      set(val) {
+        delete this["_unselectedTabHoverMessageListenerCount"];
+        return (this["_unselectedTabHoverMessageListenerCount"] = val);
       }
     });
     Object.defineProperty(this, "urlbarChangeTracker", {
@@ -166,6 +234,10 @@ class FirefoxBrowser extends BaseElement {
             this._startedLoadSinceLastUserTyping = false;
           }
         });
+      },
+      set(val) {
+        delete this["urlbarChangeTracker"];
+        return (this["urlbarChangeTracker"] = val);
       }
     });
     Object.defineProperty(this, "_userTypedValue", {
@@ -174,6 +246,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._userTypedValue;
         return (this._userTypedValue = null);
+      },
+      set(val) {
+        delete this["_userTypedValue"];
+        return (this["_userTypedValue"] = val);
       }
     });
     Object.defineProperty(this, "mFormFillAttached", {
@@ -182,6 +258,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this.mFormFillAttached;
         return (this.mFormFillAttached = false);
+      },
+      set(val) {
+        delete this["mFormFillAttached"];
+        return (this["mFormFillAttached"] = val);
       }
     });
     Object.defineProperty(this, "isShowingMessage", {
@@ -190,6 +270,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this.isShowingMessage;
         return (this.isShowingMessage = false);
+      },
+      set(val) {
+        delete this["isShowingMessage"];
+        return (this["isShowingMessage"] = val);
       }
     });
     Object.defineProperty(this, "droppedLinkHandler", {
@@ -198,6 +282,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this.droppedLinkHandler;
         return (this.droppedLinkHandler = null);
+      },
+      set(val) {
+        delete this["droppedLinkHandler"];
+        return (this["droppedLinkHandler"] = val);
       }
     });
     Object.defineProperty(this, "mIconURL", {
@@ -206,6 +294,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this.mIconURL;
         return (this.mIconURL = null);
+      },
+      set(val) {
+        delete this["mIconURL"];
+        return (this["mIconURL"] = val);
       }
     });
     Object.defineProperty(this, "lastURI", {
@@ -214,6 +306,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this.lastURI;
         return (this.lastURI = null);
+      },
+      set(val) {
+        delete this["lastURI"];
+        return (this["lastURI"] = val);
       }
     });
     Object.defineProperty(this, "mDestroyed", {
@@ -222,6 +318,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this.mDestroyed;
         return (this.mDestroyed = false);
+      },
+      set(val) {
+        delete this["mDestroyed"];
+        return (this["mDestroyed"] = val);
       }
     });
     Object.defineProperty(this, "_AUTOSCROLL_SNAP", {
@@ -230,6 +330,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._AUTOSCROLL_SNAP;
         return (this._AUTOSCROLL_SNAP = 10);
+      },
+      set(val) {
+        delete this["_AUTOSCROLL_SNAP"];
+        return (this["_AUTOSCROLL_SNAP"] = val);
       }
     });
     Object.defineProperty(this, "_scrolling", {
@@ -238,6 +342,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._scrolling;
         return (this._scrolling = false);
+      },
+      set(val) {
+        delete this["_scrolling"];
+        return (this["_scrolling"] = val);
       }
     });
     Object.defineProperty(this, "_startX", {
@@ -246,6 +354,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._startX;
         return (this._startX = null);
+      },
+      set(val) {
+        delete this["_startX"];
+        return (this["_startX"] = val);
       }
     });
     Object.defineProperty(this, "_startY", {
@@ -254,6 +366,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._startY;
         return (this._startY = null);
+      },
+      set(val) {
+        delete this["_startY"];
+        return (this["_startY"] = val);
       }
     });
     Object.defineProperty(this, "_autoScrollPopup", {
@@ -262,6 +378,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._autoScrollPopup;
         return (this._autoScrollPopup = null);
+      },
+      set(val) {
+        delete this["_autoScrollPopup"];
+        return (this["_autoScrollPopup"] = val);
       }
     });
     Object.defineProperty(this, "_autoScrollNeedsCleanup", {
@@ -270,6 +390,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._autoScrollNeedsCleanup;
         return (this._autoScrollNeedsCleanup = false);
+      },
+      set(val) {
+        delete this["_autoScrollNeedsCleanup"];
+        return (this["_autoScrollNeedsCleanup"] = val);
       }
     });
     Object.defineProperty(this, "_autoScrollScrollId", {
@@ -278,6 +402,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._autoScrollScrollId;
         return (this._autoScrollScrollId = null);
+      },
+      set(val) {
+        delete this["_autoScrollScrollId"];
+        return (this["_autoScrollScrollId"] = val);
       }
     });
     Object.defineProperty(this, "_autoScrollPresShellId", {
@@ -286,6 +414,10 @@ class FirefoxBrowser extends BaseElement {
       get() {
         delete this._autoScrollPresShellId;
         return (this._autoScrollPresShellId = null);
+      },
+      set(val) {
+        delete this["_autoScrollPresShellId"];
+        return (this["_autoScrollPresShellId"] = val);
       }
     });
 

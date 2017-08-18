@@ -19,6 +19,10 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       get() {
         delete this.AUTOSCROLL_INTERVAL;
         return (this.AUTOSCROLL_INTERVAL = 25);
+      },
+      set(val) {
+        delete this["AUTOSCROLL_INTERVAL"];
+        return (this["AUTOSCROLL_INTERVAL"] = val);
       }
     });
     Object.defineProperty(this, "NOT_DRAGGING", {
@@ -27,6 +31,10 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       get() {
         delete this.NOT_DRAGGING;
         return (this.NOT_DRAGGING = 0);
+      },
+      set(val) {
+        delete this["NOT_DRAGGING"];
+        return (this["NOT_DRAGGING"] = val);
       }
     });
     Object.defineProperty(this, "DRAG_OVER_BUTTON", {
@@ -35,6 +43,10 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       get() {
         delete this.DRAG_OVER_BUTTON;
         return (this.DRAG_OVER_BUTTON = -1);
+      },
+      set(val) {
+        delete this["DRAG_OVER_BUTTON"];
+        return (this["DRAG_OVER_BUTTON"] = val);
       }
     });
     Object.defineProperty(this, "DRAG_OVER_POPUP", {
@@ -43,6 +55,10 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       get() {
         delete this.DRAG_OVER_POPUP;
         return (this.DRAG_OVER_POPUP = 1);
+      },
+      set(val) {
+        delete this["DRAG_OVER_POPUP"];
+        return (this["DRAG_OVER_POPUP"] = val);
       }
     });
     Object.defineProperty(this, "_draggingState", {
@@ -51,6 +67,10 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       get() {
         delete this._draggingState;
         return (this._draggingState = this.NOT_DRAGGING);
+      },
+      set(val) {
+        delete this["_draggingState"];
+        return (this["_draggingState"] = val);
       }
     });
     Object.defineProperty(this, "_scrollTimer", {
@@ -59,6 +79,10 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       get() {
         delete this._scrollTimer;
         return (this._scrollTimer = 0);
+      },
+      set(val) {
+        delete this["_scrollTimer"];
+        return (this["_scrollTimer"] = val);
       }
     });
   }

@@ -51,6 +51,10 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
       get() {
         delete this._spellCheckInitialized;
         return (this._spellCheckInitialized = false);
+      },
+      set(val) {
+        delete this["_spellCheckInitialized"];
+        return (this["_spellCheckInitialized"] = val);
       }
     });
     Object.defineProperty(this, "_enabledCheckbox", {
@@ -63,6 +67,10 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
           "anonid",
           "spell-check-enabled"
         ));
+      },
+      set(val) {
+        delete this["_enabledCheckbox"];
+        return (this["_enabledCheckbox"] = val);
       }
     });
     Object.defineProperty(this, "_suggestionsSeparator", {
@@ -75,6 +83,10 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
           "anonid",
           "spell-no-suggestions"
         ));
+      },
+      set(val) {
+        delete this["_suggestionsSeparator"];
+        return (this["_suggestionsSeparator"] = val);
       }
     });
     Object.defineProperty(this, "_dictionariesMenu", {
@@ -87,6 +99,10 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
           "anonid",
           "spell-dictionaries-menu"
         ));
+      },
+      set(val) {
+        delete this["_dictionariesMenu"];
+        return (this["_dictionariesMenu"] = val);
       }
     });
   }

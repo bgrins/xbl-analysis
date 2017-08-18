@@ -23,6 +23,10 @@ class FirefoxPopup extends FirefoxPopupBase {
           "class",
           "popup-internal-box"
         ));
+      },
+      set(val) {
+        delete this["scrollBox"];
+        return (this["scrollBox"] = val);
       }
     });
   }

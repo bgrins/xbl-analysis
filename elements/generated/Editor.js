@@ -43,6 +43,10 @@ class FirefoxEditor extends BaseElement {
           loadCookie: null,
           parentContentListener: null
         });
+      },
+      set(val) {
+        delete this["_editorContentListener"];
+        return (this["_editorContentListener"] = val);
       }
     });
     Object.defineProperty(this, "_finder", {
@@ -51,6 +55,10 @@ class FirefoxEditor extends BaseElement {
       get() {
         delete this._finder;
         return (this._finder = null);
+      },
+      set(val) {
+        delete this["_finder"];
+        return (this["_finder"] = val);
       }
     });
     Object.defineProperty(this, "_fastFind", {
@@ -59,6 +67,10 @@ class FirefoxEditor extends BaseElement {
       get() {
         delete this._fastFind;
         return (this._fastFind = null);
+      },
+      set(val) {
+        delete this["_fastFind"];
+        return (this["_fastFind"] = val);
       }
     });
     Object.defineProperty(this, "_lastSearchString", {
@@ -67,6 +79,10 @@ class FirefoxEditor extends BaseElement {
       get() {
         delete this._lastSearchString;
         return (this._lastSearchString = null);
+      },
+      set(val) {
+        delete this["_lastSearchString"];
+        return (this["_lastSearchString"] = val);
       }
     });
 

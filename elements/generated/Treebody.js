@@ -15,6 +15,10 @@ class FirefoxTreebody extends FirefoxTreeBase {
       get() {
         delete this._lastSelectedRow;
         return (this._lastSelectedRow = -1);
+      },
+      set(val) {
+        delete this["_lastSelectedRow"];
+        return (this["_lastSelectedRow"] = val);
       }
     });
 

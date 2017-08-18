@@ -43,6 +43,10 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       get() {
         delete this.muteReason;
         return (this.muteReason = undefined);
+      },
+      set(val) {
+        delete this["muteReason"];
+        return (this["muteReason"] = val);
       }
     });
     Object.defineProperty(this, "mOverCloseButton", {
@@ -51,6 +55,10 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       get() {
         delete this.mOverCloseButton;
         return (this.mOverCloseButton = false);
+      },
+      set(val) {
+        delete this["mOverCloseButton"];
+        return (this["mOverCloseButton"] = val);
       }
     });
     Object.defineProperty(this, "mCorrespondingMenuitem", {
@@ -59,6 +67,10 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       get() {
         delete this.mCorrespondingMenuitem;
         return (this.mCorrespondingMenuitem = null);
+      },
+      set(val) {
+        delete this["mCorrespondingMenuitem"];
+        return (this["mCorrespondingMenuitem"] = val);
       }
     });
 

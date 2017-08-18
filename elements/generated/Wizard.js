@@ -25,6 +25,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this.pageCount;
         return (this.pageCount = 0);
+      },
+      set(val) {
+        delete this["pageCount"];
+        return (this["pageCount"] = val);
       }
     });
     Object.defineProperty(this, "_accessMethod", {
@@ -33,6 +37,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._accessMethod;
         return (this._accessMethod = null);
+      },
+      set(val) {
+        delete this["_accessMethod"];
+        return (this["_accessMethod"] = val);
       }
     });
     Object.defineProperty(this, "_pageStack", {
@@ -41,6 +49,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._pageStack;
         return (this._pageStack = null);
+      },
+      set(val) {
+        delete this["_pageStack"];
+        return (this["_pageStack"] = val);
       }
     });
     Object.defineProperty(this, "_currentPage", {
@@ -49,6 +61,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._currentPage;
         return (this._currentPage = null);
+      },
+      set(val) {
+        delete this["_currentPage"];
+        return (this["_currentPage"] = val);
       }
     });
     Object.defineProperty(this, "_canAdvance", {
@@ -57,6 +73,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._canAdvance;
         return (this._canAdvance = "");
+      },
+      set(val) {
+        delete this["_canAdvance"];
+        return (this["_canAdvance"] = val);
       }
     });
     Object.defineProperty(this, "_canRewind", {
@@ -65,6 +85,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._canRewind;
         return (this._canRewind = "");
+      },
+      set(val) {
+        delete this["_canRewind"];
+        return (this["_canRewind"] = val);
       }
     });
     Object.defineProperty(this, "_wizardHeader", {
@@ -73,6 +97,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._wizardHeader;
         return (this._wizardHeader = "");
+      },
+      set(val) {
+        delete this["_wizardHeader"];
+        return (this["_wizardHeader"] = val);
       }
     });
     Object.defineProperty(this, "_wizardButtons", {
@@ -81,6 +109,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._wizardButtons;
         return (this._wizardButtons = "");
+      },
+      set(val) {
+        delete this["_wizardButtons"];
+        return (this["_wizardButtons"] = val);
       }
     });
     Object.defineProperty(this, "_deck", {
@@ -89,6 +121,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._deck;
         return (this._deck = "");
+      },
+      set(val) {
+        delete this["_deck"];
+        return (this["_deck"] = val);
       }
     });
     Object.defineProperty(this, "_backButton", {
@@ -97,6 +133,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._backButton;
         return (this._backButton = "");
+      },
+      set(val) {
+        delete this["_backButton"];
+        return (this["_backButton"] = val);
       }
     });
     Object.defineProperty(this, "_nextButton", {
@@ -105,6 +145,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._nextButton;
         return (this._nextButton = "");
+      },
+      set(val) {
+        delete this["_nextButton"];
+        return (this["_nextButton"] = val);
       }
     });
     Object.defineProperty(this, "_cancelButton", {
@@ -113,6 +157,10 @@ class FirefoxWizard extends FirefoxRootElement {
       get() {
         delete this._cancelButton;
         return (this._cancelButton = "");
+      },
+      set(val) {
+        delete this["_cancelButton"];
+        return (this["_cancelButton"] = val);
       }
     });
     Object.defineProperty(this, "_backFunc", {
@@ -123,6 +171,10 @@ class FirefoxWizard extends FirefoxRootElement {
         return (this._backFunc = function() {
           document.documentElement.rewind();
         });
+      },
+      set(val) {
+        delete this["_backFunc"];
+        return (this["_backFunc"] = val);
       }
     });
     Object.defineProperty(this, "_nextFunc", {
@@ -133,6 +185,10 @@ class FirefoxWizard extends FirefoxRootElement {
         return (this._nextFunc = function() {
           document.documentElement.advance();
         });
+      },
+      set(val) {
+        delete this["_nextFunc"];
+        return (this["_nextFunc"] = val);
       }
     });
     Object.defineProperty(this, "_finishFunc", {
@@ -143,6 +199,10 @@ class FirefoxWizard extends FirefoxRootElement {
         return (this._finishFunc = function() {
           document.documentElement.advance();
         });
+      },
+      set(val) {
+        delete this["_finishFunc"];
+        return (this["_finishFunc"] = val);
       }
     });
     Object.defineProperty(this, "_cancelFunc", {
@@ -153,6 +213,10 @@ class FirefoxWizard extends FirefoxRootElement {
         return (this._cancelFunc = function() {
           document.documentElement.cancel();
         });
+      },
+      set(val) {
+        delete this["_cancelFunc"];
+        return (this["_cancelFunc"] = val);
       }
     });
     Object.defineProperty(this, "_extra1Func", {
@@ -163,6 +227,10 @@ class FirefoxWizard extends FirefoxRootElement {
         return (this._extra1Func = function() {
           document.documentElement.extra1();
         });
+      },
+      set(val) {
+        delete this["_extra1Func"];
+        return (this["_extra1Func"] = val);
       }
     });
     Object.defineProperty(this, "_extra2Func", {
@@ -173,6 +241,10 @@ class FirefoxWizard extends FirefoxRootElement {
         return (this._extra2Func = function() {
           document.documentElement.extra2();
         });
+      },
+      set(val) {
+        delete this["_extra2Func"];
+        return (this["_extra2Func"] = val);
       }
     });
     Object.defineProperty(this, "_closeHandler", {
@@ -183,6 +255,10 @@ class FirefoxWizard extends FirefoxRootElement {
         return (this._closeHandler = function(event) {
           if (document.documentElement.cancel()) event.preventDefault();
         });
+      },
+      set(val) {
+        delete this["_closeHandler"];
+        return (this["_closeHandler"] = val);
       }
     });
 

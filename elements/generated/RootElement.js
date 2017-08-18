@@ -14,6 +14,10 @@ class FirefoxRootElement extends BaseElement {
       get() {
         delete this._lightweightTheme;
         return (this._lightweightTheme = null);
+      },
+      set(val) {
+        delete this["_lightweightTheme"];
+        return (this["_lightweightTheme"] = val);
       }
     });
 

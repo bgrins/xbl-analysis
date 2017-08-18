@@ -49,6 +49,10 @@ class FirefoxDialog extends FirefoxRootElement {
       get() {
         delete this._mStrBundle;
         return (this._mStrBundle = null);
+      },
+      set(val) {
+        delete this["_mStrBundle"];
+        return (this["_mStrBundle"] = val);
       }
     });
     Object.defineProperty(this, "_closeHandler", {
@@ -59,6 +63,10 @@ class FirefoxDialog extends FirefoxRootElement {
         return (this._closeHandler = function(event) {
           if (!document.documentElement.cancelDialog()) event.preventDefault();
         });
+      },
+      set(val) {
+        delete this["_closeHandler"];
+        return (this["_closeHandler"] = val);
       }
     });
 

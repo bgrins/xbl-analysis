@@ -33,6 +33,10 @@ class FirefoxTree extends FirefoxTreeBase {
         return (this.pageUpOrDownMovesSelection = !/Mac/.test(
           navigator.platform
         ));
+      },
+      set(val) {
+        delete this["pageUpOrDownMovesSelection"];
+        return (this["pageUpOrDownMovesSelection"] = val);
       }
     });
     Object.defineProperty(this, "_inputField", {
@@ -41,6 +45,10 @@ class FirefoxTree extends FirefoxTreeBase {
       get() {
         delete this._inputField;
         return (this._inputField = null);
+      },
+      set(val) {
+        delete this["_inputField"];
+        return (this["_inputField"] = val);
       }
     });
     Object.defineProperty(this, "_editingRow", {
@@ -49,6 +57,10 @@ class FirefoxTree extends FirefoxTreeBase {
       get() {
         delete this._editingRow;
         return (this._editingRow = -1);
+      },
+      set(val) {
+        delete this["_editingRow"];
+        return (this["_editingRow"] = val);
       }
     });
     Object.defineProperty(this, "_editingColumn", {
@@ -57,6 +69,10 @@ class FirefoxTree extends FirefoxTreeBase {
       get() {
         delete this._editingColumn;
         return (this._editingColumn = null);
+      },
+      set(val) {
+        delete this["_editingColumn"];
+        return (this["_editingColumn"] = val);
       }
     });
     Object.defineProperty(this, "_columnsDirty", {
@@ -65,6 +81,10 @@ class FirefoxTree extends FirefoxTreeBase {
       get() {
         delete this._columnsDirty;
         return (this._columnsDirty = true);
+      },
+      set(val) {
+        delete this["_columnsDirty"];
+        return (this["_columnsDirty"] = val);
       }
     });
     Object.defineProperty(this, "_lastKeyTime", {
@@ -73,6 +93,10 @@ class FirefoxTree extends FirefoxTreeBase {
       get() {
         delete this._lastKeyTime;
         return (this._lastKeyTime = 0);
+      },
+      set(val) {
+        delete this["_lastKeyTime"];
+        return (this["_lastKeyTime"] = val);
       }
     });
     Object.defineProperty(this, "_incrementalString", {
@@ -81,6 +105,10 @@ class FirefoxTree extends FirefoxTreeBase {
       get() {
         delete this._incrementalString;
         return (this._incrementalString = "");
+      },
+      set(val) {
+        delete this["_incrementalString"];
+        return (this["_incrementalString"] = val);
       }
     });
     Object.defineProperty(this, "_touchY", {
@@ -89,6 +117,10 @@ class FirefoxTree extends FirefoxTreeBase {
       get() {
         delete this._touchY;
         return (this._touchY = -1);
+      },
+      set(val) {
+        delete this["_touchY"];
+        return (this["_touchY"] = val);
       }
     });
   }

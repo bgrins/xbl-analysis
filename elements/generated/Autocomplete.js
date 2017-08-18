@@ -35,6 +35,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this.mController;
         return (this.mController = null);
+      },
+      set(val) {
+        delete this["mController"];
+        return (this["mController"] = val);
       }
     });
     Object.defineProperty(this, "mSearchNames", {
@@ -43,6 +47,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this.mSearchNames;
         return (this.mSearchNames = null);
+      },
+      set(val) {
+        delete this["mSearchNames"];
+        return (this["mSearchNames"] = val);
       }
     });
     Object.defineProperty(this, "mIgnoreInput", {
@@ -51,6 +59,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this.mIgnoreInput;
         return (this.mIgnoreInput = false);
+      },
+      set(val) {
+        delete this["mIgnoreInput"];
+        return (this["mIgnoreInput"] = val);
       }
     });
     Object.defineProperty(this, "_searchBeginHandler", {
@@ -59,6 +71,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this._searchBeginHandler;
         return (this._searchBeginHandler = null);
+      },
+      set(val) {
+        delete this["_searchBeginHandler"];
+        return (this["_searchBeginHandler"] = val);
       }
     });
     Object.defineProperty(this, "_searchCompleteHandler", {
@@ -67,6 +83,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this._searchCompleteHandler;
         return (this._searchCompleteHandler = null);
+      },
+      set(val) {
+        delete this["_searchCompleteHandler"];
+        return (this["_searchCompleteHandler"] = val);
       }
     });
     Object.defineProperty(this, "_textEnteredHandler", {
@@ -75,6 +95,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this._textEnteredHandler;
         return (this._textEnteredHandler = null);
+      },
+      set(val) {
+        delete this["_textEnteredHandler"];
+        return (this["_textEnteredHandler"] = val);
       }
     });
     Object.defineProperty(this, "_textRevertedHandler", {
@@ -83,6 +107,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this._textRevertedHandler;
         return (this._textRevertedHandler = null);
+      },
+      set(val) {
+        delete this["_textRevertedHandler"];
+        return (this["_textRevertedHandler"] = val);
       }
     });
     Object.defineProperty(this, "_popup", {
@@ -91,6 +119,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this._popup;
         return (this._popup = null);
+      },
+      set(val) {
+        delete this["_popup"];
+        return (this["_popup"] = val);
       }
     });
     Object.defineProperty(this, "shrinkDelay", {
@@ -100,6 +132,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
         delete this.shrinkDelay;
         return (this.shrinkDelay =
           parseInt(this.getAttribute("shrinkdelay")) || 0);
+      },
+      set(val) {
+        delete this["shrinkDelay"];
+        return (this["shrinkDelay"] = val);
       }
     });
     Object.defineProperty(this, "maxDropMarkerRows", {
@@ -108,6 +144,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this.maxDropMarkerRows;
         return (this.maxDropMarkerRows = 14);
+      },
+      set(val) {
+        delete this["maxDropMarkerRows"];
+        return (this["maxDropMarkerRows"] = val);
       }
     });
     Object.defineProperty(this, "valueIsTyped", {
@@ -116,6 +156,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this.valueIsTyped;
         return (this.valueIsTyped = false);
+      },
+      set(val) {
+        delete this["valueIsTyped"];
+        return (this["valueIsTyped"] = val);
       }
     });
     Object.defineProperty(this, "_disableTrim", {
@@ -124,6 +168,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this._disableTrim;
         return (this._disableTrim = false);
+      },
+      set(val) {
+        delete this["_disableTrim"];
+        return (this["_disableTrim"] = val);
       }
     });
     Object.defineProperty(this, "_selectionDetails", {
@@ -132,6 +180,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this._selectionDetails;
         return (this._selectionDetails = null);
+      },
+      set(val) {
+        delete this["_selectionDetails"];
+        return (this["_selectionDetails"] = val);
       }
     });
     Object.defineProperty(this, "_valueIsPasted", {
@@ -140,6 +192,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this._valueIsPasted;
         return (this._valueIsPasted = false);
+      },
+      set(val) {
+        delete this["_valueIsPasted"];
+        return (this["_valueIsPasted"] = val);
       }
     });
     Object.defineProperty(this, "_pasteController", {
@@ -165,6 +221,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
           },
           onEvent() {}
         });
+      },
+      set(val) {
+        delete this["_pasteController"];
+        return (this["_pasteController"] = val);
       }
     });
 

@@ -17,6 +17,10 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
       get() {
         delete this.mLastMoveTime;
         return (this.mLastMoveTime = Date.now());
+      },
+      set(val) {
+        delete this["mLastMoveTime"];
+        return (this["mLastMoveTime"] = val);
       }
     });
     Object.defineProperty(this, "mousedOverIndex", {
@@ -25,6 +29,10 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
       get() {
         delete this.mousedOverIndex;
         return (this.mousedOverIndex = -1);
+      },
+      set(val) {
+        delete this["mousedOverIndex"];
+        return (this["mousedOverIndex"] = val);
       }
     });
   }

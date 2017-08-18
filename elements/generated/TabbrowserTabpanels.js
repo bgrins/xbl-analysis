@@ -17,6 +17,10 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
       get() {
         delete this._selectedIndex;
         return (this._selectedIndex = 0);
+      },
+      set(val) {
+        delete this["_selectedIndex"];
+        return (this["_selectedIndex"] = val);
       }
     });
   }

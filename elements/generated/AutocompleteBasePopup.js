@@ -17,6 +17,10 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       get() {
         delete this.mInput;
         return (this.mInput = null);
+      },
+      set(val) {
+        delete this["mInput"];
+        return (this["mInput"] = val);
       }
     });
     Object.defineProperty(this, "mPopupOpen", {
@@ -25,6 +29,10 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       get() {
         delete this.mPopupOpen;
         return (this.mPopupOpen = false);
+      },
+      set(val) {
+        delete this["mPopupOpen"];
+        return (this["mPopupOpen"] = val);
       }
     });
     Object.defineProperty(this, "mIsPopupHidingTick", {
@@ -33,6 +41,10 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       get() {
         delete this.mIsPopupHidingTick;
         return (this.mIsPopupHidingTick = false);
+      },
+      set(val) {
+        delete this["mIsPopupHidingTick"];
+        return (this["mIsPopupHidingTick"] = val);
       }
     });
     Object.defineProperty(this, "defaultMaxRows", {
@@ -41,6 +53,10 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       get() {
         delete this.defaultMaxRows;
         return (this.defaultMaxRows = 6);
+      },
+      set(val) {
+        delete this["defaultMaxRows"];
+        return (this["defaultMaxRows"] = val);
       }
     });
     Object.defineProperty(this, "_normalMaxRows", {
@@ -49,6 +65,10 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       get() {
         delete this._normalMaxRows;
         return (this._normalMaxRows = -1);
+      },
+      set(val) {
+        delete this["_normalMaxRows"];
+        return (this["_normalMaxRows"] = val);
       }
     });
   }

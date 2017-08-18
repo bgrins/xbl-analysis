@@ -21,6 +21,10 @@ class FirefoxTab extends FirefoxControlItem {
       get() {
         delete this.arrowKeysShouldWrap;
         return (this.arrowKeysShouldWrap = /Mac/.test(navigator.platform));
+      },
+      set(val) {
+        delete this["arrowKeysShouldWrap"];
+        return (this["arrowKeysShouldWrap"] = val);
       }
     });
   }

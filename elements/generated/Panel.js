@@ -15,6 +15,10 @@ class FirefoxPanel extends FirefoxPopupBase {
       get() {
         delete this._prevFocus;
         return (this._prevFocus = 0);
+      },
+      set(val) {
+        delete this["_prevFocus"];
+        return (this["_prevFocus"] = val);
       }
     });
     Object.defineProperty(this, "_dragBindingAlive", {
@@ -23,6 +27,10 @@ class FirefoxPanel extends FirefoxPopupBase {
       get() {
         delete this._dragBindingAlive;
         return (this._dragBindingAlive = true);
+      },
+      set(val) {
+        delete this["_dragBindingAlive"];
+        return (this["_dragBindingAlive"] = val);
       }
     });
 

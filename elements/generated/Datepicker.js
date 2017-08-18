@@ -15,6 +15,10 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
       get() {
         delete this.yearLeadingZero;
         return (this.yearLeadingZero = false);
+      },
+      set(val) {
+        delete this["yearLeadingZero"];
+        return (this["yearLeadingZero"] = val);
       }
     });
     Object.defineProperty(this, "monthLeadingZero", {
@@ -23,6 +27,10 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
       get() {
         delete this.monthLeadingZero;
         return (this.monthLeadingZero = true);
+      },
+      set(val) {
+        delete this["monthLeadingZero"];
+        return (this["monthLeadingZero"] = val);
       }
     });
     Object.defineProperty(this, "dateLeadingZero", {
@@ -31,6 +39,10 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
       get() {
         delete this.dateLeadingZero;
         return (this.dateLeadingZero = true);
+      },
+      set(val) {
+        delete this["dateLeadingZero"];
+        return (this["dateLeadingZero"] = val);
       }
     });
     Object.defineProperty(this, "yearField", {
@@ -39,6 +51,10 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
       get() {
         delete this.yearField;
         return (this.yearField = "");
+      },
+      set(val) {
+        delete this["yearField"];
+        return (this["yearField"] = val);
       }
     });
     Object.defineProperty(this, "monthField", {
@@ -47,6 +63,10 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
       get() {
         delete this.monthField;
         return (this.monthField = "");
+      },
+      set(val) {
+        delete this["monthField"];
+        return (this["monthField"] = val);
       }
     });
     Object.defineProperty(this, "dateField", {
@@ -55,6 +75,10 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
       get() {
         delete this.dateField;
         return (this.dateField = "");
+      },
+      set(val) {
+        delete this["dateField"];
+        return (this["dateField"] = val);
       }
     });
   }

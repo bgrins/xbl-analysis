@@ -31,6 +31,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
           "anonid",
           "scrollbox"
         ));
+      },
+      set(val) {
+        delete this["_scrollbox"];
+        return (this["_scrollbox"] = val);
       }
     });
     Object.defineProperty(this, "_scrollButtonUp", {
@@ -43,6 +47,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
           "anonid",
           "scrollbutton-up"
         ));
+      },
+      set(val) {
+        delete this["_scrollButtonUp"];
+        return (this["_scrollButtonUp"] = val);
       }
     });
     Object.defineProperty(this, "_scrollButtonDown", {
@@ -55,6 +63,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
           "anonid",
           "scrollbutton-down"
         ));
+      },
+      set(val) {
+        delete this["_scrollButtonDown"];
+        return (this["_scrollButtonDown"] = val);
       }
     });
     Object.defineProperty(this, "__prefBranch", {
@@ -63,6 +75,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       get() {
         delete this.__prefBranch;
         return (this.__prefBranch = null);
+      },
+      set(val) {
+        delete this["__prefBranch"];
+        return (this["__prefBranch"] = val);
       }
     });
     Object.defineProperty(this, "_scrollIncrement", {
@@ -71,6 +87,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       get() {
         delete this._scrollIncrement;
         return (this._scrollIncrement = null);
+      },
+      set(val) {
+        delete this["_scrollIncrement"];
+        return (this["_scrollIncrement"] = val);
       }
     });
     Object.defineProperty(this, "_scrollBoxObject", {
@@ -79,6 +99,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       get() {
         delete this._scrollBoxObject;
         return (this._scrollBoxObject = null);
+      },
+      set(val) {
+        delete this["_scrollBoxObject"];
+        return (this["_scrollBoxObject"] = val);
       }
     });
     Object.defineProperty(this, "_startEndProps", {
@@ -89,6 +113,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
         return (this._startEndProps = this.orient == "vertical"
           ? ["top", "bottom"]
           : ["left", "right"]);
+      },
+      set(val) {
+        delete this["_startEndProps"];
+        return (this["_startEndProps"] = val);
       }
     });
     Object.defineProperty(this, "_isRTLScrollbox", {
@@ -100,6 +128,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
           this.orient != "vertical" &&
           document.defaultView.getComputedStyle(this._scrollbox).direction ==
             "rtl");
+      },
+      set(val) {
+        delete this["_isRTLScrollbox"];
+        return (this["_isRTLScrollbox"] = val);
       }
     });
     Object.defineProperty(this, "_scrollTarget", {
@@ -108,6 +140,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       get() {
         delete this._scrollTarget;
         return (this._scrollTarget = null);
+      },
+      set(val) {
+        delete this["_scrollTarget"];
+        return (this["_scrollTarget"] = val);
       }
     });
     Object.defineProperty(this, "_prevMouseScrolls", {
@@ -116,6 +152,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       get() {
         delete this._prevMouseScrolls;
         return (this._prevMouseScrolls = [null, null]);
+      },
+      set(val) {
+        delete this["_prevMouseScrolls"];
+        return (this["_prevMouseScrolls"] = val);
       }
     });
     Object.defineProperty(this, "_touchStart", {
@@ -124,6 +164,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       get() {
         delete this._touchStart;
         return (this._touchStart = -1);
+      },
+      set(val) {
+        delete this["_touchStart"];
+        return (this["_touchStart"] = val);
       }
     });
     Object.defineProperty(this, "_scrollButtonUpdatePending", {
@@ -132,6 +176,10 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       get() {
         delete this._scrollButtonUpdatePending;
         return (this._scrollButtonUpdatePending = false);
+      },
+      set(val) {
+        delete this["_scrollButtonUpdatePending"];
+        return (this["_scrollButtonUpdatePending"] = val);
       }
     });
 

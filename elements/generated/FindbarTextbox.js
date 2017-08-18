@@ -15,6 +15,10 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
       get() {
         delete this._findbar;
         return (this._findbar = null);
+      },
+      set(val) {
+        delete this["_findbar"];
+        return (this["_findbar"] = val);
       }
     });
   }

@@ -16,6 +16,10 @@ class FirefoxAutocompleteTreebody extends BaseElement {
       get() {
         delete this.mLastMoveTime;
         return (this.mLastMoveTime = Date.now());
+      },
+      set(val) {
+        delete this["mLastMoveTime"];
+        return (this["mLastMoveTime"] = val);
       }
     });
   }

@@ -19,6 +19,10 @@ class FirefoxTooltip extends FirefoxPopupBase {
       get() {
         delete this._mouseOutCount;
         return (this._mouseOutCount = 0);
+      },
+      set(val) {
+        delete this["_mouseOutCount"];
+        return (this["_mouseOutCount"] = val);
       }
     });
     Object.defineProperty(this, "_isMouseOver", {
@@ -27,6 +31,10 @@ class FirefoxTooltip extends FirefoxPopupBase {
       get() {
         delete this._isMouseOver;
         return (this._isMouseOver = false);
+      },
+      set(val) {
+        delete this["_isMouseOver"];
+        return (this["_isMouseOver"] = val);
       }
     });
   }

@@ -21,6 +21,10 @@ class FirefoxNumberbox extends FirefoxTextbox {
       get() {
         delete this._valueEntered;
         return (this._valueEntered = false);
+      },
+      set(val) {
+        delete this["_valueEntered"];
+        return (this["_valueEntered"] = val);
       }
     });
     Object.defineProperty(this, "_spinButtons", {
@@ -29,6 +33,10 @@ class FirefoxNumberbox extends FirefoxTextbox {
       get() {
         delete this._spinButtons;
         return (this._spinButtons = null);
+      },
+      set(val) {
+        delete this["_spinButtons"];
+        return (this["_spinButtons"] = val);
       }
     });
     Object.defineProperty(this, "_value", {
@@ -37,6 +45,10 @@ class FirefoxNumberbox extends FirefoxTextbox {
       get() {
         delete this._value;
         return (this._value = 0);
+      },
+      set(val) {
+        delete this["_value"];
+        return (this["_value"] = val);
       }
     });
     Object.defineProperty(this, "decimalSymbol", {
@@ -45,6 +57,10 @@ class FirefoxNumberbox extends FirefoxTextbox {
       get() {
         delete this.decimalSymbol;
         return (this.decimalSymbol = ".");
+      },
+      set(val) {
+        delete this["decimalSymbol"];
+        return (this["decimalSymbol"] = val);
       }
     });
 

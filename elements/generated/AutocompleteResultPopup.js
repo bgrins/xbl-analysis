@@ -25,6 +25,10 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
       get() {
         delete this.mShowCommentColumn;
         return (this.mShowCommentColumn = false);
+      },
+      set(val) {
+        delete this["mShowCommentColumn"];
+        return (this["mShowCommentColumn"] = val);
       }
     });
     Object.defineProperty(this, "mShowImageColumn", {
@@ -33,6 +37,10 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
       get() {
         delete this.mShowImageColumn;
         return (this.mShowImageColumn = false);
+      },
+      set(val) {
+        delete this["mShowImageColumn"];
+        return (this["mShowImageColumn"] = val);
       }
     });
     Object.defineProperty(this, "tree", {
@@ -45,6 +53,10 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
           "anonid",
           "tree"
         ));
+      },
+      set(val) {
+        delete this["tree"];
+        return (this["tree"] = val);
       }
     });
     Object.defineProperty(this, "treecols", {
@@ -57,6 +69,10 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
           "anonid",
           "treecols"
         ));
+      },
+      set(val) {
+        delete this["treecols"];
+        return (this["treecols"] = val);
       }
     });
   }

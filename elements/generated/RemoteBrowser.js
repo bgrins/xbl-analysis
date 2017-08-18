@@ -15,6 +15,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._securityUI;
         return (this._securityUI = null);
+      },
+      set(val) {
+        delete this["_securityUI"];
+        return (this["_securityUI"] = val);
       }
     });
     Object.defineProperty(this, "_controller", {
@@ -23,6 +27,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._controller;
         return (this._controller = null);
+      },
+      set(val) {
+        delete this["_controller"];
+        return (this["_controller"] = val);
       }
     });
     Object.defineProperty(this, "_selectParentHelper", {
@@ -31,6 +39,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._selectParentHelper;
         return (this._selectParentHelper = null);
+      },
+      set(val) {
+        delete this["_selectParentHelper"];
+        return (this["_selectParentHelper"] = val);
       }
     });
     Object.defineProperty(this, "_remoteWebNavigation", {
@@ -39,6 +51,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._remoteWebNavigation;
         return (this._remoteWebNavigation = null);
+      },
+      set(val) {
+        delete this["_remoteWebNavigation"];
+        return (this["_remoteWebNavigation"] = val);
       }
     });
     Object.defineProperty(this, "_remoteWebProgress", {
@@ -47,6 +63,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._remoteWebProgress;
         return (this._remoteWebProgress = null);
+      },
+      set(val) {
+        delete this["_remoteWebProgress"];
+        return (this["_remoteWebProgress"] = val);
       }
     });
     Object.defineProperty(this, "_remoteFinder", {
@@ -55,6 +75,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._remoteFinder;
         return (this._remoteFinder = null);
+      },
+      set(val) {
+        delete this["_remoteFinder"];
+        return (this["_remoteFinder"] = val);
       }
     });
     Object.defineProperty(this, "_documentURI", {
@@ -63,6 +87,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._documentURI;
         return (this._documentURI = null);
+      },
+      set(val) {
+        delete this["_documentURI"];
+        return (this["_documentURI"] = val);
       }
     });
     Object.defineProperty(this, "_documentContentType", {
@@ -71,6 +99,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._documentContentType;
         return (this._documentContentType = null);
+      },
+      set(val) {
+        delete this["_documentContentType"];
+        return (this["_documentContentType"] = val);
       }
     });
     Object.defineProperty(this, "_contentTitle", {
@@ -79,6 +111,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._contentTitle;
         return (this._contentTitle = "");
+      },
+      set(val) {
+        delete this["_contentTitle"];
+        return (this["_contentTitle"] = val);
       }
     });
     Object.defineProperty(this, "_characterSet", {
@@ -87,6 +123,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._characterSet;
         return (this._characterSet = "");
+      },
+      set(val) {
+        delete this["_characterSet"];
+        return (this["_characterSet"] = val);
       }
     });
     Object.defineProperty(this, "_mayEnableCharacterEncodingMenu", {
@@ -95,6 +135,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._mayEnableCharacterEncodingMenu;
         return (this._mayEnableCharacterEncodingMenu = null);
+      },
+      set(val) {
+        delete this["_mayEnableCharacterEncodingMenu"];
+        return (this["_mayEnableCharacterEncodingMenu"] = val);
       }
     });
     Object.defineProperty(this, "_contentWindow", {
@@ -103,6 +147,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._contentWindow;
         return (this._contentWindow = null);
+      },
+      set(val) {
+        delete this["_contentWindow"];
+        return (this["_contentWindow"] = val);
       }
     });
     Object.defineProperty(this, "_contentPrincipal", {
@@ -111,6 +159,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._contentPrincipal;
         return (this._contentPrincipal = null);
+      },
+      set(val) {
+        delete this["_contentPrincipal"];
+        return (this["_contentPrincipal"] = val);
       }
     });
     Object.defineProperty(this, "_imageDocument", {
@@ -119,6 +171,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._imageDocument;
         return (this._imageDocument = null);
+      },
+      set(val) {
+        delete this["_imageDocument"];
+        return (this["_imageDocument"] = val);
       }
     });
     Object.defineProperty(this, "_fullZoom", {
@@ -127,6 +183,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._fullZoom;
         return (this._fullZoom = 1);
+      },
+      set(val) {
+        delete this["_fullZoom"];
+        return (this["_fullZoom"] = val);
       }
     });
     Object.defineProperty(this, "_textZoom", {
@@ -135,6 +195,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._textZoom;
         return (this._textZoom = 1);
+      },
+      set(val) {
+        delete this["_textZoom"];
+        return (this["_textZoom"] = val);
       }
     });
     Object.defineProperty(this, "_isSyntheticDocument", {
@@ -143,6 +207,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._isSyntheticDocument;
         return (this._isSyntheticDocument = false);
+      },
+      set(val) {
+        delete this["_isSyntheticDocument"];
+        return (this["_isSyntheticDocument"] = val);
       }
     });
     Object.defineProperty(this, "_outerWindowID", {
@@ -151,6 +219,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._outerWindowID;
         return (this._outerWindowID = null);
+      },
+      set(val) {
+        delete this["_outerWindowID"];
+        return (this["_outerWindowID"] = val);
       }
     });
     Object.defineProperty(this, "_innerWindowID", {
@@ -159,6 +231,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._innerWindowID;
         return (this._innerWindowID = null);
+      },
+      set(val) {
+        delete this["_innerWindowID"];
+        return (this["_innerWindowID"] = val);
       }
     });
     Object.defineProperty(this, "_manifestURI", {
@@ -167,6 +243,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._manifestURI;
         return (this._manifestURI = "");
+      },
+      set(val) {
+        delete this["_manifestURI"];
+        return (this["_manifestURI"] = val);
       }
     });
     Object.defineProperty(this, "mDestroyed", {
@@ -175,6 +255,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this.mDestroyed;
         return (this.mDestroyed = false);
+      },
+      set(val) {
+        delete this["mDestroyed"];
+        return (this["mDestroyed"] = val);
       }
     });
     Object.defineProperty(this, "_permitUnloadId", {
@@ -183,6 +267,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       get() {
         delete this._permitUnloadId;
         return (this._permitUnloadId = 0);
+      },
+      set(val) {
+        delete this["_permitUnloadId"];
+        return (this["_permitUnloadId"] = val);
       }
     });
 

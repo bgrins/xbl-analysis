@@ -15,6 +15,10 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       get() {
         delete this._radioChildren;
         return (this._radioChildren = null);
+      },
+      set(val) {
+        delete this["_radioChildren"];
+        return (this["_radioChildren"] = val);
       }
     });
 

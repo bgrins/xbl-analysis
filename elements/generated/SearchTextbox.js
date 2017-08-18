@@ -29,6 +29,10 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
       get() {
         delete this._timer;
         return (this._timer = null);
+      },
+      set(val) {
+        delete this["_timer"];
+        return (this["_timer"] = val);
       }
     });
     Object.defineProperty(this, "_searchIcons", {
@@ -41,6 +45,10 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
           "anonid",
           "search-icons"
         ));
+      },
+      set(val) {
+        delete this["_searchIcons"];
+        return (this["_searchIcons"] = val);
       }
     });
     Object.defineProperty(this, "_searchButtonIcon", {
@@ -53,6 +61,10 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
           "anonid",
           "searchbutton-icon"
         ));
+      },
+      set(val) {
+        delete this["_searchButtonIcon"];
+        return (this["_searchButtonIcon"] = val);
       }
     });
 

@@ -43,6 +43,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this.FIND_NORMAL;
         return (this.FIND_NORMAL = 0);
+      },
+      set(val) {
+        delete this["FIND_NORMAL"];
+        return (this["FIND_NORMAL"] = val);
       }
     });
     Object.defineProperty(this, "FIND_TYPEAHEAD", {
@@ -51,6 +55,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this.FIND_TYPEAHEAD;
         return (this.FIND_TYPEAHEAD = 1);
+      },
+      set(val) {
+        delete this["FIND_TYPEAHEAD"];
+        return (this["FIND_TYPEAHEAD"] = val);
       }
     });
     Object.defineProperty(this, "FIND_LINKS", {
@@ -59,6 +67,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this.FIND_LINKS;
         return (this.FIND_LINKS = 2);
+      },
+      set(val) {
+        delete this["FIND_LINKS"];
+        return (this["FIND_LINKS"] = val);
       }
     });
     Object.defineProperty(this, "__findMode", {
@@ -67,6 +79,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this.__findMode;
         return (this.__findMode = 0);
+      },
+      set(val) {
+        delete this["__findMode"];
+        return (this["__findMode"] = val);
       }
     });
     Object.defineProperty(this, "_flashFindBar", {
@@ -75,6 +91,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this._flashFindBar;
         return (this._flashFindBar = 0);
+      },
+      set(val) {
+        delete this["_flashFindBar"];
+        return (this["_flashFindBar"] = val);
       }
     });
     Object.defineProperty(this, "_initialFlashFindBarCount", {
@@ -83,6 +103,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this._initialFlashFindBarCount;
         return (this._initialFlashFindBarCount = 6);
+      },
+      set(val) {
+        delete this["_initialFlashFindBarCount"];
+        return (this["_initialFlashFindBarCount"] = val);
       }
     });
     Object.defineProperty(this, "_startFindDeferred", {
@@ -91,6 +115,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this._startFindDeferred;
         return (this._startFindDeferred = null);
+      },
+      set(val) {
+        delete this["_startFindDeferred"];
+        return (this["_startFindDeferred"] = val);
       }
     });
     Object.defineProperty(this, "_browser", {
@@ -99,6 +127,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this._browser;
         return (this._browser = null);
+      },
+      set(val) {
+        delete this["_browser"];
+        return (this["_browser"] = val);
       }
     });
     Object.defineProperty(this, "__prefsvc", {
@@ -107,6 +139,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this.__prefsvc;
         return (this.__prefsvc = null);
+      },
+      set(val) {
+        delete this["__prefsvc"];
+        return (this["__prefsvc"] = val);
       }
     });
     Object.defineProperty(this, "_observer", {
@@ -163,6 +199,10 @@ class FirefoxFindbar extends FirefoxToolbar {
             }
           }
         });
+      },
+      set(val) {
+        delete this["_observer"];
+        return (this["_observer"] = val);
       }
     });
     Object.defineProperty(this, "_destroyed", {
@@ -171,6 +211,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this._destroyed;
         return (this._destroyed = false);
+      },
+      set(val) {
+        delete this["_destroyed"];
+        return (this["_destroyed"] = val);
       }
     });
     Object.defineProperty(this, "_pluralForm", {
@@ -179,6 +223,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this._pluralForm;
         return (this._pluralForm = null);
+      },
+      set(val) {
+        delete this["_pluralForm"];
+        return (this["_pluralForm"] = val);
       }
     });
     Object.defineProperty(this, "_strBundle", {
@@ -187,6 +235,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this._strBundle;
         return (this._strBundle = null);
+      },
+      set(val) {
+        delete this["_strBundle"];
+        return (this["_strBundle"] = val);
       }
     });
     Object.defineProperty(this, "_xulBrowserWindow", {
@@ -195,6 +247,10 @@ class FirefoxFindbar extends FirefoxToolbar {
       get() {
         delete this._xulBrowserWindow;
         return (this._xulBrowserWindow = null);
+      },
+      set(val) {
+        delete this["_xulBrowserWindow"];
+        return (this["_xulBrowserWindow"] = val);
       }
     });
 

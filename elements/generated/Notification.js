@@ -28,6 +28,10 @@ class FirefoxNotification extends BaseElement {
       get() {
         delete this.timeout;
         return (this.timeout = 0);
+      },
+      set(val) {
+        delete this["timeout"];
+        return (this["timeout"] = val);
       }
     });
   }

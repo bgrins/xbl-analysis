@@ -15,6 +15,10 @@ class FirefoxMenubar extends FirefoxToolbarBase {
       get() {
         delete this._active;
         return (this._active = false);
+      },
+      set(val) {
+        delete this["_active"];
+        return (this["_active"] = val);
       }
     });
     Object.defineProperty(this, "_statusbar", {
@@ -23,6 +27,10 @@ class FirefoxMenubar extends FirefoxToolbarBase {
       get() {
         delete this._statusbar;
         return (this._statusbar = null);
+      },
+      set(val) {
+        delete this["_statusbar"];
+        return (this["_statusbar"] = val);
       }
     });
     Object.defineProperty(this, "_originalStatusText", {
@@ -31,6 +39,10 @@ class FirefoxMenubar extends FirefoxToolbarBase {
       get() {
         delete this._originalStatusText;
         return (this._originalStatusText = null);
+      },
+      set(val) {
+        delete this["_originalStatusText"];
+        return (this["_originalStatusText"] = val);
       }
     });
   }
