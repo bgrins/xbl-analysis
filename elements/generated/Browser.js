@@ -68,10 +68,21 @@ class XblBrowser extends BaseElement {
         this.messageManager.addMessageListener("AudioPlayback:Start", this);
         this.messageManager.addMessageListener("AudioPlayback:Stop", this);
         this.messageManager.addMessageListener(
-          "AudioPlayback:BlockStart",
+          "AudioPlayback:ActiveMediaBlockStart",
           this
         );
-        this.messageManager.addMessageListener("AudioPlayback:BlockStop", this);
+        this.messageManager.addMessageListener(
+          "AudioPlayback:ActiveMediaBlockStop",
+          this
+        );
+        this.messageManager.addMessageListener(
+          "AudioPlayback:MediaBlockStop",
+          this
+        );
+        this.messageManager.addMessageListener(
+          "UnselectedTabHover:Toggle",
+          this
+        );
 
         if (this.hasAttribute("selectmenulist")) {
           this.messageManager.addMessageListener("Forms:ShowDropDown", this);
@@ -130,7 +141,7 @@ class XblBrowser extends BaseElement {
   }
 
   set sameProcessAsFrameLoader(val) {
-    this._sameProcessAsFrameLoader = Cu.getWeakReference(val);
+    this._sameProcessAsFrameLoader = Components.utils.getWeakReference(val);
   }
 
   get sameProcessAsFrameLoader() {
@@ -427,8 +438,17 @@ class XblBrowser extends BaseElement {
     return this._audioMuted;
   }
 
-  get audioBlocked() {
-    return this._audioBlocked;
+  get mediaBlocked() {
+    if (
+      this.mPrefs.getBoolPref("media.block-autoplay-until-in-foreground", true)
+    ) {
+      return this._mediaBlocked;
+    }
+    return false;
+  }
+
+  get shouldHandleUnselectedTabHover() {
+    return this._shouldSendUnselectedTabHover;
   }
 
   set securityUI(val) {
@@ -640,20 +660,23 @@ class XblBrowser extends BaseElement {
     event.initEvent("DOMAudioPlaybackStopped", true, false);
     this.dispatchEvent(event);
   }
-  audioPlaybackBlockStarted() {
-    this._audioBlocked = true;
+  activeMediaBlockStarted() {
+    this._hasAnyPlayingMediaBeenBlocked = true;
     let event = document.createEvent("Events");
     event.initEvent("DOMAudioPlaybackBlockStarted", true, false);
     this.dispatchEvent(event);
   }
-  audioPlaybackBlockStopped() {
-    if (!this._audioBlocked) {
+  activeMediaBlockStopped() {
+    if (!this._hasAnyPlayingMediaBeenBlocked) {
       return;
     }
-    this._audioBlocked = false;
+    this._hasAnyPlayingMediaBeenBlocked = false;
     let event = document.createEvent("Events");
     event.initEvent("DOMAudioPlaybackBlockStopped", true, false);
     this.dispatchEvent(event);
+  }
+  mediaBlockStopped() {
+    this._mediaBlocked = false;
   }
   mute(transientState) {
     if (!transientState) {
@@ -682,20 +705,25 @@ class XblBrowser extends BaseElement {
       type: "mediaControlStopped"
     });
   }
-  blockMedia() {
-    this._audioBlocked = true;
-    this.messageManager.sendAsyncMessage("AudioPlayback", {
-      type: "blockInactivePageMedia"
-    });
-  }
   resumeMedia() {
-    this._audioBlocked = false;
+    this._mediaBlocked = false;
     this.messageManager.sendAsyncMessage("AudioPlayback", {
       type: "resumeMedia"
     });
-    let event = document.createEvent("Events");
-    event.initEvent("DOMAudioPlaybackBlockStopped", true, false);
-    this.dispatchEvent(event);
+    if (this._hasAnyPlayingMediaBeenBlocked) {
+      this._hasAnyPlayingMediaBeenBlocked = false;
+      let event = document.createEvent("Events");
+      event.initEvent("DOMAudioPlaybackBlockStopped", true, false);
+      this.dispatchEvent(event);
+    }
+  }
+  unselectedTabHover(hovered) {
+    if (!this._shouldSendUnselectedTabHover) {
+      return;
+    }
+    this.messageManager.sendAsyncMessage("Browser:UnselectedTabHover", {
+      hovered
+    });
   }
   didStartLoadSinceLastUserTyping() {
     return (
@@ -759,6 +787,32 @@ class XblBrowser extends BaseElement {
           return false;
         }
         this.startScroll(data.scrolldir, data.screenX, data.screenY);
+        if (
+          this.isRemoteBrowser &&
+          data.scrollId != null &&
+          this.mPrefs.getBoolPref("apz.autoscroll.enabled", false)
+        ) {
+          let { tabParent } = this.frameLoader;
+          if (tabParent) {
+            // If APZ is handling the autoscroll, it may decide to cancel
+            // it of its own accord, so register an observer to allow it
+            // to notify us of that.
+            var os = Components.classes[
+              "@mozilla.org/observer-service;1"
+            ].getService(Components.interfaces.nsIObserverService);
+            os.addObserver(this, "apz:cancel-autoscroll", true);
+
+            tabParent.startApzAutoscroll(
+              data.screenX,
+              data.screenY,
+              data.scrollId,
+              data.presShellId
+            );
+          }
+          // Save the IDs for later
+          this._autoScrollScrollId = data.scrollId;
+          this._autoScrollPresShellId = data.presShellId;
+        }
         return true;
       }
       case "Autoscroll:Cancel":
@@ -770,11 +824,19 @@ class XblBrowser extends BaseElement {
       case "AudioPlayback:Stop":
         this.audioPlaybackStopped();
         break;
-      case "AudioPlayback:BlockStart":
-        this.audioPlaybackBlockStarted();
+      case "AudioPlayback:ActiveMediaBlockStart":
+        this.activeMediaBlockStarted();
         break;
-      case "AudioPlayback:BlockStop":
-        this.audioPlaybackBlockStopped();
+      case "AudioPlayback:ActiveMediaBlockStop":
+        this.activeMediaBlockStopped();
+        break;
+      case "AudioPlayback:MediaBlockStop":
+        this.mediaBlockStopped();
+        break;
+      case "UnselectedTabHover:Toggle":
+        this._shouldSendUnselectedTabHover = data.enable
+          ? ++this._unselectedTabHoverMessageListenerCount > 0
+          : --this._unselectedTabHoverMessageListenerCount == 0;
         break;
       case "Forms:ShowDropDown": {
         if (!this._selectParentHelper) {
@@ -826,9 +888,19 @@ class XblBrowser extends BaseElement {
     return this._receiveMessage(aMessage);
   }
   observe(aSubject, aTopic, aState) {
-    if (aTopic != "browser:purge-session-history") return;
+    if (aTopic == "browser:purge-session-history") {
+      this.purgeSessionHistory();
+    } else if (aTopic == "apz:cancel-autoscroll") {
+      if (aState == this._autoScrollScrollId) {
+        this._autoScrollPopup.hidePopup();
 
-    this.purgeSessionHistory();
+        // Set this._autoScrollScrollId to null, so in stopScroll() we
+        // don't call stopApzAutoscroll() (since it's APZ that
+        // initiated the stopping).
+        this._autoScrollScrollId = null;
+        this._autoScrollPresShellId = null;
+      }
+    }
   }
   purgeSessionHistory() {
     this.messageManager.sendAsyncMessage("Browser:PurgeSessionHistory");
@@ -852,6 +924,27 @@ class XblBrowser extends BaseElement {
       window.removeEventListener("keypress", this, true);
       window.removeEventListener("keyup", this, true);
       this.messageManager.sendAsyncMessage("Autoscroll:Stop");
+
+      var os = Components.classes["@mozilla.org/observer-service;1"].getService(
+        Components.interfaces.nsIObserverService
+      );
+      try {
+        os.removeObserver(this, "apz:cancel-autoscroll");
+      } catch (ex) {
+        // It's not clear why this sometimes throws an exception
+      }
+
+      if (this.isRemoteBrowser && this._autoScrollScrollId != null) {
+        let { tabParent } = this.frameLoader;
+        if (tabParent) {
+          tabParent.stopApzAutoscroll(
+            this._autoScrollScrollId,
+            this._autoScrollPresShellId
+          );
+        }
+        this._autoScrollScrollId = null;
+        this._autoScrollPresShellId = null;
+      }
     }
   }
   _createAutoScrollPopup() {
@@ -863,6 +956,7 @@ class XblBrowser extends BaseElement {
     // events can be handled by browser-content.js.
     popup.setAttribute("mousethrough", "always");
     popup.setAttribute("rolluponmousewheel", "true");
+    popup.setAttribute("hidden", "true");
     return popup;
   }
   startScroll(scrolldir, screenX, screenY) {
@@ -895,6 +989,7 @@ class XblBrowser extends BaseElement {
       );
     }
 
+    this._autoScrollPopup.removeAttribute("hidden");
     this._autoScrollPopup.setAttribute("noautofocus", "true");
     this._autoScrollPopup.setAttribute("scrolldir", scrolldir);
     this._autoScrollPopup.addEventListener("popuphidden", this, true);

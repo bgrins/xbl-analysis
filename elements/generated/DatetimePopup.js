@@ -92,7 +92,9 @@ class XblDatetimePopup extends XblArrowpanel {
     }
   }
   initPicker(detail) {
-    const locale = Services.locale.getAppLocaleAsBCP47();
+    // TODO: When bug 1376616 lands, replace this.setGregorian with
+    //       mozIntl.Locale for setting calendar to Gregorian
+    const locale = this.setGregorian(Services.locale.getAppLocaleAsBCP47());
     const dir = this.mozIntl.getLocaleInfo(locale).direction;
 
     switch (this.type) {
@@ -163,7 +165,9 @@ class XblDatetimePopup extends XblArrowpanel {
             locale,
             dir,
             min: detail.min,
-            max: detail.max
+            max: detail.max,
+            step: detail.step,
+            stepBase: detail.stepBase
           }
         });
         break;
@@ -259,6 +263,12 @@ class XblDatetimePopup extends XblArrowpanel {
   getDisplayNames(locale, keys, style) {
     const displayNames = this.mozIntl.getDisplayNames(locale, { keys, style });
     return keys.map(key => displayNames.values[key]);
+  }
+  setGregorian(locale) {
+    if (locale.match(/u-ca-/)) {
+      return locale.replace(/u-ca-[^-]+/, "u-ca-gregory");
+    }
+    return locale + "-u-ca-gregory";
   }
   handleEvent(aEvent) {
     switch (aEvent.type) {

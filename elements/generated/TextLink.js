@@ -65,7 +65,7 @@ class XblTextLink extends XblTextLabel {
       // if the scheme is not an exposed protocol, then opening this link
       // should be deferred to the system's external protocol handler
       if (!protocolSvc.isExposedProtocol(uri.scheme)) {
-        protocolSvc.loadUrl(uri);
+        protocolSvc.loadURI(uri);
         aEvent.preventDefault();
         return;
       }

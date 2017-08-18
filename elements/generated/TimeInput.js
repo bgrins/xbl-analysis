@@ -38,6 +38,14 @@ class XblTimeInput extends XblDatetimeInputBase {
     } catch (e) {}
   }
   disconnectedCallback() {}
+
+  get kMsPerSecond() {
+    return 1000;
+  }
+
+  get kMsPerMinute() {
+    return 60 * 1000;
+  }
   getInputElementValues() {
     let value = this.mInputElement.value;
     if (value.length === 0) {
@@ -59,7 +67,59 @@ class XblTimeInput extends XblDatetimeInputBase {
 
     return { hour, minute, second, millisecond };
   }
-  reBuildEditFields() {
+  hasSecondField() {
+    return !!this.mSecondField;
+  }
+  hasMillisecField() {
+    return !!this.mMillisecField;
+  }
+  hasDayPeriodField() {
+    return !!this.mDayPeriodField;
+  }
+  shouldShowSecondField() {
+    let { second } = this.getInputElementValues();
+    if (second != undefined) {
+      return true;
+    }
+
+    let stepBase = this.mInputElement.getStepBase();
+    if (stepBase % this.kMsPerMinute != 0) {
+      return true;
+    }
+
+    let step = this.mInputElement.getStep();
+    if (step % this.kMsPerMinute != 0) {
+      return true;
+    }
+
+    return false;
+  }
+  shouldShowMillisecField() {
+    let { millisecond } = this.getInputElementValues();
+    if (millisecond != undefined) {
+      return true;
+    }
+
+    let stepBase = this.mInputElement.getStepBase();
+    if (stepBase % this.kMsPerSecond != 0) {
+      return true;
+    }
+
+    let step = this.mInputElement.getStep();
+    if (step % this.kMsPerSecond != 0) {
+      return true;
+    }
+
+    return false;
+  }
+  rebuildEditFieldsIfNeeded() {
+    if (
+      this.shouldShowSecondField() == this.hasSecondField() &&
+      this.shouldShowMillisecField() == this.hasMillisecField()
+    ) {
+      return;
+    }
+
     let root = document.getAnonymousElementByAttribute(
       this,
       "anonid",
@@ -83,8 +143,6 @@ class XblTimeInput extends XblDatetimeInputBase {
       "anonid",
       "edit-wrapper"
     );
-
-    let { second, millisecond } = this.getInputElementValues();
 
     let options = {
       hour: "numeric",
@@ -118,8 +176,8 @@ class XblTimeInput extends XblDatetimeInputBase {
       );
     }
 
-    if (second != undefined) {
-      options["second"] = "numeric";
+    if (this.shouldShowSecondField()) {
+      options.second = "numeric";
       this.mSecondField = this.createEditField(
         this.mSecondPlaceHolder,
         true,
@@ -129,18 +187,18 @@ class XblTimeInput extends XblDatetimeInputBase {
         this.mMaxSecond,
         this.mMinSecPageUpDownInterval
       );
-    }
 
-    if (millisecond != undefined) {
-      this.mMillisecField = this.createEditField(
-        this.mMillisecPlaceHolder,
-        true,
-        this.mMillisecMaxLength,
-        this.mMillisecMaxLength,
-        this.mMinMillisecond,
-        this.mMaxMillisecond,
-        this.mMinSecPageUpDownInterval
-      );
+      if (this.shouldShowMillisecField()) {
+        this.mMillisecField = this.createEditField(
+          this.mMillisecPlaceHolder,
+          true,
+          this.mMillisecMaxLength,
+          this.mMillisecMaxLength,
+          this.mMinMillisecond,
+          this.mMaxMillisecond,
+          this.mMinSecPageUpDownInterval
+        );
+      }
     }
 
     let fragment = document.createDocumentFragment();
@@ -155,7 +213,7 @@ class XblTimeInput extends XblDatetimeInputBase {
           break;
         case "second":
           fragment.appendChild(this.mSecondField);
-          if (millisecond != undefined) {
+          if (this.shouldShowMillisecField()) {
             // Intl.DateTimeFormat does not support millisecond, so we
             // need to handle this on our own.
             let span = document.createElementNS(HTML_NS, "span");
@@ -215,17 +273,9 @@ class XblTimeInput extends XblDatetimeInputBase {
       return;
     }
 
-    // Second and millsecond part is optional, rebuild edit fields if
+    // Second and millisecond part are optional, rebuild edit fields if
     // needed.
-    if (
-      (!this.isEmpty(second) && !this.mSecondField) ||
-      (this.isEmpty(second) && this.mSecondField) ||
-      (!this.isEmpty(millisecond) && !this.mMillisecField) ||
-      (this.isEmpty(millisecond) && this.mMillisecField)
-    ) {
-      this.log("Edit fields need to be rebuilt.");
-      this.reBuildEditFields();
-    }
+    this.rebuildEditFieldsIfNeeded();
 
     this.setFieldValue(this.mHourField, hour);
     this.setFieldValue(this.mMinuteField, minute);
@@ -235,11 +285,15 @@ class XblTimeInput extends XblDatetimeInputBase {
       );
     }
 
-    if (!this.isEmpty(second)) {
-      this.setFieldValue(this.mSecondField, second);
+    if (this.hasSecondField()) {
+      this.setFieldValue(this.mSecondField, second != undefined ? second : 0);
     }
-    if (!this.isEmpty(millisecond)) {
-      this.setFieldValue(this.mMillisecField, millisecond);
+
+    if (this.hasMillisecField()) {
+      this.setFieldValue(
+        this.mMillisecField,
+        millisecond != undefined ? millisecond : 0
+      );
     }
 
     this.notifyPicker();
@@ -277,12 +331,12 @@ class XblTimeInput extends XblDatetimeInputBase {
     minute = minute < 10 ? "0" + minute : minute;
 
     let time = hour + ":" + minute;
-    if (this.mSecondField) {
+    if (second != undefined) {
       second = second < 10 ? "0" + second : second;
       time += ":" + second;
     }
 
-    if (this.mMillisecField) {
+    if (millisecond != undefined) {
       // Convert milliseconds to fraction of second.
       millisecond = millisecond
         .toString()
@@ -343,7 +397,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     }
 
     if (
-      this.mSecondField &&
+      this.hasSecondField() &&
       !this.mSecondField.disabled &&
       !this.mSecondField.readOnly
     ) {
@@ -351,7 +405,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     }
 
     if (
-      this.mMillisecField &&
+      this.hasMillisecField() &&
       !this.mMillisecField.disabled &&
       !this.mMillisecField.readOnly
     ) {
@@ -359,7 +413,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     }
 
     if (
-      this.mDayPeriodField &&
+      this.hasDayPeriodField() &&
       !this.mDayPeriodField.disabled &&
       !this.mDayPeriodField.readOnly
     ) {
@@ -373,6 +427,13 @@ class XblTimeInput extends XblDatetimeInputBase {
         this.mInputElement.updateValidityState();
       }
     }
+  }
+  notifyMinMaxStepAttrChanged() {
+    // Second and millisecond part are optional, rebuild edit fields if
+    // needed.
+    this.rebuildEditFieldsIfNeeded();
+    // Fill in values again.
+    this.setFieldsFromInputValue();
   }
   incrementFieldValue(aTargetField, aTimes) {
     let value = this.getFieldValue(aTargetField);
@@ -418,7 +479,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     let targetField = aEvent.originalTarget;
     let key = aEvent.key;
 
-    if (this.mDayPeriodField && targetField == this.mDayPeriodField) {
+    if (this.hasDayPeriodField() && targetField == this.mDayPeriodField) {
       // Home/End key does nothing on AM/PM field.
       if (key == "Home" || key == "End") {
         return;
@@ -469,7 +530,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     let targetField = aEvent.originalTarget;
     let key = aEvent.key;
 
-    if (this.mDayPeriodField && targetField == this.mDayPeriodField) {
+    if (this.hasDayPeriodField() && targetField == this.mDayPeriodField) {
       if (key == "a" || key == "A") {
         this.setDayPeriodValue(this.mAMIndicator);
       } else if (key == "p" || key == "P") {
@@ -532,7 +593,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     this.updateResetButtonVisibility();
   }
   getDayPeriodValue(aValue) {
-    if (!this.mDayPeriodField) {
+    if (!this.hasDayPeriodField()) {
       return "";
     }
 
@@ -542,7 +603,7 @@ class XblTimeInput extends XblDatetimeInputBase {
     return value == placeholder ? "" : value;
   }
   setDayPeriodValue(aValue) {
-    if (!this.mDayPeriodField) {
+    if (!this.hasDayPeriodField()) {
       return;
     }
 
@@ -564,9 +625,9 @@ class XblTimeInput extends XblDatetimeInputBase {
     }
 
     return (
-      (this.mDayPeriodField && !this.isEmpty(dayPeriod)) ||
-      (this.mSecondField && !this.isEmpty(second)) ||
-      (this.mMillisecField && !this.isEmpty(millisecond))
+      (this.hasDayPeriodField() && !this.isEmpty(dayPeriod)) ||
+      (this.hasSecondField() && !this.isEmpty(second)) ||
+      (this.hasMillisecField() && !this.isEmpty(millisecond))
     );
   }
   isAnyFieldEmpty() {
@@ -576,9 +637,9 @@ class XblTimeInput extends XblDatetimeInputBase {
     return (
       this.isEmpty(hour) ||
       this.isEmpty(minute) ||
-      (this.mDayPeriodField && this.isEmpty(dayPeriod)) ||
-      (this.mSecondField && this.isEmpty(second)) ||
-      (this.mMillisecField && this.isEmpty(millisecond))
+      (this.hasDayPeriodField() && this.isEmpty(dayPeriod)) ||
+      (this.hasSecondField() && this.isEmpty(second)) ||
+      (this.hasMillisecField() && this.isEmpty(millisecond))
     );
   }
   getCurrentValue() {

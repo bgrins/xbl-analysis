@@ -149,7 +149,12 @@ class XblAutocompleteRichResultPopup extends XblAutocompleteBasePopup {
   _collapseUnusedItems() {
     let existingItemsCount = this.richlistbox.childNodes.length;
     for (let i = this._matchCount; i < existingItemsCount; ++i) {
-      this.richlistbox.childNodes[i].collapsed = true;
+      let item = this.richlistbox.childNodes[i];
+
+      item.collapsed = true;
+      if (typeof item._onCollapse == "function") {
+        item._onCollapse();
+      }
     }
   }
   adjustHeight() {
@@ -259,7 +264,10 @@ class XblAutocompleteRichResultPopup extends XblAutocompleteBasePopup {
         // _adjustAcItem().
         reusable =
           originalType === style ||
-          (style !== "autofill-profile" && originalType !== "autofill-profile");
+          (style !== "autofill-profile" &&
+            originalType !== "autofill-profile" &&
+            style !== "autofill-footer" &&
+            originalType !== "autofill-footer");
       } else {
         // need to create a new item
         item = document.createElementNS(

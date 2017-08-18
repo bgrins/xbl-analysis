@@ -17,7 +17,7 @@ class XblDatetimeInputBase extends BaseElement {
     try {
       this.DEBUG = false;
       this.mInputElement = this.parentNode;
-      this.mLocales = window.getAppLocalesAsBCP47();
+      this.mLocales = window.getRegionalPrefsLocales();
 
       this.mIsRTL = false;
       let intlUtils = window.intlUtils;
@@ -181,6 +181,7 @@ class XblDatetimeInputBase extends BaseElement {
     this.log("inputElementValueChanged");
     this.setFieldsFromInputValue();
   }
+  notifyMinMaxStepAttrChanged() {}
   setValueFromPicker(aValue) {
     this.setFieldsFromPicker(aValue);
   }

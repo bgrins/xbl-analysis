@@ -9,8 +9,6 @@ class XblPreference extends BaseElement {
     this.prepend(comment);
 
     try {
-      this._constructed = true;
-
       // if the element has been inserted without the name attribute set,
       // we have nothing to do here
       if (!this.name) return;
@@ -50,8 +48,23 @@ class XblPreference extends BaseElement {
 
         // Don't use the value setter here, we don't want updateElements to be prematurely fired.
         this._value = preference ? preference.value : this.valueFromPreferences;
-      } else this._value = this.valueFromPreferences;
-      this.preferences._constructAfterChildren();
+      } else {
+        this._value = this.valueFromPreferences;
+      }
+      if (this.preferences._constructAfterChildrenCalled) {
+        // This <preference> was added after _constructAfterChildren() was already called.
+        // We can directly call updateElements().
+        this.updateElements();
+        return;
+      }
+      this.preferences._constructedChildrenCount++;
+      if (
+        this.preferences._constructedChildrenCount ==
+        this.preferences._preferenceChildren.length
+      ) {
+        // This is the last <preference>, time to updateElements() on all of them.
+        this.preferences._constructAfterChildren();
+      }
     } catch (e) {}
   }
   disconnectedCallback() {}
@@ -212,14 +225,14 @@ class XblPreference extends BaseElement {
         var lf;
         if (typeof val == "string") {
           lf = Components.classes["@mozilla.org/file/local;1"].createInstance(
-            Components.interfaces.nsILocalFile
+            Components.interfaces.nsIFile
           );
           lf.persistentDescriptor = val;
           if (!lf.exists()) lf.initWithPath(val);
-        } else lf = val.QueryInterface(Components.interfaces.nsILocalFile);
+        } else lf = val.QueryInterface(Components.interfaces.nsIFile);
         this.preferences.rootBranch.setComplexValue(
           this.name,
-          Components.interfaces.nsILocalFile,
+          Components.interfaces.nsIFile,
           lf
         );
         break;
@@ -256,7 +269,7 @@ class XblPreference extends BaseElement {
         case "file":
           var f = this._branch.getComplexValue(
             this.name,
-            Components.interfaces.nsILocalFile
+            Components.interfaces.nsIFile
           );
           return f;
         default:

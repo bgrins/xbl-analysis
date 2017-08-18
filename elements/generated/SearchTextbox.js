@@ -9,6 +9,8 @@ class XblSearchTextbox extends XblTextbox {
     this.innerHTML = `<children>
 </children>
 <hbox class="textbox-input-box" flex="1" inherits="context,spellcheck" align="center">
+<image class="textbox-search-sign">
+</image>
 <input class="textbox-input" anonid="input" mozactionhint="search" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint,spellcheck">
 </input>
 <deck class="textbox-search-icons" anonid="search-icons">

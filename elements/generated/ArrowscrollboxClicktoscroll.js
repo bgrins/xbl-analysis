@@ -10,7 +10,7 @@ class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
 </toolbarbutton>
 <spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart">
 </spacer>
-<scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir">
+<scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
 <children>
 </children>
 </scrollbox>
@@ -40,10 +40,6 @@ class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
     if (this._isRTLScrollbox) index *= -1;
     this._scrollIndex = index;
     this._mousedown = true;
-    if (this.smoothScroll) {
-      this._arrowScrollAnim.start();
-      return;
-    }
 
     if (!this._scrollTimer)
       this._scrollTimer = Components.classes[
@@ -61,11 +57,7 @@ class XblArrowscrollboxClicktoscroll extends XblArrowscrollbox {
   _stopScroll() {
     if (this._scrollTimer) this._scrollTimer.cancel();
     this._mousedown = false;
-    if (!this._scrollIndex || !this.smoothScroll) return;
-
-    this.scrollByIndex(this._scrollIndex);
     this._scrollIndex = 0;
-    this._arrowScrollAnim.stop();
   }
   _pauseScroll() {
     if (this._mousedown) {

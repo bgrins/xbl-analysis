@@ -313,7 +313,7 @@ class XblDialog extends XblRootElement {
           "spacer"
         );
         spacer.removeAttribute("hidden");
-        spacer.setAttribute("flex", shown["extra2"] ? "1" : "0");
+        spacer.setAttribute("flex", shown.extra2 ? "1" : "0");
       }
     }
   }

@@ -10,7 +10,7 @@ class XblArrowscrollbox extends XblScrollboxBase {
 </autorepeatbutton>
 <spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart">
 </spacer>
-<scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir">
+<scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
 <children>
 </children>
 </scrollbox>
@@ -22,6 +22,13 @@ class XblArrowscrollbox extends XblScrollboxBase {
     this.prepend(comment);
 
     try {
+      if (!this.hasAttribute("smoothscroll")) {
+        this.smoothScroll = this._prefBranch.getBoolPref(
+          "toolkit.scrollbox.smoothScroll",
+          true
+        );
+      }
+
       this.setAttribute("notoverflowing", "true");
       this._updateScrollButtonsDisabledState();
     } catch (e) {}
@@ -48,22 +55,12 @@ class XblArrowscrollbox extends XblScrollboxBase {
   }
 
   set smoothScroll(val) {
-    this._smoothScroll = val;
+    this.setAttribute("smoothscroll", !!val);
     return val;
   }
 
   get smoothScroll() {
-    if (this._smoothScroll === null) {
-      if (this.hasAttribute("smoothscroll")) {
-        this._smoothScroll = this.getAttribute("smoothscroll") == "true";
-      } else {
-        this._smoothScroll = this._prefBranch.getBoolPref(
-          "toolkit.scrollbox.smoothScroll",
-          true
-        );
-      }
-    }
-    return this._smoothScroll;
+    return this.getAttribute("smoothscroll") == "true";
   }
 
   get scrollBoxObject() {
@@ -95,45 +92,7 @@ class XblArrowscrollbox extends XblScrollboxBase {
     // However, the elements may have different width or height.  So,
     // for consistent speed, let's use avalage with of the elements.
     var elements = this._getScrollableElements();
-    if (!elements.length) {
-      // Returning 0 shouldn't be problem because if there is no
-      // scrollable elements, it's impossible to scroll anyway.
-      return 0;
-    }
-
-    if (this._isRTLScrollbox) elements.reverse();
-
-    var [start, end] = this._startEndProps;
-    var low = 0;
-    var high = elements.length - 1;
-    // XXX If the total width is 0, do we need something more?
-    var totalWidth =
-      elements[high].getBoundingClientRect()[end] -
-      elements[low].getBoundingClientRect()[start];
-    return totalWidth / elements.length;
-  }
-
-  get scrollPaddingRect() {
-    // This assumes that this._scrollbox doesn't have any border.
-    var outerRect = this.scrollClientRect;
-    var innerRect = {};
-    innerRect.left = outerRect.left - this._scrollbox.scrollLeft;
-    innerRect.top = outerRect.top - this._scrollbox.scrollTop;
-    innerRect.right = innerRect.left + this._scrollbox.scrollWidth;
-    innerRect.bottom = innerRect.top + this._scrollbox.scrollHeight;
-    return innerRect;
-  }
-
-  set scrollPosition(val) {
-    if (this.orient == "vertical") this._scrollbox.scrollTop = val;
-    else this._scrollbox.scrollLeft = val;
-    return val;
-  }
-
-  get scrollPosition() {
-    return this.orient == "vertical"
-      ? this._scrollbox.scrollTop
-      : this._scrollbox.scrollLeft;
+    return elements.length && this.scrollSize / elements.length;
   }
   _boundsWithoutFlushing(element) {
     if (!("_DOMWindowUtils" in this)) {
@@ -163,107 +122,12 @@ class XblArrowscrollbox extends XblScrollboxBase {
     let rect = this._boundsWithoutFlushing(element);
     return !!(rect.top || rect.left || rect.width || rect.height);
   }
-  ensureElementIsVisible(element, aSmoothScroll) {
+  ensureElementIsVisible(element, aInstant) {
     if (!this._canScrollToElement(element)) return;
 
-    var vertical = this.orient == "vertical";
-    var rect = this.scrollClientRect;
-    var containerStart = vertical ? rect.top : rect.left;
-    var containerEnd = vertical ? rect.bottom : rect.right;
-    rect = element.getBoundingClientRect();
-    var elementStart = vertical ? rect.top : rect.left;
-    var elementEnd = vertical ? rect.bottom : rect.right;
-
-    var scrollPaddingRect = this.scrollPaddingRect;
-    let style = window.getComputedStyle(this._scrollbox);
-    var scrollContentRect = {
-      left: scrollPaddingRect.left + parseFloat(style.paddingLeft),
-      top: scrollPaddingRect.top + parseFloat(style.paddingTop),
-      right: scrollPaddingRect.right - parseFloat(style.paddingRight),
-      bottom: scrollPaddingRect.bottom - parseFloat(style.paddingBottom)
-    };
-
-    // Provide an entry point for derived bindings to adjust these values.
-    if (this._adjustElementStartAndEnd) {
-      [elementStart, elementEnd] = this._adjustElementStartAndEnd(
-        element,
-        elementStart,
-        elementEnd
-      );
-    }
-
-    if (
-      elementStart <=
-      (vertical ? scrollContentRect.top : scrollContentRect.left)
-    ) {
-      elementStart = vertical ? scrollPaddingRect.top : scrollPaddingRect.left;
-    }
-    if (
-      elementEnd >=
-      (vertical ? scrollContentRect.bottom : scrollContentRect.right)
-    ) {
-      elementEnd = vertical
-        ? scrollPaddingRect.bottom
-        : scrollPaddingRect.right;
-    }
-
-    var amountToScroll;
-
-    if (elementStart < containerStart) {
-      amountToScroll = elementStart - containerStart;
-    } else if (containerEnd < elementEnd) {
-      amountToScroll = elementEnd - containerEnd;
-    } else if (this._isScrolling) {
-      // decelerate if a currently-visible element is selected during the scroll
-      const STOP_DISTANCE = 15;
-      if (
-        this._isScrolling == -1 &&
-        elementStart - STOP_DISTANCE < containerStart
-      )
-        amountToScroll = elementStart - containerStart;
-      else if (
-        this._isScrolling == 1 &&
-        containerEnd - STOP_DISTANCE < elementEnd
-      )
-        amountToScroll = elementEnd - containerEnd;
-      else amountToScroll = this._isScrolling * STOP_DISTANCE;
-    } else {
-      return;
-    }
-
-    this._stopSmoothScroll();
-
-    if (aSmoothScroll != false && this.smoothScroll) {
-      this._smoothScrollByPixels(amountToScroll, element);
-    } else {
-      this.scrollByPixels(amountToScroll);
-    }
+    element.scrollIntoView({ behavior: aInstant ? "instant" : "auto" });
   }
-  _smoothScrollByPixels(amountToScroll, element) {
-    if (amountToScroll == 0) return;
-
-    // Shouldn't forget pending scroll amount if the scroll direction
-    // isn't changed because this may be called high frequency with very
-    // small pixel values.
-    var scrollDirection = 0;
-    if (amountToScroll) {
-      // Positive amountToScroll makes us scroll right (elements fly left),
-      // negative scrolls left.
-      scrollDirection = amountToScroll < 0 ? -1 : 1;
-    }
-
-    // However, if the scroll direction is changed, let's cancel the
-    // pending scroll because user must want to scroll from current
-    // position.
-    if (this._isScrolling && this._isScrolling != scrollDirection)
-      this._stopSmoothScroll();
-
-    this._scrollTarget = element;
-    this._isScrolling = scrollDirection;
-
-    this._scrollAnim.start(amountToScroll, !this._scrollTarget);
-  }
-  scrollByIndex(index, aSmoothScroll) {
+  scrollByIndex(index, aInstant) {
     if (index == 0) return;
 
     // Each scrollByIndex call is expected to scroll the given number of
@@ -275,7 +139,7 @@ class XblArrowscrollbox extends XblScrollboxBase {
         this._scrollTarget != elements[0] &&
         this._scrollTarget != elements[elements.length - 1]
       )
-        this.ensureElementIsVisible(this._scrollTarget, false);
+        this.ensureElementIsVisible(this._scrollTarget, true);
     }
 
     var rect = this.scrollClientRect;
@@ -298,9 +162,9 @@ class XblArrowscrollbox extends XblScrollboxBase {
     }
     if (!targetElement) return;
 
-    this.ensureElementIsVisible(targetElement, aSmoothScroll);
+    this.ensureElementIsVisible(targetElement, aInstant);
   }
-  scrollByPage(pageDelta, aSmoothScroll) {
+  scrollByPage(pageDelta, aInstant) {
     if (pageDelta == 0) return;
 
     // If a previous call is still in progress because of smooth
@@ -311,7 +175,7 @@ class XblArrowscrollbox extends XblScrollboxBase {
         this._scrollTarget != elements[0] &&
         this._scrollTarget != elements[elements.length - 1]
       )
-        this.ensureElementIsVisible(this._scrollTarget, false);
+        this.ensureElementIsVisible(this._scrollTarget, true);
     }
 
     var [start, end] = this._startEndProps;
@@ -347,7 +211,7 @@ class XblArrowscrollbox extends XblScrollboxBase {
 
     if (!targetElement) return;
 
-    this.ensureElementIsVisible(targetElement, aSmoothScroll);
+    this.ensureElementIsVisible(targetElement, aInstant);
   }
   _getScrollableElements() {
     var nodes = this.childNodes;
@@ -406,44 +270,83 @@ class XblArrowscrollbox extends XblScrollboxBase {
 
     event.stopPropagation();
   }
-  scrollByPixels(px) {
-    this.scrollPosition += px;
+  scrollByPixels(aPixels, aInstant) {
+    let scrollOptions = { behavior: aInstant ? "instant" : "auto" };
+    scrollOptions[this._startEndProps[0]] = aPixels;
+    this._scrollbox.scrollBy(scrollOptions);
   }
-  _stopSmoothScroll() {
-    if (this._isScrolling) {
-      this._scrollAnim.stop();
-      this._isScrolling = 0;
-      this._scrollTarget = null;
-    }
-  }
-  _updateScrollButtonsDisabledState(aScrolling) {
-    let scrolledToStart;
-    let scrolledToEnd;
-
-    // Avoid flushing layout when not overflowing or when scrolling.
+  _updateScrollButtonsDisabledState() {
     if (this.hasAttribute("notoverflowing")) {
-      scrolledToStart = true;
-      scrolledToEnd = true;
-    } else if (aScrolling) {
-      scrolledToStart = false;
-      scrolledToEnd = false;
-    } else if (this.scrollPosition == 0) {
-      // In the RTL case, this means the _last_ element in the
-      // scrollbox is visible
-      scrolledToEnd = this._isRTLScrollbox;
-      scrolledToStart = !this._isRTLScrollbox;
-    } else if (this.scrollClientSize + this.scrollPosition == this.scrollSize) {
-      // In the RTL case, this means the _first_ element in the
-      // scrollbox is visible
-      scrolledToStart = this._isRTLScrollbox;
-      scrolledToEnd = !this._isRTLScrollbox;
+      this.setAttribute("scrolledtoend", "true");
+      this.setAttribute("scrolledtostart", "true");
+      return;
     }
 
-    if (scrolledToEnd) this.setAttribute("scrolledtoend", "true");
-    else this.removeAttribute("scrolledtoend");
+    if (this._scrollButtonUpdatePending) {
+      return;
+    }
+    this._scrollButtonUpdatePending = true;
 
-    if (scrolledToStart) this.setAttribute("scrolledtostart", "true");
-    else this.removeAttribute("scrolledtostart");
+    // Wait until after the next paint to get current layout data from
+    // getBoundsWithoutFlushing.
+    window.requestAnimationFrame(() => {
+      setTimeout(() => {
+        this._scrollButtonUpdatePending = false;
+
+        let scrolledToStart = false;
+        let scrolledToEnd = false;
+
+        if (this.hasAttribute("notoverflowing")) {
+          scrolledToStart = true;
+          scrolledToEnd = true;
+        } else {
+          let [leftOrTop, rightOrBottom] = this._startEndProps;
+          let leftOrTopEdge = ele =>
+            Math.round(this._boundsWithoutFlushing(ele)[leftOrTop]);
+          let rightOrBottomEdge = ele =>
+            Math.round(this._boundsWithoutFlushing(ele)[rightOrBottom]);
+
+          let elements = this._getScrollableElements();
+          let [leftOrTopElement, rightOrBottomElement] = [
+            elements[0],
+            elements[elements.length - 1]
+          ];
+          if (this._isRTLScrollbox) {
+            [leftOrTopElement, rightOrBottomElement] = [
+              rightOrBottomElement,
+              leftOrTopElement
+            ];
+          }
+
+          if (
+            leftOrTopElement &&
+            leftOrTopEdge(leftOrTopElement) >= leftOrTopEdge(this._scrollbox)
+          ) {
+            scrolledToStart = !this._isRTLScrollbox;
+            scrolledToEnd = this._isRTLScrollbox;
+          } else if (
+            rightOrBottomElement &&
+            rightOrBottomEdge(rightOrBottomElement) <=
+              rightOrBottomEdge(this._scrollbox)
+          ) {
+            scrolledToStart = this._isRTLScrollbox;
+            scrolledToEnd = !this._isRTLScrollbox;
+          }
+        }
+
+        if (scrolledToEnd) {
+          this.setAttribute("scrolledtoend", "true");
+        } else {
+          this.removeAttribute("scrolledtoend");
+        }
+
+        if (scrolledToStart) {
+          this.setAttribute("scrolledtostart", "true");
+        } else {
+          this.removeAttribute("scrolledtostart");
+        }
+      }, 0);
+    });
   }
 }
 customElements.define("xbl-arrowscrollbox", XblArrowscrollbox);

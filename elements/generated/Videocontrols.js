@@ -288,40 +288,43 @@ class XblVideocontrols extends BaseElement {
             this.setupStatusFader(true);
           }
 
-          // An event handler for |onresize| should be added when bug 227495 is fixed.
-          this.controlBar.hidden = false;
+          let adjustableControls = [
+            ...this.prioritizedControls,
+            this.controlBar,
+            this.clickToPlay
+          ];
 
-          for (let control of this.layoutControls) {
+          for (let control of adjustableControls) {
             if (!control) {
               break;
             }
 
             Object.defineProperties(control, {
+              // We should directly access CSSOM to get pre-defined style instead of
+              // retrieving computed dimensions from layout.
               minWidth: {
-                value: control.clientWidth,
-                writable: true
+                get: () => {
+                  let controlAnonId = control.getAttribute("anonid");
+                  let propertyName = `--${controlAnonId}-width`;
+                  if (control.modifier) {
+                    propertyName += "-" + control.modifier;
+                  }
+                  let preDefinedSize = this.controlBarComputedStyles.getPropertyValue(
+                    propertyName
+                  );
+
+                  return parseInt(preDefinedSize, 10);
+                }
               },
               isAdjustableControl: {
                 value: true
               },
+              modifier: {
+                value: "",
+                writable: true
+              },
               isWanted: {
                 value: true,
-                writable: true
-              },
-              resized: {
-                value: false,
-                writable: true
-              },
-              resizedHandler: {
-                value: () => {
-                  let width = control.clientWidth;
-
-                  if (width === 0) {
-                    return;
-                  }
-
-                  control.minWidth = width;
-                },
                 writable: true
               },
               hideByAdjustment: {
@@ -342,27 +345,7 @@ class XblVideocontrols extends BaseElement {
               }
             });
           }
-          // Cannot get minimal width of flexible scrubber and clickToPlay.
-          // Rewrite to empirical value for now.
-          this.scrubberStack.minWidth = 64;
-          this.volumeStack.minWidth = 48;
-          this.clickToPlay.minWidth = 48;
-
-          if (this.positionDurationBox) {
-            this.positionDurationBox.resizedHandler = () => {
-              let durationWidth = this.durationSpan.hideByAdjustment
-                ? 0
-                : this.durationSpan.clientWidth;
-
-              this.positionDurationBox.minWidth =
-                this.positionDurationBox.clientWidth - durationWidth;
-            };
-
-            this.positionDurationBox.resized = true;
-          }
-
           this.adjustControlSize();
-          this.controlBar.hidden = true;
 
           // Can only update the volume controls once we've computed
           // _volumeControlWidth, since the volume slider implementation
@@ -536,10 +519,6 @@ class XblVideocontrols extends BaseElement {
                 Math.round(this.video.currentTime * 1000),
                 Math.round(this.video.duration * 1000)
               );
-              if (this.positionDurationBox) {
-                this.positionDurationBox.resized = true;
-                this.durationSpan.resized = true;
-              }
               if (!this.isAudioOnly && !this.video.mozHasAudio) {
                 this.muteButton.setAttribute("noAudio", "true");
                 this.muteButton.setAttribute("disabled", "true");
@@ -639,7 +618,7 @@ class XblVideocontrols extends BaseElement {
                 this.updateErrorText();
                 this.setupStatusFader(true);
                 // If video hasn't shown anything yet, disable the controls.
-                if (!this.firstFrameShown) {
+                if (!this.firstFrameShown && !this.isAudioOnly) {
                   this.startFadeOut(this.controlBar);
                 }
                 this.controlsSpacer.removeAttribute("hideCursor");
@@ -794,6 +773,7 @@ class XblVideocontrols extends BaseElement {
 
           durationSpan.classList.add("duration");
           durationSpan.setAttribute("role", "none");
+          durationSpan.setAttribute("anonid", "durationSpan");
 
           Object.defineProperties(this.positionDurationBox, {
             durationSpan: {
@@ -822,20 +802,25 @@ class XblVideocontrols extends BaseElement {
             duration = this.maxCurrentTimeSeen;
           }
 
+          // If the duration is over an hour, thumb should show h:mm:ss instead of mm:ss
+          this.showHours = duration >= 3600000;
+
           // Format the duration as "h:mm:ss" or "m:ss"
           let timeString = isInfinite ? "" : this.formatTime(duration);
           if (this.videocontrols.isTouchControls) {
             this.durationLabel.setAttribute("value", timeString);
           } else {
             this.positionDurationBox.duration = timeString;
+
+            if (this.showHours) {
+              this.positionDurationBox.modifier = "long";
+              this.durationSpan.modifier = "long";
+            }
           }
 
           // "durationValue" property is used by scale binding to
           // generate accessible name.
           this.scrubber.durationValue = timeString;
-
-          // If the duration is over an hour, thumb should show h:mm:ss instead of mm:ss
-          this.showHours = duration >= 3600000;
 
           this.scrubber.max = duration;
           // XXX Can't set increment here, due to bug 473103. Also, doing so causes
@@ -1156,29 +1141,6 @@ class XblVideocontrols extends BaseElement {
             this.scrubber.dragStateChanged(false);
           }
           element.hidden = true;
-        },
-
-        onVideoControlsResized() {
-          // Do not adjust again if resize event is caused by adjustControls(). Audio
-          // might be resized by adjustControls(), so we should skip this handler if
-          // current size is the same as the adjusted size.
-          let { width, height } = this.video.getBoundingClientRect();
-          if (
-            width === this.adjustedVideoSize.width &&
-            height === this.adjustedVideoSize.height
-          ) {
-            return;
-          }
-
-          // For the controls which haven't got correct computed size yet, force
-          // them to re-cache their minWidth when the media is resized (reflow).
-          this.layoutControls.forEach(control => {
-            if (control) {
-              control.resized = control.resized || control.minWidth === 0;
-            }
-          });
-
-          this.adjustControlSize();
         },
 
         _triggeredByControls: false,
@@ -1502,12 +1464,6 @@ class XblVideocontrols extends BaseElement {
         },
 
         setClosedCaptionButtonState() {
-          this.adjustControlSize();
-
-          if (!this.isClosedCaptionAvailable) {
-            return;
-          }
-
           if (this.isClosedCaptionOn()) {
             this.closedCaptionButton.setAttribute("enabled", "true");
           } else {
@@ -1525,6 +1481,8 @@ class XblVideocontrols extends BaseElement {
               tti.removeAttribute("on");
             }
           }
+
+          this.adjustControlSize();
         },
 
         addNewTextTrack(tt) {
@@ -1675,49 +1633,13 @@ class XblVideocontrols extends BaseElement {
         },
 
         controlBarMinHeight: 40,
-        adjustedVideoSize: {},
+        controlBarMinVisibleHeight: 28,
         adjustControlSize() {
           if (this.videocontrols.isTouchControls) {
             return;
           }
 
-          let controlHidden = this.isControlBarHidden;
-
-          if (this.layoutControls.some(control => control.resized)) {
-            this.controlBar.hidden = false;
-
-            for (let control of this.layoutControls) {
-              if (control.resized && !control.hideByAdjustment) {
-                control.resizedHandler();
-                control.resized = false;
-              }
-            }
-
-            this.controlBar.hidden = controlHidden;
-          }
-
-          // Check minWidth of controlBar before adjusting. If the layout information
-          // isn't ready yet, the minWidth of controlBar would be undefined or 0, so early
-          // return to avoid invalid adjustment.
-          if (!this.controlBar.minWidth) {
-            return;
-          }
-
-          let videoWidth = this.video.clientWidth;
-          let videoHeight = this.video.clientHeight;
           const minControlBarPaddingWidth = 18;
-
-          // Hide and show control in order.
-          const prioritizedControls = [
-            this.playButton,
-            this.muteButton,
-            this.fullscreenButton,
-            this.closedCaptionButton,
-            this.positionDurationBox,
-            this.scrubberStack,
-            this.durationSpan,
-            this.volumeStack
-          ];
 
           this.fullscreenButton.isWanted = !this.controlBar.hasAttribute(
             "fullscreen-unavailable"
@@ -1725,10 +1647,27 @@ class XblVideocontrols extends BaseElement {
           this.closedCaptionButton.isWanted = this.isClosedCaptionAvailable;
           this.volumeStack.isWanted = !this.muteButton.hasAttribute("noAudio");
 
+          let minRequiredWidth = this.prioritizedControls
+            .filter(control => control && control.isWanted)
+            .reduce(
+              (accWidth, cc) => accWidth + cc.minWidth,
+              minControlBarPaddingWidth
+            );
+          // Skip the adjustment in case the stylesheets haven't been loaded yet.
+          if (!minRequiredWidth) {
+            return;
+          }
+
+          let givenHeight = this.video.clientHeight;
+          let videoWidth = this.video.clientWidth || minRequiredWidth;
+          let videoHeight = this.isAudioOnly
+            ? this.controlBarMinHeight
+            : givenHeight;
+
           let widthUsed = minControlBarPaddingWidth;
           let preventAppendControl = false;
 
-          for (let control of prioritizedControls) {
+          for (let control of this.prioritizedControls) {
             if (!control.isWanted) {
               control.hideByAdjustment = true;
               continue;
@@ -1744,8 +1683,27 @@ class XblVideocontrols extends BaseElement {
             }
           }
 
-          if (this.durationSpan.hideByAdjustment) {
-            this.positionDurationBox.resized = true;
+          // Use flexible spacer to separate controls when scrubber is hidden.
+          // As long as muteButton hidden, which means only play button presents,
+          // hide spacer and make playButton centered.
+          this.controlBarSpacer.hidden =
+            !this.scrubberStack.hidden || this.muteButton.hidden;
+
+          // Since the size of videocontrols is expanded with controlBar in <audio>, we
+          // should fix the dimensions in order not to recursively trigger reflow afterwards.
+          if (this.video instanceof HTMLAudioElement) {
+            if (givenHeight) {
+              // The height of controlBar should be capped with the bounds between controlBarMinHeight
+              // and controlBarMinVisibleHeight.
+              let controlBarHeight = Math.max(
+                Math.min(givenHeight, this.controlBarMinHeight),
+                this.controlBarMinVisibleHeight
+              );
+              this.controlBar.style.height = `${controlBarHeight}px`;
+            }
+            this.controlBar.style.width = `${videoWidth -
+              minControlBarPaddingWidth}px`;
+            return;
           }
 
           if (
@@ -1758,12 +1716,6 @@ class XblVideocontrols extends BaseElement {
             this.controlBar.removeAttribute("size");
             this.controlBar.hideByAdjustment = false;
           }
-
-          // Use flexible spacer to separate controls when scrubber is hidden.
-          // As long as muteButton hidden, which means only play button presents,
-          // hide spacer and make playButton centered.
-          this.controlBarSpacer.hidden =
-            !this.scrubberStack.hidden || this.muteButton.hidden;
 
           // Adjust clickToPlayButton size.
           const minVideoSideLength = Math.min(videoWidth, videoHeight);
@@ -1790,8 +1742,6 @@ class XblVideocontrols extends BaseElement {
             this.clickToPlay.style.width = `${clickToPlayScaledSize}px`;
             this.clickToPlay.style.height = `${clickToPlayScaledSize}px`;
           }
-          // Record new size after adjustment
-          this.adjustedVideoSize = this.video.getBoundingClientRect();
         },
 
         init(binding) {
@@ -1915,11 +1865,18 @@ class XblVideocontrols extends BaseElement {
             )[0];
           }
 
-          this.layoutControls = [
-            ...this.controlBar.children,
+          this.controlBarComputedStyles = getComputedStyle(this.controlBar);
+
+          // Hide and show control in certain order.
+          this.prioritizedControls = [
+            this.playButton,
+            this.muteButton,
+            this.fullscreenButton,
+            this.closedCaptionButton,
+            this.positionDurationBox,
+            this.scrubberStack,
             this.durationSpan,
-            this.controlBar,
-            this.clickToPlay
+            this.volumeStack
           ];
 
           // XXX controlsContainer is a desktop only element. To determine whether
@@ -1982,7 +1939,7 @@ class XblVideocontrols extends BaseElement {
           addListener(
             this.videocontrols,
             "resizevideocontrols",
-            this.onVideoControlsResized
+            this.adjustControlSize
           );
           addListener(
             this.videocontrols,

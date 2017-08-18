@@ -7,6 +7,10 @@ class XblPreferences extends BaseElement {
 
     let comment = document.createComment("Creating xbl-preferences");
     this.prepend(comment);
+
+    try {
+      this._preferenceChildren = this.getElementsByTagName("preference");
+    } catch (e) {}
   }
   disconnectedCallback() {}
 
@@ -22,19 +26,19 @@ class XblPreferences extends BaseElement {
           this.rootBranch.getBoolPref("browser.preferences.instantApply");
   }
   _constructAfterChildren() {
-    // This method will be called after each one of the child
+    // This method will be called after the last of the child
     // <preference> elements is constructed. Its purpose is to propagate
-    // the values to the associated form elements
+    // the values to the associated form elements. Sometimes the code for
+    // some <preference> initializers depend on other <preference> elements
+    // being initialized so we wait and call updateElements on all of them
+    // once the last one has been constructed. See bugs 997570 and 992185.
 
     var elements = this.getElementsByTagName("preference");
     for (let element of elements) {
-      if (!element._constructed) {
-        return;
-      }
-    }
-    for (let element of elements) {
       element.updateElements();
     }
+
+    this._constructAfterChildrenCalled = true;
   }
   observe(aSubject, aTopic, aData) {
     for (var i = 0; i < this.childNodes.length; ++i) {

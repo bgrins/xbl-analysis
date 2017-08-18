@@ -68,6 +68,21 @@ class XblPopupBase extends BaseElement {
     aAttributesOverride,
     aTriggerEvent
   ) {
+    // Allow for passing an options object as the second argument.
+    if (
+      arguments.length == 2 &&
+      arguments[1] != null &&
+      typeof arguments[1] == "object"
+    ) {
+      let params = arguments[1];
+      aPosition = params.position;
+      aX = params.x;
+      aY = params.y;
+      aIsContextMenu = params.isContextMenu;
+      aAttributesOverride = params.attributesOverride;
+      aTriggerEvent = params.triggerEvent;
+    }
+
     try {
       var popupBox = this.popupBoxObject;
       if (popupBox)
