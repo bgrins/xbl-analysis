@@ -114,31 +114,33 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   }
 
   get pinned() {
-    undefined;
+    return this.getAttribute("pinned") == "true";
   }
 
   get hidden() {
-    undefined;
+    return this.getAttribute("hidden") == "true";
   }
 
   get muted() {
-    undefined;
+    return this.getAttribute("muted") == "true";
   }
 
   get userContextId() {
-    undefined;
+    return this.hasAttribute("usercontextid")
+      ? parseInt(this.getAttribute("usercontextid"))
+      : 0;
   }
 
   get soundPlaying() {
-    undefined;
+    return this.getAttribute("soundplaying") == "true";
   }
 
   get activeMediaBlocked() {
-    undefined;
+    return this.getAttribute("activemedia-blocked") == "true";
   }
 
   get lastAccessed() {
-    undefined;
+    return this._lastAccessed == Infinity ? Date.now() : this._lastAccessed;
   }
 
   get _overPlayingIcon() {

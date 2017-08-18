@@ -69,7 +69,13 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
   disconnectedCallback() {}
 
   get dateTimePopupFrame() {
-    undefined;
+    let frame = this.querySelector("#dateTimePopupFrame");
+    if (!frame) {
+      frame = this.ownerDocument.createElement("iframe");
+      frame.id = "dateTimePopupFrame";
+      this.appendChild(frame);
+    }
+    return frame;
   }
   openPicker(type, anchor, detail) {
     this.type = type;

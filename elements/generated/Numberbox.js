@@ -95,11 +95,17 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
 
   set valueNumber(val) {
-    undefined;
+    this._validateValue(val, false);
+    return val;
   }
 
   get valueNumber() {
-    undefined;
+    if (this._valueEntered) {
+      var newval = this.inputField.value;
+      newval = newval.replace(this.decimalSymbol, ".");
+      this._validateValue(newval, false);
+    }
+    return this._value;
   }
 
   set wrapAround(val) {
@@ -122,7 +128,8 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
 
   get min() {
-    undefined;
+    var min = this.getAttribute("min");
+    return min ? Number(min) : 0;
   }
 
   set max(val) {
@@ -135,15 +142,21 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
 
   get max() {
-    undefined;
+    var max = this.getAttribute("max");
+    return max ? Number(max) : Infinity;
   }
 
   set decimalPlaces(val) {
-    undefined;
+    if (typeof val == "number") {
+      this.setAttribute("decimalplaces", val);
+      this._validateValue(this.valueNumber, false);
+    }
+    return val;
   }
 
   get decimalPlaces() {
-    undefined;
+    var places = this.getAttribute("decimalplaces");
+    return places ? Number(places) : 0;
   }
 
   set increment(val) {
@@ -152,7 +165,8 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
 
   get increment() {
-    undefined;
+    var increment = this.getAttribute("increment");
+    return increment ? Number(increment) : 1;
   }
   decrease() {}
   increase() {}

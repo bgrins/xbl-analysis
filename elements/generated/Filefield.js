@@ -33,7 +33,13 @@ class FirefoxFilefield extends FirefoxBasetext {
   disconnectedCallback() {}
 
   set label(val) {
-    undefined;
+    this.setAttribute("label", val);
+    var elt = document.getAnonymousElementByAttribute(
+      this,
+      "class",
+      "fileFieldLabel"
+    );
+    return (elt.value = val);
   }
 
   get label() {

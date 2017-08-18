@@ -715,7 +715,7 @@ class FirefoxTabbrowser extends BaseElement {
   }
 
   get selectedTab() {
-    undefined;
+    return this.mCurrentTab;
   }
 
   get selectedBrowser() {

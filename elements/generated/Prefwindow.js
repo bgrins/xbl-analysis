@@ -308,7 +308,9 @@ class FirefoxPrefwindow extends FirefoxDialog {
   }
 
   set lastSelected(val) {
-    undefined;
+    this.setAttribute("lastSelected", val);
+    document.persist(this.id, "lastSelected");
+    return val;
   }
 
   get lastSelected() {
@@ -320,7 +322,9 @@ class FirefoxPrefwindow extends FirefoxDialog {
   }
 
   get currentPane() {
-    undefined;
+    if (!this._currentPane) this._currentPane = this.preferencePanes[0];
+
+    return this._currentPane;
   }
 
   get _shouldAnimate() {

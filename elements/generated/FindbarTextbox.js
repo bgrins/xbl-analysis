@@ -25,7 +25,9 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
   disconnectedCallback() {}
 
   get findbar() {
-    undefined;
+    return this._findbar
+      ? this._findbar
+      : (this._findbar = document.getBindingParent(this));
   }
   _handleEnter(aEvent) {
     if (this.findbar._findMode == this.findbar.FIND_NORMAL) {

@@ -18,11 +18,19 @@ class FirefoxSpinbuttons extends FirefoxBasecontrol {
   disconnectedCallback() {}
 
   get _increaseButton() {
-    undefined;
+    return document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "increaseButton"
+    );
   }
 
   get _decreaseButton() {
-    undefined;
+    return document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "decreaseButton"
+    );
   }
 
   set increaseDisabled(val) {

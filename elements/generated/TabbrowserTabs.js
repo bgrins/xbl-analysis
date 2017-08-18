@@ -414,7 +414,12 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   disconnectedCallback() {}
 
   get restoreTabsButtonWrapperWidth() {
-    undefined;
+    if (!this._restoreTabsButtonWrapperWidth) {
+      this._restoreTabsButtonWrapperWidth = this.windowUtils.getBoundsWithoutFlushing(
+        this.restoreTabsButton.parentNode
+      ).width;
+    }
+    return this._restoreTabsButtonWrapperWidth;
   }
 
   get _isCustomizing() {

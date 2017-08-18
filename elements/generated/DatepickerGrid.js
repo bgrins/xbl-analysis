@@ -308,19 +308,21 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
   }
 
   set displayedMonth(val) {
-    undefined;
+    this._updateUI(this.monthField, val, true);
+    return val;
   }
 
   get displayedMonth() {
-    undefined;
+    return this._displayedDate.getMonth();
   }
 
   set displayedYear(val) {
-    undefined;
+    this._updateUI(this.yearField, val, true);
+    return val;
   }
 
   get displayedYear() {
-    undefined;
+    return this._displayedDate.getFullYear();
   }
   _init() {
     var locale =

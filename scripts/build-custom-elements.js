@@ -196,7 +196,7 @@ function getJSForBinding(binding) {
     } else if(property.find('setter').length) {
       js.push(`
         set ${property.attrs.name}(val) {
-          ${property.find('setter')[0].cdata}
+          ${property.find('setter')[0].cdata || property.find('setter')[0].value}
         }
       `);
     }
@@ -209,7 +209,7 @@ function getJSForBinding(binding) {
     } else if(property.find('getter').length) {
       js.push(`
         get ${property.attrs.name}() {
-          ${property.find('getter')[0].cdata}
+          ${property.find('getter')[0].cdata || property.find('getter')[0].value}
         }
       `);
     }

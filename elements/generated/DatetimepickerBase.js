@@ -199,7 +199,15 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
   disconnectedCallback() {}
 
   get _currentField() {
-    undefined;
+    var focusedInput = document.activeElement;
+    if (
+      focusedInput == this._fieldOne ||
+      focusedInput == this._fieldTwo ||
+      focusedInput == this._fieldThree ||
+      focusedInput == this._fieldAMPM
+    )
+      return focusedInput;
+    return this._lastFocusedField || this._fieldOne;
   }
 
   set dateValue(val) {

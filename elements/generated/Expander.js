@@ -57,7 +57,7 @@ class FirefoxExpander extends BaseElement {
   }
 
   get open() {
-    undefined;
+    return this.getAttribute("open");
   }
   onCommand(aEvent) {
     var element = aEvent.originalTarget;

@@ -186,11 +186,15 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
   }
 
   set hideSeconds(val) {
-    undefined;
+    if (val) this.setAttribute("hideseconds", "true");
+    else this.removeAttribute("hideseconds");
+    if (this.secondField) this.secondField.parentNode.collapsed = val;
+    this._separatorSecond.collapsed = val;
+    return val;
   }
 
   get hideSeconds() {
-    undefined;
+    return this.getAttribute("hideseconds") == "true";
   }
 
   set increment(val) {

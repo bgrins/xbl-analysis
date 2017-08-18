@@ -27,7 +27,12 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
   disconnectedCallback() {}
 
   get accessibleName() {
-    undefined;
+    var currTime = this.positionValue;
+    var totalTime = this.durationValue;
+
+    return this.scrubberNameFormat
+      .replace(/#1/, currTime)
+      .replace(/#2/, totalTime);
   }
   valueChanged(which, newValue, userChanged) {
     // This method is a copy of the base binding's valueChanged(), except that it does

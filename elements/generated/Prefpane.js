@@ -134,7 +134,12 @@ class FirefoxPrefpane extends BaseElement {
   }
 
   get contentHeight() {
-    undefined;
+    var targetHeight = parseInt(window.getComputedStyle(this._content).height);
+    targetHeight += parseInt(window.getComputedStyle(this._content).marginTop);
+    targetHeight += parseInt(
+      window.getComputedStyle(this._content).marginBottom
+    );
+    return targetHeight;
   }
   writePreferences(aFlushToDisk) {
     // Write all values to preferences.

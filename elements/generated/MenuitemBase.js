@@ -27,7 +27,11 @@ class FirefoxMenuitemBase extends FirefoxControlItem {
   }
 
   get parentContainer() {
-    undefined;
+    for (var parent = this.parentNode; parent; parent = parent.parentNode) {
+      if (parent instanceof Components.interfaces.nsIDOMXULContainerElement)
+        return parent;
+    }
+    return null;
   }
 }
 customElements.define("firefox-menuitem-base", FirefoxMenuitemBase);

@@ -56,7 +56,7 @@ class FirefoxStatuspanel extends BaseElement {
   }
 
   get label() {
-    undefined;
+    return this.hasAttribute("inactive") ? "" : this.getAttribute("label");
   }
   getMouseTargetRect() {
     if (!this._mouseTargetRect) {

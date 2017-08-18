@@ -119,7 +119,11 @@ class FirefoxPreference extends BaseElement {
   disconnectedCallback() {}
 
   get instantApply() {
-    undefined;
+    if (this.getAttribute("instantApply") == "false") return false;
+    return (
+      this.getAttribute("instantApply") == "true" ||
+      this.preferences.instantApply
+    );
   }
 
   get preferences() {
@@ -127,7 +131,16 @@ class FirefoxPreference extends BaseElement {
   }
 
   set name(val) {
-    undefined;
+    if (val == this.name) return val;
+
+    this.preferences.rootBranchInternal.removeObserver(
+      this.name,
+      this.preferences
+    );
+    this.setAttribute("name", val);
+    this.preferences.rootBranchInternal.addObserver(val, this.preferences);
+
+    return val;
   }
 
   get name() {
@@ -170,7 +183,7 @@ class FirefoxPreference extends BaseElement {
   }
 
   get locked() {
-    undefined;
+    return this.preferences.rootBranch.prefIsLocked(this.name);
   }
 
   set disabled(val) {
@@ -191,7 +204,7 @@ class FirefoxPreference extends BaseElement {
   }
 
   get disabled() {
-    undefined;
+    return this.getAttribute("disabled") == "true";
   }
 
   set tabIndex(val) {
@@ -212,7 +225,7 @@ class FirefoxPreference extends BaseElement {
   }
 
   get tabIndex() {
-    undefined;
+    return parseInt(this.getAttribute("tabindex"));
   }
 
   get hasUserValue() {
@@ -230,7 +243,9 @@ class FirefoxPreference extends BaseElement {
   }
 
   get _branch() {
-    undefined;
+    return this._useDefault
+      ? this.preferences.defaultBranch
+      : this.preferences.rootBranch;
   }
 
   set valueFromPreferences(val) {

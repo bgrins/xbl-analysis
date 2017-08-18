@@ -64,7 +64,13 @@ class FirefoxScale extends FirefoxBasecontrol {
   }
 
   get _slider() {
-    undefined;
+    if (!this._sliderElement)
+      this._sliderElement = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "slider"
+      );
+    return this._sliderElement;
   }
   _getIntegerAttribute(aAttr, aDefaultValue) {}
   _setIntegerAttribute(aAttr, aValue) {

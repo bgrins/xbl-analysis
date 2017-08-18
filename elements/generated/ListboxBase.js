@@ -172,7 +172,14 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   }
 
   set currentItem(val) {
-    undefined;
+    if (this._currentItem == val) return val;
+
+    if (this._currentItem) this._currentItem.current = false;
+    this._currentItem = val;
+
+    if (val) val.current = true;
+
+    return val;
   }
 
   get currentItem() {
@@ -185,7 +192,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   }
 
   get currentIndex() {
-    undefined;
+    return this.currentItem ? this.getIndexOfItem(this.currentItem) : -1;
   }
 
   get selectedCount() {
@@ -193,7 +200,9 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   }
 
   set disableKeyNavigation(val) {
-    undefined;
+    if (val) this.setAttribute("disableKeyNavigation", "true");
+    else this.removeAttribute("disableKeyNavigation");
+    return val;
   }
 
   get disableKeyNavigation() {

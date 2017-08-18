@@ -55,19 +55,31 @@ class FirefoxDatepickerPopup extends FirefoxDatepicker {
   }
 
   set displayedMonth(val) {
-    undefined;
+    document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "grid"
+    ).displayedMonth = val;
+    return val;
   }
 
   get displayedMonth() {
-    undefined;
+    return document.getAnonymousElementByAttribute(this, "anonid", "grid")
+      .displayedMonth;
   }
 
   set displayedYear(val) {
-    undefined;
+    document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "grid"
+    ).displayedYear = val;
+    return val;
   }
 
   get displayedYear() {
-    undefined;
+    return document.getAnonymousElementByAttribute(this, "anonid", "grid")
+      .displayedYear;
   }
 }
 customElements.define("firefox-datepicker-popup", FirefoxDatepickerPopup);

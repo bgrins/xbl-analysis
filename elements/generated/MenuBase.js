@@ -25,7 +25,8 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
   }
 
   get itemCount() {
-    undefined;
+    var menupopup = this.menupopup;
+    return menupopup ? menupopup.childNodes.length : 0;
   }
 
   get menupopup() {

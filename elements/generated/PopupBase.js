@@ -29,7 +29,7 @@ class FirefoxPopupBase extends BaseElement {
   }
 
   get popupBoxObject() {
-    undefined;
+    return this.boxObject;
   }
 
   get state() {

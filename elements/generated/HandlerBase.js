@@ -12,7 +12,7 @@ class FirefoxHandlerBase extends FirefoxRichlistitem {
   disconnectedCallback() {}
 
   get type() {
-    undefined;
+    return this.getAttribute("type");
   }
 }
 customElements.define("firefox-handler-base", FirefoxHandlerBase);
