@@ -167,9 +167,23 @@ function getJSForBinding(binding) {
 
     let data = (field.cdata || field.value || "").trim();
     data = (data.length === 0) ? '""' : data;
+
+    // Remove leading comments, which would cause the 'return' to be on a different line
+    // than the expression.
+    let comments = [];
+    let expressions = data.split("\n");
+    for (var i = 0; i < expressions.length; i++) {
+      if (expressions[i].trim().startsWith("//")) {
+        comments.push(expressions[i]);
+      } else {
+        expressions = expressions.slice(i);
+        break;
+      }
+    }
     js.push(`
       get ${field.attrs.name}() {
-        return ${data};
+        ${comments.join('\n')}
+        return ${expressions.join('\n')};
       }
     `);
   }

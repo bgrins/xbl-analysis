@@ -262,9 +262,9 @@ class FirefoxTabbrowser extends BaseElement {
   }
 
   get browsers() {
-    return; // This defines a proxy which allows us to access browsers by
+    // This defines a proxy which allows us to access browsers by
     // index without actually creating a full array of browsers.
-    new Proxy([], {
+    return new Proxy([], {
       has: (target, name) => {
         if (typeof name == "string" && Number.isInteger(parseInt(name))) {
           return name in this.tabs;
