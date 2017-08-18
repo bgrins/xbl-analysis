@@ -14,6 +14,71 @@ class FirefoxTextbox extends BaseElement {
     let comment = document.createComment("Creating firefox-textbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "crop", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.crop;
+        return (this.crop = "");
+      }
+    });
+    Object.defineProperty(this, "image", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.image;
+        return (this.image = "");
+      }
+    });
+    Object.defineProperty(this, "command", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.command;
+        return (this.command = "");
+      }
+    });
+    Object.defineProperty(this, "accessKey", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.accessKey;
+        return (this.accessKey = "");
+      }
+    });
+    Object.defineProperty(this, "mInputField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mInputField;
+        return (this.mInputField = null);
+      }
+    });
+    Object.defineProperty(this, "mIgnoreClick", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mIgnoreClick;
+        return (this.mIgnoreClick = false);
+      }
+    });
+    Object.defineProperty(this, "mIgnoreFocus", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mIgnoreFocus;
+        return (this.mIgnoreFocus = false);
+      }
+    });
+    Object.defineProperty(this, "mEditor", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mEditor;
+        return (this.mEditor = null);
+      }
+    });
+
     try {
       var str = this.boxObject.getProperty("value");
       if (str) {
@@ -26,14 +91,6 @@ class FirefoxTextbox extends BaseElement {
       if (this.hasAttribute("emptytext"))
         this.placeholder = this.getAttribute("emptytext");
     } catch (e) {}
-    this.crop = "";
-    this.image = "";
-    this.command = "";
-    this.accessKey = "";
-    this.mInputField = null;
-    this.mIgnoreClick = false;
-    this.mIgnoreFocus = false;
-    this.mEditor = null;
   }
   disconnectedCallback() {}
 

@@ -9,6 +9,15 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     let comment = document.createComment("Creating firefox-radiogroup");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_radioChildren", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._radioChildren;
+        return (this._radioChildren = null);
+      }
+    });
+
     try {
       if (this.getAttribute("disabled") == "true") this.disabled = true;
 
@@ -25,7 +34,6 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       if (value) this.value = value;
       else this.selectedIndex = 0;
     } catch (e) {}
-    this._radioChildren = null;
   }
   disconnectedCallback() {}
 

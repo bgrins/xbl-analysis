@@ -9,8 +9,22 @@ class FirefoxTabpanels extends FirefoxTabBase {
     let comment = document.createComment("Creating firefox-tabpanels");
     this.prepend(comment);
 
-    this._tabbox = null;
-    this._selectedPanel = this.childNodes.item(this.selectedIndex);
+    Object.defineProperty(this, "_tabbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._tabbox;
+        return (this._tabbox = null);
+      }
+    });
+    Object.defineProperty(this, "_selectedPanel", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._selectedPanel;
+        return (this._selectedPanel = this.childNodes.item(this.selectedIndex));
+      }
+    });
   }
   disconnectedCallback() {}
 

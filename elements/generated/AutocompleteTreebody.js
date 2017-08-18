@@ -10,7 +10,14 @@ class FirefoxAutocompleteTreebody extends BaseElement {
     );
     this.prepend(comment);
 
-    this.mLastMoveTime = Date.now();
+    Object.defineProperty(this, "mLastMoveTime", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mLastMoveTime;
+        return (this.mLastMoveTime = Date.now());
+      }
+    });
   }
   disconnectedCallback() {}
 }

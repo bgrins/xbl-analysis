@@ -15,6 +15,23 @@ class FirefoxTabs extends FirefoxBasecontrol {
     let comment = document.createComment("Creating firefox-tabs");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_tabbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._tabbox;
+        return (this._tabbox = null);
+      }
+    });
+    Object.defineProperty(this, "_tabbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._tabbox;
+        return (this._tabbox = this.tabbox);
+      }
+    });
+
     try {
       // first and last tabs need to be able to have unique styles
       // and also need to select first tab on startup.
@@ -43,13 +60,8 @@ class FirefoxTabs extends FirefoxBasecontrol {
       if (value) this.value = value;
       else this.selectedIndex = 0;
     } catch (e) {}
-    this._tabbox = null;
   }
   disconnectedCallback() {}
-
-  get _tabbox() {
-    return this.tabbox;
-  }
 
   get itemCount() {
     return this.childNodes.length;

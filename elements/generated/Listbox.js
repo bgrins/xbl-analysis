@@ -23,6 +23,15 @@ class FirefoxListbox extends FirefoxListboxBase {
     let comment = document.createComment("Creating firefox-listbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_touchY", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._touchY;
+        return (this._touchY = -1);
+      }
+    });
+
     try {
       var count = this.itemCount;
       for (var index = 0; index < count; index++) {
@@ -31,7 +40,6 @@ class FirefoxListbox extends FirefoxListboxBase {
           this.selectedItems.append(item);
       }
     } catch (e) {}
-    this._touchY = -1;
   }
   disconnectedCallback() {}
 

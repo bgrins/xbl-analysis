@@ -19,6 +19,173 @@ class FirefoxWizard extends FirefoxRootElement {
     let comment = document.createComment("Creating firefox-wizard");
     this.prepend(comment);
 
+    Object.defineProperty(this, "pageCount", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.pageCount;
+        return (this.pageCount = 0);
+      }
+    });
+    Object.defineProperty(this, "_accessMethod", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._accessMethod;
+        return (this._accessMethod = null);
+      }
+    });
+    Object.defineProperty(this, "_pageStack", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._pageStack;
+        return (this._pageStack = null);
+      }
+    });
+    Object.defineProperty(this, "_currentPage", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._currentPage;
+        return (this._currentPage = null);
+      }
+    });
+    Object.defineProperty(this, "_canAdvance", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._canAdvance;
+        return (this._canAdvance = "");
+      }
+    });
+    Object.defineProperty(this, "_canRewind", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._canRewind;
+        return (this._canRewind = "");
+      }
+    });
+    Object.defineProperty(this, "_wizardHeader", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._wizardHeader;
+        return (this._wizardHeader = "");
+      }
+    });
+    Object.defineProperty(this, "_wizardButtons", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._wizardButtons;
+        return (this._wizardButtons = "");
+      }
+    });
+    Object.defineProperty(this, "_deck", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._deck;
+        return (this._deck = "");
+      }
+    });
+    Object.defineProperty(this, "_backButton", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._backButton;
+        return (this._backButton = "");
+      }
+    });
+    Object.defineProperty(this, "_nextButton", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._nextButton;
+        return (this._nextButton = "");
+      }
+    });
+    Object.defineProperty(this, "_cancelButton", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._cancelButton;
+        return (this._cancelButton = "");
+      }
+    });
+    Object.defineProperty(this, "_backFunc", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._backFunc;
+        return (this._backFunc = function() {
+          document.documentElement.rewind();
+        });
+      }
+    });
+    Object.defineProperty(this, "_nextFunc", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._nextFunc;
+        return (this._nextFunc = function() {
+          document.documentElement.advance();
+        });
+      }
+    });
+    Object.defineProperty(this, "_finishFunc", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._finishFunc;
+        return (this._finishFunc = function() {
+          document.documentElement.advance();
+        });
+      }
+    });
+    Object.defineProperty(this, "_cancelFunc", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._cancelFunc;
+        return (this._cancelFunc = function() {
+          document.documentElement.cancel();
+        });
+      }
+    });
+    Object.defineProperty(this, "_extra1Func", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._extra1Func;
+        return (this._extra1Func = function() {
+          document.documentElement.extra1();
+        });
+      }
+    });
+    Object.defineProperty(this, "_extra2Func", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._extra2Func;
+        return (this._extra2Func = function() {
+          document.documentElement.extra2();
+        });
+      }
+    });
+    Object.defineProperty(this, "_closeHandler", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._closeHandler;
+        return (this._closeHandler = function(event) {
+          if (document.documentElement.cancel()) event.preventDefault();
+        });
+      }
+    });
+
     try {
       this._canAdvance = true;
       this._canRewind = false;
@@ -72,39 +239,6 @@ class FirefoxWizard extends FirefoxRootElement {
       // give focus to the first focusable element in the dialog
       window.addEventListener("load", this._setInitialFocus);
     } catch (e) {}
-    this.pageCount = 0;
-    this._accessMethod = null;
-    this._pageStack = null;
-    this._currentPage = null;
-    this._canAdvance = "";
-    this._canRewind = "";
-    this._wizardHeader = "";
-    this._wizardButtons = "";
-    this._deck = "";
-    this._backButton = "";
-    this._nextButton = "";
-    this._cancelButton = "";
-    this._backFunc = function() {
-      document.documentElement.rewind();
-    };
-    this._nextFunc = function() {
-      document.documentElement.advance();
-    };
-    this._finishFunc = function() {
-      document.documentElement.advance();
-    };
-    this._cancelFunc = function() {
-      document.documentElement.cancel();
-    };
-    this._extra1Func = function() {
-      document.documentElement.extra1();
-    };
-    this._extra2Func = function() {
-      document.documentElement.extra2();
-    };
-    this._closeHandler = function(event) {
-      if (document.documentElement.cancel()) event.preventDefault();
-    };
   }
   disconnectedCallback() {}
 

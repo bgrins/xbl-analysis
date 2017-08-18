@@ -11,8 +11,22 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
     );
     this.prepend(comment);
 
-    this.mLastMoveTime = Date.now();
-    this.mousedOverIndex = -1;
+    Object.defineProperty(this, "mLastMoveTime", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mLastMoveTime;
+        return (this.mLastMoveTime = Date.now());
+      }
+    });
+    Object.defineProperty(this, "mousedOverIndex", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mousedOverIndex;
+        return (this.mousedOverIndex = -1);
+      }
+    });
   }
   disconnectedCallback() {}
 }

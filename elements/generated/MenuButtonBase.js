@@ -9,10 +9,18 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
     let comment = document.createComment("Creating firefox-menu-button-base");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_pendingActive", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._pendingActive;
+        return (this._pendingActive = false);
+      }
+    });
+
     try {
       undefined;
     } catch (e) {}
-    this._pendingActive = false;
   }
   disconnectedCallback() {}
 

@@ -9,7 +9,14 @@ class FirefoxWizardpage extends FirefoxWizardBase {
     let comment = document.createComment("Creating firefox-wizardpage");
     this.prepend(comment);
 
-    this.pageIndex = -1;
+    Object.defineProperty(this, "pageIndex", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.pageIndex;
+        return (this.pageIndex = -1);
+      }
+    });
   }
   disconnectedCallback() {}
 

@@ -43,6 +43,25 @@ class FirefoxDialog extends FirefoxRootElement {
     let comment = document.createComment("Creating firefox-dialog");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_mStrBundle", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._mStrBundle;
+        return (this._mStrBundle = null);
+      }
+    });
+    Object.defineProperty(this, "_closeHandler", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._closeHandler;
+        return (this._closeHandler = function(event) {
+          if (!document.documentElement.cancelDialog()) event.preventDefault();
+        });
+      }
+    });
+
     try {
       this._configureButtons(this.buttons);
 
@@ -55,10 +74,6 @@ class FirefoxDialog extends FirefoxRootElement {
       window.moveToAlertPosition = this.moveToAlertPosition;
       window.centerWindowOnScreen = this.centerWindowOnScreen;
     } catch (e) {}
-    this._mStrBundle = null;
-    this._closeHandler = function(event) {
-      if (!document.documentElement.cancelDialog()) event.preventDefault();
-    };
   }
   disconnectedCallback() {}
 

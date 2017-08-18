@@ -14,12 +14,17 @@ class FirefoxTab extends FirefoxControlItem {
 </hbox>`;
     let comment = document.createComment("Creating firefox-tab");
     this.prepend(comment);
+
+    Object.defineProperty(this, "arrowKeysShouldWrap", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.arrowKeysShouldWrap;
+        return (this.arrowKeysShouldWrap = /Mac/.test(navigator.platform));
+      }
+    });
   }
   disconnectedCallback() {}
-
-  get arrowKeysShouldWrap() {
-    return /Mac/.test(navigator.platform);
-  }
 
   get control() {
     var parent = this.parentNode;

@@ -15,10 +15,18 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
     );
     this.prepend(comment);
 
+    Object.defineProperty(this, "_alive", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._alive;
+        return (this._alive = true);
+      }
+    });
+
     try {
       undefined;
     } catch (e) {}
-    this._alive = true;
   }
   disconnectedCallback() {}
   _init() {

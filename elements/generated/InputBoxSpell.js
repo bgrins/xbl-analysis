@@ -45,22 +45,50 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
     let comment = document.createComment("Creating firefox-input-box-spell");
     this.prepend(comment);
 
-    this._spellCheckInitialized = false;
-    this._enabledCheckbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "spell-check-enabled"
-    );
-    this._suggestionsSeparator = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "spell-no-suggestions"
-    );
-    this._dictionariesMenu = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "spell-dictionaries-menu"
-    );
+    Object.defineProperty(this, "_spellCheckInitialized", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._spellCheckInitialized;
+        return (this._spellCheckInitialized = false);
+      }
+    });
+    Object.defineProperty(this, "_enabledCheckbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._enabledCheckbox;
+        return (this._enabledCheckbox = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "spell-check-enabled"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_suggestionsSeparator", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._suggestionsSeparator;
+        return (this._suggestionsSeparator = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "spell-no-suggestions"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_dictionariesMenu", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._dictionariesMenu;
+        return (this._dictionariesMenu = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "spell-dictionaries-menu"
+        ));
+      }
+    });
   }
   disconnectedCallback() {}
 

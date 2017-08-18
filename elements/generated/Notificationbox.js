@@ -16,52 +16,120 @@ class FirefoxNotificationbox extends BaseElement {
     let comment = document.createComment("Creating firefox-notificationbox");
     this.prepend(comment);
 
-    this.currentNotification = null;
-    this._closedNotification = null;
-    this._blockingCanvas = null;
-    this._animating = false;
+    Object.defineProperty(this, "PRIORITY_INFO_LOW", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_INFO_LOW;
+        return (this.PRIORITY_INFO_LOW = 1);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_INFO_MEDIUM", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_INFO_MEDIUM;
+        return (this.PRIORITY_INFO_MEDIUM = 2);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_INFO_HIGH", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_INFO_HIGH;
+        return (this.PRIORITY_INFO_HIGH = 3);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_WARNING_LOW", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_WARNING_LOW;
+        return (this.PRIORITY_WARNING_LOW = 4);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_WARNING_MEDIUM", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_WARNING_MEDIUM;
+        return (this.PRIORITY_WARNING_MEDIUM = 5);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_WARNING_HIGH", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_WARNING_HIGH;
+        return (this.PRIORITY_WARNING_HIGH = 6);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_CRITICAL_LOW", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_CRITICAL_LOW;
+        return (this.PRIORITY_CRITICAL_LOW = 7);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_CRITICAL_MEDIUM", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_CRITICAL_MEDIUM;
+        return (this.PRIORITY_CRITICAL_MEDIUM = 8);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_CRITICAL_HIGH", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_CRITICAL_HIGH;
+        return (this.PRIORITY_CRITICAL_HIGH = 9);
+      }
+    });
+    Object.defineProperty(this, "PRIORITY_CRITICAL_BLOCK", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.PRIORITY_CRITICAL_BLOCK;
+        return (this.PRIORITY_CRITICAL_BLOCK = 10);
+      }
+    });
+    Object.defineProperty(this, "currentNotification", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.currentNotification;
+        return (this.currentNotification = null);
+      }
+    });
+    Object.defineProperty(this, "_closedNotification", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._closedNotification;
+        return (this._closedNotification = null);
+      }
+    });
+    Object.defineProperty(this, "_blockingCanvas", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._blockingCanvas;
+        return (this._blockingCanvas = null);
+      }
+    });
+    Object.defineProperty(this, "_animating", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._animating;
+        return (this._animating = false);
+      }
+    });
   }
   disconnectedCallback() {}
-
-  get PRIORITY_INFO_LOW() {
-    return 1;
-  }
-
-  get PRIORITY_INFO_MEDIUM() {
-    return 2;
-  }
-
-  get PRIORITY_INFO_HIGH() {
-    return 3;
-  }
-
-  get PRIORITY_WARNING_LOW() {
-    return 4;
-  }
-
-  get PRIORITY_WARNING_MEDIUM() {
-    return 5;
-  }
-
-  get PRIORITY_WARNING_HIGH() {
-    return 6;
-  }
-
-  get PRIORITY_CRITICAL_LOW() {
-    return 7;
-  }
-
-  get PRIORITY_CRITICAL_MEDIUM() {
-    return 8;
-  }
-
-  get PRIORITY_CRITICAL_HIGH() {
-    return 9;
-  }
-
-  get PRIORITY_CRITICAL_BLOCK() {
-    return 10;
-  }
 
   get _allowAnimation() {
     var prefs = Components.classes[

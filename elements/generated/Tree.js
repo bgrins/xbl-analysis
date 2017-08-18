@@ -25,14 +25,72 @@ class FirefoxTree extends FirefoxTreeBase {
     let comment = document.createComment("Creating firefox-tree");
     this.prepend(comment);
 
-    this.pageUpOrDownMovesSelection = !/Mac/.test(navigator.platform);
-    this._inputField = null;
-    this._editingRow = -1;
-    this._editingColumn = null;
-    this._columnsDirty = true;
-    this._lastKeyTime = 0;
-    this._incrementalString = "";
-    this._touchY = -1;
+    Object.defineProperty(this, "pageUpOrDownMovesSelection", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.pageUpOrDownMovesSelection;
+        return (this.pageUpOrDownMovesSelection = !/Mac/.test(
+          navigator.platform
+        ));
+      }
+    });
+    Object.defineProperty(this, "_inputField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._inputField;
+        return (this._inputField = null);
+      }
+    });
+    Object.defineProperty(this, "_editingRow", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._editingRow;
+        return (this._editingRow = -1);
+      }
+    });
+    Object.defineProperty(this, "_editingColumn", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._editingColumn;
+        return (this._editingColumn = null);
+      }
+    });
+    Object.defineProperty(this, "_columnsDirty", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._columnsDirty;
+        return (this._columnsDirty = true);
+      }
+    });
+    Object.defineProperty(this, "_lastKeyTime", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._lastKeyTime;
+        return (this._lastKeyTime = 0);
+      }
+    });
+    Object.defineProperty(this, "_incrementalString", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._incrementalString;
+        return (this._incrementalString = "");
+      }
+    });
+    Object.defineProperty(this, "_touchY", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._touchY;
+        return (this._touchY = -1);
+      }
+    });
   }
   disconnectedCallback() {}
 

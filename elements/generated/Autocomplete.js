@@ -29,6 +29,145 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     let comment = document.createComment("Creating firefox-autocomplete");
     this.prepend(comment);
 
+    Object.defineProperty(this, "mController", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mController;
+        return (this.mController = null);
+      }
+    });
+    Object.defineProperty(this, "mSearchNames", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mSearchNames;
+        return (this.mSearchNames = null);
+      }
+    });
+    Object.defineProperty(this, "mIgnoreInput", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mIgnoreInput;
+        return (this.mIgnoreInput = false);
+      }
+    });
+    Object.defineProperty(this, "_searchBeginHandler", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._searchBeginHandler;
+        return (this._searchBeginHandler = null);
+      }
+    });
+    Object.defineProperty(this, "_searchCompleteHandler", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._searchCompleteHandler;
+        return (this._searchCompleteHandler = null);
+      }
+    });
+    Object.defineProperty(this, "_textEnteredHandler", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._textEnteredHandler;
+        return (this._textEnteredHandler = null);
+      }
+    });
+    Object.defineProperty(this, "_textRevertedHandler", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._textRevertedHandler;
+        return (this._textRevertedHandler = null);
+      }
+    });
+    Object.defineProperty(this, "_popup", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._popup;
+        return (this._popup = null);
+      }
+    });
+    Object.defineProperty(this, "shrinkDelay", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.shrinkDelay;
+        return (this.shrinkDelay =
+          parseInt(this.getAttribute("shrinkdelay")) || 0);
+      }
+    });
+    Object.defineProperty(this, "maxDropMarkerRows", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.maxDropMarkerRows;
+        return (this.maxDropMarkerRows = 14);
+      }
+    });
+    Object.defineProperty(this, "valueIsTyped", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.valueIsTyped;
+        return (this.valueIsTyped = false);
+      }
+    });
+    Object.defineProperty(this, "_disableTrim", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._disableTrim;
+        return (this._disableTrim = false);
+      }
+    });
+    Object.defineProperty(this, "_selectionDetails", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._selectionDetails;
+        return (this._selectionDetails = null);
+      }
+    });
+    Object.defineProperty(this, "_valueIsPasted", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._valueIsPasted;
+        return (this._valueIsPasted = false);
+      }
+    });
+    Object.defineProperty(this, "_pasteController", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._pasteController;
+        return (this._pasteController = {
+          _autocomplete: this,
+          _kGlobalClipboard:
+            Components.interfaces.nsIClipboard.kGlobalClipboard,
+          supportsCommand: aCommand => aCommand == "cmd_paste",
+          doCommand(aCommand) {
+            this._autocomplete._valueIsPasted = true;
+            this._autocomplete.editor.paste(this._kGlobalClipboard);
+            this._autocomplete._valueIsPasted = false;
+          },
+          isCommandEnabled(aCommand) {
+            return (
+              this._autocomplete.editor.isSelectionEditable &&
+              this._autocomplete.editor.canPaste(this._kGlobalClipboard)
+            );
+          },
+          onEvent() {}
+        });
+      }
+    });
+
     try {
       this.mController = Components.classes[
         "@mozilla.org/autocomplete/controller;1"
@@ -42,45 +181,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       // For security reasons delay searches on pasted values.
       this.inputField.controllers.insertControllerAt(0, this._pasteController);
     } catch (e) {}
-    this.mController = null;
-    this.mSearchNames = null;
-    this.mIgnoreInput = false;
-    this._searchBeginHandler = null;
-    this._searchCompleteHandler = null;
-    this._textEnteredHandler = null;
-    this._textRevertedHandler = null;
-    this._popup = null;
-    this.valueIsTyped = false;
-    this._disableTrim = false;
-    this._selectionDetails = null;
-    this._valueIsPasted = false;
-    this._pasteController = {
-      _autocomplete: this,
-      _kGlobalClipboard: Components.interfaces.nsIClipboard.kGlobalClipboard,
-      supportsCommand: aCommand => aCommand == "cmd_paste",
-      doCommand(aCommand) {
-        this._autocomplete._valueIsPasted = true;
-        this._autocomplete.editor.paste(this._kGlobalClipboard);
-        this._autocomplete._valueIsPasted = false;
-      },
-      isCommandEnabled(aCommand) {
-        return (
-          this._autocomplete.editor.isSelectionEditable &&
-          this._autocomplete.editor.canPaste(this._kGlobalClipboard)
-        );
-      },
-      onEvent() {}
-    };
   }
   disconnectedCallback() {}
-
-  get shrinkDelay() {
-    return parseInt(this.getAttribute("shrinkdelay")) || 0;
-  }
-
-  get maxDropMarkerRows() {
-    return 14;
-  }
 
   get popup() {
     // Memoize the result in a field rather than replacing this property,

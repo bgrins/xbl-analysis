@@ -22,7 +22,14 @@ class FirefoxNotification extends BaseElement {
     let comment = document.createComment("Creating firefox-notification");
     this.prepend(comment);
 
-    this.timeout = 0;
+    Object.defineProperty(this, "timeout", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.timeout;
+        return (this.timeout = 0);
+      }
+    });
   }
   disconnectedCallback() {}
 

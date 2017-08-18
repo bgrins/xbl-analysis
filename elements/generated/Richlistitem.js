@@ -11,7 +11,14 @@ class FirefoxRichlistitem extends FirefoxListitem {
     let comment = document.createComment("Creating firefox-richlistitem");
     this.prepend(comment);
 
-    this.selectedByMouseOver = false;
+    Object.defineProperty(this, "selectedByMouseOver", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.selectedByMouseOver;
+        return (this.selectedByMouseOver = false);
+      }
+    });
   }
   disconnectedCallback() {}
 

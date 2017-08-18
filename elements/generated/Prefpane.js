@@ -12,13 +12,34 @@ class FirefoxPrefpane extends BaseElement {
     let comment = document.createComment("Creating firefox-prefpane");
     this.prepend(comment);
 
-    this._loaded = false;
-    this._deferredValueUpdateElements = new Set();
-    this._content = document.getAnonymousElementByAttribute(
-      this,
-      "class",
-      "content-box"
-    );
+    Object.defineProperty(this, "_loaded", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._loaded;
+        return (this._loaded = false);
+      }
+    });
+    Object.defineProperty(this, "_deferredValueUpdateElements", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._deferredValueUpdateElements;
+        return (this._deferredValueUpdateElements = new Set());
+      }
+    });
+    Object.defineProperty(this, "_content", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._content;
+        return (this._content = document.getAnonymousElementByAttribute(
+          this,
+          "class",
+          "content-box"
+        ));
+      }
+    });
   }
   disconnectedCallback() {}
 

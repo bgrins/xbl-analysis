@@ -8,22 +8,72 @@ class FirefoxPreferences extends BaseElement {
     let comment = document.createComment("Creating firefox-preferences");
     this.prepend(comment);
 
+    Object.defineProperty(this, "service", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.service;
+        return (this.service = Components.classes[
+          "@mozilla.org/preferences-service;1"
+        ].getService(Components.interfaces.nsIPrefService));
+      }
+    });
+    Object.defineProperty(this, "rootBranch", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.rootBranch;
+        return (this.rootBranch = Components.classes[
+          "@mozilla.org/preferences-service;1"
+        ].getService(Components.interfaces.nsIPrefBranch));
+      }
+    });
+    Object.defineProperty(this, "defaultBranch", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.defaultBranch;
+        return (this.defaultBranch = this.service.getDefaultBranch(""));
+      }
+    });
+    Object.defineProperty(this, "rootBranchInternal", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.rootBranchInternal;
+        return (this.rootBranchInternal = Components.classes[
+          "@mozilla.org/preferences-service;1"
+        ].getService(Components.interfaces.nsIPrefBranch));
+      }
+    });
+    Object.defineProperty(this, "_constructedChildrenCount", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._constructedChildrenCount;
+        return (this._constructedChildrenCount = 0);
+      }
+    });
+    Object.defineProperty(this, "_preferenceChildren", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._preferenceChildren;
+        return (this._preferenceChildren = null);
+      }
+    });
+    Object.defineProperty(this, "_constructAfterChildrenCalled", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._constructAfterChildrenCalled;
+        return (this._constructAfterChildrenCalled = false);
+      }
+    });
+
     try {
       this._preferenceChildren = this.getElementsByTagName("preference");
     } catch (e) {}
-    this.service = Components.classes[
-      "@mozilla.org/preferences-service;1"
-    ].getService(Components.interfaces.nsIPrefService);
-    this.rootBranch = Components.classes[
-      "@mozilla.org/preferences-service;1"
-    ].getService(Components.interfaces.nsIPrefBranch);
-    this.defaultBranch = this.service.getDefaultBranch("");
-    this.rootBranchInternal = Components.classes[
-      "@mozilla.org/preferences-service;1"
-    ].getService(Components.interfaces.nsIPrefBranch);
-    this._constructedChildrenCount = 0;
-    this._preferenceChildren = null;
-    this._constructAfterChildrenCalled = false;
   }
   disconnectedCallback() {}
 

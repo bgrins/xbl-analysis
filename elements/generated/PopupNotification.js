@@ -47,43 +47,80 @@ class FirefoxPopupNotification extends BaseElement {
 </hbox>`;
     let comment = document.createComment("Creating firefox-popup-notification");
     this.prepend(comment);
+
+    Object.defineProperty(this, "checkbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.checkbox;
+        return (this.checkbox = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "checkbox"
+        ));
+      }
+    });
+    Object.defineProperty(this, "closebutton", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.closebutton;
+        return (this.closebutton = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "closebutton"
+        ));
+      }
+    });
+    Object.defineProperty(this, "button", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.button;
+        return (this.button = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "button"
+        ));
+      }
+    });
+    Object.defineProperty(this, "secondaryButton", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.secondaryButton;
+        return (this.secondaryButton = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "secondarybutton"
+        ));
+      }
+    });
+    Object.defineProperty(this, "menubutton", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.menubutton;
+        return (this.menubutton = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "menubutton"
+        ));
+      }
+    });
+    Object.defineProperty(this, "menupopup", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.menupopup;
+        return (this.menupopup = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "menupopup"
+        ));
+      }
+    });
   }
   disconnectedCallback() {}
-
-  get checkbox() {
-    return document.getAnonymousElementByAttribute(this, "anonid", "checkbox");
-  }
-
-  get closebutton() {
-    return document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "closebutton"
-    );
-  }
-
-  get button() {
-    return document.getAnonymousElementByAttribute(this, "anonid", "button");
-  }
-
-  get secondaryButton() {
-    return document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "secondarybutton"
-    );
-  }
-
-  get menubutton() {
-    return document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "menubutton"
-    );
-  }
-
-  get menupopup() {
-    return document.getAnonymousElementByAttribute(this, "anonid", "menupopup");
-  }
 }
 customElements.define("firefox-popup-notification", FirefoxPopupNotification);

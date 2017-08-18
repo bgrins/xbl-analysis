@@ -13,8 +13,22 @@ class FirefoxTooltip extends FirefoxPopupBase {
     let comment = document.createComment("Creating firefox-tooltip");
     this.prepend(comment);
 
-    this._mouseOutCount = 0;
-    this._isMouseOver = false;
+    Object.defineProperty(this, "_mouseOutCount", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._mouseOutCount;
+        return (this._mouseOutCount = 0);
+      }
+    });
+    Object.defineProperty(this, "_isMouseOver", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._isMouseOver;
+        return (this._isMouseOver = false);
+      }
+    });
   }
   disconnectedCallback() {}
 

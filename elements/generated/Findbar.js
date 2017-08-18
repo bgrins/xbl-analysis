@@ -37,6 +37,167 @@ class FirefoxFindbar extends FirefoxToolbar {
     let comment = document.createComment("Creating firefox-findbar");
     this.prepend(comment);
 
+    Object.defineProperty(this, "FIND_NORMAL", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.FIND_NORMAL;
+        return (this.FIND_NORMAL = 0);
+      }
+    });
+    Object.defineProperty(this, "FIND_TYPEAHEAD", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.FIND_TYPEAHEAD;
+        return (this.FIND_TYPEAHEAD = 1);
+      }
+    });
+    Object.defineProperty(this, "FIND_LINKS", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.FIND_LINKS;
+        return (this.FIND_LINKS = 2);
+      }
+    });
+    Object.defineProperty(this, "__findMode", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.__findMode;
+        return (this.__findMode = 0);
+      }
+    });
+    Object.defineProperty(this, "_flashFindBar", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._flashFindBar;
+        return (this._flashFindBar = 0);
+      }
+    });
+    Object.defineProperty(this, "_initialFlashFindBarCount", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._initialFlashFindBarCount;
+        return (this._initialFlashFindBarCount = 6);
+      }
+    });
+    Object.defineProperty(this, "_startFindDeferred", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._startFindDeferred;
+        return (this._startFindDeferred = null);
+      }
+    });
+    Object.defineProperty(this, "_browser", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._browser;
+        return (this._browser = null);
+      }
+    });
+    Object.defineProperty(this, "__prefsvc", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.__prefsvc;
+        return (this.__prefsvc = null);
+      }
+    });
+    Object.defineProperty(this, "_observer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._observer;
+        return (this._observer = {
+          _self: this,
+
+          QueryInterface(aIID) {
+            if (
+              aIID.equals(Components.interfaces.nsIObserver) ||
+              aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+              aIID.equals(Components.interfaces.nsISupports)
+            )
+              return this;
+
+            throw Components.results.NS_ERROR_NO_INTERFACE;
+          },
+
+          observe(aSubject, aTopic, aPrefName) {
+            if (aTopic != "nsPref:changed") return;
+
+            let prefsvc = this._self._prefsvc;
+
+            switch (aPrefName) {
+              case "accessibility.typeaheadfind":
+                this._self._findAsYouType = prefsvc.getBoolPref(aPrefName);
+                break;
+              case "accessibility.typeaheadfind.linksonly":
+                this._self._typeAheadLinksOnly = prefsvc.getBoolPref(aPrefName);
+                break;
+              case "accessibility.typeaheadfind.casesensitive":
+                this._self._setCaseSensitivity(prefsvc.getIntPref(aPrefName));
+                break;
+              case "findbar.entireword":
+                this._self._entireWord = prefsvc.getBoolPref(aPrefName);
+                this._self.toggleEntireWord(this._self._entireWord, true);
+                break;
+              case "findbar.highlightAll":
+                this._self.toggleHighlight(
+                  prefsvc.getBoolPref(aPrefName),
+                  true
+                );
+                break;
+              case "findbar.modalHighlight":
+                this._self._useModalHighlight = prefsvc.getBoolPref(aPrefName);
+                if (this._self.browser.finder)
+                  this._self.browser.finder.onModalHighlightChange(
+                    this._self._useModalHighlight
+                  );
+                break;
+            }
+          }
+        });
+      }
+    });
+    Object.defineProperty(this, "_destroyed", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._destroyed;
+        return (this._destroyed = false);
+      }
+    });
+    Object.defineProperty(this, "_pluralForm", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._pluralForm;
+        return (this._pluralForm = null);
+      }
+    });
+    Object.defineProperty(this, "_strBundle", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._strBundle;
+        return (this._strBundle = null);
+      }
+    });
+    Object.defineProperty(this, "_xulBrowserWindow", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._xulBrowserWindow;
+        return (this._xulBrowserWindow = null);
+      }
+    });
+
     try {
       // These elements are accessed frequently and are therefore cached
       this._findField = this.getElement("findbar-textbox");
@@ -98,65 +259,6 @@ class FirefoxFindbar extends FirefoxToolbar {
           this
         );
     } catch (e) {}
-    this.FIND_NORMAL = 0;
-    this.FIND_TYPEAHEAD = 1;
-    this.FIND_LINKS = 2;
-    this.__findMode = 0;
-    this._flashFindBar = 0;
-    this._initialFlashFindBarCount = 6;
-    this._startFindDeferred = null;
-    this._browser = null;
-    this.__prefsvc = null;
-    this._observer = {
-      _self: this,
-
-      QueryInterface(aIID) {
-        if (
-          aIID.equals(Components.interfaces.nsIObserver) ||
-          aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-          aIID.equals(Components.interfaces.nsISupports)
-        )
-          return this;
-
-        throw Components.results.NS_ERROR_NO_INTERFACE;
-      },
-
-      observe(aSubject, aTopic, aPrefName) {
-        if (aTopic != "nsPref:changed") return;
-
-        let prefsvc = this._self._prefsvc;
-
-        switch (aPrefName) {
-          case "accessibility.typeaheadfind":
-            this._self._findAsYouType = prefsvc.getBoolPref(aPrefName);
-            break;
-          case "accessibility.typeaheadfind.linksonly":
-            this._self._typeAheadLinksOnly = prefsvc.getBoolPref(aPrefName);
-            break;
-          case "accessibility.typeaheadfind.casesensitive":
-            this._self._setCaseSensitivity(prefsvc.getIntPref(aPrefName));
-            break;
-          case "findbar.entireword":
-            this._self._entireWord = prefsvc.getBoolPref(aPrefName);
-            this._self.toggleEntireWord(this._self._entireWord, true);
-            break;
-          case "findbar.highlightAll":
-            this._self.toggleHighlight(prefsvc.getBoolPref(aPrefName), true);
-            break;
-          case "findbar.modalHighlight":
-            this._self._useModalHighlight = prefsvc.getBoolPref(aPrefName);
-            if (this._self.browser.finder)
-              this._self.browser.finder.onModalHighlightChange(
-                this._self._useModalHighlight
-              );
-            break;
-        }
-      }
-    };
-    this._destroyed = false;
-    this._pluralForm = null;
-    this._strBundle = null;
-    this._xulBrowserWindow = null;
   }
   disconnectedCallback() {}
 

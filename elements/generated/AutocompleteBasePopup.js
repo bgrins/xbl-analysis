@@ -11,16 +11,48 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
     );
     this.prepend(comment);
 
-    this.mInput = null;
-    this.mPopupOpen = false;
-    this.mIsPopupHidingTick = false;
-    this._normalMaxRows = -1;
+    Object.defineProperty(this, "mInput", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mInput;
+        return (this.mInput = null);
+      }
+    });
+    Object.defineProperty(this, "mPopupOpen", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mPopupOpen;
+        return (this.mPopupOpen = false);
+      }
+    });
+    Object.defineProperty(this, "mIsPopupHidingTick", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mIsPopupHidingTick;
+        return (this.mIsPopupHidingTick = false);
+      }
+    });
+    Object.defineProperty(this, "defaultMaxRows", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.defaultMaxRows;
+        return (this.defaultMaxRows = 6);
+      }
+    });
+    Object.defineProperty(this, "_normalMaxRows", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._normalMaxRows;
+        return (this._normalMaxRows = -1);
+      }
+    });
   }
   disconnectedCallback() {}
-
-  get defaultMaxRows() {
-    return 6;
-  }
 
   get input() {
     return this.mInput;

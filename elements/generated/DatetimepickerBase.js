@@ -35,44 +35,122 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
     );
     this.prepend(comment);
 
+    Object.defineProperty(this, "_dateValue", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._dateValue;
+        return (this._dateValue = null);
+      }
+    });
+    Object.defineProperty(this, "_fieldOne", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fieldOne;
+        return (this._fieldOne = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "input-one"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_fieldTwo", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fieldTwo;
+        return (this._fieldTwo = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "input-two"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_fieldThree", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fieldThree;
+        return (this._fieldThree = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "input-three"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_fieldAMPM", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fieldAMPM;
+        return (this._fieldAMPM = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "input-ampm"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_separatorFirst", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._separatorFirst;
+        return (this._separatorFirst = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "sep-first"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_separatorSecond", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._separatorSecond;
+        return (this._separatorSecond = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "sep-second"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_lastFocusedField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._lastFocusedField;
+        return (this._lastFocusedField = null);
+      }
+    });
+    Object.defineProperty(this, "_hasEntry", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._hasEntry;
+        return (this._hasEntry = true);
+      }
+    });
+    Object.defineProperty(this, "_valueEntered", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._valueEntered;
+        return (this._valueEntered = false);
+      }
+    });
+    Object.defineProperty(this, "attachedControl", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.attachedControl;
+        return (this.attachedControl = null);
+      }
+    });
+
     try {
       undefined;
     } catch (e) {}
-    this._dateValue = null;
-    this._fieldOne = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "input-one"
-    );
-    this._fieldTwo = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "input-two"
-    );
-    this._fieldThree = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "input-three"
-    );
-    this._fieldAMPM = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "input-ampm"
-    );
-    this._separatorFirst = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "sep-first"
-    );
-    this._separatorSecond = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "sep-second"
-    );
-    this._lastFocusedField = null;
-    this._hasEntry = true;
-    this._valueEntered = false;
-    this.attachedControl = null;
   }
   disconnectedCallback() {}
 

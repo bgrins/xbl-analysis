@@ -9,12 +9,54 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
     let comment = document.createComment("Creating firefox-datepicker");
     this.prepend(comment);
 
-    this.yearLeadingZero = false;
-    this.monthLeadingZero = true;
-    this.dateLeadingZero = true;
-    this.yearField = "";
-    this.monthField = "";
-    this.dateField = "";
+    Object.defineProperty(this, "yearLeadingZero", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.yearLeadingZero;
+        return (this.yearLeadingZero = false);
+      }
+    });
+    Object.defineProperty(this, "monthLeadingZero", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.monthLeadingZero;
+        return (this.monthLeadingZero = true);
+      }
+    });
+    Object.defineProperty(this, "dateLeadingZero", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.dateLeadingZero;
+        return (this.dateLeadingZero = true);
+      }
+    });
+    Object.defineProperty(this, "yearField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.yearField;
+        return (this.yearField = "");
+      }
+    });
+    Object.defineProperty(this, "monthField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.monthField;
+        return (this.monthField = "");
+      }
+    });
+    Object.defineProperty(this, "dateField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.dateField;
+        return (this.dateField = "");
+      }
+    });
   }
   disconnectedCallback() {}
 

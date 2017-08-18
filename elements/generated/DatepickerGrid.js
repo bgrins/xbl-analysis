@@ -181,26 +181,82 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
     let comment = document.createComment("Creating firefox-datepicker-grid");
     this.prepend(comment);
 
-    this._hasEntry = false;
-    this._weekStart = "";
-    this._displayedDate = null;
-    this._todayItem = null;
-    this.yearField = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "yearlabel"
-    );
-    this.monthField = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "monthlabeldeck"
-    );
-    this.dateField = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "datebox"
-    );
-    this._selectedItem = null;
+    Object.defineProperty(this, "_hasEntry", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._hasEntry;
+        return (this._hasEntry = false);
+      }
+    });
+    Object.defineProperty(this, "_weekStart", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._weekStart;
+        return (this._weekStart = "");
+      }
+    });
+    Object.defineProperty(this, "_displayedDate", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._displayedDate;
+        return (this._displayedDate = null);
+      }
+    });
+    Object.defineProperty(this, "_todayItem", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._todayItem;
+        return (this._todayItem = null);
+      }
+    });
+    Object.defineProperty(this, "yearField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.yearField;
+        return (this.yearField = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "yearlabel"
+        ));
+      }
+    });
+    Object.defineProperty(this, "monthField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.monthField;
+        return (this.monthField = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "monthlabeldeck"
+        ));
+      }
+    });
+    Object.defineProperty(this, "dateField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.dateField;
+        return (this.dateField = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "datebox"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_selectedItem", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._selectedItem;
+        return (this._selectedItem = null);
+      }
+    });
   }
   disconnectedCallback() {}
 

@@ -13,12 +13,34 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     let comment = document.createComment("Creating firefox-label-control");
     this.prepend(comment);
 
+    Object.defineProperty(this, "mUnderlineAccesskey", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mUnderlineAccesskey;
+        return (this.mUnderlineAccesskey = !/Mac/.test(navigator.platform));
+      }
+    });
+    Object.defineProperty(this, "mInsertSeparator", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mInsertSeparator;
+        return (this.mInsertSeparator = "");
+      }
+    });
+    Object.defineProperty(this, "mAlwaysAppendAccessKey", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mAlwaysAppendAccessKey;
+        return (this.mAlwaysAppendAccessKey = false);
+      }
+    });
+
     try {
       this.formatAccessKey(true);
     } catch (e) {}
-    this.mUnderlineAccesskey = !/Mac/.test(navigator.platform);
-    this.mInsertSeparator = "";
-    this.mAlwaysAppendAccessKey = false;
   }
   disconnectedCallback() {}
 

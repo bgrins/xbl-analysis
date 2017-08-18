@@ -130,41 +130,10 @@ function getJSForBinding(binding) {
   // <field>
   let fields = [];
   for (let field of binding.find('field')) {
-    if (field.attrs.readonly) {
-      continue;
-    }
+
 
     // Work around fields like _weekStart in the datepicker where the value is coming from a dtd.
     // Just print an empty string in that case.
-    let data = (field.cdata || field.value || "").trim();
-    data = (data.length === 0) ? '""' : data;
-    fields.push(`this.${field.attrs.name} = ${data};`)
-    // XXX: Can fields have their value in an attribute like properties?
-  }
-
-  js.push(`
-    constructor() {
-      super();
-    }
-    connectedCallback() {
-      ${hasExtends ? 'super.connectedCallback()' : ''}
-      console.log(this, 'connected');
-
-      ${innerHTML}
-      let comment = document.createComment('Creating ${elementName}');
-      this.prepend(comment);
-
-      ${xblconstructor}
-      ${fields.join('\n')}
-    }
-    disconnectedCallback() { }
-  `);
-
-  for (let field of binding.find('field')) {
-    if (!field.attrs.readonly) {
-      continue;
-    }
-
     let data = (field.cdata || field.value || "").trim();
     data = (data.length === 0) ? '""' : data;
 
@@ -180,13 +149,37 @@ function getJSForBinding(binding) {
         break;
       }
     }
-    js.push(`
-      get ${field.attrs.name}() {
+
+    fields.push(`Object.defineProperty(this, "${field.attrs.name}", {
+      configurable: true,
+      enumerable: true,
+      get() {
         ${comments.join('\n')}
-        return ${expressions.join('\n')};
+        delete this.${field.attrs.name};
+        return this.${field.attrs.name} = ${expressions.join('\n')}
       }
-    `);
+    })`);
   }
+
+  js.push(`
+    constructor() {
+      super();
+    }
+    connectedCallback() {
+      ${hasExtends ? 'super.connectedCallback()' : ''}
+      console.log(this, 'connected');
+
+      ${innerHTML}
+      let comment = document.createComment('Creating ${elementName}');
+      this.prepend(comment);
+
+      ${fields.join('\n')}
+
+      ${xblconstructor}
+
+    }
+    disconnectedCallback() { }
+  `);
 
   // <property>
   for (let property of binding.find('property')) {

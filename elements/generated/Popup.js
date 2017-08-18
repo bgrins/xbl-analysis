@@ -12,15 +12,20 @@ class FirefoxPopup extends FirefoxPopupBase {
 </arrowscrollbox>`;
     let comment = document.createComment("Creating firefox-popup");
     this.prepend(comment);
+
+    Object.defineProperty(this, "scrollBox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.scrollBox;
+        return (this.scrollBox = document.getAnonymousElementByAttribute(
+          this,
+          "class",
+          "popup-internal-box"
+        ));
+      }
+    });
   }
   disconnectedCallback() {}
-
-  get scrollBox() {
-    return document.getAnonymousElementByAttribute(
-      this,
-      "class",
-      "popup-internal-box"
-    );
-  }
 }
 customElements.define("firefox-popup", FirefoxPopup);

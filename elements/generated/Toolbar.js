@@ -9,6 +9,23 @@ class FirefoxToolbar extends FirefoxToolbarBase {
     let comment = document.createComment("Creating firefox-toolbar");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_toolbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._toolbox;
+        return (this._toolbox = null);
+      }
+    });
+    Object.defineProperty(this, "_newElementCount", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._newElementCount;
+        return (this._newElementCount = 0);
+      }
+    });
+
     try {
       if (document.readyState == "complete") {
         this._init();
@@ -22,8 +39,6 @@ class FirefoxToolbar extends FirefoxToolbarBase {
         });
       }
     } catch (e) {}
-    this._toolbox = null;
-    this._newElementCount = 0;
   }
   disconnectedCallback() {}
 

@@ -8,10 +8,18 @@ class FirefoxWindowdragbox extends BaseElement {
     let comment = document.createComment("Creating firefox-windowdragbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_dragBindingAlive", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._dragBindingAlive;
+        return (this._dragBindingAlive = true);
+      }
+    });
+
     try {
       undefined;
     } catch (e) {}
-    this._dragBindingAlive = true;
   }
   disconnectedCallback() {}
 }

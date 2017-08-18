@@ -9,6 +9,39 @@ class FirefoxToolbox extends FirefoxToolbarBase {
     let comment = document.createComment("Creating firefox-toolbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "palette", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.palette;
+        return (this.palette = null);
+      }
+    });
+    Object.defineProperty(this, "toolbarset", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.toolbarset;
+        return (this.toolbarset = null);
+      }
+    });
+    Object.defineProperty(this, "customToolbarCount", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.customToolbarCount;
+        return (this.customToolbarCount = 0);
+      }
+    });
+    Object.defineProperty(this, "externalToolbars", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.externalToolbars;
+        return (this.externalToolbars = []);
+      }
+    });
+
     try {
       // Look to see if there is a toolbarset.
       this.toolbarset = this.firstChild;
@@ -25,10 +58,6 @@ class FirefoxToolbox extends FirefoxToolbarBase {
         }
       }
     } catch (e) {}
-    this.palette = null;
-    this.toolbarset = null;
-    this.customToolbarCount = 0;
-    this.externalToolbars = [];
   }
   disconnectedCallback() {}
 

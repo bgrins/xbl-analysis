@@ -9,15 +9,78 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     let comment = document.createComment("Creating firefox-listbox-base");
     this.prepend(comment);
 
-    this._lastKeyTime = 0;
-    this._incrementalString = "";
-    this.selectedItems = new ChromeNodeList();
-    this._suppressOnSelect = false;
-    this._userSelecting = false;
-    this._mayReverse = false;
-    this._selectTimeout = null;
-    this._currentItem = null;
-    this._selectionStart = null;
+    Object.defineProperty(this, "_lastKeyTime", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._lastKeyTime;
+        return (this._lastKeyTime = 0);
+      }
+    });
+    Object.defineProperty(this, "_incrementalString", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._incrementalString;
+        return (this._incrementalString = "");
+      }
+    });
+    Object.defineProperty(this, "selectedItems", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.selectedItems;
+        return (this.selectedItems = new ChromeNodeList());
+      }
+    });
+    Object.defineProperty(this, "_suppressOnSelect", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._suppressOnSelect;
+        return (this._suppressOnSelect = false);
+      }
+    });
+    Object.defineProperty(this, "_userSelecting", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._userSelecting;
+        return (this._userSelecting = false);
+      }
+    });
+    Object.defineProperty(this, "_mayReverse", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._mayReverse;
+        return (this._mayReverse = false);
+      }
+    });
+    Object.defineProperty(this, "_selectTimeout", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._selectTimeout;
+        return (this._selectTimeout = null);
+      }
+    });
+    Object.defineProperty(this, "_currentItem", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._currentItem;
+        return (this._currentItem = null);
+      }
+    });
+    Object.defineProperty(this, "_selectionStart", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._selectionStart;
+        return (this._selectionStart = null);
+      }
+    });
   }
   disconnectedCallback() {}
 

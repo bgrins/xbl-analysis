@@ -26,6 +26,390 @@ class FirefoxTabbrowser extends BaseElement {
     let comment = document.createComment("Creating firefox-tabbrowser");
     this.prepend(comment);
 
+    Object.defineProperty(this, "tabContainer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.tabContainer;
+        return (this.tabContainer = document.getElementById(
+          this.getAttribute("tabcontainer")
+        ));
+      }
+    });
+    Object.defineProperty(this, "tabs", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.tabs;
+        return (this.tabs = this.tabContainer.childNodes);
+      }
+    });
+    Object.defineProperty(this, "closingTabsEnum", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.closingTabsEnum;
+        return (this.closingTabsEnum = { ALL: 0, OTHER: 1, TO_END: 2 });
+      }
+    });
+    Object.defineProperty(this, "_visibleTabs", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._visibleTabs;
+        return (this._visibleTabs = null);
+      }
+    });
+    Object.defineProperty(this, "mURIFixup", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mURIFixup;
+        return (this.mURIFixup = Components.classes[
+          "@mozilla.org/docshell/urifixup;1"
+        ].getService(Components.interfaces.nsIURIFixup));
+      }
+    });
+    Object.defineProperty(this, "_unifiedComplete", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._unifiedComplete;
+        return (this._unifiedComplete = Components.classes[
+          "@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
+        ].getService(Components.interfaces.mozIPlacesAutoComplete));
+      }
+    });
+    Object.defineProperty(this, "mTabBox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mTabBox;
+        return (this.mTabBox = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "tabbox"
+        ));
+      }
+    });
+    Object.defineProperty(this, "mPanelContainer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mPanelContainer;
+        return (this.mPanelContainer = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "panelcontainer"
+        ));
+      }
+    });
+    Object.defineProperty(this, "mStringBundle", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mStringBundle;
+        return (this.mStringBundle = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "tbstringbundle"
+        ));
+      }
+    });
+    Object.defineProperty(this, "mCurrentTab", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mCurrentTab;
+        return (this.mCurrentTab = null);
+      }
+    });
+    Object.defineProperty(this, "_lastRelatedTabMap", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._lastRelatedTabMap;
+        return (this._lastRelatedTabMap = new WeakMap());
+      }
+    });
+    Object.defineProperty(this, "mCurrentBrowser", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mCurrentBrowser;
+        return (this.mCurrentBrowser = null);
+      }
+    });
+    Object.defineProperty(this, "mProgressListeners", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mProgressListeners;
+        return (this.mProgressListeners = []);
+      }
+    });
+    Object.defineProperty(this, "mTabsProgressListeners", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mTabsProgressListeners;
+        return (this.mTabsProgressListeners = []);
+      }
+    });
+    Object.defineProperty(this, "_tabListeners", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._tabListeners;
+        return (this._tabListeners = new Map());
+      }
+    });
+    Object.defineProperty(this, "_tabFilters", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._tabFilters;
+        return (this._tabFilters = new Map());
+      }
+    });
+    Object.defineProperty(this, "mIsBusy", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mIsBusy;
+        return (this.mIsBusy = false);
+      }
+    });
+    Object.defineProperty(this, "_outerWindowIDBrowserMap", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._outerWindowIDBrowserMap;
+        return (this._outerWindowIDBrowserMap = new Map());
+      }
+    });
+    Object.defineProperty(this, "arrowKeysShouldWrap", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.arrowKeysShouldWrap;
+        return (this.arrowKeysShouldWrap = AppConstants == "macosx");
+      }
+    });
+    Object.defineProperty(this, "_autoScrollPopup", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._autoScrollPopup;
+        return (this._autoScrollPopup = null);
+      }
+    });
+    Object.defineProperty(this, "_previewMode", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._previewMode;
+        return (this._previewMode = false);
+      }
+    });
+    Object.defineProperty(this, "_lastFindValue", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._lastFindValue;
+        return (this._lastFindValue = "");
+      }
+    });
+    Object.defineProperty(this, "_contentWaitingCount", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._contentWaitingCount;
+        return (this._contentWaitingCount = 0);
+      }
+    });
+    Object.defineProperty(this, "tabAnimationsInProgress", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.tabAnimationsInProgress;
+        return (this.tabAnimationsInProgress = 0);
+      }
+    });
+    Object.defineProperty(this, "_tabForBrowser", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._tabForBrowser;
+        return (this._tabForBrowser = new WeakMap());
+      }
+    });
+    Object.defineProperty(this, "serializationHelper", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.serializationHelper;
+        return (this.serializationHelper = Cc[
+          "@mozilla.org/network/serialization-helper;1"
+        ].getService(Ci.nsISerializationHelper));
+      }
+    });
+    Object.defineProperty(this, "mIconLoadingPrincipal", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mIconLoadingPrincipal;
+        return (this.mIconLoadingPrincipal = null);
+      }
+    });
+    Object.defineProperty(this, "_tabSwitchID", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._tabSwitchID;
+        return (this._tabSwitchID = null);
+      }
+    });
+    Object.defineProperty(this, "_preloadedBrowser", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._preloadedBrowser;
+        return (this._preloadedBrowser = null);
+      }
+    });
+    Object.defineProperty(this, "_browserBindingProperties", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._browserBindingProperties;
+        return (this._browserBindingProperties = [
+          "canGoBack",
+          "canGoForward",
+          "goBack",
+          "goForward",
+          "permitUnload",
+          "reload",
+          "reloadWithFlags",
+          "stop",
+          "loadURI",
+          "loadURIWithFlags",
+          "goHome",
+          "homePage",
+          "gotoIndex",
+          "currentURI",
+          "documentURI",
+          "preferences",
+          "imageDocument",
+          "isRemoteBrowser",
+          "messageManager",
+          "getTabBrowser",
+          "finder",
+          "fastFind",
+          "sessionHistory",
+          "contentTitle",
+          "characterSet",
+          "fullZoom",
+          "textZoom",
+          "webProgress",
+          "addProgressListener",
+          "removeProgressListener",
+          "audioPlaybackStarted",
+          "audioPlaybackStopped",
+          "pauseMedia",
+          "stopMedia",
+          "resumeMedia",
+          "mute",
+          "unmute",
+          "blockedPopups",
+          "lastURI",
+          "purgeSessionHistory",
+          "stopScroll",
+          "startScroll",
+          "userTypedValue",
+          "userTypedClear",
+          "mediaBlocked"
+        ]);
+      }
+    });
+    Object.defineProperty(this, "_removingTabs", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._removingTabs;
+        return (this._removingTabs = []);
+      }
+    });
+    Object.defineProperty(this, "_windowIsClosing", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._windowIsClosing;
+        return (this._windowIsClosing = false);
+      }
+    });
+    Object.defineProperty(this, "browsers", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        // This defines a proxy which allows us to access browsers by
+        // index without actually creating a full array of browsers.
+        delete this.browsers;
+        return (this.browsers = new Proxy([], {
+          has: (target, name) => {
+            if (typeof name == "string" && Number.isInteger(parseInt(name))) {
+              return name in this.tabs;
+            }
+            return false;
+          },
+          get: (target, name) => {
+            if (name == "length") {
+              return this.tabs.length;
+            }
+            if (typeof name == "string" && Number.isInteger(parseInt(name))) {
+              if (!(name in this.tabs)) {
+                return undefined;
+              }
+              return this.tabs[name].linkedBrowser;
+            }
+            return target[name];
+          }
+        }));
+      }
+    });
+    Object.defineProperty(this, "_printPreviewBrowsers", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._printPreviewBrowsers;
+        return (this._printPreviewBrowsers = new Set());
+      }
+    });
+    Object.defineProperty(this, "_switcher", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._switcher;
+        return (this._switcher = null);
+      }
+    });
+    Object.defineProperty(this, "_soundPlayingAttrRemovalTimer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._soundPlayingAttrRemovalTimer;
+        return (this._soundPlayingAttrRemovalTimer = 0);
+      }
+    });
+    Object.defineProperty(this, "_hoverTabTimer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._hoverTabTimer;
+        return (this._hoverTabTimer = null);
+      }
+    });
+
     try {
       this.mCurrentBrowser = document.getAnonymousElementByAttribute(
         this,
@@ -135,156 +519,8 @@ class FirefoxTabbrowser extends BaseElement {
         true
       );
     } catch (e) {}
-    this._visibleTabs = null;
-    this.mStringBundle = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "tbstringbundle"
-    );
-    this.mCurrentTab = null;
-    this._lastRelatedTabMap = new WeakMap();
-    this.mCurrentBrowser = null;
-    this.mProgressListeners = [];
-    this.mTabsProgressListeners = [];
-    this._tabListeners = new Map();
-    this._tabFilters = new Map();
-    this.mIsBusy = false;
-    this._outerWindowIDBrowserMap = new Map();
-    this._autoScrollPopup = null;
-    this._previewMode = false;
-    this._lastFindValue = "";
-    this._contentWaitingCount = 0;
-    this.tabAnimationsInProgress = 0;
-    this.serializationHelper = Cc[
-      "@mozilla.org/network/serialization-helper;1"
-    ].getService(Ci.nsISerializationHelper);
-    this.mIconLoadingPrincipal = null;
-    this._tabSwitchID = null;
-    this._preloadedBrowser = null;
-    this._browserBindingProperties = [
-      "canGoBack",
-      "canGoForward",
-      "goBack",
-      "goForward",
-      "permitUnload",
-      "reload",
-      "reloadWithFlags",
-      "stop",
-      "loadURI",
-      "loadURIWithFlags",
-      "goHome",
-      "homePage",
-      "gotoIndex",
-      "currentURI",
-      "documentURI",
-      "preferences",
-      "imageDocument",
-      "isRemoteBrowser",
-      "messageManager",
-      "getTabBrowser",
-      "finder",
-      "fastFind",
-      "sessionHistory",
-      "contentTitle",
-      "characterSet",
-      "fullZoom",
-      "textZoom",
-      "webProgress",
-      "addProgressListener",
-      "removeProgressListener",
-      "audioPlaybackStarted",
-      "audioPlaybackStopped",
-      "pauseMedia",
-      "stopMedia",
-      "resumeMedia",
-      "mute",
-      "unmute",
-      "blockedPopups",
-      "lastURI",
-      "purgeSessionHistory",
-      "stopScroll",
-      "startScroll",
-      "userTypedValue",
-      "userTypedClear",
-      "mediaBlocked"
-    ];
-    this._removingTabs = [];
-    this._windowIsClosing = false;
-    this._printPreviewBrowsers = new Set();
-    this._switcher = null;
-    this._soundPlayingAttrRemovalTimer = 0;
-    this._hoverTabTimer = null;
   }
   disconnectedCallback() {}
-
-  get tabContainer() {
-    return document.getElementById(this.getAttribute("tabcontainer"));
-  }
-
-  get tabs() {
-    return this.tabContainer.childNodes;
-  }
-
-  get closingTabsEnum() {
-    return { ALL: 0, OTHER: 1, TO_END: 2 };
-  }
-
-  get mURIFixup() {
-    return Components.classes["@mozilla.org/docshell/urifixup;1"].getService(
-      Components.interfaces.nsIURIFixup
-    );
-  }
-
-  get _unifiedComplete() {
-    return Components.classes[
-      "@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
-    ].getService(Components.interfaces.mozIPlacesAutoComplete);
-  }
-
-  get mTabBox() {
-    return document.getAnonymousElementByAttribute(this, "anonid", "tabbox");
-  }
-
-  get mPanelContainer() {
-    return document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "panelcontainer"
-    );
-  }
-
-  get arrowKeysShouldWrap() {
-    return AppConstants == "macosx";
-  }
-
-  get _tabForBrowser() {
-    return new WeakMap();
-  }
-
-  get browsers() {
-    // This defines a proxy which allows us to access browsers by
-    // index without actually creating a full array of browsers.
-    return new Proxy([], {
-      has: (target, name) => {
-        if (typeof name == "string" && Number.isInteger(parseInt(name))) {
-          return name in this.tabs;
-        }
-        return false;
-      },
-      get: (target, name) => {
-        if (name == "length") {
-          return this.tabs.length;
-        }
-        if (typeof name == "string" && Number.isInteger(parseInt(name))) {
-          if (!(name in this.tabs)) {
-            return undefined;
-          }
-          return this.tabs[name].linkedBrowser;
-        }
-        return target[name];
-      }
-    });
-  }
 
   get tabContextMenu() {
     return this.tabContainer.contextMenu;

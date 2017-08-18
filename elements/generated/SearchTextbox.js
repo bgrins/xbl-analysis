@@ -23,22 +23,44 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
     let comment = document.createComment("Creating firefox-search-textbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_timer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._timer;
+        return (this._timer = null);
+      }
+    });
+    Object.defineProperty(this, "_searchIcons", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._searchIcons;
+        return (this._searchIcons = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "search-icons"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_searchButtonIcon", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._searchButtonIcon;
+        return (this._searchButtonIcon = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "searchbutton-icon"
+        ));
+      }
+    });
+
     try {
       // Ensure the button state is up to date:
       this.searchButton = this.searchButton;
       this._searchButtonIcon.addEventListener("click", e => this._iconClick(e));
     } catch (e) {}
-    this._timer = null;
-    this._searchIcons = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-icons"
-    );
-    this._searchButtonIcon = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "searchbutton-icon"
-    );
   }
   disconnectedCallback() {}
 

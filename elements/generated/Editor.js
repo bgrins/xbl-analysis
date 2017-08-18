@@ -8,6 +8,68 @@ class FirefoxEditor extends BaseElement {
     let comment = document.createComment("Creating firefox-editor");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_editorContentListener", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._editorContentListener;
+        return (this._editorContentListener = {
+          QueryInterface(iid) {
+            if (
+              iid.equals(Components.interfaces.nsIURIContentListener) ||
+              iid.equals(Components.interfaces.nsISupportsWeakReference) ||
+              iid.equals(Components.interfaces.nsISupports)
+            )
+              return this;
+
+            throw Components.results.NS_ERROR_NO_INTERFACE;
+          },
+          onStartURIOpen(uri) {
+            return false;
+          },
+          doContent(contentType, isContentPreferred, request, contentHandler) {
+            return false;
+          },
+          isPreferred(contentType, desiredContentType) {
+            return false;
+          },
+          canHandleContent(
+            contentType,
+            isContentPreferred,
+            desiredContentType
+          ) {
+            return false;
+          },
+          loadCookie: null,
+          parentContentListener: null
+        });
+      }
+    });
+    Object.defineProperty(this, "_finder", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._finder;
+        return (this._finder = null);
+      }
+    });
+    Object.defineProperty(this, "_fastFind", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fastFind;
+        return (this._fastFind = null);
+      }
+    });
+    Object.defineProperty(this, "_lastSearchString", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._lastSearchString;
+        return (this._lastSearchString = null);
+      }
+    });
+
     try {
       // Make window editable immediately only
       //   if the "editortype" attribute is supplied
@@ -15,35 +77,6 @@ class FirefoxEditor extends BaseElement {
       //   where the type is determined during the apps's window.onload handler.
       if (this.editortype) this.makeEditable(this.editortype, true);
     } catch (e) {}
-    this._editorContentListener = {
-      QueryInterface(iid) {
-        if (
-          iid.equals(Components.interfaces.nsIURIContentListener) ||
-          iid.equals(Components.interfaces.nsISupportsWeakReference) ||
-          iid.equals(Components.interfaces.nsISupports)
-        )
-          return this;
-
-        throw Components.results.NS_ERROR_NO_INTERFACE;
-      },
-      onStartURIOpen(uri) {
-        return false;
-      },
-      doContent(contentType, isContentPreferred, request, contentHandler) {
-        return false;
-      },
-      isPreferred(contentType, desiredContentType) {
-        return false;
-      },
-      canHandleContent(contentType, isContentPreferred, desiredContentType) {
-        return false;
-      },
-      loadCookie: null,
-      parentContentListener: null
-    };
-    this._finder = null;
-    this._fastFind = null;
-    this._lastSearchString = null;
   }
   disconnectedCallback() {}
 

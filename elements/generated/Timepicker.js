@@ -9,15 +9,78 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
     let comment = document.createComment("Creating firefox-timepicker");
     this.prepend(comment);
 
-    this.is24HourClock = false;
-    this.hourLeadingZero = false;
-    this.minuteLeadingZero = true;
-    this.secondLeadingZero = true;
-    this.amIndicator = "AM";
-    this.pmIndicator = "PM";
-    this.hourField = null;
-    this.minuteField = null;
-    this.secondField = null;
+    Object.defineProperty(this, "is24HourClock", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.is24HourClock;
+        return (this.is24HourClock = false);
+      }
+    });
+    Object.defineProperty(this, "hourLeadingZero", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.hourLeadingZero;
+        return (this.hourLeadingZero = false);
+      }
+    });
+    Object.defineProperty(this, "minuteLeadingZero", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.minuteLeadingZero;
+        return (this.minuteLeadingZero = true);
+      }
+    });
+    Object.defineProperty(this, "secondLeadingZero", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.secondLeadingZero;
+        return (this.secondLeadingZero = true);
+      }
+    });
+    Object.defineProperty(this, "amIndicator", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.amIndicator;
+        return (this.amIndicator = "AM");
+      }
+    });
+    Object.defineProperty(this, "pmIndicator", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.pmIndicator;
+        return (this.pmIndicator = "PM");
+      }
+    });
+    Object.defineProperty(this, "hourField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.hourField;
+        return (this.hourField = null);
+      }
+    });
+    Object.defineProperty(this, "minuteField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.minuteField;
+        return (this.minuteField = null);
+      }
+    });
+    Object.defineProperty(this, "secondField", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.secondField;
+        return (this.secondField = null);
+      }
+    });
   }
   disconnectedCallback() {}
 

@@ -53,6 +53,111 @@ class FirefoxPrefwindow extends FirefoxDialog {
     let comment = document.createComment("Creating firefox-prefwindow");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_instantApplyInitialized", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._instantApplyInitialized;
+        return (this._instantApplyInitialized = false);
+      }
+    });
+    Object.defineProperty(this, "instantApply", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.instantApply;
+        return (this.instantApply = false);
+      }
+    });
+    Object.defineProperty(this, "_currentPane", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._currentPane;
+        return (this._currentPane = null);
+      }
+    });
+    Object.defineProperty(this, "_initialized", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._initialized;
+        return (this._initialized = false);
+      }
+    });
+    Object.defineProperty(this, "_animateTimer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._animateTimer;
+        return (this._animateTimer = null);
+      }
+    });
+    Object.defineProperty(this, "_fadeTimer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fadeTimer;
+        return (this._fadeTimer = null);
+      }
+    });
+    Object.defineProperty(this, "_animateDelay", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._animateDelay;
+        return (this._animateDelay = 15);
+      }
+    });
+    Object.defineProperty(this, "_animateIncrement", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._animateIncrement;
+        return (this._animateIncrement = 40);
+      }
+    });
+    Object.defineProperty(this, "_fadeDelay", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fadeDelay;
+        return (this._fadeDelay = 5);
+      }
+    });
+    Object.defineProperty(this, "_fadeIncrement", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fadeIncrement;
+        return (this._fadeIncrement = 0.4);
+      }
+    });
+    Object.defineProperty(this, "_animateRemainder", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._animateRemainder;
+        return (this._animateRemainder = 0);
+      }
+    });
+    Object.defineProperty(this, "_currentHeight", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._currentHeight;
+        return (this._currentHeight = 0);
+      }
+    });
+    Object.defineProperty(this, "_multiplier", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._multiplier;
+        return (this._multiplier = 0);
+      }
+    });
+
     try {
       if (this.type != "child") {
         if (!this._instantApplyInitialized) {
@@ -123,19 +228,6 @@ class FirefoxPrefwindow extends FirefoxDialog {
 
       if (panes.length == 1) this._selector.setAttribute("collapsed", "true");
     } catch (e) {}
-    this._instantApplyInitialized = false;
-    this.instantApply = false;
-    this._currentPane = null;
-    this._initialized = false;
-    this._animateTimer = null;
-    this._fadeTimer = null;
-    this._animateDelay = 15;
-    this._animateIncrement = 40;
-    this._fadeDelay = 5;
-    this._fadeIncrement = 0.4;
-    this._animateRemainder = 0;
-    this._currentHeight = 0;
-    this._multiplier = 0;
   }
   disconnectedCallback() {}
 

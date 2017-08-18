@@ -9,12 +9,27 @@ class FirefoxPlacesTree extends FirefoxTree {
     let comment = document.createComment("Creating firefox-places-tree");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_contextMenuShown", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._contextMenuShown;
+        return (this._contextMenuShown = false);
+      }
+    });
+    Object.defineProperty(this, "_active", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._active;
+        return (this._active = true);
+      }
+    });
+
     try {
       // Force an initial build.
       if (this.place) this.place = this.place;
     } catch (e) {}
-    this._contextMenuShown = false;
-    this._active = true;
   }
   disconnectedCallback() {}
 

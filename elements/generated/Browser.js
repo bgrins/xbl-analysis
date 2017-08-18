@@ -10,6 +10,285 @@ class FirefoxBrowser extends BaseElement {
     let comment = document.createComment("Creating firefox-browser");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_sameProcessAsFrameLoader", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._sameProcessAsFrameLoader;
+        return (this._sameProcessAsFrameLoader = null);
+      }
+    });
+    Object.defineProperty(this, "_docShell", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._docShell;
+        return (this._docShell = null);
+      }
+    });
+    Object.defineProperty(this, "_loadContext", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._loadContext;
+        return (this._loadContext = null);
+      }
+    });
+    Object.defineProperty(this, "_webNavigation", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._webNavigation;
+        return (this._webNavigation = null);
+      }
+    });
+    Object.defineProperty(this, "_webBrowserFind", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._webBrowserFind;
+        return (this._webBrowserFind = null);
+      }
+    });
+    Object.defineProperty(this, "_finder", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._finder;
+        return (this._finder = null);
+      }
+    });
+    Object.defineProperty(this, "_fastFind", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fastFind;
+        return (this._fastFind = null);
+      }
+    });
+    Object.defineProperty(this, "_lastSearchString", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._lastSearchString;
+        return (this._lastSearchString = null);
+      }
+    });
+    Object.defineProperty(this, "_contentWindow", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._contentWindow;
+        return (this._contentWindow = null);
+      }
+    });
+    Object.defineProperty(this, "mPrefs", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mPrefs;
+        return (this.mPrefs = Components.classes[
+          "@mozilla.org/preferences-service;1"
+        ].getService(Components.interfaces.nsIPrefBranch));
+      }
+    });
+    Object.defineProperty(this, "_mStrBundle", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._mStrBundle;
+        return (this._mStrBundle = null);
+      }
+    });
+    Object.defineProperty(this, "blockedPopups", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.blockedPopups;
+        return (this.blockedPopups = null);
+      }
+    });
+    Object.defineProperty(this, "_audioMuted", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._audioMuted;
+        return (this._audioMuted = false);
+      }
+    });
+    Object.defineProperty(this, "_mediaBlocked", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._mediaBlocked;
+        return (this._mediaBlocked = true);
+      }
+    });
+    Object.defineProperty(this, "_hasAnyPlayingMediaBeenBlocked", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._hasAnyPlayingMediaBeenBlocked;
+        return (this._hasAnyPlayingMediaBeenBlocked = false);
+      }
+    });
+    Object.defineProperty(this, "_shouldSendUnselectedTabHover", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._shouldSendUnselectedTabHover;
+        return (this._shouldSendUnselectedTabHover = false);
+      }
+    });
+    Object.defineProperty(this, "_unselectedTabHoverMessageListenerCount", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._unselectedTabHoverMessageListenerCount;
+        return (this._unselectedTabHoverMessageListenerCount = 0);
+      }
+    });
+    Object.defineProperty(this, "urlbarChangeTracker", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.urlbarChangeTracker;
+        return (this.urlbarChangeTracker = {
+          _startedLoadSinceLastUserTyping: false,
+
+          startedLoad() {
+            this._startedLoadSinceLastUserTyping = true;
+          },
+          finishedLoad() {
+            this._startedLoadSinceLastUserTyping = false;
+          },
+          userTyped() {
+            this._startedLoadSinceLastUserTyping = false;
+          }
+        });
+      }
+    });
+    Object.defineProperty(this, "_userTypedValue", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._userTypedValue;
+        return (this._userTypedValue = null);
+      }
+    });
+    Object.defineProperty(this, "mFormFillAttached", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mFormFillAttached;
+        return (this.mFormFillAttached = false);
+      }
+    });
+    Object.defineProperty(this, "isShowingMessage", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.isShowingMessage;
+        return (this.isShowingMessage = false);
+      }
+    });
+    Object.defineProperty(this, "droppedLinkHandler", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.droppedLinkHandler;
+        return (this.droppedLinkHandler = null);
+      }
+    });
+    Object.defineProperty(this, "mIconURL", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mIconURL;
+        return (this.mIconURL = null);
+      }
+    });
+    Object.defineProperty(this, "lastURI", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.lastURI;
+        return (this.lastURI = null);
+      }
+    });
+    Object.defineProperty(this, "mDestroyed", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mDestroyed;
+        return (this.mDestroyed = false);
+      }
+    });
+    Object.defineProperty(this, "_AUTOSCROLL_SNAP", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._AUTOSCROLL_SNAP;
+        return (this._AUTOSCROLL_SNAP = 10);
+      }
+    });
+    Object.defineProperty(this, "_scrolling", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._scrolling;
+        return (this._scrolling = false);
+      }
+    });
+    Object.defineProperty(this, "_startX", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._startX;
+        return (this._startX = null);
+      }
+    });
+    Object.defineProperty(this, "_startY", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._startY;
+        return (this._startY = null);
+      }
+    });
+    Object.defineProperty(this, "_autoScrollPopup", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._autoScrollPopup;
+        return (this._autoScrollPopup = null);
+      }
+    });
+    Object.defineProperty(this, "_autoScrollNeedsCleanup", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._autoScrollNeedsCleanup;
+        return (this._autoScrollNeedsCleanup = false);
+      }
+    });
+    Object.defineProperty(this, "_autoScrollScrollId", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._autoScrollScrollId;
+        return (this._autoScrollScrollId = null);
+      }
+    });
+    Object.defineProperty(this, "_autoScrollPresShellId", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._autoScrollPresShellId;
+        return (this._autoScrollPresShellId = null);
+      }
+    });
+
     try {
       try {
         // |webNavigation.sessionHistory| will have been set by the frame
@@ -90,58 +369,8 @@ class FirefoxBrowser extends BaseElement {
         }
       }
     } catch (e) {}
-    this._sameProcessAsFrameLoader = null;
-    this._docShell = null;
-    this._loadContext = null;
-    this._webNavigation = null;
-    this._webBrowserFind = null;
-    this._finder = null;
-    this._fastFind = null;
-    this._lastSearchString = null;
-    this._contentWindow = null;
-    this._mStrBundle = null;
-    this.blockedPopups = null;
-    this._audioMuted = false;
-    this._mediaBlocked = true;
-    this._hasAnyPlayingMediaBeenBlocked = false;
-    this._shouldSendUnselectedTabHover = false;
-    this._unselectedTabHoverMessageListenerCount = 0;
-    this.urlbarChangeTracker = {
-      _startedLoadSinceLastUserTyping: false,
-
-      startedLoad() {
-        this._startedLoadSinceLastUserTyping = true;
-      },
-      finishedLoad() {
-        this._startedLoadSinceLastUserTyping = false;
-      },
-      userTyped() {
-        this._startedLoadSinceLastUserTyping = false;
-      }
-    };
-    this._userTypedValue = null;
-    this.mFormFillAttached = false;
-    this.isShowingMessage = false;
-    this.droppedLinkHandler = null;
-    this.mIconURL = null;
-    this.lastURI = null;
-    this.mDestroyed = false;
-    this._AUTOSCROLL_SNAP = 10;
-    this._scrolling = false;
-    this._startX = null;
-    this._startY = null;
-    this._autoScrollPopup = null;
-    this._autoScrollNeedsCleanup = false;
-    this._autoScrollScrollId = null;
-    this._autoScrollPresShellId = null;
   }
   disconnectedCallback() {}
-
-  get mPrefs() {
-    return Components.classes["@mozilla.org/preferences-service;1"].getService(
-      Components.interfaces.nsIPrefBranch
-    );
-  }
 
   get autoscrollEnabled() {
     if (this.getAttribute("autoscroll") == "false") return false;

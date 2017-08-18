@@ -9,10 +9,18 @@ class FirefoxTreebody extends FirefoxTreeBase {
     let comment = document.createComment("Creating firefox-treebody");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_lastSelectedRow", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._lastSelectedRow;
+        return (this._lastSelectedRow = -1);
+      }
+    });
+
     try {
       undefined;
     } catch (e) {}
-    this._lastSelectedRow = -1;
   }
   disconnectedCallback() {}
 }

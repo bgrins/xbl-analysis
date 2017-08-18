@@ -11,7 +11,14 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
     );
     this.prepend(comment);
 
-    this._selectedIndex = 0;
+    Object.defineProperty(this, "_selectedIndex", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._selectedIndex;
+        return (this._selectedIndex = 0);
+      }
+    });
   }
   disconnectedCallback() {}
 

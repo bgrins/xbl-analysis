@@ -19,14 +19,46 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
     );
     this.prepend(comment);
 
-    this.mShowCommentColumn = false;
-    this.mShowImageColumn = false;
-    this.tree = document.getAnonymousElementByAttribute(this, "anonid", "tree");
-    this.treecols = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "treecols"
-    );
+    Object.defineProperty(this, "mShowCommentColumn", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mShowCommentColumn;
+        return (this.mShowCommentColumn = false);
+      }
+    });
+    Object.defineProperty(this, "mShowImageColumn", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mShowImageColumn;
+        return (this.mShowImageColumn = false);
+      }
+    });
+    Object.defineProperty(this, "tree", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.tree;
+        return (this.tree = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "tree"
+        ));
+      }
+    });
+    Object.defineProperty(this, "treecols", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.treecols;
+        return (this.treecols = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "treecols"
+        ));
+      }
+    });
   }
   disconnectedCallback() {}
 

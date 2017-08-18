@@ -15,6 +15,39 @@ class FirefoxNumberbox extends FirefoxTextbox {
     let comment = document.createComment("Creating firefox-numberbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_valueEntered", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._valueEntered;
+        return (this._valueEntered = false);
+      }
+    });
+    Object.defineProperty(this, "_spinButtons", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._spinButtons;
+        return (this._spinButtons = null);
+      }
+    });
+    Object.defineProperty(this, "_value", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._value;
+        return (this._value = 0);
+      }
+    });
+    Object.defineProperty(this, "decimalSymbol", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.decimalSymbol;
+        return (this.decimalSymbol = ".");
+      }
+    });
+
     try {
       if (this.max < this.min) this.max = this.min;
 
@@ -24,10 +57,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
       var value = this.inputField.value || 0;
       this._validateValue(value, false);
     } catch (e) {}
-    this._valueEntered = false;
-    this._spinButtons = null;
-    this._value = 0;
-    this.decimalSymbol = ".";
   }
   disconnectedCallback() {}
 

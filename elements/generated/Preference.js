@@ -8,6 +8,39 @@ class FirefoxPreference extends BaseElement {
     let comment = document.createComment("Creating firefox-preference");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_constructed", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._constructed;
+        return (this._constructed = false);
+      }
+    });
+    Object.defineProperty(this, "_value", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._value;
+        return (this._value = null);
+      }
+    });
+    Object.defineProperty(this, "_useDefault", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._useDefault;
+        return (this._useDefault = false);
+      }
+    });
+    Object.defineProperty(this, "batching", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.batching;
+        return (this.batching = false);
+      }
+    });
+
     try {
       // if the element has been inserted without the name attribute set,
       // we have nothing to do here
@@ -66,10 +99,6 @@ class FirefoxPreference extends BaseElement {
         this.preferences._constructAfterChildren();
       }
     } catch (e) {}
-    this._constructed = false;
-    this._value = null;
-    this._useDefault = false;
-    this.batching = false;
   }
   disconnectedCallback() {}
 

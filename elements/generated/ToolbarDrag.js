@@ -9,6 +9,15 @@ class FirefoxToolbarDrag extends FirefoxToolbar {
     let comment = document.createComment("Creating firefox-toolbar-drag");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_dragBindingAlive", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._dragBindingAlive;
+        return (this._dragBindingAlive = true);
+      }
+    });
+
     try {
       if (!this._draggableStarted) {
         this._draggableStarted = true;
@@ -29,7 +38,6 @@ class FirefoxToolbarDrag extends FirefoxToolbar {
         } catch (e) {}
       }
     } catch (e) {}
-    this._dragBindingAlive = true;
   }
   disconnectedCallback() {}
 }

@@ -9,6 +9,15 @@ class FirefoxTimedTextbox extends FirefoxTextbox {
     let comment = document.createComment("Creating firefox-timed-textbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_timer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._timer;
+        return (this._timer = null);
+      }
+    });
+
     try {
       try {
         var consoleService = Components.classes[
@@ -29,7 +38,6 @@ class FirefoxTimedTextbox extends FirefoxTextbox {
         consoleService.logMessage(scriptError);
       } catch (e) {}
     } catch (e) {}
-    this._timer = null;
   }
   disconnectedCallback() {}
 

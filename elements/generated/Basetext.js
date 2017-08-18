@@ -9,7 +9,14 @@ class FirefoxBasetext extends FirefoxBasecontrol {
     let comment = document.createComment("Creating firefox-basetext");
     this.prepend(comment);
 
-    this.labelElement = "";
+    Object.defineProperty(this, "labelElement", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.labelElement;
+        return (this.labelElement = "");
+      }
+    });
   }
   disconnectedCallback() {}
 

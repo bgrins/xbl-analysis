@@ -17,13 +17,34 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
     );
     this.prepend(comment);
 
-    this._currentIndex = 0;
-    this._rlbAnimated = false;
-    this.richlistbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "richlistbox"
-    );
+    Object.defineProperty(this, "_currentIndex", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._currentIndex;
+        return (this._currentIndex = 0);
+      }
+    });
+    Object.defineProperty(this, "_rlbAnimated", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._rlbAnimated;
+        return (this._rlbAnimated = false);
+      }
+    });
+    Object.defineProperty(this, "richlistbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.richlistbox;
+        return (this.richlistbox = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "richlistbox"
+        ));
+      }
+    });
   }
   disconnectedCallback() {}
 

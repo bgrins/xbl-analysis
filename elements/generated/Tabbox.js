@@ -9,16 +9,28 @@ class FirefoxTabbox extends FirefoxTabBase {
     let comment = document.createComment("Creating firefox-tabbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_handleMetaAltArrows", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._handleMetaAltArrows;
+        return (this._handleMetaAltArrows = /Mac/.test(navigator.platform));
+      }
+    });
+    Object.defineProperty(this, "_eventNode", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._eventNode;
+        return (this._eventNode = this);
+      }
+    });
+
     try {
       undefined;
     } catch (e) {}
-    this._eventNode = this;
   }
   disconnectedCallback() {}
-
-  get _handleMetaAltArrows() {
-    return /Mac/.test(navigator.platform);
-  }
 
   set handleCtrlTab(val) {
     this.setAttribute("handleCtrlTab", val);

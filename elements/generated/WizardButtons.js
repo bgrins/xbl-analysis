@@ -50,16 +50,21 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
 </vbox>`;
     let comment = document.createComment("Creating firefox-wizard-buttons");
     this.prepend(comment);
+
+    Object.defineProperty(this, "_wizardButtonDeck", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._wizardButtonDeck;
+        return (this._wizardButtonDeck = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "WizardButtonDeck"
+        ));
+      }
+    });
   }
   disconnectedCallback() {}
-
-  get _wizardButtonDeck() {
-    return document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "WizardButtonDeck"
-    );
-  }
 
   get defaultButton() {
     const kXULNS =

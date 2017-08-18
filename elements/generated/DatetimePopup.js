@@ -9,6 +9,39 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     let comment = document.createComment("Creating firefox-datetime-popup");
     this.prepend(comment);
 
+    Object.defineProperty(this, "TIME_PICKER_WIDTH", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.TIME_PICKER_WIDTH;
+        return (this.TIME_PICKER_WIDTH = "12em");
+      }
+    });
+    Object.defineProperty(this, "TIME_PICKER_HEIGHT", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.TIME_PICKER_HEIGHT;
+        return (this.TIME_PICKER_HEIGHT = "21em");
+      }
+    });
+    Object.defineProperty(this, "DATE_PICKER_WIDTH", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.DATE_PICKER_WIDTH;
+        return (this.DATE_PICKER_WIDTH = "23.1em");
+      }
+    });
+    Object.defineProperty(this, "DATE_PICKER_HEIGHT", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.DATE_PICKER_HEIGHT;
+        return (this.DATE_PICKER_HEIGHT = "20.7em");
+      }
+    });
+
     try {
       this.mozIntl = Components.classes["@mozilla.org/mozintl;1"].getService(
         Components.interfaces.mozIMozIntl
@@ -18,22 +51,6 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     } catch (e) {}
   }
   disconnectedCallback() {}
-
-  get TIME_PICKER_WIDTH() {
-    return "12em";
-  }
-
-  get TIME_PICKER_HEIGHT() {
-    return "21em";
-  }
-
-  get DATE_PICKER_WIDTH() {
-    return "23.1em";
-  }
-
-  get DATE_PICKER_HEIGHT() {
-    return "20.7em";
-  }
 
   get dateTimePopupFrame() {
     undefined;

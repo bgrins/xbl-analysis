@@ -9,6 +9,183 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     let comment = document.createComment("Creating firefox-remote-browser");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_securityUI", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._securityUI;
+        return (this._securityUI = null);
+      }
+    });
+    Object.defineProperty(this, "_controller", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._controller;
+        return (this._controller = null);
+      }
+    });
+    Object.defineProperty(this, "_selectParentHelper", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._selectParentHelper;
+        return (this._selectParentHelper = null);
+      }
+    });
+    Object.defineProperty(this, "_remoteWebNavigation", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._remoteWebNavigation;
+        return (this._remoteWebNavigation = null);
+      }
+    });
+    Object.defineProperty(this, "_remoteWebProgress", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._remoteWebProgress;
+        return (this._remoteWebProgress = null);
+      }
+    });
+    Object.defineProperty(this, "_remoteFinder", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._remoteFinder;
+        return (this._remoteFinder = null);
+      }
+    });
+    Object.defineProperty(this, "_documentURI", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._documentURI;
+        return (this._documentURI = null);
+      }
+    });
+    Object.defineProperty(this, "_documentContentType", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._documentContentType;
+        return (this._documentContentType = null);
+      }
+    });
+    Object.defineProperty(this, "_contentTitle", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._contentTitle;
+        return (this._contentTitle = "");
+      }
+    });
+    Object.defineProperty(this, "_characterSet", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._characterSet;
+        return (this._characterSet = "");
+      }
+    });
+    Object.defineProperty(this, "_mayEnableCharacterEncodingMenu", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._mayEnableCharacterEncodingMenu;
+        return (this._mayEnableCharacterEncodingMenu = null);
+      }
+    });
+    Object.defineProperty(this, "_contentWindow", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._contentWindow;
+        return (this._contentWindow = null);
+      }
+    });
+    Object.defineProperty(this, "_contentPrincipal", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._contentPrincipal;
+        return (this._contentPrincipal = null);
+      }
+    });
+    Object.defineProperty(this, "_imageDocument", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._imageDocument;
+        return (this._imageDocument = null);
+      }
+    });
+    Object.defineProperty(this, "_fullZoom", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fullZoom;
+        return (this._fullZoom = 1);
+      }
+    });
+    Object.defineProperty(this, "_textZoom", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._textZoom;
+        return (this._textZoom = 1);
+      }
+    });
+    Object.defineProperty(this, "_isSyntheticDocument", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._isSyntheticDocument;
+        return (this._isSyntheticDocument = false);
+      }
+    });
+    Object.defineProperty(this, "_outerWindowID", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._outerWindowID;
+        return (this._outerWindowID = null);
+      }
+    });
+    Object.defineProperty(this, "_innerWindowID", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._innerWindowID;
+        return (this._innerWindowID = null);
+      }
+    });
+    Object.defineProperty(this, "_manifestURI", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._manifestURI;
+        return (this._manifestURI = "");
+      }
+    });
+    Object.defineProperty(this, "mDestroyed", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mDestroyed;
+        return (this.mDestroyed = false);
+      }
+    });
+    Object.defineProperty(this, "_permitUnloadId", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._permitUnloadId;
+        return (this._permitUnloadId = 0);
+      }
+    });
+
     try {
       /*
            * Don't try to send messages from this function. The message manager for
@@ -64,28 +241,6 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       this._controller = new RemoteController(this);
       this.controllers.appendController(this._controller);
     } catch (e) {}
-    this._securityUI = null;
-    this._controller = null;
-    this._selectParentHelper = null;
-    this._remoteWebNavigation = null;
-    this._remoteWebProgress = null;
-    this._remoteFinder = null;
-    this._documentURI = null;
-    this._documentContentType = null;
-    this._contentTitle = "";
-    this._characterSet = "";
-    this._mayEnableCharacterEncodingMenu = null;
-    this._contentWindow = null;
-    this._contentPrincipal = null;
-    this._imageDocument = null;
-    this._fullZoom = 1;
-    this._textZoom = 1;
-    this._isSyntheticDocument = false;
-    this._outerWindowID = null;
-    this._innerWindowID = null;
-    this._manifestURI = "";
-    this.mDestroyed = false;
-    this._permitUnloadId = 0;
   }
   disconnectedCallback() {}
 

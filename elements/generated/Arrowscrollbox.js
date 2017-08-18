@@ -21,6 +21,120 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     let comment = document.createComment("Creating firefox-arrowscrollbox");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_scrollbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._scrollbox;
+        return (this._scrollbox = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "scrollbox"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_scrollButtonUp", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._scrollButtonUp;
+        return (this._scrollButtonUp = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "scrollbutton-up"
+        ));
+      }
+    });
+    Object.defineProperty(this, "_scrollButtonDown", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._scrollButtonDown;
+        return (this._scrollButtonDown = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "scrollbutton-down"
+        ));
+      }
+    });
+    Object.defineProperty(this, "__prefBranch", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.__prefBranch;
+        return (this.__prefBranch = null);
+      }
+    });
+    Object.defineProperty(this, "_scrollIncrement", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._scrollIncrement;
+        return (this._scrollIncrement = null);
+      }
+    });
+    Object.defineProperty(this, "_scrollBoxObject", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._scrollBoxObject;
+        return (this._scrollBoxObject = null);
+      }
+    });
+    Object.defineProperty(this, "_startEndProps", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._startEndProps;
+        return (this._startEndProps = this.orient == "vertical"
+          ? ["top", "bottom"]
+          : ["left", "right"]);
+      }
+    });
+    Object.defineProperty(this, "_isRTLScrollbox", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._isRTLScrollbox;
+        return (this._isRTLScrollbox =
+          this.orient != "vertical" &&
+          document.defaultView.getComputedStyle(this._scrollbox).direction ==
+            "rtl");
+      }
+    });
+    Object.defineProperty(this, "_scrollTarget", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._scrollTarget;
+        return (this._scrollTarget = null);
+      }
+    });
+    Object.defineProperty(this, "_prevMouseScrolls", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._prevMouseScrolls;
+        return (this._prevMouseScrolls = [null, null]);
+      }
+    });
+    Object.defineProperty(this, "_touchStart", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._touchStart;
+        return (this._touchStart = -1);
+      }
+    });
+    Object.defineProperty(this, "_scrollButtonUpdatePending", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._scrollButtonUpdatePending;
+        return (this._scrollButtonUpdatePending = false);
+      }
+    });
+
     try {
       if (!this.hasAttribute("smoothscroll")) {
         this.smoothScroll = this._prefBranch.getBoolPref(
@@ -32,34 +146,6 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       this.setAttribute("notoverflowing", "true");
       this._updateScrollButtonsDisabledState();
     } catch (e) {}
-    this._scrollbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "scrollbox"
-    );
-    this._scrollButtonUp = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "scrollbutton-up"
-    );
-    this._scrollButtonDown = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "scrollbutton-down"
-    );
-    this.__prefBranch = null;
-    this._scrollIncrement = null;
-    this._scrollBoxObject = null;
-    this._startEndProps = this.orient == "vertical"
-      ? ["top", "bottom"]
-      : ["left", "right"];
-    this._isRTLScrollbox =
-      this.orient != "vertical" &&
-      document.defaultView.getComputedStyle(this._scrollbox).direction == "rtl";
-    this._scrollTarget = null;
-    this._prevMouseScrolls = [null, null];
-    this._touchStart = -1;
-    this._scrollButtonUpdatePending = false;
   }
   disconnectedCallback() {}
 

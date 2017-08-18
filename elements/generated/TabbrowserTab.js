@@ -37,14 +37,36 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     let comment = document.createComment("Creating firefox-tabbrowser-tab");
     this.prepend(comment);
 
+    Object.defineProperty(this, "muteReason", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.muteReason;
+        return (this.muteReason = undefined);
+      }
+    });
+    Object.defineProperty(this, "mOverCloseButton", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mOverCloseButton;
+        return (this.mOverCloseButton = false);
+      }
+    });
+    Object.defineProperty(this, "mCorrespondingMenuitem", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mCorrespondingMenuitem;
+        return (this.mCorrespondingMenuitem = null);
+      }
+    });
+
     try {
       if (!("_lastAccessed" in this)) {
         this.updateLastAccessed();
       }
     } catch (e) {}
-    this.muteReason = undefined;
-    this.mOverCloseButton = false;
-    this.mCorrespondingMenuitem = null;
   }
   disconnectedCallback() {}
 

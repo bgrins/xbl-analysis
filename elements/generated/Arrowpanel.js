@@ -19,7 +19,14 @@ class FirefoxArrowpanel extends FirefoxPanel {
     let comment = document.createComment("Creating firefox-arrowpanel");
     this.prepend(comment);
 
-    this._fadeTimer = null;
+    Object.defineProperty(this, "_fadeTimer", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._fadeTimer;
+        return (this._fadeTimer = null);
+      }
+    });
   }
   disconnectedCallback() {}
   sizeTo(aWidth, aHeight) {

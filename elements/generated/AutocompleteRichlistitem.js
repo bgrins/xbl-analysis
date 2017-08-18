@@ -43,6 +43,31 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     );
     this.prepend(comment);
 
+    Object.defineProperty(this, "_boundaryCutoff", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._boundaryCutoff;
+        return (this._boundaryCutoff = null);
+      }
+    });
+    Object.defineProperty(this, "_inOverflow", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._inOverflow;
+        return (this._inOverflow = false);
+      }
+    });
+    Object.defineProperty(this, "_textToSubURI", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._textToSubURI;
+        return (this._textToSubURI = null);
+      }
+    });
+
     try {
       this._typeIcon = document.getAnonymousElementByAttribute(
         this,
@@ -86,9 +111,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       );
       this._adjustAcItem();
     } catch (e) {}
-    this._boundaryCutoff = null;
-    this._inOverflow = false;
-    this._textToSubURI = null;
   }
   disconnectedCallback() {}
 

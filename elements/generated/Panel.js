@@ -9,6 +9,23 @@ class FirefoxPanel extends FirefoxPopupBase {
     let comment = document.createComment("Creating firefox-panel");
     this.prepend(comment);
 
+    Object.defineProperty(this, "_prevFocus", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._prevFocus;
+        return (this._prevFocus = 0);
+      }
+    });
+    Object.defineProperty(this, "_dragBindingAlive", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._dragBindingAlive;
+        return (this._dragBindingAlive = true);
+      }
+    });
+
     try {
       if (this.getAttribute("backdrag") == "true" && !this._draggableStarted) {
         this._draggableStarted = true;
@@ -25,8 +42,6 @@ class FirefoxPanel extends FirefoxPopupBase {
         } catch (e) {}
       }
     } catch (e) {}
-    this._prevFocus = 0;
-    this._dragBindingAlive = true;
   }
   disconnectedCallback() {}
 }
