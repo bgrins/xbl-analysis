@@ -63,7 +63,19 @@ class FirefoxDatetimeInputBase extends BaseElement {
       });
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      this.mInputElement = null;
+
+      this.EVENTS.forEach(eventName => {
+        this.removeEventListener(eventName, this, { mozSystemGroup: true });
+      });
+      this.removeEventListener("keypress", this, {
+        capture: true,
+        mozSystemGroup: true
+      });
+    } catch (e) {}
+  }
 
   get EVENTS() {
     return ["click", "focus", "blur", "copy", "cut", "paste", "mousedown"];

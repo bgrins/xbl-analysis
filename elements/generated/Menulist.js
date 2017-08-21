@@ -25,7 +25,13 @@ class FirefoxMenulist extends FirefoxMenulistBase {
       undefined;
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      if (this.mAttributeObserver) {
+        this.mAttributeObserver.disconnect();
+      }
+    } catch (e) {}
+  }
 
   set value(val) {
     // if the new value is null, we still need to remove the old value

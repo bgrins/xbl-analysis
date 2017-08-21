@@ -502,7 +502,11 @@ class FirefoxBrowser extends BaseElement {
       }
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      this.destroy();
+    } catch (e) {}
+  }
 
   get autoscrollEnabled() {
     if (this.getAttribute("autoscroll") == "false") return false;

@@ -124,7 +124,14 @@ class FirefoxTextbox extends BaseElement {
         this.placeholder = this.getAttribute("emptytext");
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      var field = this.inputField;
+      if (field && field.value)
+        this.boxObject.setProperty("value", field.value);
+      this.mInputField = null;
+    } catch (e) {}
+  }
 
   get inputField() {
     if (!this.mInputField)

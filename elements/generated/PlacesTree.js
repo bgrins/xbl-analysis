@@ -39,7 +39,29 @@ class FirefoxPlacesTree extends FirefoxTree {
       if (this.place) this.place = this.place;
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      // Break the treeviewer->result->treeviewer cycle.
+      // Note: unsetting the result's viewer also unsets
+      // the viewer's reference to our treeBoxObject.
+      var result = this.result;
+      if (result) {
+        result.root.containerOpen = false;
+      }
+
+      // Unregister the controllber before unlinking the view, otherwise it
+      // may still try to update commands on a view with a null result.
+      if (this._controller) {
+        this._controller.terminate();
+        this.controllers.removeController(this._controller);
+      }
+
+      if (this.view) {
+        this.view.uninit();
+      }
+      this.view = null;
+    } catch (e) {}
+  }
 
   get controller() {
     return this._controller;

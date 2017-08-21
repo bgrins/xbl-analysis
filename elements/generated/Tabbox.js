@@ -38,7 +38,11 @@ class FirefoxTabbox extends FirefoxTabBase {
       undefined;
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
+  }
 
   set handleCtrlTab(val) {
     this.setAttribute("handleCtrlTab", val);

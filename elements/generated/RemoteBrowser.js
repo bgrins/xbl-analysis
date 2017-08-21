@@ -330,7 +330,11 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       this.controllers.appendController(this._controller);
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      this.destroy();
+    } catch (e) {}
+  }
 
   get securityUI() {
     if (!this._securityUI) {

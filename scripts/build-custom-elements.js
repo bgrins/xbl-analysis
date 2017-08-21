@@ -127,6 +127,10 @@ function getJSForBinding(binding) {
   // Try / catch since many components will fail when loaded in a tab due to chrome references
   xblconstructor = xblconstructor ? `try { ${xblconstructor.cdata} } catch(e) { }` : '';
 
+  let xbldestructor = (binding.find("destructor") || [])[0];
+  // Try / catch since many components will fail when loaded in a tab due to chrome references
+  xbldestructor = xbldestructor ? `try { ${xbldestructor.cdata} } catch(e) { }` : '';
+
   // <field>
   let fields = [];
   for (let field of binding.find('field')) {
@@ -182,7 +186,9 @@ function getJSForBinding(binding) {
       ${xblconstructor}
 
     }
-    disconnectedCallback() { }
+    disconnectedCallback() {
+      ${xbldestructor}
+    }
   `);
 
   // <property>

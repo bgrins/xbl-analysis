@@ -81,7 +81,12 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       else this._refreshSelection();
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      // remove the template build listener
+      if (this.builder) this.builder.removeListener(this._builderListener);
+    } catch (e) {}
+  }
 
   get itemCount() {
     return this.children.length;

@@ -16,7 +16,12 @@ class FirefoxStatuspanel extends BaseElement {
       window.addEventListener("resize", this);
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      window.removeEventListener("resize", this);
+      MousePosTracker.removeListener(this);
+    } catch (e) {}
+  }
 
   set label(val) {
     if (!this.label) {

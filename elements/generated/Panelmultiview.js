@@ -28,6 +28,10 @@ class FirefoxPanelmultiview extends BaseElement {
       this.instance = new PanelMultiView(this);
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      this.instance.destructor();
+    } catch (e) {}
+  }
 }
 customElements.define("firefox-panelmultiview", FirefoxPanelmultiview);

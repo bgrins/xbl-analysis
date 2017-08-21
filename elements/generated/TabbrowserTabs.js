@@ -411,7 +411,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       this._setPositionalAttributes();
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      Services.prefs.removeObserver("privacy.userContext", this);
+    } catch (e) {}
+  }
 
   get restoreTabsButtonWrapperWidth() {
     if (!this._restoreTabsButtonWrapperWidth) {

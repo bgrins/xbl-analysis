@@ -6,8 +6,10 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<div anonid="autofill-item-box" class="autofill-item-box">
+    this.innerHTML = `<div anonid="autofill-item-box" class="autofill-item-box" inherits="ac-image">
 <div class="profile-label-col profile-item-col">
+<span anonid="profile-label-affix" class="profile-label-affix">
+</span>
 <span anonid="profile-label" class="profile-label">
 </span>
 </div>
@@ -26,6 +28,11 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
         this,
         "anonid",
         "autofill-item-box"
+      );
+      this._labelAffix = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "profile-label-affix"
       );
       this._label = document.getAnonymousElementByAttribute(
         this,
@@ -67,9 +74,16 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
   _adjustAcItem() {
     this._adjustAutofillItemLayout();
     this.setAttribute("formautofillattached", "true");
+    this._itemBox.style.setProperty(
+      "--primary-icon",
+      `url(${this.getAttribute("ac-image")})`
+    );
 
-    let { primary, secondary } = JSON.parse(this.getAttribute("ac-value"));
+    let { primaryAffix, primary, secondary } = JSON.parse(
+      this.getAttribute("ac-value")
+    );
 
+    this._labelAffix.textContent = primaryAffix;
     this._label.textContent = primary;
     this._comment.textContent = secondary;
   }

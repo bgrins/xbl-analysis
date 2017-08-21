@@ -23,7 +23,20 @@ class FirefoxRadio extends FirefoxControlItem {
       if (control) control._radioChildren = null;
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      if (!this.control) return;
+
+      var radioList = this.control._radioChildren;
+      if (!radioList) return;
+      for (var i = 0; i < radioList.length; ++i) {
+        if (radioList[i] == this) {
+          radioList.splice(i, 1);
+          return;
+        }
+      }
+    } catch (e) {}
+  }
 
   get selected() {
     return this.hasAttribute("selected");

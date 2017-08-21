@@ -34,6 +34,13 @@ class FirefoxRootElement extends BaseElement {
       }
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      if (this._lightweightTheme) {
+        this._lightweightTheme.destroy();
+        this._lightweightTheme = null;
+      }
+    } catch (e) {}
+  }
 }
 customElements.define("firefox-root-element", FirefoxRootElement);

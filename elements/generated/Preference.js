@@ -116,7 +116,11 @@ class FirefoxPreference extends BaseElement {
       }
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
+  }
 
   get instantApply() {
     if (this.getAttribute("instantApply") == "false") return false;

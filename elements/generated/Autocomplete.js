@@ -242,7 +242,11 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       this.inputField.controllers.insertControllerAt(0, this._pasteController);
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      this.inputField.controllers.removeController(this._pasteController);
+    } catch (e) {}
+  }
 
   get popup() {
     // Memoize the result in a field rather than replacing this property,

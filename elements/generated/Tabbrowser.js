@@ -668,7 +668,59 @@ class FirefoxTabbrowser extends BaseElement {
       );
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      Services.obs.removeObserver(this, "contextual-identity-updated");
+
+      for (let tab of this.tabs) {
+        let browser = tab.linkedBrowser;
+        if (browser.registeredOpenURI) {
+          this._unifiedComplete.unregisterOpenPage(
+            browser.registeredOpenURI,
+            browser.getAttribute("usercontextid") || 0
+          );
+          delete browser.registeredOpenURI;
+        }
+
+        let filter = this._tabFilters.get(tab);
+        if (filter) {
+          browser.webProgress.removeProgressListener(filter);
+
+          let listener = this._tabListeners.get(tab);
+          if (listener) {
+            filter.removeProgressListener(listener);
+            listener.destroy();
+          }
+
+          this._tabFilters.delete(tab);
+          this._tabListeners.delete(tab);
+        }
+      }
+      const nsIEventListenerService =
+        Components.interfaces.nsIEventListenerService;
+      let els = Components.classes[
+        "@mozilla.org/eventlistenerservice;1"
+      ].getService(nsIEventListenerService);
+      els.removeSystemEventListener(document, "keydown", this, false);
+      if (AppConstants.platform == "macosx") {
+        els.removeSystemEventListener(document, "keypress", this, false);
+      }
+      window.removeEventListener("sizemodechange", this);
+      window.removeEventListener("occlusionstatechange", this);
+
+      if (gMultiProcessBrowser) {
+        let messageManager = window.getGroupMessageManager("browsers");
+        messageManager.removeMessageListener("DOMTitleChanged", this);
+        window.messageManager.removeMessageListener("contextmenu", this);
+
+        if (this._switcher) {
+          this._switcher.destroy();
+        }
+      }
+
+      Services.prefs.removeObserver("accessibility.typeaheadfind", this);
+    } catch (e) {}
+  }
 
   get tabContextMenu() {
     return this.tabContainer.contextMenu;

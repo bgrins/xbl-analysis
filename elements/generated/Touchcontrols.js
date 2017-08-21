@@ -274,6 +274,12 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
       this.dispatchEvent(new CustomEvent("VideoBindingAttached"));
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      // XBL destructors don't appear to be inherited properly, so we need
+      // to do this here in addition to the videoControls destructor. :-(
+      delete this.randomID;
+    } catch (e) {}
+  }
 }
 customElements.define("firefox-touchcontrols", FirefoxTouchcontrols);

@@ -1989,6 +1989,15 @@ class FirefoxVideocontrols extends BaseElement {
       this.Utils.init(this);
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      this.Utils.terminateEventListeners();
+      // randomID used to be a <field>, which meant that the XBL machinery
+      // undefined the property when the element was unbound. The code in
+      // this file actually depends on this, so now that randomID is an
+      // expando, we need to make sure to explicitly delete it.
+      delete this.randomID;
+    } catch (e) {}
+  }
 }
 customElements.define("firefox-videocontrols", FirefoxVideocontrols);

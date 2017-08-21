@@ -55,7 +55,15 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       );
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      // Release timer to avoid reference cycles.
+      if (this._scrollTimer) {
+        this._scrollTimer.cancel();
+        this._scrollTimer = null;
+      }
+    } catch (e) {}
+  }
   notify(aTimer) {
     if (!document) aTimer.cancel();
 

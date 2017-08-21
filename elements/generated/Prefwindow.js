@@ -281,7 +281,19 @@ class FirefoxPrefwindow extends FirefoxDialog {
       if (panes.length == 1) this._selector.setAttribute("collapsed", "true");
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      // Release timers to avoid reference cycles.
+      if (this._animateTimer) {
+        this._animateTimer.cancel();
+        this._animateTimer = null;
+      }
+      if (this._fadeTimer) {
+        this._fadeTimer.cancel();
+        this._fadeTimer = null;
+      }
+    } catch (e) {}
+  }
 
   get preferencePanes() {
     return this.getElementsByTagName("prefpane");

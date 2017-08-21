@@ -55,8 +55,11 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
     // Make item fit in popup as XUL box could not constrain
     // item's width
     this._itemBox.style.width = outerBoxRect.width + "px";
-    // Use two-lines layout when width is smaller than 150px
-    if (outerBoxRect.width <= 150) {
+    // Use two-lines layout when width is smaller than 150px or
+    // 185px if an image precedes the label.
+    let oneLineMinRequiredWidth = this.getAttribute("ac-image") ? 185 : 150;
+
+    if (outerBoxRect.width <= oneLineMinRequiredWidth) {
       this._itemBox.setAttribute("size", "small");
     } else {
       this._itemBox.removeAttribute("size");

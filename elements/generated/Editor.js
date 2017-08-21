@@ -94,7 +94,11 @@ class FirefoxEditor extends BaseElement {
       if (this.editortype) this.makeEditable(this.editortype, true);
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
+  }
 
   get finder() {
     if (!this._finder) {

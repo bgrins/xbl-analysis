@@ -196,7 +196,11 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
       undefined;
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
+  }
 
   get _currentField() {
     var focusedInput = document.activeElement;

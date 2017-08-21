@@ -316,7 +316,11 @@ class FirefoxFindbar extends FirefoxToolbar {
         );
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      this.destroy();
+    } catch (e) {}
+  }
 
   set _findMode(val) {
     this.__findMode = val;

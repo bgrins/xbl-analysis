@@ -80,7 +80,11 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
       undefined;
     } catch (e) {}
   }
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    try {
+      undefined;
+    } catch (e) {}
+  }
   _setInactive() {
     this.setAttribute("inactive", "true");
   }
