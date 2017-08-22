@@ -27,8 +27,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
         ));
       },
       set(val) {
-        delete this["_scrollbox"];
-        return (this["_scrollbox"] = val);
+        delete this._scrollbox;
+        return (this._scrollbox = val);
       }
     });
     Object.defineProperty(this, "scrollBoxObject", {
@@ -39,8 +39,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
         return (this.scrollBoxObject = this._scrollbox.boxObject);
       },
       set(val) {
-        delete this["scrollBoxObject"];
-        return (this["scrollBoxObject"] = val);
+        delete this.scrollBoxObject;
+        return (this.scrollBoxObject = val);
       }
     });
     Object.defineProperty(this, "_builderListener", {
@@ -58,8 +58,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
         });
       },
       set(val) {
-        delete this["_builderListener"];
-        return (this["_builderListener"] = val);
+        delete this._builderListener;
+        return (this._builderListener = val);
       }
     });
     Object.defineProperty(this, "_currentIndex", {
@@ -70,8 +70,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
         return (this._currentIndex = null);
       },
       set(val) {
-        delete this["_currentIndex"];
-        return (this["_currentIndex"] = val);
+        delete this._currentIndex;
+        return (this._currentIndex = val);
       }
     });
 

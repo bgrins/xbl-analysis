@@ -19,8 +19,8 @@ class FirefoxTabbrowserRemoteBrowser extends FirefoxRemoteBrowser {
         return (this.tabModalPromptBox = null);
       },
       set(val) {
-        delete this["tabModalPromptBox"];
-        return (this["tabModalPromptBox"] = val);
+        delete this.tabModalPromptBox;
+        return (this.tabModalPromptBox = val);
       }
     });
   }

@@ -189,8 +189,8 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         return (this._hasEntry = false);
       },
       set(val) {
-        delete this["_hasEntry"];
-        return (this["_hasEntry"] = val);
+        delete this._hasEntry;
+        return (this._hasEntry = val);
       }
     });
     Object.defineProperty(this, "_weekStart", {
@@ -201,8 +201,8 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         return (this._weekStart = "");
       },
       set(val) {
-        delete this["_weekStart"];
-        return (this["_weekStart"] = val);
+        delete this._weekStart;
+        return (this._weekStart = val);
       }
     });
     Object.defineProperty(this, "_displayedDate", {
@@ -213,8 +213,8 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         return (this._displayedDate = null);
       },
       set(val) {
-        delete this["_displayedDate"];
-        return (this["_displayedDate"] = val);
+        delete this._displayedDate;
+        return (this._displayedDate = val);
       }
     });
     Object.defineProperty(this, "_todayItem", {
@@ -225,8 +225,8 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         return (this._todayItem = null);
       },
       set(val) {
-        delete this["_todayItem"];
-        return (this["_todayItem"] = val);
+        delete this._todayItem;
+        return (this._todayItem = val);
       }
     });
     Object.defineProperty(this, "yearField", {
@@ -241,8 +241,8 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         ));
       },
       set(val) {
-        delete this["yearField"];
-        return (this["yearField"] = val);
+        delete this.yearField;
+        return (this.yearField = val);
       }
     });
     Object.defineProperty(this, "monthField", {
@@ -257,8 +257,8 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         ));
       },
       set(val) {
-        delete this["monthField"];
-        return (this["monthField"] = val);
+        delete this.monthField;
+        return (this.monthField = val);
       }
     });
     Object.defineProperty(this, "dateField", {
@@ -273,8 +273,8 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         ));
       },
       set(val) {
-        delete this["dateField"];
-        return (this["dateField"] = val);
+        delete this.dateField;
+        return (this.dateField = val);
       }
     });
     Object.defineProperty(this, "_selectedItem", {
@@ -285,8 +285,8 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         return (this._selectedItem = null);
       },
       set(val) {
-        delete this["_selectedItem"];
-        return (this["_selectedItem"] = val);
+        delete this._selectedItem;
+        return (this._selectedItem = val);
       }
     });
   }

@@ -37,8 +37,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         ));
       },
       set(val) {
-        delete this["tabbrowser"];
-        return (this["tabbrowser"] = val);
+        delete this.tabbrowser;
+        return (this.tabbrowser = val);
       }
     });
     Object.defineProperty(this, "tabbox", {
@@ -49,8 +49,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this.tabbox = this.tabbrowser.mTabBox);
       },
       set(val) {
-        delete this["tabbox"];
-        return (this["tabbox"] = val);
+        delete this.tabbox;
+        return (this.tabbox = val);
       }
     });
     Object.defineProperty(this, "contextMenu", {
@@ -61,8 +61,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this.contextMenu = document.getElementById("tabContextMenu"));
       },
       set(val) {
-        delete this["contextMenu"];
-        return (this["contextMenu"] = val);
+        delete this.contextMenu;
+        return (this.contextMenu = val);
       }
     });
     Object.defineProperty(this, "mTabstripWidth", {
@@ -73,8 +73,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this.mTabstripWidth = 0);
       },
       set(val) {
-        delete this["mTabstripWidth"];
-        return (this["mTabstripWidth"] = val);
+        delete this.mTabstripWidth;
+        return (this.mTabstripWidth = val);
       }
     });
     Object.defineProperty(this, "mTabstrip", {
@@ -89,8 +89,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         ));
       },
       set(val) {
-        delete this["mTabstrip"];
-        return (this["mTabstrip"] = val);
+        delete this.mTabstrip;
+        return (this.mTabstrip = val);
       }
     });
     Object.defineProperty(this, "_firstTab", {
@@ -101,8 +101,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._firstTab = null);
       },
       set(val) {
-        delete this["_firstTab"];
-        return (this["_firstTab"] = val);
+        delete this._firstTab;
+        return (this._firstTab = val);
       }
     });
     Object.defineProperty(this, "_lastTab", {
@@ -113,8 +113,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._lastTab = null);
       },
       set(val) {
-        delete this["_lastTab"];
-        return (this["_lastTab"] = val);
+        delete this._lastTab;
+        return (this._lastTab = val);
       }
     });
     Object.defineProperty(this, "_afterSelectedTab", {
@@ -125,8 +125,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._afterSelectedTab = null);
       },
       set(val) {
-        delete this["_afterSelectedTab"];
-        return (this["_afterSelectedTab"] = val);
+        delete this._afterSelectedTab;
+        return (this._afterSelectedTab = val);
       }
     });
     Object.defineProperty(this, "_beforeHoveredTab", {
@@ -137,8 +137,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._beforeHoveredTab = null);
       },
       set(val) {
-        delete this["_beforeHoveredTab"];
-        return (this["_beforeHoveredTab"] = val);
+        delete this._beforeHoveredTab;
+        return (this._beforeHoveredTab = val);
       }
     });
     Object.defineProperty(this, "_afterHoveredTab", {
@@ -149,8 +149,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._afterHoveredTab = null);
       },
       set(val) {
-        delete this["_afterHoveredTab"];
-        return (this["_afterHoveredTab"] = val);
+        delete this._afterHoveredTab;
+        return (this._afterHoveredTab = val);
       }
     });
     Object.defineProperty(this, "_hoveredTab", {
@@ -161,8 +161,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._hoveredTab = null);
       },
       set(val) {
-        delete this["_hoveredTab"];
-        return (this["_hoveredTab"] = val);
+        delete this._hoveredTab;
+        return (this._hoveredTab = val);
       }
     });
     Object.defineProperty(this, "restoreTabsButton", {
@@ -177,8 +177,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         ));
       },
       set(val) {
-        delete this["restoreTabsButton"];
-        return (this["restoreTabsButton"] = val);
+        delete this.restoreTabsButton;
+        return (this.restoreTabsButton = val);
       }
     });
     Object.defineProperty(this, "_restoreTabsButtonWrapperWidth", {
@@ -189,8 +189,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._restoreTabsButtonWrapperWidth = 0);
       },
       set(val) {
-        delete this["_restoreTabsButtonWrapperWidth"];
-        return (this["_restoreTabsButtonWrapperWidth"] = val);
+        delete this._restoreTabsButtonWrapperWidth;
+        return (this._restoreTabsButtonWrapperWidth = val);
       }
     });
     Object.defineProperty(this, "windowUtils", {
@@ -203,8 +203,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
           .getInterface(Ci.nsIDOMWindowUtils));
       },
       set(val) {
-        delete this["windowUtils"];
-        return (this["windowUtils"] = val);
+        delete this.windowUtils;
+        return (this.windowUtils = val);
       }
     });
     Object.defineProperty(this, "_blockDblClick", {
@@ -215,8 +215,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._blockDblClick = false);
       },
       set(val) {
-        delete this["_blockDblClick"];
-        return (this["_blockDblClick"] = val);
+        delete this._blockDblClick;
+        return (this._blockDblClick = val);
       }
     });
     Object.defineProperty(this, "_tabDropIndicator", {
@@ -231,8 +231,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         ));
       },
       set(val) {
-        delete this["_tabDropIndicator"];
-        return (this["_tabDropIndicator"] = val);
+        delete this._tabDropIndicator;
+        return (this._tabDropIndicator = val);
       }
     });
     Object.defineProperty(this, "_dragOverDelay", {
@@ -243,8 +243,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._dragOverDelay = 350);
       },
       set(val) {
-        delete this["_dragOverDelay"];
-        return (this["_dragOverDelay"] = val);
+        delete this._dragOverDelay;
+        return (this._dragOverDelay = val);
       }
     });
     Object.defineProperty(this, "_dragTime", {
@@ -255,8 +255,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._dragTime = 0);
       },
       set(val) {
-        delete this["_dragTime"];
-        return (this["_dragTime"] = val);
+        delete this._dragTime;
+        return (this._dragTime = val);
       }
     });
     Object.defineProperty(this, "_container", {
@@ -270,8 +270,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
           : this);
       },
       set(val) {
-        delete this["_container"];
-        return (this["_container"] = val);
+        delete this._container;
+        return (this._container = val);
       }
     });
     Object.defineProperty(this, "_propagatedVisibilityOnce", {
@@ -282,8 +282,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._propagatedVisibilityOnce = false);
       },
       set(val) {
-        delete this["_propagatedVisibilityOnce"];
-        return (this["_propagatedVisibilityOnce"] = val);
+        delete this._propagatedVisibilityOnce;
+        return (this._propagatedVisibilityOnce = val);
       }
     });
     Object.defineProperty(this, "_closeButtonsUpdatePending", {
@@ -294,8 +294,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._closeButtonsUpdatePending = false);
       },
       set(val) {
-        delete this["_closeButtonsUpdatePending"];
-        return (this["_closeButtonsUpdatePending"] = val);
+        delete this._closeButtonsUpdatePending;
+        return (this._closeButtonsUpdatePending = val);
       }
     });
     Object.defineProperty(this, "_closingTabsSpacer", {
@@ -310,8 +310,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         ));
       },
       set(val) {
-        delete this["_closingTabsSpacer"];
-        return (this["_closingTabsSpacer"] = val);
+        delete this._closingTabsSpacer;
+        return (this._closingTabsSpacer = val);
       }
     });
     Object.defineProperty(this, "_tabDefaultMaxWidth", {
@@ -322,8 +322,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._tabDefaultMaxWidth = NaN);
       },
       set(val) {
-        delete this["_tabDefaultMaxWidth"];
-        return (this["_tabDefaultMaxWidth"] = val);
+        delete this._tabDefaultMaxWidth;
+        return (this._tabDefaultMaxWidth = val);
       }
     });
     Object.defineProperty(this, "_lastTabClosedByMouse", {
@@ -334,8 +334,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._lastTabClosedByMouse = false);
       },
       set(val) {
-        delete this["_lastTabClosedByMouse"];
-        return (this["_lastTabClosedByMouse"] = val);
+        delete this._lastTabClosedByMouse;
+        return (this._lastTabClosedByMouse = val);
       }
     });
     Object.defineProperty(this, "_hasTabTempMaxWidth", {
@@ -346,8 +346,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._hasTabTempMaxWidth = false);
       },
       set(val) {
-        delete this["_hasTabTempMaxWidth"];
-        return (this["_hasTabTempMaxWidth"] = val);
+        delete this._hasTabTempMaxWidth;
+        return (this._hasTabTempMaxWidth = val);
       }
     });
     Object.defineProperty(this, "_lastNumPinned", {
@@ -358,8 +358,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._lastNumPinned = 0);
       },
       set(val) {
-        delete this["_lastNumPinned"];
-        return (this["_lastNumPinned"] = val);
+        delete this._lastNumPinned;
+        return (this._lastNumPinned = val);
       }
     });
     Object.defineProperty(this, "_pinnedTabsLayoutCache", {
@@ -370,8 +370,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._pinnedTabsLayoutCache = null);
       },
       set(val) {
-        delete this["_pinnedTabsLayoutCache"];
-        return (this["_pinnedTabsLayoutCache"] = val);
+        delete this._pinnedTabsLayoutCache;
+        return (this._pinnedTabsLayoutCache = val);
       }
     });
     Object.defineProperty(this, "_animateElement", {
@@ -382,8 +382,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._animateElement = this.mTabstrip._scrollButtonDown);
       },
       set(val) {
-        delete this["_animateElement"];
-        return (this["_animateElement"] = val);
+        delete this._animateElement;
+        return (this._animateElement = val);
       }
     });
 

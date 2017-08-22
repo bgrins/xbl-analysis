@@ -27,8 +27,8 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
         return (this.mShowCommentColumn = false);
       },
       set(val) {
-        delete this["mShowCommentColumn"];
-        return (this["mShowCommentColumn"] = val);
+        delete this.mShowCommentColumn;
+        return (this.mShowCommentColumn = val);
       }
     });
     Object.defineProperty(this, "mShowImageColumn", {
@@ -39,8 +39,8 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
         return (this.mShowImageColumn = false);
       },
       set(val) {
-        delete this["mShowImageColumn"];
-        return (this["mShowImageColumn"] = val);
+        delete this.mShowImageColumn;
+        return (this.mShowImageColumn = val);
       }
     });
     Object.defineProperty(this, "tree", {
@@ -55,8 +55,8 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
         ));
       },
       set(val) {
-        delete this["tree"];
-        return (this["tree"] = val);
+        delete this.tree;
+        return (this.tree = val);
       }
     });
     Object.defineProperty(this, "treecols", {
@@ -71,8 +71,8 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
         ));
       },
       set(val) {
-        delete this["treecols"];
-        return (this["treecols"] = val);
+        delete this.treecols;
+        return (this.treecols = val);
       }
     });
   }

@@ -63,8 +63,8 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
         ));
       },
       set(val) {
-        delete this["_wizardButtonDeck"];
-        return (this["_wizardButtonDeck"] = val);
+        delete this._wizardButtonDeck;
+        return (this._wizardButtonDeck = val);
       }
     });
   }

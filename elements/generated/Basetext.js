@@ -17,8 +17,8 @@ class FirefoxBasetext extends FirefoxBasecontrol {
         return (this.labelElement = "");
       },
       set(val) {
-        delete this["labelElement"];
-        return (this["labelElement"] = val);
+        delete this.labelElement;
+        return (this.labelElement = val);
       }
     });
   }

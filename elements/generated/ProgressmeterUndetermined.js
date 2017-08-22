@@ -23,8 +23,8 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
         return (this._alive = true);
       },
       set(val) {
-        delete this["_alive"];
-        return (this["_alive"] = val);
+        delete this._alive;
+        return (this._alive = val);
       }
     });
 

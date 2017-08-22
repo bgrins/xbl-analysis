@@ -16,8 +16,8 @@ class FirefoxWindowdragbox extends BaseElement {
         return (this._dragBindingAlive = true);
       },
       set(val) {
-        delete this["_dragBindingAlive"];
-        return (this["_dragBindingAlive"] = val);
+        delete this._dragBindingAlive;
+        return (this._dragBindingAlive = val);
       }
     });
 

@@ -31,8 +31,8 @@ class FirefoxListbox extends FirefoxListboxBase {
         return (this._touchY = -1);
       },
       set(val) {
-        delete this["_touchY"];
-        return (this["_touchY"] = val);
+        delete this._touchY;
+        return (this._touchY = val);
       }
     });
 

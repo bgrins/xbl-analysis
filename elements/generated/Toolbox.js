@@ -17,8 +17,8 @@ class FirefoxToolbox extends FirefoxToolbarBase {
         return (this.palette = null);
       },
       set(val) {
-        delete this["palette"];
-        return (this["palette"] = val);
+        delete this.palette;
+        return (this.palette = val);
       }
     });
     Object.defineProperty(this, "toolbarset", {
@@ -29,8 +29,8 @@ class FirefoxToolbox extends FirefoxToolbarBase {
         return (this.toolbarset = null);
       },
       set(val) {
-        delete this["toolbarset"];
-        return (this["toolbarset"] = val);
+        delete this.toolbarset;
+        return (this.toolbarset = val);
       }
     });
     Object.defineProperty(this, "customToolbarCount", {
@@ -41,8 +41,8 @@ class FirefoxToolbox extends FirefoxToolbarBase {
         return (this.customToolbarCount = 0);
       },
       set(val) {
-        delete this["customToolbarCount"];
-        return (this["customToolbarCount"] = val);
+        delete this.customToolbarCount;
+        return (this.customToolbarCount = val);
       }
     });
     Object.defineProperty(this, "externalToolbars", {
@@ -53,8 +53,8 @@ class FirefoxToolbox extends FirefoxToolbarBase {
         return (this.externalToolbars = []);
       },
       set(val) {
-        delete this["externalToolbars"];
-        return (this["externalToolbars"] = val);
+        delete this.externalToolbars;
+        return (this.externalToolbars = val);
       }
     });
 

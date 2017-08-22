@@ -163,8 +163,8 @@ function getJSForBinding(binding) {
         return this.${field.attrs.name} = ${expressions.join('\n')}
       },
       set(val) {
-        delete this['${field.attrs.name}'];
-        return this['${field.attrs.name}'] = val;
+        delete this.${field.attrs.name};
+        return this.${field.attrs.name} = val;
       },
     })`);
   }

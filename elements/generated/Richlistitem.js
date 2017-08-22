@@ -19,8 +19,8 @@ class FirefoxRichlistitem extends FirefoxListitem {
         return (this.selectedByMouseOver = false);
       },
       set(val) {
-        delete this["selectedByMouseOver"];
-        return (this["selectedByMouseOver"] = val);
+        delete this.selectedByMouseOver;
+        return (this.selectedByMouseOver = val);
       }
     });
   }

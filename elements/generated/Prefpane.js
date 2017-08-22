@@ -20,8 +20,8 @@ class FirefoxPrefpane extends BaseElement {
         return (this._loaded = false);
       },
       set(val) {
-        delete this["_loaded"];
-        return (this["_loaded"] = val);
+        delete this._loaded;
+        return (this._loaded = val);
       }
     });
     Object.defineProperty(this, "_deferredValueUpdateElements", {
@@ -32,8 +32,8 @@ class FirefoxPrefpane extends BaseElement {
         return (this._deferredValueUpdateElements = new Set());
       },
       set(val) {
-        delete this["_deferredValueUpdateElements"];
-        return (this["_deferredValueUpdateElements"] = val);
+        delete this._deferredValueUpdateElements;
+        return (this._deferredValueUpdateElements = val);
       }
     });
     Object.defineProperty(this, "_content", {
@@ -48,8 +48,8 @@ class FirefoxPrefpane extends BaseElement {
         ));
       },
       set(val) {
-        delete this["_content"];
-        return (this["_content"] = val);
+        delete this._content;
+        return (this._content = val);
       }
     });
   }

@@ -60,8 +60,8 @@ class FirefoxPopupNotification extends BaseElement {
         ));
       },
       set(val) {
-        delete this["checkbox"];
-        return (this["checkbox"] = val);
+        delete this.checkbox;
+        return (this.checkbox = val);
       }
     });
     Object.defineProperty(this, "closebutton", {
@@ -76,8 +76,8 @@ class FirefoxPopupNotification extends BaseElement {
         ));
       },
       set(val) {
-        delete this["closebutton"];
-        return (this["closebutton"] = val);
+        delete this.closebutton;
+        return (this.closebutton = val);
       }
     });
     Object.defineProperty(this, "button", {
@@ -92,8 +92,8 @@ class FirefoxPopupNotification extends BaseElement {
         ));
       },
       set(val) {
-        delete this["button"];
-        return (this["button"] = val);
+        delete this.button;
+        return (this.button = val);
       }
     });
     Object.defineProperty(this, "secondaryButton", {
@@ -108,8 +108,8 @@ class FirefoxPopupNotification extends BaseElement {
         ));
       },
       set(val) {
-        delete this["secondaryButton"];
-        return (this["secondaryButton"] = val);
+        delete this.secondaryButton;
+        return (this.secondaryButton = val);
       }
     });
     Object.defineProperty(this, "menubutton", {
@@ -124,8 +124,8 @@ class FirefoxPopupNotification extends BaseElement {
         ));
       },
       set(val) {
-        delete this["menubutton"];
-        return (this["menubutton"] = val);
+        delete this.menubutton;
+        return (this.menubutton = val);
       }
     });
     Object.defineProperty(this, "menupopup", {
@@ -140,8 +140,8 @@ class FirefoxPopupNotification extends BaseElement {
         ));
       },
       set(val) {
-        delete this["menupopup"];
-        return (this["menupopup"] = val);
+        delete this.menupopup;
+        return (this.menupopup = val);
       }
     });
   }

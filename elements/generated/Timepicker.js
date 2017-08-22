@@ -17,8 +17,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.is24HourClock = false);
       },
       set(val) {
-        delete this["is24HourClock"];
-        return (this["is24HourClock"] = val);
+        delete this.is24HourClock;
+        return (this.is24HourClock = val);
       }
     });
     Object.defineProperty(this, "hourLeadingZero", {
@@ -29,8 +29,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.hourLeadingZero = false);
       },
       set(val) {
-        delete this["hourLeadingZero"];
-        return (this["hourLeadingZero"] = val);
+        delete this.hourLeadingZero;
+        return (this.hourLeadingZero = val);
       }
     });
     Object.defineProperty(this, "minuteLeadingZero", {
@@ -41,8 +41,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.minuteLeadingZero = true);
       },
       set(val) {
-        delete this["minuteLeadingZero"];
-        return (this["minuteLeadingZero"] = val);
+        delete this.minuteLeadingZero;
+        return (this.minuteLeadingZero = val);
       }
     });
     Object.defineProperty(this, "secondLeadingZero", {
@@ -53,8 +53,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.secondLeadingZero = true);
       },
       set(val) {
-        delete this["secondLeadingZero"];
-        return (this["secondLeadingZero"] = val);
+        delete this.secondLeadingZero;
+        return (this.secondLeadingZero = val);
       }
     });
     Object.defineProperty(this, "amIndicator", {
@@ -65,8 +65,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.amIndicator = "AM");
       },
       set(val) {
-        delete this["amIndicator"];
-        return (this["amIndicator"] = val);
+        delete this.amIndicator;
+        return (this.amIndicator = val);
       }
     });
     Object.defineProperty(this, "pmIndicator", {
@@ -77,8 +77,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.pmIndicator = "PM");
       },
       set(val) {
-        delete this["pmIndicator"];
-        return (this["pmIndicator"] = val);
+        delete this.pmIndicator;
+        return (this.pmIndicator = val);
       }
     });
     Object.defineProperty(this, "hourField", {
@@ -89,8 +89,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.hourField = null);
       },
       set(val) {
-        delete this["hourField"];
-        return (this["hourField"] = val);
+        delete this.hourField;
+        return (this.hourField = val);
       }
     });
     Object.defineProperty(this, "minuteField", {
@@ -101,8 +101,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.minuteField = null);
       },
       set(val) {
-        delete this["minuteField"];
-        return (this["minuteField"] = val);
+        delete this.minuteField;
+        return (this.minuteField = val);
       }
     });
     Object.defineProperty(this, "secondField", {
@@ -113,8 +113,8 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.secondField = null);
       },
       set(val) {
-        delete this["secondField"];
-        return (this["secondField"] = val);
+        delete this.secondField;
+        return (this.secondField = val);
       }
     });
   }

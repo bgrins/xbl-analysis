@@ -17,8 +17,8 @@ class FirefoxTabpanels extends FirefoxTabBase {
         return (this._tabbox = null);
       },
       set(val) {
-        delete this["_tabbox"];
-        return (this["_tabbox"] = val);
+        delete this._tabbox;
+        return (this._tabbox = val);
       }
     });
     Object.defineProperty(this, "_selectedPanel", {
@@ -29,8 +29,8 @@ class FirefoxTabpanels extends FirefoxTabBase {
         return (this._selectedPanel = this.childNodes.item(this.selectedIndex));
       },
       set(val) {
-        delete this["_selectedPanel"];
-        return (this["_selectedPanel"] = val);
+        delete this._selectedPanel;
+        return (this._selectedPanel = val);
       }
     });
   }

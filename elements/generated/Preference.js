@@ -16,8 +16,8 @@ class FirefoxPreference extends BaseElement {
         return (this._constructed = false);
       },
       set(val) {
-        delete this["_constructed"];
-        return (this["_constructed"] = val);
+        delete this._constructed;
+        return (this._constructed = val);
       }
     });
     Object.defineProperty(this, "_value", {
@@ -28,8 +28,8 @@ class FirefoxPreference extends BaseElement {
         return (this._value = null);
       },
       set(val) {
-        delete this["_value"];
-        return (this["_value"] = val);
+        delete this._value;
+        return (this._value = val);
       }
     });
     Object.defineProperty(this, "_useDefault", {
@@ -40,8 +40,8 @@ class FirefoxPreference extends BaseElement {
         return (this._useDefault = false);
       },
       set(val) {
-        delete this["_useDefault"];
-        return (this["_useDefault"] = val);
+        delete this._useDefault;
+        return (this._useDefault = val);
       }
     });
     Object.defineProperty(this, "batching", {
@@ -52,8 +52,8 @@ class FirefoxPreference extends BaseElement {
         return (this.batching = false);
       },
       set(val) {
-        delete this["batching"];
-        return (this["batching"] = val);
+        delete this.batching;
+        return (this.batching = val);
       }
     });
 

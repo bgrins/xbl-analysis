@@ -17,8 +17,8 @@ class FirefoxPlacesTree extends FirefoxTree {
         return (this._contextMenuShown = false);
       },
       set(val) {
-        delete this["_contextMenuShown"];
-        return (this["_contextMenuShown"] = val);
+        delete this._contextMenuShown;
+        return (this._contextMenuShown = val);
       }
     });
     Object.defineProperty(this, "_active", {
@@ -29,8 +29,8 @@ class FirefoxPlacesTree extends FirefoxTree {
         return (this._active = true);
       },
       set(val) {
-        delete this["_active"];
-        return (this["_active"] = val);
+        delete this._active;
+        return (this._active = val);
       }
     });
 

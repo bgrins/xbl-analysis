@@ -16,8 +16,8 @@ class FirefoxStringbundle extends BaseElement {
         return (this._bundle = null);
       },
       set(val) {
-        delete this["_bundle"];
-        return (this["_bundle"] = val);
+        delete this._bundle;
+        return (this._bundle = val);
       }
     });
   }

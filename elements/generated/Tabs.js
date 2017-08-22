@@ -23,8 +23,8 @@ class FirefoxTabs extends FirefoxBasecontrol {
         return (this._tabbox = null);
       },
       set(val) {
-        delete this["_tabbox"];
-        return (this["_tabbox"] = val);
+        delete this._tabbox;
+        return (this._tabbox = val);
       }
     });
     Object.defineProperty(this, "_tabbox", {
@@ -35,8 +35,8 @@ class FirefoxTabs extends FirefoxBasecontrol {
         return (this._tabbox = this.tabbox);
       },
       set(val) {
-        delete this["_tabbox"];
-        return (this["_tabbox"] = val);
+        delete this._tabbox;
+        return (this._tabbox = val);
       }
     });
 

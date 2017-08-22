@@ -17,8 +17,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this._lastKeyTime = 0);
       },
       set(val) {
-        delete this["_lastKeyTime"];
-        return (this["_lastKeyTime"] = val);
+        delete this._lastKeyTime;
+        return (this._lastKeyTime = val);
       }
     });
     Object.defineProperty(this, "_incrementalString", {
@@ -29,8 +29,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this._incrementalString = "");
       },
       set(val) {
-        delete this["_incrementalString"];
-        return (this["_incrementalString"] = val);
+        delete this._incrementalString;
+        return (this._incrementalString = val);
       }
     });
     Object.defineProperty(this, "selectedItems", {
@@ -41,8 +41,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this.selectedItems = new ChromeNodeList());
       },
       set(val) {
-        delete this["selectedItems"];
-        return (this["selectedItems"] = val);
+        delete this.selectedItems;
+        return (this.selectedItems = val);
       }
     });
     Object.defineProperty(this, "_suppressOnSelect", {
@@ -53,8 +53,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this._suppressOnSelect = false);
       },
       set(val) {
-        delete this["_suppressOnSelect"];
-        return (this["_suppressOnSelect"] = val);
+        delete this._suppressOnSelect;
+        return (this._suppressOnSelect = val);
       }
     });
     Object.defineProperty(this, "_userSelecting", {
@@ -65,8 +65,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this._userSelecting = false);
       },
       set(val) {
-        delete this["_userSelecting"];
-        return (this["_userSelecting"] = val);
+        delete this._userSelecting;
+        return (this._userSelecting = val);
       }
     });
     Object.defineProperty(this, "_mayReverse", {
@@ -77,8 +77,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this._mayReverse = false);
       },
       set(val) {
-        delete this["_mayReverse"];
-        return (this["_mayReverse"] = val);
+        delete this._mayReverse;
+        return (this._mayReverse = val);
       }
     });
     Object.defineProperty(this, "_selectTimeout", {
@@ -89,8 +89,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this._selectTimeout = null);
       },
       set(val) {
-        delete this["_selectTimeout"];
-        return (this["_selectTimeout"] = val);
+        delete this._selectTimeout;
+        return (this._selectTimeout = val);
       }
     });
     Object.defineProperty(this, "_currentItem", {
@@ -101,8 +101,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this._currentItem = null);
       },
       set(val) {
-        delete this["_currentItem"];
-        return (this["_currentItem"] = val);
+        delete this._currentItem;
+        return (this._currentItem = val);
       }
     });
     Object.defineProperty(this, "_selectionStart", {
@@ -113,8 +113,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         return (this._selectionStart = null);
       },
       set(val) {
-        delete this["_selectionStart"];
-        return (this["_selectionStart"] = val);
+        delete this._selectionStart;
+        return (this._selectionStart = val);
       }
     });
   }

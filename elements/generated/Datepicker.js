@@ -17,8 +17,8 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
         return (this.yearLeadingZero = false);
       },
       set(val) {
-        delete this["yearLeadingZero"];
-        return (this["yearLeadingZero"] = val);
+        delete this.yearLeadingZero;
+        return (this.yearLeadingZero = val);
       }
     });
     Object.defineProperty(this, "monthLeadingZero", {
@@ -29,8 +29,8 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
         return (this.monthLeadingZero = true);
       },
       set(val) {
-        delete this["monthLeadingZero"];
-        return (this["monthLeadingZero"] = val);
+        delete this.monthLeadingZero;
+        return (this.monthLeadingZero = val);
       }
     });
     Object.defineProperty(this, "dateLeadingZero", {
@@ -41,8 +41,8 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
         return (this.dateLeadingZero = true);
       },
       set(val) {
-        delete this["dateLeadingZero"];
-        return (this["dateLeadingZero"] = val);
+        delete this.dateLeadingZero;
+        return (this.dateLeadingZero = val);
       }
     });
     Object.defineProperty(this, "yearField", {
@@ -53,8 +53,8 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
         return (this.yearField = "");
       },
       set(val) {
-        delete this["yearField"];
-        return (this["yearField"] = val);
+        delete this.yearField;
+        return (this.yearField = val);
       }
     });
     Object.defineProperty(this, "monthField", {
@@ -65,8 +65,8 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
         return (this.monthField = "");
       },
       set(val) {
-        delete this["monthField"];
-        return (this["monthField"] = val);
+        delete this.monthField;
+        return (this.monthField = val);
       }
     });
     Object.defineProperty(this, "dateField", {
@@ -77,8 +77,8 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
         return (this.dateField = "");
       },
       set(val) {
-        delete this["dateField"];
-        return (this["dateField"] = val);
+        delete this.dateField;
+        return (this.dateField = val);
       }
     });
   }

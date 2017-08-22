@@ -36,8 +36,8 @@ class FirefoxTabbrowser extends BaseElement {
         ));
       },
       set(val) {
-        delete this["tabContainer"];
-        return (this["tabContainer"] = val);
+        delete this.tabContainer;
+        return (this.tabContainer = val);
       }
     });
     Object.defineProperty(this, "tabs", {
@@ -48,8 +48,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.tabs = this.tabContainer.childNodes);
       },
       set(val) {
-        delete this["tabs"];
-        return (this["tabs"] = val);
+        delete this.tabs;
+        return (this.tabs = val);
       }
     });
     Object.defineProperty(this, "closingTabsEnum", {
@@ -60,8 +60,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.closingTabsEnum = { ALL: 0, OTHER: 1, TO_END: 2 });
       },
       set(val) {
-        delete this["closingTabsEnum"];
-        return (this["closingTabsEnum"] = val);
+        delete this.closingTabsEnum;
+        return (this.closingTabsEnum = val);
       }
     });
     Object.defineProperty(this, "_visibleTabs", {
@@ -72,8 +72,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._visibleTabs = null);
       },
       set(val) {
-        delete this["_visibleTabs"];
-        return (this["_visibleTabs"] = val);
+        delete this._visibleTabs;
+        return (this._visibleTabs = val);
       }
     });
     Object.defineProperty(this, "mURIFixup", {
@@ -86,8 +86,8 @@ class FirefoxTabbrowser extends BaseElement {
         ].getService(Components.interfaces.nsIURIFixup));
       },
       set(val) {
-        delete this["mURIFixup"];
-        return (this["mURIFixup"] = val);
+        delete this.mURIFixup;
+        return (this.mURIFixup = val);
       }
     });
     Object.defineProperty(this, "_unifiedComplete", {
@@ -100,8 +100,8 @@ class FirefoxTabbrowser extends BaseElement {
         ].getService(Components.interfaces.mozIPlacesAutoComplete));
       },
       set(val) {
-        delete this["_unifiedComplete"];
-        return (this["_unifiedComplete"] = val);
+        delete this._unifiedComplete;
+        return (this._unifiedComplete = val);
       }
     });
     Object.defineProperty(this, "mTabBox", {
@@ -116,8 +116,8 @@ class FirefoxTabbrowser extends BaseElement {
         ));
       },
       set(val) {
-        delete this["mTabBox"];
-        return (this["mTabBox"] = val);
+        delete this.mTabBox;
+        return (this.mTabBox = val);
       }
     });
     Object.defineProperty(this, "mPanelContainer", {
@@ -132,8 +132,8 @@ class FirefoxTabbrowser extends BaseElement {
         ));
       },
       set(val) {
-        delete this["mPanelContainer"];
-        return (this["mPanelContainer"] = val);
+        delete this.mPanelContainer;
+        return (this.mPanelContainer = val);
       }
     });
     Object.defineProperty(this, "mStringBundle", {
@@ -148,8 +148,8 @@ class FirefoxTabbrowser extends BaseElement {
         ));
       },
       set(val) {
-        delete this["mStringBundle"];
-        return (this["mStringBundle"] = val);
+        delete this.mStringBundle;
+        return (this.mStringBundle = val);
       }
     });
     Object.defineProperty(this, "mCurrentTab", {
@@ -160,8 +160,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.mCurrentTab = null);
       },
       set(val) {
-        delete this["mCurrentTab"];
-        return (this["mCurrentTab"] = val);
+        delete this.mCurrentTab;
+        return (this.mCurrentTab = val);
       }
     });
     Object.defineProperty(this, "_lastRelatedTabMap", {
@@ -172,8 +172,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._lastRelatedTabMap = new WeakMap());
       },
       set(val) {
-        delete this["_lastRelatedTabMap"];
-        return (this["_lastRelatedTabMap"] = val);
+        delete this._lastRelatedTabMap;
+        return (this._lastRelatedTabMap = val);
       }
     });
     Object.defineProperty(this, "mCurrentBrowser", {
@@ -184,8 +184,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.mCurrentBrowser = null);
       },
       set(val) {
-        delete this["mCurrentBrowser"];
-        return (this["mCurrentBrowser"] = val);
+        delete this.mCurrentBrowser;
+        return (this.mCurrentBrowser = val);
       }
     });
     Object.defineProperty(this, "mProgressListeners", {
@@ -196,8 +196,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.mProgressListeners = []);
       },
       set(val) {
-        delete this["mProgressListeners"];
-        return (this["mProgressListeners"] = val);
+        delete this.mProgressListeners;
+        return (this.mProgressListeners = val);
       }
     });
     Object.defineProperty(this, "mTabsProgressListeners", {
@@ -208,8 +208,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.mTabsProgressListeners = []);
       },
       set(val) {
-        delete this["mTabsProgressListeners"];
-        return (this["mTabsProgressListeners"] = val);
+        delete this.mTabsProgressListeners;
+        return (this.mTabsProgressListeners = val);
       }
     });
     Object.defineProperty(this, "_tabListeners", {
@@ -220,8 +220,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._tabListeners = new Map());
       },
       set(val) {
-        delete this["_tabListeners"];
-        return (this["_tabListeners"] = val);
+        delete this._tabListeners;
+        return (this._tabListeners = val);
       }
     });
     Object.defineProperty(this, "_tabFilters", {
@@ -232,8 +232,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._tabFilters = new Map());
       },
       set(val) {
-        delete this["_tabFilters"];
-        return (this["_tabFilters"] = val);
+        delete this._tabFilters;
+        return (this._tabFilters = val);
       }
     });
     Object.defineProperty(this, "mIsBusy", {
@@ -244,8 +244,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.mIsBusy = false);
       },
       set(val) {
-        delete this["mIsBusy"];
-        return (this["mIsBusy"] = val);
+        delete this.mIsBusy;
+        return (this.mIsBusy = val);
       }
     });
     Object.defineProperty(this, "_outerWindowIDBrowserMap", {
@@ -256,8 +256,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._outerWindowIDBrowserMap = new Map());
       },
       set(val) {
-        delete this["_outerWindowIDBrowserMap"];
-        return (this["_outerWindowIDBrowserMap"] = val);
+        delete this._outerWindowIDBrowserMap;
+        return (this._outerWindowIDBrowserMap = val);
       }
     });
     Object.defineProperty(this, "arrowKeysShouldWrap", {
@@ -268,8 +268,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.arrowKeysShouldWrap = AppConstants == "macosx");
       },
       set(val) {
-        delete this["arrowKeysShouldWrap"];
-        return (this["arrowKeysShouldWrap"] = val);
+        delete this.arrowKeysShouldWrap;
+        return (this.arrowKeysShouldWrap = val);
       }
     });
     Object.defineProperty(this, "_autoScrollPopup", {
@@ -280,8 +280,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._autoScrollPopup = null);
       },
       set(val) {
-        delete this["_autoScrollPopup"];
-        return (this["_autoScrollPopup"] = val);
+        delete this._autoScrollPopup;
+        return (this._autoScrollPopup = val);
       }
     });
     Object.defineProperty(this, "_previewMode", {
@@ -292,8 +292,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._previewMode = false);
       },
       set(val) {
-        delete this["_previewMode"];
-        return (this["_previewMode"] = val);
+        delete this._previewMode;
+        return (this._previewMode = val);
       }
     });
     Object.defineProperty(this, "_lastFindValue", {
@@ -304,8 +304,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._lastFindValue = "");
       },
       set(val) {
-        delete this["_lastFindValue"];
-        return (this["_lastFindValue"] = val);
+        delete this._lastFindValue;
+        return (this._lastFindValue = val);
       }
     });
     Object.defineProperty(this, "_contentWaitingCount", {
@@ -316,8 +316,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._contentWaitingCount = 0);
       },
       set(val) {
-        delete this["_contentWaitingCount"];
-        return (this["_contentWaitingCount"] = val);
+        delete this._contentWaitingCount;
+        return (this._contentWaitingCount = val);
       }
     });
     Object.defineProperty(this, "tabAnimationsInProgress", {
@@ -328,8 +328,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.tabAnimationsInProgress = 0);
       },
       set(val) {
-        delete this["tabAnimationsInProgress"];
-        return (this["tabAnimationsInProgress"] = val);
+        delete this.tabAnimationsInProgress;
+        return (this.tabAnimationsInProgress = val);
       }
     });
     Object.defineProperty(this, "_tabForBrowser", {
@@ -340,8 +340,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._tabForBrowser = new WeakMap());
       },
       set(val) {
-        delete this["_tabForBrowser"];
-        return (this["_tabForBrowser"] = val);
+        delete this._tabForBrowser;
+        return (this._tabForBrowser = val);
       }
     });
     Object.defineProperty(this, "serializationHelper", {
@@ -354,8 +354,8 @@ class FirefoxTabbrowser extends BaseElement {
         ].getService(Ci.nsISerializationHelper));
       },
       set(val) {
-        delete this["serializationHelper"];
-        return (this["serializationHelper"] = val);
+        delete this.serializationHelper;
+        return (this.serializationHelper = val);
       }
     });
     Object.defineProperty(this, "mIconLoadingPrincipal", {
@@ -366,8 +366,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.mIconLoadingPrincipal = null);
       },
       set(val) {
-        delete this["mIconLoadingPrincipal"];
-        return (this["mIconLoadingPrincipal"] = val);
+        delete this.mIconLoadingPrincipal;
+        return (this.mIconLoadingPrincipal = val);
       }
     });
     Object.defineProperty(this, "_tabSwitchID", {
@@ -378,8 +378,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._tabSwitchID = null);
       },
       set(val) {
-        delete this["_tabSwitchID"];
-        return (this["_tabSwitchID"] = val);
+        delete this._tabSwitchID;
+        return (this._tabSwitchID = val);
       }
     });
     Object.defineProperty(this, "_preloadedBrowser", {
@@ -390,8 +390,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._preloadedBrowser = null);
       },
       set(val) {
-        delete this["_preloadedBrowser"];
-        return (this["_preloadedBrowser"] = val);
+        delete this._preloadedBrowser;
+        return (this._preloadedBrowser = val);
       }
     });
     Object.defineProperty(this, "_browserBindingProperties", {
@@ -448,8 +448,8 @@ class FirefoxTabbrowser extends BaseElement {
         ]);
       },
       set(val) {
-        delete this["_browserBindingProperties"];
-        return (this["_browserBindingProperties"] = val);
+        delete this._browserBindingProperties;
+        return (this._browserBindingProperties = val);
       }
     });
     Object.defineProperty(this, "_removingTabs", {
@@ -460,8 +460,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._removingTabs = []);
       },
       set(val) {
-        delete this["_removingTabs"];
-        return (this["_removingTabs"] = val);
+        delete this._removingTabs;
+        return (this._removingTabs = val);
       }
     });
     Object.defineProperty(this, "_windowIsClosing", {
@@ -472,8 +472,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._windowIsClosing = false);
       },
       set(val) {
-        delete this["_windowIsClosing"];
-        return (this["_windowIsClosing"] = val);
+        delete this._windowIsClosing;
+        return (this._windowIsClosing = val);
       }
     });
     Object.defineProperty(this, "browsers", {
@@ -505,8 +505,8 @@ class FirefoxTabbrowser extends BaseElement {
         }));
       },
       set(val) {
-        delete this["browsers"];
-        return (this["browsers"] = val);
+        delete this.browsers;
+        return (this.browsers = val);
       }
     });
     Object.defineProperty(this, "_printPreviewBrowsers", {
@@ -517,8 +517,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._printPreviewBrowsers = new Set());
       },
       set(val) {
-        delete this["_printPreviewBrowsers"];
-        return (this["_printPreviewBrowsers"] = val);
+        delete this._printPreviewBrowsers;
+        return (this._printPreviewBrowsers = val);
       }
     });
     Object.defineProperty(this, "_switcher", {
@@ -529,8 +529,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._switcher = null);
       },
       set(val) {
-        delete this["_switcher"];
-        return (this["_switcher"] = val);
+        delete this._switcher;
+        return (this._switcher = val);
       }
     });
     Object.defineProperty(this, "_soundPlayingAttrRemovalTimer", {
@@ -541,8 +541,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._soundPlayingAttrRemovalTimer = 0);
       },
       set(val) {
-        delete this["_soundPlayingAttrRemovalTimer"];
-        return (this["_soundPlayingAttrRemovalTimer"] = val);
+        delete this._soundPlayingAttrRemovalTimer;
+        return (this._soundPlayingAttrRemovalTimer = val);
       }
     });
     Object.defineProperty(this, "_hoverTabTimer", {
@@ -553,8 +553,8 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._hoverTabTimer = null);
       },
       set(val) {
-        delete this["_hoverTabTimer"];
-        return (this["_hoverTabTimer"] = val);
+        delete this._hoverTabTimer;
+        return (this._hoverTabTimer = val);
       }
     });
 

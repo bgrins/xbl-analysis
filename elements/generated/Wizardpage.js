@@ -17,8 +17,8 @@ class FirefoxWizardpage extends FirefoxWizardBase {
         return (this.pageIndex = -1);
       },
       set(val) {
-        delete this["pageIndex"];
-        return (this["pageIndex"] = val);
+        delete this.pageIndex;
+        return (this.pageIndex = val);
       }
     });
   }

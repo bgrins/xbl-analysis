@@ -17,8 +17,8 @@ class FirefoxToolbar extends FirefoxToolbarBase {
         return (this._toolbox = null);
       },
       set(val) {
-        delete this["_toolbox"];
-        return (this["_toolbox"] = val);
+        delete this._toolbox;
+        return (this._toolbox = val);
       }
     });
     Object.defineProperty(this, "_newElementCount", {
@@ -29,8 +29,8 @@ class FirefoxToolbar extends FirefoxToolbarBase {
         return (this._newElementCount = 0);
       },
       set(val) {
-        delete this["_newElementCount"];
-        return (this["_newElementCount"] = val);
+        delete this._newElementCount;
+        return (this._newElementCount = val);
       }
     });
 

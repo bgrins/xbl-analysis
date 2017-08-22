@@ -17,8 +17,8 @@ class FirefoxTabbrowserBrowser extends FirefoxBrowser {
         return (this.tabModalPromptBox = null);
       },
       set(val) {
-        delete this["tabModalPromptBox"];
-        return (this["tabModalPromptBox"] = val);
+        delete this.tabModalPromptBox;
+        return (this.tabModalPromptBox = val);
       }
     });
   }

@@ -17,8 +17,8 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
         return (this._pendingActive = false);
       },
       set(val) {
-        delete this["_pendingActive"];
-        return (this["_pendingActive"] = val);
+        delete this._pendingActive;
+        return (this._pendingActive = val);
       }
     });
 

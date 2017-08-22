@@ -22,8 +22,8 @@ class FirefoxTextbox extends BaseElement {
         return (this.crop = "");
       },
       set(val) {
-        delete this["crop"];
-        return (this["crop"] = val);
+        delete this.crop;
+        return (this.crop = val);
       }
     });
     Object.defineProperty(this, "image", {
@@ -34,8 +34,8 @@ class FirefoxTextbox extends BaseElement {
         return (this.image = "");
       },
       set(val) {
-        delete this["image"];
-        return (this["image"] = val);
+        delete this.image;
+        return (this.image = val);
       }
     });
     Object.defineProperty(this, "command", {
@@ -46,8 +46,8 @@ class FirefoxTextbox extends BaseElement {
         return (this.command = "");
       },
       set(val) {
-        delete this["command"];
-        return (this["command"] = val);
+        delete this.command;
+        return (this.command = val);
       }
     });
     Object.defineProperty(this, "accessKey", {
@@ -58,8 +58,8 @@ class FirefoxTextbox extends BaseElement {
         return (this.accessKey = "");
       },
       set(val) {
-        delete this["accessKey"];
-        return (this["accessKey"] = val);
+        delete this.accessKey;
+        return (this.accessKey = val);
       }
     });
     Object.defineProperty(this, "mInputField", {
@@ -70,8 +70,8 @@ class FirefoxTextbox extends BaseElement {
         return (this.mInputField = null);
       },
       set(val) {
-        delete this["mInputField"];
-        return (this["mInputField"] = val);
+        delete this.mInputField;
+        return (this.mInputField = val);
       }
     });
     Object.defineProperty(this, "mIgnoreClick", {
@@ -82,8 +82,8 @@ class FirefoxTextbox extends BaseElement {
         return (this.mIgnoreClick = false);
       },
       set(val) {
-        delete this["mIgnoreClick"];
-        return (this["mIgnoreClick"] = val);
+        delete this.mIgnoreClick;
+        return (this.mIgnoreClick = val);
       }
     });
     Object.defineProperty(this, "mIgnoreFocus", {
@@ -94,8 +94,8 @@ class FirefoxTextbox extends BaseElement {
         return (this.mIgnoreFocus = false);
       },
       set(val) {
-        delete this["mIgnoreFocus"];
-        return (this["mIgnoreFocus"] = val);
+        delete this.mIgnoreFocus;
+        return (this.mIgnoreFocus = val);
       }
     });
     Object.defineProperty(this, "mEditor", {
@@ -106,8 +106,8 @@ class FirefoxTextbox extends BaseElement {
         return (this.mEditor = null);
       },
       set(val) {
-        delete this["mEditor"];
-        return (this["mEditor"] = val);
+        delete this.mEditor;
+        return (this.mEditor = val);
       }
     });
 

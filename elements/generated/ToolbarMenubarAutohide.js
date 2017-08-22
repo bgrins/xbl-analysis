@@ -19,8 +19,8 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
         return (this._inactiveTimeout = null);
       },
       set(val) {
-        delete this["_inactiveTimeout"];
-        return (this["_inactiveTimeout"] = val);
+        delete this._inactiveTimeout;
+        return (this._inactiveTimeout = val);
       }
     });
     Object.defineProperty(this, "_contextMenuListener", {
@@ -71,8 +71,8 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
         });
       },
       set(val) {
-        delete this["_contextMenuListener"];
-        return (this["_contextMenuListener"] = val);
+        delete this._contextMenuListener;
+        return (this._contextMenuListener = val);
       }
     });
 

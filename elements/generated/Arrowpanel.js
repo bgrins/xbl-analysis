@@ -27,8 +27,8 @@ class FirefoxArrowpanel extends FirefoxPanel {
         return (this._fadeTimer = null);
       },
       set(val) {
-        delete this["_fadeTimer"];
-        return (this["_fadeTimer"] = val);
+        delete this._fadeTimer;
+        return (this._fadeTimer = val);
       }
     });
   }

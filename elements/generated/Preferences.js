@@ -18,8 +18,8 @@ class FirefoxPreferences extends BaseElement {
         ].getService(Components.interfaces.nsIPrefService));
       },
       set(val) {
-        delete this["service"];
-        return (this["service"] = val);
+        delete this.service;
+        return (this.service = val);
       }
     });
     Object.defineProperty(this, "rootBranch", {
@@ -32,8 +32,8 @@ class FirefoxPreferences extends BaseElement {
         ].getService(Components.interfaces.nsIPrefBranch));
       },
       set(val) {
-        delete this["rootBranch"];
-        return (this["rootBranch"] = val);
+        delete this.rootBranch;
+        return (this.rootBranch = val);
       }
     });
     Object.defineProperty(this, "defaultBranch", {
@@ -44,8 +44,8 @@ class FirefoxPreferences extends BaseElement {
         return (this.defaultBranch = this.service.getDefaultBranch(""));
       },
       set(val) {
-        delete this["defaultBranch"];
-        return (this["defaultBranch"] = val);
+        delete this.defaultBranch;
+        return (this.defaultBranch = val);
       }
     });
     Object.defineProperty(this, "rootBranchInternal", {
@@ -58,8 +58,8 @@ class FirefoxPreferences extends BaseElement {
         ].getService(Components.interfaces.nsIPrefBranch));
       },
       set(val) {
-        delete this["rootBranchInternal"];
-        return (this["rootBranchInternal"] = val);
+        delete this.rootBranchInternal;
+        return (this.rootBranchInternal = val);
       }
     });
     Object.defineProperty(this, "_constructedChildrenCount", {
@@ -70,8 +70,8 @@ class FirefoxPreferences extends BaseElement {
         return (this._constructedChildrenCount = 0);
       },
       set(val) {
-        delete this["_constructedChildrenCount"];
-        return (this["_constructedChildrenCount"] = val);
+        delete this._constructedChildrenCount;
+        return (this._constructedChildrenCount = val);
       }
     });
     Object.defineProperty(this, "_preferenceChildren", {
@@ -82,8 +82,8 @@ class FirefoxPreferences extends BaseElement {
         return (this._preferenceChildren = null);
       },
       set(val) {
-        delete this["_preferenceChildren"];
-        return (this["_preferenceChildren"] = val);
+        delete this._preferenceChildren;
+        return (this._preferenceChildren = val);
       }
     });
     Object.defineProperty(this, "_constructAfterChildrenCalled", {
@@ -94,8 +94,8 @@ class FirefoxPreferences extends BaseElement {
         return (this._constructAfterChildrenCalled = false);
       },
       set(val) {
-        delete this["_constructAfterChildrenCalled"];
-        return (this["_constructAfterChildrenCalled"] = val);
+        delete this._constructAfterChildrenCalled;
+        return (this._constructAfterChildrenCalled = val);
       }
     });
 

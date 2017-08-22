@@ -21,8 +21,8 @@ class FirefoxLabelControl extends FirefoxTextLabel {
         return (this.mUnderlineAccesskey = !/Mac/.test(navigator.platform));
       },
       set(val) {
-        delete this["mUnderlineAccesskey"];
-        return (this["mUnderlineAccesskey"] = val);
+        delete this.mUnderlineAccesskey;
+        return (this.mUnderlineAccesskey = val);
       }
     });
     Object.defineProperty(this, "mInsertSeparator", {
@@ -33,8 +33,8 @@ class FirefoxLabelControl extends FirefoxTextLabel {
         return (this.mInsertSeparator = "");
       },
       set(val) {
-        delete this["mInsertSeparator"];
-        return (this["mInsertSeparator"] = val);
+        delete this.mInsertSeparator;
+        return (this.mInsertSeparator = val);
       }
     });
     Object.defineProperty(this, "mAlwaysAppendAccessKey", {
@@ -45,8 +45,8 @@ class FirefoxLabelControl extends FirefoxTextLabel {
         return (this.mAlwaysAppendAccessKey = false);
       },
       set(val) {
-        delete this["mAlwaysAppendAccessKey"];
-        return (this["mAlwaysAppendAccessKey"] = val);
+        delete this.mAlwaysAppendAccessKey;
+        return (this.mAlwaysAppendAccessKey = val);
       }
     });
 

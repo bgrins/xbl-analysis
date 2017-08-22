@@ -43,8 +43,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         return (this._dateValue = null);
       },
       set(val) {
-        delete this["_dateValue"];
-        return (this["_dateValue"] = val);
+        delete this._dateValue;
+        return (this._dateValue = val);
       }
     });
     Object.defineProperty(this, "_fieldOne", {
@@ -59,8 +59,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         ));
       },
       set(val) {
-        delete this["_fieldOne"];
-        return (this["_fieldOne"] = val);
+        delete this._fieldOne;
+        return (this._fieldOne = val);
       }
     });
     Object.defineProperty(this, "_fieldTwo", {
@@ -75,8 +75,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         ));
       },
       set(val) {
-        delete this["_fieldTwo"];
-        return (this["_fieldTwo"] = val);
+        delete this._fieldTwo;
+        return (this._fieldTwo = val);
       }
     });
     Object.defineProperty(this, "_fieldThree", {
@@ -91,8 +91,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         ));
       },
       set(val) {
-        delete this["_fieldThree"];
-        return (this["_fieldThree"] = val);
+        delete this._fieldThree;
+        return (this._fieldThree = val);
       }
     });
     Object.defineProperty(this, "_fieldAMPM", {
@@ -107,8 +107,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         ));
       },
       set(val) {
-        delete this["_fieldAMPM"];
-        return (this["_fieldAMPM"] = val);
+        delete this._fieldAMPM;
+        return (this._fieldAMPM = val);
       }
     });
     Object.defineProperty(this, "_separatorFirst", {
@@ -123,8 +123,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         ));
       },
       set(val) {
-        delete this["_separatorFirst"];
-        return (this["_separatorFirst"] = val);
+        delete this._separatorFirst;
+        return (this._separatorFirst = val);
       }
     });
     Object.defineProperty(this, "_separatorSecond", {
@@ -139,8 +139,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         ));
       },
       set(val) {
-        delete this["_separatorSecond"];
-        return (this["_separatorSecond"] = val);
+        delete this._separatorSecond;
+        return (this._separatorSecond = val);
       }
     });
     Object.defineProperty(this, "_lastFocusedField", {
@@ -151,8 +151,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         return (this._lastFocusedField = null);
       },
       set(val) {
-        delete this["_lastFocusedField"];
-        return (this["_lastFocusedField"] = val);
+        delete this._lastFocusedField;
+        return (this._lastFocusedField = val);
       }
     });
     Object.defineProperty(this, "_hasEntry", {
@@ -163,8 +163,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         return (this._hasEntry = true);
       },
       set(val) {
-        delete this["_hasEntry"];
-        return (this["_hasEntry"] = val);
+        delete this._hasEntry;
+        return (this._hasEntry = val);
       }
     });
     Object.defineProperty(this, "_valueEntered", {
@@ -175,8 +175,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         return (this._valueEntered = false);
       },
       set(val) {
-        delete this["_valueEntered"];
-        return (this["_valueEntered"] = val);
+        delete this._valueEntered;
+        return (this._valueEntered = val);
       }
     });
     Object.defineProperty(this, "attachedControl", {
@@ -187,8 +187,8 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
         return (this.attachedControl = null);
       },
       set(val) {
-        delete this["attachedControl"];
-        return (this["attachedControl"] = val);
+        delete this.attachedControl;
+        return (this.attachedControl = val);
       }
     });
 

@@ -25,8 +25,8 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         return (this._currentIndex = 0);
       },
       set(val) {
-        delete this["_currentIndex"];
-        return (this["_currentIndex"] = val);
+        delete this._currentIndex;
+        return (this._currentIndex = val);
       }
     });
     Object.defineProperty(this, "_rlbAnimated", {
@@ -37,8 +37,8 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         return (this._rlbAnimated = false);
       },
       set(val) {
-        delete this["_rlbAnimated"];
-        return (this["_rlbAnimated"] = val);
+        delete this._rlbAnimated;
+        return (this._rlbAnimated = val);
       }
     });
     Object.defineProperty(this, "richlistbox", {
@@ -53,8 +53,8 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         ));
       },
       set(val) {
-        delete this["richlistbox"];
-        return (this["richlistbox"] = val);
+        delete this.richlistbox;
+        return (this.richlistbox = val);
       }
     });
   }

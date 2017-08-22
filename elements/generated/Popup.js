@@ -25,8 +25,8 @@ class FirefoxPopup extends FirefoxPopupBase {
         ));
       },
       set(val) {
-        delete this["scrollBox"];
-        return (this["scrollBox"] = val);
+        delete this.scrollBox;
+        return (this.scrollBox = val);
       }
     });
   }
