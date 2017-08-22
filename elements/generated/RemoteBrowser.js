@@ -742,7 +742,17 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     aEnabledCommands,
     aDisabledLength,
     aDisabledCommands
-  ) {}
+  ) {
+    if (this._controller) {
+      this._controller.enableDisableCommands(
+        aAction,
+        aEnabledLength,
+        aEnabledCommands,
+        aDisabledLength,
+        aDisabledCommands
+      );
+    }
+  }
   purgeSessionHistory() {
     try {
       this.messageManager.sendAsyncMessage("Browser:PurgeSessionHistory");

@@ -164,8 +164,28 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     }
     return null;
   }
-  appendItem(aLabel, aValue) {}
-  insertItemAt(aIndex, aLabel, aValue) {}
+  appendItem(aLabel, aValue) {
+    return this.insertItemAt(-1, aLabel, aValue);
+  }
+  insertItemAt(aIndex, aLabel, aValue) {
+    const XULNS =
+      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+    var item = this.ownerDocument.createElementNS(XULNS, "richlistitem");
+    item.setAttribute("value", aValue);
+
+    var label = this.ownerDocument.createElementNS(XULNS, "label");
+    label.setAttribute("value", aLabel);
+    label.setAttribute("flex", "1");
+    label.setAttribute("crop", "end");
+    item.appendChild(label);
+
+    var before = this.getItemAtIndex(aIndex);
+    if (!before) this.appendChild(item);
+    else this.insertBefore(item, before);
+
+    return item;
+  }
   getIndexOfItem(aItem) {
     // don't search the children, if we're looking for none of them
     if (aItem == null) return -1;

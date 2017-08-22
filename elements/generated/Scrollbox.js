@@ -14,6 +14,8 @@ class FirefoxScrollbox extends FirefoxScrollboxBase {
     this.prepend(comment);
   }
   disconnectedCallback() {}
-  scrollByIndex(index) {}
+  scrollByIndex(index) {
+    this.boxObject.scrollByIndex(index);
+  }
 }
 customElements.define("firefox-scrollbox", FirefoxScrollbox);

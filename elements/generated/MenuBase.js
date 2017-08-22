@@ -39,8 +39,27 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
     }
     return null;
   }
-  appendItem(aLabel, aValue) {}
-  insertItemAt(aIndex, aLabel, aValue) {}
+  appendItem(aLabel, aValue) {
+    return this.insertItemAt(-1, aLabel, aValue);
+  }
+  insertItemAt(aIndex, aLabel, aValue) {
+    const XUL_NS =
+      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+    var menupopup = this.menupopup;
+    if (!menupopup) {
+      menupopup = this.ownerDocument.createElementNS(XUL_NS, "menupopup");
+      this.appendChild(menupopup);
+    }
+
+    var menuitem = this.ownerDocument.createElementNS(XUL_NS, "menuitem");
+    menuitem.setAttribute("label", aLabel);
+    menuitem.setAttribute("value", aValue);
+
+    var before = this.getItemAtIndex(aIndex);
+    if (before) return menupopup.insertBefore(menuitem, before);
+    return menupopup.appendChild(menuitem);
+  }
   removeItemAt(aIndex) {
     var menupopup = this.menupopup;
     if (menupopup) {

@@ -324,8 +324,37 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
     this._fireOnSelect();
   }
-  selectAll() {}
-  invertSelection() {}
+  selectAll() {
+    this._selectionStart = null;
+
+    var suppress = this._suppressOnSelect;
+    this._suppressOnSelect = true;
+
+    var item = this.getItemAtIndex(0);
+    while (item) {
+      this.addItemToSelection(item);
+      item = this.getNextItem(item, 1);
+    }
+
+    this._suppressOnSelect = suppress;
+    this._fireOnSelect();
+  }
+  invertSelection() {
+    this._selectionStart = null;
+
+    var suppress = this._suppressOnSelect;
+    this._suppressOnSelect = true;
+
+    var item = this.getItemAtIndex(0);
+    while (item) {
+      if (item.selected) this.removeItemFromSelection(item);
+      else this.addItemToSelection(item);
+      item = this.getNextItem(item, 1);
+    }
+
+    this._suppressOnSelect = suppress;
+    this._fireOnSelect();
+  }
   clearSelection() {
     if (this.selectedItems) {
       while (this.selectedItems.length > 0) {
@@ -428,6 +457,9 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     var style = document.defaultView.getComputedStyle(aItem);
     return style.display != "none" && style.visibility == "visible";
   }
-  _selectTimeoutHandler(aMe) {}
+  _selectTimeoutHandler(aMe) {
+    aMe._fireOnSelect();
+    aMe._selectTimeout = null;
+  }
 }
 customElements.define("firefox-listbox-base", FirefoxListboxBase);

@@ -984,7 +984,9 @@ class FirefoxBrowser extends BaseElement {
   _setCurrentURI(aURI) {
     this.docShell.setCurrentURI(aURI);
   }
-  preserveLayers(preserve) {}
+  preserveLayers(preserve) {
+    // Only useful for remote browsers.
+  }
   getTabBrowser() {
     for (
       let node = this.parentNode;

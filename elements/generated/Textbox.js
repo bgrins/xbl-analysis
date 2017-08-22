@@ -306,8 +306,12 @@ class FirefoxTextbox extends BaseElement {
     } catch (e) {}
     return false;
   }
-  select() {}
-  setSelectionRange(aSelectionStart, aSelectionEnd) {}
+  select() {
+    this.inputField.select();
+  }
+  setSelectionRange(aSelectionStart, aSelectionEnd) {
+    this.inputField.setSelectionRange(aSelectionStart, aSelectionEnd);
+  }
   _setNewlineHandling() {
     var str = this.getAttribute("newlines");
     if (str && this.editor) {

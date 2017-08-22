@@ -161,7 +161,9 @@ class FirefoxPrefpane extends BaseElement {
       psvc.savePrefFile(null);
     }
   }
-  preferenceForElement(aElement) {}
+  preferenceForElement(aElement) {
+    return document.getElementById(aElement.getAttribute("preference"));
+  }
   getPreferenceElement(aStartElement) {
     var temp = aStartElement;
     while (

@@ -168,8 +168,12 @@ class FirefoxNumberbox extends FirefoxTextbox {
     var increment = this.getAttribute("increment");
     return increment ? Number(increment) : 1;
   }
-  decrease() {}
-  increase() {}
+  decrease() {
+    return this._validateValue(this.valueNumber - this.increment, true);
+  }
+  increase() {
+    return this._validateValue(this.valueNumber + this.increment, true);
+  }
   _modifyUp() {
     if (this.disabled || this.readOnly) return;
     var oldval = this.valueNumber;
@@ -215,6 +219,10 @@ class FirefoxNumberbox extends FirefoxTextbox {
 
     return aValue;
   }
-  _fireChange() {}
+  _fireChange() {
+    var evt = document.createEvent("Events");
+    evt.initEvent("change", true, true);
+    this.dispatchEvent(evt);
+  }
 }
 customElements.define("firefox-numberbox", FirefoxNumberbox);

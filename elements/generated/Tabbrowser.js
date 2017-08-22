@@ -4106,7 +4106,9 @@ class FirefoxTabbrowser extends BaseElement {
       l => l != aListener
     );
   }
-  addTabsProgressListener(aListener) {}
+  addTabsProgressListener(aListener) {
+    this.mTabsProgressListeners.push(aListener);
+  }
   removeTabsProgressListener(aListener) {
     this.mTabsProgressListeners = this.mTabsProgressListeners.filter(
       l => l != aListener

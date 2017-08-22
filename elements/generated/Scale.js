@@ -72,7 +72,12 @@ class FirefoxScale extends FirefoxBasecontrol {
       );
     return this._sliderElement;
   }
-  _getIntegerAttribute(aAttr, aDefaultValue) {}
+  _getIntegerAttribute(aAttr, aDefaultValue) {
+    var value = this._slider.getAttribute(aAttr);
+    var intvalue = parseInt(value, 10);
+    if (!isNaN(intvalue)) return intvalue;
+    return aDefaultValue;
+  }
   _setIntegerAttribute(aAttr, aValue) {
     var intvalue = parseInt(aValue, 10);
     if (!isNaN(intvalue)) {

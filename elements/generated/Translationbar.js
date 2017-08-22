@@ -255,7 +255,9 @@ class FirefoxTranslationbar extends FirefoxNotification {
       { once: true }
     );
   }
-  _getAnonElt(aAnonId) {}
+  _getAnonElt(aAnonId) {
+    return document.getAnonymousElementByAttribute(this, "anonid", aAnonId);
+  }
   translate() {
     if (this.state == Translation.STATE_OFFER) {
       this._getAnonElt("fromLanguage").value = this._getAnonElt(

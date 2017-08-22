@@ -306,7 +306,9 @@ class FirefoxDatetimeInputBase extends BaseElement {
       }
     }
   }
-  isEmpty(aValue) {}
+  isEmpty(aValue) {
+    return aValue == undefined || 0 === aValue.length;
+  }
   getFieldValue(aField) {
     if (!aField || !aField.classList.contains("numeric")) {
       return undefined;
@@ -324,15 +326,33 @@ class FirefoxDatetimeInputBase extends BaseElement {
     }
     this.updateResetButtonVisibility();
   }
-  setFieldValue() {}
-  clearInputFields() {}
-  setFieldsFromInputValue() {}
-  setInputValueFromFields() {}
-  setFieldsFromPicker() {}
-  handleKeypress() {}
-  handleKeyboardNav() {}
-  getCurrentValue() {}
-  isAnyFieldAvailable() {}
+  setFieldValue() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
+  clearInputFields() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
+  setFieldsFromInputValue() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
+  setInputValueFromFields() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
+  setFieldsFromPicker() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
+  handleKeypress() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
+  handleKeyboardNav() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
+  getCurrentValue() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
+  isAnyFieldAvailable() {
+    throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+  }
   notifyPicker() {
     if (this.mIsPickerOpen && this.isAnyFieldAvailable(true)) {
       this.mInputElement.updateDateTimePicker(this.getCurrentValue());

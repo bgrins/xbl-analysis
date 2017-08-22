@@ -61,8 +61,28 @@ class FirefoxListbox extends FirefoxListboxBase {
       this.dispatchEvent(event);
     }
   }
-  appendItem(aLabel, aValue) {}
-  insertItemAt(aIndex, aLabel, aValue) {}
+  appendItem(aLabel, aValue) {
+    const XULNS =
+      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+    var item = this.ownerDocument.createElementNS(XULNS, "listitem");
+    item.setAttribute("label", aLabel);
+    item.setAttribute("value", aValue);
+    this.appendChild(item);
+    return item;
+  }
+  insertItemAt(aIndex, aLabel, aValue) {
+    const XULNS =
+      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+    var item = this.ownerDocument.createElementNS(XULNS, "listitem");
+    item.setAttribute("label", aLabel);
+    item.setAttribute("value", aValue);
+    var before = this.getItemAtIndex(aIndex);
+    if (before) this.insertBefore(item, before);
+    else this.appendChild(item);
+    return item;
+  }
   getIndexOfItem(item) {
     if (this._selecting && this._selecting.item == item)
       return this._selecting.index;
@@ -73,12 +93,26 @@ class FirefoxListbox extends FirefoxListboxBase {
       return this._selecting.item;
     return this.listBoxObject.getItemAtIndex(index);
   }
-  ensureIndexIsVisible(index) {}
-  ensureElementIsVisible(element) {}
-  scrollToIndex(index) {}
-  getNumberOfVisibleRows() {}
-  getIndexOfFirstVisibleRow() {}
-  getRowCount() {}
+  ensureIndexIsVisible(index) {
+    return this.listBoxObject.ensureIndexIsVisible(index);
+  }
+  ensureElementIsVisible(element) {
+    return this.ensureIndexIsVisible(
+      this.listBoxObject.getIndexOfItem(element)
+    );
+  }
+  scrollToIndex(index) {
+    return this.listBoxObject.scrollToIndex(index);
+  }
+  getNumberOfVisibleRows() {
+    return this.listBoxObject.getNumberOfVisibleRows();
+  }
+  getIndexOfFirstVisibleRow() {
+    return this.listBoxObject.getIndexOfFirstVisibleRow();
+  }
+  getRowCount() {
+    return this.listBoxObject.getRowCount();
+  }
   scrollOnePage(direction) {
     var pageOffset = this.getNumberOfVisibleRows() * direction;
     // skip over invisible elements - the user won't care about them

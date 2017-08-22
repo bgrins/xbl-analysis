@@ -354,7 +354,10 @@ class FirefoxPreference extends BaseElement {
     }
     return aValue;
   }
-  reset() {}
+  reset() {
+    // defer reset until preference update
+    this.value = undefined;
+  }
   _reportUnknownType() {
     var consoleService = Components.classes[
       "@mozilla.org/consoleservice;1"

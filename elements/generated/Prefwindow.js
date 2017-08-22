@@ -574,7 +574,15 @@ class FirefoxPrefwindow extends FirefoxDialog {
     // Set up pane button
     this._makePaneButton(aPaneElement);
   }
-  openSubDialog(aURL, aFeatures, aParams) {}
+  openSubDialog(aURL, aFeatures, aParams) {
+    return openDialog(
+      aURL,
+      "",
+      "modal,centerscreen,resizable=no" +
+        (aFeatures != "" ? "," + aFeatures : ""),
+      aParams
+    );
+  }
   openWindow(aWindowType, aURL, aFeatures, aParams) {
     var wm = Components.classes[
       "@mozilla.org/appshell/window-mediator;1"

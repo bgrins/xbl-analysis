@@ -69,8 +69,12 @@ class FirefoxStatuspanel extends BaseElement {
     }
     return this._mouseTargetRect;
   }
-  onMouseEnter() {}
-  onMouseLeave() {}
+  onMouseEnter() {
+    this._mirror();
+  }
+  onMouseLeave() {
+    this._mirror();
+  }
   handleEvent(event) {
     if (!this.label) return;
 
@@ -97,6 +101,14 @@ class FirefoxStatuspanel extends BaseElement {
         : containerRect.left + panelRect.width
     };
   }
-  _mirror() {}
+  _mirror() {
+    if (this.hasAttribute("mirror")) this.removeAttribute("mirror");
+    else this.setAttribute("mirror", "true");
+
+    if (!this.hasAttribute("sizelimit")) {
+      this.setAttribute("sizelimit", "true");
+      this._mouseTargetRect = null;
+    }
+  }
 }
 customElements.define("firefox-statuspanel", FirefoxStatuspanel);

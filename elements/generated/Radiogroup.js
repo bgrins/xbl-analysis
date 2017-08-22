@@ -249,7 +249,9 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
         return NodeFilter.FILTER_SKIP;
     }
   }
-  getIndexOfItem(item) {}
+  getIndexOfItem(item) {
+    return this._getRadioChildren().indexOf(item);
+  }
   getItemAtIndex(index) {
     var children = this._getRadioChildren();
     return index >= 0 && index < children.length ? children[index] : null;

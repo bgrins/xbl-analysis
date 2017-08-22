@@ -235,7 +235,11 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
   get readOnly() {
     return this.getAttribute("readonly") == "true";
   }
-  _fireEvent(aEventName, aTarget) {}
+  _fireEvent(aEventName, aTarget) {
+    var event = document.createEvent("Events");
+    event.initEvent(aEventName, true, true);
+    return !aTarget.dispatchEvent(event);
+  }
   _setValueOnChange(aField) {
     if (!this._hasEntry) return;
 

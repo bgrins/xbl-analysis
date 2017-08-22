@@ -144,6 +144,8 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
     // Do NOT change the "value", which is owned by inputField
     return val;
   }
-  select() {}
+  select() {
+    this.inputField.select();
+  }
 }
 customElements.define("firefox-menulist-editable", FirefoxMenulistEditable);
