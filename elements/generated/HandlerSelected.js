@@ -23,9 +23,7 @@ class FirefoxHandlerSelected extends FirefoxHandlerBase {
     let comment = document.createComment("Creating firefox-handler-selected");
     this.prepend(comment);
 
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
   disconnectedCallback() {}
 }

@@ -210,89 +210,191 @@ class FirefoxPrefwindow extends FirefoxDialog {
       }
     });
 
-    try {
-      if (this.type != "child") {
-        if (!this._instantApplyInitialized) {
-          let psvc = Components.classes[
-            "@mozilla.org/preferences-service;1"
-          ].getService(Components.interfaces.nsIPrefBranch);
-          this.instantApply = psvc.getBoolPref(
-            "browser.preferences.instantApply"
-          );
+    if (this.type != "child") {
+      if (!this._instantApplyInitialized) {
+        let psvc = Components.classes[
+          "@mozilla.org/preferences-service;1"
+        ].getService(Components.interfaces.nsIPrefBranch);
+        this.instantApply = psvc.getBoolPref(
+          "browser.preferences.instantApply"
+        );
+      }
+      if (this.instantApply) {
+        var docElt = document.documentElement;
+        var acceptButton = docElt.getButton("accept");
+        acceptButton.hidden = true;
+        var cancelButton = docElt.getButton("cancel");
+        if (/Mac/.test(navigator.platform)) {
+          // no buttons on Mac except Help
+          cancelButton.hidden = true;
+          // Move Help button to the end
+          document.getAnonymousElementByAttribute(
+            this,
+            "anonid",
+            "spacer"
+          ).hidden = true;
+          // Also, don't fire onDialogAccept on enter
+          acceptButton.disabled = true;
+        } else {
+          // morph the Cancel button into the Close button
+          cancelButton.setAttribute("icon", "close");
+          cancelButton.label = docElt.getAttribute("closebuttonlabel");
+          cancelButton.accesskey = docElt.getAttribute("closebuttonaccesskey");
         }
-        if (this.instantApply) {
-          var docElt = document.documentElement;
-          var acceptButton = docElt.getButton("accept");
-          acceptButton.hidden = true;
-          var cancelButton = docElt.getButton("cancel");
-          if (/Mac/.test(navigator.platform)) {
-            // no buttons on Mac except Help
-            cancelButton.hidden = true;
-            // Move Help button to the end
-            document.getAnonymousElementByAttribute(
-              this,
-              "anonid",
-              "spacer"
-            ).hidden = true;
-            // Also, don't fire onDialogAccept on enter
-            acceptButton.disabled = true;
-          } else {
-            // morph the Cancel button into the Close button
-            cancelButton.setAttribute("icon", "close");
-            cancelButton.label = docElt.getAttribute("closebuttonlabel");
-            cancelButton.accesskey = docElt.getAttribute(
-              "closebuttonaccesskey"
-            );
+      }
+    }
+    this.setAttribute("animated", this._shouldAnimate ? "true" : "false");
+    var panes = this.preferencePanes;
+
+    var lastPane = null;
+    if (this.lastSelected) {
+      lastPane = document.getElementById(this.lastSelected);
+      if (!lastPane) {
+        this.lastSelected = "";
+      }
+    }
+
+    var paneToLoad;
+    if (
+      "arguments" in window &&
+      window.arguments[0] &&
+      document.getElementById(window.arguments[0]) &&
+      document.getElementById(window.arguments[0]).nodeName == "prefpane"
+    ) {
+      paneToLoad = document.getElementById(window.arguments[0]);
+      this.lastSelected = paneToLoad.id;
+    } else if (lastPane) paneToLoad = lastPane;
+    else paneToLoad = panes[0];
+
+    for (var i = 0; i < panes.length; ++i) {
+      this._makePaneButton(panes[i]);
+      if (panes[i].loaded) {
+        // Inline pane content, fire load event to force initialization.
+        this._fireEvent("paneload", panes[i]);
+      }
+    }
+    this.showPane(paneToLoad);
+
+    if (panes.length == 1) this._selector.setAttribute("collapsed", "true");
+
+    this.addEventListener("dialogaccept", event => {
+      if (!this._fireEvent("beforeaccept", this)) {
+        return false;
+      }
+
+      var secMan = Components.classes[
+        "@mozilla.org/scriptsecuritymanager;1"
+      ].getService(Components.interfaces.nsIScriptSecurityManager);
+      if (
+        this.type == "child" &&
+        window.opener &&
+        secMan.isSystemPrincipal(window.opener.document.nodePrincipal)
+      ) {
+        var pdocEl = window.opener.document.documentElement;
+        if (pdocEl.instantApply) {
+          let panes = this.preferencePanes;
+          for (let i = 0; i < panes.length; ++i)
+            panes[i].writePreferences(true);
+        } else {
+          // Clone all the preferences elements from the child document and
+          // insert them into the pane collection of the parent.
+          var pdoc = window.opener.document;
+          if (pdoc.documentElement.localName == "prefwindow") {
+            var currentPane = pdoc.documentElement.currentPane;
+            var id = window.location.href + "#childprefs";
+            var childPrefs = pdoc.getElementById(id);
+            if (!childPrefs) {
+              childPrefs = pdoc.createElement("preferences");
+              currentPane.appendChild(childPrefs);
+              childPrefs.id = id;
+            }
+            let panes = this.preferencePanes;
+            for (let i = 0; i < panes.length; ++i) {
+              var preferences = panes[i].preferences;
+              for (var j = 0; j < preferences.length; ++j) {
+                // Try to find a preference element for the same preference.
+                var preference = null;
+                var parentPreferences = pdoc.getElementsByTagName(
+                  "preferences"
+                );
+                for (
+                  var k = 0;
+                  k < parentPreferences.length && !preference;
+                  ++k
+                ) {
+                  var parentPrefs = parentPreferences[k].getElementsByAttribute(
+                    "name",
+                    preferences[j].name
+                  );
+                  for (var l = 0; l < parentPrefs.length && !preference; ++l) {
+                    if (parentPrefs[l].localName == "preference")
+                      preference = parentPrefs[l];
+                  }
+                }
+                if (!preference) {
+                  // No matching preference in the parent window.
+                  preference = pdoc.createElement("preference");
+                  childPrefs.appendChild(preference);
+                  preference.name = preferences[j].name;
+                  preference.type = preferences[j].type;
+                  preference.inverted = preferences[j].inverted;
+                  preference.readonly = preferences[j].readonly;
+                  preference.disabled = preferences[j].disabled;
+                }
+                preference.value = preferences[j].value;
+              }
+            }
           }
         }
-      }
-      this.setAttribute("animated", this._shouldAnimate ? "true" : "false");
-      var panes = this.preferencePanes;
+      } else {
+        let panes = this.preferencePanes;
+        for (var i = 0; i < panes.length; ++i) panes[i].writePreferences(false);
 
-      var lastPane = null;
-      if (this.lastSelected) {
-        lastPane = document.getElementById(this.lastSelected);
-        if (!lastPane) {
-          this.lastSelected = "";
-        }
+        let psvc = Components.classes[
+          "@mozilla.org/preferences-service;1"
+        ].getService(Components.interfaces.nsIPrefService);
+        psvc.savePrefFile(null);
       }
 
-      var paneToLoad;
-      if (
-        "arguments" in window &&
-        window.arguments[0] &&
-        document.getElementById(window.arguments[0]) &&
-        document.getElementById(window.arguments[0]).nodeName == "prefpane"
-      ) {
-        paneToLoad = document.getElementById(window.arguments[0]);
-        this.lastSelected = paneToLoad.id;
-      } else if (lastPane) paneToLoad = lastPane;
-      else paneToLoad = panes[0];
+      return true;
+    });
 
-      for (var i = 0; i < panes.length; ++i) {
-        this._makePaneButton(panes[i]);
-        if (panes[i].loaded) {
-          // Inline pane content, fire load event to force initialization.
-          this._fireEvent("paneload", panes[i]);
-        }
-      }
-      this.showPane(paneToLoad);
+    this.addEventListener("command", event => {
+      undefined;
+    });
 
-      if (panes.length == 1) this._selector.setAttribute("collapsed", "true");
-    } catch (e) {}
+    this.addEventListener(
+      "keypress",
+      event => {
+        if (this.instantApply) window.close();
+        event.stopPropagation();
+        event.preventDefault();
+      },
+      true
+    );
+
+    this.addEventListener(
+      "keypress",
+      event => {
+        var helpButton = this.getButton("help");
+        if (helpButton.disabled || helpButton.hidden) return;
+        this._fireEvent("dialoghelp", this);
+        event.stopPropagation();
+        event.preventDefault();
+      },
+      true
+    );
   }
   disconnectedCallback() {
-    try {
-      // Release timers to avoid reference cycles.
-      if (this._animateTimer) {
-        this._animateTimer.cancel();
-        this._animateTimer = null;
-      }
-      if (this._fadeTimer) {
-        this._fadeTimer.cancel();
-        this._fadeTimer = null;
-      }
-    } catch (e) {}
+    // Release timers to avoid reference cycles.
+    if (this._animateTimer) {
+      this._animateTimer.cancel();
+      this._animateTimer = null;
+    }
+    if (this._fadeTimer) {
+      this._fadeTimer.cancel();
+      this._fadeTimer = null;
+    }
   }
 
   get preferencePanes() {

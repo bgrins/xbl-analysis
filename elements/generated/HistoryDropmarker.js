@@ -8,6 +8,10 @@ class FirefoxHistoryDropmarker extends FirefoxDropmarker {
 
     let comment = document.createComment("Creating firefox-history-dropmarker");
     this.prepend(comment);
+
+    this.addEventListener("mousedown", event => {
+      document.getBindingParent(this).toggleHistoryPopup();
+    });
   }
   disconnectedCallback() {}
 }

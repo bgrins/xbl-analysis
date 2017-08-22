@@ -22,6 +22,22 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
 </stack>`;
     let comment = document.createComment("Creating firefox-ctrltab-preview");
     this.prepend(comment);
+
+    this.addEventListener("mouseover", event => {
+      undefined;
+    });
+
+    this.addEventListener("command", event => {
+      undefined;
+    });
+
+    this.addEventListener("click", event => {
+      undefined;
+    });
+
+    this.addEventListener("click", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 }

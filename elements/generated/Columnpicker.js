@@ -16,6 +16,39 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
 </menupopup>`;
     let comment = document.createComment("Creating firefox-columnpicker");
     this.prepend(comment);
+
+    this.addEventListener("command", event => {
+      if (event.originalTarget == this) {
+        var popup = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "popup"
+        );
+        this.buildPopup(popup);
+        popup.showPopup(this, -1, -1, "popup", "bottomright", "topright");
+      } else {
+        var tree = this.parentNode.parentNode;
+        tree.stopEditing(true);
+        var menuitem = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "menuitem"
+        );
+        if (event.originalTarget == menuitem) {
+          tree.columns.restoreNaturalOrder();
+          tree._ensureColumnOrder();
+        } else {
+          var colindex = event.originalTarget.getAttribute("colindex");
+          var column = tree.columns[colindex];
+          if (column) {
+            var element = column.element;
+            if (element.getAttribute("hidden") == "true")
+              element.setAttribute("hidden", "false");
+            else element.setAttribute("hidden", "true");
+          }
+        }
+      }
+    });
   }
   disconnectedCallback() {}
   buildPopup(aPopup) {

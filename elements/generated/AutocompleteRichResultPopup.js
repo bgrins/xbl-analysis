@@ -57,6 +57,13 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         return (this.richlistbox = val);
       }
     });
+
+    this.addEventListener("popupshown", event => {
+      if (this._adjustHeightOnPopupShown) {
+        delete this._adjustHeightOnPopupShown;
+        this.adjustHeight();
+      }
+    });
   }
   disconnectedCallback() {}
 

@@ -254,72 +254,75 @@ class FirefoxFindbar extends FirefoxToolbar {
       }
     });
 
-    try {
-      // These elements are accessed frequently and are therefore cached
-      this._findField = this.getElement("findbar-textbox");
-      this._foundMatches = this.getElement("found-matches");
-      this._findStatusIcon = this.getElement("find-status-icon");
-      this._findStatusDesc = this.getElement("find-status");
+    // These elements are accessed frequently and are therefore cached
+    this._findField = this.getElement("findbar-textbox");
+    this._foundMatches = this.getElement("found-matches");
+    this._findStatusIcon = this.getElement("find-status-icon");
+    this._findStatusDesc = this.getElement("find-status");
 
-      this._foundURL = null;
+    this._foundURL = null;
 
-      let prefsvc = this._prefsvc;
+    let prefsvc = this._prefsvc;
 
-      this._quickFindTimeoutLength = prefsvc.getIntPref(
-        "accessibility.typeaheadfind.timeout"
+    this._quickFindTimeoutLength = prefsvc.getIntPref(
+      "accessibility.typeaheadfind.timeout"
+    );
+    this._flashFindBar = prefsvc.getIntPref(
+      "accessibility.typeaheadfind.flashBar"
+    );
+    this._useModalHighlight = prefsvc.getBoolPref("findbar.modalHighlight");
+
+    prefsvc.addObserver("accessibility.typeaheadfind", this._observer);
+    prefsvc.addObserver(
+      "accessibility.typeaheadfind.linksonly",
+      this._observer
+    );
+    prefsvc.addObserver(
+      "accessibility.typeaheadfind.casesensitive",
+      this._observer
+    );
+    prefsvc.addObserver("findbar.entireword", this._observer);
+    prefsvc.addObserver("findbar.highlightAll", this._observer);
+    prefsvc.addObserver("findbar.modalHighlight", this._observer);
+
+    this._findAsYouType = prefsvc.getBoolPref("accessibility.typeaheadfind");
+    this._typeAheadLinksOnly = prefsvc.getBoolPref(
+      "accessibility.typeaheadfind.linksonly"
+    );
+    this._typeAheadCaseSensitive = prefsvc.getIntPref(
+      "accessibility.typeaheadfind.casesensitive"
+    );
+    this._entireWord = prefsvc.getBoolPref("findbar.entireword");
+    this._highlightAll = prefsvc.getBoolPref("findbar.highlightAll");
+
+    // Convenience
+    this.nsITypeAheadFind = Components.interfaces.nsITypeAheadFind;
+    this.nsISelectionController = Components.interfaces.nsISelectionController;
+    this._findSelection = this.nsISelectionController.SELECTION_FIND;
+
+    this._findResetTimeout = -1;
+
+    // Make sure the FAYT keypress listener is attached by initializing the
+    // browser property
+    if (this.getAttribute("browserid"))
+      setTimeout(
+        function(aSelf) {
+          aSelf.browser = aSelf.browser;
+        },
+        0,
+        this
       );
-      this._flashFindBar = prefsvc.getIntPref(
-        "accessibility.typeaheadfind.flashBar"
-      );
-      this._useModalHighlight = prefsvc.getBoolPref("findbar.modalHighlight");
 
-      prefsvc.addObserver("accessibility.typeaheadfind", this._observer);
-      prefsvc.addObserver(
-        "accessibility.typeaheadfind.linksonly",
-        this._observer
-      );
-      prefsvc.addObserver(
-        "accessibility.typeaheadfind.casesensitive",
-        this._observer
-      );
-      prefsvc.addObserver("findbar.entireword", this._observer);
-      prefsvc.addObserver("findbar.highlightAll", this._observer);
-      prefsvc.addObserver("findbar.modalHighlight", this._observer);
-
-      this._findAsYouType = prefsvc.getBoolPref("accessibility.typeaheadfind");
-      this._typeAheadLinksOnly = prefsvc.getBoolPref(
-        "accessibility.typeaheadfind.linksonly"
-      );
-      this._typeAheadCaseSensitive = prefsvc.getIntPref(
-        "accessibility.typeaheadfind.casesensitive"
-      );
-      this._entireWord = prefsvc.getBoolPref("findbar.entireword");
-      this._highlightAll = prefsvc.getBoolPref("findbar.highlightAll");
-
-      // Convenience
-      this.nsITypeAheadFind = Components.interfaces.nsITypeAheadFind;
-      this.nsISelectionController =
-        Components.interfaces.nsISelectionController;
-      this._findSelection = this.nsISelectionController.SELECTION_FIND;
-
-      this._findResetTimeout = -1;
-
-      // Make sure the FAYT keypress listener is attached by initializing the
-      // browser property
-      if (this.getAttribute("browserid"))
-        setTimeout(
-          function(aSelf) {
-            aSelf.browser = aSelf.browser;
-          },
-          0,
-          this
-        );
-    } catch (e) {}
+    this.addEventListener(
+      "keypress",
+      event => {
+        undefined;
+      },
+      true
+    );
   }
   disconnectedCallback() {
-    try {
-      this.destroy();
-    } catch (e) {}
+    this.destroy();
   }
 
   set _findMode(val) {

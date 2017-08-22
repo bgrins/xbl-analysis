@@ -17,25 +17,29 @@ class FirefoxRadio extends FirefoxControlItem {
     let comment = document.createComment("Creating firefox-radio");
     this.prepend(comment);
 
-    try {
-      // Just clear out the parent's cached list of radio children
-      var control = this.control;
-      if (control) control._radioChildren = null;
-    } catch (e) {}
+    // Just clear out the parent's cached list of radio children
+    var control = this.control;
+    if (control) control._radioChildren = null;
+
+    this.addEventListener("click", event => {
+      if (!this.disabled) this.control.selectedItem = this;
+    });
+
+    this.addEventListener("mousedown", event => {
+      if (!this.disabled) this.control.focusedItem = this;
+    });
   }
   disconnectedCallback() {
-    try {
-      if (!this.control) return;
+    if (!this.control) return;
 
-      var radioList = this.control._radioChildren;
-      if (!radioList) return;
-      for (var i = 0; i < radioList.length; ++i) {
-        if (radioList[i] == this) {
-          radioList.splice(i, 1);
-          return;
-        }
+    var radioList = this.control._radioChildren;
+    if (!radioList) return;
+    for (var i = 0; i < radioList.length; ++i) {
+      if (radioList[i] == this) {
+        radioList.splice(i, 1);
+        return;
       }
-    } catch (e) {}
+    }
   }
 
   get selected() {

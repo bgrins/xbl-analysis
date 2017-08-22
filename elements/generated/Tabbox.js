@@ -34,14 +34,10 @@ class FirefoxTabbox extends FirefoxTabBase {
       }
     });
 
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
   disconnectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
 
   set handleCtrlTab(val) {

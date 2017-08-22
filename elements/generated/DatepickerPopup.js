@@ -39,9 +39,7 @@ class FirefoxDatepickerPopup extends FirefoxDatepicker {
     let comment = document.createComment("Creating firefox-datepicker-popup");
     this.prepend(comment);
 
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
   disconnectedCallback() {}
 

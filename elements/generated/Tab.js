@@ -27,6 +27,76 @@ class FirefoxTab extends FirefoxControlItem {
         return (this.arrowKeysShouldWrap = val);
       }
     });
+
+    this.addEventListener("mousedown", event => {
+      if (this.disabled) return;
+
+      if (this != this.parentNode.selectedItem) {
+        // Not selected yet
+        let stopwatchid = this.parentNode.getAttribute("stopwatchid");
+        if (stopwatchid) {
+          this.TelemetryStopwatch.start(stopwatchid);
+        }
+
+        // Call this before setting the 'ignorefocus' attribute because this
+        // will pass on focus if the formerly selected tab was focused as well.
+        this.parentNode._selectNewTab(this);
+
+        var isTabFocused = false;
+        try {
+          isTabFocused = document.commandDispatcher.focusedElement == this;
+        } catch (e) {}
+
+        // Set '-moz-user-focus' to 'ignore' so that PostHandleEvent() can't
+        // focus the tab; we only want tabs to be focusable by the mouse if
+        // they are already focused. After a short timeout we'll reset
+        // '-moz-user-focus' so that tabs can be focused by keyboard again.
+        if (!isTabFocused) {
+          this.setAttribute("ignorefocus", "true");
+          setTimeout(tab => tab.removeAttribute("ignorefocus"), 0, this);
+        }
+
+        if (stopwatchid) {
+          this.TelemetryStopwatch.finish(stopwatchid);
+        }
+      }
+      // Otherwise this tab is already selected and we will fall
+      // through to mousedown behavior which sets focus on the current tab,
+      // Only a click on an already selected tab should focus the tab itself.
+    });
+
+    this.addEventListener("keydown", event => {
+      var direction = window.getComputedStyle(this.parentNode).direction;
+      this.parentNode.advanceSelectedTab(
+        direction == "ltr" ? -1 : 1,
+        this.arrowKeysShouldWrap
+      );
+    });
+
+    this.addEventListener("keydown", event => {
+      var direction = window.getComputedStyle(this.parentNode).direction;
+      this.parentNode.advanceSelectedTab(
+        direction == "ltr" ? 1 : -1,
+        this.arrowKeysShouldWrap
+      );
+    });
+
+    this.addEventListener("keydown", event => {
+      this.parentNode.advanceSelectedTab(-1, this.arrowKeysShouldWrap);
+    });
+
+    this.addEventListener("keydown", event => {
+      this.parentNode.advanceSelectedTab(1, this.arrowKeysShouldWrap);
+    });
+
+    this.addEventListener("keydown", event => {
+      this.parentNode._selectNewTab(this.parentNode.childNodes[0]);
+    });
+
+    this.addEventListener("keydown", event => {
+      var tabs = this.parentNode.childNodes;
+      this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
+    });
   }
   disconnectedCallback() {}
 

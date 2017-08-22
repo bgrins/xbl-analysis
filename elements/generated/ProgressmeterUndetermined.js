@@ -28,9 +28,7 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
       }
     });
 
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
   disconnectedCallback() {}
   _init() {

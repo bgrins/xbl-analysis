@@ -45,6 +45,28 @@ class FirefoxMenubar extends FirefoxToolbarBase {
         return (this._originalStatusText = val);
       }
     });
+
+    this.addEventListener("DOMMenuBarActive", event => {
+      if (!this.statusbar) return;
+      this._statusbar = document.getElementById(this.statusbar);
+      if (!this._statusbar) return;
+      this._active = true;
+      this._originalStatusText = this._statusbar.label;
+    });
+
+    this.addEventListener("DOMMenuBarInactive", event => {
+      if (!this._active) return;
+      this._active = false;
+      this._statusbar.label = this._originalStatusText;
+    });
+
+    this.addEventListener("DOMMenuItemActive", event => {
+      undefined;
+    });
+
+    this.addEventListener("DOMMenuItemInactive", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 

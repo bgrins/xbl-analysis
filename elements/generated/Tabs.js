@@ -40,34 +40,38 @@ class FirefoxTabs extends FirefoxBasecontrol {
       }
     });
 
-    try {
-      // first and last tabs need to be able to have unique styles
-      // and also need to select first tab on startup.
-      if (this.firstChild) this.firstChild.setAttribute("first-tab", "true");
-      if (this.lastChild) this.lastChild.setAttribute("last-tab", "true");
+    // first and last tabs need to be able to have unique styles
+    // and also need to select first tab on startup.
+    if (this.firstChild) this.firstChild.setAttribute("first-tab", "true");
+    if (this.lastChild) this.lastChild.setAttribute("last-tab", "true");
 
-      if (!this.hasAttribute("orient"))
-        this.setAttribute("orient", "horizontal");
+    if (!this.hasAttribute("orient")) this.setAttribute("orient", "horizontal");
 
-      if (this.tabbox && this.tabbox.hasAttribute("selectedIndex")) {
-        let selectedIndex = parseInt(this.tabbox.getAttribute("selectedIndex"));
-        this.selectedIndex = selectedIndex > 0 ? selectedIndex : 0;
+    if (this.tabbox && this.tabbox.hasAttribute("selectedIndex")) {
+      let selectedIndex = parseInt(this.tabbox.getAttribute("selectedIndex"));
+      this.selectedIndex = selectedIndex > 0 ? selectedIndex : 0;
+      return;
+    }
+
+    var children = this.childNodes;
+    var length = children.length;
+    for (var i = 0; i < length; i++) {
+      if (children[i].getAttribute("selected") == "true") {
+        this.selectedIndex = i;
         return;
       }
+    }
 
-      var children = this.childNodes;
-      var length = children.length;
-      for (var i = 0; i < length; i++) {
-        if (children[i].getAttribute("selected") == "true") {
-          this.selectedIndex = i;
-          return;
-        }
-      }
+    var value = this.value;
+    if (value) this.value = value;
+    else this.selectedIndex = 0;
 
-      var value = this.value;
-      if (value) this.value = value;
-      else this.selectedIndex = 0;
-    } catch (e) {}
+    this.addEventListener("DOMMouseScroll", event => {
+      if (event.detail > 0) this.advanceSelectedTab(1, false);
+      else this.advanceSelectedTab(-1, false);
+
+      event.stopPropagation();
+    });
   }
   disconnectedCallback() {}
 

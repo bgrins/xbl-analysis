@@ -52,6 +52,39 @@ class FirefoxPrefpane extends BaseElement {
         return (this._content = val);
       }
     });
+
+    this.addEventListener("command", event => {
+      undefined;
+    });
+
+    this.addEventListener("select", event => {
+      undefined;
+    });
+
+    this.addEventListener("change", event => {
+      undefined;
+    });
+
+    this.addEventListener("input", event => {
+      undefined;
+    });
+
+    this.addEventListener("paneload", event => {
+      // Initialize all values from preferences.
+      var elements = this.preferenceElements;
+      for (var i = 0; i < elements.length; ++i) {
+        try {
+          var preference = this.preferenceForElement(elements[i]);
+          preference.setElementValue(elements[i]);
+        } catch (e) {
+          dump(
+            "*** No preference found for " +
+              elements[i].getAttribute("preference") +
+              "\n"
+          );
+        }
+      }
+    });
   }
   disconnectedCallback() {}
 

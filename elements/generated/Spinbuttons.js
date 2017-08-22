@@ -14,6 +14,40 @@ class FirefoxSpinbuttons extends FirefoxBasecontrol {
 </vbox>`;
     let comment = document.createComment("Creating firefox-spinbuttons");
     this.prepend(comment);
+
+    this.addEventListener("mousedown", event => {
+      // on the Mac, the native theme draws the spinbutton as a single widget
+      // so a state attribute is set based on where the mouse button was pressed
+      if (event.originalTarget == this._increaseButton)
+        this.setAttribute("state", "up");
+      else if (event.originalTarget == this._decreaseButton)
+        this.setAttribute("state", "down");
+    });
+
+    this.addEventListener("mouseup", event => {
+      undefined;
+    });
+
+    this.addEventListener("mouseout", event => {
+      undefined;
+    });
+
+    this.addEventListener("command", event => {
+      var eventname;
+      if (event.originalTarget == this._increaseButton) eventname = "up";
+      else if (event.originalTarget == this._decreaseButton) eventname = "down";
+
+      var evt = document.createEvent("Events");
+      evt.initEvent(eventname, true, true);
+      var cancel = this.dispatchEvent(evt);
+
+      if (this.hasAttribute("on" + eventname)) {
+        var fn = new Function("event", this.getAttribute("on" + eventname));
+        if (fn.call(this, event) == false) cancel = true;
+      }
+
+      return !cancel;
+    });
   }
   disconnectedCallback() {}
 

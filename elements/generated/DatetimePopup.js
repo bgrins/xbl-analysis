@@ -58,13 +58,11 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
       }
     });
 
-    try {
-      this.mozIntl = Components.classes["@mozilla.org/mozintl;1"].getService(
-        Components.interfaces.mozIMozIntl
-      );
-      // Notify DateTimePickerHelper.jsm that binding is ready.
-      this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
-    } catch (e) {}
+    this.mozIntl = Components.classes["@mozilla.org/mozintl;1"].getService(
+      Components.interfaces.mozIMozIntl
+    );
+    // Notify DateTimePickerHelper.jsm that binding is ready.
+    this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
   }
   disconnectedCallback() {}
 

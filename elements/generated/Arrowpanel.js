@@ -31,6 +31,56 @@ class FirefoxArrowpanel extends FirefoxPanel {
         return (this._fadeTimer = val);
       }
     });
+
+    this.addEventListener("popupshowing", event => {
+      var arrow = document.getAnonymousElementByAttribute(
+        this,
+        "anonid",
+        "arrow"
+      );
+      arrow.hidden = this.anchorNode == null;
+      document
+        .getAnonymousElementByAttribute(this, "anonid", "arrowbox")
+        .style.removeProperty("transform");
+
+      this.adjustArrowPosition();
+
+      if (this.getAttribute("animate") != "false") {
+        this.setAttribute("animate", "open");
+        // the animating attribute prevents user interaction during transition
+        // it is removed when popupshown fires
+        this.setAttribute("animating", "true");
+      }
+
+      // set fading
+      var fade = this.getAttribute("fade");
+      var fadeDelay = 0;
+      if (fade == "fast") {
+        fadeDelay = 1;
+      } else if (fade == "slow") {
+        fadeDelay = 4000;
+      } else {
+        return;
+      }
+
+      this._fadeTimer = setTimeout(() => this.hidePopup(true), fadeDelay, this);
+    });
+
+    this.addEventListener("popuphiding", event => {
+      undefined;
+    });
+
+    this.addEventListener("popupshown", event => {
+      undefined;
+    });
+
+    this.addEventListener("popuphidden", event => {
+      undefined;
+    });
+
+    this.addEventListener("popuppositioned", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
   sizeTo(aWidth, aHeight) {

@@ -58,22 +58,20 @@ class FirefoxToolbox extends FirefoxToolbarBase {
       }
     });
 
-    try {
-      // Look to see if there is a toolbarset.
-      this.toolbarset = this.firstChild;
-      while (this.toolbarset && this.toolbarset.localName != "toolbarset")
-        this.toolbarset = this.toolbarset.nextSibling;
+    // Look to see if there is a toolbarset.
+    this.toolbarset = this.firstChild;
+    while (this.toolbarset && this.toolbarset.localName != "toolbarset")
+      this.toolbarset = this.toolbarset.nextSibling;
 
-      if (this.toolbarset) {
-        // Create each toolbar described by the toolbarset.
-        var index = 0;
-        while (this.toolbarset.hasAttribute("toolbar" + ++index)) {
-          var toolbarInfo = this.toolbarset.getAttribute("toolbar" + index);
-          var infoSplit = toolbarInfo.split(":");
-          this.appendCustomToolbar(infoSplit[0], infoSplit[1]);
-        }
+    if (this.toolbarset) {
+      // Create each toolbar described by the toolbarset.
+      var index = 0;
+      while (this.toolbarset.hasAttribute("toolbar" + ++index)) {
+        var toolbarInfo = this.toolbarset.getAttribute("toolbar" + index);
+        var infoSplit = toolbarInfo.split(":");
+        this.appendCustomToolbar(infoSplit[0], infoSplit[1]);
       }
-    } catch (e) {}
+    }
   }
   disconnectedCallback() {}
 

@@ -16,65 +16,58 @@ class FirefoxDatetimeInputBase extends BaseElement {
     );
     this.prepend(comment);
 
-    try {
-      this.DEBUG = false;
-      this.mInputElement = this.parentNode;
-      this.mLocales = window.getRegionalPrefsLocales();
+    this.DEBUG = false;
+    this.mInputElement = this.parentNode;
+    this.mLocales = window.getRegionalPrefsLocales();
 
-      this.mIsRTL = false;
-      let intlUtils = window.intlUtils;
-      if (intlUtils) {
-        this.mIsRTL =
-          intlUtils.getLocaleInfo(this.mLocales).direction === "rtl";
-      }
+    this.mIsRTL = false;
+    let intlUtils = window.intlUtils;
+    if (intlUtils) {
+      this.mIsRTL = intlUtils.getLocaleInfo(this.mLocales).direction === "rtl";
+    }
 
-      if (this.mIsRTL) {
-        let inputBoxWrapper = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "input-box-wrapper"
-        );
-        inputBoxWrapper.dir = "rtl";
-      }
-
-      this.mMin = this.mInputElement.min;
-      this.mMax = this.mInputElement.max;
-      this.mStep = this.mInputElement.step;
-      this.mIsPickerOpen = false;
-
-      this.mResetButton = document.getAnonymousElementByAttribute(
+    if (this.mIsRTL) {
+      let inputBoxWrapper = document.getAnonymousElementByAttribute(
         this,
         "anonid",
-        "reset-button"
+        "input-box-wrapper"
       );
-      this.mResetButton.style.visibility = "hidden";
+      inputBoxWrapper.dir = "rtl";
+    }
 
-      this.EVENTS.forEach(eventName => {
-        this.addEventListener(eventName, this, { mozSystemGroup: true });
-      });
-      // Handle keypress separately since we need to catch it on capturing.
-      this.addEventListener("keypress", this, {
-        capture: true,
-        mozSystemGroup: true
-      });
-      // This is to close the picker when input element blurs.
-      this.mInputElement.addEventListener("blur", this, {
-        mozSystemGroup: true
-      });
-    } catch (e) {}
+    this.mMin = this.mInputElement.min;
+    this.mMax = this.mInputElement.max;
+    this.mStep = this.mInputElement.step;
+    this.mIsPickerOpen = false;
+
+    this.mResetButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "reset-button"
+    );
+    this.mResetButton.style.visibility = "hidden";
+
+    this.EVENTS.forEach(eventName => {
+      this.addEventListener(eventName, this, { mozSystemGroup: true });
+    });
+    // Handle keypress separately since we need to catch it on capturing.
+    this.addEventListener("keypress", this, {
+      capture: true,
+      mozSystemGroup: true
+    });
+    // This is to close the picker when input element blurs.
+    this.mInputElement.addEventListener("blur", this, { mozSystemGroup: true });
   }
   disconnectedCallback() {
-    try {
-      this.mInputElement = null;
+    this.mInputElement = null;
 
-      this.EVENTS.forEach(eventName => {
-        this.removeEventListener(eventName, this, { mozSystemGroup: true });
-      });
-      this.removeEventListener("keypress", this, {
-        capture: true,
-        mozSystemGroup: true
-      });
-    } catch (e) {}
+    this.EVENTS.forEach(eventName => {
+      this.removeEventListener(eventName, this, { mozSystemGroup: true });
+    });
+    this.removeEventListener("keypress", this, {
+      capture: true,
+      mozSystemGroup: true
+    });
   }
 
   get EVENTS() {

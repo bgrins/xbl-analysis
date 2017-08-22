@@ -75,17 +75,33 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       }
     });
 
-    try {
-      // add a template build listener
-      if (this.builder) this.builder.addListener(this._builderListener);
-      else this._refreshSelection();
-    } catch (e) {}
+    // add a template build listener
+    if (this.builder) this.builder.addListener(this._builderListener);
+    else this._refreshSelection();
+
+    this.addEventListener("click", event => {
+      // clicking into nothing should unselect
+      if (event.originalTarget == this._scrollbox) {
+        this.clearSelection();
+        this.currentItem = null;
+      }
+    });
+
+    this.addEventListener("MozSwipeGesture", event => {
+      // Only handle swipe gestures up and down
+      switch (event.direction) {
+        case event.DIRECTION_DOWN:
+          this._scrollbox.scrollTop = this._scrollbox.scrollHeight;
+          break;
+        case event.DIRECTION_UP:
+          this._scrollbox.scrollTop = 0;
+          break;
+      }
+    });
   }
   disconnectedCallback() {
-    try {
-      // remove the template build listener
-      if (this.builder) this.builder.removeListener(this._builderListener);
-    } catch (e) {}
+    // remove the template build listener
+    if (this.builder) this.builder.removeListener(this._builderListener);
   }
 
   get itemCount() {

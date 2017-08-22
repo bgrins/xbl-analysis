@@ -17,6 +17,16 @@ class FirefoxCheckboxBaseline extends FirefoxBasetext {
 </hbox>`;
     let comment = document.createComment("Creating firefox-checkbox-baseline");
     this.prepend(comment);
+
+    this.addEventListener("click", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      this.checked = !this.checked;
+      // Prevent page from scrolling on the space key.
+      event.preventDefault();
+    });
   }
   disconnectedCallback() {}
 

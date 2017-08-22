@@ -117,6 +117,21 @@ class FirefoxTimepicker extends FirefoxDatetimepickerBase {
         return (this.secondField = val);
       }
     });
+
+    this.addEventListener("keypress", event => {
+      // just allow any printable character to switch the AM/PM state
+      if (
+        event.charCode &&
+        !this.disabled &&
+        !this.readOnly &&
+        this._currentField == this._fieldAMPM
+      ) {
+        this.isPM = !this.isPM;
+        this._fieldAMPM.select();
+        this._fireEvent("change", this);
+        event.preventDefault();
+      }
+    });
   }
   disconnectedCallback() {}
 

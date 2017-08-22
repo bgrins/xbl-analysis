@@ -111,26 +111,88 @@ class FirefoxTextbox extends BaseElement {
       }
     });
 
-    try {
-      var str = this.boxObject.getProperty("value");
-      if (str) {
-        this.inputField.value = str;
-        this.boxObject.removeProperty("value");
+    var str = this.boxObject.getProperty("value");
+    if (str) {
+      this.inputField.value = str;
+      this.boxObject.removeProperty("value");
+    }
+
+    this._setNewlineHandling();
+
+    if (this.hasAttribute("emptytext"))
+      this.placeholder = this.getAttribute("emptytext");
+
+    this.addEventListener(
+      "focus",
+      event => {
+        if (this.hasAttribute("focused")) return;
+
+        switch (event.originalTarget) {
+          case this:
+            // Forward focus to actual HTML input
+            this.inputField.focus();
+            break;
+          case this.inputField:
+            if (this.mIgnoreFocus) {
+              this.mIgnoreFocus = false;
+            } else if (this.clickSelectsAll) {
+              try {
+                if (!this.editor || !this.editor.composing)
+                  this.editor.selectAll();
+              } catch (e) {}
+            }
+            break;
+          default:
+            // Allow other children (e.g. URL bar buttons) to get focus
+            return;
+        }
+        this.setAttribute("focused", "true");
+      },
+      true
+    );
+
+    this.addEventListener(
+      "blur",
+      event => {
+        this.removeAttribute("focused");
+
+        // don't trigger clickSelectsAll when switching application windows
+        if (
+          window == window.top &&
+          window.constructor == ChromeWindow &&
+          document.activeElement == this.inputField
+        )
+          this.mIgnoreFocus = true;
+      },
+      true
+    );
+
+    this.addEventListener("mousedown", event => {
+      this.mIgnoreClick = this.hasAttribute("focused");
+
+      if (!this.mIgnoreClick) {
+        this.mIgnoreFocus = true;
+        this.inputField.setSelectionRange(0, 0);
+        if (
+          event.originalTarget == this ||
+          event.originalTarget == this.inputField.parentNode
+        )
+          this.inputField.focus();
       }
+    });
 
-      this._setNewlineHandling();
+    this.addEventListener("click", event => {
+      undefined;
+    });
 
-      if (this.hasAttribute("emptytext"))
-        this.placeholder = this.getAttribute("emptytext");
-    } catch (e) {}
+    this.addEventListener("contextmenu", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {
-    try {
-      var field = this.inputField;
-      if (field && field.value)
-        this.boxObject.setProperty("value", field.value);
-      this.mInputField = null;
-    } catch (e) {}
+    var field = this.inputField;
+    if (field && field.value) this.boxObject.setProperty("value", field.value);
+    this.mInputField = null;
   }
 
   get inputField() {

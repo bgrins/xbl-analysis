@@ -23,30 +23,28 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
     );
     this.prepend(comment);
 
-    try {
-      this._itemBox = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "autofill-item-box"
-      );
-      this._labelAffix = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "profile-label-affix"
-      );
-      this._label = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "profile-label"
-      );
-      this._comment = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "profile-comment"
-      );
+    this._itemBox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "autofill-item-box"
+    );
+    this._labelAffix = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "profile-label-affix"
+    );
+    this._label = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "profile-label"
+    );
+    this._comment = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "profile-comment"
+    );
 
-      this._adjustAcItem();
-    } catch (e) {}
+    this._adjustAcItem();
   }
   disconnectedCallback() {}
 

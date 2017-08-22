@@ -25,9 +25,62 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
     let comment = document.createComment("Creating firefox-places-popup-arrow");
     this.prepend(comment);
 
-    try {
-      this.style.pointerEvents = "none";
-    } catch (e) {}
+    this.style.pointerEvents = "none";
+
+    this.addEventListener("popupshowing", event => {
+      this.adjustArrowPosition();
+      this.setAttribute("animate", "open");
+    });
+
+    this.addEventListener("popupshown", event => {
+      this.setAttribute("panelopen", "true");
+      let disablePointerEvents;
+      if (!this.hasAttribute("disablepointereventsfortransition")) {
+        let container = document.getAnonymousElementByAttribute(
+          this,
+          "anonid",
+          "container"
+        );
+        let cs = getComputedStyle(container);
+        let transitionProp = cs.transitionProperty;
+        let transitionTime = parseFloat(cs.transitionDuration);
+        disablePointerEvents =
+          (transitionProp.includes("transform") || transitionProp == "all") &&
+          transitionTime > 0;
+        this.setAttribute(
+          "disablepointereventsfortransition",
+          disablePointerEvents
+        );
+      } else {
+        disablePointerEvents =
+          this.getAttribute("disablepointereventsfortransition") == "true";
+      }
+      if (!disablePointerEvents) {
+        this.style.removeProperty("pointer-events");
+      }
+    });
+
+    this.addEventListener("transitionend", event => {
+      if (
+        event.originalTarget.getAttribute("anonid") == "container" &&
+        (event.propertyName == "transform" ||
+          event.propertyName == "-moz-window-transform")
+      ) {
+        this.style.removeProperty("pointer-events");
+      }
+    });
+
+    this.addEventListener("popuphiding", event => {
+      this.setAttribute("animate", "cancel");
+    });
+
+    this.addEventListener("popuphidden", event => {
+      this.removeAttribute("panelopen");
+      if (this.getAttribute("disablepointereventsfortransition") == "true") {
+        this.style.pointerEvents = "none";
+      }
+      this.removeAttribute("animate");
+    });
   }
   disconnectedCallback() {}
   adjustArrowPosition() {

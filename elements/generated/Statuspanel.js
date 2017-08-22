@@ -12,15 +12,11 @@ class FirefoxStatuspanel extends BaseElement {
     let comment = document.createComment("Creating firefox-statuspanel");
     this.prepend(comment);
 
-    try {
-      window.addEventListener("resize", this);
-    } catch (e) {}
+    window.addEventListener("resize", this);
   }
   disconnectedCallback() {
-    try {
-      window.removeEventListener("resize", this);
-      MousePosTracker.removeListener(this);
-    } catch (e) {}
+    window.removeEventListener("resize", this);
+    MousePosTracker.removeListener(this);
   }
 
   set label(val) {

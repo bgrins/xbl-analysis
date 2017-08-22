@@ -29,6 +29,32 @@ class FirefoxPopup extends FirefoxPopupBase {
         return (this.scrollBox = val);
       }
     });
+
+    this.addEventListener("popupshowing", event => {
+      var array = [];
+      var width = 0;
+      for (
+        var menuitem = this.firstChild;
+        menuitem;
+        menuitem = menuitem.nextSibling
+      ) {
+        if (
+          menuitem.localName == "menuitem" &&
+          menuitem.hasAttribute("acceltext")
+        ) {
+          var accel = document.getAnonymousElementByAttribute(
+            menuitem,
+            "anonid",
+            "accel"
+          );
+          if (accel && accel.boxObject) {
+            array.push(accel);
+            if (accel.boxObject.width > width) width = accel.boxObject.width;
+          }
+        }
+      }
+      for (var i = 0; i < array.length; i++) array[i].width = width;
+    });
   }
   disconnectedCallback() {}
 }

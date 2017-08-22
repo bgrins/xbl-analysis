@@ -224,6 +224,196 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
         return (this._overFolder = val);
       }
     });
+
+    this.addEventListener("DOMMenuItemActive", event => {
+      let elt = event.target;
+      if (elt.parentNode != this) return;
+
+      if (this.AppConstants.platform === "macosx") {
+        // XXX: The following check is a temporary hack until bug 420033 is
+        // resolved.
+        let parentElt = elt.parent;
+        while (parentElt) {
+          if (parentElt.id == "bookmarksMenuPopup" || parentElt.id == "goPopup")
+            return;
+
+          parentElt = parentElt.parentNode;
+        }
+      }
+
+      if (window.XULBrowserWindow) {
+        let placesNode = elt._placesNode;
+
+        var linkURI;
+        if (placesNode && PlacesUtils.nodeIsURI(placesNode))
+          linkURI = placesNode.uri;
+        else if (elt.hasAttribute("targetURI"))
+          linkURI = elt.getAttribute("targetURI");
+
+        if (linkURI) window.XULBrowserWindow.setOverLink(linkURI, null);
+      }
+    });
+
+    this.addEventListener("DOMMenuItemInactive", event => {
+      let elt = event.target;
+      if (elt.parentNode != this) return;
+
+      if (window.XULBrowserWindow)
+        window.XULBrowserWindow.setOverLink("", null);
+    });
+
+    this.addEventListener("dragstart", event => {
+      let elt = event.target;
+      if (!elt._placesNode) return;
+
+      let draggedElt = elt._placesNode;
+
+      // Force a copy action if parent node is a query or we are dragging a
+      // not-removable node.
+      if (!PlacesControllerDragHelper.canMoveNode(draggedElt, elt))
+        event.dataTransfer.effectAllowed = "copyLink";
+
+      // Activate the view and cache the dragged element.
+      this._rootView._draggedElt = draggedElt;
+      this._rootView.controller.setDataTransfer(event);
+      this.setAttribute("dragstart", "true");
+      event.stopPropagation();
+    });
+
+    this.addEventListener("drop", event => {
+      PlacesControllerDragHelper.currentDropTarget = event.target;
+
+      let dropPoint = this._getDropPoint(event);
+      if (dropPoint && dropPoint.ip) {
+        PlacesControllerDragHelper.onDrop(
+          dropPoint.ip,
+          event.dataTransfer
+        ).catch(Components.utils.reportError);
+        event.preventDefault();
+      }
+
+      this._cleanupDragDetails();
+      event.stopPropagation();
+    });
+
+    this.addEventListener("dragover", event => {
+      PlacesControllerDragHelper.currentDropTarget = event.target;
+      let dt = event.dataTransfer;
+
+      let dropPoint = this._getDropPoint(event);
+      if (
+        !dropPoint ||
+        !dropPoint.ip ||
+        !PlacesControllerDragHelper.canDrop(dropPoint.ip, dt)
+      ) {
+        this._indicatorBar.hidden = true;
+        event.stopPropagation();
+        return;
+      }
+
+      // Mark this popup as being dragged over.
+      this.setAttribute("dragover", "true");
+
+      if (dropPoint.folderElt) {
+        // We are dragging over a folder.
+        // _overFolder should take the care of opening it on a timer.
+        if (
+          this._overFolder.elt &&
+          this._overFolder.elt != dropPoint.folderElt
+        ) {
+          // We are dragging over a new folder, let's clear old values
+          this._overFolder.clear();
+        }
+        if (!this._overFolder.elt) {
+          this._overFolder.elt = dropPoint.folderElt;
+          // Create the timer to open this folder.
+          this._overFolder.openTimer = this._overFolder.setTimer(
+            this._overFolder.hoverTime
+          );
+        }
+        // Since we are dropping into a folder set the corresponding style.
+        dropPoint.folderElt.setAttribute("_moz-menuactive", true);
+      } else {
+        // We are not dragging over a folder.
+        // Clear out old _overFolder information.
+        this._overFolder.clear();
+      }
+
+      // Autoscroll the popup strip if we drag over the scroll buttons.
+      let anonid = event.originalTarget.getAttribute("anonid");
+      let scrollDir = 0;
+      if (anonid == "scrollbutton-up") {
+        scrollDir = -1;
+      } else if (anonid == "scrollbutton-down") {
+        scrollDir = 1;
+      }
+      if (scrollDir != 0) {
+        this._scrollBox.scrollByIndex(scrollDir, true);
+      }
+
+      // Check if we should hide the drop indicator for this target.
+      if (dropPoint.folderElt || this._hideDropIndicator(event)) {
+        this._indicatorBar.hidden = true;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // We should display the drop indicator relative to the arrowscrollbox.
+      let sbo = this._scrollBox.scrollBoxObject;
+      let newMarginTop = 0;
+      if (scrollDir == 0) {
+        let elt = this.firstChild;
+        while (
+          elt &&
+          event.screenY > elt.boxObject.screenY + elt.boxObject.height / 2
+        )
+          elt = elt.nextSibling;
+        newMarginTop = elt ? elt.boxObject.screenY - sbo.screenY : sbo.height;
+      } else if (scrollDir == 1) newMarginTop = sbo.height;
+
+      // Set the new marginTop based on arrowscrollbox.
+      newMarginTop += sbo.y - this._scrollBox.boxObject.y;
+      this._indicatorBar.firstChild.style.marginTop = newMarginTop + "px";
+      this._indicatorBar.hidden = false;
+
+      event.preventDefault();
+      event.stopPropagation();
+    });
+
+    this.addEventListener("dragexit", event => {
+      PlacesControllerDragHelper.currentDropTarget = null;
+      this.removeAttribute("dragover");
+
+      // If we have not moved to a valid new target clear the drop indicator
+      // this happens when moving out of the popup.
+      let target = event.relatedTarget;
+      if (!target || !this.contains(target)) this._indicatorBar.hidden = true;
+
+      // Close any folder being hovered over
+      if (this._overFolder.elt) {
+        this._overFolder.closeTimer = this._overFolder.setTimer(
+          this._overFolder.hoverTime
+        );
+      }
+
+      // The autoopened attribute is set when this folder was automatically
+      // opened after the user dragged over it.  If this attribute is set,
+      // auto-close the folder on drag exit.
+      // We should also try to close this popup if the drag has started
+      // from here, the timer will check if we are dragging over a child.
+      if (this.hasAttribute("autoopened") || this.hasAttribute("dragstart")) {
+        this._overFolder.closeMenuTimer = this._overFolder.setTimer(
+          this._overFolder.hoverTime
+        );
+      }
+
+      event.stopPropagation();
+    });
+
+    this.addEventListener("dragend", event => {
+      this._cleanupDragDetails();
+    });
   }
   disconnectedCallback() {}
   _hideDropIndicator(aEvent) {

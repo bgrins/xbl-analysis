@@ -99,9 +99,7 @@ class FirefoxPreferences extends BaseElement {
       }
     });
 
-    try {
-      this._preferenceChildren = this.getElementsByTagName("preference");
-    } catch (e) {}
+    this._preferenceChildren = this.getElementsByTagName("preference");
   }
   disconnectedCallback() {}
 

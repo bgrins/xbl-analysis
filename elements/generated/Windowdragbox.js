@@ -21,9 +21,7 @@ class FirefoxWindowdragbox extends BaseElement {
       }
     });
 
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
   disconnectedCallback() {}
 }

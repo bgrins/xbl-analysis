@@ -10,6 +10,93 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       "Creating firefox-tabbrowser-alltabs-popup"
     );
     this.prepend(comment);
+
+    this.addEventListener("popupshowing", event => {
+      if (event.target.getAttribute("id") == "alltabs_containersMenuTab") {
+        createUserContextMenu(event, { useAccessKeys: false });
+        return;
+      }
+
+      let containersEnabled = Services.prefs.getBoolPref(
+        "privacy.userContext.enabled"
+      );
+
+      if (
+        event.target.getAttribute("anonid") == "newtab-popup" ||
+        event.target.id == "newtab-popup"
+      ) {
+        createUserContextMenu(event, { useAccessKeys: false });
+      } else {
+        document.getElementById(
+          "alltabs-popup-separator-1"
+        ).hidden = !containersEnabled;
+        let containersTab = document.getElementById("alltabs_containersTab");
+
+        containersTab.hidden = !containersEnabled;
+        if (PrivateBrowsingUtils.isWindowPrivate(window)) {
+          containersTab.setAttribute("disabled", "true");
+        }
+
+        document.getElementById("alltabs_undoCloseTab").disabled =
+          SessionStore.getClosedTabCount(window) == 0;
+
+        var tabcontainer = gBrowser.tabContainer;
+
+        // Listen for changes in the tab bar.
+        tabcontainer.addEventListener("TabAttrModified", this);
+        tabcontainer.addEventListener("TabClose", this);
+
+        let tabs = gBrowser.visibleTabs;
+        for (var i = 0; i < tabs.length; i++) {
+          if (!tabs[i].pinned) this._createTabMenuItem(tabs[i]);
+        }
+        this._updateTabsVisibilityStatus();
+      }
+    });
+
+    this.addEventListener("popuphidden", event => {
+      if (event.target.getAttribute("id") == "alltabs_containersMenuTab") {
+        return;
+      }
+
+      // clear out the menu popup and remove the listeners
+      for (let i = this.childNodes.length - 1; i > 0; i--) {
+        let menuItem = this.childNodes[i];
+        if (menuItem.tab) {
+          menuItem.tab.mCorrespondingMenuitem = null;
+          this.removeChild(menuItem);
+        }
+        if (menuItem.hasAttribute("usercontextid")) {
+          this.removeChild(menuItem);
+        }
+      }
+      var tabcontainer = gBrowser.tabContainer;
+      tabcontainer.removeEventListener("TabAttrModified", this);
+      tabcontainer.removeEventListener("TabClose", this);
+    });
+
+    this.addEventListener("DOMMenuItemActive", event => {
+      var tab = event.target.tab;
+      if (tab) {
+        let overLink = tab.linkedBrowser.currentURI.displaySpec;
+        if (overLink == "about:blank") overLink = "";
+        XULBrowserWindow.setOverLink(overLink, null);
+      }
+    });
+
+    this.addEventListener("DOMMenuItemInactive", event => {
+      XULBrowserWindow.setOverLink("", null);
+    });
+
+    this.addEventListener("command", event => {
+      if (event.target.tab) {
+        if (gBrowser.selectedTab != event.target.tab) {
+          gBrowser.selectedTab = event.target.tab;
+        } else {
+          gBrowser.tabContainer._handleTabSelect();
+        }
+      }
+    });
   }
   disconnectedCallback() {}
   _tabOnAttrModified(aEvent) {

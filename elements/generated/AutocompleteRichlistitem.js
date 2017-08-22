@@ -80,49 +80,80 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       }
     });
 
-    try {
-      this._typeIcon = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "type-icon"
-      );
-      this._siteIcon = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "site-icon"
-      );
-      this._titleText = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "title-text"
-      );
-      this._tags = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "tags"
-      );
-      this._tagsText = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "tags-text"
-      );
-      this._separator = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "separator"
-      );
-      this._urlText = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "url-text"
-      );
-      this._actionText = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "action-text"
-      );
-      this._adjustAcItem();
-    } catch (e) {}
+    this._typeIcon = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "type-icon"
+    );
+    this._siteIcon = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "site-icon"
+    );
+    this._titleText = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "title-text"
+    );
+    this._tags = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "tags"
+    );
+    this._tagsText = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "tags-text"
+    );
+    this._separator = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "separator"
+    );
+    this._urlText = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "url-text"
+    );
+    this._actionText = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "action-text"
+    );
+    this._adjustAcItem();
+
+    this.addEventListener("mousedown", event => {
+      // Call this.control only once since it's not a simple getter.
+      let control = this.control;
+      if (!control || control.disabled) {
+        return;
+      }
+      if (!this.selected) {
+        control.selectItem(this);
+      }
+      control.currentItem = this;
+    });
+
+    this.addEventListener("mouseover", event => {
+      // The point of implementing this handler is to allow drags to change
+      // the selected item.  If the user mouses down on an item, it becomes
+      // selected.  If they then drag the mouse to another item, select it.
+      // Handle all three primary mouse buttons: right, left, and wheel, since
+      // all three change the selection on mousedown.
+      let mouseDown = event.buttons & 0b111;
+      if (!mouseDown) {
+        return;
+      }
+      // Call this.control only once since it's not a simple getter.
+      let control = this.control;
+      if (!control || control.disabled) {
+        return;
+      }
+      if (!this.selected) {
+        control.selectItem(this);
+      }
+      control.currentItem = this;
+    });
   }
   disconnectedCallback() {}
 

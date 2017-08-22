@@ -13,13 +13,67 @@ class FirefoxScale extends FirefoxBasecontrol {
     let comment = document.createComment("Creating firefox-scale");
     this.prepend(comment);
 
-    try {
+    this._userChanged = false;
+    var value = parseInt(this.getAttribute("value"), 10);
+    if (!isNaN(value)) this.value = value;
+    else if (this.min > 0) this.value = this.min;
+    else if (this.max < 0) this.value = this.max;
+
+    this.addEventListener("keypress", event => {
+      this._userChanged = true;
+      this.orient != "vertical" && this.dir == "reverse"
+        ? this.increase()
+        : this.decrease();
       this._userChanged = false;
-      var value = parseInt(this.getAttribute("value"), 10);
-      if (!isNaN(value)) this.value = value;
-      else if (this.min > 0) this.value = this.min;
-      else if (this.max < 0) this.value = this.max;
-    } catch (e) {}
+    });
+
+    this.addEventListener("keypress", event => {
+      this._userChanged = true;
+      this.orient != "vertical" && this.dir == "reverse"
+        ? this.decrease()
+        : this.increase();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", event => {
+      this._userChanged = true;
+      this.orient == "vertical" && this.dir != "reverse"
+        ? this.decrease()
+        : this.increase();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", event => {
+      this._userChanged = true;
+      this.orient == "vertical" && this.dir != "reverse"
+        ? this.increase()
+        : this.decrease();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", event => {
+      this._userChanged = true;
+      this.orient == "vertical" && this.dir != "reverse"
+        ? this.decreasePage()
+        : this.increasePage();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", event => {
+      this._userChanged = true;
+      this.orient == "vertical" && this.dir != "reverse"
+        ? this.increasePage()
+        : this.decreasePage();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 

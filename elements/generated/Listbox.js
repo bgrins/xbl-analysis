@@ -36,14 +36,72 @@ class FirefoxListbox extends FirefoxListboxBase {
       }
     });
 
-    try {
-      var count = this.itemCount;
-      for (var index = 0; index < count; index++) {
-        var item = this.getItemAtIndex(index);
-        if (item.getAttribute("selected") == "true")
-          this.selectedItems.append(item);
+    var count = this.itemCount;
+    for (var index = 0; index < count; index++) {
+      var item = this.getItemAtIndex(index);
+      if (item.getAttribute("selected") == "true")
+        this.selectedItems.append(item);
+    }
+
+    this.addEventListener("keypress", event => {
+      if (this.currentItem) {
+        if (this.currentItem.getAttribute("type") != "checkbox") {
+          this.addItemToSelection(this.currentItem);
+          // Prevent page from scrolling on the space key.
+          event.preventDefault();
+        } else if (!this.currentItem.disabled) {
+          this.currentItem.checked = !this.currentItem.checked;
+          this.currentItem.doCommand();
+          // Prevent page from scrolling on the space key.
+          event.preventDefault();
+        }
       }
-    } catch (e) {}
+    });
+
+    this.addEventListener("MozSwipeGesture", event => {
+      // Figure out which index to show
+      let targetIndex = 0;
+
+      // Only handle swipe gestures up and down
+      switch (event.direction) {
+        case event.DIRECTION_DOWN:
+          targetIndex = this.itemCount - 1;
+        // Fall through for actual action
+        case event.DIRECTION_UP:
+          this.ensureIndexIsVisible(targetIndex);
+          break;
+      }
+    });
+
+    this.addEventListener("touchstart", event => {
+      if (event.touches.length > 1) {
+        // Multiple touch points detected, abort. In particular this aborts
+        // the panning gesture when the user puts a second finger down after
+        // already panning with one finger. Aborting at this point prevents
+        // the pan gesture from being resumed until all fingers are lifted
+        // (as opposed to when the user is back down to one finger).
+        this._touchY = -1;
+      } else {
+        this._touchY = event.touches[0].screenY;
+      }
+    });
+
+    this.addEventListener("touchmove", event => {
+      if (event.touches.length == 1 && this._touchY >= 0) {
+        let deltaY = this._touchY - event.touches[0].screenY;
+        let lines = Math.trunc(deltaY / this.listBoxObject.getRowHeight());
+        if (Math.abs(lines) > 0) {
+          this.listBoxObject.scrollByLines(lines);
+          deltaY -= lines * this.listBoxObject.getRowHeight();
+          this._touchY = event.touches[0].screenY + deltaY;
+        }
+        event.preventDefault();
+      }
+    });
+
+    this.addEventListener("touchend", event => {
+      this._touchY = -1;
+    });
   }
   disconnectedCallback() {}
 

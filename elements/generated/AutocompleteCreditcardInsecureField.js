@@ -13,15 +13,13 @@ class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProf
     );
     this.prepend(comment);
 
-    try {
-      this._itemBox = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "autofill-item-box"
-      );
+    this._itemBox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "autofill-item-box"
+    );
 
-      this._adjustAcItem();
-    } catch (e) {}
+    this._adjustAcItem();
   }
   disconnectedCallback() {}
 

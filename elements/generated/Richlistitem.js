@@ -25,20 +25,18 @@ class FirefoxRichlistitem extends FirefoxListitem {
     });
   }
   disconnectedCallback() {
-    try {
-      var control = this.control;
-      if (!control) return;
-      // When we are destructed and we are current or selected, unselect ourselves
-      // so that richlistbox's selection doesn't point to something not in the DOM.
-      // We don't want to reset last-selected, so we set _suppressOnSelect.
-      if (this.selected) {
-        var suppressSelect = control._suppressOnSelect;
-        control._suppressOnSelect = true;
-        control.removeItemFromSelection(this);
-        control._suppressOnSelect = suppressSelect;
-      }
-      if (this.current) control.currentItem = null;
-    } catch (e) {}
+    var control = this.control;
+    if (!control) return;
+    // When we are destructed and we are current or selected, unselect ourselves
+    // so that richlistbox's selection doesn't point to something not in the DOM.
+    // We don't want to reset last-selected, so we set _suppressOnSelect.
+    if (this.selected) {
+      var suppressSelect = control._suppressOnSelect;
+      control._suppressOnSelect = true;
+      control.removeItemFromSelection(this);
+      control._suppressOnSelect = suppressSelect;
+    }
+    if (this.current) control.currentItem = null;
   }
 
   get label() {

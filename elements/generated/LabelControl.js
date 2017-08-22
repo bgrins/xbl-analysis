@@ -50,9 +50,11 @@ class FirefoxLabelControl extends FirefoxTextLabel {
       }
     });
 
-    try {
-      this.formatAccessKey(true);
-    } catch (e) {}
+    this.formatAccessKey(true);
+
+    this.addEventListener("click", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 

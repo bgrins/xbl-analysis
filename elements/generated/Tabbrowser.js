@@ -558,168 +558,393 @@ class FirefoxTabbrowser extends BaseElement {
       }
     });
 
-    try {
-      this.mCurrentBrowser = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "initialBrowser"
+    this.mCurrentBrowser = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "initialBrowser"
+    );
+    this.mCurrentBrowser.permanentKey = {};
+
+    Services.obs.addObserver(this, "contextual-identity-updated");
+
+    this.mCurrentTab = this.tabContainer.firstChild;
+    const nsIEventListenerService =
+      Components.interfaces.nsIEventListenerService;
+    let els = Components.classes[
+      "@mozilla.org/eventlistenerservice;1"
+    ].getService(nsIEventListenerService);
+    els.addSystemEventListener(document, "keydown", this, false);
+    if (AppConstants.platform == "macosx") {
+      els.addSystemEventListener(document, "keypress", this, false);
+    }
+    window.addEventListener("sizemodechange", this);
+    window.addEventListener("occlusionstatechange", this);
+
+    var uniqueId = this._generateUniquePanelID();
+    this.mPanelContainer.childNodes[0].id = uniqueId;
+    this.mCurrentTab.linkedPanel = uniqueId;
+    this.mCurrentTab.permanentKey = this.mCurrentBrowser.permanentKey;
+    this.mCurrentTab._tPos = 0;
+    this.mCurrentTab._fullyOpen = true;
+    this.mCurrentTab.linkedBrowser = this.mCurrentBrowser;
+    this._tabForBrowser.set(this.mCurrentBrowser, this.mCurrentTab);
+
+    // set up the shared autoscroll popup
+    this._autoScrollPopup = this.mCurrentBrowser._createAutoScrollPopup();
+    this._autoScrollPopup.id = "autoscroller";
+    this.appendChild(this._autoScrollPopup);
+    this.mCurrentBrowser.setAttribute(
+      "autoscrollpopup",
+      this._autoScrollPopup.id
+    );
+    this.mCurrentBrowser.droppedLinkHandler = handleDroppedLink;
+
+    // Hook up the event listeners to the first browser
+    var tabListener = this.mTabProgressListener(
+      this.mCurrentTab,
+      this.mCurrentBrowser,
+      true,
+      false
+    );
+    const nsIWebProgress = Components.interfaces.nsIWebProgress;
+    const filter = Components.classes[
+      "@mozilla.org/appshell/component/browser-status-filter;1"
+    ].createInstance(nsIWebProgress);
+    filter.addProgressListener(tabListener, nsIWebProgress.NOTIFY_ALL);
+    this._tabListeners.set(this.mCurrentTab, tabListener);
+    this._tabFilters.set(this.mCurrentTab, filter);
+    this.webProgress.addProgressListener(filter, nsIWebProgress.NOTIFY_ALL);
+
+    this.style.backgroundColor = Services.prefs.getBoolPref(
+      "browser.display.use_system_colors"
+    )
+      ? "-moz-default-background-color"
+      : Services.prefs.getCharPref("browser.display.background_color");
+
+    let messageManager = window.getGroupMessageManager("browsers");
+
+    let remote = window
+      .QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIWebNavigation)
+      .QueryInterface(Ci.nsILoadContext).useRemoteTabs;
+    if (remote) {
+      messageManager.addMessageListener("DOMTitleChanged", this);
+      messageManager.addMessageListener("DOMWindowClose", this);
+      window.messageManager.addMessageListener("contextmenu", this);
+      messageManager.addMessageListener("Browser:Init", this);
+
+      // If this window has remote tabs, switch to our tabpanels fork
+      // which does asynchronous tab switching.
+      this.mPanelContainer.classList.add("tabbrowser-tabpanels");
+    } else {
+      this._outerWindowIDBrowserMap.set(
+        this.mCurrentBrowser.outerWindowID,
+        this.mCurrentBrowser
       );
-      this.mCurrentBrowser.permanentKey = {};
+    }
+    messageManager.addMessageListener("DOMWindowFocus", this);
+    messageManager.addMessageListener("RefreshBlocker:Blocked", this);
+    messageManager.addMessageListener("Browser:WindowCreated", this);
 
-      Services.obs.addObserver(this, "contextual-identity-updated");
+    // To correctly handle keypresses for potential FindAsYouType, while
+    // the tab's find bar is not yet initialized.
+    this._findAsYouType = Services.prefs.getBoolPref(
+      "accessibility.typeaheadfind"
+    );
+    Services.prefs.addObserver("accessibility.typeaheadfind", this);
+    messageManager.addMessageListener("Findbar:Keypress", this);
 
-      this.mCurrentTab = this.tabContainer.firstChild;
-      const nsIEventListenerService =
-        Components.interfaces.nsIEventListenerService;
-      let els = Components.classes[
-        "@mozilla.org/eventlistenerservice;1"
-      ].getService(nsIEventListenerService);
-      els.addSystemEventListener(document, "keydown", this, false);
-      if (AppConstants.platform == "macosx") {
-        els.addSystemEventListener(document, "keypress", this, false);
-      }
-      window.addEventListener("sizemodechange", this);
-      window.addEventListener("occlusionstatechange", this);
+    // Add listeners for prerender messages
+    messageManager.addMessageListener("Prerender:Request", this);
+    messageManager.addMessageListener("Prerender:Cancel", this);
+    messageManager.addMessageListener("Prerender:Swap", this);
 
-      var uniqueId = this._generateUniquePanelID();
-      this.mPanelContainer.childNodes[0].id = uniqueId;
-      this.mCurrentTab.linkedPanel = uniqueId;
-      this.mCurrentTab.permanentKey = this.mCurrentBrowser.permanentKey;
-      this.mCurrentTab._tPos = 0;
-      this.mCurrentTab._fullyOpen = true;
-      this.mCurrentTab.linkedBrowser = this.mCurrentBrowser;
-      this._tabForBrowser.set(this.mCurrentBrowser, this.mCurrentTab);
+    XPCOMUtils.defineLazyPreferenceGetter(
+      this,
+      "animationsEnabled",
+      "toolkit.cosmeticAnimations.enabled",
+      true
+    );
 
-      // set up the shared autoscroll popup
-      this._autoScrollPopup = this.mCurrentBrowser._createAutoScrollPopup();
-      this._autoScrollPopup.id = "autoscroller";
-      this.appendChild(this._autoScrollPopup);
-      this.mCurrentBrowser.setAttribute(
-        "autoscrollpopup",
-        this._autoScrollPopup.id
-      );
-      this.mCurrentBrowser.droppedLinkHandler = handleDroppedLink;
+    this.addEventListener(
+      "DOMWindowClose",
+      event => {
+        if (!event.isTrusted) return;
 
-      // Hook up the event listeners to the first browser
-      var tabListener = this.mTabProgressListener(
-        this.mCurrentTab,
-        this.mCurrentBrowser,
-        true,
-        false
-      );
-      const nsIWebProgress = Components.interfaces.nsIWebProgress;
-      const filter = Components.classes[
-        "@mozilla.org/appshell/component/browser-status-filter;1"
-      ].createInstance(nsIWebProgress);
-      filter.addProgressListener(tabListener, nsIWebProgress.NOTIFY_ALL);
-      this._tabListeners.set(this.mCurrentTab, tabListener);
-      this._tabFilters.set(this.mCurrentTab, filter);
-      this.webProgress.addProgressListener(filter, nsIWebProgress.NOTIFY_ALL);
-
-      this.style.backgroundColor = Services.prefs.getBoolPref(
-        "browser.display.use_system_colors"
-      )
-        ? "-moz-default-background-color"
-        : Services.prefs.getCharPref("browser.display.background_color");
-
-      let messageManager = window.getGroupMessageManager("browsers");
-
-      let remote = window
-        .QueryInterface(Ci.nsIInterfaceRequestor)
-        .getInterface(Ci.nsIWebNavigation)
-        .QueryInterface(Ci.nsILoadContext).useRemoteTabs;
-      if (remote) {
-        messageManager.addMessageListener("DOMTitleChanged", this);
-        messageManager.addMessageListener("DOMWindowClose", this);
-        window.messageManager.addMessageListener("contextmenu", this);
-        messageManager.addMessageListener("Browser:Init", this);
-
-        // If this window has remote tabs, switch to our tabpanels fork
-        // which does asynchronous tab switching.
-        this.mPanelContainer.classList.add("tabbrowser-tabpanels");
-      } else {
-        this._outerWindowIDBrowserMap.set(
-          this.mCurrentBrowser.outerWindowID,
-          this.mCurrentBrowser
-        );
-      }
-      messageManager.addMessageListener("DOMWindowFocus", this);
-      messageManager.addMessageListener("RefreshBlocker:Blocked", this);
-      messageManager.addMessageListener("Browser:WindowCreated", this);
-
-      // To correctly handle keypresses for potential FindAsYouType, while
-      // the tab's find bar is not yet initialized.
-      this._findAsYouType = Services.prefs.getBoolPref(
-        "accessibility.typeaheadfind"
-      );
-      Services.prefs.addObserver("accessibility.typeaheadfind", this);
-      messageManager.addMessageListener("Findbar:Keypress", this);
-
-      // Add listeners for prerender messages
-      messageManager.addMessageListener("Prerender:Request", this);
-      messageManager.addMessageListener("Prerender:Cancel", this);
-      messageManager.addMessageListener("Prerender:Swap", this);
-
-      XPCOMUtils.defineLazyPreferenceGetter(
-        this,
-        "animationsEnabled",
-        "toolkit.cosmeticAnimations.enabled",
-        true
-      );
-    } catch (e) {}
-  }
-  disconnectedCallback() {
-    try {
-      Services.obs.removeObserver(this, "contextual-identity-updated");
-
-      for (let tab of this.tabs) {
-        let browser = tab.linkedBrowser;
-        if (browser.registeredOpenURI) {
-          this._unifiedComplete.unregisterOpenPage(
-            browser.registeredOpenURI,
-            browser.getAttribute("usercontextid") || 0
-          );
-          delete browser.registeredOpenURI;
+        if (this.tabs.length == 1) {
+          // We already did PermitUnload in nsGlobalWindow::Close
+          // for this tab. There are no other tabs we need to do
+          // PermitUnload for.
+          window.skipNextCanClose = true;
+          return;
         }
 
-        let filter = this._tabFilters.get(tab);
-        if (filter) {
-          browser.webProgress.removeProgressListener(filter);
+        var tab = this._getTabForContentWindow(event.target);
+        if (tab) {
+          // Skip running PermitUnload since it already happened.
+          this.removeTab(tab, { skipPermitUnload: true });
+          event.preventDefault();
+        }
+      },
+      true
+    );
 
-          let listener = this._tabListeners.get(tab);
-          if (listener) {
-            filter.removeProgressListener(listener);
-            listener.destroy();
+    this.addEventListener(
+      "DOMWillOpenModalDialog",
+      event => {
+        if (!event.isTrusted) return;
+
+        let targetIsWindow = event.target instanceof Window;
+
+        // We're about to open a modal dialog, so figure out for which tab:
+        // If this is a same-process modal dialog, then we're given its DOM
+        // window as the event's target. For remote dialogs, we're given the
+        // browser, but that's in the originalTarget and not the target,
+        // because it's across the tabbrowser's XBL boundary.
+        let tabForEvent = targetIsWindow
+          ? this._getTabForContentWindow(event.target.top)
+          : this.getTabForBrowser(event.originalTarget);
+
+        // Focus window for beforeunload dialog so it is seen but don't
+        // steal focus from other applications.
+        if (
+          event.detail &&
+          event.detail.tabPrompt &&
+          event.detail.inPermitUnload &&
+          Services.focus.activeWindow
+        )
+          window.focus();
+
+        // Don't need to act if the tab is already selected:
+        if (tabForEvent.selected) return;
+
+        // We always switch tabs for beforeunload tab-modal prompts.
+        if (
+          event.detail &&
+          event.detail.tabPrompt &&
+          !event.detail.inPermitUnload
+        ) {
+          let docPrincipal = targetIsWindow
+            ? event.target.document.nodePrincipal
+            : null;
+          // At least one of these should/will be non-null:
+          let promptPrincipal =
+            event.detail.promptPrincipal ||
+            docPrincipal ||
+            tabForEvent.linkedBrowser.contentPrincipal;
+          // For null principals, we bail immediately and don't show the checkbox:
+          if (!promptPrincipal || promptPrincipal.isNullPrincipal) {
+            tabForEvent.setAttribute("attention", "true");
+            return;
           }
 
-          this._tabFilters.delete(tab);
-          this._tabListeners.delete(tab);
+          // For non-system/expanded principals, we bail and show the checkbox
+          if (
+            promptPrincipal.URI &&
+            !Services.scriptSecurityManager.isSystemPrincipal(promptPrincipal)
+          ) {
+            let permission = Services.perms.testPermissionFromPrincipal(
+              promptPrincipal,
+              "focus-tab-by-prompt"
+            );
+            if (permission != Services.perms.ALLOW_ACTION) {
+              // Tell the prompt box we want to show the user a checkbox:
+              let tabPrompt = this.getTabModalPromptBox(
+                tabForEvent.linkedBrowser
+              );
+              tabPrompt.onNextPromptShowAllowFocusCheckboxFor(promptPrincipal);
+              tabForEvent.setAttribute("attention", "true");
+              return;
+            }
+          }
+          // ... so system and expanded principals, as well as permitted "normal"
+          // URI-based principals, always get to steal focus for the tab when prompting.
         }
-      }
-      const nsIEventListenerService =
-        Components.interfaces.nsIEventListenerService;
-      let els = Components.classes[
-        "@mozilla.org/eventlistenerservice;1"
-      ].getService(nsIEventListenerService);
-      els.removeSystemEventListener(document, "keydown", this, false);
-      if (AppConstants.platform == "macosx") {
-        els.removeSystemEventListener(document, "keypress", this, false);
-      }
-      window.removeEventListener("sizemodechange", this);
-      window.removeEventListener("occlusionstatechange", this);
 
-      if (gMultiProcessBrowser) {
-        let messageManager = window.getGroupMessageManager("browsers");
-        messageManager.removeMessageListener("DOMTitleChanged", this);
-        window.messageManager.removeMessageListener("contextmenu", this);
+        // If permissions/origins dictate so, bring tab to the front.
+        this.selectedTab = tabForEvent;
+      },
+      true
+    );
 
-        if (this._switcher) {
-          this._switcher.destroy();
+    this.addEventListener("DOMTitleChanged", event => {
+      if (!event.isTrusted) return;
+
+      var contentWin = event.target.defaultView;
+      if (contentWin != contentWin.top) return;
+
+      var tab = this._getTabForContentWindow(contentWin);
+      if (!tab || tab.hasAttribute("pending")) return;
+
+      var titleChanged = this.setTabTitle(tab);
+      if (titleChanged && !tab.selected && !tab.hasAttribute("busy"))
+        tab.setAttribute("titlechanged", "true");
+    });
+
+    this.addEventListener("oop-browser-crashed", event => {
+      if (!event.isTrusted) return;
+
+      let browser = event.originalTarget;
+
+      // Preloaded browsers do not actually have any tabs. If one crashes,
+      // it should be released and removed.
+      if (browser === this._preloadedBrowser) {
+        this.removePreloadedBrowser();
+        return;
+      }
+
+      let icon = browser.mIconURL;
+      let tab = this.getTabForBrowser(browser);
+
+      if (this.selectedBrowser == browser) {
+        TabCrashHandler.onSelectedBrowserCrash(browser);
+      } else {
+        this.updateBrowserRemoteness(browser, false);
+        SessionStore.reviveCrashedTab(tab);
+      }
+
+      tab.removeAttribute("soundplaying");
+      this.setIcon(tab, icon, browser.contentPrincipal);
+    });
+
+    this.addEventListener("DOMAudioPlaybackStarted", event => {
+      var tab = this.getTabFromAudioEvent(event);
+      if (!tab) {
+        return;
+      }
+
+      clearTimeout(tab._soundPlayingAttrRemovalTimer);
+      tab._soundPlayingAttrRemovalTimer = 0;
+
+      let modifiedAttrs = [];
+      if (tab.hasAttribute("soundplaying-scheduledremoval")) {
+        tab.removeAttribute("soundplaying-scheduledremoval");
+        modifiedAttrs.push("soundplaying-scheduledremoval");
+      }
+
+      if (!tab.hasAttribute("soundplaying")) {
+        tab.setAttribute("soundplaying", true);
+        modifiedAttrs.push("soundplaying");
+      }
+
+      if (modifiedAttrs.length) {
+        // Flush style so that the opacity takes effect immediately, in
+        // case the media is stopped before the style flushes naturally.
+        getComputedStyle(tab).opacity;
+      }
+
+      this._tabAttrModified(tab, modifiedAttrs);
+    });
+
+    this.addEventListener("DOMAudioPlaybackStopped", event => {
+      var tab = this.getTabFromAudioEvent(event);
+      if (!tab) {
+        return;
+      }
+
+      if (tab.hasAttribute("soundplaying")) {
+        let removalDelay = Services.prefs.getIntPref(
+          "browser.tabs.delayHidingAudioPlayingIconMS"
+        );
+
+        tab.style.setProperty(
+          "--soundplaying-removal-delay",
+          `${removalDelay - 300}ms`
+        );
+        tab.setAttribute("soundplaying-scheduledremoval", "true");
+        this._tabAttrModified(tab, ["soundplaying-scheduledremoval"]);
+
+        tab._soundPlayingAttrRemovalTimer = setTimeout(() => {
+          tab.removeAttribute("soundplaying-scheduledremoval");
+          tab.removeAttribute("soundplaying");
+          this._tabAttrModified(tab, [
+            "soundplaying",
+            "soundplaying-scheduledremoval"
+          ]);
+        }, removalDelay);
+      }
+    });
+
+    this.addEventListener("DOMAudioPlaybackBlockStarted", event => {
+      var tab = this.getTabFromAudioEvent(event);
+      if (!tab) {
+        return;
+      }
+
+      if (!tab.hasAttribute("activemedia-blocked")) {
+        tab.setAttribute("activemedia-blocked", true);
+        this._tabAttrModified(tab, ["activemedia-blocked"]);
+        tab.startMediaBlockTimer();
+      }
+    });
+
+    this.addEventListener("DOMAudioPlaybackBlockStopped", event => {
+      var tab = this.getTabFromAudioEvent(event);
+      if (!tab) {
+        return;
+      }
+
+      if (tab.hasAttribute("activemedia-blocked")) {
+        tab.removeAttribute("activemedia-blocked");
+        this._tabAttrModified(tab, ["activemedia-blocked"]);
+        let hist = Services.telemetry.getHistogramById(
+          "TAB_AUDIO_INDICATOR_USED"
+        );
+        hist.add(2 /* unblockByVisitingTab */);
+        tab.finishMediaBlockTimer();
+      }
+    });
+  }
+  disconnectedCallback() {
+    Services.obs.removeObserver(this, "contextual-identity-updated");
+
+    for (let tab of this.tabs) {
+      let browser = tab.linkedBrowser;
+      if (browser.registeredOpenURI) {
+        this._unifiedComplete.unregisterOpenPage(
+          browser.registeredOpenURI,
+          browser.getAttribute("usercontextid") || 0
+        );
+        delete browser.registeredOpenURI;
+      }
+
+      let filter = this._tabFilters.get(tab);
+      if (filter) {
+        browser.webProgress.removeProgressListener(filter);
+
+        let listener = this._tabListeners.get(tab);
+        if (listener) {
+          filter.removeProgressListener(listener);
+          listener.destroy();
         }
-      }
 
-      Services.prefs.removeObserver("accessibility.typeaheadfind", this);
-    } catch (e) {}
+        this._tabFilters.delete(tab);
+        this._tabListeners.delete(tab);
+      }
+    }
+    const nsIEventListenerService =
+      Components.interfaces.nsIEventListenerService;
+    let els = Components.classes[
+      "@mozilla.org/eventlistenerservice;1"
+    ].getService(nsIEventListenerService);
+    els.removeSystemEventListener(document, "keydown", this, false);
+    if (AppConstants.platform == "macosx") {
+      els.removeSystemEventListener(document, "keypress", this, false);
+    }
+    window.removeEventListener("sizemodechange", this);
+    window.removeEventListener("occlusionstatechange", this);
+
+    if (gMultiProcessBrowser) {
+      let messageManager = window.getGroupMessageManager("browsers");
+      messageManager.removeMessageListener("DOMTitleChanged", this);
+      window.messageManager.removeMessageListener("contextmenu", this);
+
+      if (this._switcher) {
+        this._switcher.destroy();
+      }
+    }
+
+    Services.prefs.removeObserver("accessibility.typeaheadfind", this);
   }
 
   get tabContextMenu() {
@@ -5630,7 +5855,7 @@ class FirefoxTabbrowser extends BaseElement {
           notificationBox.appendNotification(
             message,
             "refresh-blocked",
-            "chrome://browser/skin/Info.png",
+            "chrome://browser/skin/notification-icons/popup.svg",
             notificationBox.PRIORITY_INFO_MEDIUM,
             buttons
           );

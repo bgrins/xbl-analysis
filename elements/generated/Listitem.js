@@ -12,6 +12,47 @@ class FirefoxListitem extends FirefoxBasetext {
 </children>`;
     let comment = document.createComment("Creating firefox-listitem");
     this.prepend(comment);
+
+    this.addEventListener("mousedown", event => {
+      var control = this.control;
+      if (!control || control.disabled) return;
+      if (
+        (!event.ctrlKey ||
+          (/Mac/.test(navigator.platform) && event.button == 2)) &&
+        !event.shiftKey &&
+        !event.metaKey
+      ) {
+        if (!this.selected) {
+          control.selectItem(this);
+        }
+        control.currentItem = this;
+      }
+    });
+
+    this.addEventListener("click", event => {
+      var control = this.control;
+      if (!control || control.disabled) return;
+      control._userSelecting = true;
+      if (control.selType != "multiple") {
+        control.selectItem(this);
+      } else if (event.ctrlKey || event.metaKey) {
+        control.toggleItemSelection(this);
+        control.currentItem = this;
+      } else if (event.shiftKey) {
+        control.selectItemRange(null, this);
+        control.currentItem = this;
+      } else {
+        /* We want to deselect all the selected items except what was
+            clicked, UNLESS it was a right-click.  We have to do this
+            in click rather than mousedown so that you can drag a
+            selected group of items */
+
+        // use selectItemRange instead of selectItem, because this
+        // doesn't de- and reselect this item if it is selected
+        control.selectItemRange(this, this);
+      }
+      control._userSelecting = false;
+    });
   }
   disconnectedCallback() {}
 

@@ -9,33 +9,31 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     let comment = document.createComment("Creating firefox-time-input");
     this.prepend(comment);
 
-    try {
-      /* eslint-enable no-multi-spaces */
+    /* eslint-enable no-multi-spaces */
 
-      this.mHour12 = this.is12HourTime(this.mLocales);
-      this.mMillisecSeparatorText = ".";
-      this.mMaxLength = 2;
-      this.mMillisecMaxLength = 3;
-      this.mDefaultStep = 60 * 1000; // in milliseconds
+    this.mHour12 = this.is12HourTime(this.mLocales);
+    this.mMillisecSeparatorText = ".";
+    this.mMaxLength = 2;
+    this.mMillisecMaxLength = 3;
+    this.mDefaultStep = 60 * 1000; // in milliseconds
 
-      this.mMinHour = this.mHour12 ? 1 : 0;
-      this.mMaxHour = this.mHour12 ? 12 : 23;
-      this.mMinMinute = 0;
-      this.mMaxMinute = 59;
-      this.mMinSecond = 0;
-      this.mMaxSecond = 59;
-      this.mMinMillisecond = 0;
-      this.mMaxMillisecond = 999;
+    this.mMinHour = this.mHour12 ? 1 : 0;
+    this.mMaxHour = this.mHour12 ? 12 : 23;
+    this.mMinMinute = 0;
+    this.mMaxMinute = 59;
+    this.mMinSecond = 0;
+    this.mMaxSecond = 59;
+    this.mMinMillisecond = 0;
+    this.mMaxMillisecond = 999;
 
-      this.mHourPageUpDownInterval = 3;
-      this.mMinSecPageUpDownInterval = 10;
+    this.mHourPageUpDownInterval = 3;
+    this.mMinSecPageUpDownInterval = 10;
 
-      this.buildEditFields();
+    this.buildEditFields();
 
-      if (this.mInputElement.value) {
-        this.setFieldsFromInputValue();
-      }
-    } catch (e) {}
+    if (this.mInputElement.value) {
+      this.setFieldsFromInputValue();
+    }
   }
   disconnectedCallback() {}
 

@@ -64,15 +64,56 @@ class FirefoxNumberbox extends FirefoxTextbox {
       }
     });
 
-    try {
-      if (this.max < this.min) this.max = this.min;
+    if (this.max < this.min) this.max = this.min;
 
-      var dsymbol = Number(5.4).toLocaleString().match(/\D/);
-      if (dsymbol != null) this.decimalSymbol = dsymbol[0];
+    var dsymbol = Number(5.4).toLocaleString().match(/\D/);
+    if (dsymbol != null) this.decimalSymbol = dsymbol[0];
 
-      var value = this.inputField.value || 0;
-      this._validateValue(value, false);
-    } catch (e) {}
+    var value = this.inputField.value || 0;
+    this._validateValue(value, false);
+
+    this.addEventListener(
+      "input",
+      event => {
+        undefined;
+      },
+      true
+    );
+
+    this.addEventListener("keypress", event => {
+      if (!event.ctrlKey && !event.metaKey && !event.altKey && event.charCode) {
+        if (
+          event.charCode == this.decimalSymbol.charCodeAt(0) &&
+          this.decimalPlaces &&
+          String(this.inputField.value).indexOf(this.decimalSymbol) == -1
+        )
+          return;
+
+        if (event.charCode == 45 && this.min < 0) return;
+
+        if (event.charCode < 48 || event.charCode > 57) event.preventDefault();
+      }
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("up", event => {
+      undefined;
+    });
+
+    this.addEventListener("down", event => {
+      undefined;
+    });
+
+    this.addEventListener("change", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 

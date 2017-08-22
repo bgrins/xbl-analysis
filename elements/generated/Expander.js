@@ -20,21 +20,27 @@ class FirefoxExpander extends BaseElement {
     let comment = document.createComment("Creating firefox-expander");
     this.prepend(comment);
 
-    try {
-      var settings = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "settings"
-      );
-      var expander = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "disclosure"
-      );
-      var open = this.getAttribute("open") == "true";
-      settings.collapsed = !open;
-      expander.open = open;
-    } catch (e) {}
+    var settings = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "settings"
+    );
+    var expander = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "disclosure"
+    );
+    var open = this.getAttribute("open") == "true";
+    settings.collapsed = !open;
+    expander.open = open;
+
+    this.addEventListener("command", event => {
+      this.onCommand(event);
+    });
+
+    this.addEventListener("click", event => {
+      if (event.originalTarget.localName == "label") this.onCommand(event);
+    });
   }
   disconnectedCallback() {}
 

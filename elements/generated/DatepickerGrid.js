@@ -289,6 +289,57 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
         return (this._selectedItem = val);
       }
     });
+
+    this.addEventListener("click", event => {
+      if (event.button != 0 || this.disabled || this.readOnly) return;
+
+      var target = event.originalTarget;
+      if (
+        target.classList.contains("datepicker-gridlabel") &&
+        target != this.selectedItem
+      ) {
+        this.selectedItem = target;
+        this._dateValue = new Date(this._displayedDate);
+        if (this.attachedControl)
+          this.attachedControl._setValueNoSync(this._dateValue);
+        this._fireEvent("change", this);
+
+        if (this.attachedControl && "open" in this.attachedControl)
+          this.attachedControl.open = false; // close the popup
+      }
+    });
+
+    this.addEventListener("MozMousePixelScroll", event => {
+      undefined;
+    });
+
+    this.addEventListener("DOMMouseScroll", event => {
+      this._increaseOrDecreaseMonth(event.detail < 0 ? -1 : 1);
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 

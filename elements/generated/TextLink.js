@@ -8,6 +8,26 @@ class FirefoxTextLink extends FirefoxTextLabel {
 
     let comment = document.createComment("Creating firefox-text-link");
     this.prepend(comment);
+
+    this.addEventListener(
+      "click",
+      event => {
+        undefined;
+      },
+      true
+    );
+
+    this.addEventListener(
+      "click",
+      event => {
+        undefined;
+      },
+      true
+    );
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 

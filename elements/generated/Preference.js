@@ -57,69 +57,69 @@ class FirefoxPreference extends BaseElement {
       }
     });
 
-    try {
-      // if the element has been inserted without the name attribute set,
-      // we have nothing to do here
-      if (!this.name) return;
+    // if the element has been inserted without the name attribute set,
+    // we have nothing to do here
+    if (!this.name) return;
 
-      this.preferences.rootBranchInternal.addObserver(
-        this.name,
-        this.preferences
-      );
-      // In non-instant apply mode, we must try and use the last saved state
-      // from any previous opens of a child dialog instead of the value from
-      // preferences, to pick up any edits a user may have made.
+    this.preferences.rootBranchInternal.addObserver(
+      this.name,
+      this.preferences
+    );
+    // In non-instant apply mode, we must try and use the last saved state
+    // from any previous opens of a child dialog instead of the value from
+    // preferences, to pick up any edits a user may have made.
 
-      var secMan = Components.classes[
-        "@mozilla.org/scriptsecuritymanager;1"
-      ].getService(Components.interfaces.nsIScriptSecurityManager);
-      if (
-        this.preferences.type == "child" &&
-        !this.instantApply &&
-        window.opener &&
-        secMan.isSystemPrincipal(window.opener.document.nodePrincipal)
-      ) {
-        var pdoc = window.opener.document;
+    var secMan = Components.classes[
+      "@mozilla.org/scriptsecuritymanager;1"
+    ].getService(Components.interfaces.nsIScriptSecurityManager);
+    if (
+      this.preferences.type == "child" &&
+      !this.instantApply &&
+      window.opener &&
+      secMan.isSystemPrincipal(window.opener.document.nodePrincipal)
+    ) {
+      var pdoc = window.opener.document;
 
-        // Try to find a preference element for the same preference.
-        var preference = null;
-        var parentPreferences = pdoc.getElementsByTagName("preferences");
-        for (var k = 0; k < parentPreferences.length && !preference; ++k) {
-          var parentPrefs = parentPreferences[k].getElementsByAttribute(
-            "name",
-            this.name
-          );
-          for (var l = 0; l < parentPrefs.length && !preference; ++l) {
-            if (parentPrefs[l].localName == "preference")
-              preference = parentPrefs[l];
-          }
+      // Try to find a preference element for the same preference.
+      var preference = null;
+      var parentPreferences = pdoc.getElementsByTagName("preferences");
+      for (var k = 0; k < parentPreferences.length && !preference; ++k) {
+        var parentPrefs = parentPreferences[k].getElementsByAttribute(
+          "name",
+          this.name
+        );
+        for (var l = 0; l < parentPrefs.length && !preference; ++l) {
+          if (parentPrefs[l].localName == "preference")
+            preference = parentPrefs[l];
         }
+      }
 
-        // Don't use the value setter here, we don't want updateElements to be prematurely fired.
-        this._value = preference ? preference.value : this.valueFromPreferences;
-      } else {
-        this._value = this.valueFromPreferences;
-      }
-      if (this.preferences._constructAfterChildrenCalled) {
-        // This <preference> was added after _constructAfterChildren() was already called.
-        // We can directly call updateElements().
-        this.updateElements();
-        return;
-      }
-      this.preferences._constructedChildrenCount++;
-      if (
-        this.preferences._constructedChildrenCount ==
-        this.preferences._preferenceChildren.length
-      ) {
-        // This is the last <preference>, time to updateElements() on all of them.
-        this.preferences._constructAfterChildren();
-      }
-    } catch (e) {}
+      // Don't use the value setter here, we don't want updateElements to be prematurely fired.
+      this._value = preference ? preference.value : this.valueFromPreferences;
+    } else {
+      this._value = this.valueFromPreferences;
+    }
+    if (this.preferences._constructAfterChildrenCalled) {
+      // This <preference> was added after _constructAfterChildren() was already called.
+      // We can directly call updateElements().
+      this.updateElements();
+      return;
+    }
+    this.preferences._constructedChildrenCount++;
+    if (
+      this.preferences._constructedChildrenCount ==
+      this.preferences._preferenceChildren.length
+    ) {
+      // This is the last <preference>, time to updateElements() on all of them.
+      this.preferences._constructAfterChildren();
+    }
+
+    this.addEventListener("change", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
 
   get instantApply() {

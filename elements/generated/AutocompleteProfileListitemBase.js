@@ -24,9 +24,7 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
       }
     });
 
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
   disconnectedCallback() {}
 

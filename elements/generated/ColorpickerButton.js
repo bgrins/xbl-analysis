@@ -15,9 +15,17 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
     let comment = document.createComment("Creating firefox-colorpicker-button");
     this.prepend(comment);
 
-    try {
-      this.initialize();
-    } catch (e) {}
+    this.initialize();
+
+    this.addEventListener("keydown", event => {
+      // open popup if key is space/up/left/right/down and popup is closed
+      if (
+        (event.keyCode == 32 || (event.keyCode > 36 && event.keyCode < 41)) &&
+        !this.open
+      )
+        this.showPopup();
+      else if (event.keyCode == 27 && this.open) this.hidePopup();
+    });
   }
   disconnectedCallback() {}
 

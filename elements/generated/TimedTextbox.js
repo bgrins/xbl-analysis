@@ -23,25 +23,35 @@ class FirefoxTimedTextbox extends FirefoxTextbox {
     });
 
     try {
-      try {
-        var consoleService = Components.classes[
-          "@mozilla.org/consoleservice;1"
-        ].getService(Components.interfaces.nsIConsoleService);
-        var scriptError = Components.classes[
-          "@mozilla.org/scripterror;1"
-        ].createInstance(Components.interfaces.nsIScriptError);
-        scriptError.init(
-          'Timed textboxes are deprecated. Consider using type="search" instead.',
-          this.ownerDocument.location.href,
-          null,
-          null,
-          null,
-          scriptError.warningFlag,
-          "XUL Widgets"
-        );
-        consoleService.logMessage(scriptError);
-      } catch (e) {}
+      var consoleService = Components.classes[
+        "@mozilla.org/consoleservice;1"
+      ].getService(Components.interfaces.nsIConsoleService);
+      var scriptError = Components.classes[
+        "@mozilla.org/scripterror;1"
+      ].createInstance(Components.interfaces.nsIScriptError);
+      scriptError.init(
+        'Timed textboxes are deprecated. Consider using type="search" instead.',
+        this.ownerDocument.location.href,
+        null,
+        null,
+        null,
+        scriptError.warningFlag,
+        "XUL Widgets"
+      );
+      consoleService.logMessage(scriptError);
     } catch (e) {}
+
+    this.addEventListener("input", event => {
+      if (this._timer) clearTimeout(this._timer);
+      this._timer =
+        this.timeout && setTimeout(this._fireCommand, this.timeout, this);
+    });
+
+    this.addEventListener("keypress", event => {
+      if (this._timer) clearTimeout(this._timer);
+      this._fireCommand(this);
+      event.preventDefault();
+    });
   }
   disconnectedCallback() {}
 

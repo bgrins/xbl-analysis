@@ -12,6 +12,13 @@ class FirefoxListitemCheckbox extends FirefoxListitem {
 </children>`;
     let comment = document.createComment("Creating firefox-listitem-checkbox");
     this.prepend(comment);
+
+    this.addEventListener("mousedown", event => {
+      if (!this.disabled && !this.control.disabled) {
+        this.checked = !this.checked;
+        this.doCommand();
+      }
+    });
   }
   disconnectedCallback() {}
 

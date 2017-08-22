@@ -48,21 +48,17 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       }
     });
 
-    try {
-      this._scrollDelay = this._prefBranch.getIntPref(
-        "toolkit.scrollbox.clickToScroll.scrollDelay",
-        this._scrollDelay
-      );
-    } catch (e) {}
+    this._scrollDelay = this._prefBranch.getIntPref(
+      "toolkit.scrollbox.clickToScroll.scrollDelay",
+      this._scrollDelay
+    );
   }
   disconnectedCallback() {
-    try {
-      // Release timer to avoid reference cycles.
-      if (this._scrollTimer) {
-        this._scrollTimer.cancel();
-        this._scrollTimer = null;
-      }
-    } catch (e) {}
+    // Release timer to avoid reference cycles.
+    if (this._scrollTimer) {
+      this._scrollTimer.cancel();
+      this._scrollTimer = null;
+    }
   }
   notify(aTimer) {
     if (!document) aTimer.cancel();

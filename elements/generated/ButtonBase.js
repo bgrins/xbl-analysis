@@ -8,6 +8,91 @@ class FirefoxButtonBase extends FirefoxBasetext {
 
     let comment = document.createComment("Creating firefox-button-base");
     this.prepend(comment);
+
+    this.addEventListener("click", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      this._handleClick();
+      // Prevent page from scrolling on the space key.
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", event => {
+      if (this.boxObject instanceof MenuBoxObject) {
+        if (this.open) return;
+      } else {
+        if (
+          event.keyCode == KeyEvent.DOM_VK_UP ||
+          (event.keyCode == KeyEvent.DOM_VK_LEFT &&
+            document.defaultView.getComputedStyle(this.parentNode).direction ==
+              "ltr") ||
+          (event.keyCode == KeyEvent.DOM_VK_RIGHT &&
+            document.defaultView.getComputedStyle(this.parentNode).direction ==
+              "rtl")
+        ) {
+          event.preventDefault();
+          window.document.commandDispatcher.rewindFocus();
+          return;
+        }
+
+        if (
+          event.keyCode == KeyEvent.DOM_VK_DOWN ||
+          (event.keyCode == KeyEvent.DOM_VK_RIGHT &&
+            document.defaultView.getComputedStyle(this.parentNode).direction ==
+              "ltr") ||
+          (event.keyCode == KeyEvent.DOM_VK_LEFT &&
+            document.defaultView.getComputedStyle(this.parentNode).direction ==
+              "rtl")
+        ) {
+          event.preventDefault();
+          window.document.commandDispatcher.advanceFocus();
+          return;
+        }
+      }
+
+      if (
+        event.keyCode ||
+        event.charCode <= 32 ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey
+      )
+        return; // No printable char pressed, not a potential accesskey
+
+      // Possible accesskey pressed
+      var charPressedLower = String.fromCharCode(event.charCode).toLowerCase();
+
+      // If the accesskey of the current button is pressed, just activate it
+      if (this.accessKey.toLowerCase() == charPressedLower) {
+        this.click();
+        return;
+      }
+
+      // Search for accesskey in the list of buttons for this doc and each subdoc
+      // Get the buttons for the main document and all sub-frames
+      for (
+        var frameCount = -1;
+        frameCount < window.top.frames.length;
+        frameCount++
+      ) {
+        var doc = frameCount == -1
+          ? window.top.document
+          : window.top.frames[frameCount].document;
+        if (this.fireAccessKeyButton(doc.documentElement, charPressedLower))
+          return;
+      }
+
+      // Test anonymous buttons
+      var dlg = window.top.document;
+      var buttonBox = dlg.getAnonymousElementByAttribute(
+        dlg.documentElement,
+        "anonid",
+        "buttons"
+      );
+      if (buttonBox) this.fireAccessKeyButton(buttonBox, charPressedLower);
+    });
   }
   disconnectedCallback() {}
 

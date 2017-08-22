@@ -43,12 +43,17 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     );
     this.prepend(comment);
 
-    try {
-      // Unlike other autocomplete items, the height of the insecure warning
-      // increases by wrapping. So "forceHandleUnderflow" is for container to
-      // recalculate an item's height and width.
-      this.classList.add("forceHandleUnderflow");
-    } catch (e) {}
+    // Unlike other autocomplete items, the height of the insecure warning
+    // increases by wrapping. So "forceHandleUnderflow" is for container to
+    // recalculate an item's height and width.
+    this.classList.add("forceHandleUnderflow");
+
+    this.addEventListener("click", event => {
+      let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
+      window.openUILinkIn(baseURL + "insecure-password", "tab", {
+        relatedToCurrent: true
+      });
+    });
   }
   disconnectedCallback() {}
 

@@ -37,6 +37,57 @@ class FirefoxTooltip extends FirefoxPopupBase {
         return (this._isMouseOver = val);
       }
     });
+
+    this.addEventListener("mouseover", event => {
+      var rel = event.relatedTarget;
+      if (!rel) return;
+
+      // find out if the node we entered from is one of our anonymous children
+      while (rel) {
+        if (rel == this) break;
+        rel = rel.parentNode;
+      }
+
+      // if the exited node is not a descendant of ours, we are entering for the first time
+      if (rel != this) this._isMouseOver = true;
+    });
+
+    this.addEventListener("mouseout", event => {
+      var rel = event.relatedTarget;
+
+      // relatedTarget is null when the titletip is first shown: a mouseout event fires
+      // because the mouse is exiting the main window and entering the titletip "window".
+      // relatedTarget is also null when the mouse exits the main window completely,
+      // so count how many times relatedTarget was null after titletip is first shown
+      // and hide popup the 2nd time
+      if (!rel) {
+        ++this._mouseOutCount;
+        if (this._mouseOutCount > 1) this.hidePopup();
+        return;
+      }
+
+      // find out if the node we are entering is one of our anonymous children
+      while (rel) {
+        if (rel == this) break;
+        rel = rel.parentNode;
+      }
+
+      // if the entered node is not a descendant of ours, hide the tooltip
+      if (rel != this && this._isMouseOver) {
+        this.hidePopup();
+      }
+    });
+
+    this.addEventListener("popupshowing", event => {
+      if (this.page && !this.fillInPageTooltip(this.triggerNode)) {
+        event.preventDefault();
+      }
+    });
+
+    this.addEventListener("popuphiding", event => {
+      this._isMouseOver = false;
+      this._mouseOutCount = 0;
+    });
   }
   disconnectedCallback() {}
 

@@ -86,18 +86,14 @@ class FirefoxEditor extends BaseElement {
       }
     });
 
-    try {
-      // Make window editable immediately only
-      //   if the "editortype" attribute is supplied
-      // This allows using same contentWindow for different editortypes,
-      //   where the type is determined during the apps's window.onload handler.
-      if (this.editortype) this.makeEditable(this.editortype, true);
-    } catch (e) {}
+    // Make window editable immediately only
+    //   if the "editortype" attribute is supplied
+    // This allows using same contentWindow for different editortypes,
+    //   where the type is determined during the apps's window.onload handler.
+    if (this.editortype) this.makeEditable(this.editortype, true);
   }
   disconnectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
 
   get finder() {

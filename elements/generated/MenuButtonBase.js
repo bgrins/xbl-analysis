@@ -22,9 +22,15 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
       }
     });
 
-    try {
+    undefined;
+
+    this.addEventListener("keypress", event => {
       undefined;
-    } catch (e) {}
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 

@@ -11,18 +11,16 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
     );
     this.prepend(comment);
 
-    try {
-      /* eslint-enable no-multi-spaces */
-      this.positionValue = "";
-      this.durationValue = "";
-      this.valueBar = null;
-      this.isDragging = false;
-      this.isPausedByDragging = false;
+    /* eslint-enable no-multi-spaces */
+    this.positionValue = "";
+    this.durationValue = "";
+    this.valueBar = null;
+    this.isDragging = false;
+    this.isPausedByDragging = false;
 
-      this.type = this.getAttribute("class");
-      this.Utils = document.getBindingParent(this.parentNode).Utils;
-      this.valueBar = this.Utils.progressBar;
-    } catch (e) {}
+    this.type = this.getAttribute("class");
+    this.Utils = document.getBindingParent(this.parentNode).Utils;
+    this.valueBar = this.Utils.progressBar;
   }
   disconnectedCallback() {}
 

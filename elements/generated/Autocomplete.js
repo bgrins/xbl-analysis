@@ -228,24 +228,98 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       }
     });
 
-    try {
-      this.mController = Components.classes[
-        "@mozilla.org/autocomplete/controller;1"
-      ].getService(Components.interfaces.nsIAutoCompleteController);
+    this.mController = Components.classes[
+      "@mozilla.org/autocomplete/controller;1"
+    ].getService(Components.interfaces.nsIAutoCompleteController);
 
-      this._searchBeginHandler = this.initEventHandler("searchbegin");
-      this._searchCompleteHandler = this.initEventHandler("searchcomplete");
-      this._textEnteredHandler = this.initEventHandler("textentered");
-      this._textRevertedHandler = this.initEventHandler("textreverted");
+    this._searchBeginHandler = this.initEventHandler("searchbegin");
+    this._searchCompleteHandler = this.initEventHandler("searchcomplete");
+    this._textEnteredHandler = this.initEventHandler("textentered");
+    this._textRevertedHandler = this.initEventHandler("textreverted");
 
-      // For security reasons delay searches on pasted values.
-      this.inputField.controllers.insertControllerAt(0, this._pasteController);
-    } catch (e) {}
+    // For security reasons delay searches on pasted values.
+    this.inputField.controllers.insertControllerAt(0, this._pasteController);
+
+    this.addEventListener("input", event => {
+      this.onInput(event);
+    });
+
+    this.addEventListener(
+      "keypress",
+      event => {
+        undefined;
+      },
+      true
+    );
+
+    this.addEventListener(
+      "compositionstart",
+      event => {
+        undefined;
+      },
+      true
+    );
+
+    this.addEventListener(
+      "compositionend",
+      event => {
+        undefined;
+      },
+      true
+    );
+
+    this.addEventListener(
+      "focus",
+      event => {
+        this.attachController();
+        if (
+          window.gBrowser &&
+          window.gBrowser.selectedBrowser.hasAttribute("usercontextid")
+        ) {
+          this.userContextId = parseInt(
+            window.gBrowser.selectedBrowser.getAttribute("usercontextid")
+          );
+        } else {
+          this.userContextId = 0;
+        }
+      },
+      true
+    );
+
+    this.addEventListener(
+      "blur",
+      event => {
+        if (!this._dontBlur) {
+          if (this.forceComplete && this.mController.matchCount >= 1) {
+            // mousemove sets selected index. Don't blindly use that selected
+            // index in this blur handler since if the popup is open you can
+            // easily "select" another match just by moving the mouse over it.
+            let filledVal = this.value.replace(/.+ >> /, "").toLowerCase();
+            let selectedVal = null;
+            if (this.popup.selectedIndex >= 0) {
+              selectedVal = this.mController.getFinalCompleteValueAt(
+                this.popup.selectedIndex
+              );
+            }
+            if (selectedVal && filledVal != selectedVal.toLowerCase()) {
+              for (let i = 0; i < this.mController.matchCount; i++) {
+                let matchVal = this.mController.getFinalCompleteValueAt(i);
+                if (matchVal.toLowerCase() == filledVal) {
+                  this.popup.selectedIndex = i;
+                  break;
+                }
+              }
+            }
+            this.mController.handleEnter(false);
+          }
+          if (!this.ignoreBlurWhileSearching) this.detachController();
+        }
+      },
+      true
+    );
   }
   disconnectedCallback() {
-    try {
-      this.inputField.controllers.removeController(this._pasteController);
-    } catch (e) {}
+    this.inputField.controllers.removeController(this._pasteController);
   }
 
   get popup() {

@@ -20,18 +20,14 @@ class FirefoxPanelmultiview extends BaseElement {
     let comment = document.createComment("Creating firefox-panelmultiview");
     this.prepend(comment);
 
-    try {
-      const { PanelMultiView } = Components.utils.import(
-        "resource:///modules/PanelMultiView.jsm",
-        {}
-      );
-      this.instance = new PanelMultiView(this);
-    } catch (e) {}
+    const { PanelMultiView } = Components.utils.import(
+      "resource:///modules/PanelMultiView.jsm",
+      {}
+    );
+    this.instance = new PanelMultiView(this);
   }
   disconnectedCallback() {
-    try {
-      this.instance.destructor();
-    } catch (e) {}
+    this.instance.destructor();
   }
 }
 customElements.define("firefox-panelmultiview", FirefoxPanelmultiview);

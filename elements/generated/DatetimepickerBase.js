@@ -192,14 +192,52 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
       }
     });
 
-    try {
+    undefined;
+
+    this.addEventListener(
+      "focus",
+      event => {
+        var target = event.originalTarget;
+        if (
+          target == this._fieldOne ||
+          target == this._fieldTwo ||
+          target == this._fieldThree ||
+          target == this._fieldAMPM
+        )
+          this._lastFocusedField = target;
+      },
+      true
+    );
+
+    this.addEventListener("keypress", event => {
+      if (
+        this._hasEntry &&
+        event.charCode &&
+        this._currentField != this._fieldAMPM &&
+        !(event.altKey || event.ctrlKey || event.metaKey) &&
+        (event.charCode < 48 || event.charCode > 57)
+      )
+        event.preventDefault();
+    });
+
+    this.addEventListener("keypress", event => {
       undefined;
-    } catch (e) {}
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("input", event => {
+      undefined;
+    });
+
+    this.addEventListener("change", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
   }
 
   get _currentField() {

@@ -21,16 +21,51 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     let comment = document.createComment("Creating firefox-menulist");
     this.prepend(comment);
 
-    try {
-      undefined;
-    } catch (e) {}
+    undefined;
+
+    this.addEventListener(
+      "command",
+      event => {
+        undefined;
+      },
+      true
+    );
+
+    this.addEventListener("popupshowing", event => {
+      if (event.target.parentNode == this) {
+        this.menuBoxObject.activeChild = null;
+        if (this.selectedItem)
+          // Not ready for auto-setting the active child in hierarchies yet.
+          // For now, only do this when the outermost menupopup opens.
+          this.menuBoxObject.activeChild = this.mSelectedInternal;
+      }
+    });
+
+    this.addEventListener("keypress", event => {
+      if (
+        !event.defaultPrevented &&
+        (event.keyCode == KeyEvent.DOM_VK_UP ||
+          event.keyCode == KeyEvent.DOM_VK_DOWN ||
+          event.keyCode == KeyEvent.DOM_VK_PAGE_UP ||
+          event.keyCode == KeyEvent.DOM_VK_PAGE_DOWN ||
+          event.keyCode == KeyEvent.DOM_VK_HOME ||
+          event.keyCode == KeyEvent.DOM_VK_END ||
+          event.keyCode == KeyEvent.DOM_VK_BACK_SPACE ||
+          event.charCode > 0)
+      ) {
+        // Moving relative to an item: start from the currently selected item
+        this.menuBoxObject.activeChild = this.mSelectedInternal;
+        if (this.menuBoxObject.handleKeyPress(event)) {
+          this.menuBoxObject.activeChild.doCommand();
+          event.preventDefault();
+        }
+      }
+    });
   }
   disconnectedCallback() {
-    try {
-      if (this.mAttributeObserver) {
-        this.mAttributeObserver.disconnect();
-      }
-    } catch (e) {}
+    if (this.mAttributeObserver) {
+      this.mAttributeObserver.disconnect();
+    }
   }
 
   set value(val) {

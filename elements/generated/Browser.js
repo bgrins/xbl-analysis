@@ -422,90 +422,191 @@ class FirefoxBrowser extends BaseElement {
     });
 
     try {
-      try {
-        // |webNavigation.sessionHistory| will have been set by the frame
-        // loader when creating the docShell as long as this xul:browser
-        // doesn't have the 'disablehistory' attribute set.
-        if (this.docShell && this.webNavigation.sessionHistory) {
-          var os = Components.classes[
-            "@mozilla.org/observer-service;1"
-          ].getService(Components.interfaces.nsIObserverService);
-          os.addObserver(this, "browser:purge-session-history", true);
+      // |webNavigation.sessionHistory| will have been set by the frame
+      // loader when creating the docShell as long as this xul:browser
+      // doesn't have the 'disablehistory' attribute set.
+      if (this.docShell && this.webNavigation.sessionHistory) {
+        var os = Components.classes[
+          "@mozilla.org/observer-service;1"
+        ].getService(Components.interfaces.nsIObserverService);
+        os.addObserver(this, "browser:purge-session-history", true);
 
-          // enable global history if we weren't told otherwise
-          if (
-            !this.hasAttribute("disableglobalhistory") &&
-            !this.isRemoteBrowser
-          ) {
-            try {
-              this.docShell.useGlobalHistory = true;
-            } catch (ex) {
-              // This can occur if the Places database is locked
-              Components.utils.reportError(
-                "Error enabling browser global history: " + ex
-              );
-            }
+        // enable global history if we weren't told otherwise
+        if (
+          !this.hasAttribute("disableglobalhistory") &&
+          !this.isRemoteBrowser
+        ) {
+          try {
+            this.docShell.useGlobalHistory = true;
+          } catch (ex) {
+            // This can occur if the Places database is locked
+            Components.utils.reportError(
+              "Error enabling browser global history: " + ex
+            );
           }
         }
-      } catch (e) {
-        Components.utils.reportError(e);
       }
-      try {
-        // Ensures the securityUI is initialized.
-        var securityUI = this.securityUI; // eslint-disable-line no-unused-vars
-      } catch (e) {}
+    } catch (e) {
+      Components.utils.reportError(e);
+    }
+    try {
+      // Ensures the securityUI is initialized.
+      var securityUI = this.securityUI; // eslint-disable-line no-unused-vars
+    } catch (e) {}
 
-      // tabbrowser.xml sets "sameProcessAsFrameLoader" as a direct property
-      // on some browsers before they are put into a DOM (and get a
-      // binding).  This hack makes sure that we hold a weak reference to
-      // the other browser (and go through the proper getter and setter).
-      if (this.hasOwnProperty("sameProcessAsFrameLoader")) {
-        var sameProcessAsFrameLoader = this.sameProcessAsFrameLoader;
-        delete this.sameProcessAsFrameLoader;
-        this.sameProcessAsFrameLoader = sameProcessAsFrameLoader;
+    // tabbrowser.xml sets "sameProcessAsFrameLoader" as a direct property
+    // on some browsers before they are put into a DOM (and get a
+    // binding).  This hack makes sure that we hold a weak reference to
+    // the other browser (and go through the proper getter and setter).
+    if (this.hasOwnProperty("sameProcessAsFrameLoader")) {
+      var sameProcessAsFrameLoader = this.sameProcessAsFrameLoader;
+      delete this.sameProcessAsFrameLoader;
+      this.sameProcessAsFrameLoader = sameProcessAsFrameLoader;
+    }
+
+    if (!this.isRemoteBrowser) {
+      this.addEventListener("pagehide", this.onPageHide, true);
+    }
+
+    if (this.messageManager) {
+      this.messageManager.addMessageListener(
+        "PopupBlocking:UpdateBlockedPopups",
+        this
+      );
+      this.messageManager.addMessageListener("Autoscroll:Start", this);
+      this.messageManager.addMessageListener("Autoscroll:Cancel", this);
+      this.messageManager.addMessageListener("AudioPlayback:Start", this);
+      this.messageManager.addMessageListener("AudioPlayback:Stop", this);
+      this.messageManager.addMessageListener(
+        "AudioPlayback:ActiveMediaBlockStart",
+        this
+      );
+      this.messageManager.addMessageListener(
+        "AudioPlayback:ActiveMediaBlockStop",
+        this
+      );
+      this.messageManager.addMessageListener(
+        "AudioPlayback:MediaBlockStop",
+        this
+      );
+      this.messageManager.addMessageListener("UnselectedTabHover:Toggle", this);
+
+      if (this.hasAttribute("selectmenulist")) {
+        this.messageManager.addMessageListener("Forms:ShowDropDown", this);
+        this.messageManager.addMessageListener("Forms:HideDropDown", this);
       }
+    }
 
-      if (!this.isRemoteBrowser) {
-        this.addEventListener("pagehide", this.onPageHide, true);
-      }
+    this.addEventListener("keypress", event => {
+      if (event.defaultPrevented || !event.isTrusted) return;
 
-      if (this.messageManager) {
-        this.messageManager.addMessageListener(
-          "PopupBlocking:UpdateBlockedPopups",
-          this
-        );
-        this.messageManager.addMessageListener("Autoscroll:Start", this);
-        this.messageManager.addMessageListener("Autoscroll:Cancel", this);
-        this.messageManager.addMessageListener("AudioPlayback:Start", this);
-        this.messageManager.addMessageListener("AudioPlayback:Stop", this);
-        this.messageManager.addMessageListener(
-          "AudioPlayback:ActiveMediaBlockStart",
-          this
-        );
-        this.messageManager.addMessageListener(
-          "AudioPlayback:ActiveMediaBlockStop",
-          this
-        );
-        this.messageManager.addMessageListener(
-          "AudioPlayback:MediaBlockStop",
-          this
-        );
-        this.messageManager.addMessageListener(
-          "UnselectedTabHover:Toggle",
-          this
-        );
+      const kPrefShortcutEnabled =
+        "accessibility.browsewithcaret_shortcut.enabled";
+      const kPrefWarnOnEnable = "accessibility.warn_on_browsewithcaret";
+      const kPrefCaretBrowsingOn = "accessibility.browsewithcaret";
 
-        if (this.hasAttribute("selectmenulist")) {
-          this.messageManager.addMessageListener("Forms:ShowDropDown", this);
-          this.messageManager.addMessageListener("Forms:HideDropDown", this);
+      var isEnabled = this.mPrefs.getBoolPref(kPrefShortcutEnabled);
+      if (!isEnabled) return;
+
+      // Toggle browse with caret mode
+      var browseWithCaretOn = this.mPrefs.getBoolPref(
+        kPrefCaretBrowsingOn,
+        false
+      );
+      var warn = this.mPrefs.getBoolPref(kPrefWarnOnEnable, true);
+      if (warn && !browseWithCaretOn) {
+        var checkValue = { value: false };
+        var promptService = Components.classes[
+          "@mozilla.org/embedcomp/prompt-service;1"
+        ].getService(Components.interfaces.nsIPromptService);
+
+        var buttonPressed = promptService.confirmEx(
+          window,
+          this.mStrBundle.GetStringFromName("browsewithcaret.checkWindowTitle"),
+          this.mStrBundle.GetStringFromName("browsewithcaret.checkLabel"),
+          // Make "No" the default:
+          promptService.STD_YES_NO_BUTTONS | promptService.BUTTON_POS_1_DEFAULT,
+          null,
+          null,
+          null,
+          this.mStrBundle.GetStringFromName("browsewithcaret.checkMsg"),
+          checkValue
+        );
+        if (buttonPressed != 0) {
+          if (checkValue.value) {
+            try {
+              this.mPrefs.setBoolPref(kPrefShortcutEnabled, false);
+            } catch (ex) {}
+          }
+          return;
+        }
+        if (checkValue.value) {
+          try {
+            this.mPrefs.setBoolPref(kPrefWarnOnEnable, false);
+          } catch (ex) {}
         }
       }
-    } catch (e) {}
+
+      // Toggle the pref
+      try {
+        this.mPrefs.setBoolPref(kPrefCaretBrowsingOn, !browseWithCaretOn);
+      } catch (ex) {}
+    });
+
+    this.addEventListener("dragover", event => {
+      if (!this.droppedLinkHandler || event.defaultPrevented) return;
+
+      // For drags that appear to be internal text (for example, tab drags),
+      // set the dropEffect to 'none'. This prevents the drop even if some
+      // other listener cancelled the event.
+      var types = event.dataTransfer.types;
+      if (
+        types.includes("text/x-moz-text-internal") &&
+        !types.includes("text/plain")
+      ) {
+        event.dataTransfer.dropEffect = "none";
+        event.stopPropagation();
+        event.preventDefault();
+      }
+
+      // No need to handle "dragover" in e10s, since nsDocShellTreeOwner.cpp in the child process
+      // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
+      if (this.isRemoteBrowser) return;
+
+      let linkHandler = Components.classes[
+        "@mozilla.org/content/dropped-link-handler;1"
+      ].getService(Components.interfaces.nsIDroppedLinkHandler);
+      if (linkHandler.canDropLink(event, false)) event.preventDefault();
+    });
+
+    this.addEventListener("drop", event => {
+      // No need to handle "drop" in e10s, since nsDocShellTreeOwner.cpp in the child process
+      // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
+      if (
+        !this.droppedLinkHandler ||
+        event.defaultPrevented ||
+        this.isRemoteBrowser
+      )
+        return;
+
+      let linkHandler = Components.classes[
+        "@mozilla.org/content/dropped-link-handler;1"
+      ].getService(Components.interfaces.nsIDroppedLinkHandler);
+      try {
+        // Pass true to prevent the dropping of javascript:/data: URIs
+        var links = linkHandler.dropLinks(event, true);
+      } catch (ex) {
+        return;
+      }
+
+      if (links.length) {
+        let triggeringPrincipal = linkHandler.getTriggeringPrincipal(event);
+        this.droppedLinkHandler(event, links, triggeringPrincipal);
+      }
+    });
   }
   disconnectedCallback() {
-    try {
-      this.destroy();
-    } catch (e) {}
+    this.destroy();
   }
 
   get autoscrollEnabled() {

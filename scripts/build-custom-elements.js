@@ -124,12 +124,26 @@ function getJSForBinding(binding) {
         "";
 
   let xblconstructor = (binding.find("constructor") || [])[0];
-  // Try / catch since many components will fail when loaded in a tab due to chrome references
-  xblconstructor = xblconstructor ? `try { ${xblconstructor.cdata} } catch(e) { }` : '';
+  xblconstructor = xblconstructor ? `${xblconstructor.cdata}` : '';
+  // Or, try / catch since many components will fail when loaded in a tab due to chrome references
+  // xblconstructor = xblconstructor ? `try { ${xblconstructor.cdata} } catch(e) { }` : '';
 
   let xbldestructor = (binding.find("destructor") || [])[0];
-  // Try / catch since many components will fail when loaded in a tab due to chrome references
-  xbldestructor = xbldestructor ? `try { ${xbldestructor.cdata} } catch(e) { }` : '';
+  xbldestructor = xbldestructor ? `${xbldestructor.cdata}` : '';
+  // Or, try / catch since many components will fail when loaded in a tab due to chrome references
+  // xbldestructor = xbldestructor ? `try { ${xbldestructor.cdata} } catch(e) { }` : '';
+
+  let handlers = [];
+  // <handler>
+  for (let handler of binding.find('handler')) {
+    let capturing = handler.attrs.phase === "capturing" ? ", true" : "";
+    handlers.push(`
+      this.addEventListener("${handler.attrs.event}", (event) => {
+        ${handler.cdata}
+      }${capturing});
+    `);
+  }
+
 
   // <field>
   let fields = [];
@@ -185,6 +199,7 @@ function getJSForBinding(binding) {
 
       ${xblconstructor}
 
+      ${handlers.join('\n')}
     }
     disconnectedCallback() {
       ${xbldestructor}

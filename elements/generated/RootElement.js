@@ -21,26 +21,22 @@ class FirefoxRootElement extends BaseElement {
       }
     });
 
-    try {
-      if (this.hasAttribute("lightweightthemes")) {
-        let temp = {};
-        Components.utils.import(
-          "resource://gre/modules/LightweightThemeConsumer.jsm",
-          temp
-        );
-        this._lightweightTheme = new temp.LightweightThemeConsumer(
-          this.ownerDocument
-        );
-      }
-    } catch (e) {}
+    if (this.hasAttribute("lightweightthemes")) {
+      let temp = {};
+      Components.utils.import(
+        "resource://gre/modules/LightweightThemeConsumer.jsm",
+        temp
+      );
+      this._lightweightTheme = new temp.LightweightThemeConsumer(
+        this.ownerDocument
+      );
+    }
   }
   disconnectedCallback() {
-    try {
-      if (this._lightweightTheme) {
-        this._lightweightTheme.destroy();
-        this._lightweightTheme = null;
-      }
-    } catch (e) {}
+    if (this._lightweightTheme) {
+      this._lightweightTheme.destroy();
+      this._lightweightTheme = null;
+    }
   }
 }
 customElements.define("firefox-root-element", FirefoxRootElement);

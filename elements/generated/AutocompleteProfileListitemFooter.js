@@ -17,24 +17,23 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
     );
     this.prepend(comment);
 
-    try {
-      this._itemBox = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "autofill-footer"
-      );
-      this._optionButton = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "autofill-option-button"
-      );
-      this._warningTextBox = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "autofill-warning"
-      );
+    this._itemBox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "autofill-footer"
+    );
+    this._optionButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "autofill-option-button"
+    );
+    this._warningTextBox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "autofill-warning"
+    );
 
-      /**
+    /**
            * A handler for updating warning message once selectedIndex has been changed.
            *
            * There're three different states of warning message:
@@ -48,53 +47,55 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
            * @param {string[]} data.categories
            *        The categories of all the fields contained in the selected address.
            */
-      const namespace = "category.";
-      this._updateWarningNote = ({ data } = {}) => {
-        let categories = data && data.categories
-          ? data.categories
-          : this._allFieldCategories;
-        // If the length of categories is 1, that means all the fillable fields are in the same
-        // category. We will change the way to inform user according to this flag. When the value
-        // is true, we show "Also autofills ...", otherwise, show "Autofills ..." only.
-        let hasExtraCategories = categories.length > 1;
-        // Show the categories in certain order to conform with the spec.
-        let orderedCategoryList = [
-          "address",
-          "name",
-          "organization",
-          "tel",
-          "email"
-        ];
-        let showCategories = hasExtraCategories
-          ? orderedCategoryList.filter(
-              category =>
-                categories.includes(category) &&
-                category != this._focusedCategory
-            )
-          : [this._focusedCategory];
-
-        let separator = this._stringBundle.GetStringFromName(
-          "fieldNameSeparator"
-        );
-        let warningTextTmplKey = hasExtraCategories
-          ? "phishingWarningMessage"
-          : "phishingWarningMessage2";
-        let categoriesText = showCategories
-          .map(category =>
-            this._stringBundle.GetStringFromName(namespace + category)
+    const namespace = "category.";
+    this._updateWarningNote = ({ data } = {}) => {
+      let categories = data && data.categories
+        ? data.categories
+        : this._allFieldCategories;
+      // If the length of categories is 1, that means all the fillable fields are in the same
+      // category. We will change the way to inform user according to this flag. When the value
+      // is true, we show "Also autofills ...", otherwise, show "Autofills ..." only.
+      let hasExtraCategories = categories.length > 1;
+      // Show the categories in certain order to conform with the spec.
+      let orderedCategoryList = [
+        "address",
+        "name",
+        "organization",
+        "tel",
+        "email"
+      ];
+      let showCategories = hasExtraCategories
+        ? orderedCategoryList.filter(
+            category =>
+              categories.includes(category) && category != this._focusedCategory
           )
-          .join(separator);
+        : [this._focusedCategory];
 
-        this._warningTextBox.textContent = this._stringBundle.formatStringFromName(
-          warningTextTmplKey,
-          [categoriesText],
-          1
-        );
-        this.parentNode.parentNode.adjustHeight();
-      };
+      let separator = this._stringBundle.GetStringFromName(
+        "fieldNameSeparator"
+      );
+      let warningTextTmplKey = hasExtraCategories
+        ? "phishingWarningMessage"
+        : "phishingWarningMessage2";
+      let categoriesText = showCategories
+        .map(category =>
+          this._stringBundle.GetStringFromName(namespace + category)
+        )
+        .join(separator);
 
-      this._adjustAcItem();
-    } catch (e) {}
+      this._warningTextBox.textContent = this._stringBundle.formatStringFromName(
+        warningTextTmplKey,
+        [categoriesText],
+        1
+      );
+      this.parentNode.parentNode.adjustHeight();
+    };
+
+    this._adjustAcItem();
+
+    this.addEventListener("click", event => {
+      window.openPreferences("panePrivacy", { origin: "autofillFooter" });
+    });
   }
   disconnectedCallback() {}
   _onCollapse() {

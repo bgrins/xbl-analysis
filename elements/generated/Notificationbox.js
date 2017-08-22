@@ -184,6 +184,14 @@ class FirefoxNotificationbox extends BaseElement {
         return (this._animating = val);
       }
     });
+
+    this.addEventListener("transitionend", event => {
+      if (
+        event.target.localName == "notification" &&
+        event.propertyName == "margin-top"
+      )
+        this._finishAnimation();
+    });
   }
   disconnectedCallback() {}
 

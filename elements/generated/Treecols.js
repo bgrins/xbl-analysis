@@ -14,14 +14,12 @@ class FirefoxTreecols extends BaseElement {
     let comment = document.createComment("Creating firefox-treecols");
     this.prepend(comment);
 
-    try {
-      // Set resizeafter="farthest" on the splitters if nothing else has been
-      // specified.
-      Array.forEach(this.getElementsByTagName("splitter"), function(splitter) {
-        if (!splitter.hasAttribute("resizeafter"))
-          splitter.setAttribute("resizeafter", "farthest");
-      });
-    } catch (e) {}
+    // Set resizeafter="farthest" on the splitters if nothing else has been
+    // specified.
+    Array.forEach(this.getElementsByTagName("splitter"), function(splitter) {
+      if (!splitter.hasAttribute("resizeafter"))
+        splitter.setAttribute("resizeafter", "farthest");
+    });
   }
   disconnectedCallback() {}
 }

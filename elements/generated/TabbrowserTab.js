@@ -74,11 +74,59 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       }
     });
 
-    try {
-      if (!("_lastAccessed" in this)) {
-        this.updateLastAccessed();
+    if (!("_lastAccessed" in this)) {
+      this.updateLastAccessed();
+    }
+
+    this.addEventListener("mouseover", event => {
+      let anonid = event.originalTarget.getAttribute("anonid");
+      if (anonid == "close-button") this.mOverCloseButton = true;
+
+      this._mouseenter();
+    });
+
+    this.addEventListener("mouseout", event => {
+      let anonid = event.originalTarget.getAttribute("anonid");
+      if (anonid == "close-button") this.mOverCloseButton = false;
+
+      this._mouseleave();
+    });
+
+    this.addEventListener(
+      "dragstart",
+      event => {
+        undefined;
+      },
+      true
+    );
+
+    this.addEventListener(
+      "mousedown",
+      event => {
+        if (this.selected) {
+          this.style.MozUserFocus = "ignore";
+          this.clientTop; // just using this to flush style updates
+        } else if (this.mOverCloseButton || this._overPlayingIcon) {
+          // Prevent tabbox.xml from selecting the tab.
+          event.stopPropagation();
+        }
+      },
+      true
+    );
+
+    this.addEventListener("mouseup", event => {
+      undefined;
+    });
+
+    this.addEventListener("click", event => {
+      if (event.button != 0) {
+        return;
       }
-    } catch (e) {}
+
+      if (this._overPlayingIcon) {
+        this.toggleMuteAudio();
+      }
+    });
   }
   disconnectedCallback() {}
 

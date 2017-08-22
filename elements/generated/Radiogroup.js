@@ -22,22 +22,69 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       }
     });
 
-    try {
-      if (this.getAttribute("disabled") == "true") this.disabled = true;
+    if (this.getAttribute("disabled") == "true") this.disabled = true;
 
-      var children = this._getRadioChildren();
-      var length = children.length;
-      for (var i = 0; i < length; i++) {
-        if (children[i].getAttribute("selected") == "true") {
-          this.selectedIndex = i;
-          return;
+    var children = this._getRadioChildren();
+    var length = children.length;
+    for (var i = 0; i < length; i++) {
+      if (children[i].getAttribute("selected") == "true") {
+        this.selectedIndex = i;
+        return;
+      }
+    }
+
+    var value = this.value;
+    if (value) this.value = value;
+    else this.selectedIndex = 0;
+
+    this.addEventListener("mousedown", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("keypress", event => {
+      undefined;
+    });
+
+    this.addEventListener("focus", event => {
+      this.setAttribute("focused", "true");
+      if (this.focusedItem) return;
+
+      var val = this.selectedItem;
+      if (!val || val.disabled || val.hidden || val.collapsed) {
+        var children = this._getRadioChildren();
+        for (var i = 0; i < children.length; ++i) {
+          if (
+            !children[i].hidden &&
+            !children[i].collapsed &&
+            !children[i].disabled
+          ) {
+            val = children[i];
+            break;
+          }
         }
       }
+      this.focusedItem = val;
+    });
 
-      var value = this.value;
-      if (value) this.value = value;
-      else this.selectedIndex = 0;
-    } catch (e) {}
+    this.addEventListener("blur", event => {
+      undefined;
+    });
   }
   disconnectedCallback() {}
 
