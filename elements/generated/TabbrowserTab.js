@@ -15,6 +15,8 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 <hbox class="tab-bottom-line">
 </hbox>
 </vbox>
+<hbox inherits="pinned,bursting" anonid="tab-loading-burst" class="tab-loading-burst">
+</hbox>
 <hbox inherits="pinned,selected=visuallyselected,titlechanged,attention" class="tab-content" align="center">
 <hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected" class="tab-throbber" layer="true">
 </hbox>
@@ -125,6 +127,13 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 
       if (this._overPlayingIcon) {
         this.toggleMuteAudio();
+      }
+    });
+
+    this.addEventListener("animationend", event => {
+      let anonid = event.originalTarget.getAttribute("anonid");
+      if (anonid == "tab-loading-burst") {
+        this.removeAttribute("bursting");
       }
     });
   }
@@ -252,6 +261,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 
     // Prepare connection to host beforehand.
     SessionStore.speculativeConnectOnTabHover(this);
+    tabContainer.tabbrowser.warmupTab(this);
   }
   _mouseleave() {
     let tabContainer = this.parentNode;

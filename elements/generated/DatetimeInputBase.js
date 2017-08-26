@@ -55,8 +55,11 @@ class FirefoxDatetimeInputBase extends BaseElement {
       capture: true,
       mozSystemGroup: true
     });
-    // This is to close the picker when input element blurs.
-    this.mInputElement.addEventListener("blur", this, { mozSystemGroup: true });
+    // This is to open the picker when input element is clicked (this
+    // includes padding area).
+    this.mInputElement.addEventListener("click", this, {
+      mozSystemGroup: true
+    });
   }
   disconnectedCallback() {
     this.mInputElement = null;
@@ -68,10 +71,13 @@ class FirefoxDatetimeInputBase extends BaseElement {
       capture: true,
       mozSystemGroup: true
     });
+    this.mInputElement.removeEventListener("click", this, {
+      mozSystemGroup: true
+    });
   }
 
   get EVENTS() {
-    return ["click", "focus", "blur", "copy", "cut", "paste", "mousedown"];
+    return ["focus", "blur", "copy", "cut", "paste", "mousedown"];
   }
   log(aMsg) {
     if (this.DEBUG) {
@@ -420,10 +426,6 @@ class FirefoxDatetimeInputBase extends BaseElement {
         aEvent.target
     );
 
-    if (aEvent.target == this.mInputElement && this.mIsPickerOpen) {
-      this.mInputElement.closeDateTimePicker();
-    }
-
     let target = aEvent.originalTarget;
     target.setAttribute("typeBuffer", "");
     this.setInputValueFromFields();
@@ -480,12 +482,13 @@ class FirefoxDatetimeInputBase extends BaseElement {
     }
   }
   onClick(aEvent) {
-    this.log("onClick originalTarget: " + aEvent.originalTarget);
+    this.log(
+      "onClick originalTarget: " +
+        aEvent.originalTarget +
+        " target: " +
+        aEvent.target
+    );
 
-    // XXX: .originalTarget is not expected.
-    // When clicking on one of the inner text boxes, the .originalTarget is
-    // a HTMLDivElement and when clicking on the reset button, it's a
-    // HTMLButtonElement.
     if (aEvent.defaultPrevented || this.isDisabled() || this.isReadonly()) {
       return;
     }

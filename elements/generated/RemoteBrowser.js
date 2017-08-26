@@ -479,10 +479,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   get hasContentOpener() {
-    let { frameLoader } = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    );
-    return frameLoader.tabParent.hasContentOpener;
+    return this.frameLoader.tabParent.hasContentOpener;
   }
 
   get outerWindowID() {
@@ -494,18 +491,12 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   set docShellIsActive(val) {
-    let { frameLoader } = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    );
-    frameLoader.tabParent.docShellIsActive = val;
+    this.frameLoader.tabParent.docShellIsActive = val;
     return val;
   }
 
   get docShellIsActive() {
-    let { frameLoader } = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    );
-    return frameLoader.tabParent.docShellIsActive;
+    return this.frameLoader.tabParent.docShellIsActive;
   }
 
   get manifestURI() {
@@ -515,9 +506,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this._remoteWebProgressManager.setCurrentURI(aURI);
   }
   preserveLayers(preserve) {
-    let { frameLoader } = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    );
+    let { frameLoader } = this;
     if (frameLoader.tabParent) {
       frameLoader.tabParent.preserveLayers(preserve);
     }
@@ -534,10 +523,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     });
   }
   permitUnload() {
-    let { frameLoader } = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    );
-    let tabParent = frameLoader.tabParent;
+    let { tabParent } = this.frameLoader;
 
     if (!tabParent.hasBeforeUnload) {
       return { permitUnload: true, timedOut: false };
@@ -775,10 +761,9 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       aPrincipal,
       this.contentPrincipal
     );
-    let { frameLoader } = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
+    this.frameLoader.tabParent.transmitPermissionsForPrincipal(
+      permissionPrincipal
     );
-    frameLoader.tabParent.transmitPermissionsForPrincipal(permissionPrincipal);
 
     // Create the about blank content viewer in the content process
     this.messageManager.sendAsyncMessage(

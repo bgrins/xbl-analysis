@@ -6,7 +6,9 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
+    this.innerHTML = `<spacer anonid="type-icon-spacer">
+</spacer>
+<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
 </image>
 <image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
 </image>
@@ -80,6 +82,11 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       }
     });
 
+    this._typeIconSpacer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "type-icon-spacer"
+    );
     this._typeIcon = document.getAnonymousElementByAttribute(
       this,
       "anonid",
@@ -704,25 +711,27 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
   }
   adjustSiteIconStart(newStart) {
     if (typeof newStart != "number") {
-      this._typeIcon.style.removeProperty("margin-inline-start");
+      this._typeIconSpacer.style.removeProperty("width");
       return true;
     }
+
     let utils = window
       .QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIDOMWindowUtils);
     let rect = utils.getBoundsWithoutFlushing(this._siteIcon);
 
     let dir = this.getAttribute("dir");
-    let delta = dir == "rtl" ? rect.right - newStart : newStart - rect.left;
-    let px = this._typeIcon.style.marginInlineStart;
-    if (!px) {
-      // Allow margin-inline-start not to be specified in CSS initially.
-      let style = window.getComputedStyle(this._typeIcon);
-      px = dir == "rtl" ? style.marginRight : style.marginLeft;
+    let delta = dir == "rtl"
+      ? rect.right - Math.round(newStart)
+      : Math.round(newStart) - rect.left;
+    if (delta) {
+      let currentSpacerWidth = this._typeIconSpacer.style.width || "0px";
+      this._typeIconSpacer.style.width =
+        parseInt(currentSpacerWidth, 10) + delta + "px";
+      return true;
     }
-    let typeIconStart = Number(px.substr(0, px.length - 2));
-    this._typeIcon.style.marginInlineStart = typeIconStart + delta + "px";
-    return delta > 0;
+
+    return false;
   }
   _handleOverflow() {
     let itemRect = this.parentNode.getBoundingClientRect();

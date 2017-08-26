@@ -11,9 +11,7 @@ class FirefoxIframe extends BaseElement {
   disconnectedCallback() {}
 
   get docShell() {
-    let frameLoader = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    ).frameLoader;
+    let { frameLoader } = this;
     return frameLoader ? frameLoader.docShell : null;
   }
 

@@ -1598,6 +1598,18 @@ class FirefoxTabbrowser extends BaseElement {
         ) {
           if (this.mTab.hasAttribute("busy")) {
             this.mTab.removeAttribute("busy");
+
+            // Only animate the "burst" indicating the page has loaded if
+            // the top-level page is the one that finished loading.
+            if (
+              aWebProgress.isTopLevel &&
+              !aWebProgress.isLoadingDocument &&
+              !this.mTabBrowser.tabAnimationsInProgress &&
+              Services.prefs.getBoolPref("toolkit.cosmeticAnimations.enabled")
+            ) {
+              this.mTab.setAttribute("bursting", "true");
+            }
+
             this.mTabBrowser._tabAttrModified(this.mTab, ["busy"]);
             if (!this.mTab.selected) this.mTab.setAttribute("unread", "true");
           }
@@ -2909,6 +2921,10 @@ class FirefoxTabbrowser extends BaseElement {
 
     browser.loadURI(BROWSER_NEW_TAB_URL);
     browser.docShellIsActive = false;
+
+    // Make sure the preloaded browser is loaded with desired zoom level
+    let tabURI = Services.io.newURI(BROWSER_NEW_TAB_URL);
+    FullZoom.onLocationChange(tabURI, false, browser);
   }
   _createBrowser(aParams) {
     // Supported parameters:
@@ -2948,9 +2964,7 @@ class FirefoxTabbrowser extends BaseElement {
       if (aParams.remoteType) {
         throw new Error("Cannot set opener window on a remote browser!");
       }
-      b
-        .QueryInterface(Ci.nsIFrameLoaderOwner)
-        .presetOpenerWindow(aParams.openerWindow);
+      b.presetOpenerWindow(aParams.openerWindow);
     }
 
     if (!aParams.isPreloadBrowser && this.hasAttribute("autocompletepopup")) {
@@ -3712,6 +3726,7 @@ class FirefoxTabbrowser extends BaseElement {
 
     aTab.style.maxWidth = ""; // ensure that fade-out transition happens
     aTab.removeAttribute("fadein");
+    aTab.removeAttribute("bursting");
 
     setTimeout(
       function(tab, tabbrowser) {
@@ -4645,6 +4660,12 @@ class FirefoxTabbrowser extends BaseElement {
       // removed from the set upon MozAfterPaint.
       maybeVisibleTabs: new Set([this.selectedTab]),
 
+      // This holds onto the set of tabs that we've been asked to warm up.
+      // This is used only for Telemetry and logging, and (in order to not
+      // over-complicate the async tab switcher any further) has nothing to do
+      // with how warmed tabs are loaded and unloaded.
+      warmingTabs: new WeakSet(),
+
       STATE_UNLOADED: 0,
       STATE_LOADING: 1,
       STATE_LOADED: 2,
@@ -4692,9 +4713,7 @@ class FirefoxTabbrowser extends BaseElement {
         this.setTabStateNoAction(tab, state);
 
         let browser = tab.linkedBrowser;
-        let { tabParent } = browser.QueryInterface(
-          Ci.nsIFrameLoaderOwner
-        ).frameLoader;
+        let { tabParent } = browser.frameLoader;
         if (state == this.STATE_LOADING) {
           this.assert(!this.minimizedOrFullyOccluded);
           browser.docShellIsActive = true;
@@ -4702,6 +4721,7 @@ class FirefoxTabbrowser extends BaseElement {
             this.onLayersReady(browser);
           }
         } else if (state == this.STATE_UNLOADING) {
+          this.unwarmTab(tab);
           browser.docShellIsActive = false;
           if (!tabParent) {
             this.onLayersCleared(browser);
@@ -4732,6 +4752,25 @@ class FirefoxTabbrowser extends BaseElement {
 
       init() {
         this.log("START");
+
+        XPCOMUtils.defineLazyPreferenceGetter(
+          this,
+          "WARMING_ENABLED",
+          "browser.tabs.remote.warmup.enabled",
+          false
+        );
+        XPCOMUtils.defineLazyPreferenceGetter(
+          this,
+          "MAX_WARMING_TABS",
+          "browser.tabs.remote.warmup.maxTabs",
+          3
+        );
+        XPCOMUtils.defineLazyPreferenceGetter(
+          this,
+          "WARMING_UNLOAD_DELAY" /* ms */,
+          "browser.tabs.remote.warmup.unloadDelayMs",
+          2000
+        );
 
         // If we minimized the window before the switcher was activated,
         // we might have set  the preserveLayers flag for the current
@@ -5002,6 +5041,7 @@ class FirefoxTabbrowser extends BaseElement {
         for (let [tab] of this.tabState) {
           if (!tab.linkedBrowser) {
             this.tabState.delete(tab);
+            this.unwarmTab(tab);
           }
         }
 
@@ -5064,6 +5104,7 @@ class FirefoxTabbrowser extends BaseElement {
 
         // See how many tabs still have work to do.
         let numPending = 0;
+        let numWarming = 0;
         for (let [tab, state] of this.tabState) {
           // Skip print preview browsers since they shouldn't affect tab switching.
           if (this.tabbrowser._printPreviewBrowsers.has(tab.linkedBrowser)) {
@@ -5072,6 +5113,10 @@ class FirefoxTabbrowser extends BaseElement {
 
           if (state == this.STATE_LOADED && tab !== this.requestedTab) {
             numPending++;
+
+            if (tab !== this.visibleTab) {
+              numWarming++;
+            }
           }
           if (state == this.STATE_LOADING || state == this.STATE_UNLOADING) {
             numPending++;
@@ -5087,8 +5132,14 @@ class FirefoxTabbrowser extends BaseElement {
           return;
         }
 
-        if (this.blankTab) {
-          this.maybeFinishTabSwitch();
+        this.maybeFinishTabSwitch();
+
+        if (numWarming > this.MAX_WARMING_TABS) {
+          this.logState("Hit MAX_WARMING_TABS");
+          if (this.unloadTimer) {
+            this.clearTimer(this.unloadTimer);
+          }
+          this.unloadNonRequiredTabs();
         }
 
         if (numPending == 0) {
@@ -5101,9 +5152,20 @@ class FirefoxTabbrowser extends BaseElement {
       // Fires when we're ready to unload unused tabs.
       onUnloadTimeout() {
         this.logState("onUnloadTimeout");
-        this.unloadTimer = null;
         this.preActions();
+        this.unloadTimer = null;
 
+        this.unloadNonRequiredTabs();
+
+        this.postActions();
+      },
+
+      // If there are any non-visible and non-requested tabs in
+      // STATE_LOADED, sets them to STATE_UNLOADING. Also queues
+      // up the unloadTimer to run onUnloadTimeout if there are still
+      // tabs in the process of unloading.
+      unloadNonRequiredTabs() {
+        this.warmingTabs = new WeakSet();
         let numPending = 0;
 
         // Unload any tabs that can be unloaded.
@@ -5134,8 +5196,6 @@ class FirefoxTabbrowser extends BaseElement {
             this.UNLOAD_DELAY
           );
         }
-
-        this.postActions();
       },
 
       // Fires when an ongoing load has taken too long.
@@ -5160,8 +5220,6 @@ class FirefoxTabbrowser extends BaseElement {
         );
         this.setTabState(tab, this.STATE_LOADED);
 
-        this.maybeFinishTabSwitch();
-
         if (this.loadingTab === tab) {
           this.clearTimer(this.loadTimer);
           this.loadTimer = null;
@@ -5174,7 +5232,6 @@ class FirefoxTabbrowser extends BaseElement {
       // around.
       onPaint() {
         this.maybeVisibleTabs.clear();
-        this.maybeFinishTabSwitch();
       },
 
       // Called when we're done clearing the layers for a tab.
@@ -5310,10 +5367,76 @@ class FirefoxTabbrowser extends BaseElement {
         this.setTabState(tab, this.STATE_LOADING);
       },
 
+      canWarmTab(tab) {
+        if (!this.WARMING_ENABLED) {
+          return false;
+        }
+
+        // If the tab is not yet inserted, closing, not remote,
+        // crashed, already visible, or already requested, warming
+        // up the tab makes no sense.
+        if (
+          this.minimizedOrFullyOccluded ||
+          !tab.linkedPanel ||
+          tab.closing ||
+          !tab.linkedBrowser.isRemoteBrowser ||
+          !tab.linkedBrowser.frameLoader.tabParent
+        ) {
+          return false;
+        }
+
+        // Similarly, if the tab is already in STATE_LOADING or
+        // STATE_LOADED somehow, there's no point in trying to
+        // warm it up.
+        let state = this.getTabState(tab);
+        if (state === this.STATE_LOADING || state === this.STATE_LOADED) {
+          return false;
+        }
+
+        return true;
+      },
+
+      unwarmTab(tab) {
+        this.warmingTabs.delete(tab);
+      },
+
+      warmupTab(tab) {
+        if (!this.canWarmTab(tab)) {
+          return;
+        }
+
+        this.logState("warmupTab " + this.tinfo(tab));
+
+        this.warmingTabs.add(tab);
+        this.setTabState(tab, this.STATE_LOADING);
+        this.suppressDisplayPortAndQueueUnload(tab, this.WARMING_UNLOAD_DELAY);
+      },
+
       // Called when the user asks to switch to a given tab.
       requestTab(tab) {
         if (tab === this.requestedTab) {
           return;
+        }
+
+        if (this.WARMING_ENABLED) {
+          let warmingState = "disqualified";
+
+          if (this.warmingTabs.has(tab)) {
+            let tabState = this.getTabState(tab);
+            if (tabState == this.STATE_LOADING) {
+              warmingState = "stillLoading";
+            } else if (tabState == this.STATE_LOADED) {
+              warmingState = "loaded";
+            }
+          } else if (this.canWarmTab(tab)) {
+            warmingState = "notWarmed";
+          }
+
+          Services.telemetry
+            .getHistogramById("FX_TAB_SWITCH_REQUEST_TAB_WARMING_STATE")
+            .add(warmingState);
+
+          this.unwarmTab(tab);
         }
 
         this._requestingTab = true;
@@ -5322,8 +5445,16 @@ class FirefoxTabbrowser extends BaseElement {
 
         this.requestedTab = tab;
 
-        let browser = this.requestedTab.linkedBrowser;
-        let fl = browser.QueryInterface(Ci.nsIFrameLoaderOwner).frameLoader;
+        this.suppressDisplayPortAndQueueUnload(
+          this.requestedTab,
+          this.UNLOAD_DELAY
+        );
+        this._requestingTab = false;
+      },
+
+      suppressDisplayPortAndQueueUnload(tab, unloadTimeout) {
+        let browser = tab.linkedBrowser;
+        let fl = browser.frameLoader;
 
         if (
           fl &&
@@ -5341,11 +5472,10 @@ class FirefoxTabbrowser extends BaseElement {
         }
         this.unloadTimer = this.setTimer(
           () => this.onUnloadTimeout(),
-          this.UNLOAD_DELAY
+          unloadTimeout
         );
 
         this.postActions();
-        this._requestingTab = false;
       },
 
       handleEvent(event, delayed = false) {
@@ -5455,7 +5585,6 @@ class FirefoxTabbrowser extends BaseElement {
         );
         this.addMarker("AsyncTabSwitch:SpinnerHidden");
         // we do not get a onPaint after displaying the spinner
-        this.maybeFinishTabSwitch();
       },
 
       addMarker(marker) {
@@ -5506,12 +5635,14 @@ class FirefoxTabbrowser extends BaseElement {
         for (let i = 0; i < this.tabbrowser.tabs.length; i++) {
           let tab = this.tabbrowser.tabs[i];
           let state = this.getTabState(tab);
+          let isWarming = this.warmingTabs.has(tab);
 
           accum += i + ":";
           if (tab === this.lastVisibleTab) accum += "V";
           if (tab === this.loadingTab) accum += "L";
           if (tab === this.requestedTab) accum += "R";
           if (tab === this.blankTab) accum += "B";
+          if (isWarming) accum += "(W)";
           if (state == this.STATE_LOADED) accum += "(+)";
           if (state == this.STATE_LOADING) accum += "(+?)";
           if (state == this.STATE_UNLOADED) accum += "(-)";
@@ -5528,6 +5659,9 @@ class FirefoxTabbrowser extends BaseElement {
     this._switcher = switcher;
     switcher.init();
     return switcher;
+  }
+  warmupTab(aTab) {
+    this._getSwitcher().warmupTab(aTab);
   }
   goBack() {
     return this.mCurrentBrowser.goBack();

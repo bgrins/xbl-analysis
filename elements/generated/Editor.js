@@ -141,9 +141,7 @@ class FirefoxEditor extends BaseElement {
   }
 
   get docShell() {
-    let frameLoader = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    ).frameLoader;
+    let { frameLoader } = this;
     return frameLoader ? frameLoader.docShell : null;
   }
 
@@ -204,11 +202,10 @@ class FirefoxEditor extends BaseElement {
   }
 
   get messageManager() {
-    var owner = this.QueryInterface(Components.interfaces.nsIFrameLoaderOwner);
-    if (!owner.frameLoader) {
-      return null;
+    if (this.frameLoader) {
+      return this.frameLoader.messageManager;
     }
-    return owner.frameLoader.messageManager;
+    return null;
   }
 
   get outerWindowID() {

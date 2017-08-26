@@ -1653,7 +1653,10 @@ class FirefoxVideocontrols extends BaseElement {
         }
 
         let givenHeight = this.video.clientHeight;
-        let videoWidth = this.video.clientWidth || minRequiredWidth;
+        let videoWidth =
+          (this.isAudioOnly
+            ? this.controlBar.clientWidth
+            : this.video.clientWidth) || minRequiredWidth;
         let videoHeight = this.isAudioOnly
           ? this.controlBarMinHeight
           : givenHeight;
@@ -1695,8 +1698,7 @@ class FirefoxVideocontrols extends BaseElement {
             );
             this.controlBar.style.height = `${controlBarHeight}px`;
           }
-          this.controlBar.style.width = `${videoWidth -
-            minControlBarPaddingWidth}px`;
+          this.controlBar.style.width = `${videoWidth}px`;
           return;
         }
 

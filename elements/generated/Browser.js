@@ -669,9 +669,7 @@ class FirefoxBrowser extends BaseElement {
   get docShell() {
     if (this._docShell) return this._docShell;
 
-    let frameLoader = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    ).frameLoader;
+    let { frameLoader } = this;
     if (!frameLoader) return null;
     this._docShell = frameLoader.docShell;
     return this._docShell;
@@ -680,9 +678,7 @@ class FirefoxBrowser extends BaseElement {
   get loadContext() {
     if (this._loadContext) return this._loadContext;
 
-    let frameLoader = this.QueryInterface(
-      Components.interfaces.nsIFrameLoaderOwner
-    ).frameLoader;
+    let { frameLoader } = this;
     if (!frameLoader) return null;
     this._loadContext = frameLoader.loadContext;
     return this._loadContext;
@@ -744,11 +740,10 @@ class FirefoxBrowser extends BaseElement {
   }
 
   get messageManager() {
-    var owner = this.QueryInterface(Components.interfaces.nsIFrameLoaderOwner);
-    if (!owner.frameLoader) {
-      return null;
+    if (this.frameLoader) {
+      return this.frameLoader.messageManager;
     }
-    return owner.frameLoader.messageManager;
+    return null;
   }
 
   get webNavigation() {
@@ -1752,21 +1747,20 @@ class FirefoxBrowser extends BaseElement {
     };
   }
   print(aOuterWindowID, aPrintSettings, aPrintProgressListener) {
-    var owner = this.QueryInterface(Components.interfaces.nsIFrameLoaderOwner);
-    if (!owner.frameLoader) {
+    if (!this.frameLoader) {
       throw Components.Exception(
         "No frame loader.",
         Components.results.NS_ERROR_FAILURE
       );
     }
 
-    owner.frameLoader.print(
+    this.frameLoader.print(
       aOuterWindowID,
       aPrintSettings,
       aPrintProgressListener
     );
   }
-  dropLinks(aLinksCount, aLinks) {
+  dropLinks(aLinksCount, aLinks, aTriggeringPrincipal) {
     if (!this.droppedLinkHandler) {
       return false;
     }
@@ -1778,7 +1772,7 @@ class FirefoxBrowser extends BaseElement {
         type: aLinks[i + 2]
       });
     }
-    this.droppedLinkHandler(null, links);
+    this.droppedLinkHandler(null, links, aTriggeringPrincipal);
     return true;
   }
 }
