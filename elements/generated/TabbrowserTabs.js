@@ -961,7 +961,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         window.moveTo(left, top);
         window.focus();
       } else {
-        let props = { screenX: left, screenY: top };
+        let props = { screenX: left, screenY: top, suppressanimation: 1 };
         if (AppConstants.platform != "win") {
           props.outerWidth = winWidth;
           props.outerHeight = winHeight;

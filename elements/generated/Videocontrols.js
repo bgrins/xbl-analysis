@@ -1217,6 +1217,7 @@ class FirefoxVideocontrols extends BaseElement {
       },
 
       onFullscreenChange() {
+        this.updateOrientationState(this.isVideoInFullScreen());
         if (this.isVideoInFullScreen()) {
           Utils._hideControlsTimeout = setTimeout(
             this._hideControlsFn,
@@ -1224,6 +1225,37 @@ class FirefoxVideocontrols extends BaseElement {
           );
         }
         this.setFullscreenButtonState();
+      },
+
+      updateOrientationState(lock) {
+        if (!this.video.mozOrientationLockEnabled) {
+          return;
+        }
+        if (lock) {
+          if (this.video.mozIsOrientationLocked) {
+            return;
+          }
+          let dimenDiff = this.video.videoWidth - this.video.videoHeight;
+          if (dimenDiff > 0) {
+            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation(
+              "landscape"
+            );
+          } else if (dimenDiff < 0) {
+            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation(
+              "portrait"
+            );
+          } else {
+            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation(
+              window.screen.orientation
+            );
+          }
+        } else {
+          if (!this.video.mozIsOrientationLocked) {
+            return;
+          }
+          window.screen.mozUnlockOrientation();
+          this.video.mozIsOrientationLocked = false;
+        }
       },
 
       clickToPlayClickHandler(e) {
@@ -1990,6 +2022,7 @@ class FirefoxVideocontrols extends BaseElement {
   }
   disconnectedCallback() {
     this.Utils.terminateEventListeners();
+    this.Utils.updateOrientationState(false);
     // randomID used to be a <field>, which meant that the XBL machinery
     // undefined the property when the element was unbound. The code in
     // this file actually depends on this, so now that randomID is an

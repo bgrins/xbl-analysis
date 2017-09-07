@@ -7,7 +7,7 @@ class FirefoxTabbrowser extends BaseElement {
 
     this.innerHTML = `<stringbundle anonid="tbstringbundle" src="chrome://browser/locale/tabbrowser.properties">
 </stringbundle>
-<tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="handleCtrlPageUpDown" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
+<tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="handleCtrlPageUpDown,tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
 <tabpanels flex="1" class="plain" selectedIndex="0" anonid="panelcontainer">
 <notificationbox flex="1" notificationside="top">
 <hbox flex="1" class="browserSidebarContainer">
@@ -444,7 +444,8 @@ class FirefoxTabbrowser extends BaseElement {
           "startScroll",
           "userTypedValue",
           "userTypedClear",
-          "mediaBlocked"
+          "mediaBlocked",
+          "didStartLoadSinceLastUserTyping"
         ]);
       },
       set(val) {
@@ -1456,6 +1457,64 @@ class FirefoxTabbrowser extends BaseElement {
         return location == "about:blank";
       },
 
+      _syncThrobberAnimations() {
+        const originalTab = this.mTab;
+        BrowserUtils.promiseLayoutFlushed(
+          this.mTab.ownerDocument,
+          "style",
+          () => {
+            if (!originalTab.parentNode) {
+              return;
+            }
+
+            const animations = Array.from(
+              originalTab.parentNode.getElementsByTagName("tab")
+            )
+              .map(tab => {
+                const throbber = document.getAnonymousElementByAttribute(
+                  tab,
+                  "anonid",
+                  "tab-throbber"
+                );
+                return throbber
+                  ? throbber.getAnimations({ subtree: true })
+                  : [];
+              })
+              .reduce((a, b) => a.concat(b))
+              .filter(
+                anim =>
+                  anim instanceof CSSAnimation &&
+                  (anim.animationName === "tab-throbber-animation" ||
+                    anim.animationName === "tab-throbber-animation-rtl") &&
+                  (anim.playState === "running" || anim.playState === "pending")
+              );
+
+            // Synchronize with the oldest running animation, if any.
+            const firstStartTime = Math.min(
+              ...animations.map(
+                anim => (anim.startTime === null ? Infinity : anim.startTime)
+              )
+            );
+            if (firstStartTime === Infinity) {
+              return;
+            }
+            requestAnimationFrame(() => {
+              for (let animation of animations) {
+                // If |animation| has been cancelled since this rAF callback
+                // was scheduled we don't want to set its startTime since
+                // that would restart it. We check for a cancelled animation
+                // by looking for a null currentTime rather than checking
+                // the playState, since reading the playState of
+                // a CSSAnimation object will flush style.
+                if (animation.currentTime !== null) {
+                  animation.startTime = firstStartTime;
+                }
+              }
+            });
+          }
+        );
+      },
+
       onProgressChange(
         aWebProgress,
         aRequest,
@@ -1586,6 +1645,7 @@ class FirefoxTabbrowser extends BaseElement {
           if (this._shouldShowProgress(aRequest)) {
             if (!(aStateFlags & nsIWebProgressListener.STATE_RESTORING)) {
               this.mTab.setAttribute("busy", "true");
+              this._syncThrobberAnimations();
             }
 
             if (this.mTab.selected) {
@@ -1604,6 +1664,7 @@ class FirefoxTabbrowser extends BaseElement {
             if (
               aWebProgress.isTopLevel &&
               !aWebProgress.isLoadingDocument &&
+              Components.isSuccessCode(aStatus) &&
               !this.mTabBrowser.tabAnimationsInProgress &&
               Services.prefs.getBoolPref("toolkit.cosmeticAnimations.enabled")
             ) {
@@ -3061,6 +3122,9 @@ class FirefoxTabbrowser extends BaseElement {
             return Services.io.newURI(url);
           };
           break;
+        case "didStartLoadSinceLastUserTyping":
+          getter = () => () => false;
+          break;
         case "fullZoom":
         case "textZoom":
           getter = () => 1;
@@ -3133,7 +3197,7 @@ class FirefoxTabbrowser extends BaseElement {
       });
     }
   }
-  _insertBrowser(aTab) {
+  _insertBrowser(aTab, aInsertedOnTabCreation) {
     "use strict";
     // If browser is already inserted or window is closed don't do anything.
     if (aTab.linkedPanel || window.closed) {
@@ -3206,9 +3270,56 @@ class FirefoxTabbrowser extends BaseElement {
 
     var evt = new CustomEvent("TabBrowserInserted", {
       bubbles: true,
-      detail: {}
+      detail: { insertedOnTabCreation: aInsertedOnTabCreation }
     });
     aTab.dispatchEvent(evt);
+  }
+  discardBrowser(aBrowser) {
+    "use strict";
+    let tab = this.getTabForBrowser(aBrowser);
+
+    if (
+      !tab ||
+      tab.selected ||
+      tab.closing ||
+      this._windowIsClosing ||
+      !aBrowser.isConnected ||
+      !aBrowser.isRemoteBrowser ||
+      aBrowser.frameLoader.tabParent.hasBeforeUnload
+    ) {
+      return;
+    }
+
+    // Set browser parameters for when browser is restored.  Also remove
+    // listeners and set up lazy restore data in SessionStore. This must
+    // be done before aBrowser is destroyed and removed from the document.
+    tab._browserParams = {
+      uriIsAboutBlank: aBrowser.currentURI.spec == "about:blank",
+      remoteType: aBrowser.remoteType,
+      usingPreloadedContent: false
+    };
+
+    SessionStore.resetBrowserToLazyState(tab);
+
+    this._outerWindowIDBrowserMap.delete(aBrowser.outerWindowID);
+
+    // Remove the tab's filter and progress listener.
+    let filter = this._tabFilters.get(tab);
+    let listener = this._tabListeners.get(tab);
+    aBrowser.webProgress.removeProgressListener(filter);
+    filter.removeProgressListener(listener);
+    listener.destroy();
+
+    this._tabListeners.delete(tab);
+    this._tabFilters.delete(tab);
+
+    aBrowser.destroy();
+
+    let notificationbox = this.getNotificationBox(aBrowser);
+    this.mPanelContainer.removeChild(notificationbox);
+    tab.removeAttribute("linkedpanel");
+
+    this._createLazyBrowser(tab);
   }
   addTab(
     aURI,
@@ -3477,7 +3588,7 @@ class FirefoxTabbrowser extends BaseElement {
         b.registeredOpenURI = lazyBrowserURI;
       }
     } else {
-      this._insertBrowser(t);
+      this._insertBrowser(t, true);
     }
 
     // Dispatch a new tab notification.  We do this once we're
@@ -3824,6 +3935,16 @@ class FirefoxTabbrowser extends BaseElement {
 
       newTab = true;
     }
+    aTab._endRemoveArgs = [closeWindow, newTab];
+
+    // swapBrowsersAndCloseOther will take care of closing the window without animation.
+    if (closeWindow && aAdoptedByTab) {
+      // Remove the tab's filter to avoid leaking.
+      if (aTab.linkedPanel) {
+        this._tabFilters.delete(aTab);
+      }
+      return true;
+    }
 
     if (!aTab._fullyOpen) {
       // If the opening tab animation hasn't finished before we start closing the
@@ -3897,7 +4018,6 @@ class FirefoxTabbrowser extends BaseElement {
         tab.owner = null;
     }
 
-    aTab._endRemoveArgs = [closeWindow, newTab];
     return true;
   }
   _endRemoveTab(aTab) {
@@ -4110,6 +4230,26 @@ class FirefoxTabbrowser extends BaseElement {
     // window if this was its last tab.
     if (!remoteBrowser._beginRemoveTab(aOtherTab, aOurTab, true)) return;
 
+    // If this is the last tab of the window, hide the window
+    // immediately without animation before the docshell swap, to avoid
+    // about:blank being painted.
+    let [closeWindow] = aOtherTab._endRemoveArgs;
+    if (closeWindow) {
+      let win = aOtherTab.ownerGlobal;
+      let dwu = win
+        .QueryInterface(Ci.nsIInterfaceRequestor)
+        .getInterface(Ci.nsIDOMWindowUtils);
+      dwu.suppressAnimation(true);
+      // Only suppressing window animations isn't enough to avoid
+      // an empty content area being painted.
+      let baseWin = win
+        .QueryInterface(Ci.nsIInterfaceRequestor)
+        .getInterface(Ci.nsIDocShell)
+        .QueryInterface(Ci.nsIDocShellTreeItem)
+        .treeOwner.QueryInterface(Ci.nsIBaseWindow);
+      baseWin.visibility = false;
+    }
+
     let modifiedAttrs = [];
     if (aOtherTab.hasAttribute("muted")) {
       aOurTab.setAttribute("muted", "true");
@@ -4184,7 +4324,11 @@ class FirefoxTabbrowser extends BaseElement {
     }
 
     // Finish tearing down the tab that's going away.
-    remoteBrowser._endRemoveTab(aOtherTab);
+    if (closeWindow) {
+      aOtherTab.ownerGlobal.close();
+    } else {
+      remoteBrowser._endRemoveTab(aOtherTab);
+    }
 
     this.setTabTitle(aOurTab);
 
@@ -4419,6 +4563,14 @@ class FirefoxTabbrowser extends BaseElement {
     var options = "chrome,dialog=no,all";
     for (var name in aOptions) options += "," + name + "=" + aOptions[name];
 
+    // Play the tab closing animation to give immediate feedback while
+    // waiting for the new window to appear.
+    // content area when the docshells are swapped.
+    if (this.animationsEnabled) {
+      aTab.style.maxWidth = ""; // ensure that fade-out transition happens
+      aTab.removeAttribute("fadein");
+    }
+
     // tell a new window to take the "dropped" tab
     return window.openDialog(getBrowserURL(), "_blank", options, aTab);
   }
@@ -4509,7 +4661,8 @@ class FirefoxTabbrowser extends BaseElement {
     let params = {
       eventDetail: { adoptedTab: aTab },
       preferredRemoteType: linkedBrowser.remoteType,
-      sameProcessAsFrameLoader: linkedBrowser.frameLoader
+      sameProcessAsFrameLoader: linkedBrowser.frameLoader,
+      skipAnimation: true
     };
     if (aTab.hasAttribute("usercontextid")) {
       // new tab must have the same usercontextid as the old one

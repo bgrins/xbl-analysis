@@ -67,6 +67,9 @@ class FirefoxTabbox extends FirefoxTabBase {
   }
 
   get tabs() {
+    if (this.hasAttribute("tabcontainer")) {
+      return document.getElementById(this.getAttribute("tabcontainer"));
+    }
     return this.getElementsByTagNameNS(
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
       "tabs"

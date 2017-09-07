@@ -47,6 +47,43 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
         return (this._scrollDelay = val);
       }
     });
+    Object.defineProperty(this, "_arrowScrollAnim", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._arrowScrollAnim;
+        return (this._arrowScrollAnim = {
+          scrollbox: this,
+          requestHandle: 0 /* 0 indicates there is no pending request */,
+          start: function arrowSmoothScroll_start() {
+            this.lastFrameTime = window.performance.now();
+            if (!this.requestHandle)
+              this.requestHandle = window.requestAnimationFrame(
+                this.sample.bind(this)
+              );
+          },
+          stop: function arrowSmoothScroll_stop() {
+            window.cancelAnimationFrame(this.requestHandle);
+            this.requestHandle = 0;
+          },
+          sample: function arrowSmoothScroll_handleEvent(timeStamp) {
+            const scrollIndex = this.scrollbox._scrollIndex;
+            const timePassed = timeStamp - this.lastFrameTime;
+            this.lastFrameTime = timeStamp;
+
+            const scrollDelta = 0.5 * timePassed * scrollIndex;
+            this.scrollbox.scrollByPixels(scrollDelta, true);
+            this.requestHandle = window.requestAnimationFrame(
+              this.sample.bind(this)
+            );
+          }
+        });
+      },
+      set(val) {
+        delete this._arrowScrollAnim;
+        return (this._arrowScrollAnim = val);
+      }
+    });
 
     this._scrollDelay = this._prefBranch.getIntPref(
       "toolkit.scrollbox.clickToScroll.scrollDelay",
@@ -70,6 +107,11 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
     this._scrollIndex = index;
     this._mousedown = true;
 
+    if (this.smoothScroll) {
+      this._arrowScrollAnim.start();
+      return;
+    }
+
     if (!this._scrollTimer)
       this._scrollTimer = Components.classes[
         "@mozilla.org/timer;1"
@@ -86,7 +128,12 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
   _stopScroll() {
     if (this._scrollTimer) this._scrollTimer.cancel();
     this._mousedown = false;
+    if (!this._scrollIndex || !this.smoothScroll) return;
+
+    this.scrollByIndex(this._scrollIndex);
     this._scrollIndex = 0;
+
+    this._arrowScrollAnim.stop();
   }
   _pauseScroll() {
     if (this._mousedown) {

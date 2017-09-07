@@ -323,8 +323,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       Services.obs.addObserver(this, "browser:purge-session-history", true);
     }
 
-    let jsm = "resource://gre/modules/RemoteController.jsm";
-    let RemoteController = Components.utils.import(jsm, {}).RemoteController;
+    let rc_js = "resource://gre/modules/RemoteController.js";
+    let scope = {};
+    Services.scriptloader.loadSubScript(rc_js, scope);
+    let RemoteController = scope.RemoteController;
     this._controller = new RemoteController(this);
     this.controllers.appendController(this._controller);
 
