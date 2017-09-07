@@ -87,7 +87,9 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
     });
 
     this.addEventListener("popupshown", event => {
-      undefined;
+      // Enable drag scrolling even when the mouse wasn't used. The mousemove
+      // handler will remove it if the mouse isn't down.
+      this.enableDragScrolling(false);
     });
 
     this.addEventListener("popuphidden", event => {

@@ -360,7 +360,12 @@ class FirefoxPrefwindow extends FirefoxDialog {
     });
 
     this.addEventListener("command", event => {
-      undefined;
+      if (event.originalTarget.hasAttribute("pane")) {
+        var pane = document.getElementById(
+          event.originalTarget.getAttribute("pane")
+        );
+        this.showPane(pane);
+      }
     });
 
     this.addEventListener(

@@ -25,11 +25,15 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
     undefined;
 
     this.addEventListener("keypress", event => {
-      undefined;
+      if (event.originalTarget == this) this.open = true;
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      if (event.originalTarget == this) {
+        this.open = true;
+        // Prevent page from scrolling on the space key.
+        event.preventDefault();
+      }
     });
   }
   disconnectedCallback() {}

@@ -25,11 +25,11 @@ class FirefoxSpinbuttons extends FirefoxBasecontrol {
     });
 
     this.addEventListener("mouseup", event => {
-      undefined;
+      this.removeAttribute("state");
     });
 
     this.addEventListener("mouseout", event => {
-      undefined;
+      this.removeAttribute("state");
     });
 
     this.addEventListener("command", event => {

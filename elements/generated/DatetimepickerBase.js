@@ -221,19 +221,19 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      if (this._hasEntry) this._increaseOrDecrease(1);
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      if (this._hasEntry) this._increaseOrDecrease(-1);
     });
 
     this.addEventListener("input", event => {
-      undefined;
+      this._valueEntered = true;
     });
 
     this.addEventListener("change", event => {
-      undefined;
+      this._setValueOnChange(event.originalTarget);
     });
   }
   disconnectedCallback() {

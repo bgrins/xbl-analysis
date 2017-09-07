@@ -239,7 +239,10 @@ class FirefoxTree extends FirefoxTreeBase {
     );
 
     this.addEventListener("keydown", event => {
-      undefined;
+      if (this._handleEnter(event)) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
     });
 
     this.addEventListener("keydown", event => {

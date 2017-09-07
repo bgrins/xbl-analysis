@@ -115,7 +115,7 @@ class FirefoxPreference extends BaseElement {
     }
 
     this.addEventListener("change", event => {
-      undefined;
+      this.updateElements();
     });
   }
   disconnectedCallback() {

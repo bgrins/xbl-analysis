@@ -75,7 +75,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
     this.addEventListener(
       "input",
       event => {
-        undefined;
+        this._valueEntered = true;
       },
       true
     );
@@ -96,23 +96,27 @@ class FirefoxNumberbox extends FirefoxTextbox {
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._modifyUp();
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._modifyDown();
     });
 
     this.addEventListener("up", event => {
-      undefined;
+      this._modifyUp();
     });
 
     this.addEventListener("down", event => {
-      undefined;
+      this._modifyDown();
     });
 
     this.addEventListener("change", event => {
-      undefined;
+      if (event.originalTarget == this.inputField) {
+        var newval = this.inputField.value;
+        newval = newval.replace(this.decimalSymbol, ".");
+        this._validateValue(newval, false);
+      }
     });
   }
   disconnectedCallback() {}

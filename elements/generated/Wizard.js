@@ -319,7 +319,7 @@ class FirefoxWizard extends FirefoxRootElement {
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      if (!event.defaultPrevented) this.cancel();
     });
   }
   disconnectedCallback() {}

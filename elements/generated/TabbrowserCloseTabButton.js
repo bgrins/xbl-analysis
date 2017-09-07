@@ -26,13 +26,14 @@ class FirefoxTabbrowserCloseTabButton extends FirefoxToolbarbuttonImage {
     this.addEventListener(
       "dblclick",
       event => {
-        undefined;
+        // for the one-close-button case
+        event.stopPropagation();
       },
       true
     );
 
     this.addEventListener("dragstart", event => {
-      undefined;
+      event.stopPropagation();
     });
   }
   disconnectedCallback() {}

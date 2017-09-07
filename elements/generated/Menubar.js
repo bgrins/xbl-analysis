@@ -61,11 +61,11 @@ class FirefoxMenubar extends FirefoxToolbarBase {
     });
 
     this.addEventListener("DOMMenuItemActive", event => {
-      undefined;
+      this._updateStatusText(event.target.statusText);
     });
 
     this.addEventListener("DOMMenuItemInactive", event => {
-      undefined;
+      this._updateStatusText("");
     });
   }
   disconnectedCallback() {}

@@ -54,19 +54,29 @@ class FirefoxPrefpane extends BaseElement {
     });
 
     this.addEventListener("command", event => {
-      undefined;
+      // This "command" event handler tracks changes made to preferences by
+      // the user in this window.
+      if (event.sourceEvent) event = event.sourceEvent;
+      this.userChangedValue(event.target);
     });
 
     this.addEventListener("select", event => {
-      undefined;
+      // This "select" event handler tracks changes made to colorpicker
+      // preferences by the user in this window.
+      if (event.target.localName == "colorpicker")
+        this.userChangedValue(event.target);
     });
 
     this.addEventListener("change", event => {
-      undefined;
+      // This "change" event handler tracks changes made to preferences by
+      // the user in this window.
+      this.userChangedValue(event.target);
     });
 
     this.addEventListener("input", event => {
-      undefined;
+      // This "input" event handler tracks changes made to preferences by
+      // the user in this window.
+      this.userChangedValue(event.target);
     });
 
     this.addEventListener("paneload", event => {

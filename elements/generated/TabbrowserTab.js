@@ -97,7 +97,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     this.addEventListener(
       "dragstart",
       event => {
-        undefined;
+        this.style.MozUserFocus = "";
       },
       true
     );
@@ -117,7 +117,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     );
 
     this.addEventListener("mouseup", event => {
-      undefined;
+      this.style.MozUserFocus = "";
     });
 
     this.addEventListener("click", event => {

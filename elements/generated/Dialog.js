@@ -86,7 +86,7 @@ class FirefoxDialog extends FirefoxRootElement {
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      if (!event.defaultPrevented) this.cancelDialog();
     });
 
     this.addEventListener(
@@ -100,7 +100,16 @@ class FirefoxDialog extends FirefoxRootElement {
     this.addEventListener(
       "focus",
       event => {
-        undefined;
+        var btn = this.getButton(this.defaultButton);
+        if (btn)
+          btn.setAttribute(
+            "default",
+            event.originalTarget == btn ||
+              !(
+                event.originalTarget instanceof
+                Components.interfaces.nsIDOMXULButtonElement
+              )
+          );
       },
       true
     );

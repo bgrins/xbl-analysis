@@ -273,7 +273,12 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
     this.dispatchEvent(new CustomEvent("VideoBindingAttached"));
 
     this.addEventListener("mouseup", event => {
-      undefined;
+      if (event.originalTarget.nodeName == "vbox") {
+        if (this.TouchUtils.firstShow) {
+          this.Utils.video.play();
+        }
+        this.TouchUtils.toggleControls();
+      }
     });
   }
   disconnectedCallback() {

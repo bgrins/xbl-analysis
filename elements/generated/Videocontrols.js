@@ -2009,15 +2009,21 @@ class FirefoxVideocontrols extends BaseElement {
     this.Utils.init(this);
 
     this.addEventListener("mouseover", event => {
-      undefined;
+      if (!this.isTouchControls) {
+        this.Utils.onMouseInOut(event);
+      }
     });
 
     this.addEventListener("mouseout", event => {
-      undefined;
+      if (!this.isTouchControls) {
+        this.Utils.onMouseInOut(event);
+      }
     });
 
     this.addEventListener("mousemove", event => {
-      undefined;
+      if (!this.isTouchControls) {
+        this.Utils.onMouseMove(event);
+      }
     });
   }
   disconnectedCallback() {

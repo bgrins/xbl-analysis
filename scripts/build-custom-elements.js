@@ -139,7 +139,7 @@ function getJSForBinding(binding) {
     let capturing = handler.attrs.phase === "capturing" ? ", true" : "";
     handlers.push(`
       this.addEventListener("${handler.attrs.event}", (event) => {
-        ${handler.cdata}
+        ${handler.cdata || handler.value}
       }${capturing});
     `);
   }

@@ -38,27 +38,44 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     else this.selectedIndex = 0;
 
     this.addEventListener("mousedown", event => {
-      undefined;
+      if (this.disabled) event.preventDefault();
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this.selectedItem = this.focusedItem;
+      this.selectedItem.doCommand();
+      // Prevent page from scrolling on the space key.
+      event.preventDefault();
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this.checkAdjacentElement(false);
+      event.stopPropagation();
+      event.preventDefault();
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      // left arrow goes back when we are ltr, forward when we are rtl
+      this.checkAdjacentElement(
+        document.defaultView.getComputedStyle(this).direction == "rtl"
+      );
+      event.stopPropagation();
+      event.preventDefault();
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this.checkAdjacentElement(true);
+      event.stopPropagation();
+      event.preventDefault();
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      // right arrow goes forward when we are ltr, back when we are rtl
+      this.checkAdjacentElement(
+        document.defaultView.getComputedStyle(this).direction == "ltr"
+      );
+      event.stopPropagation();
+      event.preventDefault();
     });
 
     this.addEventListener("focus", event => {
@@ -83,7 +100,8 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     });
 
     this.addEventListener("blur", event => {
-      undefined;
+      this.removeAttribute("focused");
+      this.focusedItem = null;
     });
   }
   disconnectedCallback() {}

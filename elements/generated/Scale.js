@@ -68,11 +68,15 @@ class FirefoxScale extends FirefoxBasecontrol {
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._userChanged = true;
+      this.value = this.dir == "reverse" ? this.max : this.min;
+      this._userChanged = false;
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._userChanged = true;
+      this.value = this.dir == "reverse" ? this.min : this.max;
+      this._userChanged = false;
     });
   }
   disconnectedCallback() {}

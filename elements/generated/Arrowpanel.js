@@ -67,19 +67,32 @@ class FirefoxArrowpanel extends FirefoxPanel {
     });
 
     this.addEventListener("popuphiding", event => {
-      undefined;
+      let animate = this.getAttribute("animate") != "false";
+
+      if (this._fadeTimer) {
+        clearTimeout(this._fadeTimer);
+        if (animate) {
+          this.setAttribute("animate", "fade");
+        }
+      } else if (animate) {
+        this.setAttribute("animate", "cancel");
+      }
     });
 
     this.addEventListener("popupshown", event => {
-      undefined;
+      this.removeAttribute("animating");
+      this.setAttribute("panelopen", "true");
     });
 
     this.addEventListener("popuphidden", event => {
-      undefined;
+      this.removeAttribute("panelopen");
+      if (this.getAttribute("animate") != "false") {
+        this.removeAttribute("animate");
+      }
     });
 
     this.addEventListener("popuppositioned", event => {
-      undefined;
+      this.adjustArrowPosition();
     });
   }
   disconnectedCallback() {}
