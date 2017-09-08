@@ -1348,6 +1348,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     if (this.getAttribute("movingtab") != "true") {
       this.setAttribute("movingtab", "true");
+      this.parentNode.setAttribute("movingtab", "true");
       this.selectedItem = draggedTab;
     }
 
@@ -1445,6 +1446,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     for (let tab of this.tabbrowser.visibleTabs) tab.style.transform = "";
 
     this.removeAttribute("movingtab");
+    this.parentNode.removeAttribute("movingtab");
 
     this._handleTabSelect();
   }

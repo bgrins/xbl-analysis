@@ -1925,6 +1925,16 @@ class FirefoxTabbrowser extends BaseElement {
     let browser = aTab ? this.getBrowserForTab(aTab) : this.selectedBrowser;
     return browser.mIconURL;
   }
+  setPageInfo(aURL, aDescription, aPreviewImage) {
+    if (aURL) {
+      let pageInfo = {
+        url: aURL,
+        description: aDescription,
+        previewImageURL: aPreviewImage
+      };
+      PlacesUtils.history.update(pageInfo).catch(Components.utils.reportError);
+    }
+  }
   shouldLoadFavIcon(aURI) {
     return (
       aURI &&
