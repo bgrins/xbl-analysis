@@ -13,7 +13,7 @@ class FirefoxTabbrowser extends BaseElement {
 <hbox flex="1" class="browserSidebarContainer">
 <vbox flex="1" class="browserContainer">
 <stack flex="1" class="browserStack" anonid="browserStack">
-<browser anonid="initialBrowser" type="content" message="true" messagemanagergroup="browsers" primary="true" inherits="tooltip=contenttooltip,contextmenu=contentcontextmenu,autocompletepopup,selectmenulist,datetimepicker">
+<browser anonid="initialBrowser" type="content" message="true" messagemanagergroup="browsers" primary="true" blank="true" inherits="tooltip=contenttooltip,contextmenu=contentcontextmenu,autocompletepopup,selectmenulist,datetimepicker">
 </browser>
 </stack>
 </vbox>
@@ -616,11 +616,8 @@ class FirefoxTabbrowser extends BaseElement {
     this._tabFilters.set(this.mCurrentTab, filter);
     this.webProgress.addProgressListener(filter, nsIWebProgress.NOTIFY_ALL);
 
-    this.style.backgroundColor = Services.prefs.getBoolPref(
-      "browser.display.use_system_colors"
-    )
-      ? "-moz-default-background-color"
-      : Services.prefs.getCharPref("browser.display.background_color");
+    if (Services.prefs.getBoolPref("browser.display.use_system_colors"))
+      this.style.backgroundColor = "-moz-default-background-color";
 
     let messageManager = window.getGroupMessageManager("browsers");
 
@@ -1529,7 +1526,8 @@ class FirefoxTabbrowser extends BaseElement {
 
         if (!this._shouldShowProgress(aRequest)) return;
 
-        if (this.mTotalProgress) this.mTab.setAttribute("progress", "true");
+        if (this.mTotalProgress && this.mTab.hasAttribute("busy"))
+          this.mTab.setAttribute("progress", "true");
 
         this._callProgressListeners("onProgressChange", [
           aWebProgress,
@@ -1643,7 +1641,11 @@ class FirefoxTabbrowser extends BaseElement {
           }
 
           if (this._shouldShowProgress(aRequest)) {
-            if (!(aStateFlags & nsIWebProgressListener.STATE_RESTORING)) {
+            if (
+              !(aStateFlags & nsIWebProgressListener.STATE_RESTORING) &&
+              aWebProgress &&
+              aWebProgress.isTopLevel
+            ) {
               this.mTab.setAttribute("busy", "true");
               this._syncThrobberAnimations();
             }
@@ -3758,27 +3760,44 @@ class FirefoxTabbrowser extends BaseElement {
     for (let i = tabs.length - 1; tabs[i] != aTab && i >= 0; --i) {
       tabsToEnd.push(tabs[i]);
     }
-    return tabsToEnd.reverse();
+    return tabsToEnd;
   }
   removeTabsToTheEndFrom(aTab, aParams) {
-    if (this.warnAboutClosingTabs(this.closingTabsEnum.TO_END, aTab)) {
-      let tabs = this.getTabsToTheEndFrom(aTab);
-      for (let i = tabs.length - 1; i >= 0; --i) {
-        this.removeTab(tabs[i], aParams);
-      }
+    if (!this.warnAboutClosingTabs(this.closingTabsEnum.TO_END, aTab)) return;
+
+    let removeTab = tab => {
+      // Avoid changing the selected browser several times.
+      if (tab.selected) this.selectedTab = aTab;
+
+      this.removeTab(tab, aParams);
+    };
+
+    let tabs = this.getTabsToTheEndFrom(aTab);
+    let tabsWithBeforeUnload = [];
+    for (let i = tabs.length - 1; i >= 0; --i) {
+      let tab = tabs[i];
+      if (this._hasBeforeUnload(tab)) tabsWithBeforeUnload.push(tab);
+      else removeTab(tab);
     }
+    tabsWithBeforeUnload.forEach(removeTab);
   }
   removeAllTabsBut(aTab) {
-    if (aTab.pinned) return;
+    if (aTab.pinned || !this.warnAboutClosingTabs(this.closingTabsEnum.OTHER))
+      return;
 
-    if (this.warnAboutClosingTabs(this.closingTabsEnum.OTHER)) {
-      let tabs = this.visibleTabs;
-      this.selectedTab = aTab;
+    let tabs = this.visibleTabs.reverse();
+    this.selectedTab = aTab;
 
-      for (let i = tabs.length - 1; i >= 0; --i) {
-        if (tabs[i] != aTab && !tabs[i].pinned)
-          this.removeTab(tabs[i], { animate: true });
+    let tabsWithBeforeUnload = [];
+    for (let i = tabs.length - 1; i >= 0; --i) {
+      let tab = tabs[i];
+      if (tab != aTab && !tab.pinned) {
+        if (this._hasBeforeUnload(tab)) tabsWithBeforeUnload.push(tab);
+        else this.removeTab(tab, { animate: true });
       }
+    }
+    for (let tab of tabsWithBeforeUnload) {
+      this.removeTab(tab, { animate: true });
     }
   }
   removeCurrentTab(aParams) {
@@ -3867,6 +3886,15 @@ class FirefoxTabbrowser extends BaseElement {
       this
     );
   }
+  _hasBeforeUnload(aTab) {
+    let browser = aTab.linkedBrowser;
+    return (
+      browser.isRemoteBrowser &&
+      browser.frameLoader &&
+      browser.frameLoader.tabParent &&
+      browser.frameLoader.tabParent.hasBeforeUnload
+    );
+  }
   _beginRemoveTab(
     aTab,
     aAdoptedByTab,
@@ -3877,20 +3905,13 @@ class FirefoxTabbrowser extends BaseElement {
     if (aTab.closing || this._windowIsClosing) return false;
 
     var browser = this.getBrowserForTab(aTab);
-
-    let checkPermitUnload =
+    if (
       !aSkipPermitUnload &&
       !aAdoptedByTab &&
       aTab.linkedPanel &&
-      !aTab._pendingPermitUnload;
-
-    if (checkPermitUnload && browser.isRemoteBrowser) {
-      checkPermitUnload =
-        browser.frameLoader.tabParent &&
-        browser.frameLoader.tabParent.hasBeforeUnload;
-    }
-
-    if (checkPermitUnload) {
+      !aTab._pendingPermitUnload &&
+      (!browser.isRemoteBrowser || this._hasBeforeUnload(aTab))
+    ) {
       TelemetryStopwatch.start("FX_TAB_CLOSE_PERMIT_UNLOAD_TIME_MS", aTab);
 
       // We need to block while calling permitUnload() because it
@@ -5824,7 +5845,9 @@ class FirefoxTabbrowser extends BaseElement {
     return switcher;
   }
   warmupTab(aTab) {
-    this._getSwitcher().warmupTab(aTab);
+    if (gMultiProcessBrowser) {
+      this._getSwitcher().warmupTab(aTab);
+    }
   }
   goBack() {
     return this.mCurrentBrowser.goBack();

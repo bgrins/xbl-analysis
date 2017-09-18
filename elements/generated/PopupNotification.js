@@ -42,7 +42,7 @@ class FirefoxPopupNotification extends BaseElement {
 </children>
 </menupopup>
 </button>
-<button anonid="button" class="popup-notification-button" default="true" label="&defaultButton.label;" accesskey="&defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,disabled=mainactiondisabled">
+<button anonid="button" class="popup-notification-button" default="true" label="&defaultButton.label;" accesskey="&defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled">
 </button>
 </hbox>`;
     let comment = document.createComment("Creating firefox-popup-notification");

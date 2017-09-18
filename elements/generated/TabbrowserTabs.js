@@ -709,7 +709,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
             break;
         }
         if (pixelsToScroll)
-          tabStrip.scrollByPixels((ltr ? 1 : -1) * pixelsToScroll);
+          tabStrip.scrollByPixels((ltr ? 1 : -1) * pixelsToScroll, true);
       }
 
       if (

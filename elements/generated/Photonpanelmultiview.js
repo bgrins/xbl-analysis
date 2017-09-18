@@ -7,10 +7,10 @@ class FirefoxPhotonpanelmultiview extends FirefoxPanelmultiview {
     console.log(this, "connected");
 
     this.innerHTML = `<box anonid="viewContainer" class="panel-viewcontainer" inherits="panelopen,transitioning">
-<stack anonid="viewStack" inherits="transitioning" class="panel-viewstack">
+<box anonid="viewStack" inherits="transitioning" class="panel-viewstack">
 <children includes="panelview">
 </children>
-</stack>
+</box>
 </box>
 <box class="panel-viewcontainer offscreen">
 <box anonid="offscreenViewStack" class="panel-viewstack">
