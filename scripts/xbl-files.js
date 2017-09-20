@@ -65,8 +65,16 @@ var toolkitFiles = [
 ];
 var allFiles = module.exports.files = browserFiles.concat(toolkitFiles);
 
-module.exports.getParsedFiles = () => {
-  return Promise.all(allFiles.map(file => {
+module.exports.getParsedFiles = (rev) => {
+  let files = allFiles;
+  if (rev) {
+    // Allow for revisions like 'master@{2017-09-19}'
+    files = files.map(file => {
+      return file.replace('/master/', `/${rev}/`);
+    });
+  }
+
+  return Promise.all(files.map(file => {
     return request(file).then(body => {
       body = body.replace(/#ifdef XP_(.*)/g, '')
                 .replace(/#ifndef XP_(.*)/g, '')
