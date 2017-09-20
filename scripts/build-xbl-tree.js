@@ -48,7 +48,7 @@ function printSingleBinding(binding) {
 
 getParsedFiles().then(docs => {
   totalPrintedFiles = docs.length;
-  docs.forEach((doc, i) => {
+  docs.forEach(({doc}, i) => {
     doc.find('binding').forEach(binding => {
       idToFeatures[binding.attrs.id] = [];
       idToFeatureAttrs[binding.attrs.id] = [];

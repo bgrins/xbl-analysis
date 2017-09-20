@@ -82,8 +82,9 @@ module.exports.getParsedFiles = (rev) => {
                 .replace(/#else/g, '')
                 .replace(/#endif/g, '')
                 .replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
-      console.log(`requested ${file}`);
-      return xmlom.parseString(body);
+      return xmlom.parseString(body).then(doc => {
+        return { doc, body };
+      });
     });
   }));
 };

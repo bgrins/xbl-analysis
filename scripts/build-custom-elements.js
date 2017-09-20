@@ -6,10 +6,9 @@ var jsFiles = [];
 var extendsMap = new Map();
 var sampleElements = [];
 
-getParsedFiles().then(docs => {
-  console.log(docs);
-  docs.forEach(doc => {
-    doc.find("binding").forEach(binding => {
+getParsedFiles().then(files => {
+  files.forEach(file => {
+    file.doc.find("binding").forEach(binding => {
       binding.attrs.id = binding.attrs.id.toLowerCase();
       binding.attrs.extends = binding.attrs.extends && binding.attrs.extends.toLowerCase();
       let fileName = `${titleCase(binding.attrs.id)}.js`;
