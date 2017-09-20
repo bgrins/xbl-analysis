@@ -663,6 +663,24 @@ class FirefoxTabbrowser extends BaseElement {
       "toolkit.cosmeticAnimations.enabled",
       true
     );
+    XPCOMUtils.defineLazyPreferenceGetter(
+      this,
+      "tabWarmingEnabled",
+      "browser.tabs.remote.warmup.enabled",
+      false
+    );
+    XPCOMUtils.defineLazyPreferenceGetter(
+      this,
+      "tabWarmingMax",
+      "browser.tabs.remote.warmup.maxTabs",
+      3
+    );
+    XPCOMUtils.defineLazyPreferenceGetter(
+      this,
+      "tabWarmingUnloadDelay" /* ms */,
+      "browser.tabs.remote.warmup.unloadDelayMs",
+      2000
+    );
 
     this.addEventListener(
       "DOMWindowClose",
@@ -4937,25 +4955,6 @@ class FirefoxTabbrowser extends BaseElement {
       init() {
         this.log("START");
 
-        XPCOMUtils.defineLazyPreferenceGetter(
-          this,
-          "WARMING_ENABLED",
-          "browser.tabs.remote.warmup.enabled",
-          false
-        );
-        XPCOMUtils.defineLazyPreferenceGetter(
-          this,
-          "MAX_WARMING_TABS",
-          "browser.tabs.remote.warmup.maxTabs",
-          3
-        );
-        XPCOMUtils.defineLazyPreferenceGetter(
-          this,
-          "WARMING_UNLOAD_DELAY" /* ms */,
-          "browser.tabs.remote.warmup.unloadDelayMs",
-          2000
-        );
-
         // If we minimized the window before the switcher was activated,
         // we might have set  the preserveLayers flag for the current
         // browser. Let's clear it.
@@ -5318,8 +5317,8 @@ class FirefoxTabbrowser extends BaseElement {
 
         this.maybeFinishTabSwitch();
 
-        if (numWarming > this.MAX_WARMING_TABS) {
-          this.logState("Hit MAX_WARMING_TABS");
+        if (numWarming > this.tabbrowser.tabWarmingMax) {
+          this.logState("Hit tabWarmingMax");
           if (this.unloadTimer) {
             this.clearTimer(this.unloadTimer);
           }
@@ -5552,7 +5551,7 @@ class FirefoxTabbrowser extends BaseElement {
       },
 
       canWarmTab(tab) {
-        if (!this.WARMING_ENABLED) {
+        if (!this.tabbrowser.tabWarmingEnabled) {
           return false;
         }
 
@@ -5593,7 +5592,10 @@ class FirefoxTabbrowser extends BaseElement {
 
         this.warmingTabs.add(tab);
         this.setTabState(tab, this.STATE_LOADING);
-        this.suppressDisplayPortAndQueueUnload(tab, this.WARMING_UNLOAD_DELAY);
+        this.suppressDisplayPortAndQueueUnload(
+          tab,
+          this.tabbrowser.tabWarmingUnloadDelay
+        );
       },
 
       // Called when the user asks to switch to a given tab.
@@ -5602,7 +5604,7 @@ class FirefoxTabbrowser extends BaseElement {
           return;
         }
 
-        if (this.WARMING_ENABLED) {
+        if (this.tabbrowser.tabWarmingEnabled) {
           let warmingState = "disqualified";
 
           if (this.warmingTabs.has(tab)) {
