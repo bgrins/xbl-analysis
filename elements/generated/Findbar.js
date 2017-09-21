@@ -996,28 +996,6 @@ class FirefoxFindbar extends FirefoxToolbar {
 
     return undefined;
   }
-  onFindSelectionCommand() {
-    let searchString = this.browser.finder.setSearchStringToSelection();
-    if (searchString) this._findField.value = searchString;
-  }
-  _onFindFieldFocus() {
-    let prefsvc = this._prefsvc;
-    const kPref = "accessibility.typeaheadfind.prefillwithselection";
-    if (this.prefillWithSelection && prefsvc.getBoolPref(kPref)) return;
-
-    let clipboardSearchString = this._browser.finder.clipboardSearchString;
-    if (
-      clipboardSearchString &&
-      this._findField.value != clipboardSearchString &&
-      !this._findField._willfullyDeleted
-    ) {
-      this._findField.value = clipboardSearchString;
-      this._findField._hadValue = true;
-      // Changing the search string makes the previous status invalid, so
-      // we better clear it here.
-      this._updateStatusUI();
-    }
-  }
   onFindResult(aData) {
     if (aData.result == this.nsITypeAheadFind.FIND_NOTFOUND) {
       // If an explicit Find Again command fails, re-open the toolbar.

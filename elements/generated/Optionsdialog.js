@@ -17,17 +17,7 @@ class FirefoxOptionsdialog extends FirefoxDialog {
 <iframe anonid="panelFrame" name="panelFrame" style="width: 0px;" flex="1">
 </iframe>
 </vbox>
-</hbox>
-<vbox flex="1">
-<categoryBox anonid="prefsCategories">
-<children>
-</children>
-</categoryBox>
-<vbox flex="1">
-<iframe anonid="panelFrame" name="panelFrame" style="width: 0px;" flex="1">
-</iframe>
-</vbox>
-</vbox>`;
+</hbox>`;
     let comment = document.createComment("Creating firefox-optionsdialog");
     this.prepend(comment);
   }

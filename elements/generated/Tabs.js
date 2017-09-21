@@ -65,13 +65,6 @@ class FirefoxTabs extends FirefoxBasecontrol {
     var value = this.value;
     if (value) this.value = value;
     else this.selectedIndex = 0;
-
-    this.addEventListener("DOMMouseScroll", event => {
-      if (event.detail > 0) this.advanceSelectedTab(1, false);
-      else this.advanceSelectedTab(-1, false);
-
-      event.stopPropagation();
-    });
   }
   disconnectedCallback() {}
 

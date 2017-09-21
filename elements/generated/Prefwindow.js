@@ -17,20 +17,6 @@ class FirefoxPrefwindow extends FirefoxDialog {
 </deck>
 </hbox>
 <hbox anonid="dlg-buttons" class="prefWindow-dlgbuttons" pack="end">
-<button dlgtype="disclosure" class="dialog-button" hidden="true">
-</button>
-<button dlgtype="help" class="dialog-button" hidden="true" icon="help">
-</button>
-<button dlgtype="extra2" class="dialog-button" hidden="true">
-</button>
-<button dlgtype="extra1" class="dialog-button" hidden="true">
-</button>
-<spacer anonid="spacer" flex="1">
-</spacer>
-<button dlgtype="cancel" class="dialog-button" icon="cancel">
-</button>
-<button dlgtype="accept" class="dialog-button" icon="accept">
-</button>
 <button dlgtype="extra2" class="dialog-button" hidden="true">
 </button>
 <spacer anonid="spacer" flex="1">

@@ -184,25 +184,6 @@ class FirefoxTextbox extends BaseElement {
     this.addEventListener("click", event => {
       undefined;
     });
-
-    this.addEventListener("contextmenu", event => {
-      // Only care about context clicks on the textbox itself.
-      if (event.target != this) return;
-
-      if (
-        !event.button // context menu opened via keyboard shortcut
-      )
-        return;
-      this._maybeSelectAll();
-      // see bug 576135 comment 4
-      let box = this.inputField.parentNode;
-      let menu = document.getAnonymousElementByAttribute(
-        box,
-        "anonid",
-        "input-box-contextmenu"
-      );
-      box._doPopupItemEnabling(menu);
-    });
   }
   disconnectedCallback() {
     var field = this.inputField;

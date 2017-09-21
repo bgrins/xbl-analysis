@@ -10,21 +10,7 @@ class FirefoxDialog extends FirefoxRootElement {
 <children>
 </children>
 </vbox>
-<hbox class="dialog-button-box" anonid="buttons" inherits="pack=buttonpack,align=buttonalign,dir=buttondir,orient=buttonorient">
-<button dlgtype="disclosure" class="dialog-button" hidden="true">
-</button>
-<button dlgtype="help" class="dialog-button" hidden="true">
-</button>
-<button dlgtype="extra2" class="dialog-button" hidden="true">
-</button>
-<button dlgtype="extra1" class="dialog-button" hidden="true">
-</button>
-<spacer anonid="spacer" flex="1">
-</spacer>
-<button dlgtype="cancel" class="dialog-button">
-</button>
-<button dlgtype="accept" class="dialog-button" inherits="disabled=buttondisabledaccept">
-</button>
+<hbox class="dialog-button-box" anonid="buttons" inherits="pack=buttonpack,align=buttonalign,dir=buttondir,orient=buttonorient" pack="end">
 <button dlgtype="extra2" class="dialog-button" hidden="true">
 </button>
 <spacer anonid="spacer" flex="1" hidden="true">
@@ -88,14 +74,6 @@ class FirefoxDialog extends FirefoxRootElement {
     this.addEventListener("keypress", event => {
       if (!event.defaultPrevented) this.cancelDialog();
     });
-
-    this.addEventListener(
-      "keypress",
-      event => {
-        undefined;
-      },
-      true
-    );
 
     this.addEventListener(
       "focus",

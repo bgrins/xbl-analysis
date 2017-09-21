@@ -34,10 +34,6 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
     this.addEventListener("click", event => {
       undefined;
     });
-
-    this.addEventListener("click", event => {
-      undefined;
-    });
   }
   disconnectedCallback() {}
 }
