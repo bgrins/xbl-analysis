@@ -9,95 +9,165 @@
   </script>
   <script src="../static/chart.js">
   </script>
+  <style>
+      .container { margin: 10px auto; width: 75%; }
+  </style>
 </head>
 <body>
-  <div style="width:75%;">
-    <canvas id="canvas"></canvas>
-  </div>
+    <div class="container">
+        <canvas id="overview"></canvas>
+    </div>
+    <div class="container">
+        <canvas id="loc"></canvas>
+    </div>
+    <div class="container">
+        <canvas id="bindings"></canvas>
+    </div>
   <script>
-    window.chartColors = {
-        red: 'rgb(255, 99, 132)',
-        orange: 'rgb(255, 159, 64)',
-        yellow: 'rgb(255, 205, 86)',
-        green: 'rgb(75, 192, 192)',
-        blue: 'rgb(54, 162, 235)',
-        purple: 'rgb(153, 102, 255)',
-        grey: 'rgb(201, 203, 207)'
-    };
-    
-    let loc = [];
-    let numBindings = [];
-    let labels = [];
-    for (var rev in DATA) {
-        loc.push(DATA[rev].loc / 1000);
-        numBindings.push(DATA[rev].numBindings);
-        labels.push(DATA[rev].label);
-    }
-    
-    window.randomScalingFactor = function() {
-            return Math.round(Math.random() * 100);
-        };
-    var config = {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "Lines of XBL",
-                        backgroundColor: window.chartColors.red,
-                        borderColor: window.chartColors.red,
-                        data: loc,
-                        fill: false,
-                    }, {
-                        label: "Number of Bindings",
-                        backgroundColor: window.chartColors.blue,
-                        borderColor: window.chartColors.blue,
-                        data: numBindings,
-                        fill: false,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    title:{
-                        display:true,
-                        text: 'XBL Usage',
-                    },
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    hover: {
-                        mode: 'nearest',
-                        intersect: true
-                    },
-                    scales: {
-                        xAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Month'
-                            }
-                        }],
-                        yAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Value'
-                            },
-                            ticks: {
-                                min: 0,
-                                max: 250,
-    
-                                // forces step size to be 5 units
-                                stepSize: 15
-                            }
-                        }]
-                    }
+var chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+};
+let locs = [];
+let bindings = [];
+let labels = [];
+for (var rev in DATA) {
+    locs.push(DATA[rev].loc);
+    bindings.push(DATA[rev].numBindings);
+    labels.push(DATA[rev].label);
+}
+
+let maxLoc = Math.max.apply(null, locs);
+let maxBinding = Math.max.apply(null, bindings);
+
+new Chart(document.getElementById("overview").getContext("2d"), {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Lines of XBL",
+            backgroundColor: window.chartColors.red,
+            borderColor: window.chartColors.red,
+            data: locs.map(loc => (loc / maxLoc) * 100),
+            fill: false,
+        }, {
+            label: "Number of Bindings",
+            backgroundColor: window.chartColors.blue,
+            borderColor: window.chartColors.blue,
+            data: bindings.map(binding => (binding / maxBinding) * 100),
+            fill: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        title:{
+            display:true,
+            text: 'XBL Usage',
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Month'
                 }
-            };
-    
-    
-        var ctx = document.getElementById("canvas").getContext("2d");
-        var myLine = new Chart(ctx, config);
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Percentage'
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 105,
+                    stepSize: 10
+                }
+            }]
+        }
+    }
+});
+
+new Chart(document.getElementById("loc").getContext("2d"), {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Lines of XBL",
+            backgroundColor: window.chartColors.red,
+            borderColor: window.chartColors.red,
+            data: locs,
+            fill: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Month'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Number'
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: maxLoc * 1.05,
+                    stepSize: 5000
+                },
+            }]
+        }
+    }
+});
+
+new Chart(document.getElementById("bindings").getContext("2d"), {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Number of Bindings",
+            backgroundColor: window.chartColors.blue,
+            borderColor: window.chartColors.blue,
+            data: bindings,
+            fill: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Month'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Number'
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: maxBinding * 1.05,
+                    stepSize: 20
+                },
+            }]
+        }
+    }
+});
   </script>
 </body>
 </html>
