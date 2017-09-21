@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "start": "node scripts/build-xbl-graph",
     "tree": "node scripts/build-xbl-tree",
     "elements": "node scripts/build-custom-elements",
     "graph": "node scripts/build-xbl-graph"
