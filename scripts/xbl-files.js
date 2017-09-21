@@ -76,15 +76,47 @@ module.exports.getParsedFiles = (rev) => {
 
   return Promise.all(files.map(file => {
     return request(file).then(body => {
-      body = body.replace(/#ifdef XP_(.*)/g, '')
-                .replace(/#ifndef XP_(.*)/g, '')
-                .replace(/#ifdef MOZ_WIDGET_GTK/g, '')
-                .replace(/#else/g, '')
-                .replace(/#endif/g, '')
-                .replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
+      body = preprocessFile(body);
+      body = body.replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
+
       return xmlom.parseString(body).then(doc => {
         return { doc, body };
       });
     });
   }));
 };
+
+function preprocessFile(content) {
+  // This maps the text of a "#if" to its truth value. We need to do some cheap parsing
+  // to prevent duplicate
+  const ifMap = {
+    "#ifdef MOZ_WIDGET_GTK": false,
+    "#ifndef XP_WIN": false,
+    "#ifndef XP_MACOSX": true,
+    "#ifdef XP_MACOSX": false,
+    "#ifdef XP_UNIX": false,
+    "#ifdef XP_WIN": true,
+  };
+
+  let lines = content.split("\n");
+  let ignoring = false;
+  let newLines = [];
+  let continuation = false;
+  for (let line of lines) {
+    if (line.startsWith("#if")) {
+      if (!(line in ifMap)) {
+        throw new Error("missing line in ifMap: " + line);
+      }
+      ignoring = !ifMap[line];
+    } else if (line.startsWith("#else")) {
+      ignoring = !ignoring;
+    } else if (line.startsWith("#endif")) {
+      ignoring = false;
+    }
+
+    if (!ignoring) {
+      newLines.push(line);
+    }
+  }
+  return newLines.join("\n");
+}
