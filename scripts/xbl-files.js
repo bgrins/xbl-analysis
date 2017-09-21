@@ -1,4 +1,5 @@
 var xmlom = require('xmlom');
+var fs = require('fs');
 var request = require('request-promise-native');
 
 var browserFiles = [
@@ -14,7 +15,7 @@ var browserFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/tree.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/siteListItem.xml',
-  // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/translation/translation-infobar.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/extensions/formautofill/content/formautofill.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/places/organizer.xml',
@@ -78,7 +79,7 @@ module.exports.getParsedFiles = (rev) => {
     return request(file).then(body => {
       body = preprocessFile(body);
       body = body.replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
-
+      body = body.replace('(event.detail > 0)', '(event.detail &gt; 0)'); // Special case an instance with > in an attr in search.xml
       return xmlom.parseString(body).then(doc => {
         return { doc, body };
       });
