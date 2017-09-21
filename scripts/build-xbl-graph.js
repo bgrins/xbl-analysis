@@ -2,6 +2,7 @@
 var fs = require('fs');
 var sortedBindings = require('./sorted-bindings');
 var {getParsedFiles} = require('./xbl-files');
+var prettier = require("prettier");
 var data = {};
 
 function countForRev(rev) {
@@ -11,12 +12,14 @@ function countForRev(rev) {
       return file.doc.find('binding').length;
     }).reduce((a, b) => { return a + b; });
     let loc = files.map(file => {
-      return file.body.length;
+      return file.body.split(/\n/).length;
     }).reduce((a, b) => { return a + b; });
+    let label = rev.match(/@{(.*)}/)[1];
 
     data[rev] = {
       numBindings,
-      loc
+      loc,
+      label
     };
   });
 }
@@ -39,4 +42,8 @@ Promise.all(
   for (var rev of revs) {
     console.log(rev, data[rev]);
   }
+
+  fs.writeFileSync('graph/xbl-counts.js', prettier.format(`
+    var DATA = ${JSON.stringify(data)};
+  `));
 });
