@@ -167,6 +167,12 @@ function getJSForBinding(binding) {
       }
     }
 
+    let setter = field.attrs.readonly ? '' :
+    `set(val) {
+        delete this.${field.attrs.name};
+        return this.${field.attrs.name} = val;
+    },`;
+
     fields.push(`Object.defineProperty(this, "${field.attrs.name}", {
       configurable: true,
       enumerable: true,
@@ -175,10 +181,7 @@ function getJSForBinding(binding) {
         delete this.${field.attrs.name};
         return this.${field.attrs.name} = ${expressions.join('\n')}
       },
-      set(val) {
-        delete this.${field.attrs.name};
-        return this.${field.attrs.name} = val;
-      },
+      ${setter}
     })`);
   }
 
