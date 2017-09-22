@@ -40,10 +40,6 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           "resource://gre/modules/ExtensionSearchHandler.jsm",
           {}
         ).ExtensionSearchHandler);
-      },
-      set(val) {
-        delete this.ExtensionSearchHandler;
-        return (this.ExtensionSearchHandler = val);
       }
     });
     Object.defineProperty(this, "goButton", {

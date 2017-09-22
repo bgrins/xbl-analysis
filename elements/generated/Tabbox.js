@@ -15,10 +15,6 @@ class FirefoxTabbox extends FirefoxTabBase {
       get() {
         delete this._handleMetaAltArrows;
         return (this._handleMetaAltArrows = /Mac/.test(navigator.platform));
-      },
-      set(val) {
-        delete this._handleMetaAltArrows;
-        return (this._handleMetaAltArrows = val);
       }
     });
     Object.defineProperty(this, "_eventNode", {

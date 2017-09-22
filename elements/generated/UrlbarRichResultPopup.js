@@ -83,10 +83,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         return (this._bundle = Cc["@mozilla.org/intl/stringbundle;1"]
           .getService(Ci.nsIStringBundleService)
           .createBundle("chrome://browser/locale/places/places.properties"));
-      },
-      set(val) {
-        delete this._bundle;
-        return (this._bundle = val);
       }
     });
     Object.defineProperty(this, "searchSuggestionsNotification", {
@@ -99,10 +95,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
           "anonid",
           "search-suggestions-notification"
         ));
-      },
-      set(val) {
-        delete this.searchSuggestionsNotification;
-        return (this.searchSuggestionsNotification = val);
       }
     });
     Object.defineProperty(this, "footer", {
@@ -115,10 +107,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
           "anonid",
           "footer"
         ));
-      },
-      set(val) {
-        delete this.footer;
-        return (this.footer = val);
       }
     });
     Object.defineProperty(this, "oneOffSearchButtons", {
@@ -131,10 +119,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
           "anonid",
           "one-off-search-buttons"
         ));
-      },
-      set(val) {
-        delete this.oneOffSearchButtons;
-        return (this.oneOffSearchButtons = val);
       }
     });
     Object.defineProperty(this, "_oneOffSearchesEnabled", {

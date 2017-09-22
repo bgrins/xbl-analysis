@@ -111,10 +111,6 @@ class FirefoxSearchbar extends BaseElement {
           "resource://gre/modules/FormHistory.jsm",
           {}
         ).FormHistory);
-      },
-      set(val) {
-        delete this.FormHistory;
-        return (this.FormHistory = val);
       }
     });
 

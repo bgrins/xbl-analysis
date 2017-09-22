@@ -22,10 +22,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_INFO_LOW;
         return (this.PRIORITY_INFO_LOW = 1);
-      },
-      set(val) {
-        delete this.PRIORITY_INFO_LOW;
-        return (this.PRIORITY_INFO_LOW = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_INFO_MEDIUM", {
@@ -34,10 +30,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_INFO_MEDIUM;
         return (this.PRIORITY_INFO_MEDIUM = 2);
-      },
-      set(val) {
-        delete this.PRIORITY_INFO_MEDIUM;
-        return (this.PRIORITY_INFO_MEDIUM = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_INFO_HIGH", {
@@ -46,10 +38,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_INFO_HIGH;
         return (this.PRIORITY_INFO_HIGH = 3);
-      },
-      set(val) {
-        delete this.PRIORITY_INFO_HIGH;
-        return (this.PRIORITY_INFO_HIGH = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_WARNING_LOW", {
@@ -58,10 +46,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_WARNING_LOW;
         return (this.PRIORITY_WARNING_LOW = 4);
-      },
-      set(val) {
-        delete this.PRIORITY_WARNING_LOW;
-        return (this.PRIORITY_WARNING_LOW = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_WARNING_MEDIUM", {
@@ -70,10 +54,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_WARNING_MEDIUM;
         return (this.PRIORITY_WARNING_MEDIUM = 5);
-      },
-      set(val) {
-        delete this.PRIORITY_WARNING_MEDIUM;
-        return (this.PRIORITY_WARNING_MEDIUM = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_WARNING_HIGH", {
@@ -82,10 +62,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_WARNING_HIGH;
         return (this.PRIORITY_WARNING_HIGH = 6);
-      },
-      set(val) {
-        delete this.PRIORITY_WARNING_HIGH;
-        return (this.PRIORITY_WARNING_HIGH = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_CRITICAL_LOW", {
@@ -94,10 +70,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_CRITICAL_LOW;
         return (this.PRIORITY_CRITICAL_LOW = 7);
-      },
-      set(val) {
-        delete this.PRIORITY_CRITICAL_LOW;
-        return (this.PRIORITY_CRITICAL_LOW = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_CRITICAL_MEDIUM", {
@@ -106,10 +78,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_CRITICAL_MEDIUM;
         return (this.PRIORITY_CRITICAL_MEDIUM = 8);
-      },
-      set(val) {
-        delete this.PRIORITY_CRITICAL_MEDIUM;
-        return (this.PRIORITY_CRITICAL_MEDIUM = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_CRITICAL_HIGH", {
@@ -118,10 +86,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_CRITICAL_HIGH;
         return (this.PRIORITY_CRITICAL_HIGH = 9);
-      },
-      set(val) {
-        delete this.PRIORITY_CRITICAL_HIGH;
-        return (this.PRIORITY_CRITICAL_HIGH = val);
       }
     });
     Object.defineProperty(this, "PRIORITY_CRITICAL_BLOCK", {
@@ -130,10 +94,6 @@ class FirefoxNotificationbox extends BaseElement {
       get() {
         delete this.PRIORITY_CRITICAL_BLOCK;
         return (this.PRIORITY_CRITICAL_BLOCK = 10);
-      },
-      set(val) {
-        delete this.PRIORITY_CRITICAL_BLOCK;
-        return (this.PRIORITY_CRITICAL_BLOCK = val);
       }
     });
     Object.defineProperty(this, "currentNotification", {

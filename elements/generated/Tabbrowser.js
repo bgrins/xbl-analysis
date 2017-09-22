@@ -34,10 +34,6 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.tabContainer = document.getElementById(
           this.getAttribute("tabcontainer")
         ));
-      },
-      set(val) {
-        delete this.tabContainer;
-        return (this.tabContainer = val);
       }
     });
     Object.defineProperty(this, "tabs", {
@@ -46,10 +42,6 @@ class FirefoxTabbrowser extends BaseElement {
       get() {
         delete this.tabs;
         return (this.tabs = this.tabContainer.childNodes);
-      },
-      set(val) {
-        delete this.tabs;
-        return (this.tabs = val);
       }
     });
     Object.defineProperty(this, "closingTabsEnum", {
@@ -58,10 +50,6 @@ class FirefoxTabbrowser extends BaseElement {
       get() {
         delete this.closingTabsEnum;
         return (this.closingTabsEnum = { ALL: 0, OTHER: 1, TO_END: 2 });
-      },
-      set(val) {
-        delete this.closingTabsEnum;
-        return (this.closingTabsEnum = val);
       }
     });
     Object.defineProperty(this, "_visibleTabs", {
@@ -84,10 +72,6 @@ class FirefoxTabbrowser extends BaseElement {
         return (this.mURIFixup = Components.classes[
           "@mozilla.org/docshell/urifixup;1"
         ].getService(Components.interfaces.nsIURIFixup));
-      },
-      set(val) {
-        delete this.mURIFixup;
-        return (this.mURIFixup = val);
       }
     });
     Object.defineProperty(this, "_unifiedComplete", {
@@ -98,10 +82,6 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._unifiedComplete = Components.classes[
           "@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
         ].getService(Components.interfaces.mozIPlacesAutoComplete));
-      },
-      set(val) {
-        delete this._unifiedComplete;
-        return (this._unifiedComplete = val);
       }
     });
     Object.defineProperty(this, "mTabBox", {
@@ -114,10 +94,6 @@ class FirefoxTabbrowser extends BaseElement {
           "anonid",
           "tabbox"
         ));
-      },
-      set(val) {
-        delete this.mTabBox;
-        return (this.mTabBox = val);
       }
     });
     Object.defineProperty(this, "mPanelContainer", {
@@ -130,10 +106,6 @@ class FirefoxTabbrowser extends BaseElement {
           "anonid",
           "panelcontainer"
         ));
-      },
-      set(val) {
-        delete this.mPanelContainer;
-        return (this.mPanelContainer = val);
       }
     });
     Object.defineProperty(this, "mStringBundle", {
@@ -266,10 +238,6 @@ class FirefoxTabbrowser extends BaseElement {
       get() {
         delete this.arrowKeysShouldWrap;
         return (this.arrowKeysShouldWrap = AppConstants == "macosx");
-      },
-      set(val) {
-        delete this.arrowKeysShouldWrap;
-        return (this.arrowKeysShouldWrap = val);
       }
     });
     Object.defineProperty(this, "_autoScrollPopup", {
@@ -338,10 +306,6 @@ class FirefoxTabbrowser extends BaseElement {
       get() {
         delete this._tabForBrowser;
         return (this._tabForBrowser = new WeakMap());
-      },
-      set(val) {
-        delete this._tabForBrowser;
-        return (this._tabForBrowser = val);
       }
     });
     Object.defineProperty(this, "serializationHelper", {
@@ -504,10 +468,6 @@ class FirefoxTabbrowser extends BaseElement {
             return target[name];
           }
         }));
-      },
-      set(val) {
-        delete this.browsers;
-        return (this.browsers = val);
       }
     });
     Object.defineProperty(this, "_printPreviewBrowsers", {

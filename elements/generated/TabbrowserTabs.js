@@ -35,10 +35,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this.tabbrowser = document.getElementById(
           this.getAttribute("tabbrowser")
         ));
-      },
-      set(val) {
-        delete this.tabbrowser;
-        return (this.tabbrowser = val);
       }
     });
     Object.defineProperty(this, "tabbox", {
@@ -47,10 +43,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       get() {
         delete this.tabbox;
         return (this.tabbox = this.tabbrowser.mTabBox);
-      },
-      set(val) {
-        delete this.tabbox;
-        return (this.tabbox = val);
       }
     });
     Object.defineProperty(this, "contextMenu", {
@@ -59,10 +51,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       get() {
         delete this.contextMenu;
         return (this.contextMenu = document.getElementById("tabContextMenu"));
-      },
-      set(val) {
-        delete this.contextMenu;
-        return (this.contextMenu = val);
       }
     });
     Object.defineProperty(this, "mTabstripWidth", {
@@ -268,10 +256,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
           this.parentNode.localName == "toolbar"
           ? this.parentNode
           : this);
-      },
-      set(val) {
-        delete this._container;
-        return (this._container = val);
       }
     });
     Object.defineProperty(this, "_propagatedVisibilityOnce", {

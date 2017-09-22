@@ -53,10 +53,6 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       get() {
         delete this.defaultMaxRows;
         return (this.defaultMaxRows = 6);
-      },
-      set(val) {
-        delete this.defaultMaxRows;
-        return (this.defaultMaxRows = val);
       }
     });
     Object.defineProperty(this, "_normalMaxRows", {

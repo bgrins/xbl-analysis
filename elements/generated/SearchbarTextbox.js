@@ -51,10 +51,6 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
             }
           }
         });
-      },
-      set(val) {
-        delete this.searchbarController;
-        return (this.searchbarController = val);
       }
     });
 

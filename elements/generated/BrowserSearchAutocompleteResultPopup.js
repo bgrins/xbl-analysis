@@ -61,10 +61,6 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
           "anonid",
           "search-one-off-buttons"
         ));
-      },
-      set(val) {
-        delete this.oneOffButtons;
-        return (this.oneOffButtons = val);
       }
     });
 

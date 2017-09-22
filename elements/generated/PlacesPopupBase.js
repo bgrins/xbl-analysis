@@ -28,10 +28,6 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
           "resource://gre/modules/AppConstants.jsm",
           {}
         ).AppConstants);
-      },
-      set(val) {
-        delete this.AppConstants;
-        return (this.AppConstants = val);
       }
     });
     Object.defineProperty(this, "_indicatorBar", {

@@ -132,10 +132,6 @@ class FirefoxAutocomplete extends FirefoxTextbox {
         delete this.shrinkDelay;
         return (this.shrinkDelay =
           parseInt(this.getAttribute("shrinkdelay")) || 0);
-      },
-      set(val) {
-        delete this.shrinkDelay;
-        return (this.shrinkDelay = val);
       }
     });
     Object.defineProperty(this, "maxDropMarkerRows", {
@@ -144,10 +140,6 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       get() {
         delete this.maxDropMarkerRows;
         return (this.maxDropMarkerRows = 14);
-      },
-      set(val) {
-        delete this.maxDropMarkerRows;
-        return (this.maxDropMarkerRows = val);
       }
     });
     Object.defineProperty(this, "valueIsTyped", {

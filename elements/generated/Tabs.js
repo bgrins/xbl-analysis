@@ -33,10 +33,6 @@ class FirefoxTabs extends FirefoxBasecontrol {
       get() {
         delete this._tabbox;
         return (this._tabbox = this.tabbox);
-      },
-      set(val) {
-        delete this._tabbox;
-        return (this._tabbox = val);
       }
     });
 

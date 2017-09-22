@@ -126,10 +126,6 @@ class FirefoxBrowser extends BaseElement {
         return (this.mPrefs = Components.classes[
           "@mozilla.org/preferences-service;1"
         ].getService(Components.interfaces.nsIPrefBranch));
-      },
-      set(val) {
-        delete this.mPrefs;
-        return (this.mPrefs = val);
       }
     });
     Object.defineProperty(this, "_mStrBundle", {

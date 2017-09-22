@@ -19,10 +19,6 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
         return (this.progressmeter = document.getElementById(
           "addon-progress-notification-progressmeter"
         ));
-      },
-      set(val) {
-        delete this.progressmeter;
-        return (this.progressmeter = val);
       }
     });
     Object.defineProperty(this, "progresstext", {
@@ -33,10 +29,6 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
         return (this.progresstext = document.getElementById(
           "addon-progress-notification-progresstext"
         ));
-      },
-      set(val) {
-        delete this.progresstext;
-        return (this.progresstext = val);
       }
     });
 

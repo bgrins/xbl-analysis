@@ -56,10 +56,6 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
             this.mOuter._refreshSelection();
           }
         });
-      },
-      set(val) {
-        delete this._builderListener;
-        return (this._builderListener = val);
       }
     });
     Object.defineProperty(this, "_currentIndex", {

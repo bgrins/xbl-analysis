@@ -15,10 +15,6 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
       get() {
         delete this.TIME_PICKER_WIDTH;
         return (this.TIME_PICKER_WIDTH = "12em");
-      },
-      set(val) {
-        delete this.TIME_PICKER_WIDTH;
-        return (this.TIME_PICKER_WIDTH = val);
       }
     });
     Object.defineProperty(this, "TIME_PICKER_HEIGHT", {
@@ -27,10 +23,6 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
       get() {
         delete this.TIME_PICKER_HEIGHT;
         return (this.TIME_PICKER_HEIGHT = "21em");
-      },
-      set(val) {
-        delete this.TIME_PICKER_HEIGHT;
-        return (this.TIME_PICKER_HEIGHT = val);
       }
     });
     Object.defineProperty(this, "DATE_PICKER_WIDTH", {
@@ -39,10 +31,6 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
       get() {
         delete this.DATE_PICKER_WIDTH;
         return (this.DATE_PICKER_WIDTH = "23.1em");
-      },
-      set(val) {
-        delete this.DATE_PICKER_WIDTH;
-        return (this.DATE_PICKER_WIDTH = val);
       }
     });
     Object.defineProperty(this, "DATE_PICKER_HEIGHT", {
@@ -51,10 +39,6 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
       get() {
         delete this.DATE_PICKER_HEIGHT;
         return (this.DATE_PICKER_HEIGHT = "20.7em");
-      },
-      set(val) {
-        delete this.DATE_PICKER_HEIGHT;
-        return (this.DATE_PICKER_HEIGHT = val);
       }
     });
 

@@ -124,10 +124,6 @@ class FirefoxSearchOneOffs extends BaseElement {
           "anonid",
           "search-panel-one-offs"
         ));
-      },
-      set(val) {
-        delete this.buttons;
-        return (this.buttons = val);
       }
     });
     Object.defineProperty(this, "header", {
@@ -140,10 +136,6 @@ class FirefoxSearchOneOffs extends BaseElement {
           "anonid",
           "search-panel-one-offs-header"
         ));
-      },
-      set(val) {
-        delete this.header;
-        return (this.header = val);
       }
     });
     Object.defineProperty(this, "addEngines", {
@@ -156,10 +148,6 @@ class FirefoxSearchOneOffs extends BaseElement {
           "anonid",
           "add-engines"
         ));
-      },
-      set(val) {
-        delete this.addEngines;
-        return (this.addEngines = val);
       }
     });
     Object.defineProperty(this, "settingsButton", {
@@ -172,10 +160,6 @@ class FirefoxSearchOneOffs extends BaseElement {
           "anonid",
           "search-settings"
         ));
-      },
-      set(val) {
-        delete this.settingsButton;
-        return (this.settingsButton = val);
       }
     });
     Object.defineProperty(this, "settingsButtonCompact", {
@@ -188,10 +172,6 @@ class FirefoxSearchOneOffs extends BaseElement {
           "anonid",
           "search-settings-compact"
         ));
-      },
-      set(val) {
-        delete this.settingsButtonCompact;
-        return (this.settingsButtonCompact = val);
       }
     });
     Object.defineProperty(this, "_bundle", {
