@@ -820,7 +820,12 @@ class FirefoxTabbrowser extends BaseElement {
       }
 
       tab.removeAttribute("soundplaying");
-      this.setIcon(tab, icon, browser.contentPrincipal);
+      this.setIcon(
+        tab,
+        icon,
+        browser.contentPrincipal,
+        browser.contentRequestContextID
+      );
     });
 
     this.addEventListener("DOMAudioPlaybackStarted", event => {
@@ -1901,18 +1906,24 @@ class FirefoxTabbrowser extends BaseElement {
       }
     };
   }
-  setIcon(aTab, aURI, aLoadingPrincipal) {
+  setIcon(aTab, aURI, aLoadingPrincipal, aRequestContextID) {
     let browser = this.getBrowserForTab(aTab);
     browser.mIconURL = aURI instanceof Ci.nsIURI ? aURI.spec : aURI;
     let loadingPrincipal = aLoadingPrincipal
       ? aLoadingPrincipal
       : Services.scriptSecurityManager.getSystemPrincipal();
+    let requestContextID = aRequestContextID || 0;
 
     if (aURI) {
       if (!(aURI instanceof Ci.nsIURI)) {
         aURI = makeURI(aURI);
       }
-      PlacesUIUtils.loadFavicon(browser, loadingPrincipal, aURI);
+      PlacesUIUtils.loadFavicon(
+        browser,
+        loadingPrincipal,
+        aURI,
+        requestContextID
+      );
     }
 
     let sizedIconUrl = browser.mIconURL || "";
@@ -1926,6 +1937,7 @@ class FirefoxTabbrowser extends BaseElement {
             "iconLoadingPrincipal",
             this.serializationHelper.serializeToString(loadingPrincipal)
           );
+          aTab.setAttribute("requestcontextid", requestContextID);
           browser.mIconLoadingPrincipal = loadingPrincipal;
         }
         aTab.setAttribute("image", sizedIconUrl);
@@ -1989,7 +2001,12 @@ class FirefoxTabbrowser extends BaseElement {
       let url = documentURI.prePath + "/favicon.ico";
       if (!this.isFailedIcon(url)) icon = url;
     }
-    this.setIcon(aTab, icon, browser.contentPrincipal);
+    this.setIcon(
+      aTab,
+      icon,
+      browser.contentPrincipal,
+      browser.contentRequestContextID
+    );
   }
   isFailedIcon(aURI) {
     if (!(aURI instanceof Ci.nsIURI)) aURI = makeURI(aURI);
@@ -2734,11 +2751,8 @@ class FirefoxTabbrowser extends BaseElement {
       if (targetTabIndex !== -1) this.moveTabTo(tab, ++tabNum);
     }
 
-    if (!aLoadInBackground) {
-      if (firstTabAdded) {
-        // .selectedTab setter focuses the content area
-        this.selectedTab = firstTabAdded;
-      } else this.selectedBrowser.focus();
+    if (firstTabAdded && !aLoadInBackground) {
+      this.selectedTab = firstTabAdded;
     }
   }
   updateBrowserRemoteness(aBrowser, aShouldBeRemote, aOptions) {
@@ -4338,7 +4352,8 @@ class FirefoxTabbrowser extends BaseElement {
         this.setIcon(
           aOurTab,
           otherBrowser.mIconURL,
-          otherBrowser.contentPrincipal
+          otherBrowser.contentPrincipal,
+          otherBrowser.contentRequestContextID
         );
       var isBusy = aOtherTab.hasAttribute("busy");
       if (isBusy) {

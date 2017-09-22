@@ -165,6 +165,18 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
         return (this._contentPrincipal = val);
       }
     });
+    Object.defineProperty(this, "_contentRequestContextID", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._contentRequestContextID;
+        return (this._contentRequestContextID = null);
+      },
+      set(val) {
+        delete this._contentRequestContextID;
+        return (this._contentRequestContextID = val);
+      }
+    });
     Object.defineProperty(this, "_imageDocument", {
       configurable: true,
       enumerable: true,
@@ -430,6 +442,10 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
   get contentPrincipal() {
     return this._contentPrincipal;
+  }
+
+  get contentRequestContextID() {
+    return this._contentRequestContextID;
   }
 
   get contentDocumentAsCPOW() {

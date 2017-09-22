@@ -885,6 +885,14 @@ class FirefoxBrowser extends BaseElement {
     return this.contentDocument.nodePrincipal;
   }
 
+  get contentRequestContextID() {
+    try {
+      return this.contentDocument.documentLoadGroup.requestContextID;
+    } catch (e) {
+      return null;
+    }
+  }
+
   set showWindowResizer(val) {
     if (val) this.setAttribute("showresizer", "true");
     else this.removeAttribute("showresizer");
