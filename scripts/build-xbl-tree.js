@@ -125,20 +125,18 @@ getParsedFiles().then(docs => {
                                     <a href='#${key}' highlight="${key}">${key}</a>`);
   featureHighlightStr.unshift(`<a href='#'>clear</a>`);
 
-  fs.writeFileSync('index.html', `
+  fs.writeFileSync('tree/index.html', `
     <head>
     <meta charset="utf-8">
     <title>XBL Component Tree</title>
+    <link rel="stylesheet" href="../static/styles.css" />
     <style>
-      li,ul { list-style: none; }
-      em { padding-left: 10px; color: #999; }
-      summary {padding: 4px 0; position: relative; width: 100%; }
-      .highlights { border: solid 1px; padding: 5px; margin: 5px }
       ${featureCss}
     </style>
     </head>
     ${featureElements}
-    <a href="https://github.com/bgrins/xbl-analysis">Link to code</a>
+    <a href="../">Home</a>
+    <a href="https://github.com/bgrins/xbl-analysis" style="float:right">Link to code</a>
     <h1>XBL Component Tree</h1>
     <p>About this data:</p>
     <ul>
