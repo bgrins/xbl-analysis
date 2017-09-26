@@ -490,12 +490,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     this.setAttribute("text", this.getAttribute("ac-text"));
 
     let popup = this.parentNode.parentNode;
-    if (!popup.popupOpen) {
-      // Removing the max-width and resetting it later when overflow is
-      // handled is jarring when the item is visible, so skip this when
-      // the popup is open.
-      this._removeMaxWidths();
-    }
 
     let title = this.getAttribute("title");
     let titleLooksLikeUrl = false;
@@ -704,15 +698,26 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     }
     this._setUpDescription(this._urlText, displayUrl, !emphasiseUrl);
 
-    if (this._inOverflow) {
+    // Removing the max-width may be jarring when the item is visible, but
+    // we have no other choice to properly crop the text.
+    // Removing max-widths may cause overflow or underflow events, that
+    // will set the _inOverflow property. In case both the old and the new
+    // text are overflowing, the overflow event won't happen, and we must
+    // enforce an _handleOverflow() call to update the max-widths.
+    let wasInOverflow = this._inOverflow;
+    this._removeMaxWidths();
+    if (wasInOverflow && this._inOverflow) {
       this._handleOverflow();
     }
   }
   _removeMaxWidths() {
-    this._titleText.style.removeProperty("max-width");
-    this._tagsText.style.removeProperty("max-width");
-    this._urlText.style.removeProperty("max-width");
-    this._actionText.style.removeProperty("max-width");
+    if (this._hasMaxWidths) {
+      this._titleText.style.removeProperty("max-width");
+      this._tagsText.style.removeProperty("max-width");
+      this._urlText.style.removeProperty("max-width");
+      this._actionText.style.removeProperty("max-width");
+      this._hasMaxWidths = false;
+    }
   }
   adjustSiteIconStart(newStart) {
     if (typeof newStart != "number") {
@@ -804,6 +809,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       urlActionMaxWidth -= separatorRect.width;
       this._urlText.style.maxWidth = urlActionMaxWidth + "px";
       this._actionText.style.maxWidth = urlActionMaxWidth + "px";
+      this._hasMaxWidths = true;
     }
   }
   handleOverUnderflow() {
