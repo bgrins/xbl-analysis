@@ -91,9 +91,20 @@ getParsedFiles().then(docs => {
     });
   }
 
+  let candidatesForFlattening = [];
+  for (let binding in bindingTree) {
+    if (bindingTree[binding].length === 1) {
+      let selfInstances = idToNumInstances[bindingTree[binding]];
+      let parentInstances = idToNumInstances[binding];
+      if (selfInstances == parentInstances) {
+        candidatesForFlattening.push(`${bindingTree[binding]} (parent: ${binding}, parent instances: ${parentInstances}, self instances: ${selfInstances})`);
+      }
+    }
+  }
   console.log("idToNumInstances:", idToNumInstances);
   console.log("idToBinding:", idToBinding);
   console.log("bindingTree:", bindingTree);
+  console.log(`candidates for flattening (${candidatesForFlattening.length})`, candidatesForFlattening)
 
   for (let rootBinding of bindingTree["NO_EXTENDS"]) {
     outputHTML.push(printSingleBinding(rootBinding))
