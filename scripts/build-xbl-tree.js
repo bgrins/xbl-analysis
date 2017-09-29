@@ -1,6 +1,6 @@
 
 var fs = require('fs');
-var sortedBindings = require('./sorted-bindings');
+var sortedBindings = require('./sorted-bindings').latest;
 var {getParsedFiles, files} = require('./xbl-files');
 
 var idToBinding = {};

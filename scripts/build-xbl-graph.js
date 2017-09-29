@@ -1,6 +1,5 @@
 
 var fs = require('fs');
-var sortedBindings = require('./sorted-bindings');
 var {getParsedFiles} = require('./xbl-files');
 var prettier = require("prettier");
 var data = {};
