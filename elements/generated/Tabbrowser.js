@@ -1630,6 +1630,7 @@ class FirefoxTabbrowser extends BaseElement {
               aWebProgress.isTopLevel
             ) {
               this.mTab.setAttribute("busy", "true");
+              this.mTab._notselectedsinceload = !this.mTab.selected;
               this._syncThrobberAnimations();
             }
 
@@ -1653,6 +1654,12 @@ class FirefoxTabbrowser extends BaseElement {
               !this.mTabBrowser.tabAnimationsInProgress &&
               Services.prefs.getBoolPref("toolkit.cosmeticAnimations.enabled")
             ) {
+              if (this.mTab._notselectedsinceload) {
+                this.mTab.setAttribute("notselectedsinceload", "true");
+              } else {
+                this.mTab.removeAttribute("notselectedsinceload");
+              }
+
               this.mTab.setAttribute("bursting", "true");
             }
 
@@ -1866,26 +1873,27 @@ class FirefoxTabbrowser extends BaseElement {
       }
     };
   }
-  setIcon(aTab, aURI, aLoadingPrincipal, aRequestContextID) {
-    let browser = this.getBrowserForTab(aTab);
-    browser.mIconURL = aURI instanceof Ci.nsIURI ? aURI.spec : aURI;
-    let loadingPrincipal = aLoadingPrincipal
-      ? aLoadingPrincipal
-      : Services.scriptSecurityManager.getSystemPrincipal();
-    let requestContextID = aRequestContextID || 0;
-
-    if (aURI) {
+  storeIcon(aBrowser, aURI, aLoadingPrincipal, aRequestContextID) {
+    try {
       if (!(aURI instanceof Ci.nsIURI)) {
         aURI = makeURI(aURI);
       }
       PlacesUIUtils.loadFavicon(
-        browser,
-        loadingPrincipal,
+        aBrowser,
+        aLoadingPrincipal,
         aURI,
-        requestContextID
+        aRequestContextID
       );
+    } catch (ex) {
+      Components.utils.reportError(ex);
     }
-
+  }
+  setIcon(aTab, aURI, aLoadingPrincipal, aRequestContextID) {
+    let browser = this.getBrowserForTab(aTab);
+    browser.mIconURL = aURI instanceof Ci.nsIURI ? aURI.spec : aURI;
+    let loadingPrincipal =
+      aLoadingPrincipal || Services.scriptSecurityManager.getSystemPrincipal();
+    let requestContextID = aRequestContextID || 0;
     let sizedIconUrl = browser.mIconURL || "";
     if (sizedIconUrl != aTab.getAttribute("image")) {
       if (sizedIconUrl) {
@@ -1937,9 +1945,11 @@ class FirefoxTabbrowser extends BaseElement {
     );
   }
   useDefaultIcon(aTab) {
-    var browser = this.getBrowserForTab(aTab);
-    var documentURI = browser.documentURI;
-    var icon = null;
+    let browser = this.getBrowserForTab(aTab);
+    let documentURI = browser.documentURI;
+    let requestContextID = browser.contentRequestContextID;
+    let loadingPrincipal = browser.contentPrincipal;
+    let icon = null;
 
     if (browser.imageDocument) {
       if (Services.prefs.getBoolPref("browser.chrome.site_icons")) {
@@ -1950,6 +1960,8 @@ class FirefoxTabbrowser extends BaseElement {
           browser.imageDocument.width <= sz &&
           browser.imageDocument.height <= sz
         ) {
+          // Don't try to store the icon in Places, regardless it would
+          // be skipped (see Bug 403651).
           icon = browser.currentURI;
         }
       }
@@ -1959,14 +1971,13 @@ class FirefoxTabbrowser extends BaseElement {
     // do the right thing with about:-style error pages.  Bug 453442
     if (!icon && this.shouldLoadFavIcon(documentURI)) {
       let url = documentURI.prePath + "/favicon.ico";
-      if (!this.isFailedIcon(url)) icon = url;
+      if (!this.isFailedIcon(url)) {
+        icon = url;
+        this.storeIcon(browser, icon, loadingPrincipal, requestContextID);
+      }
     }
-    this.setIcon(
-      aTab,
-      icon,
-      browser.contentPrincipal,
-      browser.contentRequestContextID
-    );
+
+    this.setIcon(aTab, icon, loadingPrincipal, requestContextID);
   }
   isFailedIcon(aURI) {
     if (!(aURI instanceof Ci.nsIURI)) aURI = makeURI(aURI);

@@ -92,7 +92,6 @@ class FirefoxVideocontrols extends BaseElement {
       controlsOverlay: null,
       fullscreenButton: null,
       layoutControls: null,
-      currentTextTrackIndex: 0,
 
       textTracksCount: 0,
       randomID: 0,
@@ -1481,6 +1480,15 @@ class FirefoxVideocontrols extends BaseElement {
         );
       },
 
+      get currentTextTrackIndex() {
+        const showingTT = this.overlayableTextTracks.find(
+          tt => tt.mode == "showing"
+        );
+
+        // fallback to off button if there's no showing track.
+        return showingTT ? showingTT.index : 0;
+      },
+
       isClosedCaptionOn() {
         for (let tt of this.overlayableTextTracks) {
           if (tt.mode === "showing") {
@@ -1556,20 +1564,12 @@ class FirefoxVideocontrols extends BaseElement {
         for (let tt of this.overlayableTextTracks) {
           if (tt.index === index) {
             tt.mode = "showing";
-
-            this.currentTextTrackIndex = tt.index;
           } else {
             tt.mode = "disabled";
           }
         }
 
-        // should fallback to off
-        if (this.currentTextTrackIndex !== index) {
-          this.currentTextTrackIndex = 0;
-        }
-
         this.textTrackList.setAttribute("hidden", "true");
-        this.setClosedCaptionButtonState();
       },
 
       onControlBarTransitioned() {
@@ -1607,11 +1607,7 @@ class FirefoxVideocontrols extends BaseElement {
             this.textTracksCount--;
           }
 
-          if (idx === this.currentTextTrackIndex) {
-            this.currentTextTrackIndex = 0;
-
-            this.video.dispatchEvent(new CustomEvent("texttrackchange"));
-          }
+          this.video.dispatchEvent(new CustomEvent("texttrackchange"));
         }
 
         this.setClosedCaptionButtonState();
@@ -1687,11 +1683,12 @@ class FirefoxVideocontrols extends BaseElement {
         let givenHeight = this.video.clientHeight;
         let videoWidth =
           (this.isAudioOnly
-            ? this.controlBar.clientWidth
+            ? this.videocontrols.clientWidth
             : this.video.clientWidth) || minRequiredWidth;
         let videoHeight = this.isAudioOnly
           ? this.controlBarMinHeight
           : givenHeight;
+        let videocontrolsWidth = this.videocontrols.clientWidth;
 
         let widthUsed = minControlBarPaddingWidth;
         let preventAppendControl = false;
@@ -1730,7 +1727,14 @@ class FirefoxVideocontrols extends BaseElement {
             );
             this.controlBar.style.height = `${controlBarHeight}px`;
           }
-          this.controlBar.style.width = `${videoWidth}px`;
+          // Bug 1367875: Set minimum required width to controlBar if the given size is smaller than padding.
+          // This can help us expand the control and restore to the default size the next time we need
+          // to adjust the sizing.
+          if (videocontrolsWidth <= minControlBarPaddingWidth) {
+            this.controlBar.style.width = `${minRequiredWidth}px`;
+          } else {
+            this.controlBar.style.width = `${videoWidth}px`;
+          }
           return;
         }
 
@@ -1999,6 +2003,11 @@ class FirefoxVideocontrols extends BaseElement {
             this.video.textTracks,
             "removetrack",
             this.onTextTrackRemove
+          );
+          addListener(
+            this.video.textTracks,
+            "change",
+            this.setClosedCaptionButtonState
           );
         }
 

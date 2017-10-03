@@ -15,10 +15,10 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 <hbox class="tab-bottom-line">
 </hbox>
 </vbox>
-<hbox inherits="pinned,bursting" anonid="tab-loading-burst" class="tab-loading-burst">
+<hbox inherits="pinned,bursting,notselectedsinceload" anonid="tab-loading-burst" class="tab-loading-burst">
 </hbox>
 <hbox inherits="pinned,selected=visuallyselected,titlechanged,attention" class="tab-content" align="center">
-<hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected" anonid="tab-throbber" class="tab-throbber" layer="true">
+<hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected,notselectedsinceload" anonid="tab-throbber" class="tab-throbber" layer="true">
 </hbox>
 <image inherits="src=image,loadingprincipal=iconLoadingPrincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing" anonid="tab-icon-image" class="tab-icon-image" validate="never" role="presentation">
 </image>

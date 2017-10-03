@@ -25,7 +25,13 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
         event.target.getAttribute("anonid") == "newtab-popup" ||
         event.target.id == "newtab-popup"
       ) {
-        createUserContextMenu(event, { useAccessKeys: false });
+        createUserContextMenu(event, {
+          useAccessKeys: false,
+          showDefaultTab:
+            Services.prefs.getIntPref(
+              "privacy.userContext.longPressBehavior"
+            ) == 1
+        });
       } else {
         document.getElementById(
           "alltabs-popup-separator-1"

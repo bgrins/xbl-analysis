@@ -11,7 +11,7 @@ class FirefoxToolbarbuttonBadged extends FirefoxToolbarbutton {
 <stack class="toolbarbutton-badge-stack">
 <image class="toolbarbutton-icon" inherits="validate,src=image,label,consumeanchor">
 </image>
-<firefox-text-label class="toolbarbutton-badge" inherits="value=badge" top="0" end="0" crop="none">
+<firefox-text-label class="toolbarbutton-badge" inherits="value=badge,style=badgeStyle" top="0" end="0" crop="none">
 </firefox-text-label>
 </stack>
 <firefox-text-label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,wrap">

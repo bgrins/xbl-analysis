@@ -302,6 +302,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this.timeout = this._prefs.getIntPref("delay");
     this._formattingEnabled = this._prefs.getBoolPref("formatting.enabled");
     this._mayTrimURLs = this._prefs.getBoolPref("trimURLs");
+    this._adoptIntoActiveWindow = this._prefs.getBoolPref(
+      "switchTabs.adoptIntoActiveWindow"
+    );
     this.inputField.controllers.insertControllerAt(0, this._copyCutController);
     this.inputField.addEventListener("paste", this);
     this.inputField.addEventListener("mousedown", this);
@@ -960,7 +963,14 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           if (this.hasAttribute("actiontype")) {
             this.handleRevert();
             let prevTab = gBrowser.selectedTab;
-            if (switchToTabHavingURI(url) && isTabEmpty(prevTab)) {
+            let loadOpts = {
+              adoptIntoActiveWindow: this._adoptIntoActiveWindow
+            };
+
+            if (
+              switchToTabHavingURI(url, false, loadOpts) &&
+              isTabEmpty(prevTab)
+            ) {
               gBrowser.removeTab(prevTab);
             }
             return;
@@ -1271,7 +1281,12 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // Grab the actual input field's value, not our value, which could include moz-action:
     var inputVal = this.inputField.value;
     let selection = this.editor.selection;
-    var selectedVal = selection.toString();
+    const flags =
+      Ci.nsIDocumentEncoder.OutputPreformatted |
+      Ci.nsIDocumentEncoder.OutputRaw;
+    let selectedVal = selection
+      .QueryInterface(Ci.nsISelectionPrivate)
+      .toStringWithFormat("text/plain", flags, 0);
 
     // Handle multiple-range selection as a string for simplicity.
     if (selection.rangeCount > 1) {
@@ -1374,6 +1389,12 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           break;
         case "maxRichResults":
           this.popup.maxResults = this._prefs.getIntPref(aData);
+          break;
+        case "switchTabs.adoptIntoActiveWindow":
+          this._adoptIntoActiveWindow = this._prefs.getBoolPref(
+            "switchTabs.adoptIntoActiveWindow"
+          );
+          break;
       }
     }
   }

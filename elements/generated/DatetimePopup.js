@@ -101,7 +101,6 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
       this
     );
     this.dateTimePopupFrame.setAttribute("src", "");
-    this.hidePopup();
     this.hidden = true;
   }
   setPopupValue(data) {
@@ -334,6 +333,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         break;
       }
       case "ClosePopup": {
+        this.hidePopup();
         this.closePicker();
         break;
       }

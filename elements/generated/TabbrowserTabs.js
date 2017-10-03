@@ -1208,6 +1208,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   _handleTabSelect(aInstant) {
     if (this.getAttribute("overflow") == "true")
       this.mTabstrip.ensureElementIsVisible(this.selectedItem, aInstant);
+
+    this.selectedItem._notselectedsinceload = false;
   }
   _lockTabSizing(aTab) {
     var tabs = this.tabbrowser.visibleTabs;
