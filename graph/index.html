@@ -9,28 +9,54 @@
   <script src="../static/chart.js">
   </script>
   <style>
-      .container { margin: 10px auto; width: 75%; }
+      #graphs { margin: 10px auto;  width: 75%;}
+      #graphs .container { margin: 10px 0; }
+      a[href=\#] { display: none; }
+      :target ~ a[href=\#] { float: right; display: inline-block; }
+      :target ~ #graphs { width: 90%; }
+      :target ~ #graphs > .container,
+      :target ~ #graphs > .container > a { display: none; }
+      #graphs > .container > a { float: right; font-size: small; margin-right: 20px;}
+      #burndown:target ~ #graphs > #burndown-container,
+      #loc:target ~ #graphs > #loc-container,
+      #bindings:target ~ #graphs > #bindings-container,
+      #bindings-loc:target ~ #graphs > #bindings-loc-container,
+      #bindings-instances:target ~ #graphs > #bindings-instances-container {
+        display: block;
+      }
   </style>
 </head>
 <body>
+<div id="burndown"></div>
+<div id="loc"></div>
+<div id="bindings"></div>
+<div id="bindings-loc"></div>
+<div id="bindings-instances"></div>
   <a href="../">Home</a>
-  <a href="https://github.com/bgrins/xbl-analysis" style="float:right">Link to code</a>
-  <h1>XBL Graphs</h1>
-    <div class="container">
-        <canvas id="overview"></canvas>
+  <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+  <a href="#">Show all graphs</a>
+  <div id="graphs">
+    <div class="container" id="burndown-container">
+        <a href="#burndown">Show this graph only</a>
+        <canvas></canvas>
     </div>
-    <div class="container">
-        <canvas id="bindingsloc"></canvas>
+    <div class="container" id="loc-container">
+        <a href="#loc">Show this graph only</a>
+        <canvas></canvas>
     </div>
-    <div class="container">
-        <canvas id="bindingsinstances"></canvas>
+    <div class="container" id="bindings-container">
+        <a href="#bindings">Show this graph only</a>
+        <canvas></canvas>
     </div>
-    <div class="container">
-        <canvas id="loc"></canvas>
+    <div class="container" id="bindings-loc-container">
+        <a href="#bindings-loc">Show this graph only</a>
+        <canvas></canvas>
     </div>
-    <div class="container">
-        <canvas id="bindings"></canvas>
+    <div class="container" id="bindings-instances-container">
+        <a href="#bindings-instances">Show this graph only</a>
+        <canvas></canvas>
     </div>
+  </div>
   <script>
 var chartColors = {
     aqua: "#0ff",
@@ -172,7 +198,6 @@ var chartColors = {
     yellowgreen: "#9acd32",
 };
 
-
 function getColorIterator() {
     let colorSeq = [];
     for (let color in chartColors) {
@@ -197,7 +222,7 @@ for (var rev in DATA) {
 let maxLoc = Math.max.apply(null, locs);
 let maxBinding = Math.max.apply(null, bindings);
 
-new Chart(document.getElementById("overview").getContext("2d"), {
+new Chart(document.querySelector("#burndown-container canvas").getContext("2d"), {
     type: 'line',
     data: {
         labels: labels,
@@ -219,7 +244,7 @@ new Chart(document.getElementById("overview").getContext("2d"), {
         responsive: true,
         title:{
             display:true,
-            text: 'XBL Usage',
+            text: 'XBL Burndown',
         },
         scales: {
             xAxes: [{
@@ -265,7 +290,7 @@ for (let bindingLOC in bindingsLOC) {
     });
 }
 
-new Chart(document.getElementById("bindingsloc").getContext("2d"), {
+new Chart(document.querySelector("#bindings-loc-container canvas").getContext("2d"), {
     type: 'bar',
     data: bindingsLOCData,
     options: {
@@ -315,7 +340,7 @@ for (let bindingInstance in bindingsInstances) {
     });
 }
 
-new Chart(document.getElementById("bindingsinstances").getContext("2d"), {
+new Chart(document.querySelector("#bindings-instances-container canvas").getContext("2d"), {
     type: 'bar',
     data: bindingsInstancesData,
     options: {
@@ -343,7 +368,7 @@ new Chart(document.getElementById("bindingsinstances").getContext("2d"), {
     }
 });
 
-new Chart(document.getElementById("loc").getContext("2d"), {
+new Chart(document.querySelector("#loc-container canvas").getContext("2d"), {
     type: 'line',
     data: {
         labels: labels,
@@ -381,7 +406,7 @@ new Chart(document.getElementById("loc").getContext("2d"), {
     }
 });
 
-new Chart(document.getElementById("bindings").getContext("2d"), {
+new Chart(document.querySelector("#bindings-container canvas").getContext("2d"), {
     type: 'line',
     data: {
         labels: labels,
