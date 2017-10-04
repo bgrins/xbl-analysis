@@ -20,7 +20,10 @@
         <canvas id="overview"></canvas>
     </div>
     <div class="container">
-        <canvas id="bindingloc"></canvas>
+        <canvas id="bindingsloc"></canvas>
+    </div>
+    <div class="container">
+        <canvas id="bindingsinstances"></canvas>
     </div>
     <div class="container">
         <canvas id="loc"></canvas>
@@ -242,14 +245,13 @@ new Chart(document.getElementById("overview").getContext("2d"), {
     }
 });
 
-
 let bindingsLOCLabels = [];
 for (let d in DATA) {
     bindingsLOCLabels.push(d);
 }
 let bindingsLOCData = { labels: bindingsLOCLabels, datasets: [] };
-let bindingsLOC = DATA["master@{2017-09-01}"].bindingsLOC;
-let bindingColorIterator = getColorIterator();
+let bindingsLOC = DATA["master@{2017-10-01}"].bindingsLOC;
+let bindingLOCColorIterator = getColorIterator();
 
 for (let bindingLOC in bindingsLOC) {
     let data = [];
@@ -258,12 +260,12 @@ for (let bindingLOC in bindingsLOC) {
     }
     bindingsLOCData.datasets.push({
         label: bindingLOC,
-        backgroundColor: bindingColorIterator(),
+        backgroundColor: bindingLOCColorIterator(),
         data,
     });
 }
 
-new Chart(document.getElementById("bindingloc").getContext("2d"), {
+new Chart(document.getElementById("bindingsloc").getContext("2d"), {
     type: 'bar',
     data: bindingsLOCData,
     options: {
@@ -291,6 +293,55 @@ new Chart(document.getElementById("bindingloc").getContext("2d"), {
     }
 });
 
+
+let bindingsInstancesLabels = [];
+for (let d in DATA) {
+    bindingsInstancesLabels.push(d);
+}
+let bindingsInstancesData = { labels: bindingsInstancesLabels, datasets: [] };
+let bindingsInstances = DATA["master@{2017-10-01}"].bindingsInstances;
+let bindingsInstancesColorIterator = getColorIterator();
+
+console.log(DATA["master@{2017-10-01}"])
+for (let bindingInstance in bindingsInstances) {
+    let data = [];
+    for (let d in DATA) {
+        data.push(DATA[d].bindingsInstances[bindingInstance]);
+    }
+    bindingsInstancesData.datasets.push({
+        label: bindingInstance,
+        backgroundColor: bindingsInstancesColorIterator(),
+        data,
+    });
+}
+
+new Chart(document.getElementById("bindingsinstances").getContext("2d"), {
+    type: 'bar',
+    data: bindingsInstancesData,
+    options: {
+        legend: {
+            display: false,
+            boxWidth: 10,
+        },
+        title:{
+            display:true,
+            text:"Number of instances per binding (sorted)"
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false
+        },
+        responsive: true,
+        scales: {
+            xAxes: [{
+                stacked: true,
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        }
+    }
+});
 
 new Chart(document.getElementById("loc").getContext("2d"), {
     type: 'line',

@@ -10,7 +10,7 @@
 const data = {
 
   // https://treeherder.mozilla.org/#/jobs?repo=try&revision=400454672e35b3d97b3c32d32499190ade618691
-  "2017-07-01" : {
+  "master@{2017-07-01}" : {
     "text-label": 3704,
     "image": 2996,
     "toolbarbutton": 732,
@@ -132,7 +132,7 @@ const data = {
   },
 
   // https://treeherder.mozilla.org/#/jobs?repo=try&revision=0376dfb0826cefcd95b2739951e884786b0df7b8
-  "2017-08-01" : {
+  "master@{2017-08-01}" : {
     "text-label": 3872,
     "image": 3099,
     "toolbarbutton": 773,
@@ -254,7 +254,7 @@ const data = {
   },
 
   // https://treeherder.mozilla.org/#/jobs?repo=try&revision=4d0e229af95039522c5405dbac4375a4e827f745
-  "2017-09-01" : {
+  "master@{2017-09-01}" : {
     "text-label": 3750,
     "image": 2992,
     "toolbarbutton": 739,
@@ -373,7 +373,7 @@ const data = {
   },
 
   // https://treeherder.mozilla.org/#/jobs?repo=try&revision=5d6fbfeaf6657147017878db18ba48d74cc061c0
-  "2017-10-01" : {
+  "master@{2017-10-01}" : {
     "text-label": 3733,
     "image": 3061,
     "toolbarbutton": 740,
@@ -497,5 +497,5 @@ for (let date in data) {
   latest = data[date]
 }
 
-module.exports.data = data;
+module.exports.allSortedBindings = data;
 module.exports.latest = latest;

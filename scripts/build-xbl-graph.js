@@ -1,6 +1,7 @@
 
 var fs = require('fs');
 var {getParsedFiles} = require('./xbl-files');
+var {allSortedBindings} = require('./sorted-bindings');
 var prettier = require("prettier");
 var data = {};
 
@@ -27,6 +28,7 @@ function countForRev(rev) {
       loc,
       bindingsLOC: mapToObj(bindingsLOC),
       label,
+      bindingsInstances: allSortedBindings[rev],
     };
   });
 }
