@@ -43,7 +43,6 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
       this._itemBox.removeAttribute("size");
     }
   }
-  _onChanged() {}
   _onOverflow() {}
   _onUnderflow() {}
   handleOverUnderflow() {}

@@ -6,9 +6,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<spacer anonid="type-icon-spacer">
-</spacer>
-<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
+    this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
 </image>
 <image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
 </image>
@@ -82,11 +80,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       }
     });
 
-    this._typeIconSpacer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "type-icon-spacer"
-    );
     this._typeIcon = document.getAnonymousElementByAttribute(
       this,
       "anonid",
@@ -444,14 +437,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     }
     return this._textToSubURI.unEscapeURIForUI("UTF-8", url);
   }
-  _onChanged() {
-    let popup = this.parentNode.parentNode;
-    let iconChanged = this.adjustSiteIconStart(popup._siteIconStart);
-
-    if (iconChanged) {
-      this.handleOverUnderflow();
-    }
-  }
   _reuseAcItem() {
     let action = this._parseActionUrl(this.getAttribute("url"));
     let popup = this.parentNode.parentNode;
@@ -466,9 +451,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       action.params.engineName == popup.overrideSearchEngineName
     ) {
       this.collapsed = false;
-      // Call adjustSiteIconStart only after setting collapsed=
-      // false.  The calculations it does may be wrong otherwise.
-      this.adjustSiteIconStart(popup._siteIconStart);
+
       // The popup may have changed size between now and the last
       // time the item was shown, so always handle over/underflow.
       let dwu = window.getInterface(Ci.nsIDOMWindowUtils);
@@ -718,30 +701,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       this._actionText.style.removeProperty("max-width");
       this._hasMaxWidths = false;
     }
-  }
-  adjustSiteIconStart(newStart) {
-    if (typeof newStart != "number") {
-      this._typeIconSpacer.style.removeProperty("width");
-      return true;
-    }
-
-    let utils = window
-      .QueryInterface(Ci.nsIInterfaceRequestor)
-      .getInterface(Ci.nsIDOMWindowUtils);
-    let rect = utils.getBoundsWithoutFlushing(this._siteIcon);
-
-    let dir = this.getAttribute("dir");
-    let delta = dir == "rtl"
-      ? rect.right - Math.round(newStart)
-      : Math.round(newStart) - rect.left;
-    if (delta) {
-      let currentSpacerWidth = this._typeIconSpacer.style.width || "0px";
-      this._typeIconSpacer.style.width =
-        parseInt(currentSpacerWidth, 10) + delta + "px";
-      return true;
-    }
-
-    return false;
   }
   _handleOverflow() {
     let itemRect = this.parentNode.getBoundingClientRect();

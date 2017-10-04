@@ -43,10 +43,6 @@ function mapToObj(map) {
 }
 
 let revs = [
-  'master@{2017-03-01}',
-  'master@{2017-04-01}',
-  'master@{2017-06-01}',
-  'master@{2017-06-01}',
   'master@{2017-07-01}',
   'master@{2017-08-01}',
   'master@{2017-09-01}',

@@ -494,6 +494,18 @@ class FirefoxTabbrowser extends BaseElement {
         return (this._switcher = val);
       }
     });
+    Object.defineProperty(this, "_tabMinWidthLimit", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._tabMinWidthLimit;
+        return (this._tabMinWidthLimit = 50);
+      },
+      set(val) {
+        delete this._tabMinWidthLimit;
+        return (this._tabMinWidthLimit = val);
+      }
+    });
     Object.defineProperty(this, "_soundPlayingAttrRemovalTimer", {
       configurable: true,
       enumerable: true,
@@ -641,6 +653,16 @@ class FirefoxTabbrowser extends BaseElement {
       "browser.tabs.remote.warmup.unloadDelayMs",
       2000
     );
+    XPCOMUtils.defineLazyPreferenceGetter(
+      this,
+      "tabMinWidthPref",
+      "browser.tabs.tabMinWidth",
+      this._tabMinWidthLimit,
+      (pref, prevValue, newValue) => (this.tabMinWidth = newValue),
+      newValue => Math.max(newValue, this._tabMinWidthLimit)
+    );
+
+    this.tabMinWidth = this.tabMinWidthPref;
 
     this.addEventListener(
       "DOMWindowClose",
@@ -1091,6 +1113,12 @@ class FirefoxTabbrowser extends BaseElement {
 
   get userTypedValue() {
     return this.mCurrentBrowser.userTypedValue;
+  }
+
+  set tabMinWidth(val) {
+    let root = document.documentElement;
+    root.style.setProperty("--tab-min-width", val + "px");
+    return val;
   }
   isFindBarInitialized(aTab) {
     return (aTab || this.selectedTab)._findBar != undefined;
@@ -3513,97 +3541,113 @@ class FirefoxTabbrowser extends BaseElement {
 
     this.tabContainer.appendChild(t);
 
-    // If this new tab is owned by another, assert that relationship
-    if (aOwner) t.owner = aOwner;
-
-    var position = this.tabs.length - 1;
-    t._tPos = position;
-    this.tabContainer._setPositionalAttributes();
-
-    this.tabContainer.updateVisibility();
-
-    // If we don't have a preferred remote type, and we have a remote
-    // opener, use the opener's remote type.
-    if (!aPreferredRemoteType && aOpenerBrowser) {
-      aPreferredRemoteType = aOpenerBrowser.remoteType;
-    }
-
-    // If URI is about:blank and we don't have a preferred remote type,
-    // then we need to use the referrer, if we have one, to get the
-    // correct remote type for the new tab.
-    if (uriIsAboutBlank && !aPreferredRemoteType && aReferrerURI) {
-      aPreferredRemoteType = E10SUtils.getRemoteTypeForURI(
-        aReferrerURI.spec,
-        gMultiProcessBrowser
-      );
-    }
-
-    let remoteType = aForceNotRemote
-      ? E10SUtils.NOT_REMOTE
-      : E10SUtils.getRemoteTypeForURI(
-          aURI,
-          gMultiProcessBrowser,
-          aPreferredRemoteType
-        );
-
-    let b;
     let usingPreloadedContent = false;
+    let b;
 
-    // If we open a new tab with the newtab URL in the default
-    // userContext, check if there is a preloaded browser ready.
-    // Private windows are not included because both the label and the
-    // icon for the tab would be set incorrectly (see bug 1195981).
-    if (
-      aURI == BROWSER_NEW_TAB_URL &&
-      !aUserContextId &&
-      !PrivateBrowsingUtils.isWindowPrivate(window)
-    ) {
-      b = this._getPreloadedBrowser();
-      if (b) {
-        usingPreloadedContent = true;
+    try {
+      // If this new tab is owned by another, assert that relationship
+      if (aOwner) t.owner = aOwner;
+
+      var position = this.tabs.length - 1;
+      t._tPos = position;
+      this.tabContainer._setPositionalAttributes();
+
+      this.tabContainer.updateVisibility();
+
+      // If we don't have a preferred remote type, and we have a remote
+      // opener, use the opener's remote type.
+      if (!aPreferredRemoteType && aOpenerBrowser) {
+        aPreferredRemoteType = aOpenerBrowser.remoteType;
       }
-    }
 
-    if (!b) {
-      // No preloaded browser found, create one.
-      b = this._createBrowser({
-        remoteType,
+      // If URI is about:blank and we don't have a preferred remote type,
+      // then we need to use the referrer, if we have one, to get the
+      // correct remote type for the new tab.
+      if (uriIsAboutBlank && !aPreferredRemoteType && aReferrerURI) {
+        aPreferredRemoteType = E10SUtils.getRemoteTypeForURI(
+          aReferrerURI.spec,
+          gMultiProcessBrowser
+        );
+      }
+
+      let remoteType = aForceNotRemote
+        ? E10SUtils.NOT_REMOTE
+        : E10SUtils.getRemoteTypeForURI(
+            aURI,
+            gMultiProcessBrowser,
+            aPreferredRemoteType
+          );
+
+      // If we open a new tab with the newtab URL in the default
+      // userContext, check if there is a preloaded browser ready.
+      // Private windows are not included because both the label and the
+      // icon for the tab would be set incorrectly (see bug 1195981).
+      if (
+        aURI == BROWSER_NEW_TAB_URL &&
+        !aUserContextId &&
+        !PrivateBrowsingUtils.isWindowPrivate(window)
+      ) {
+        b = this._getPreloadedBrowser();
+        if (b) {
+          usingPreloadedContent = true;
+        }
+      }
+
+      if (!b) {
+        // No preloaded browser found, create one.
+        b = this._createBrowser({
+          remoteType,
+          uriIsAboutBlank,
+          userContextId: aUserContextId,
+          sameProcessAsFrameLoader: aSameProcessAsFrameLoader,
+          openerWindow: aOpener,
+          isPrerendered: aIsPrerendered,
+          nextTabParentId: aNextTabParentId,
+          name: aName
+        });
+      }
+
+      t.linkedBrowser = b;
+
+      if (aFocusUrlBar) {
+        b._urlbarFocused = true;
+      }
+
+      this._tabForBrowser.set(b, t);
+      t.permanentKey = b.permanentKey;
+      t._browserParams = {
         uriIsAboutBlank,
-        userContextId: aUserContextId,
-        sameProcessAsFrameLoader: aSameProcessAsFrameLoader,
-        openerWindow: aOpener,
-        isPrerendered: aIsPrerendered,
-        nextTabParentId: aNextTabParentId,
-        name: aName
-      });
-    }
+        remoteType,
+        usingPreloadedContent
+      };
 
-    t.linkedBrowser = b;
+      // If the caller opts in, create a lazy browser.
+      if (aCreateLazyBrowser) {
+        this._createLazyBrowser(t);
 
-    if (aFocusUrlBar) {
-      b._urlbarFocused = true;
-    }
-
-    this._tabForBrowser.set(b, t);
-    t.permanentKey = b.permanentKey;
-    t._browserParams = {
-      uriIsAboutBlank,
-      remoteType,
-      usingPreloadedContent
-    };
-
-    // If the caller opts in, create a lazy browser.
-    if (aCreateLazyBrowser) {
-      this._createLazyBrowser(t);
-
-      if (lazyBrowserURI) {
-        // Lazy browser must be explicitly registered so tab will appear as
-        // a switch-to-tab candidate in autocomplete.
-        this._unifiedComplete.registerOpenPage(lazyBrowserURI, aUserContextId);
-        b.registeredOpenURI = lazyBrowserURI;
+        if (lazyBrowserURI) {
+          // Lazy browser must be explicitly registered so tab will appear as
+          // a switch-to-tab candidate in autocomplete.
+          this._unifiedComplete.registerOpenPage(
+            lazyBrowserURI,
+            aUserContextId
+          );
+          b.registeredOpenURI = lazyBrowserURI;
+        }
+      } else {
+        this._insertBrowser(t, true);
       }
-    } else {
-      this._insertBrowser(t, true);
+    } catch (e) {
+      Cu.reportError("Failed to create tab");
+      Cu.reportError(e);
+      t.remove();
+      if (t.linkedBrowser) {
+        this._tabFilters.delete(t);
+        this._tabListeners.delete(t);
+        let notificationbox = this.getNotificationBox(t.linkedBrowser);
+        notificationbox.remove();
+      }
+      throw e;
     }
 
     // Dispatch a new tab notification.  We do this once we're

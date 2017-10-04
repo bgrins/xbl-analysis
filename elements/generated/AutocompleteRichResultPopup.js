@@ -107,11 +107,20 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
   set siteIconStart(val) {
     if (val != this._siteIconStart) {
       this._siteIconStart = val;
+      let varName = "--item-padding-start";
+      if (typeof val == "number") {
+        let paddingInCSS =
+          3 + // .autocomplete-richlistbox padding-left/right
+          6 + // .ac-site-icon margin-inline-start
+          16 + // .ac-site-icon width
+          6; // .ac-site-icon margin-inline-end
+        let actualVal = Math.round(val) - paddingInCSS;
+        this.style.setProperty(varName, actualVal + "px");
+      } else {
+        this.style.removeProperty(varName);
+      }
       for (let item of this.richlistbox.childNodes) {
-        let changed = item.adjustSiteIconStart(val);
-        if (changed) {
-          item.handleOverUnderflow();
-        }
+        item.handleOverUnderflow();
       }
     }
     return val;
@@ -372,13 +381,6 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         // in the xbl constructor
         item.className = "autocomplete-richlistitem";
         this.richlistbox.appendChild(item);
-      }
-
-      if (typeof item._onChanged == "function") {
-        // The binding may have not been applied yet.
-        setTimeout(() => {
-          item._onChanged();
-        }, 0);
       }
 
       this._currentIndex++;

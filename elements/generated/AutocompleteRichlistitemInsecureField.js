@@ -6,9 +6,7 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<spacer anonid="type-icon-spacer">
-</spacer>
-<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
+    this.innerHTML = `<image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
 </image>
 <image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
 </image>
