@@ -43,8 +43,6 @@ class FirefoxArrowpanel extends FirefoxPanel {
         .getAnonymousElementByAttribute(this, "anonid", "arrowbox")
         .style.removeProperty("transform");
 
-      this.adjustArrowPosition();
-
       if (this.getAttribute("animate") != "false") {
         this.setAttribute("animate", "open");
         // the animating attribute prevents user interaction during transition

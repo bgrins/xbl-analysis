@@ -159,7 +159,7 @@ class FirefoxTextbox extends BaseElement {
         // don't trigger clickSelectsAll when switching application windows
         if (
           window == window.top &&
-          window.constructor == ChromeWindow &&
+          window.isChromeWindow &&
           document.activeElement == this.inputField
         )
           this.mIgnoreFocus = true;

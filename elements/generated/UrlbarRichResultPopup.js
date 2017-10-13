@@ -7,16 +7,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     console.log(this, "connected");
 
     this.innerHTML = `<deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
-<hbox flex="1" align="center" anonid="search-suggestions-opt-in">
-<description flex="1" id="search-suggestions-question">
-<firefox-text-label id="search-suggestions-learn-more" class="text-link" role="link" value="&urlbar.searchSuggestionsNotification.learnMore;" accesskey="&urlbar.searchSuggestionsNotification.learnMore.accesskey;" onclick="document.getBindingParent(this).openSearchSuggestionsNotificationLearnMoreURL();" control="search-suggestions-learn-more">
-</firefox-text-label>
-</description>
-<button anonid="search-suggestions-notification-disable" label="&urlbar.searchSuggestionsNotification.disable;" accesskey="&urlbar.searchSuggestionsNotification.disable.accesskey;" onclick="document.getBindingParent(this).dismissSearchSuggestionsNotification(false);">
-</button>
-<button anonid="search-suggestions-notification-enable" label="&urlbar.searchSuggestionsNotification.enable;" accesskey="&urlbar.searchSuggestionsNotification.enable.accesskey;" onclick="document.getBindingParent(this).dismissSearchSuggestionsNotification(true);">
-</button>
-</hbox>
 <hbox flex="1" align="center" anonid="search-suggestions-opt-out">
 <image class="ac-site-icon" type="searchengine">
 </image>
@@ -346,33 +336,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       this.oneOffSearchButtons.popup = null;
     }
   }
-  openSearchSuggestionsNotificationLearnMoreURL() {
-    let url = Services.urlFormatter.formatURL(
-      Services.prefs.getCharPref("app.support.baseURL") + "suggestions"
-    );
-    openUILinkIn(url, "tab");
-  }
-  dismissSearchSuggestionsNotification(enableSuggestions) {
-    // Make sure the urlbar is focused.  It won't be, for example, if the
-    // user used an accesskey to make an opt-in choice.  mIgnoreFocus
-    // prevents the text from being selected.
-    this.input.mIgnoreFocus = true;
-    this.input.focus();
-    this.input.mIgnoreFocus = false;
-
-    Services.prefs.setBoolPref(
-      "browser.urlbar.suggest.searches",
-      enableSuggestions
-    );
-    Services.prefs.setBoolPref(
-      "browser.urlbar.userMadeSearchSuggestionsChoice",
-      true
-    );
-    // Hide the notification.
-    this.searchSuggestionsNotificationWasDismissed(
-      Services.prefs.getBoolPref("browser.urlbar.suggest.searches")
-    );
-  }
   getNextIndex(reverse, amount, index, maxRow) {
     if (maxRow < 0) return -1;
 
@@ -465,9 +428,11 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       let identityRect = this.DOMWindowUtils.getBoundsWithoutFlushing(
         identityIcon
       );
-      this.siteIconStart = popupDirection == "rtl"
-        ? identityRect.right
-        : identityRect.left;
+      if (popupDirection == "rtl") {
+        this.siteIconStart = documentRect.right - identityRect.right;
+      } else {
+        this.siteIconStart = identityRect.left;
+      }
     } else {
       // Reset the alignment so that the site icons are positioned
       // according to whatever's in the CSS.
@@ -526,19 +491,10 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     this.openPopup(aElement, "after_start", 0, yOffset, false, false);
   }
   _showSearchSuggestionsNotification(whichNotification, popupDirection) {
-    let deckIndex = 0;
     if (whichNotification == "opt-out") {
-      deckIndex = 1;
-
       if (this.siteIconStart) {
-        let rect = this.DOMWindowUtils.getBoundsWithoutFlushing(
-          window.document.documentElement
-        );
-        let padding = popupDirection == "rtl"
-          ? rect.right - this.siteIconStart
-          : this.siteIconStart;
         this.searchSuggestionsNotification.style.paddingInlineStart =
-          padding + "px";
+          this.siteIconStart + "px";
       } else {
         this.searchSuggestionsNotification.style.removeProperty(
           "padding-inline-start"
@@ -551,15 +507,10 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         this.searchSuggestionsNotification.setAttribute("animate", "true");
       }
     }
-    this.searchSuggestionsNotification.setAttribute("selectedIndex", deckIndex);
-
-    let ariaDescElt = whichNotification == "opt-in"
-      ? "search-suggestions-question"
-      : "search-suggestions-hint";
 
     this.searchSuggestionsNotification.setAttribute(
       "aria-describedby",
-      ariaDescElt
+      "search-suggestions-hint"
     );
 
     // With the notification shown, the listbox's height can sometimes be
@@ -587,18 +538,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       this.searchSuggestionsNotification.dispatchEvent(event);
     }
   }
-  searchSuggestionsNotificationWasDismissed(enableSuggestions) {
-    if (!this.popupOpen) {
-      this._hideSearchSuggestionsNotification();
-      return;
-    }
-    this._hideSearchSuggestionsNotificationWithAnimation().then(() => {
-      if (enableSuggestions && this.input.textValue) {
-        // Start a new search so that suggestions appear immediately.
-        this.input.controller.startSearch(this.input.textValue);
-      }
-    });
-  }
   _hideSearchSuggestionsNotification() {
     this.classList.remove("showSearchSuggestionsNotification");
     this.richlistbox.flex = 1;
@@ -610,27 +549,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     } else {
       this.closePopup();
     }
-  }
-  _hideSearchSuggestionsNotificationWithAnimation() {
-    return new Promise(resolve => {
-      let notificationHeight = this.searchSuggestionsNotification.getBoundingClientRect()
-        .height;
-      this.searchSuggestionsNotification.style.marginTop =
-        "-" + notificationHeight + "px";
-
-      let popupHeightPx =
-        this.getBoundingClientRect().height - notificationHeight + "px";
-      this.style.height = popupHeightPx;
-
-      let onTransitionEnd = () => {
-        this.removeEventListener("transitionend", onTransitionEnd, true);
-        this.searchSuggestionsNotification.style.marginTop = "0px";
-        this.style.removeProperty("height");
-        this._hideSearchSuggestionsNotification();
-        resolve();
-      };
-      this.addEventListener("transitionend", onTransitionEnd, true);
-    });
   }
   _selectedOneOffChanged() {
     // Update all searchengine result items to use the newly selected
@@ -760,6 +678,13 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     //    the default -1 value. Then handleEnter will know it should not
     //    delay the action, cause a result wont't ever arrive.
     this.input.controller.setInitiallySelectedIndex(0);
+
+    // Since we are starting a new search, reset the currently selected
+    // one-off button, to cover those cases where the oneoff buttons
+    // binding won't receive an actual DOM event. For example, a search
+    // could be started without an actual input event, and the popup may
+    // not have been closed from the previous search.
+    this.oneOffSearchButtons.selectedButton = null;
   }
   initAddonIframe(owner, overrides) {
     if (this._addonIframeOwner) {

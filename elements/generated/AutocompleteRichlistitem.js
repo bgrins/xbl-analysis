@@ -467,18 +467,16 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     return false;
   }
   _adjustAcItem() {
-    this.setAttribute("url", this.getAttribute("ac-value"));
+    let originalUrl = this.getAttribute("ac-value");
+    let title = this.getAttribute("ac-comment");
+    this.setAttribute("url", originalUrl);
     this.setAttribute("image", this.getAttribute("ac-image"));
-    this.setAttribute("title", this.getAttribute("ac-comment"));
+    this.setAttribute("title", title);
     this.setAttribute("text", this.getAttribute("ac-text"));
 
     let popup = this.parentNode.parentNode;
-
-    let title = this.getAttribute("title");
     let titleLooksLikeUrl = false;
-
     let displayUrl;
-    let originalUrl = this.getAttribute("url");
     let emphasiseUrl = true;
 
     let type = this.getAttribute("originaltype");

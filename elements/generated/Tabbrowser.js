@@ -538,6 +538,9 @@ class FirefoxTabbrowser extends BaseElement {
     );
     this.mCurrentBrowser.permanentKey = {};
 
+    CustomizableUI.addListener(this);
+    this._updateNewTabVisibility();
+
     Services.obs.addObserver(this, "contextual-identity-updated");
 
     this.mCurrentTab = this.tabContainer.firstChild;
@@ -713,8 +716,10 @@ class FirefoxTabbrowser extends BaseElement {
         )
           window.focus();
 
-        // Don't need to act if the tab is already selected:
-        if (tabForEvent.selected) return;
+        // Don't need to act if the tab is already selected or if there isn't
+        // a tab for the event (e.g. for the webextensions options_ui remote
+        // browsers embedded in the "about:addons" page):
+        if (!tabForEvent || tabForEvent.selected) return;
 
         // We always switch tabs for beforeunload tab-modal prompts.
         if (
@@ -901,6 +906,8 @@ class FirefoxTabbrowser extends BaseElement {
   disconnectedCallback() {
     Services.obs.removeObserver(this, "contextual-identity-updated");
 
+    CustomizableUI.removeListener(this);
+
     for (let tab of this.tabs) {
       let browser = tab.linkedBrowser;
       if (browser.registeredOpenURI) {
@@ -1061,10 +1068,6 @@ class FirefoxTabbrowser extends BaseElement {
 
   get contentViewerEdit() {
     return this.mCurrentBrowser.contentViewerEdit;
-  }
-
-  get contentViewerFile() {
-    return this.mCurrentBrowser.contentViewerFile;
   }
 
   get contentDocument() {
@@ -2322,12 +2325,18 @@ class FirefoxTabbrowser extends BaseElement {
         !findBar.hidden && findBar._findField.getAttribute("focused") == "true";
     }
 
-    // If focus is in the tab bar, retain it there.
-    if (document.activeElement == oldTab) {
-      // We need to explicitly focus the new tab, because
-      // tabbox.xml does this only in some cases.
+    let activeEl = document.activeElement;
+    // If focus is on the old tab, move it to the new tab.
+    if (activeEl == oldTab) {
       newTab.focus();
-    } else if (gMultiProcessBrowser && document.activeElement !== newBrowser) {
+    } else if (
+      gMultiProcessBrowser &&
+      activeEl != newBrowser &&
+      activeEl != newTab
+    ) {
+      // In e10s, if focus isn't already in the tabstrip or on the new browser,
+      // and the new browser's previous focus wasn't in the url bar but focus is
+      // there now, we need to adjust focus further.
       let keepFocusOnUrlBar =
         newBrowser && newBrowser._urlbarFocused && gURLBar && gURLBar.focused;
       if (!keepFocusOnUrlBar) {
@@ -6321,6 +6330,34 @@ class FirefoxTabbrowser extends BaseElement {
         break;
       }
     }
+  }
+  _updateNewTabVisibility() {
+    let sib = this.tabContainer.nextElementSibling;
+    while (sib && sib.hidden) {
+      sib = sib.nextElementSibling;
+    }
+    const kAttr = "hasadjacentnewtabbutton";
+    if (sib && sib.id == "new-tab-button") {
+      this.tabContainer.setAttribute(kAttr, "true");
+    } else {
+      this.tabContainer.removeAttribute(kAttr);
+    }
+  }
+  onWidgetAfterDOMChange(aNode, aNextNode, aContainer) {
+    if (
+      aContainer.ownerDocument == document &&
+      aContainer.id == "TabsToolbar"
+    ) {
+      this._updateNewTabVisibility();
+    }
+  }
+  onAreaNodeRegistered(aArea, aContainer) {
+    if (aContainer.ownerDocument == document && aArea == "TabsToolbar") {
+      this._updateNewTabVisibility();
+    }
+  }
+  onAreaReset(aArea, aContainer) {
+    this.onAreaNodeRegistered(aArea, aContainer);
   }
   _generateUniquePanelID() {
     if (!this._uniquePanelIDCounter) {

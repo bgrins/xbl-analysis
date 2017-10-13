@@ -312,7 +312,9 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
       if (itemExists) {
         item = this.richlistbox.childNodes[this._currentIndex];
 
-        originalValue = item.getAttribute("ac-value");
+        // Url may be a modified version of value, see _adjustACItem().
+        originalValue =
+          item.getAttribute("url") || item.getAttribute("ac-value");
         originalText = item.getAttribute("ac-text");
         originalType = item.getAttribute("originaltype");
 
@@ -362,7 +364,6 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         if (typeof item._cleanup == "function") {
           item._cleanup();
         }
-
         item.setAttribute("originaltype", style);
       }
 

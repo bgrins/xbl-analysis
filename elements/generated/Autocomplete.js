@@ -20,8 +20,6 @@ class FirefoxAutocomplete extends FirefoxTextbox {
 <children includes="hbox">
 </children>
 </hbox>
-<dropmarker anonid="historydropmarker" class="autocomplete-history-dropmarker" allowevents="true" inherits="open,enablehistory,parentfocused=focused">
-</dropmarker>
 <popupset anonid="popupset" class="autocomplete-result-popupset">
 </popupset>
 <children includes="toolbarbutton">
@@ -657,24 +655,6 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.popup.closePopup();
   }
   showHistoryPopup() {
-    // history dropmarker pushed state
-    function cleanup(popup) {
-      popup.removeEventListener("popupshowing", onShow);
-    }
-    function onShow(event) {
-      var popup = event.target,
-        input = popup.input;
-      cleanup(popup);
-      input.setAttribute("open", "true");
-      function onHide() {
-        input.removeAttribute("open");
-        popup.removeEventListener("popuphiding", onHide);
-      }
-      popup.addEventListener("popuphiding", onHide);
-    }
-    this.popup.addEventListener("popupshowing", onShow);
-    setTimeout(cleanup, 1000, this.popup);
-
     // Store our "normal" maxRows on the popup, so that it can reset the
     // value when the popup is hidden.
     this.popup._normalMaxRows = this.maxRows;
@@ -690,11 +670,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.mController.startSearch("");
   }
   toggleHistoryPopup() {
-    // If this method is called on the same event tick as the popup gets
-    // hidden, do nothing to avoid re-opening the popup when the drop
-    // marker is clicked while the popup is still open.
-    if (!this.popup.isPopupHidingTick && !this.popup.popupOpen)
-      this.showHistoryPopup();
+    if (!this.popup.popupOpen) this.showHistoryPopup();
     else this.closePopup();
   }
   initEventHandler(aEventType) {

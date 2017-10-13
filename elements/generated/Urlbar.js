@@ -14,12 +14,12 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 <hbox anonid="textbox-input-box" class="textbox-input-box urlbar-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
 <children>
 </children>
-<input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="url" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow">
+<input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow">
 </input>
 </hbox>
 <image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="&goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping">
 </image>
-<dropmarker anonid="historydropmarker" class="autocomplete-history-dropmarker urlbar-history-dropmarker urlbar-icon" tooltiptext="&urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,enablehistory,parentfocused=focused,usertyping">
+<dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="&urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping">
 </dropmarker>
 <children includes="hbox">
 </children>
@@ -362,6 +362,16 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       { capturing: true, once: true }
     );
 
+    // history dropmarker open state
+    this.popup.addEventListener("popupshowing", () => {
+      this.setAttribute("open", "true");
+    });
+    this.popup.addEventListener("popuphidden", () => {
+      requestAnimationFrame(() => {
+        this.removeAttribute("open");
+      });
+    });
+
     // The autocomplete controller uses heuristic on some internal caches
     // to handle cases like backspace, autofill or repeated searches.
     // Ensure to clear those internal caches when switching tabs.
@@ -392,10 +402,18 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     });
 
     this.addEventListener("mousedown", event => {
-      // Eventually show the opt-out notification even if the location bar is
-      // empty, focused, and the user clicks on it.
-      if (event.button == 0 && this.focused && this.textValue == "") {
-        this.maybeShowSearchSuggestionsNotificationOnFocus(true);
+      if (event.button == 0) {
+        if (
+          event.originalTarget.getAttribute("anonid") == "historydropmarker"
+        ) {
+          this.toggleHistoryPopup();
+        }
+
+        // Eventually show the opt-out notification even if the location bar is
+        // empty, focused, and the user clicks on it.
+        if (this.focused && this.textValue == "") {
+          this.maybeShowSearchSuggestionsNotificationOnFocus(true);
+        }
       }
     });
 
@@ -604,17 +622,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       // In any case, if the user made a choice we should not nag him.
       !this._userMadeSearchSuggestionsChoice
     ) {
-      let enabledByDefault = this._defaultPrefs.getBoolPref("suggest.searches");
       if (
-        !enabledByDefault &&
-        this._prefs.getIntPref("daysBeforeHidingSuggestionsPrompt")
-      ) {
-        return "opt-in";
-      }
-      if (
-        enabledByDefault &&
-        // Has not been switched off.
-        this.urlbarSearchSuggestEnabled &&
+        this._defaultPrefs.getBoolPref("suggest.searches") &&
+        this.urlbarSearchSuggestEnabled && // Has not been switched off.
         this._prefs.getIntPref("timesBeforeHidingSuggestionsHint")
       ) {
         return "opt-out";
@@ -1144,7 +1154,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // and only if we get a keyboard event, to match user expectations.
     if (
       !/^\s*[^.:\/\s]+(?:\/.*|\s*)$/i.test(aUrl) ||
-      !(aTriggeringEvent instanceof KeyEvent)
+      !(aTriggeringEvent instanceof KeyboardEvent)
     ) {
       return;
     }
@@ -1613,22 +1623,10 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       throw new Error("Unexpected notification type");
     }
 
-    let useDays = whichNotification == "opt-in";
-    let prefName = useDays
-      ? "daysBeforeHidingSuggestionsPrompt"
-      : "timesBeforeHidingSuggestionsHint";
-    let remaining = this._prefs.getIntPref(prefName);
-    if (remaining <= 0) return;
-
-    let now = new Date();
-    let date =
-      now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
-
-    let previousDate = this._prefs.getIntPref("lastSuggestionsPromptDate");
-    if (!useDays || previousDate != date) {
-      this._prefs.setIntPref(prefName, remaining - 1);
+    let remaining = this._prefs.getIntPref("timesBeforeHidingSuggestionsHint");
+    if (remaining > 0) {
+      this._prefs.setIntPref("timesBeforeHidingSuggestionsHint", remaining - 1);
     }
-    this._prefs.setIntPref("lastSuggestionsPromptDate", date);
   }
   maybeShowSearchSuggestionsNotificationOnFocus(mouseFocused) {
     let whichNotification = this.whichSearchSuggestionsNotification;

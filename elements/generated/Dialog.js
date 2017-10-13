@@ -189,7 +189,12 @@ class FirefoxDialog extends FirefoxRootElement {
           ) {
             document.commandDispatcher.advanceFocusIntoSubtree(focusedElt);
             focusedElt = document.commandDispatcher.focusedElement;
-            if (focusedElt == initialFocusedElt) break;
+            if (focusedElt == initialFocusedElt) {
+              if (focusedElt.getAttribute("noinitialfocus") == "true") {
+                focusedElt.blur();
+              }
+              break;
+            }
           }
 
           if (initialFocusedElt.localName == "tab") {

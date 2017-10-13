@@ -9,8 +9,10 @@ class FirefoxSearchbar extends BaseElement {
 </stringbundle>
 <textbox class="searchbar-textbox" anonid="searchbar-textbox" type="autocomplete" inputtype="search" placeholder="&searchInput.placeholder;" flex="1" autocompletepopup="PopupSearchAutoComplete" autocompletesearch="search-autocomplete" autocompletesearchparam="searchbar-history" maxrows="10" completeselectedindex="true" minresultsforpopup="0" inherits="disabled,disableautocomplete,searchengine,src,newlines">
 <box>
-<hbox class="searchbar-search-button-container">
-<image class="searchbar-search-button" anonid="searchbar-search-button" inherits="addengines" tooltiptext="&searchIcon.tooltip;">
+<hbox class="searchbar-search-button" anonid="searchbar-search-button" inherits="addengines" tooltiptext="&searchIcon.tooltip;">
+<image class="searchbar-search-icon">
+</image>
+<image class="searchbar-search-icon-overlay">
 </image>
 </hbox>
 </box>

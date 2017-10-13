@@ -6,7 +6,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox align="end">
+    this.innerHTML = `<hbox class="tab-drop-indicator-box">
 <image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true">
 </image>
 </hbox>
@@ -105,16 +105,16 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this._lastTab = val);
       }
     });
-    Object.defineProperty(this, "_afterSelectedTab", {
+    Object.defineProperty(this, "_beforeSelectedTab", {
       configurable: true,
       enumerable: true,
       get() {
-        delete this._afterSelectedTab;
-        return (this._afterSelectedTab = null);
+        delete this._beforeSelectedTab;
+        return (this._beforeSelectedTab = null);
       },
       set(val) {
-        delete this._afterSelectedTab;
-        return (this._afterSelectedTab = val);
+        delete this._beforeSelectedTab;
+        return (this._beforeSelectedTab = val);
       }
     });
     Object.defineProperty(this, "_beforeHoveredTab", {
@@ -1115,22 +1115,22 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     let selectedIndex = visibleTabs.indexOf(this.selectedItem);
 
-    let lastVisible = visibleTabs.length - 1;
+    if (this._beforeSelectedTab) {
+      this._beforeSelectedTab.removeAttribute("beforeselected-visible");
+    }
 
-    if (this._afterSelectedTab)
-      this._afterSelectedTab.removeAttribute("afterselected-visible");
-    if (this.selectedItem.closing || selectedIndex == lastVisible) {
-      this._afterSelectedTab = null;
+    if (this.selectedItem.closing || selectedIndex == 0) {
+      this._beforeSelectedTab = null;
     } else {
-      this._afterSelectedTab = visibleTabs[selectedIndex + 1];
-      this._afterSelectedTab.setAttribute("afterselected-visible", "true");
+      this._beforeSelectedTab = visibleTabs[selectedIndex - 1];
+      this._beforeSelectedTab.setAttribute("beforeselected-visible", "true");
     }
 
     if (this._firstTab) this._firstTab.removeAttribute("first-visible-tab");
     this._firstTab = visibleTabs[0];
     this._firstTab.setAttribute("first-visible-tab", "true");
     if (this._lastTab) this._lastTab.removeAttribute("last-visible-tab");
-    this._lastTab = visibleTabs[lastVisible];
+    this._lastTab = visibleTabs[visibleTabs.length - 1];
     this._lastTab.setAttribute("last-visible-tab", "true");
 
     let hoveredTab = this._hoveredTab;
@@ -1552,7 +1552,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         if (
           sourceNode instanceof XULElement &&
           sourceNode.localName == "tab" &&
-          sourceNode.ownerGlobal instanceof ChromeWindow &&
+          sourceNode.ownerGlobal.isChromeWindow &&
           sourceNode.ownerDocument.documentElement.getAttribute("windowtype") ==
             "navigator:browser" &&
           sourceNode.ownerGlobal.gBrowser.tabContainer == sourceNode.parentNode

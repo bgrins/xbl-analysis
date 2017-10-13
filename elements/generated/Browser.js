@@ -846,12 +846,6 @@ class FirefoxBrowser extends BaseElement {
     );
   }
 
-  get contentViewerFile() {
-    return this.docShell.contentViewer.QueryInterface(
-      Components.interfaces.nsIContentViewerFile
-    );
-  }
-
   get contentDocument() {
     return this.webNavigation.document;
   }
@@ -912,6 +906,10 @@ class FirefoxBrowser extends BaseElement {
 
   get fullZoom() {
     return this.markupDocumentViewer.fullZoom;
+  }
+
+  get deviceFullZoom() {
+    return this.markupDocumentViewer.deviceFullZoom;
   }
 
   set textZoom(val) {

@@ -35,18 +35,6 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
         return (this.mPopupOpen = val);
       }
     });
-    Object.defineProperty(this, "mIsPopupHidingTick", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mIsPopupHidingTick;
-        return (this.mIsPopupHidingTick = false);
-      },
-      set(val) {
-        delete this.mIsPopupHidingTick;
-        return (this.mIsPopupHidingTick = val);
-      }
-    });
     Object.defineProperty(this, "defaultMaxRows", {
       configurable: true,
       enumerable: true,
@@ -111,14 +99,6 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       this.removeAttribute("autocompleteinput");
       this.mPopupOpen = false;
 
-      // Prevent opening popup from historydropmarker mousedown handler
-      // on the same event tick the popup is hidden by the same mousedown
-      // event.
-      this.mIsPopupHidingTick = true;
-      setTimeout(() => {
-        this.mIsPopupHidingTick = false;
-      }, 0);
-
       // Reset the maxRows property to the cached "normal" value (if there's
       // any), and reset normalMaxRows so that we can detect whether it was set
       // by the input when the popupshowing handler runs.
@@ -151,10 +131,6 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
 
   get popupOpen() {
     return this.mPopupOpen;
-  }
-
-  get isPopupHidingTick() {
-    return this.mIsPopupHidingTick;
   }
 
   get maxRows() {
