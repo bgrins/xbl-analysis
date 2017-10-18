@@ -266,7 +266,9 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
 
       // Force a copy action if parent node is a query or we are dragging a
       // not-removable node.
-      if (!PlacesControllerDragHelper.canMoveNode(draggedElt, elt))
+      if (
+        !PlacesControllerDragHelper.canMoveNode(draggedElt, this._rootView, elt)
+      )
         event.dataTransfer.effectAllowed = "copyLink";
 
       // Activate the view and cache the dragged element.
@@ -432,7 +434,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
 
     if (
       !PlacesUtils.nodeIsFolder(resultNode) ||
-      PlacesControllerDragHelper.disallowInsertion(resultNode)
+      PlacesControllerDragHelper.disallowInsertion(resultNode, this._rootView)
     ) {
       return null;
     }
@@ -473,7 +475,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       : null;
     if (
       (PlacesUtils.nodeIsFolder(elt._placesNode) &&
-        !PlacesUIUtils.isContentsReadOnly(elt._placesNode)) ||
+        !PlacesUIUtils.isFolderReadOnly(elt._placesNode, this._rootView)) ||
       PlacesUtils.nodeIsTagQuery(elt._placesNode)
     ) {
       // This is a folder or a tag container.

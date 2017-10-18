@@ -74,7 +74,7 @@ class FirefoxPlacesTree extends FirefoxTree {
 
         // If this node is child of a readonly container (e.g. a livemark)
         // or cannot be moved, we must force a copy.
-        if (!PlacesControllerDragHelper.canMoveNode(node)) {
+        if (!PlacesControllerDragHelper.canMoveNode(node, this)) {
           event.dataTransfer.effectAllowed = "copyLink";
           break;
         }
@@ -586,7 +586,7 @@ class FirefoxPlacesTree extends FirefoxTree {
 
         // Avoid the potentially expensive call to getChildIndex
         // if we know this container doesn't allow insertion
-        if (PlacesControllerDragHelper.disallowInsertion(container))
+        if (PlacesControllerDragHelper.disallowInsertion(container, this))
           return null;
 
         var queryOptions = PlacesUtils.asQuery(result.root).queryOptions;
@@ -612,7 +612,8 @@ class FirefoxPlacesTree extends FirefoxTree {
       }
     }
 
-    if (PlacesControllerDragHelper.disallowInsertion(container)) return null;
+    if (PlacesControllerDragHelper.disallowInsertion(container, this))
+      return null;
 
     // TODO (Bug 1160193): properly support dropping on a tag root.
     let tagName = null;

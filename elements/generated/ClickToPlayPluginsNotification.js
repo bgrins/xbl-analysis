@@ -380,6 +380,12 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
     } else if (button2.default) {
       this._secondaryButton.setAttribute("default", "true");
     }
+
+    if (this._primaryButton.hidden) {
+      this._secondaryButton.setAttribute("alone", "true");
+    } else if (this._secondaryButton.hidden) {
+      this._primaryButton.setAttribute("alone", "true");
+    }
   }
   _setupDescription(baseString, pluginName, prePath) {
     var span = document.getAnonymousElementByAttribute(
