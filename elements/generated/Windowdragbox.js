@@ -21,7 +21,20 @@ class FirefoxWindowdragbox extends BaseElement {
       }
     });
 
-    undefined;
+    if (!this._draggableStarted) {
+      this._draggableStarted = true;
+      try {
+        let tmp = {};
+        Components.utils.import(
+          "resource://gre/modules/WindowDraggingUtils.jsm",
+          tmp
+        );
+        let draghandle = new tmp.WindowDraggingElement(this);
+        draghandle.mouseDownCheck = function() {
+          return this._dragBindingAlive;
+        };
+      } catch (e) {}
+    }
   }
   disconnectedCallback() {}
 }

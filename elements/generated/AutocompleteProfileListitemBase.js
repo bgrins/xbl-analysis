@@ -23,8 +23,6 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
         return (this.selectedByMouseOver = val);
       }
     });
-
-    undefined;
   }
   disconnectedCallback() {}
 

@@ -119,7 +119,10 @@ class FirefoxPreference extends BaseElement {
     });
   }
   disconnectedCallback() {
-    undefined;
+    this.preferences.rootBranchInternal.removeObserver(
+      this.name,
+      this.preferences
+    );
   }
 
   get instantApply() {

@@ -76,7 +76,7 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
       }
     });
 
-    undefined;
+    this._setInactive();
 
     this.addEventListener("DOMMenuBarActive", event => {
       undefined;
@@ -95,7 +95,7 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
     });
   }
   disconnectedCallback() {
-    undefined;
+    this._setActive();
   }
   _setInactive() {
     this.setAttribute("inactive", "true");

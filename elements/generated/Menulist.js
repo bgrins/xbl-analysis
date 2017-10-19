@@ -21,7 +21,11 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     let comment = document.createComment("Creating firefox-menulist");
     this.prepend(comment);
 
-    undefined;
+    this.mInputField = null;
+    this.mSelectedInternal = null;
+    this.mAttributeObserver = null;
+    this.menuBoxObject = this.boxObject;
+    this.setInitialSelection();
 
     this.addEventListener(
       "command",

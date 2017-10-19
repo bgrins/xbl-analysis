@@ -192,7 +192,16 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
       }
     });
 
-    undefined;
+    this._init();
+
+    var cval = this.getAttribute("value");
+    if (cval) {
+      try {
+        this.value = cval;
+        return;
+      } catch (ex) {}
+    }
+    this.dateValue = new Date();
 
     this.addEventListener(
       "focus",
@@ -237,7 +246,10 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
     });
   }
   disconnectedCallback() {
-    undefined;
+    if (this.attachedControl) {
+      this.attachedControl.attachedControl = null;
+      this.attachedControl = null;
+    }
   }
 
   get _currentField() {

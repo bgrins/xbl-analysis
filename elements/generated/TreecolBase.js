@@ -9,7 +9,7 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
     let comment = document.createComment("Creating firefox-treecol-base");
     this.prepend(comment);
 
-    undefined;
+    this.parentNode.parentNode._columnsDirty = true;
 
     this.addEventListener("mousedown", event => {
       if (this.parentNode.parentNode.enableColumnDrag) {

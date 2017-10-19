@@ -30,10 +30,31 @@ class FirefoxTabbox extends FirefoxTabBase {
       }
     });
 
-    undefined;
+    switch (this.getAttribute("eventnode")) {
+      case "parent":
+        this._eventNode = this.parentNode;
+        break;
+      case "window":
+        this._eventNode = window;
+        break;
+      case "document":
+        this._eventNode = document;
+        break;
+    }
+    const nsIEventListenerService =
+      Components.interfaces.nsIEventListenerService;
+    let els = Components.classes[
+      "@mozilla.org/eventlistenerservice;1"
+    ].getService(nsIEventListenerService);
+    els.addSystemEventListener(this._eventNode, "keydown", this, false);
   }
   disconnectedCallback() {
-    undefined;
+    const nsIEventListenerService =
+      Components.interfaces.nsIEventListenerService;
+    let els = Components.classes[
+      "@mozilla.org/eventlistenerservice;1"
+    ].getService(nsIEventListenerService);
+    els.removeSystemEventListener(this._eventNode, "keydown", this, false);
   }
 
   set handleCtrlTab(val) {
