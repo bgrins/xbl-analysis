@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>XBL Analysis</title>
+  <link rel="stylesheet" href="../static/styles.css" />
+  <script src="../static/xmlom.js"></script>
+  <style>
+    textarea, pre {
+      box-sizing: border-box;
+      flex: 1;
+      margin: 10px;
+      padding: 0;
+      height: 70vh;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <a href="../">Home</a>
+  <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+  <h1>XBL To Custom Element Converter</h1>
+
+  <div style="display:flex">
+  <textarea style="flex: 1">
+<binding id="tabbox"
+  extends="chrome://global/content/bindings/tabbox.xml#tab-base">
+<implementation implements="nsIDOMEventListener">
+<property name="handleCtrlTab">
+<setter>
+<![CDATA[
+ this.setAttribute("handleCtrlTab", val);
+ return val;
+]]>
+</setter>
+<getter>
+<![CDATA[
+ return (this.getAttribute("handleCtrlTab") != "false");
+]]>
+</getter>
+</property>
+
+<property name="handleCtrlPageUpDown">
+<setter>
+<![CDATA[
+ this.setAttribute("handleCtrlPageUpDown", val);
+ return val;
+]]>
+</setter>
+<getter>
+<![CDATA[
+ return (this.getAttribute("handleCtrlPageUpDown") != "false");
+]]>
+</getter>
+</property>
+
+<field name="_handleMetaAltArrows" readonly="true">
+/Mac/.test(navigator.platform)
+</field>
+
+<!-- _tabs and _tabpanels are deprecated, they exist only for
+  backwards compatibility. -->
+<property name="_tabs" readonly="true" onget="return this.tabs;"/>
+<property name="_tabpanels" readonly="true" onget="return this.tabpanels;"/>
+
+<property name="tabs" readonly="true">
+<getter>
+<![CDATA[
+ if (this.hasAttribute("tabcontainer")) {
+   return document.getElementById(this.getAttribute("tabcontainer"));
+ }
+ return this.getElementsByTagNameNS(
+     "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
+     "tabs").item(0);
+]]>
+</getter>
+</property>
+
+<property name="tabpanels" readonly="true">
+<getter>
+<![CDATA[
+ return this.getElementsByTagNameNS(
+     "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
+     "tabpanels").item(0);
+]]>
+</getter>
+</property>
+
+<property name="selectedIndex">
+<getter>
+<![CDATA[
+ var tabs = this.tabs;
+ return tabs ? tabs.selectedIndex : -1;
+]]>
+</getter>
+
+<setter>
+<![CDATA[
+ var tabs = this.tabs;
+ if (tabs)
+   tabs.selectedIndex = val;
+ this.setAttribute("selectedIndex", val);
+ return val;
+]]>
+</setter>
+</property>
+
+<property name="selectedTab">
+<getter>
+<![CDATA[
+ var tabs = this.tabs;
+ return tabs && tabs.selectedItem;
+]]>
+</getter>
+
+<setter>
+<![CDATA[
+ if (val) {
+   var tabs = this.tabs;
+   if (tabs)
+     tabs.selectedItem = val;
+ }
+ return val;
+]]>
+</setter>
+</property>
+
+<property name="selectedPanel">
+<getter>
+<![CDATA[
+ var tabpanels = this.tabpanels;
+ return tabpanels && tabpanels.selectedPanel;
+]]>
+</getter>
+
+<setter>
+<![CDATA[
+ if (val) {
+   var tabpanels = this.tabpanels;
+   if (tabpanels)
+     tabpanels.selectedPanel = val;
+ }
+ return val;
+]]>
+</setter>
+</property>
+
+<method name="handleEvent">
+<parameter name="event"/>
+<body>
+<![CDATA[
+ if (!event.isTrusted) {
+   // Don't let untrusted events mess with tabs.
+   return;
+ }
+
+ // Don't check if the event was already consumed because tab
+ // navigation should always work for better user experience.
+
+ switch (event.keyCode) {
+   case event.DOM_VK_TAB:
+     if (event.ctrlKey && !event.altKey && !event.metaKey)
+       if (this.tabs && this.handleCtrlTab) {
+         this.tabs.advanceSelectedTab(event.shiftKey ? -1 : 1, true);
+         event.preventDefault();
+       }
+     break;
+   case event.DOM_VK_PAGE_UP:
+     if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey)
+       if (this.tabs && this.handleCtrlPageUpDown) {
+         this.tabs.advanceSelectedTab(-1, true);
+         event.preventDefault();
+       }
+     break;
+   case event.DOM_VK_PAGE_DOWN:
+     if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey)
+       if (this.tabs && this.handleCtrlPageUpDown) {
+         this.tabs.advanceSelectedTab(1, true);
+         event.preventDefault();
+       }
+     break;
+   case event.DOM_VK_LEFT:
+     if (event.metaKey && event.altKey && !event.shiftKey && !event.ctrlKey)
+       if (this.tabs && this._handleMetaAltArrows) {
+         var offset = window.getComputedStyle(this)
+                            .direction == "ltr" ? -1 : 1;
+         this.tabs.advanceSelectedTab(offset, true);
+         event.preventDefault();
+       }
+     break;
+   case event.DOM_VK_RIGHT:
+     if (event.metaKey && event.altKey && !event.shiftKey && !event.ctrlKey)
+       if (this.tabs && this._handleMetaAltArrows) {
+         offset = window.getComputedStyle(this)
+                            .direction == "ltr" ? 1 : -1;
+         this.tabs.advanceSelectedTab(offset, true);
+         event.preventDefault();
+       }
+     break;
+ }
+]]>
+</body>
+</method>
+
+<field name="_eventNode">this</field>
+
+<property name="eventNode" onget="return this._eventNode;">
+<setter>
+ <![CDATA[
+   if (val != this._eventNode) {
+     const nsIEventListenerService =
+       Components.interfaces.nsIEventListenerService;
+     let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+                         .getService(nsIEventListenerService);
+     els.addSystemEventListener(val, "keydown", this, false);
+     els.removeSystemEventListener(this._eventNode, "keydown", this, false);
+     this._eventNode = val;
+   }
+   return val;
+ ]]>
+</setter>
+</property>
+
+<constructor>
+switch (this.getAttribute("eventnode")) {
+ case "parent": this._eventNode = this.parentNode; break;
+ case "window": this._eventNode = window; break;
+ case "document": this._eventNode = document; break;
+}
+const nsIEventListenerService =
+ Components.interfaces.nsIEventListenerService;
+let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+                   .getService(nsIEventListenerService);
+els.addSystemEventListener(this._eventNode, "keydown", this, false);
+</constructor>
+
+<destructor>
+const nsIEventListenerService =
+ Components.interfaces.nsIEventListenerService;
+let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+                   .getService(nsIEventListenerService);
+els.removeSystemEventListener(this._eventNode, "keydown", this, false);
+</destructor>
+</implementation>
+</binding>
+</textarea>
+  <pre style="flex: 1"></pre>
+  </div>
+
+  <script>
+
+function formatExtends(ext) {
+  if (!ext || ext.startsWith("xul:")) {
+    return null;
+  }
+  return titleCase(ext.split('#')[1]);
+}
+
+function titleCase(str) {
+  return str[0].toUpperCase() + str.substr(1).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+}
+function getJSForBinding(binding) {
+  let js = [];
+  let elementName = 'firefox-' + binding.attrs.id;
+  let className = titleCase(elementName);
+  let hasExtends = !!formatExtends(binding.attrs.extends);
+  js.push(`class ${className} `);
+  if (hasExtends) {
+    js.push(`extends Firefox${formatExtends(binding.attrs.extends)} `);
+  } else {
+    js.push(`extends BaseElement `);
+  }
+
+  js.push('{')
+
+  let childMarkup = [];
+  let content = binding.find("content");
+  if (content.length === 0) {
+    content = binding.find("xbl:content");
+  }
+  if (content.length > 1) {
+    throw "Unexpected second content field";
+  } else if (content.length === 1) {
+    function printChild(child) {
+      let attrs = '';
+      for (var attr in child.attrs) {
+        attrs += ' ' + attr.replace('xbl:', '') + '="' + child.attrs[attr].replace('"', '\"').replace(/xbl\:/g, '') + '"';
+      }
+      let name = child.name === "label" ? 'firefox-text-label' : child.name;
+      childMarkup.push(`<${name}${attrs}>`);
+      child.children.forEach(printChild);
+      childMarkup.push(`</${name}>`);
+    }
+    content[0].children.forEach(printChild);
+  } else {
+    console.log("No content for binding", binding.attrs.id);
+  }
+
+  if (binding.attrs.id == "checkbox-baseline") {
+    childMarkup.unshift("<input type='checkbox' />")
+  }
+
+  var innerHTML = content.length ?
+        "this.innerHTML = `" + childMarkup.join('\n') + "`;" :
+        "";
+
+  let xblconstructor = (binding.find("constructor") || [])[0];
+  xblconstructor = xblconstructor ? `${xblconstructor.cdata}` : '';
+  // Or, try / catch since many components will fail when loaded in a tab due to chrome references
+  // xblconstructor = xblconstructor ? `try { ${xblconstructor.cdata} } catch(e) { }` : '';
+
+  let xbldestructor = (binding.find("destructor") || [])[0];
+  xbldestructor = xbldestructor ? `${xbldestructor.cdata}` : '';
+  // Or, try / catch since many components will fail when loaded in a tab due to chrome references
+  // xbldestructor = xbldestructor ? `try { ${xbldestructor.cdata} } catch(e) { }` : '';
+
+  let handlers = [];
+  // <handler>
+  for (let handler of binding.find('handler')) {
+    let capturing = handler.attrs.phase === "capturing" ? ", true" : "";
+    handlers.push(`
+      this.addEventListener("${handler.attrs.event}", (event) => {
+        ${handler.cdata || handler.value}
+      }${capturing});
+    `);
+  }
+
+
+  // <field>
+  let fields = [];
+  for (let field of binding.find('field')) {
+
+
+    // Work around fields like _weekStart in the datepicker where the value is coming from a dtd.
+    // Just print an empty string in that case.
+    let data = (field.cdata || field.value || "").trim();
+    if (data.startsWith("FROM-DTD")) {
+      data = `"${data}"`
+    }
+    data = (data.length === 0) ? '""' : data;
+
+    // Remove leading comments, which would cause the 'return' to be on a different line
+    // than the expression.
+    let comments = [];
+    let expressions = data.split("\n");
+    for (var i = 0; i < expressions.length; i++) {
+      if (expressions[i].trim().startsWith("//")) {
+        comments.push(expressions[i]);
+      } else {
+        expressions = expressions.slice(i);
+        break;
+      }
+    }
+
+    let setter = field.attrs.readonly ? '' :
+    `set(val) {
+        delete this.${field.attrs.name};
+        return this.${field.attrs.name} = val;
+    },`;
+
+    fields.push(`Object.defineProperty(this, "${field.attrs.name}", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        ${comments.join('\n')}
+        delete this.${field.attrs.name};
+        return this.${field.attrs.name} = ${expressions.join('\n')}
+      },
+      ${setter}
+    })`);
+  }
+
+  js.push(`
+    constructor() {
+      super();
+    }
+    connectedCallback() {
+      ${hasExtends ? 'super.connectedCallback()' : ''}
+      console.log(this, 'connected');
+
+      ${innerHTML}
+      let comment = document.createComment('Creating ${elementName}');
+      this.prepend(comment);
+
+      ${fields.join('\n')}
+
+      ${xblconstructor}
+
+      ${handlers.join('\n')}
+    }
+    disconnectedCallback() {
+      ${xbldestructor}
+    }
+  `);
+
+  // <property>
+  for (let property of binding.find('property')) {
+    if (property.attrs.onset) {
+      js.push(`
+        set ${property.attrs.name}(val) {
+          ${property.attrs.onset}
+        }
+      `);
+    } else if(property.find('setter').length) {
+      js.push(`
+        set ${property.attrs.name}(val) {
+          ${property.find('setter')[0].cdata || property.find('setter')[0].value}
+        }
+      `);
+    }
+    if (property.attrs.onget) {
+      js.push(`
+        get ${property.attrs.name}() {
+          ${property.attrs.onget}
+        }
+      `);
+    } else if(property.find('getter').length) {
+      js.push(`
+        get ${property.attrs.name}() {
+          ${property.find('getter')[0].cdata || property.find('getter')[0].value}
+        }
+      `);
+    }
+  }
+
+  // <method>
+  for (let method of binding.find('method')) {
+    js.push(`${method.attrs.name}(`);
+    js.push(`${method.find('parameter').map(p => p.attrs.name).join(',')}`);
+    js.push(`) {`);
+    js.push(method.find('body')[0].cdata || method.find('body')[0].value);
+    js.push(`}`);
+  }
+
+  js.push('}');
+
+  js.push(`
+    customElements.define("${elementName}", ${className});
+  `)
+  return js.join(' ');
+}
+
+
+    var worker = new Worker("../static/prettier-worker.js");
+
+    var textarea = document.querySelector("textarea");
+    var pre = document.querySelector("pre");
+    function createPreview() {
+      var body = textarea.value;
+      body = body.replace(/\&([a-z0-9\-]+)\;/gi, "FROM-DTD-$1"); // Replace DTD entities
+      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2"); // Replace DTD entities
+      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3"); // Replace DTD entities
+      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3-$4"); // Replace DTD entities
+      var parsed = xmlom.parseString(body, {
+        xmlns: true,
+      });
+      parsed.then(doc => {
+        console.log(doc, doc.find("binding"));
+        let js = doc.find("binding").map(binding => {
+          return getJSForBinding(binding);
+        }).join("\n");
+        pre.textContent = "Parsing...";
+
+        console.log("GOT PARSED", js);
+
+        worker.postMessage({text: js});
+        worker.addEventListener("message", function(message) {
+          pre.textContent = message.data.formatted;
+        }, {once: true});
+      }).catch(e => {
+        pre.textContent =  `Error parsing XML:\n${e}`;
+      });
+      console.log(parsed);
+    }
+    textarea.addEventListener("input", createPreview);
+    createPreview();
+  </script>
+  </body>
+</html>
