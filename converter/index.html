@@ -308,12 +308,12 @@ function getJSForBinding(binding) {
         "";
 
   let xblconstructor = (binding.find("constructor") || [])[0];
-  xblconstructor = xblconstructor ? `${xblconstructor.cdata}` : '';
+  xblconstructor = xblconstructor ? `${xblconstructor.cdata || xblconstructor.value}` : '';
   // Or, try / catch since many components will fail when loaded in a tab due to chrome references
   // xblconstructor = xblconstructor ? `try { ${xblconstructor.cdata} } catch(e) { }` : '';
 
   let xbldestructor = (binding.find("destructor") || [])[0];
-  xbldestructor = xbldestructor ? `${xbldestructor.cdata}` : '';
+  xbldestructor = xbldestructor ? `${xbldestructor.cdata || xbldestructor.value}` : '';
   // Or, try / catch since many components will fail when loaded in a tab due to chrome references
   // xbldestructor = xbldestructor ? `try { ${xbldestructor.cdata} } catch(e) { }` : '';
 
