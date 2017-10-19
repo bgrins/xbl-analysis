@@ -6859,7 +6859,7 @@ function getParser(callback, error, options) {
     if (obj.attributes) {
       for (var attr in obj.attributes) {
         var val = obj.attributes[attr];
-        if (val.value) {
+        if ('value' in val) {
           o.attrs[attr] = val.value;
         } else {
           o.attrs[attr] = val;
