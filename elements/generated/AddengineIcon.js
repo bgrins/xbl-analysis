@@ -5,10 +5,10 @@ class FirefoxAddengineIcon extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="addengine-icon" inherits="src">
-</image>
-<image class="addengine-badge">
-</image>`;
+    this.innerHTML = `<xul:image class="addengine-icon" inherits="src">
+</xul:image>
+<xul:image class="addengine-badge">
+</xul:image>`;
     let comment = document.createComment("Creating firefox-addengine-icon");
     this.prepend(comment);
   }

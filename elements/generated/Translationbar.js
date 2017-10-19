@@ -6,110 +6,111 @@ class FirefoxTranslationbar extends FirefoxNotification {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="notification-inner" flex="1" inherits="type">
-<hbox anonid="details" align="center" flex="1">
-<image class="translate-infobar-element messageImage" anonid="messageImage">
-</image>
-<panel anonid="welcomePanel" class="translation-welcome-panel" type="arrow" align="start">
-<image class="translation-welcome-logo">
-</image>
-<vbox flex="1" class="translation-welcome-content">
-<description class="translation-welcome-headline" anonid="welcomeHeadline">
-</description>
-<description class="translation-welcome-body" anonid="welcomeBody">
-</description>
-<hbox align="center">
-<firefox-text-label anonid="learnMore" class="plain text-link" onclick="openUILinkIn('https://support.mozilla.org/kb/automatic-translation', 'tab'); this.parentNode.parentNode.parentNode.hidePopup();">
-</firefox-text-label>
-<spacer flex="1">
-</spacer>
-<button class="translate-infobar-element" anonid="thanksButton" onclick="this.parentNode.parentNode.parentNode.hidePopup();">
-</button>
-</hbox>
-</vbox>
-</panel>
-<deck anonid="translationStates" selectedIndex="0">
-<hbox class="translate-offer-box" align="center">
-<firefox-text-label class="translate-infobar-element" value="&translation.thisPageIsIn.label;">
-</firefox-text-label>
-<menulist class="translate-infobar-element" anonid="detectedLanguage">
-<menupopup>
-</menupopup>
-</menulist>
-<firefox-text-label class="translate-infobar-element" value="&translation.translateThisPage.label;">
-</firefox-text-label>
-<button class="translate-infobar-element" label="&translation.translate.button;" anonid="translate" oncommand="document.getBindingParent(this).translate();">
-</button>
-<button class="translate-infobar-element" label="&translation.notNow.button;" anonid="notNow" oncommand="document.getBindingParent(this).closeCommand();">
-</button>
-</hbox>
-<vbox class="translating-box" pack="center">
-<firefox-text-label class="translate-infobar-element" value="&translation.translatingContent.label;">
-</firefox-text-label>
-</vbox>
-<hbox class="translated-box" align="center">
-<firefox-text-label class="translate-infobar-element" value="&translation.translatedFrom.label;">
-</firefox-text-label>
-<menulist class="translate-infobar-element" anonid="fromLanguage" oncommand="document.getBindingParent(this).translate()">
-<menupopup>
-</menupopup>
-</menulist>
-<firefox-text-label class="translate-infobar-element" value="&translation.translatedTo.label;">
-</firefox-text-label>
-<menulist class="translate-infobar-element" anonid="toLanguage" oncommand="document.getBindingParent(this).translate()">
-<menupopup>
-</menupopup>
-</menulist>
-<firefox-text-label class="translate-infobar-element" value="&translation.translatedToSuffix.label;">
-</firefox-text-label>
-<button anonid="showOriginal" class="translate-infobar-element" label="&translation.showOriginal.button;" oncommand="document.getBindingParent(this).showOriginal();">
-</button>
-<button anonid="showTranslation" class="translate-infobar-element" label="&translation.showTranslation.button;" oncommand="document.getBindingParent(this).showTranslation();">
-</button>
-</hbox>
-<hbox class="translation-error" align="center">
-<firefox-text-label class="translate-infobar-element" value="&translation.errorTranslating.label;">
-</firefox-text-label>
-<button class="translate-infobar-element" label="&translation.tryAgain.button;" anonid="tryAgain" oncommand="document.getBindingParent(this).translate();">
-</button>
-</hbox>
-<vbox class="translation-unavailable" pack="center">
-<firefox-text-label class="translate-infobar-element" value="&translation.serviceUnavailable.label;">
-</firefox-text-label>
-</vbox>
-</deck>
-<spacer flex="1">
-</spacer>
-<button type="menu" class="translate-infobar-element options-menu-button" anonid="options" label="&translation.options.menu;">
-<menupopup class="translation-menupopup cui-widget-panel cui-widget-panelview                                   cui-widget-panelWithFooter PanelUI-subView" onpopupshowing="document.getBindingParent(this).optionsShowing();">
-<menuitem anonid="neverForLanguage" oncommand="document.getBindingParent(this).neverForLanguage();">
-</menuitem>
-<menuitem anonid="neverForSite" oncommand="document.getBindingParent(this).neverForSite();" label="&translation.options.neverForSite.label;" accesskey="&translation.options.neverForSite.accesskey;">
-</menuitem>
-<menuseparator>
-</menuseparator>
-<menuitem oncommand="openPreferences('paneGeneral', {origin:'translationInfobar'});" label="&translation.options.preferences.label;" accesskey="&translation.options.preferences.accesskey;">
-</menuitem>
-<menuitem class="subviewbutton panel-subview-footer" oncommand="document.getBindingParent(this).openProviderAttribution();">
-<deck anonid="translationEngine" selectedIndex="0">
-<hbox class="translation-attribution">
-<firefox-text-label>
-</firefox-text-label>
-<image src="chrome://browser/content/microsoft-translator-attribution.png" aria-label="Microsoft Translator">
-</image>
-<firefox-text-label>
-</firefox-text-label>
-</hbox>
-<firefox-text-label class="translation-attribution">
-</firefox-text-label>
-</deck>
-</menuitem>
-</menupopup>
-</button>
-</hbox>
-<toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="&closeNotification.tooltip;" oncommand="document.getBindingParent(this).closeCommand();">
-</toolbarbutton>
-</hbox>`;
+    this.innerHTML = `<xul:hbox class="notification-inner" flex="1" inherits="type">
+<xul:hbox anonid="details" align="center" flex="1">
+<xul:image class="translate-infobar-element messageImage" anonid="messageImage">
+</xul:image>
+<xul:panel anonid="welcomePanel" class="translation-welcome-panel" type="arrow" align="start">
+<xul:image class="translation-welcome-logo">
+</xul:image>
+<xul:vbox flex="1" class="translation-welcome-content">
+<xul:description class="translation-welcome-headline" anonid="welcomeHeadline">
+</xul:description>
+<xul:description class="translation-welcome-body" anonid="welcomeBody">
+</xul:description>
+<xul:hbox align="center">
+<xul:label anonid="learnMore" class="plain text-link" onclick="openUILinkIn('https://support.mozilla.org/kb/automatic-translation', 'tab'); this.parentNode.parentNode.parentNode.hidePopup();">
+</xul:label>
+<xul:spacer flex="1">
+</xul:spacer>
+<xul:button class="translate-infobar-element" anonid="thanksButton" onclick="this.parentNode.parentNode.parentNode.hidePopup();">
+</xul:button>
+</xul:hbox>
+</xul:vbox>
+</xul:panel>
+<xul:deck anonid="translationStates" selectedindex="0">
+<xul:hbox class="translate-offer-box" align="center">
+<xul:label class="translate-infobar-element" value="&translation.thisPageIsIn.label;">
+</xul:label>
+<xul:menulist class="translate-infobar-element" anonid="detectedLanguage">
+<xul:menupopup>
+</xul:menupopup>
+</xul:menulist>
+<xul:label class="translate-infobar-element" value="&translation.translateThisPage.label;">
+</xul:label>
+<xul:button class="translate-infobar-element" label="&translation.translate.button;" anonid="translate" oncommand="document.getBindingParent(this).translate();">
+</xul:button>
+<xul:button class="translate-infobar-element" label="&translation.notNow.button;" anonid="notNow" oncommand="document.getBindingParent(this).closeCommand();">
+</xul:button>
+</xul:hbox>
+<xul:vbox class="translating-box" pack="center">
+<xul:label class="translate-infobar-element" value="&translation.translatingContent.label;">
+</xul:label>
+</xul:vbox>
+<xul:hbox class="translated-box" align="center">
+<xul:label class="translate-infobar-element" value="&translation.translatedFrom.label;">
+</xul:label>
+<xul:menulist class="translate-infobar-element" anonid="fromLanguage" oncommand="document.getBindingParent(this).translate()">
+<xul:menupopup>
+</xul:menupopup>
+</xul:menulist>
+<xul:label class="translate-infobar-element" value="&translation.translatedTo.label;">
+</xul:label>
+<xul:menulist class="translate-infobar-element" anonid="toLanguage" oncommand="document.getBindingParent(this).translate()">
+<xul:menupopup>
+</xul:menupopup>
+</xul:menulist>
+<xul:label class="translate-infobar-element" value="&translation.translatedToSuffix.label;">
+</xul:label>
+<xul:button anonid="showOriginal" class="translate-infobar-element" label="&translation.showOriginal.button;" oncommand="document.getBindingParent(this).showOriginal();">
+</xul:button>
+<xul:button anonid="showTranslation" class="translate-infobar-element" label="&translation.showTranslation.button;" oncommand="document.getBindingParent(this).showTranslation();">
+</xul:button>
+</xul:hbox>
+<xul:hbox class="translation-error" align="center">
+<xul:label class="translate-infobar-element" value="&translation.errorTranslating.label;">
+</xul:label>
+<xul:button class="translate-infobar-element" label="&translation.tryAgain.button;" anonid="tryAgain" oncommand="document.getBindingParent(this).translate();">
+</xul:button>
+</xul:hbox>
+<xul:vbox class="translation-unavailable" pack="center">
+<xul:label class="translate-infobar-element" value="&translation.serviceUnavailable.label;">
+</xul:label>
+</xul:vbox>
+</xul:deck>
+<xul:spacer flex="1">
+</xul:spacer>
+<xul:button type="menu" class="translate-infobar-element options-menu-button" anonid="options" label="&translation.options.menu;">
+<xul:menupopup class="translation-menupopup cui-widget-panel cui-widget-panelview
+                                  cui-widget-panelWithFooter PanelUI-subView" onpopupshowing="document.getBindingParent(this).optionsShowing();">
+<xul:menuitem anonid="neverForLanguage" oncommand="document.getBindingParent(this).neverForLanguage();">
+</xul:menuitem>
+<xul:menuitem anonid="neverForSite" oncommand="document.getBindingParent(this).neverForSite();" label="&translation.options.neverForSite.label;" accesskey="&translation.options.neverForSite.accesskey;">
+</xul:menuitem>
+<xul:menuseparator>
+</xul:menuseparator>
+<xul:menuitem oncommand="openPreferences('paneGeneral', {origin:'translationInfobar'});" label="&translation.options.preferences.label;" accesskey="&translation.options.preferences.accesskey;">
+</xul:menuitem>
+<xul:menuitem class="subviewbutton panel-subview-footer" oncommand="document.getBindingParent(this).openProviderAttribution();">
+<xul:deck anonid="translationEngine" selectedindex="0">
+<xul:hbox class="translation-attribution">
+<xul:label>
+</xul:label>
+<xul:image src="chrome://browser/content/microsoft-translator-attribution.png" aria-label="Microsoft Translator">
+</xul:image>
+<xul:label>
+</xul:label>
+</xul:hbox>
+<xul:label class="translation-attribution">
+</xul:label>
+</xul:deck>
+</xul:menuitem>
+</xul:menupopup>
+</xul:button>
+</xul:hbox>
+<xul:toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="&closeNotification.tooltip;" oncommand="document.getBindingParent(this).closeCommand();">
+</xul:toolbarbutton>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-translationbar");
     this.prepend(comment);
   }
@@ -140,9 +141,9 @@ class FirefoxTranslationbar extends FirefoxNotification {
   }
   init(aTranslation) {
     this.translation = aTranslation;
-    let bundle = Cc["@mozilla.org/intl/stringbundle;1"]
-      .getService(Ci.nsIStringBundleService)
-      .createBundle("chrome://global/locale/languageNames.properties");
+    let bundle = Services.strings.createBundle(
+      "chrome://global/locale/languageNames.properties"
+    );
     let sortByLocalizedName = function(aList) {
       return aList
         .map(code => [code, bundle.GetStringFromName(code)])
@@ -302,15 +303,15 @@ class FirefoxTranslationbar extends FirefoxNotification {
         lang = this.translation.detectedLanguage;
     }
 
-    let langBundle = Cc["@mozilla.org/intl/stringbundle;1"]
-      .getService(Ci.nsIStringBundleService)
-      .createBundle("chrome://global/locale/languageNames.properties");
+    let langBundle = Services.strings.createBundle(
+      "chrome://global/locale/languageNames.properties"
+    );
     let langName = langBundle.GetStringFromName(lang);
 
     // Set the label and accesskey on the menuitem.
-    let bundle = Cc["@mozilla.org/intl/stringbundle;1"]
-      .getService(Ci.nsIStringBundleService)
-      .createBundle("chrome://browser/locale/translation.properties");
+    let bundle = Services.strings.createBundle(
+      "chrome://browser/locale/translation.properties"
+    );
     let item = this._getAnonElt("neverForLanguage");
     const kStrId = "translation.options.neverForLanguage";
     item.setAttribute(

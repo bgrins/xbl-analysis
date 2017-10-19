@@ -7,8 +7,8 @@ class FirefoxListitem extends FirefoxBasetext {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell inherits="label,crop,disabled,flexlabel">
-</listcell>
+<xul:listcell inherits="label,crop,disabled,flexlabel">
+</xul:listcell>
 </children>`;
     let comment = document.createComment("Creating firefox-listitem");
     this.prepend(comment);

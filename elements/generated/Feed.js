@@ -6,28 +6,28 @@ class FirefoxFeed extends FirefoxRichlistitem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox flex="1">
-<hbox flex="1">
-<textbox flex="1" readonly="true" inherits="value=name" class="feedTitle">
-</textbox>
-<firefox-text-label inherits="value=type">
-</firefox-text-label>
-</hbox>
-<vbox>
-<vbox align="start">
-<hbox>
-<firefox-text-label inherits="value=feedURL,tooltiptext=feedURL" class="text-link" flex="1" onclick="openUILink(this.value, event);" crop="end">
-</firefox-text-label>
-</hbox>
-</vbox>
-</vbox>
-<hbox flex="1" class="feed-subscribe">
-<spacer flex="1">
-</spacer>
-<button label="&feedSubscribe;" accesskey="&feedSubscribe.accesskey;" oncommand="onSubscribeFeed()">
-</button>
-</hbox>
-</vbox>`;
+    this.innerHTML = `<xul:vbox flex="1">
+<xul:hbox flex="1">
+<xul:textbox flex="1" readonly="true" inherits="value=name" class="feedTitle">
+</xul:textbox>
+<xul:label inherits="value=type">
+</xul:label>
+</xul:hbox>
+<xul:vbox>
+<xul:vbox align="start">
+<xul:hbox>
+<xul:label inherits="value=feedURL,tooltiptext=feedURL" class="text-link" flex="1" onclick="openUILink(this.value, event);" crop="end">
+</xul:label>
+</xul:hbox>
+</xul:vbox>
+</xul:vbox>
+<xul:hbox flex="1" class="feed-subscribe">
+<xul:spacer flex="1">
+</xul:spacer>
+<xul:button label="&feedSubscribe;" accesskey="&feedSubscribe.accesskey;" oncommand="onSubscribeFeed()">
+</xul:button>
+</xul:hbox>
+</xul:vbox>`;
     let comment = document.createComment("Creating firefox-feed");
     this.prepend(comment);
   }

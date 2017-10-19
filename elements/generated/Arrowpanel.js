@@ -6,16 +6,16 @@ class FirefoxArrowpanel extends FirefoxPanel {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
-<box anonid="arrowbox" class="panel-arrowbox">
-<image anonid="arrow" class="panel-arrow" inherits="side">
-</image>
-</box>
-<box class="panel-arrowcontent" inherits="side,align,dir,orient,pack" flex="1">
+    this.innerHTML = `<xul:vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
+<xul:box anonid="arrowbox" class="panel-arrowbox">
+<xul:image anonid="arrow" class="panel-arrow" inherits="side">
+</xul:image>
+</xul:box>
+<xul:box class="panel-arrowcontent" inherits="side,align,dir,orient,pack" flex="1">
 <children>
 </children>
-</box>
-</vbox>`;
+</xul:box>
+</xul:vbox>`;
     let comment = document.createComment("Creating firefox-arrowpanel");
     this.prepend(comment);
 

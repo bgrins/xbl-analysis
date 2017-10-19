@@ -6,10 +6,10 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
+    this.innerHTML = `<xul:scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
 <children>
 </children>
-</scrollbox>`;
+</xul:scrollbox>`;
     let comment = document.createComment("Creating firefox-popup-scrollbars");
     this.prepend(comment);
 

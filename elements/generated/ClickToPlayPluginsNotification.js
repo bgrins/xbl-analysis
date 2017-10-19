@@ -6,44 +6,44 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox flex="1" align="stretch" class="click-to-play-plugins-notification-main-box" inherits="popupid">
-<hbox class="click-to-play-plugins-notification-description-box" flex="1" align="start">
-<description class="click-to-play-plugins-outer-description" flex="1">
-<span anonid="click-to-play-plugins-notification-description">
-</span>
-<br>
-</br>
-<firefox-text-label class="text-link click-to-play-plugins-notification-link popup-notification-learnmore-link" anonid="click-to-play-plugins-notification-link">
-</firefox-text-label>
-</description>
-</hbox>
-<grid anonid="click-to-play-plugins-notification-center-box" class="click-to-play-plugins-notification-center-box">
-<columns>
-<column flex="1">
-</column>
-<column>
-</column>
-</columns>
-<rows>
+    this.innerHTML = `<xul:vbox flex="1" align="stretch" class="click-to-play-plugins-notification-main-box" inherits="popupid">
+<xul:hbox class="click-to-play-plugins-notification-description-box" flex="1" align="start">
+<xul:description class="click-to-play-plugins-outer-description" flex="1">
+<html:span anonid="click-to-play-plugins-notification-description">
+</html:span>
+<html:br>
+</html:br>
+<xul:label class="text-link click-to-play-plugins-notification-link popup-notification-learnmore-link" anonid="click-to-play-plugins-notification-link">
+</xul:label>
+</xul:description>
+</xul:hbox>
+<xul:grid anonid="click-to-play-plugins-notification-center-box" class="click-to-play-plugins-notification-center-box">
+<xul:columns>
+<xul:column flex="1">
+</xul:column>
+<xul:column>
+</xul:column>
+</xul:columns>
+<xul:rows>
 <children includes="row">
 </children>
-<hbox pack="start" anonid="plugin-notification-showbox">
-<button label="&pluginNotification.showAll.label;" accesskey="&pluginNotification.showAll.accesskey;" class="plugin-notification-showbutton" oncommand="document.getBindingParent(this)._setState(2)">
-</button>
-</hbox>
-</rows>
-</grid>
-<hbox anonid="button-container" class="click-to-play-plugins-notification-button-container" pack="center" align="center">
-<button anonid="primarybutton" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this)" flex="1">
-</button>
-<button anonid="secondarybutton" default="true" highlight="true" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this);" flex="1">
-</button>
-</hbox>
-<box hidden="true">
+<xul:hbox pack="start" anonid="plugin-notification-showbox">
+<xul:button label="&pluginNotification.showAll.label;" accesskey="&pluginNotification.showAll.accesskey;" class="plugin-notification-showbutton" oncommand="document.getBindingParent(this)._setState(2)">
+</xul:button>
+</xul:hbox>
+</xul:rows>
+</xul:grid>
+<xul:hbox anonid="button-container" class="click-to-play-plugins-notification-button-container" pack="center" align="center">
+<xul:button anonid="primarybutton" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this)" flex="1">
+</xul:button>
+<xul:button anonid="secondarybutton" default="true" highlight="true" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this);" flex="1">
+</xul:button>
+</xul:hbox>
+<xul:box hidden="true">
 <children>
 </children>
-</box>
-</vbox>`;
+</xul:box>
+</xul:vbox>`;
     let comment = document.createComment(
       "Creating firefox-click-to-play-plugins-notification"
     );

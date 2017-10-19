@@ -5,20 +5,20 @@ class FirefoxNotification extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="notification-inner" flex="1" inherits="type">
-<hbox anonid="details" align="center" flex="1" oncommand="this.parentNode.parentNode._doButtonCommand(event);">
-<image anonid="messageImage" class="messageImage" inherits="src=image,type,value">
-</image>
-<description anonid="messageText" class="messageText" flex="1" inherits="text=label">
-</description>
-<spacer flex="1">
-</spacer>
+    this.innerHTML = `<xul:hbox class="notification-inner" flex="1" inherits="type">
+<xul:hbox anonid="details" align="center" flex="1" oncommand="this.parentNode.parentNode._doButtonCommand(event);">
+<xul:image anonid="messageImage" class="messageImage" inherits="src=image,type,value">
+</xul:image>
+<xul:description anonid="messageText" class="messageText" flex="1" inherits="text=label">
+</xul:description>
+<xul:spacer flex="1">
+</xul:spacer>
 <children>
 </children>
-</hbox>
-<toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="&closeNotification.tooltip;" oncommand="document.getBindingParent(this).dismiss();">
-</toolbarbutton>
-</hbox>`;
+</xul:hbox>
+<xul:toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="&closeNotification.tooltip;" oncommand="document.getBindingParent(this).dismiss();">
+</xul:toolbarbutton>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-notification");
     this.prepend(comment);
 

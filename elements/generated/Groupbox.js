@@ -6,14 +6,14 @@ class FirefoxGroupbox extends FirefoxGroupboxBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="groupbox-title" align="center" pack="start">
+    this.innerHTML = `<xul:hbox class="groupbox-title" align="center" pack="start">
 <children includes="caption">
 </children>
-</hbox>
-<box flex="1" class="groupbox-body" inherits="orient,align,pack">
+</xul:hbox>
+<xul:box flex="1" class="groupbox-body" inherits="orient,align,pack">
 <children>
 </children>
-</box>`;
+</xul:box>`;
     let comment = document.createComment("Creating firefox-groupbox");
     this.prepend(comment);
   }

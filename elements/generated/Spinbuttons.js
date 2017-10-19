@@ -6,12 +6,12 @@ class FirefoxSpinbuttons extends FirefoxBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox class="spinbuttons-box" flex="1">
-<button anonid="increaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-up" inherits="disabled,disabled=increasedisabled">
-</button>
-<button anonid="decreaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-down" inherits="disabled,disabled=decreasedisabled">
-</button>
-</vbox>`;
+    this.innerHTML = `<xul:vbox class="spinbuttons-box" flex="1">
+<xul:button anonid="increaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-up" inherits="disabled,disabled=increasedisabled">
+</xul:button>
+<xul:button anonid="decreaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-down" inherits="disabled,disabled=decreasedisabled">
+</xul:button>
+</xul:vbox>`;
     let comment = document.createComment("Creating firefox-spinbuttons");
     this.prepend(comment);
 

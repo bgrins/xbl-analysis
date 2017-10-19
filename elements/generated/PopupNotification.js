@@ -5,46 +5,46 @@ class FirefoxPopupNotification extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox align="start" class="popup-notification-body-container">
-<image class="popup-notification-icon" inherits="popupid,src=icon,class=iconclass">
-</image>
-<vbox flex="1" pack="start" class="popup-notification-body" inherits="popupid">
-<hbox align="start">
-<vbox flex="1">
-<firefox-text-label class="popup-notification-origin header" inherits="value=origin,tooltiptext=origin" crop="center">
-</firefox-text-label>
-<description class="popup-notification-description" inherits="text=label,popupid">
-</description>
-</vbox>
-<toolbarbutton anonid="closebutton" class="messageCloseButton close-icon popup-notification-closebutton tabbable" inherits="oncommand=closebuttoncommand,hidden=closebuttonhidden" tooltiptext="&closeNotification.tooltip;">
-</toolbarbutton>
-</hbox>
+    this.innerHTML = `<xul:hbox align="start" class="popup-notification-body-container">
+<xul:image class="popup-notification-icon" inherits="popupid,src=icon,class=iconclass">
+</xul:image>
+<xul:vbox flex="1" pack="start" class="popup-notification-body" inherits="popupid">
+<xul:hbox align="start">
+<xul:vbox flex="1">
+<xul:label class="popup-notification-origin header" inherits="value=origin,tooltiptext=origin" crop="center">
+</xul:label>
+<xul:description class="popup-notification-description" inherits="text=label,popupid">
+</xul:description>
+</xul:vbox>
+<xul:toolbarbutton anonid="closebutton" class="messageCloseButton close-icon popup-notification-closebutton tabbable" inherits="oncommand=closebuttoncommand,hidden=closebuttonhidden" tooltiptext="&closeNotification.tooltip;">
+</xul:toolbarbutton>
+</xul:hbox>
 <children includes="popupnotificationcontent">
 </children>
-<firefox-text-label class="text-link popup-notification-learnmore-link" inherits="onclick=learnmoreclick,href=learnmoreurl">
-</firefox-text-label>
-<checkbox anonid="checkbox" inherits="hidden=checkboxhidden,checked=checkboxchecked,label=checkboxlabel,oncommand=checkboxcommand">
-</checkbox>
-<description class="popup-notification-warning" inherits="hidden=warninghidden,text=warninglabel">
-</description>
-</vbox>
-</hbox>
-<hbox class="popup-notification-button-container">
+<xul:label class="text-link popup-notification-learnmore-link" inherits="onclick=learnmoreclick,href=learnmoreurl">
+</xul:label>
+<xul:checkbox anonid="checkbox" inherits="hidden=checkboxhidden,checked=checkboxchecked,label=checkboxlabel,oncommand=checkboxcommand">
+</xul:checkbox>
+<xul:description class="popup-notification-warning" inherits="hidden=warninghidden,text=warninglabel">
+</xul:description>
+</xul:vbox>
+</xul:hbox>
+<xul:hbox class="popup-notification-button-container">
 <children includes="button">
 </children>
-<button anonid="secondarybutton" class="popup-notification-button" inherits="oncommand=secondarybuttoncommand,label=secondarybuttonlabel,accesskey=secondarybuttonaccesskey,hidden=secondarybuttonhidden">
-</button>
-<toolbarseparator inherits="hidden=dropmarkerhidden">
-</toolbarseparator>
-<button anonid="menubutton" type="menu" class="popup-notification-button popup-notification-dropmarker" inherits="onpopupshown=dropmarkerpopupshown,hidden=dropmarkerhidden">
-<menupopup anonid="menupopup" position="after_end" inherits="oncommand=menucommand">
+<xul:button anonid="secondarybutton" class="popup-notification-button" inherits="oncommand=secondarybuttoncommand,label=secondarybuttonlabel,accesskey=secondarybuttonaccesskey,hidden=secondarybuttonhidden">
+</xul:button>
+<xul:toolbarseparator inherits="hidden=dropmarkerhidden">
+</xul:toolbarseparator>
+<xul:button anonid="menubutton" type="menu" class="popup-notification-button popup-notification-dropmarker" inherits="onpopupshown=dropmarkerpopupshown,hidden=dropmarkerhidden">
+<xul:menupopup anonid="menupopup" position="after_end" inherits="oncommand=menucommand">
 <children>
 </children>
-</menupopup>
-</button>
-<button anonid="button" class="popup-notification-button" default="true" label="&defaultButton.label;" accesskey="&defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled">
-</button>
-</hbox>`;
+</xul:menupopup>
+</xul:button>
+<xul:button anonid="button" class="popup-notification-button" default="true" label="&defaultButton.label;" accesskey="&defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled">
+</xul:button>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-popup-notification");
     this.prepend(comment);
 

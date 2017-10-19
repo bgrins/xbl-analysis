@@ -5,22 +5,22 @@ class FirefoxTabbrowser extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<stringbundle anonid="tbstringbundle" src="chrome://browser/locale/tabbrowser.properties">
-</stringbundle>
-<tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="handleCtrlPageUpDown,tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
-<tabpanels flex="1" class="plain" selectedIndex="0" anonid="panelcontainer">
-<notificationbox flex="1" notificationside="top">
-<hbox flex="1" class="browserSidebarContainer">
-<vbox flex="1" class="browserContainer">
-<stack flex="1" class="browserStack" anonid="browserStack">
-<browser anonid="initialBrowser" type="content" message="true" messagemanagergroup="browsers" primary="true" blank="true" inherits="tooltip=contenttooltip,contextmenu=contentcontextmenu,autocompletepopup,selectmenulist,datetimepicker">
-</browser>
-</stack>
-</vbox>
-</hbox>
-</notificationbox>
-</tabpanels>
-</tabbox>
+    this.innerHTML = `<xul:stringbundle anonid="tbstringbundle" src="chrome://browser/locale/tabbrowser.properties">
+</xul:stringbundle>
+<xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="handleCtrlPageUpDown,tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
+<xul:tabpanels flex="1" class="plain" selectedindex="0" anonid="panelcontainer">
+<xul:notificationbox flex="1" notificationside="top">
+<xul:hbox flex="1" class="browserSidebarContainer">
+<xul:vbox flex="1" class="browserContainer">
+<xul:stack flex="1" class="browserStack" anonid="browserStack">
+<xul:browser anonid="initialBrowser" type="content" message="true" messagemanagergroup="browsers" primary="true" blank="true" inherits="tooltip=contenttooltip,contextmenu=contentcontextmenu,autocompletepopup,selectmenulist,datetimepicker">
+</xul:browser>
+</xul:stack>
+</xul:vbox>
+</xul:hbox>
+</xul:notificationbox>
+</xul:tabpanels>
+</xul:tabbox>
 <children>
 </children>`;
     let comment = document.createComment("Creating firefox-tabbrowser");

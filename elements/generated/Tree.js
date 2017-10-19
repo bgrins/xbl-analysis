@@ -8,20 +8,20 @@ class FirefoxTree extends FirefoxTreeBase {
 
     this.innerHTML = `<children includes="treecols">
 </children>
-<stack class="tree-stack" flex="1">
-<treerows class="tree-rows" flex="1" inherits="hidevscroll">
+<xul:stack class="tree-stack" flex="1">
+<xul:treerows class="tree-rows" flex="1" inherits="hidevscroll">
 <children>
 </children>
-</treerows>
-<textbox anonid="input" class="tree-input" left="0" top="0" hidden="true">
-</textbox>
-</stack>
-<hbox inherits="collapsed=hidehscroll">
-<scrollbar orient="horizontal" flex="1" increment="16" style="position:relative; z-index:2147483647;">
-</scrollbar>
-<scrollcorner inherits="collapsed=hidevscroll">
-</scrollcorner>
-</hbox>`;
+</xul:treerows>
+<xul:textbox anonid="input" class="tree-input" left="0" top="0" hidden="true">
+</xul:textbox>
+</xul:stack>
+<xul:hbox inherits="collapsed=hidehscroll">
+<xul:scrollbar orient="horizontal" flex="1" increment="16" style="position:relative; z-index:2147483647;">
+</xul:scrollbar>
+<xul:scrollcorner inherits="collapsed=hidevscroll">
+</xul:scrollcorner>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-tree");
     this.prepend(comment);
 

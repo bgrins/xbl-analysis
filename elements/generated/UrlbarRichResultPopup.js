@@ -6,34 +6,34 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
-<hbox flex="1" align="center" anonid="search-suggestions-opt-out">
-<image class="ac-site-icon" type="searchengine">
-</image>
-<hbox anonid="search-suggestions-hint-typing">
-<description class="ac-title-text">
-</description>
-</hbox>
-<hbox anonid="search-suggestions-hint-box" flex="1">
-<description id="search-suggestions-hint">
-<span class="prefix">
-</span>
-<span>
-</span>
-</description>
-</hbox>
-<firefox-text-label id="search-suggestions-change-settings" class="text-link" role="link" value="&urlbar.searchSuggestionsNotification.changeSettingsWin;" accesskey="&urlbar.searchSuggestionsNotification.changeSettingsWin.accesskey;" onclick="openPreferences('paneSearch');" control="search-suggestions-change-settings">
-</firefox-text-label>
-</hbox>
-</deck>
-<richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1">
-</richlistbox>
-<hbox anonid="footer">
+    this.innerHTML = `<xul:deck anonid="search-suggestions-notification" align="center" role="alert" selectedindex="0">
+<xul:hbox flex="1" align="center" anonid="search-suggestions-opt-out">
+<xul:image class="ac-site-icon" type="searchengine">
+</xul:image>
+<xul:hbox anonid="search-suggestions-hint-typing">
+<xul:description class="ac-title-text">
+</xul:description>
+</xul:hbox>
+<xul:hbox anonid="search-suggestions-hint-box" flex="1">
+<xul:description id="search-suggestions-hint">
+<html:span class="prefix">
+</html:span>
+<html:span>
+</html:span>
+</xul:description>
+</xul:hbox>
+<xul:label id="search-suggestions-change-settings" class="text-link" role="link" value="&urlbar.searchSuggestionsNotification.changeSettingsWin;" accesskey="&urlbar.searchSuggestionsNotification.changeSettingsWin.accesskey;" onclick="openPreferences('paneSearch');" control="search-suggestions-change-settings">
+</xul:label>
+</xul:hbox>
+</xul:deck>
+<xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1">
+</xul:richlistbox>
+<xul:hbox anonid="footer">
 <children>
 </children>
-<vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1">
-</vbox>
-</hbox>`;
+<xul:vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1">
+</xul:vbox>
+</xul:hbox>`;
     let comment = document.createComment(
       "Creating firefox-urlbar-rich-result-popup"
     );

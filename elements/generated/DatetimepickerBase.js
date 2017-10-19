@@ -6,30 +6,30 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="datetimepicker-input-box" align="center" inherits="context,disabled,readonly">
-<hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
-<input class="datetimepicker-input textbox-input" anonid="input-one" size="2" maxlength="2" inherits="disabled,readonly">
-</input>
-</hbox>
-<firefox-text-label anonid="sep-first" class="datetimepicker-separator" value=":">
-</firefox-text-label>
-<hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
-<input class="datetimepicker-input textbox-input" anonid="input-two" size="2" maxlength="2" inherits="disabled,readonly">
-</input>
-</hbox>
-<firefox-text-label anonid="sep-second" class="datetimepicker-separator" value=":">
-</firefox-text-label>
-<hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
-<input class="datetimepicker-input textbox-input" anonid="input-three" size="2" maxlength="2" inherits="disabled,readonly">
-</input>
-</hbox>
-<hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
-<input class="datetimepicker-input textbox-input" anonid="input-ampm" size="2" maxlength="2" inherits="disabled,readonly">
-</input>
-</hbox>
-</hbox>
-<spinbuttons anonid="buttons" inherits="disabled" onup="this.parentNode._increaseOrDecrease(1);" ondown="this.parentNode._increaseOrDecrease(-1);">
-</spinbuttons>`;
+    this.innerHTML = `<xul:hbox class="datetimepicker-input-box" align="center" inherits="context,disabled,readonly">
+<xul:hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
+<html:input class="datetimepicker-input textbox-input" anonid="input-one" size="2" maxlength="2" inherits="disabled,readonly">
+</html:input>
+</xul:hbox>
+<xul:label anonid="sep-first" class="datetimepicker-separator" value=":">
+</xul:label>
+<xul:hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
+<html:input class="datetimepicker-input textbox-input" anonid="input-two" size="2" maxlength="2" inherits="disabled,readonly">
+</html:input>
+</xul:hbox>
+<xul:label anonid="sep-second" class="datetimepicker-separator" value=":">
+</xul:label>
+<xul:hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
+<html:input class="datetimepicker-input textbox-input" anonid="input-three" size="2" maxlength="2" inherits="disabled,readonly">
+</html:input>
+</xul:hbox>
+<xul:hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
+<html:input class="datetimepicker-input textbox-input" anonid="input-ampm" size="2" maxlength="2" inherits="disabled,readonly">
+</html:input>
+</xul:hbox>
+</xul:hbox>
+<xul:spinbuttons anonid="buttons" inherits="disabled" onup="this.parentNode._increaseOrDecrease(1);" ondown="this.parentNode._increaseOrDecrease(-1);">
+</xul:spinbuttons>`;
     let comment = document.createComment(
       "Creating firefox-datetimepicker-base"
     );

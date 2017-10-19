@@ -5,10 +5,10 @@ class FirefoxProgressmeter extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<spacer class="progress-bar" inherits="mode">
-</spacer>
-<spacer class="progress-remainder" inherits="mode">
-</spacer>`;
+    this.innerHTML = `<xul:spacer class="progress-bar" inherits="mode">
+</xul:spacer>
+<xul:spacer class="progress-remainder" inherits="mode">
+</xul:spacer>`;
     let comment = document.createComment("Creating firefox-progressmeter");
     this.prepend(comment);
   }

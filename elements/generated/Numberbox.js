@@ -6,12 +6,12 @@ class FirefoxNumberbox extends FirefoxTextbox {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="textbox-input-box numberbox-input-box" flex="1" inherits="context,disabled,focused">
-<input class="numberbox-input textbox-input" anonid="input" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey">
-</input>
-</hbox>
-<spinbuttons anonid="buttons" inherits="disabled,hidden=hidespinbuttons">
-</spinbuttons>`;
+    this.innerHTML = `<xul:hbox class="textbox-input-box numberbox-input-box" flex="1" inherits="context,disabled,focused">
+<html:input class="numberbox-input textbox-input" anonid="input" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey">
+</html:input>
+</xul:hbox>
+<xul:spinbuttons anonid="buttons" inherits="disabled,hidden=hidespinbuttons">
+</xul:spinbuttons>`;
     let comment = document.createComment("Creating firefox-numberbox");
     this.prepend(comment);
 

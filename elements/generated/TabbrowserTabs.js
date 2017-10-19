@@ -6,24 +6,24 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="tab-drop-indicator-box">
-<image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true">
-</image>
-</hbox>
-<arrowscrollbox anonid="arrowscrollbox" orient="horizontal" flex="1" style="min-width: 1px;" class="tabbrowser-arrowscrollbox">
+    this.innerHTML = `<xul:hbox class="tab-drop-indicator-box">
+<xul:image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true">
+</xul:image>
+</xul:hbox>
+<xul:arrowscrollbox anonid="arrowscrollbox" orient="horizontal" flex="1" style="min-width: 1px;" class="tabbrowser-arrowscrollbox">
 <children includes="tab">
 </children>
 <children>
 </children>
-<toolbarbutton class="tabs-newtab-button toolbarbutton-1" anonid="tabs-newtab-button" command="cmd_newNavigatorTab" onclick="checkForMiddleClick(this, event);" tooltip="dynamic-shortcut-tooltip">
-</toolbarbutton>
-<hbox class="restore-tabs-button-wrapper" anonid="restore-tabs-button-wrapper">
-<toolbarbutton anonid="restore-tabs-button" class="restore-tabs-button" onclick="SessionStore.restoreLastSession();">
-</toolbarbutton>
-</hbox>
-<spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;">
-</spacer>
-</arrowscrollbox>`;
+<xul:toolbarbutton class="tabs-newtab-button toolbarbutton-1" anonid="tabs-newtab-button" command="cmd_newNavigatorTab" onclick="checkForMiddleClick(this, event);" tooltip="dynamic-shortcut-tooltip">
+</xul:toolbarbutton>
+<xul:hbox class="restore-tabs-button-wrapper" anonid="restore-tabs-button-wrapper">
+<xul:toolbarbutton anonid="restore-tabs-button" class="restore-tabs-button" onclick="SessionStore.restoreLastSession();">
+</xul:toolbarbutton>
+</xul:hbox>
+<xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;">
+</xul:spacer>
+</xul:arrowscrollbox>`;
     let comment = document.createComment("Creating firefox-tabbrowser-tabs");
     this.prepend(comment);
 

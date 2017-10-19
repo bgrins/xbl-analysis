@@ -7,10 +7,10 @@ class FirefoxCaption extends FirefoxBasetext {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<image class="caption-icon" inherits="src=image">
-</image>
-<firefox-text-label class="caption-text" flex="1" inherits="default,value=label,crop,accesskey">
-</firefox-text-label>
+<xul:image class="caption-icon" inherits="src=image">
+</xul:image>
+<xul:label class="caption-text" flex="1" inherits="default,value=label,crop,accesskey">
+</xul:label>
 </children>`;
     let comment = document.createComment("Creating firefox-caption");
     this.prepend(comment);

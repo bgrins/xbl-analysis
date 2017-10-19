@@ -6,16 +6,16 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox flex="1">
-<vbox class="menupopup-drop-indicator-bar" hidden="true">
-<image class="menupopup-drop-indicator" mousethrough="always">
-</image>
-</vbox>
-<arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+    this.innerHTML = `<xul:hbox flex="1">
+<xul:vbox class="menupopup-drop-indicator-bar" hidden="true">
+<xul:image class="menupopup-drop-indicator" mousethrough="always">
+</xul:image>
+</xul:vbox>
+<xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
 <children>
 </children>
-</arrowscrollbox>
-</hbox>`;
+</xul:arrowscrollbox>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-places-popup-base");
     this.prepend(comment);
 

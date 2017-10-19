@@ -6,8 +6,8 @@ class FirefoxTreecolImage extends FirefoxTreecolBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="treecol-icon" inherits="src">
-</image>`;
+    this.innerHTML = `<xul:image class="treecol-icon" inherits="src">
+</xul:image>`;
     let comment = document.createComment("Creating firefox-treecol-image");
     this.prepend(comment);
   }

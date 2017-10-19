@@ -7,12 +7,12 @@ class FirefoxListcellCheckboxIconic extends FirefoxListcellCheckbox {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<image class="listcell-check" inherits="checked,disabled">
-</image>
-<image class="listcell-icon" inherits="src=image">
-</image>
-<firefox-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
-</firefox-text-label>
+<xul:image class="listcell-check" inherits="checked,disabled">
+</xul:image>
+<xul:image class="listcell-icon" inherits="src=image">
+</xul:image>
+<xul:label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</xul:label>
 </children>`;
     let comment = document.createComment(
       "Creating firefox-listcell-checkbox-iconic"

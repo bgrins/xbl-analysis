@@ -5,12 +5,12 @@ class FirefoxPanelview extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<box class="panel-header" anonid="header">
-<toolbarbutton anonid="back" class="subviewbutton subviewbutton-iconic subviewbutton-back" closemenu="none" tabindex="0" tooltip="&backCmd.label;" onclick="document.getBindingParent(this).panelMultiView.goBack(); this.blur()">
-</toolbarbutton>
-<firefox-text-label inherits="value=title">
-</firefox-text-label>
-</box>
+    this.innerHTML = `<xul:box class="panel-header" anonid="header">
+<xul:toolbarbutton anonid="back" class="subviewbutton subviewbutton-iconic subviewbutton-back" closemenu="none" tabindex="0" tooltip="&backCmd.label;" onclick="document.getBindingParent(this).panelMultiView.goBack(); this.blur()">
+</xul:toolbarbutton>
+<xul:label inherits="value=title">
+</xul:label>
+</xul:box>
 <children>
 </children>`;
     let comment = document.createComment("Creating firefox-panelview");

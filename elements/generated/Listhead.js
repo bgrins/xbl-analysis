@@ -5,10 +5,10 @@ class FirefoxListhead extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<listheaditem>
+    this.innerHTML = `<xul:listheaditem>
 <children includes="listheader">
 </children>
-</listheaditem>`;
+</xul:listheaditem>`;
     let comment = document.createComment("Creating firefox-listhead");
     this.prepend(comment);
   }

@@ -6,10 +6,10 @@ class FirefoxScrollbox extends FirefoxScrollboxBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<box class="box-inherit scrollbox-innerbox" inherits="orient,align,pack,dir" flex="1">
+    this.innerHTML = `<xul:box class="box-inherit scrollbox-innerbox" inherits="orient,align,pack,dir" flex="1">
 <children>
 </children>
-</box>`;
+</xul:box>`;
     let comment = document.createComment("Creating firefox-scrollbox");
     this.prepend(comment);
   }

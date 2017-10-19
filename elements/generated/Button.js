@@ -8,16 +8,16 @@ class FirefoxButton extends FirefoxButtonBase {
 
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>
-<hbox class="box-inherit button-box" inherits="align,dir,pack,orient" align="center" pack="center" flex="1" anonid="button-box">
+<xul:hbox class="box-inherit button-box" inherits="align,dir,pack,orient" align="center" pack="center" flex="1" anonid="button-box">
 <children>
-<image class="button-icon" inherits="src=image">
-</image>
-<firefox-text-label class="button-text" inherits="value=label,accesskey,crop,highlightable">
-</firefox-text-label>
-<firefox-text-label class="button-highlightable-text" inherits="text=label,accesskey,crop,highlightable">
-</firefox-text-label>
+<xul:image class="button-icon" inherits="src=image">
+</xul:image>
+<xul:label class="button-text" inherits="value=label,accesskey,crop,highlightable">
+</xul:label>
+<xul:label class="button-highlightable-text" inherits="text=label,accesskey,crop,highlightable">
+</xul:label>
 </children>
-</hbox>`;
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-button");
     this.prepend(comment);
   }

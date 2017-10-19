@@ -6,16 +6,16 @@ class FirefoxWizard extends FirefoxRootElement {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="wizard-header" anonid="Header">
-</hbox>
-<deck class="wizard-page-box" flex="1" anonid="Deck">
+    this.innerHTML = `<xul:hbox class="wizard-header" anonid="Header">
+</xul:hbox>
+<xul:deck class="wizard-page-box" flex="1" anonid="Deck">
 <children includes="wizardpage">
 </children>
-</deck>
+</xul:deck>
 <children>
 </children>
-<hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage">
-</hbox>`;
+<xul:hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage">
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-wizard");
     this.prepend(comment);
 

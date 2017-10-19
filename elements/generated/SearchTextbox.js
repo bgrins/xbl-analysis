@@ -8,18 +8,18 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
 
     this.innerHTML = `<children>
 </children>
-<hbox class="textbox-input-box" flex="1" inherits="context,spellcheck" align="center">
-<image class="textbox-search-sign">
-</image>
-<input class="textbox-input" anonid="input" mozactionhint="search" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint,spellcheck">
-</input>
-<deck class="textbox-search-icons" anonid="search-icons">
-<image class="textbox-search-icon" anonid="searchbutton-icon" inherits="src=image,label=searchbuttonlabel,searchbutton,disabled">
-</image>
-<image class="textbox-search-clear" onclick="document.getBindingParent(this)._clearSearch();" label="&searchTextBox.clear.label;" inherits="disabled">
-</image>
-</deck>
-</hbox>`;
+<xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck" align="center">
+<xul:image class="textbox-search-sign">
+</xul:image>
+<html:input class="textbox-input" anonid="input" mozactionhint="search" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint,spellcheck">
+</html:input>
+<xul:deck class="textbox-search-icons" anonid="search-icons">
+<xul:image class="textbox-search-icon" anonid="searchbutton-icon" inherits="src=image,label=searchbuttonlabel,searchbutton,disabled">
+</xul:image>
+<xul:image class="textbox-search-clear" onclick="document.getBindingParent(this)._clearSearch();" label="&searchTextBox.clear.label;" inherits="disabled">
+</xul:image>
+</xul:deck>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-search-textbox");
     this.prepend(comment);
 

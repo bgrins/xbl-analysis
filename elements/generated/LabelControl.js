@@ -8,8 +8,8 @@ class FirefoxLabelControl extends FirefoxTextLabel {
 
     this.innerHTML = `<children>
 </children>
-<span anonid="accessKeyParens">
-</span>`;
+<html:span anonid="accessKeyParens">
+</html:span>`;
     let comment = document.createComment("Creating firefox-label-control");
     this.prepend(comment);
 

@@ -7,10 +7,10 @@ class FirefoxStatusbar extends BaseElement {
 
     this.innerHTML = `<children>
 </children>
-<statusbarpanel class="statusbar-resizerpanel">
-<resizer dir="bottomend">
-</resizer>
-</statusbarpanel>`;
+<xul:statusbarpanel class="statusbar-resizerpanel">
+<xul:resizer dir="bottomend">
+</xul:resizer>
+</xul:statusbarpanel>`;
     let comment = document.createComment("Creating firefox-statusbar");
     this.prepend(comment);
   }

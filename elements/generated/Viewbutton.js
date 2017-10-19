@@ -6,10 +6,10 @@ class FirefoxViewbutton extends FirefoxRadio {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="viewButtonIcon" inherits="src">
-</image>
-<firefox-text-label class="viewButtonLabel" inherits="value=label">
-</firefox-text-label>`;
+    this.innerHTML = `<xul:image class="viewButtonIcon" inherits="src">
+</xul:image>
+<xul:label class="viewButtonLabel" inherits="value=label">
+</xul:label>`;
     let comment = document.createComment("Creating firefox-viewbutton");
     this.prepend(comment);
   }

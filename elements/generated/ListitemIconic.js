@@ -7,8 +7,8 @@ class FirefoxListitemIconic extends FirefoxListitem {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell class="listcell-iconic" inherits="label,image,crop,disabled,flexlabel">
-</listcell>
+<xul:listcell class="listcell-iconic" inherits="label,image,crop,disabled,flexlabel">
+</xul:listcell>
 </children>`;
     let comment = document.createComment("Creating firefox-listitem-iconic");
     this.prepend(comment);

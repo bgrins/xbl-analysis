@@ -5,12 +5,12 @@ class FirefoxAutocompleteTreerows extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox flex="1" class="tree-bodybox">
+    this.innerHTML = `<xul:hbox flex="1" class="tree-bodybox">
 <children>
 </children>
-</hbox>
-<scrollbar inherits="collapsed=hidescrollbar" orient="vertical" class="tree-scrollbar">
-</scrollbar>`;
+</xul:hbox>
+<xul:scrollbar inherits="collapsed=hidescrollbar" orient="vertical" class="tree-scrollbar">
+</xul:scrollbar>`;
     let comment = document.createComment(
       "Creating firefox-autocomplete-treerows"
     );

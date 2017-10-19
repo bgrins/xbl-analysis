@@ -7,10 +7,10 @@ class FirefoxOfflineapp extends FirefoxListitem {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell inherits="label=origin">
-</listcell>
-<listcell inherits="label=usage">
-</listcell>
+<xul:listcell inherits="label=origin">
+</xul:listcell>
+<xul:listcell inherits="label=usage">
+</xul:listcell>
 </children>`;
     let comment = document.createComment("Creating firefox-offlineapp");
     this.prepend(comment);

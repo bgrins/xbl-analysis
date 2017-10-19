@@ -6,10 +6,10 @@ class FirefoxPopup extends FirefoxPopupBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+    this.innerHTML = `<xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
 <children>
 </children>
-</arrowscrollbox>`;
+</xul:arrowscrollbox>`;
     let comment = document.createComment("Creating firefox-popup");
     this.prepend(comment);
 

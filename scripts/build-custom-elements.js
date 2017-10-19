@@ -1,4 +1,3 @@
-
 var fs = require('fs');
 var {getParsedFiles, files} = require('./xbl-files');
 var prettier = require("prettier");
@@ -96,6 +95,9 @@ function getJSForBinding(binding) {
 
   let childMarkup = [];
   let content = binding.find("content");
+  if (content.length === 0) {
+    content = binding.find("xbl:content");
+  }
   if (content.length > 1) {
     throw "Unexpected second content field";
   } else if (content.length === 1) {
@@ -152,6 +154,9 @@ function getJSForBinding(binding) {
     // Work around fields like _weekStart in the datepicker where the value is coming from a dtd.
     // Just print an empty string in that case.
     let data = (field.cdata || field.value || "").trim();
+    if (data.startsWith("&") && data.includes(".")) {
+      data = `"${data}"`
+    }
     data = (data.length === 0) ? '""' : data;
 
     // Remove leading comments, which would cause the 'return' to be on a different line

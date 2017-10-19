@@ -7,8 +7,8 @@ class FirefoxListitemCheckbox extends FirefoxListitem {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell type="checkbox" inherits="label,crop,checked,disabled,flexlabel">
-</listcell>
+<xul:listcell type="checkbox" inherits="label,crop,checked,disabled,flexlabel">
+</xul:listcell>
 </children>`;
     let comment = document.createComment("Creating firefox-listitem-checkbox");
     this.prepend(comment);

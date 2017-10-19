@@ -6,12 +6,12 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="colorpicker-button-colorbox" anonid="colorbox" flex="1" inherits="disabled">
-</image>
-<panel class="colorpicker-button-menupopup" anonid="colorpopup" noautofocus="true" level="top" onmousedown="event.stopPropagation()" onpopupshowing="this._colorPicker.onPopupShowing()" onpopuphiding="this._colorPicker.onPopupHiding()" onselect="this._colorPicker.pickerChange()">
-<colorpicker inherits="palettename,disabled" allowevents="true" anonid="colorpicker">
-</colorpicker>
-</panel>`;
+    this.innerHTML = `<xul:image class="colorpicker-button-colorbox" anonid="colorbox" flex="1" inherits="disabled">
+</xul:image>
+<xul:panel class="colorpicker-button-menupopup" anonid="colorpopup" noautofocus="true" level="top" onmousedown="event.stopPropagation()" onpopupshowing="this._colorPicker.onPopupShowing()" onpopuphiding="this._colorPicker.onPopupHiding()" onselect="this._colorPicker.pickerChange()">
+<xul:colorpicker inherits="palettename,disabled" allowevents="true" anonid="colorpicker">
+</xul:colorpicker>
+</xul:panel>`;
     let comment = document.createComment("Creating firefox-colorpicker-button");
     this.prepend(comment);
 

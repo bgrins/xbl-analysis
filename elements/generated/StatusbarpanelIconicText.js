@@ -6,10 +6,10 @@ class FirefoxStatusbarpanelIconicText extends FirefoxStatusbarpanel {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="statusbarpanel-icon" inherits="src,src=image">
-</image>
-<firefox-text-label class="statusbarpanel-text" inherits="value=label,crop">
-</firefox-text-label>`;
+    this.innerHTML = `<xul:image class="statusbarpanel-icon" inherits="src,src=image">
+</xul:image>
+<xul:label class="statusbarpanel-text" inherits="value=label,crop">
+</xul:label>`;
     let comment = document.createComment(
       "Creating firefox-statusbarpanel-iconic-text"
     );

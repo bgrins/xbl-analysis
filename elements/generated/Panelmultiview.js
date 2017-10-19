@@ -5,18 +5,18 @@ class FirefoxPanelmultiview extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox anonid="viewContainer" class="panel-viewcontainer" inherits="panelopen,viewtype,transitioning">
-<stack anonid="viewStack" inherits="viewtype,transitioning" class="panel-viewstack">
-<vbox anonid="mainViewContainer" class="panel-mainview" inherits="viewtype">
-</vbox>
-<vbox anonid="clickCapturer" class="panel-clickcapturer">
-</vbox>
-<vbox anonid="subViews" class="panel-subviews" inherits="panelopen">
+    this.innerHTML = `<xul:vbox anonid="viewContainer" class="panel-viewcontainer" inherits="panelopen,viewtype,transitioning">
+<xul:stack anonid="viewStack" inherits="viewtype,transitioning" class="panel-viewstack">
+<xul:vbox anonid="mainViewContainer" class="panel-mainview" inherits="viewtype">
+</xul:vbox>
+<xul:vbox anonid="clickCapturer" class="panel-clickcapturer">
+</xul:vbox>
+<xul:vbox anonid="subViews" class="panel-subviews" inherits="panelopen">
 <children includes="panelview">
 </children>
-</vbox>
-</stack>
-</vbox>`;
+</xul:vbox>
+</xul:stack>
+</xul:vbox>`;
     let comment = document.createComment("Creating firefox-panelmultiview");
     this.prepend(comment);
 

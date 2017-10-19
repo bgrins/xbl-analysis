@@ -6,34 +6,34 @@ class FirefoxFindbar extends FirefoxToolbar {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
-<hbox anonid="findbar-textbox-wrapper" align="stretch">
-<textbox anonid="findbar-textbox" class="findbar-textbox findbar-find-fast" inherits="flash">
-</textbox>
-<toolbarbutton anonid="find-previous" class="findbar-find-previous tabbable" tooltiptext="&previous.tooltip;" oncommand="onFindAgainCommand(true);" disabled="true" inherits="accesskey=findpreviousaccesskey">
-</toolbarbutton>
-<toolbarbutton anonid="find-next" class="findbar-find-next tabbable" tooltiptext="&next.tooltip;" oncommand="onFindAgainCommand(false);" disabled="true" inherits="accesskey=findnextaccesskey">
-</toolbarbutton>
-</hbox>
-<toolbarbutton anonid="highlight" class="findbar-highlight findbar-button tabbable" label="&highlightAll.label;" accesskey="&highlightAll.accesskey;" tooltiptext="&highlightAll.tooltiptext;" oncommand="toggleHighlight(this.checked);" type="checkbox" inherits="accesskey=highlightaccesskey">
-</toolbarbutton>
-<toolbarbutton anonid="find-case-sensitive" class="findbar-case-sensitive findbar-button tabbable" label="&caseSensitive.label;" accesskey="&caseSensitive.accesskey;" tooltiptext="&caseSensitive.tooltiptext;" oncommand="_setCaseSensitivity(this.checked ? 1 : 0);" type="checkbox" inherits="accesskey=matchcaseaccesskey">
-</toolbarbutton>
-<toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="&entireWord.label;" accesskey="&entireWord.accesskey;" tooltiptext="&entireWord.tooltiptext;" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey">
-</toolbarbutton>
-<firefox-text-label anonid="match-case-status" class="findbar-find-fast">
-</firefox-text-label>
-<firefox-text-label anonid="entire-word-status" class="findbar-find-fast">
-</firefox-text-label>
-<firefox-text-label anonid="found-matches" class="findbar-find-fast found-matches" hidden="true">
-</firefox-text-label>
-<image anonid="find-status-icon" class="findbar-find-fast find-status-icon">
-</image>
-<description anonid="find-status" control="findbar-textbox" class="findbar-find-fast findbar-find-status">
-</description>
-</hbox>
-<toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="&findCloseButton.tooltip;" oncommand="close();">
-</toolbarbutton>`;
+    this.innerHTML = `<xul:hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
+<xul:hbox anonid="findbar-textbox-wrapper" align="stretch">
+<xul:textbox anonid="findbar-textbox" class="findbar-textbox findbar-find-fast" inherits="flash">
+</xul:textbox>
+<xul:toolbarbutton anonid="find-previous" class="findbar-find-previous tabbable" tooltiptext="&previous.tooltip;" oncommand="onFindAgainCommand(true);" disabled="true" inherits="accesskey=findpreviousaccesskey">
+</xul:toolbarbutton>
+<xul:toolbarbutton anonid="find-next" class="findbar-find-next tabbable" tooltiptext="&next.tooltip;" oncommand="onFindAgainCommand(false);" disabled="true" inherits="accesskey=findnextaccesskey">
+</xul:toolbarbutton>
+</xul:hbox>
+<xul:toolbarbutton anonid="highlight" class="findbar-highlight findbar-button tabbable" label="&highlightAll.label;" accesskey="&highlightAll.accesskey;" tooltiptext="&highlightAll.tooltiptext;" oncommand="toggleHighlight(this.checked);" type="checkbox" inherits="accesskey=highlightaccesskey">
+</xul:toolbarbutton>
+<xul:toolbarbutton anonid="find-case-sensitive" class="findbar-case-sensitive findbar-button tabbable" label="&caseSensitive.label;" accesskey="&caseSensitive.accesskey;" tooltiptext="&caseSensitive.tooltiptext;" oncommand="_setCaseSensitivity(this.checked ? 1 : 0);" type="checkbox" inherits="accesskey=matchcaseaccesskey">
+</xul:toolbarbutton>
+<xul:toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="&entireWord.label;" accesskey="&entireWord.accesskey;" tooltiptext="&entireWord.tooltiptext;" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey">
+</xul:toolbarbutton>
+<xul:label anonid="match-case-status" class="findbar-find-fast">
+</xul:label>
+<xul:label anonid="entire-word-status" class="findbar-find-fast">
+</xul:label>
+<xul:label anonid="found-matches" class="findbar-find-fast found-matches" hidden="true">
+</xul:label>
+<xul:image anonid="find-status-icon" class="findbar-find-fast find-status-icon">
+</xul:image>
+<xul:description anonid="find-status" control="findbar-textbox" class="findbar-find-fast findbar-find-status">
+</xul:description>
+</xul:hbox>
+<xul:toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="&findCloseButton.tooltip;" oncommand="close();">
+</xul:toolbarbutton>`;
     let comment = document.createComment("Creating firefox-findbar");
     this.prepend(comment);
 

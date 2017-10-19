@@ -6,8 +6,8 @@ class FirefoxAutorepeatbutton extends FirefoxScrollboxBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="autorepeatbutton-icon">
-</image>`;
+    this.innerHTML = `<xul:image class="autorepeatbutton-icon">
+</xul:image>`;
     let comment = document.createComment("Creating firefox-autorepeatbutton");
     this.prepend(comment);
   }

@@ -6,22 +6,20 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="autocomplete-textbox-container" flex="1" inherits="focused">
+    this.innerHTML = `<xul:hbox class="autocomplete-textbox-container" flex="1" inherits="focused">
 <children includes="image|deck|stack|box">
-<image class="autocomplete-icon" allowevents="true">
-</image>
 </children>
-<hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
+<xul:hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
 <children>
 </children>
-<input anonid="input" class="autocomplete-textbox textbox-input" allowevents="true" inherits="tooltiptext=inputtooltiptext,value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint">
-</input>
-</hbox>
+<html:input anonid="input" class="autocomplete-textbox textbox-input" allowevents="true" inherits="tooltiptext=inputtooltiptext,value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint">
+</html:input>
+</xul:hbox>
 <children includes="hbox">
 </children>
-</hbox>
-<popupset anonid="popupset" class="autocomplete-result-popupset">
-</popupset>
+</xul:hbox>
+<xul:popupset anonid="popupset" class="autocomplete-result-popupset">
+</xul:popupset>
 <children includes="toolbarbutton">
 </children>`;
     let comment = document.createComment("Creating firefox-autocomplete");

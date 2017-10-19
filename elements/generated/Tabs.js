@@ -6,12 +6,12 @@ class FirefoxTabs extends FirefoxBasecontrol {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<spacer class="tabs-left">
-</spacer>
+    this.innerHTML = `<xul:spacer class="tabs-left">
+</xul:spacer>
 <children>
 </children>
-<spacer class="tabs-right" flex="1">
-</spacer>`;
+<xul:spacer class="tabs-right" flex="1">
+</xul:spacer>`;
     let comment = document.createComment("Creating firefox-tabs");
     this.prepend(comment);
 

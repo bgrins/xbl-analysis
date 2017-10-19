@@ -6,10 +6,10 @@ class FirefoxPanebutton extends FirefoxRadio {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="paneButtonIcon" inherits="src">
-</image>
-<firefox-text-label class="paneButtonLabel" inherits="value=label">
-</firefox-text-label>`;
+    this.innerHTML = `<xul:image class="paneButtonIcon" inherits="src">
+</xul:image>
+<xul:label class="paneButtonLabel" inherits="value=label">
+</xul:label>`;
     let comment = document.createComment("Creating firefox-panebutton");
     this.prepend(comment);
   }

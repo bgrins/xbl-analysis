@@ -57,9 +57,13 @@ getParsedFiles().then(docs => {
       // Handle the easier features to count, where we just need to detect a node:
       for (let feature of ['resources', 'property', 'field', 'content', 'handler', 'method', 'children', 'constructor', 'destructor']) {
         featureCounts[feature] = featureCounts[feature] || 0;
-        if (binding.find(feature).length) {
-          featureCounts[feature] += binding.find(feature).length;
-          idToFeatures[binding.attrs.id].push(`${feature} (${binding.find(feature).length})`);
+        let foundFeature = binding.find(feature);
+        if (!foundFeature.length && feature === "content") {
+          foundFeature = binding.find("xbl:content");
+        }
+        if (foundFeature.length) {
+          featureCounts[feature] += foundFeature.length;
+          idToFeatures[binding.attrs.id].push(`${feature} (${foundFeature.length})`);
           idToFeatureAttrs[binding.attrs.id].push(`${feature}`);
         }
       }

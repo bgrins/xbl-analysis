@@ -8,10 +8,10 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
 
     this.innerHTML = `<children includes="listheader">
 </children>
-<scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
+<xul:scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
 <children>
 </children>
-</scrollbox>`;
+</xul:scrollbox>`;
     let comment = document.createComment("Creating firefox-richlistbox");
     this.prepend(comment);
 

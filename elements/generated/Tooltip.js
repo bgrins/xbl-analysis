@@ -7,8 +7,8 @@ class FirefoxTooltip extends FirefoxPopupBase {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<firefox-text-label class="tooltip-label" inherits="text=label" flex="1">
-</firefox-text-label>
+<xul:label class="tooltip-label" inherits="text=label" flex="1">
+</xul:label>
 </children>`;
     let comment = document.createComment("Creating firefox-tooltip");
     this.prepend(comment);

@@ -6,14 +6,14 @@ class FirefoxMenuitemIconicDescNoaccel extends FirefoxMenuitem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="menu-iconic-left" align="center" pack="center" inherits="selected,disabled,checked">
-<image class="menu-iconic-icon" inherits="src=image,validate,src">
-</image>
-</hbox>
-<firefox-text-label class="menu-iconic-text" inherits="value=label,accesskey,crop" crop="right" flex="1">
-</firefox-text-label>
-<firefox-text-label class="menu-iconic-text menu-description" inherits="value=description" crop="right" flex="10000">
-</firefox-text-label>`;
+    this.innerHTML = `<xul:hbox class="menu-iconic-left" align="center" pack="center" inherits="selected,disabled,checked">
+<xul:image class="menu-iconic-icon" inherits="src=image,validate,src">
+</xul:image>
+</xul:hbox>
+<xul:label class="menu-iconic-text" inherits="value=label,accesskey,crop" crop="right" flex="1">
+</xul:label>
+<xul:label class="menu-iconic-text menu-description" inherits="value=description" crop="right" flex="10000">
+</xul:label>`;
     let comment = document.createComment(
       "Creating firefox-menuitem-iconic-desc-noaccel"
     );

@@ -6,32 +6,32 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox class="wizard-buttons-box-1" flex="1">
-<separator class="wizard-buttons-separator groove">
-</separator>
-<hbox class="wizard-buttons-box-2">
-<button class="wizard-button" dlgtype="extra1" hidden="true">
-</button>
-<button class="wizard-button" dlgtype="extra2" hidden="true">
-</button>
-<spacer flex="1" anonid="spacer">
-</spacer>
-<button label="&button-back-win.label;" accesskey="&button-back-win.accesskey;" class="wizard-button" dlgtype="back" icon="go-back">
-</button>
-<deck class="wizard-next-deck" anonid="WizardButtonDeck">
-<hbox>
-<button label="&button-finish-win.label;" class="wizard-button" dlgtype="finish" default="true" flex="1">
-</button>
-</hbox>
-<hbox>
-<button label="&button-next-win.label;" accesskey="&button-next-win.accesskey;" class="wizard-button" dlgtype="next" icon="go-forward" default="true" flex="1">
-</button>
-</hbox>
-</deck>
-<button label="&button-cancel-win.label;" class="wizard-button" dlgtype="cancel" icon="cancel">
-</button>
-</hbox>
-</vbox>`;
+    this.innerHTML = `<xul:vbox class="wizard-buttons-box-1" flex="1">
+<xul:separator class="wizard-buttons-separator groove">
+</xul:separator>
+<xul:hbox class="wizard-buttons-box-2">
+<xul:button class="wizard-button" dlgtype="extra1" hidden="true">
+</xul:button>
+<xul:button class="wizard-button" dlgtype="extra2" hidden="true">
+</xul:button>
+<xul:spacer flex="1" anonid="spacer">
+</xul:spacer>
+<xul:button label="&button-back-win.label;" accesskey="&button-back-win.accesskey;" class="wizard-button" dlgtype="back" icon="go-back">
+</xul:button>
+<xul:deck class="wizard-next-deck" anonid="WizardButtonDeck">
+<xul:hbox>
+<xul:button label="&button-finish-win.label;" class="wizard-button" dlgtype="finish" default="true" flex="1">
+</xul:button>
+</xul:hbox>
+<xul:hbox>
+<xul:button label="&button-next-win.label;" accesskey="&button-next-win.accesskey;" class="wizard-button" dlgtype="next" icon="go-forward" default="true" flex="1">
+</xul:button>
+</xul:hbox>
+</xul:deck>
+<xul:button label="&button-cancel-win.label;" class="wizard-button" dlgtype="cancel" icon="cancel">
+</xul:button>
+</xul:hbox>
+</xul:vbox>`;
     let comment = document.createComment("Creating firefox-wizard-buttons");
     this.prepend(comment);
 

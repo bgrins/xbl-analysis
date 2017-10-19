@@ -6,14 +6,14 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<tree anonid="tree" class="autocomplete-tree plain" hidecolumnpicker="true" flex="1" seltype="single">
-<treecols anonid="treecols">
-<treecol id="treecolAutoCompleteValue" class="autocomplete-treecol" flex="1" overflow="true">
-</treecol>
-</treecols>
-<treechildren class="autocomplete-treebody">
-</treechildren>
-</tree>`;
+    this.innerHTML = `<xul:tree anonid="tree" class="autocomplete-tree plain" hidecolumnpicker="true" flex="1" seltype="single">
+<xul:treecols anonid="treecols">
+<xul:treecol id="treecolAutoCompleteValue" class="autocomplete-treecol" flex="1" overflow="true">
+</xul:treecol>
+</xul:treecols>
+<xul:treechildren class="autocomplete-treebody">
+</xul:treechildren>
+</xul:tree>`;
     let comment = document.createComment(
       "Creating firefox-autocomplete-result-popup"
     );

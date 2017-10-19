@@ -6,26 +6,24 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox anonid="textbox-container" class="autocomplete-textbox-container urlbar-textbox-container" flex="1" inherits="focused">
+    this.innerHTML = `<xul:hbox anonid="textbox-container" class="autocomplete-textbox-container urlbar-textbox-container" flex="1" inherits="focused">
 <children includes="image|deck|stack|box">
-<image class="autocomplete-icon" allowevents="true">
-</image>
 </children>
-<hbox anonid="textbox-input-box" class="textbox-input-box urlbar-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
+<xul:hbox anonid="textbox-input-box" class="textbox-input-box urlbar-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
 <children>
 </children>
-<input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow">
-</input>
-</hbox>
-<image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="&goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping">
-</image>
-<dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="&urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping">
-</dropmarker>
+<html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow">
+</html:input>
+</xul:hbox>
+<xul:image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="&goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping">
+</xul:image>
+<xul:dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="&urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping">
+</xul:dropmarker>
 <children includes="hbox">
 </children>
-</hbox>
-<popupset anonid="popupset" class="autocomplete-result-popupset">
-</popupset>
+</xul:hbox>
+<xul:popupset anonid="popupset" class="autocomplete-result-popupset">
+</xul:popupset>
 <children includes="toolbarbutton">
 </children>`;
     let comment = document.createComment("Creating firefox-urlbar");

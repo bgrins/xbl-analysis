@@ -5,40 +5,40 @@ class FirefoxSearchOneOffs extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<deck anonid="search-panel-one-offs-header" selectedIndex="0" class="search-panel-header search-panel-current-input">
-<firefox-text-label anonid="searchbar-oneoffheader-search" value="&searchWithHeader.label;">
-</firefox-text-label>
-<hbox anonid="search-panel-searchforwith" class="search-panel-current-input">
-<firefox-text-label anonid="searchbar-oneoffheader-before" value="&searchFor.label;">
-</firefox-text-label>
-<firefox-text-label anonid="searchbar-oneoffheader-searchtext" class="search-panel-input-value" flex="1" crop="end">
-</firefox-text-label>
-<firefox-text-label anonid="searchbar-oneoffheader-after" flex="10000" value="&searchWith.label;">
-</firefox-text-label>
-</hbox>
-<hbox anonid="search-panel-searchonengine" class="search-panel-current-input">
-<firefox-text-label anonid="searchbar-oneoffheader-beforeengine" value="&search.label;">
-</firefox-text-label>
-<firefox-text-label anonid="searchbar-oneoffheader-engine" class="search-panel-input-value" flex="1" crop="end">
-</firefox-text-label>
-<firefox-text-label anonid="searchbar-oneoffheader-afterengine" flex="10000" value="&searchAfter.label;">
-</firefox-text-label>
-</hbox>
-</deck>
-<description anonid="search-panel-one-offs" role="group" class="search-panel-one-offs" inherits="compact">
-<button anonid="search-settings-compact" oncommand="showSettings();" class="searchbar-engine-one-off-item search-setting-button-compact" tooltiptext="&changeSearchSettings.tooltip;" inherits="compact">
-</button>
-</description>
-<vbox anonid="add-engines" class="search-add-engines">
-</vbox>
-<button anonid="search-settings" oncommand="showSettings();" class="search-setting-button search-panel-header" label="&changeSearchSettings.button;" inherits="compact">
-</button>
-<menupopup anonid="search-one-offs-context-menu">
-<menuitem anonid="search-one-offs-context-open-in-new-tab" label="&searchInNewTab.label;" accesskey="&searchInNewTab.accesskey;">
-</menuitem>
-<menuitem anonid="search-one-offs-context-set-default" label="&searchSetAsDefault.label;" accesskey="&searchSetAsDefault.accesskey;">
-</menuitem>
-</menupopup>`;
+    this.innerHTML = `<xul:deck anonid="search-panel-one-offs-header" selectedindex="0" class="search-panel-header search-panel-current-input">
+<xul:label anonid="searchbar-oneoffheader-search" value="&searchWithHeader.label;">
+</xul:label>
+<xul:hbox anonid="search-panel-searchforwith" class="search-panel-current-input">
+<xul:label anonid="searchbar-oneoffheader-before" value="&searchFor.label;">
+</xul:label>
+<xul:label anonid="searchbar-oneoffheader-searchtext" class="search-panel-input-value" flex="1" crop="end">
+</xul:label>
+<xul:label anonid="searchbar-oneoffheader-after" flex="10000" value="&searchWith.label;">
+</xul:label>
+</xul:hbox>
+<xul:hbox anonid="search-panel-searchonengine" class="search-panel-current-input">
+<xul:label anonid="searchbar-oneoffheader-beforeengine" value="&search.label;">
+</xul:label>
+<xul:label anonid="searchbar-oneoffheader-engine" class="search-panel-input-value" flex="1" crop="end">
+</xul:label>
+<xul:label anonid="searchbar-oneoffheader-afterengine" flex="10000" value="&searchAfter.label;">
+</xul:label>
+</xul:hbox>
+</xul:deck>
+<xul:description anonid="search-panel-one-offs" role="group" class="search-panel-one-offs" inherits="compact">
+<xul:button anonid="search-settings-compact" oncommand="showSettings();" class="searchbar-engine-one-off-item search-setting-button-compact" tooltiptext="&changeSearchSettings.tooltip;" inherits="compact">
+</xul:button>
+</xul:description>
+<xul:vbox anonid="add-engines" class="search-add-engines">
+</xul:vbox>
+<xul:button anonid="search-settings" oncommand="showSettings();" class="search-setting-button search-panel-header" label="&changeSearchSettings.button;" inherits="compact">
+</xul:button>
+<xul:menupopup anonid="search-one-offs-context-menu">
+<xul:menuitem anonid="search-one-offs-context-open-in-new-tab" label="&searchInNewTab.label;" accesskey="&searchInNewTab.accesskey;">
+</xul:menuitem>
+<xul:menuitem anonid="search-one-offs-context-set-default" label="&searchSetAsDefault.label;" accesskey="&searchSetAsDefault.accesskey;">
+</xul:menuitem>
+</xul:menupopup>`;
     let comment = document.createComment("Creating firefox-search-one-offs");
     this.prepend(comment);
 

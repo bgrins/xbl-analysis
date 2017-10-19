@@ -8,10 +8,10 @@ class FirefoxAutocompleteTree extends FirefoxTree {
 
     this.innerHTML = `<children includes="treecols">
 </children>
-<treerows class="autocomplete-treerows tree-rows" inherits="hidescrollbar" flex="1">
+<xul:treerows class="autocomplete-treerows tree-rows" inherits="hidescrollbar" flex="1">
 <children>
 </children>
-</treerows>`;
+</xul:treerows>`;
     let comment = document.createComment("Creating firefox-autocomplete-tree");
     this.prepend(comment);
   }

@@ -7,19 +7,19 @@ class FirefoxListbox extends FirefoxListboxBase {
     console.log(this, "connected");
 
     this.innerHTML = `<children includes="listcols">
-<listcols>
-<listcol flex="1">
-</listcol>
-</listcols>
+<xul:listcols>
+<xul:listcol flex="1">
+</xul:listcol>
+</xul:listcols>
 </children>
-<listrows>
+<xul:listrows>
 <children includes="listhead">
 </children>
-<listboxbody inherits="rows,size,minheight">
+<xul:listboxbody inherits="rows,size,minheight">
 <children includes="listitem">
 </children>
-</listboxbody>
-</listrows>`;
+</xul:listboxbody>
+</xul:listrows>`;
     let comment = document.createComment("Creating firefox-listbox");
     this.prepend(comment);
 

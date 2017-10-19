@@ -6,14 +6,14 @@ class FirefoxFilefield extends FirefoxBasetext {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<stringbundle anonid="bundle" src="chrome://global/locale/filefield.properties">
-</stringbundle>
-<hbox class="fileFieldContentBox" align="center" flex="1" inherits="disabled">
-<image class="fileFieldIcon" inherits="src=image,disabled">
-</image>
-<textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true">
-</textbox>
-</hbox>`;
+    this.innerHTML = `<xul:stringbundle anonid="bundle" src="chrome://global/locale/filefield.properties">
+</xul:stringbundle>
+<xul:hbox class="fileFieldContentBox" align="center" flex="1" inherits="disabled">
+<xul:image class="fileFieldIcon" inherits="src=image,disabled">
+</xul:image>
+<xul:textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true">
+</xul:textbox>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-filefield");
     this.prepend(comment);
 

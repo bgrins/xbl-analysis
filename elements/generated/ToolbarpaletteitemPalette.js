@@ -6,12 +6,12 @@ class FirefoxToolbarpaletteitemPalette extends FirefoxToolbarpaletteitem {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="toolbarpaletteitem-box" inherits="type,place">
+    this.innerHTML = `<xul:hbox class="toolbarpaletteitem-box" inherits="type,place">
 <children>
 </children>
-</hbox>
-<firefox-text-label inherits="value=title">
-</firefox-text-label>`;
+</xul:hbox>
+<xul:label inherits="value=title">
+</xul:label>`;
     let comment = document.createComment(
       "Creating firefox-toolbarpaletteitem-palette"
     );

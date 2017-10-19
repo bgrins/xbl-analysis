@@ -5,8 +5,8 @@ class FirefoxDropmarker extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<image class="dropmarker-icon">
-</image>`;
+    this.innerHTML = `<xul:image class="dropmarker-icon">
+</xul:image>`;
     let comment = document.createComment("Creating firefox-dropmarker");
     this.prepend(comment);
   }

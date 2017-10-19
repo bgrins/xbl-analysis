@@ -6,16 +6,16 @@ class FirefoxMenulistDescription extends FirefoxMenulist {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="menulist-label-box" flex="1">
-<image class="menulist-icon" inherits="src=image,src">
-</image>
-<firefox-text-label class="menulist-label" inherits="value=label,crop,accesskey" crop="right" flex="1">
-</firefox-text-label>
-<firefox-text-label class="menulist-label menulist-description" inherits="value=description" crop="right" flex="10000">
-</firefox-text-label>
-</hbox>
-<dropmarker class="menulist-dropmarker" type="menu" inherits="disabled,open">
-</dropmarker>
+    this.innerHTML = `<xul:hbox class="menulist-label-box" flex="1">
+<xul:image class="menulist-icon" inherits="src=image,src">
+</xul:image>
+<xul:label class="menulist-label" inherits="value=label,crop,accesskey" crop="right" flex="1">
+</xul:label>
+<xul:label class="menulist-label menulist-description" inherits="value=description" crop="right" flex="10000">
+</xul:label>
+</xul:hbox>
+<xul:dropmarker class="menulist-dropmarker" type="menu" inherits="disabled,open">
+</xul:dropmarker>
 <children includes="menupopup">
 </children>`;
     let comment = document.createComment(

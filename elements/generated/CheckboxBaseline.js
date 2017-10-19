@@ -7,14 +7,14 @@ class FirefoxCheckboxBaseline extends FirefoxBasetext {
     console.log(this, "connected");
 
     this.innerHTML = `<input type='checkbox' />
-<image class="checkbox-check" inherits="checked,disabled">
-</image>
-<hbox class="checkbox-label-box" flex="1">
-<image class="checkbox-icon" inherits="src">
-</image>
-<firefox-text-label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1">
-</firefox-text-label>
-</hbox>`;
+<xul:image class="checkbox-check" inherits="checked,disabled">
+</xul:image>
+<xul:hbox class="checkbox-label-box" flex="1">
+<xul:image class="checkbox-icon" inherits="src">
+</xul:image>
+<xul:label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1">
+</xul:label>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-checkbox-baseline");
     this.prepend(comment);
 

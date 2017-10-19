@@ -6,22 +6,22 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox anonid="searchbar-engine" inherits="showonlysettings" class="search-panel-header search-panel-current-engine">
-<image class="searchbar-engine-image" inherits="src">
-</image>
-<firefox-text-label anonid="searchbar-engine-name" flex="1" crop="end" role="presentation">
-</firefox-text-label>
-</hbox>
-<tree anonid="tree" flex="1" class="autocomplete-tree plain search-panel-tree" hidecolumnpicker="true" seltype="single">
-<treecols anonid="treecols">
-<treecol id="treecolAutoCompleteValue" class="autocomplete-treecol" flex="1" overflow="true">
-</treecol>
-</treecols>
-<treechildren class="autocomplete-treebody searchbar-treebody">
-</treechildren>
-</tree>
-<vbox anonid="search-one-off-buttons" class="search-one-offs">
-</vbox>`;
+    this.innerHTML = `<xul:hbox anonid="searchbar-engine" inherits="showonlysettings" class="search-panel-header search-panel-current-engine">
+<xul:image class="searchbar-engine-image" inherits="src">
+</xul:image>
+<xul:label anonid="searchbar-engine-name" flex="1" crop="end" role="presentation">
+</xul:label>
+</xul:hbox>
+<xul:tree anonid="tree" flex="1" class="autocomplete-tree plain search-panel-tree" hidecolumnpicker="true" seltype="single">
+<xul:treecols anonid="treecols">
+<xul:treecol id="treecolAutoCompleteValue" class="autocomplete-treecol" flex="1" overflow="true">
+</xul:treecol>
+</xul:treecols>
+<xul:treechildren class="autocomplete-treebody searchbar-treebody">
+</xul:treechildren>
+</xul:tree>
+<xul:vbox anonid="search-one-off-buttons" class="search-one-offs">
+</xul:vbox>`;
     let comment = document.createComment(
       "Creating firefox-browser-search-autocomplete-result-popup"
     );

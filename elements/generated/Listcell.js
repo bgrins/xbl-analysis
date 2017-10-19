@@ -7,8 +7,8 @@ class FirefoxListcell extends FirefoxBasecontrol {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<firefox-text-label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
-</firefox-text-label>
+<xul:label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right">
+</xul:label>
 </children>`;
     let comment = document.createComment("Creating firefox-listcell");
     this.prepend(comment);

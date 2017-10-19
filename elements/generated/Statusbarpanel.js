@@ -6,8 +6,8 @@ class FirefoxStatusbarpanel extends BaseElement {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<firefox-text-label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1">
-</firefox-text-label>
+<xul:label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1">
+</xul:label>
 </children>`;
     let comment = document.createComment("Creating firefox-statusbarpanel");
     this.prepend(comment);

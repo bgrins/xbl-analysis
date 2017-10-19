@@ -6,7 +6,7 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox class="datepicker-mainbox">
+    this.innerHTML = `<vbox class="datepicker-mainbox" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <hbox class="datepicker-monthbox" align="center">
 <button class="datepicker-previous datepicker-button" type="repeat" inherits="disabled" oncommand="document.getBindingParent(this)._increaseOrDecreaseMonth(-1);">
 </button>
@@ -198,7 +198,7 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
       enumerable: true,
       get() {
         delete this._weekStart;
-        return (this._weekStart = "");
+        return (this._weekStart = "&firstdayofweek.default;");
       },
       set(val) {
         delete this._weekStart;

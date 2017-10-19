@@ -6,16 +6,16 @@ class FirefoxWizardHeader extends FirefoxWizardBase {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="wizard-header-box-1" flex="1">
-<vbox class="wizard-header-box-text" flex="1">
-<firefox-text-label class="wizard-header-label" inherits="text=label">
-</firefox-text-label>
-<firefox-text-label class="wizard-header-description" inherits="text=description">
-</firefox-text-label>
-</vbox>
-<image class="wizard-header-icon" inherits="src=iconsrc">
-</image>
-</hbox>`;
+    this.innerHTML = `<xul:hbox class="wizard-header-box-1" flex="1">
+<xul:vbox class="wizard-header-box-text" flex="1">
+<xul:label class="wizard-header-label" inherits="text=label">
+</xul:label>
+<xul:label class="wizard-header-description" inherits="text=description">
+</xul:label>
+</xul:vbox>
+<xul:image class="wizard-header-icon" inherits="src=iconsrc">
+</xul:image>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-wizard-header");
     this.prepend(comment);
   }

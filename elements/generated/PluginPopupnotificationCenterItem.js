@@ -5,30 +5,30 @@ class FirefoxPluginPopupnotificationCenterItem extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<vbox pack="center" anonid="itemBox" class="itemBox">
-<description anonid="center-item-label" class="center-item-label">
-</description>
-<hbox flex="1" pack="start" align="center" anonid="center-item-warning">
-<image anonid="center-item-warning-icon" class="center-item-warning-icon">
-</image>
-<firefox-text-label anonid="center-item-warning-label">
-</firefox-text-label>
-<firefox-text-label anonid="center-item-link" value="&checkForUpdates;" class="text-link">
-</firefox-text-label>
-</hbox>
-</vbox>
-<vbox pack="center">
-<menulist class="center-item-menulist" anonid="center-item-menulist">
-<menupopup>
-<menuitem anonid="allownow" value="allownow" label="&pluginActivateNow.label;">
-</menuitem>
-<menuitem anonid="allowalways" value="allowalways" label="&pluginActivateAlways.label;">
-</menuitem>
-<menuitem anonid="block" value="block" label="&pluginBlockNow.label;">
-</menuitem>
-</menupopup>
-</menulist>
-</vbox>`;
+    this.innerHTML = `<xul:vbox pack="center" anonid="itemBox" class="itemBox">
+<xul:description anonid="center-item-label" class="center-item-label">
+</xul:description>
+<xul:hbox flex="1" pack="start" align="center" anonid="center-item-warning">
+<xul:image anonid="center-item-warning-icon" class="center-item-warning-icon">
+</xul:image>
+<xul:label anonid="center-item-warning-label">
+</xul:label>
+<xul:label anonid="center-item-link" value="&checkForUpdates;" class="text-link">
+</xul:label>
+</xul:hbox>
+</xul:vbox>
+<xul:vbox pack="center">
+<xul:menulist class="center-item-menulist" anonid="center-item-menulist">
+<xul:menupopup>
+<xul:menuitem anonid="allownow" value="allownow" label="&pluginActivateNow.label;">
+</xul:menuitem>
+<xul:menuitem anonid="allowalways" value="allowalways" label="&pluginActivateAlways.label;">
+</xul:menuitem>
+<xul:menuitem anonid="block" value="block" label="&pluginBlockNow.label;">
+</xul:menuitem>
+</xul:menupopup>
+</xul:menulist>
+</xul:vbox>`;
     let comment = document.createComment(
       "Creating firefox-plugin-popupnotification-center-item"
     );

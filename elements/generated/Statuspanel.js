@@ -5,10 +5,10 @@ class FirefoxStatuspanel extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<hbox class="statuspanel-inner">
-<firefox-text-label class="statuspanel-label" role="status" aria-live="off" inherits="value=label,crop,mirror" flex="1" crop="end">
-</firefox-text-label>
-</hbox>`;
+    this.innerHTML = `<xul:hbox class="statuspanel-inner">
+<xul:label class="statuspanel-label" role="status" aria-live="off" inherits="value=label,crop,mirror" flex="1" crop="end">
+</xul:label>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-statuspanel");
     this.prepend(comment);
 

@@ -7,8 +7,8 @@ class FirefoxListitemCheckboxIconic extends FirefoxListitemCheckbox {
     console.log(this, "connected");
 
     this.innerHTML = `<children>
-<listcell type="checkbox" class="listcell-iconic" inherits="label,image,crop,checked,disabled,flexlabel">
-</listcell>
+<xul:listcell type="checkbox" class="listcell-iconic" inherits="label,image,crop,checked,disabled,flexlabel">
+</xul:listcell>
 </children>`;
     let comment = document.createComment(
       "Creating firefox-listitem-checkbox-iconic"

@@ -7,10 +7,10 @@ class FirefoxTextbox extends BaseElement {
 
     this.innerHTML = `<children>
 </children>
-<hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
-<input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
-</input>
-</hbox>`;
+<xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
+<html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
+</html:input>
+</xul:hbox>`;
     let comment = document.createComment("Creating firefox-textbox");
     this.prepend(comment);
 
