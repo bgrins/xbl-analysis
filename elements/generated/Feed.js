@@ -24,7 +24,7 @@ class FirefoxFeed extends FirefoxRichlistitem {
 <xul:hbox flex="1" class="feed-subscribe">
 <xul:spacer flex="1">
 </xul:spacer>
-<xul:button label="&feedSubscribe;" accesskey="&feedSubscribe.accesskey;" oncommand="onSubscribeFeed()">
+<xul:button label="FROM-DTD-feedSubscribe" accesskey="FROM-DTD-feedSubscribe-accesskey" oncommand="onSubscribeFeed()">
 </xul:button>
 </xul:hbox>
 </xul:vbox>`;

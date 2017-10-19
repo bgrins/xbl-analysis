@@ -14,7 +14,7 @@ class FirefoxHandlerSelected extends FirefoxHandlerBase {
 </xul:label>
 </xul:hbox>
 <xul:hbox flex="1">
-<xul:menulist class="actionsMenu" flex="1" crop="end" selectedindex="1" inherits="tooltiptext=actionDescription" oncommand="gMainPane.onSelectAction(event.originalTarget)">
+<xul:menulist class="actionsMenu" flex="1" crop="end" selectedIndex="1" inherits="tooltiptext=actionDescription" oncommand="gMainPane.onSelectAction(event.originalTarget)">
 <xul:menupopup>
 </xul:menupopup>
 </xul:menulist>

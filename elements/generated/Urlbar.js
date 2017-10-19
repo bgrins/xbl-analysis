@@ -15,9 +15,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 <html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow">
 </html:input>
 </xul:hbox>
-<xul:image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="&goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping">
+<xul:image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD-goEndCap-tooltip" inherits="pageproxystate,parentfocused=focused,usertyping">
 </xul:image>
-<xul:dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="&urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping">
+<xul:dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD-urlbar-openHistoryPopup-tooltip" allowevents="true" inherits="open,parentfocused=focused,usertyping">
 </xul:dropmarker>
 <children includes="hbox">
 </children>

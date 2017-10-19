@@ -13,9 +13,9 @@ class FirefoxContainer extends BaseElement {
 </xul:label>
 </xul:hbox>
 <xul:hbox flex="1" align="right">
-<xul:button anonid="preferencesButton" label="&preferencesButton.label;" inherits="value=userContextId" onclick="gContainersPane.onPreferenceClick(event.originalTarget)">
+<xul:button anonid="preferencesButton" label="FROM-DTD-preferencesButton-label" inherits="value=userContextId" onclick="gContainersPane.onPreferenceClick(event.originalTarget)">
 </xul:button>
-<xul:button anonid="removeButton" label="&removeButton.label;" inherits="value=userContextId" onclick="gContainersPane.onRemoveClick(event.originalTarget)">
+<xul:button anonid="removeButton" label="FROM-DTD-removeButton-label" inherits="value=userContextId" onclick="gContainersPane.onRemoveClick(event.originalTarget)">
 </xul:button>
 </xul:hbox>
 </xul:hbox>`;

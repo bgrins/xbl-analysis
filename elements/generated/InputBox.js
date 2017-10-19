@@ -12,21 +12,21 @@ class FirefoxInputBox extends BaseElement {
                                      if (document.commandDispatcher.focusedElement != input)
                                        input.focus();
                                      this.parentNode._doPopupItemEnabling(this);" oncommand="var cmd = event.originalTarget.getAttribute('cmd'); if(cmd) { this.parentNode.doCommand(cmd); event.stopPropagation(); }">
-<xul:menuitem label="&undoCmd.label;" accesskey="&undoCmd.accesskey;" cmd="cmd_undo">
+<xul:menuitem label="FROM-DTD-undoCmd-label" accesskey="FROM-DTD-undoCmd-accesskey" cmd="cmd_undo">
 </xul:menuitem>
 <xul:menuseparator>
 </xul:menuseparator>
-<xul:menuitem label="&cutCmd.label;" accesskey="&cutCmd.accesskey;" cmd="cmd_cut">
+<xul:menuitem label="FROM-DTD-cutCmd-label" accesskey="FROM-DTD-cutCmd-accesskey" cmd="cmd_cut">
 </xul:menuitem>
-<xul:menuitem label="&copyCmd.label;" accesskey="&copyCmd.accesskey;" cmd="cmd_copy">
+<xul:menuitem label="FROM-DTD-copyCmd-label" accesskey="FROM-DTD-copyCmd-accesskey" cmd="cmd_copy">
 </xul:menuitem>
-<xul:menuitem label="&pasteCmd.label;" accesskey="&pasteCmd.accesskey;" cmd="cmd_paste">
+<xul:menuitem label="FROM-DTD-pasteCmd-label" accesskey="FROM-DTD-pasteCmd-accesskey" cmd="cmd_paste">
 </xul:menuitem>
-<xul:menuitem label="&deleteCmd.label;" accesskey="&deleteCmd.accesskey;" cmd="cmd_delete">
+<xul:menuitem label="FROM-DTD-deleteCmd-label" accesskey="FROM-DTD-deleteCmd-accesskey" cmd="cmd_delete">
 </xul:menuitem>
 <xul:menuseparator>
 </xul:menuseparator>
-<xul:menuitem label="&selectAllCmd.label;" accesskey="&selectAllCmd.accesskey;" cmd="cmd_selectAll">
+<xul:menuitem label="FROM-DTD-selectAllCmd-label" accesskey="FROM-DTD-selectAllCmd-accesskey" cmd="cmd_selectAll">
 </xul:menuitem>
 </xul:menupopup>`;
     let comment = document.createComment("Creating firefox-input-box");

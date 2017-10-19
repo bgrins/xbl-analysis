@@ -8,7 +8,7 @@ class FirefoxTabbrowser extends BaseElement {
     this.innerHTML = `<xul:stringbundle anonid="tbstringbundle" src="chrome://browser/locale/tabbrowser.properties">
 </xul:stringbundle>
 <xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="handleCtrlPageUpDown,tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
-<xul:tabpanels flex="1" class="plain" selectedindex="0" anonid="panelcontainer">
+<xul:tabpanels flex="1" class="plain" selectedIndex="0" anonid="panelcontainer">
 <xul:notificationbox flex="1" notificationside="top">
 <xul:hbox flex="1" class="browserSidebarContainer">
 <xul:vbox flex="1" class="browserContainer">

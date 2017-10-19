@@ -6,7 +6,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     super.connectedCallback();
     console.log(this, "connected");
 
-    this.innerHTML = `<xul:deck anonid="search-suggestions-notification" align="center" role="alert" selectedindex="0">
+    this.innerHTML = `<xul:deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
 <xul:hbox flex="1" align="center" anonid="search-suggestions-opt-out">
 <xul:image class="ac-site-icon" type="searchengine">
 </xul:image>
@@ -22,7 +22,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
 </html:span>
 </xul:description>
 </xul:hbox>
-<xul:label id="search-suggestions-change-settings" class="text-link" role="link" value="&urlbar.searchSuggestionsNotification.changeSettingsWin;" accesskey="&urlbar.searchSuggestionsNotification.changeSettingsWin.accesskey;" onclick="openPreferences('paneSearch');" control="search-suggestions-change-settings">
+<xul:label id="search-suggestions-change-settings" class="text-link" role="link" value="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin" accesskey="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin-accesskey" onclick="openPreferences('paneSearch');" control="search-suggestions-change-settings">
 </xul:label>
 </xul:hbox>
 </xul:deck>

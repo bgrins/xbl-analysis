@@ -198,7 +198,7 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
       enumerable: true,
       get() {
         delete this._weekStart;
-        return (this._weekStart = "&firstdayofweek.default;");
+        return (this._weekStart = "FROM-DTD-firstdayofweek-default");
       },
       set(val) {
         delete this._weekStart;

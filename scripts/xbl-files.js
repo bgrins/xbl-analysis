@@ -80,10 +80,15 @@ module.exports.getParsedFiles = (rev) => {
       body = preprocessFile(body);
       body = body.replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
       body = body.replace('(event.detail > 0)', '(event.detail &gt; 0)'); // Special case an instance with > in an attr in search.xml
-
-      return xmlom.parseString(body, {strict: false, lowercase: true, xmlns: true, }).then(doc => {
+      body = body.replace(/\&([a-z0-9\-]+)\;/gi, "FROM-DTD-$1"); // Replace DTD entities
+      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2"); // Replace DTD entities
+      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3"); // Replace DTD entities
+      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3-$4"); // Replace DTD entities
+      return xmlom.parseString(body, { xmlns: true }).then(doc => {
         return { doc, body };
-      });
+      }, (e=> {
+        console.log("Error parsing: ", file, e);
+      }));
     });
   }));
 };

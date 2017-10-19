@@ -10,16 +10,16 @@ class FirefoxFindbar extends FirefoxToolbar {
 <xul:hbox anonid="findbar-textbox-wrapper" align="stretch">
 <xul:textbox anonid="findbar-textbox" class="findbar-textbox findbar-find-fast" inherits="flash">
 </xul:textbox>
-<xul:toolbarbutton anonid="find-previous" class="findbar-find-previous tabbable" tooltiptext="&previous.tooltip;" oncommand="onFindAgainCommand(true);" disabled="true" inherits="accesskey=findpreviousaccesskey">
+<xul:toolbarbutton anonid="find-previous" class="findbar-find-previous tabbable" tooltiptext="FROM-DTD-previous-tooltip" oncommand="onFindAgainCommand(true);" disabled="true" inherits="accesskey=findpreviousaccesskey">
 </xul:toolbarbutton>
-<xul:toolbarbutton anonid="find-next" class="findbar-find-next tabbable" tooltiptext="&next.tooltip;" oncommand="onFindAgainCommand(false);" disabled="true" inherits="accesskey=findnextaccesskey">
+<xul:toolbarbutton anonid="find-next" class="findbar-find-next tabbable" tooltiptext="FROM-DTD-next-tooltip" oncommand="onFindAgainCommand(false);" disabled="true" inherits="accesskey=findnextaccesskey">
 </xul:toolbarbutton>
 </xul:hbox>
-<xul:toolbarbutton anonid="highlight" class="findbar-highlight findbar-button tabbable" label="&highlightAll.label;" accesskey="&highlightAll.accesskey;" tooltiptext="&highlightAll.tooltiptext;" oncommand="toggleHighlight(this.checked);" type="checkbox" inherits="accesskey=highlightaccesskey">
+<xul:toolbarbutton anonid="highlight" class="findbar-highlight findbar-button tabbable" label="FROM-DTD-highlightAll-label" accesskey="FROM-DTD-highlightAll-accesskey" tooltiptext="FROM-DTD-highlightAll-tooltiptext" oncommand="toggleHighlight(this.checked);" type="checkbox" inherits="accesskey=highlightaccesskey">
 </xul:toolbarbutton>
-<xul:toolbarbutton anonid="find-case-sensitive" class="findbar-case-sensitive findbar-button tabbable" label="&caseSensitive.label;" accesskey="&caseSensitive.accesskey;" tooltiptext="&caseSensitive.tooltiptext;" oncommand="_setCaseSensitivity(this.checked ? 1 : 0);" type="checkbox" inherits="accesskey=matchcaseaccesskey">
+<xul:toolbarbutton anonid="find-case-sensitive" class="findbar-case-sensitive findbar-button tabbable" label="FROM-DTD-caseSensitive-label" accesskey="FROM-DTD-caseSensitive-accesskey" tooltiptext="FROM-DTD-caseSensitive-tooltiptext" oncommand="_setCaseSensitivity(this.checked ? 1 : 0);" type="checkbox" inherits="accesskey=matchcaseaccesskey">
 </xul:toolbarbutton>
-<xul:toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="&entireWord.label;" accesskey="&entireWord.accesskey;" tooltiptext="&entireWord.tooltiptext;" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey">
+<xul:toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="FROM-DTD-entireWord-label" accesskey="FROM-DTD-entireWord-accesskey" tooltiptext="FROM-DTD-entireWord-tooltiptext" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey">
 </xul:toolbarbutton>
 <xul:label anonid="match-case-status" class="findbar-find-fast">
 </xul:label>
@@ -32,7 +32,7 @@ class FirefoxFindbar extends FirefoxToolbar {
 <xul:description anonid="find-status" control="findbar-textbox" class="findbar-find-fast findbar-find-status">
 </xul:description>
 </xul:hbox>
-<xul:toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="&findCloseButton.tooltip;" oncommand="close();">
+<xul:toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="FROM-DTD-findCloseButton-tooltip" oncommand="close();">
 </xul:toolbarbutton>`;
     let comment = document.createComment("Creating firefox-findbar");
     this.prepend(comment);

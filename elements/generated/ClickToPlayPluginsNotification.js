@@ -28,7 +28,7 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
 <children includes="row">
 </children>
 <xul:hbox pack="start" anonid="plugin-notification-showbox">
-<xul:button label="&pluginNotification.showAll.label;" accesskey="&pluginNotification.showAll.accesskey;" class="plugin-notification-showbutton" oncommand="document.getBindingParent(this)._setState(2)">
+<xul:button label="FROM-DTD-pluginNotification-showAll-label" accesskey="FROM-DTD-pluginNotification-showAll-accesskey" class="plugin-notification-showbutton" oncommand="document.getBindingParent(this)._setState(2)">
 </xul:button>
 </xul:hbox>
 </xul:rows>

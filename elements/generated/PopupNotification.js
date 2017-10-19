@@ -16,7 +16,7 @@ class FirefoxPopupNotification extends BaseElement {
 <xul:description class="popup-notification-description" inherits="text=label,popupid">
 </xul:description>
 </xul:vbox>
-<xul:toolbarbutton anonid="closebutton" class="messageCloseButton close-icon popup-notification-closebutton tabbable" inherits="oncommand=closebuttoncommand,hidden=closebuttonhidden" tooltiptext="&closeNotification.tooltip;">
+<xul:toolbarbutton anonid="closebutton" class="messageCloseButton close-icon popup-notification-closebutton tabbable" inherits="oncommand=closebuttoncommand,hidden=closebuttonhidden" tooltiptext="FROM-DTD-closeNotification-tooltip">
 </xul:toolbarbutton>
 </xul:hbox>
 <children includes="popupnotificationcontent">
@@ -42,7 +42,7 @@ class FirefoxPopupNotification extends BaseElement {
 </children>
 </xul:menupopup>
 </xul:button>
-<xul:button anonid="button" class="popup-notification-button" default="true" label="&defaultButton.label;" accesskey="&defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled">
+<xul:button anonid="button" class="popup-notification-button" default="true" label="FROM-DTD-defaultButton-label" accesskey="FROM-DTD-defaultButton-accesskey" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled">
 </xul:button>
 </xul:hbox>`;
     let comment = document.createComment("Creating firefox-popup-notification");

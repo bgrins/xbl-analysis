@@ -7,10 +7,10 @@ class FirefoxOptionsdialog extends FirefoxDialog {
     console.log(this, "connected");
 
     this.innerHTML = `<xul:hbox flex="1">
-<xul:categorybox anonid="prefsCategories">
+<xul:categoryBox anonid="prefsCategories">
 <children>
 </children>
-</xul:categorybox>
+</xul:categoryBox>
 <xul:vbox flex="1">
 <xul:dialogheader id="panelHeader">
 </xul:dialogheader>

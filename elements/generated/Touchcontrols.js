@@ -29,12 +29,12 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
 <box flex="1" hidden="true">
 <box anonid="clickToPlay" class="clickToPlay" hidden="true" flex="1">
 </box>
-<vbox anonid="textTrackList" class="textTrackList" hidden="true" offlabel="&closedCaption.off;">
+<vbox anonid="textTrackList" class="textTrackList" hidden="true" offlabel="FROM-DTD-closedCaption-off">
 </vbox>
 </box>
 <vbox anonid="controlBar" class="controlBar" hidden="true">
 <hbox class="buttonsBar">
-<button anonid="playButton" class="playButton" playlabel="&playButton.playLabel;" pauselabel="&playButton.pauseLabel;">
+<button anonid="playButton" class="playButton" playlabel="FROM-DTD-playButton-playLabel" pauselabel="FROM-DTD-playButton-pauseLabel">
 </button>
 <firefox-text-label anonid="positionLabel" class="positionLabel" role="presentation">
 </firefox-text-label>
@@ -52,7 +52,7 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
 </stack>
 <firefox-text-label anonid="durationLabel" class="durationLabel" role="presentation">
 </firefox-text-label>
-<button anonid="muteButton" class="muteButton" mutelabel="&muteButton.muteLabel;" unmutelabel="&muteButton.unmuteLabel;">
+<button anonid="muteButton" class="muteButton" mutelabel="FROM-DTD-muteButton-muteLabel" unmutelabel="FROM-DTD-muteButton-unmuteLabel">
 </button>
 <stack anonid="volumeStack" class="volumeStack">
 <box anonid="volumeBackground" class="volumeBackground">
@@ -62,11 +62,11 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
 <scale anonid="volumeControl" class="volumeControl" movetoclick="true">
 </scale>
 </stack>
-<button anonid="castingButton" class="castingButton" hidden="true" aria-label="&castingButton.castingLabel;">
+<button anonid="castingButton" class="castingButton" hidden="true" aria-label="FROM-DTD-castingButton-castingLabel">
 </button>
 <button anonid="closedCaptionButton" class="closedCaptionButton" hidden="true">
 </button>
-<button anonid="fullscreenButton" class="fullscreenButton" enterfullscreenlabel="&fullscreenButton.enterfullscreenlabel;" exitfullscreenlabel="&fullscreenButton.exitfullscreenlabel;">
+<button anonid="fullscreenButton" class="fullscreenButton" enterfullscreenlabel="FROM-DTD-fullscreenButton-enterfullscreenlabel" exitfullscreenlabel="FROM-DTD-fullscreenButton-exitfullscreenlabel">
 </button>
 </hbox>
 </vbox>

@@ -16,7 +16,7 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
 <xul:deck class="textbox-search-icons" anonid="search-icons">
 <xul:image class="textbox-search-icon" anonid="searchbutton-icon" inherits="src=image,label=searchbuttonlabel,searchbutton,disabled">
 </xul:image>
-<xul:image class="textbox-search-clear" onclick="document.getBindingParent(this)._clearSearch();" label="&searchTextBox.clear.label;" inherits="disabled">
+<xul:image class="textbox-search-clear" onclick="document.getBindingParent(this)._clearSearch();" label="FROM-DTD-searchTextBox-clear-label" inherits="disabled">
 </xul:image>
 </xul:deck>
 </xul:hbox>`;

@@ -11,7 +11,7 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
 <xul:menupopup anonid="popup">
 <xul:menuseparator anonid="menuseparator">
 </xul:menuseparator>
-<xul:menuitem anonid="menuitem" label="&restoreColumnOrder.label;">
+<xul:menuitem anonid="menuitem" label="FROM-DTD-restoreColumnOrder-label">
 </xul:menuitem>
 </xul:menupopup>`;
     let comment = document.createComment("Creating firefox-columnpicker");
