@@ -37,10 +37,11 @@ getParsedFiles().then(parsedFiles => {
       display: grid;
       overflow: hidden;
       grid-template-columns: auto 1fr 1fr;
+      grid-gap: 10px;
     }
     textarea, pre {
       box-sizing: border-box;
-      margin: 10px;
+      margin: 0;
       padding: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
@@ -49,7 +50,7 @@ getParsedFiles().then(parsedFiles => {
     }
     ul {
       min-width: 100px;
-      margin: 10px;
+      margin: 0;
       padding: 0;
       overflow: scroll;
     }
