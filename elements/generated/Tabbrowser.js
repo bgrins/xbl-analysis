@@ -5,9 +5,7 @@ class FirefoxTabbrowser extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<xul:stringbundle anonid="tbstringbundle" src="chrome://browser/locale/tabbrowser.properties">
-</xul:stringbundle>
-<xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="handleCtrlPageUpDown,tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
+    this.innerHTML = `<xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="handleCtrlPageUpDown,tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
 <xul:tabpanels flex="1" class="plain" selectedIndex="0" anonid="panelcontainer">
 <xul:notificationbox flex="1" notificationside="top">
 <xul:hbox flex="1" class="browserSidebarContainer">
@@ -106,22 +104,6 @@ class FirefoxTabbrowser extends BaseElement {
           "anonid",
           "panelcontainer"
         ));
-      }
-    });
-    Object.defineProperty(this, "mStringBundle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mStringBundle;
-        return (this.mStringBundle = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "tbstringbundle"
-        ));
-      },
-      set(val) {
-        delete this.mStringBundle;
-        return (this.mStringBundle = val);
       }
     });
     Object.defineProperty(this, "mCurrentTab", {
@@ -2525,7 +2507,7 @@ class FirefoxTabbrowser extends BaseElement {
         }
       } else {
         // Still no title? Fall back to our untitled string.
-        title = this.mStringBundle.getString("tabs.emptyTabTitle");
+        title = gTabBrowserBundle.GetStringFromName("tabs.emptyTabTitle");
       }
     }
 
@@ -3491,7 +3473,7 @@ class FirefoxTabbrowser extends BaseElement {
       if (isBlankPageURL(aURI)) {
         t.setAttribute(
           "label",
-          this.mStringBundle.getString("tabs.emptyTabTitle")
+          gTabBrowserBundle.GetStringFromName("tabs.emptyTabTitle")
         );
       } else {
         // Set URL as label so that the tab isn't empty initially.
@@ -3772,7 +3754,6 @@ class FirefoxTabbrowser extends BaseElement {
 
     // default to true: if it were false, we wouldn't get this far
     var warnOnClose = { value: true };
-    var bundle = this.mStringBundle;
 
     // focus the window before prompting.
     // this will raise any minimized window, which will
@@ -3782,19 +3763,19 @@ class FirefoxTabbrowser extends BaseElement {
     window.focus();
     var warningMessage = PluralForm.get(
       tabsToClose,
-      bundle.getString("tabs.closeWarningMultiple")
+      gTabBrowserBundle.GetStringFromName("tabs.closeWarningMultiple")
     ).replace("#1", tabsToClose);
     var buttonPressed = ps.confirmEx(
       window,
-      bundle.getString("tabs.closeWarningTitle"),
+      gTabBrowserBundle.GetStringFromName("tabs.closeWarningTitle"),
       warningMessage,
       ps.BUTTON_TITLE_IS_STRING * ps.BUTTON_POS_0 +
         ps.BUTTON_TITLE_CANCEL * ps.BUTTON_POS_1,
-      bundle.getString("tabs.closeButtonMultiple"),
+      gTabBrowserBundle.GetStringFromName("tabs.closeButtonMultiple"),
       null,
       null,
       aCloseTabs == this.closingTabsEnum.ALL
-        ? bundle.getString("tabs.closeWarningPromptMe")
+        ? gTabBrowserBundle.GetStringFromName("tabs.closeWarningPromptMe")
         : null,
       warnOnClose
     );
@@ -5998,14 +5979,14 @@ class FirefoxTabbrowser extends BaseElement {
     let stringWithShortcut = (stringId, keyElemId) => {
       let keyElem = document.getElementById(keyElemId);
       let shortcut = ShortcutUtils.prettifyShortcut(keyElem);
-      return this.mStringBundle.getFormattedString(stringId, [shortcut]);
+      return gTabBrowserBundle.formatStringFromName(stringId, [shortcut], 1);
     };
 
     var label;
     if (tab.mOverCloseButton) {
       label = tab.selected
         ? stringWithShortcut("tabs.closeSelectedTab.tooltip", "key_close")
-        : this.mStringBundle.getString("tabs.closeTab.tooltip");
+        : gTabBrowserBundle.GetStringFromName("tabs.closeTab.tooltip");
     } else if (tab._overPlayingIcon) {
       let stringID;
       if (tab.selected) {
@@ -6022,7 +6003,7 @@ class FirefoxTabbrowser extends BaseElement {
             : "tabs.muteAudio.background.tooltip";
         }
 
-        label = this.mStringBundle.getString(stringID);
+        label = gTabBrowserBundle.GetStringFromName(stringID);
       }
     } else {
       label = tab._fullLabel || tab.getAttribute("label");
@@ -6040,12 +6021,13 @@ class FirefoxTabbrowser extends BaseElement {
         }
       }
       if (tab.userContextId) {
-        label = this.mStringBundle.getFormattedString(
+        label = gTabBrowserBundle.formatStringFromName(
           "tabs.containers.tooltip",
           [
             label,
             ContextualIdentityService.getUserContextLabel(tab.userContextId)
-          ]
+          ],
+          2
         );
       }
     }

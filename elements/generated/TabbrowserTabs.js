@@ -376,11 +376,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     let { restoreTabsButton } = this;
     restoreTabsButton.setAttribute(
       "label",
-      this.tabbrowser.mStringBundle.getString("tabs.restoreLastTabs")
+      gTabBrowserBundle.GetStringFromName("tabs.restoreLastTabs")
     );
 
     var tab = this.firstChild;
-    tab.label = this.tabbrowser.mStringBundle.getString("tabs.emptyTabTitle");
+    tab.label = gTabBrowserBundle.GetStringFromName("tabs.emptyTabTitle");
     tab.setAttribute("onerror", "this.removeAttribute('image');");
 
     window.addEventListener("resize", this);
@@ -1150,7 +1150,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       .getElementById("menu_close")
       .setAttribute(
         "label",
-        this.tabbrowser.mStringBundle.getString(
+        gTabBrowserBundle.GetStringFromName(
           visible ? "tabs.closeTab" : "tabs.close"
         )
       );
