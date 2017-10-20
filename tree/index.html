@@ -1,5 +1,7 @@
 
-    <head>
+  <!DOCTYPE html>
+  <html>
+  <head>
     <meta charset="utf-8">
     <title>XBL Component Tree</title>
     <link rel="stylesheet" href="../static/styles.css" />
@@ -26,7 +28,9 @@
 #implements:target ~ #container details:not([implements]) > summary { opacity: .5; }
     </style>
     </head>
-    <div id=resources></div>
+    <body>
+      <main>
+        <div id=resources></div>
 <div id=property></div>
 <div id=field></div>
 <div id=content></div>
@@ -36,15 +40,15 @@
 <div id=constructor></div>
 <div id=destructor></div>
 <div id=implements></div>
-    <a href="../">Home</a>
-    <a href="https://github.com/bgrins/xbl-analysis">Code</a>
-    <h1>XBL Component Tree</h1>
-    <p>About this data:</p>
-    <ul>
-      <li>This script processes xml files where bindings are declared in toolkit/content/widgets.
-          From these 58 files, <strong>221</strong> bindings were detected.</li>
-      <li>A child in the tree means that it extends the parent</li>
-      <li>Features used: 
+        <a href="../">Home</a>
+        <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+        <h1>XBL Component Tree</h1>
+        <p>About this data:</p>
+        <ul>
+          <li>This script processes xml files where bindings are declared in toolkit/content/widgets.
+              From these 58 files, <strong>221</strong> bindings were detected.</li>
+          <li>A child in the tree means that it extends the parent</li>
+          <li>Features used: 
                             <code>method</code>: <strong>868</strong>,
                             <code>property</code>: <strong>552</strong>,
                             <code>field</code>: <strong>467</strong>,
@@ -55,15 +59,15 @@
                             <code>resources</code>: <strong>74</strong>,
                             <code>implements</code>: <strong>50</strong>,
                             <code>destructor</code>: <strong>31</strong></li>
-    </ul>
-    <p>About "total instances":
-       This is a count of how many elements have a particular binding applied
-       (including bindings that are not directly appled to the element but created through the <code>extends</code> feature).
-       It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
-       The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a>.
-    </p>
-    <div class='highlights'>
-    Highlights: <a href='#'>clear</a> | 
+        </ul>
+        <p>About "total instances":
+          This is a count of how many elements have a particular binding applied
+          (including bindings that are not directly appled to the element but created through the <code>extends</code> feature).
+          It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
+          The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a>.
+        </p>
+        <div class='highlights'>
+        Highlights: <a href='#'>clear</a> | 
                                     <a href='#method' highlight="method">method</a> | 
                                     <a href='#property' highlight="property">property</a> | 
                                     <a href='#field' highlight="field">field</a> | 
@@ -74,9 +78,9 @@
                                     <a href='#resources' highlight="resources">resources</a> | 
                                     <a href='#implements' highlight="implements">implements</a> | 
                                     <a href='#destructor' highlight="destructor">destructor</a>
-    </div>
-    <div id='container'>
-    
+        </div>
+        <div id='container'>
+        
       <details open property implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/text.xml" target="_blank">text-base</a> (4169 total instances)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULDescriptionElement)</code></em></summary><ul><li>
@@ -740,5 +744,7 @@
       <details open property field content method>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizard-buttons</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code></em></summary></details></li></ul></details>
-    </div>
+        </div>
+      </main>
+    </body>
   

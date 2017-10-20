@@ -141,7 +141,9 @@ getParsedFiles().then(docs => {
   featureHighlightStr.unshift(`<a href='#'>clear</a>`);
 
   fs.writeFileSync('tree/index.html', `
-    <head>
+  <!DOCTYPE html>
+  <html>
+  <head>
     <meta charset="utf-8">
     <title>XBL Component Tree</title>
     <link rel="stylesheet" href="../static/styles.css" />
@@ -149,28 +151,32 @@ getParsedFiles().then(docs => {
       ${featureCss}
     </style>
     </head>
-    ${featureElements}
-    <a href="../">Home</a>
-    <a href="https://github.com/bgrins/xbl-analysis">Code</a>
-    <h1>XBL Component Tree</h1>
-    <p>About this data:</p>
-    <ul>
-      <li>This script processes xml files where bindings are declared in toolkit/content/widgets.
-          From these ${totalPrintedFiles} files, <strong>${totalBindings}</strong> bindings were detected.</li>
-      <li>A child in the tree means that it extends the parent</li>
-      <li>Features used: ${featureStr}</li>
-    </ul>
-    <p>About "total instances":
-       This is a count of how many elements have a particular binding applied
-       (including bindings that are not directly appled to the element but created through the <code>extends</code> feature).
-       It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
-       The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a>.
-    </p>
-    <div class='highlights'>
-    Highlights: ${featureHighlightStr.join(" | ")}
-    </div>
-    <div id='container'>
-    ${outputHTML.join('')}
-    </div>
+    <body>
+      <main>
+        ${featureElements}
+        <a href="../">Home</a>
+        <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+        <h1>XBL Component Tree</h1>
+        <p>About this data:</p>
+        <ul>
+          <li>This script processes xml files where bindings are declared in toolkit/content/widgets.
+              From these ${totalPrintedFiles} files, <strong>${totalBindings}</strong> bindings were detected.</li>
+          <li>A child in the tree means that it extends the parent</li>
+          <li>Features used: ${featureStr}</li>
+        </ul>
+        <p>About "total instances":
+          This is a count of how many elements have a particular binding applied
+          (including bindings that are not directly appled to the element but created through the <code>extends</code> feature).
+          It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
+          The data was gathered from <a href="https://treeherder.mozilla.org/#/jobs?repo=try&revision=f240598809552379792fa3d65d91a712884d1978">a try push</a>.
+        </p>
+        <div class='highlights'>
+        Highlights: ${featureHighlightStr.join(" | ")}
+        </div>
+        <div id='container'>
+        ${outputHTML.join('')}
+        </div>
+      </main>
+    </body>
   `);
 });

@@ -27,36 +27,38 @@
   </style>
 </head>
 <body>
-<div id="burndown"></div>
-<div id="loc"></div>
-<div id="bindings"></div>
-<div id="bindings-loc"></div>
-<div id="bindings-instances"></div>
-  <a href="../">Home</a>
-  <a href="https://github.com/bgrins/xbl-analysis">Code</a>
-  <a href="#">Show all graphs</a>
-  <div id="graphs">
-    <div class="container" id="burndown-container">
-        <a href="#burndown">Show this graph only</a>
-        <canvas></canvas>
+  <main>
+    <div id="burndown"></div>
+    <div id="loc"></div>
+    <div id="bindings"></div>
+    <div id="bindings-loc"></div>
+    <div id="bindings-instances"></div>
+    <a href="../">Home</a>
+    <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+    <a href="#">Show all graphs</a>
+    <div id="graphs">
+      <div class="container" id="burndown-container">
+          <a href="#burndown">Show this graph only</a>
+          <canvas></canvas>
+      </div>
+      <div class="container" id="loc-container">
+          <a href="#loc">Show this graph only</a>
+          <canvas></canvas>
+      </div>
+      <div class="container" id="bindings-container">
+          <a href="#bindings">Show this graph only</a>
+          <canvas></canvas>
+      </div>
+      <div class="container" id="bindings-loc-container">
+          <a href="#bindings-loc">Show this graph only</a>
+          <canvas></canvas>
+      </div>
+      <div class="container" id="bindings-instances-container">
+          <a href="#bindings-instances">Show this graph only</a>
+          <canvas></canvas>
+      </div>
     </div>
-    <div class="container" id="loc-container">
-        <a href="#loc">Show this graph only</a>
-        <canvas></canvas>
-    </div>
-    <div class="container" id="bindings-container">
-        <a href="#bindings">Show this graph only</a>
-        <canvas></canvas>
-    </div>
-    <div class="container" id="bindings-loc-container">
-        <a href="#bindings-loc">Show this graph only</a>
-        <canvas></canvas>
-    </div>
-    <div class="container" id="bindings-instances-container">
-        <a href="#bindings-instances">Show this graph only</a>
-        <canvas></canvas>
-    </div>
-  </div>
+  </main>
   <script>var chartColors = {
   aqua: "#0ff",
   aquamarine: "#7fffd4",
