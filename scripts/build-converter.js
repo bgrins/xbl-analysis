@@ -29,9 +29,8 @@ getParsedFiles().then(parsedFiles => {
       position: absolute;
       top: 0;
       left: 0;
-    }
-    header {
-      padding: 1em;
+      padding: 10px;
+      box-sizing: border-box;
     }
     div {
       display: grid;
