@@ -271,8 +271,8 @@ new Chart(document.querySelector("#burndown-container canvas").getContext("2d"),
 });
 
 let bindingsLOCLabels = [];
-for (let d in DATA) {
-    bindingsLOCLabels.push(d);
+for (let rev in DATA) {
+    bindingsLOCLabels.push(DATA[rev].label);
 }
 let bindingsLOCData = { labels: bindingsLOCLabels, datasets: [] };
 let bindingsLOC = DATA["master@{2017-10-01}"].bindingsLOC;
@@ -320,8 +320,8 @@ new Chart(document.querySelector("#bindings-loc-container canvas").getContext("2
 
 
 let bindingsInstancesLabels = [];
-for (let d in DATA) {
-    bindingsInstancesLabels.push(d);
+for (let rev in DATA) {
+    bindingsInstancesLabels.push(DATA[rev].label);
 }
 let bindingsInstancesData = { labels: bindingsInstancesLabels, datasets: [] };
 let bindingsInstances = DATA["master@{2017-10-01}"].bindingsInstances;
@@ -331,7 +331,11 @@ console.log(DATA["master@{2017-10-01}"])
 for (let bindingInstance in bindingsInstances) {
     let data = [];
     for (let d in DATA) {
-        data.push(DATA[d].bindingsInstances[bindingInstance]);
+        if (DATA[d].bindingsInstances) {
+            data.push(DATA[d].bindingsInstances[bindingInstance]);
+        } else {
+            data.push([])
+        }
     }
     bindingsInstancesData.datasets.push({
         label: bindingInstance,
