@@ -78,7 +78,7 @@ getParsedFiles().then(parsedFiles => {
     ${lis}
     </ul>
     <textarea>
-    ${jsObj[10].body}
+    ${jsObj[3].body}
     </textarea>
     <pre></pre>
   </div>
