@@ -30,7 +30,8 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     this.addEventListener(
       "command",
       event => {
-        undefined;
+        if (event.target.parentNode.parentNode == this)
+          this.selectedItem = event.target;
       },
       true
     );

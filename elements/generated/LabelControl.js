@@ -53,7 +53,9 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     this.formatAccessKey(true);
 
     this.addEventListener("click", event => {
-      undefined;
+      if (this.disabled) return;
+      var controlElement = this.labeledControlElement;
+      if (controlElement) controlElement.focus();
     });
   }
   disconnectedCallback() {}

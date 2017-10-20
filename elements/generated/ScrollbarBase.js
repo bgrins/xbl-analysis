@@ -9,19 +9,19 @@ class FirefoxScrollbarBase extends BaseElement {
     this.prepend(comment);
 
     this.addEventListener("contextmenu", event => {
-      undefined;
+      event.stopPropagation();
     });
 
     this.addEventListener("click", event => {
-      undefined;
+      event.stopPropagation();
     });
 
     this.addEventListener("dblclick", event => {
-      undefined;
+      event.stopPropagation();
     });
 
     this.addEventListener("command", event => {
-      undefined;
+      event.stopPropagation();
     });
   }
   disconnectedCallback() {}

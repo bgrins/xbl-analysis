@@ -79,7 +79,6 @@ module.exports.getParsedFiles = (rev) => {
     return request(file).then(body => {
       body = preprocessFile(body);
       body = body.replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
-      body = body.replace('(event.detail > 0)', '(event.detail &gt; 0)'); // Special case an instance with > in an attr in search.xml
       body = body.replace(/\&([a-z0-9\-]+)\;/gi, "FROM-DTD-$1"); // Replace DTD entities
       body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2"); // Replace DTD entities
       body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3"); // Replace DTD entities

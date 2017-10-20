@@ -315,7 +315,7 @@ class FirefoxWizard extends FirefoxRootElement {
     window.addEventListener("load", this._setInitialFocus);
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._hitEnter(event);
     });
 
     this.addEventListener("keypress", event => {

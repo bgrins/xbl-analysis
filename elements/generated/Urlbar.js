@@ -502,7 +502,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this.addEventListener(
       "dragover",
       event => {
-        undefined;
+        this.onDragOver(event, this);
       },
       true
     );
@@ -510,7 +510,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this.addEventListener(
       "drop",
       event => {
-        undefined;
+        this.onDrop(event, this);
       },
       true
     );

@@ -19,7 +19,7 @@ class FirefoxCheckboxBaseline extends FirefoxBasetext {
     this.prepend(comment);
 
     this.addEventListener("click", event => {
-      undefined;
+      if (!this.disabled) this.checked = !this.checked;
     });
 
     this.addEventListener("keypress", event => {

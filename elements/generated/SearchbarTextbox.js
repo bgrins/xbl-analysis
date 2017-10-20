@@ -91,7 +91,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.addEventListener(
       "keypress",
       event => {
-        undefined;
+        return this.handleKeyboardNavigation(event);
       },
       true
     );
@@ -99,7 +99,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.addEventListener(
       "keypress",
       event => {
-        undefined;
+        document.getBindingParent(this).selectEngine(event, false);
       },
       true
     );
@@ -107,7 +107,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.addEventListener(
       "keypress",
       event => {
-        undefined;
+        document.getBindingParent(this).selectEngine(event, true);
       },
       true
     );
@@ -115,7 +115,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.addEventListener(
       "keypress",
       event => {
-        undefined;
+        return this.openSearch();
       },
       true
     );
@@ -123,7 +123,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.addEventListener(
       "keypress",
       event => {
-        undefined;
+        return this.openSearch();
       },
       true
     );

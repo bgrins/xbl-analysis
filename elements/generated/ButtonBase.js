@@ -10,7 +10,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
     this.prepend(comment);
 
     this.addEventListener("click", event => {
-      undefined;
+      this._handleClick();
     });
 
     this.addEventListener("keypress", event => {

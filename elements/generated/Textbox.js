@@ -182,7 +182,7 @@ class FirefoxTextbox extends BaseElement {
     });
 
     this.addEventListener("click", event => {
-      undefined;
+      this._maybeSelectAll();
     });
   }
   disconnectedCallback() {

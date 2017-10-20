@@ -68,7 +68,7 @@ class FirefoxDialog extends FirefoxRootElement {
     window.centerWindowOnScreen = this.centerWindowOnScreen;
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._hitEnter(event);
     });
 
     this.addEventListener("keypress", event => {

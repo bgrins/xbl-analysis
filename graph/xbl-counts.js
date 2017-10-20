@@ -1507,9 +1507,9 @@ var DATA = {
   },
   "master@{2017-09-15}": {
     numBindings: 229,
-    loc: 42684,
+    loc: 42682,
     bindingsLOC: {
-      tabbrowser: 6164,
+      tabbrowser: 6162,
       videoControls: 1770,
       browser: 1700,
       urlbar: 1582,

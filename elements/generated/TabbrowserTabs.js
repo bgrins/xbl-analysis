@@ -392,7 +392,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this._setPositionalAttributes();
 
     this.addEventListener("TabSelect", event => {
-      undefined;
+      this._handleTabSelect();
     });
 
     this.addEventListener("transitionend", event => {

@@ -185,17 +185,17 @@ class FirefoxSearchbar extends BaseElement {
     this.addEventListener(
       "DOMMouseScroll",
       event => {
-        undefined;
+        this.selectEngine(event, event.detail > 0);
       },
       true
     );
 
     this.addEventListener("input", event => {
-      undefined;
+      this.updateGoButtonVisibility();
     });
 
     this.addEventListener("drop", event => {
-      undefined;
+      this.updateGoButtonVisibility();
     });
 
     this.addEventListener("blur", event => {

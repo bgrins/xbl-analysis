@@ -12,7 +12,7 @@ class FirefoxTextLink extends FirefoxTextLabel {
     this.addEventListener(
       "click",
       event => {
-        undefined;
+        this.open(event);
       },
       true
     );
@@ -20,13 +20,13 @@ class FirefoxTextLink extends FirefoxTextLabel {
     this.addEventListener(
       "click",
       event => {
-        undefined;
+        this.open(event);
       },
       true
     );
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this.click();
     });
   }
   disconnectedCallback() {}

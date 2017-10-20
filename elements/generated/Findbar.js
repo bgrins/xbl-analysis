@@ -316,7 +316,7 @@ class FirefoxFindbar extends FirefoxToolbar {
     this.addEventListener(
       "keypress",
       event => {
-        undefined;
+        if (this.close) this.close();
       },
       true
     );

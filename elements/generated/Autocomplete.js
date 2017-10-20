@@ -235,7 +235,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.addEventListener(
       "keypress",
       event => {
-        undefined;
+        return this.onKeyPress(event);
       },
       true
     );
@@ -243,7 +243,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.addEventListener(
       "compositionstart",
       event => {
-        undefined;
+        if (this.mController.input == this)
+          this.mController.handleStartComposition();
       },
       true
     );
@@ -251,7 +252,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.addEventListener(
       "compositionend",
       event => {
-        undefined;
+        if (this.mController.input == this)
+          this.mController.handleEndComposition();
       },
       true
     );

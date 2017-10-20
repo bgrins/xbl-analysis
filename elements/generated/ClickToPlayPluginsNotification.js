@@ -171,7 +171,7 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
     }
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._accept(event);
     });
   }
   disconnectedCallback() {}

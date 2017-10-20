@@ -318,27 +318,27 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._increaseOrDecreaseDateFromEvent(event, -1);
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._increaseOrDecreaseDateFromEvent(event, 1);
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._increaseOrDecreaseDateFromEvent(event, -7);
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._increaseOrDecreaseDateFromEvent(event, 7);
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._increaseOrDecreaseMonth(-1);
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._increaseOrDecreaseMonth(1);
     });
   }
   disconnectedCallback() {}

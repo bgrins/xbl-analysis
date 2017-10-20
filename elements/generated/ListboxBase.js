@@ -119,11 +119,11 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._moveByOffsetFromUserEvent(-1, event);
     });
 
     this.addEventListener("keypress", event => {
-      undefined;
+      this._moveByOffsetFromUserEvent(1, event);
     });
 
     this.addEventListener("keypress", event => {

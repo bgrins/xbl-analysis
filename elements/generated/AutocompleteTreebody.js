@@ -24,7 +24,7 @@ class FirefoxAutocompleteTreebody extends BaseElement {
     });
 
     this.addEventListener("mouseup", event => {
-      undefined;
+      this.parentNode.parentNode.onPopupClick(event);
     });
 
     this.addEventListener("mousedown", event => {

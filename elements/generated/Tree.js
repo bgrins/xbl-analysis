@@ -212,7 +212,7 @@ class FirefoxTree extends FirefoxTreeBase {
     });
 
     this.addEventListener("select", event => {
-      undefined;
+      if (event.originalTarget == this) this.stopEditing(true);
     });
 
     this.addEventListener("focus", event => {
@@ -227,13 +227,14 @@ class FirefoxTree extends FirefoxTreeBase {
     });
 
     this.addEventListener("blur", event => {
-      undefined;
+      this.treeBoxObject.focused = false;
     });
 
     this.addEventListener(
       "blur",
       event => {
-        undefined;
+        if (event.originalTarget == this.inputField.inputField)
+          this.stopEditing(true);
       },
       true
     );
