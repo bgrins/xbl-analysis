@@ -30,7 +30,8 @@ getParsedFiles().then(parsedFiles => {
       top: 0;
       left: 0;
     }
-    div {
+    #converter {
+      font-family: monospace;
       display: grid;
       overflow: hidden;
       grid-template-columns: auto 1fr 1fr;
@@ -50,6 +51,7 @@ getParsedFiles().then(parsedFiles => {
       margin: 0;
       padding: 0;
       overflow: scroll;
+      font-size: smaller;
     }
     li {
       margin: 0;
@@ -65,11 +67,13 @@ getParsedFiles().then(parsedFiles => {
   <body>
   <main>
   <header>
-  <a href="../">Home</a>
-  <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+  <div id="links">
+    <a href="../">Home</a>
+    <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+  </div>
   <h1>XBL To Custom Element Converter</h1>
   </header>
-  <div>
+  <div id="converter">
     <ul>
     ${lis}
     </ul>

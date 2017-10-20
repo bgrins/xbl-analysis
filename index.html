@@ -7,28 +7,60 @@
 </head>
 <body>
   <main>
-    <a href="./">Home</a>
-    <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+    <div id="links">
+      <a href="./">Home</a>
+      <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+    </div>
     <h1>XBL Analysis</h1>
     <p>
       This site contains tools for understanding and working with XBL code in Firefox.
+      If you'd like to read more about the project to remove and replace XBL,
+      see the engineering <a href="https://mozilla.github.io/firefox-browser-architecture/text/0007-xbl-design-review-packet.html">design review packet</a>,
+      the <a href="https://mozilla.github.io/firefox-browser-architecture/text/0004-xbl-web-components.html">XBL and Web Components analysis</a>,
+      and the <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1397874">De-XBL meta bug</a>.
     </p>
     <hr />
 
-    <h2>XBL Tree</h2>
-    <p>
-    <a href="tree/">A tree</a> showing all of our bindings and what feature each uses.
-    </p>
+    <div id="sections">
+      <section>
+        <center>
+          <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHN0eWxlPi5jbHMtMSwuY2xzLTN7ZmlsbDpub25lO3N0cm9rZS1taXRlcmxpbWl0OjEwO3N0cm9rZS13aWR0aDo2cHg7fS5jbHMtMXtzdHJva2U6I2MzZWRmNTt9LmNscy0ye2ZpbGw6IzRkOTFiYjt9LmNscy0ze3N0cm9rZTojN2FkMGNiO308L3N0eWxlPjwvZGVmcz48dGl0bGUvPjxnIGRhdGEtbmFtZT0iMTIgU0VPIEJlbmNobWFyayIgaWQ9Il8xMl9TRU9fQmVuY2htYXJrIj48cG9seWxpbmUgY2xhc3M9ImNscy0xIiBwb2ludHM9IjIyIDY1LjUgNTAgMjkuNSA3OCA0Ny41IDEwNiAyMi41Ii8+PGNpcmNsZSBjbGFzcz0iY2xzLTIiIGN4PSIyMiIgY3k9IjY1LjUiIHI9IjgiLz48Y2lyY2xlIGNsYXNzPSJjbHMtMiIgY3g9IjEwNiIgY3k9IjIyLjUiIHI9IjgiLz48Y2lyY2xlIGNsYXNzPSJjbHMtMiIgY3g9Ijc4IiBjeT0iNDcuNSIgcj0iOCIvPjxjaXJjbGUgY2xhc3M9ImNscy0yIiBjeD0iNTAiIGN5PSIyOS41MSIgcj0iOCIvPjxsaW5lIGNsYXNzPSJjbHMtMyIgeDE9IjIyIiB4Mj0iMjIiIHkxPSI3Ny41IiB5Mj0iMTEzLjUiLz48bGluZSBjbGFzcz0iY2xzLTMiIHgxPSI3OCIgeDI9Ijc4IiB5MT0iNTkuNSIgeTI9IjExMy41Ii8+PGxpbmUgY2xhc3M9ImNscy0zIiB4MT0iMTA2IiB4Mj0iMTA2IiB5MT0iMzUuNSIgeTI9IjExMy41Ii8+PGxpbmUgY2xhc3M9ImNscy0zIiB4MT0iNTAiIHgyPSI1MCIgeTE9IjQ0LjUiIHkyPSIxMTMuNSIvPjwvZz48L3N2Zz4=" />
+        
+          <a href="graph/">
+            <h3>XBL Graphs</h3>
+          </a>
+        </center>
+        <p>
+        A set of graphs to visualize our XBL usage over time.
+        </p>
+      </section>
 
-    <h2>XBL Graphs</h2>
-    <p>
-    <a href="graph/">A set of graphs</a> to visualize our XBL usage over time.
-    </p>
+      <section>
+        <center>
+          <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNjM2VkZjU7fS5jbHMtMiwuY2xzLTN7ZmlsbDpub25lO3N0cm9rZS1taXRlcmxpbWl0OjEwO3N0cm9rZS13aWR0aDo5cHg7fS5jbHMtMntzdHJva2U6Izg3ZGJlYzt9LmNscy0ze3N0cm9rZTojNGQ5MWJiO308L3N0eWxlPjwvZGVmcz48dGl0bGUvPjxnIGRhdGEtbmFtZT0iMzQgQ3VzdG9tIENvZGluZyIgaWQ9Il8zNF9DdXN0b21fQ29kaW5nIj48cmVjdCBjbGFzcz0iY2xzLTEiIGhlaWdodD0iNzIiIHdpZHRoPSI5NiIgeD0iMTYiIHk9IjI4Ii8+PHBvbHlsaW5lIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSI1MC44IDgzLjggMzEgNjQgNTAuOCA0NC4yIi8+PHBvbHlsaW5lIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSI4My4yIDQ0LjIgMTAzIDY0IDgzLjIgODMuOCIvPjxsaW5lIGNsYXNzPSJjbHMtMiIgeDE9IjczIiB4Mj0iNjEiIHkxPSI0MSIgeTI9Ijg3Ii8+PHBvbHlsaW5lIGNsYXNzPSJjbHMtMyIgcG9pbnRzPSI0Ny44IDgzLjggMjggNjQgNDcuOCA0NC4yIi8+PHBvbHlsaW5lIGNsYXNzPSJjbHMtMyIgcG9pbnRzPSI4MC4yIDQ0LjIgMTAwIDY0IDgwLjIgODMuOCIvPjxsaW5lIGNsYXNzPSJjbHMtMyIgeDE9IjcwIiB4Mj0iNTgiIHkxPSI0MSIgeTI9Ijg3Ii8+PC9nPjwvc3ZnPg==" />
+        
+          <a href="converter/">
+            <h3>XBL Converter</h3>
+          </a>
+        </center>
+        <p>
+        A web UI to automatically convert XBL into Custom Elements.
+        </p>
+      </section>
+      <section>
+        <center>
+          <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiM3YWQwY2I7fS5jbHMtMntmaWxsOiM0ZGJhYjQ7fS5jbHMtM3tmaWxsOiNjM2VkZjU7fS5jbHMtNHtmaWxsOiM0ZDkxYmI7fS5jbHMtNXtmaWxsOm5vbmU7c3Ryb2tlOiM0ZDkxYmI7c3Ryb2tlLW1pdGVybGltaXQ6MTA7c3Ryb2tlLXdpZHRoOjhweDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlLz48ZyBkYXRhLW5hbWU9IjExIEhvc3RpbmcgU2VydmljZSIgaWQ9Il8xMV9Ib3N0aW5nX1NlcnZpY2UiPjxyZWN0IGNsYXNzPSJjbHMtMSIgaGVpZ2h0PSI2OSIgd2lkdGg9IjgiIHg9IjYwIiB5PSIzMi41Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiBoZWlnaHQ9IjgiIHdpZHRoPSI5MCIgeD0iMTkiIHk9Ijk3LjUiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik02OCw5MS4yNmExMC44NSwxMC44NSwwLDAsMC04LDBWOTcuNUg1My43NmExMC44NSwxMC44NSwwLDAsMCwwLDhINzQuMjRhMTAuODUsMTAuODUsMCwwLDAsMC04SDY4WiIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgaGVpZ2h0PSIzMCIgd2lkdGg9Ijk2IiB4PSIxNiIgeT0iMTcuNSIvPjxyZWN0IGNsYXNzPSJjbHMtMyIgaGVpZ2h0PSIzMCIgd2lkdGg9Ijk2IiB4PSIxNiIgeT0iNTMuNSIvPjxjaXJjbGUgY2xhc3M9ImNscy00IiBjeD0iNjQiIGN5PSIxMDEuNSIgcj0iOSIvPjxsaW5lIGNsYXNzPSJjbHMtNSIgeDE9IjEwMC4wMiIgeDI9IjUyLjAyIiB5MT0iMzIuNSIgeTI9IjMyLjUiLz48bGluZSBjbGFzcz0iY2xzLTUiIHgxPSIxMDAuMDIiIHgyPSI1Mi4wMiIgeTE9IjY4LjUiIHkyPSI2OC41Ii8+PGNpcmNsZSBjbGFzcz0iY2xzLTQiIGN4PSIzMi4yIiBjeT0iMzIuNSIgcj0iNCIvPjxjaXJjbGUgY2xhc3M9ImNscy00IiBjeD0iMzIuMiIgY3k9IjY4LjUiIHI9IjQiLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iNjAgNDcuNSA2OCA1MC4xOSA2OCA0Ny41IDYwIDQ3LjUiLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iNjAgODMuNSA2OCA4Ni4xOSA2OCA4My41IDYwIDgzLjUiLz48L2c+PC9zdmc+" />
 
-    <h2>XBL Converter</h2>
-    <p>
-    <a href="converter/">A web UI</a> to automatically convert XBL into Custom Elements.
-    </p>
+          <a href="tree/">
+            <h3>XBL Tree</h3>
+          </a>
+        </center>
+        <p>
+        A tree showing all of our bindings and what feature each uses.
+        </p>
+      </section>
+
+    </div>
   </main>
   </body>
 </html>

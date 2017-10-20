@@ -12,11 +12,12 @@
     #graphs { margin: 10px auto;  width: 75%;}
     #graphs .container { margin: 10px 0; }
     a[href=\#] { display: none; }
-    :target ~ a[href=\#] { float: right; display: inline-block; }
+    :target ~ h1 { display: none; }
+    :target ~ a[href=\#] { display: inline-block; }
     :target ~ #graphs { width: 90%; }
     :target ~ #graphs > .container,
     :target ~ #graphs > .container > a { display: none; }
-    #graphs > .container > a { float: right; font-size: small; margin-right: 20px;}
+    #graphs > .container > a { float: left; font-size: small; margin-left: 20px;}
     #burndown:target ~ #graphs > #burndown-container,
     #loc:target ~ #graphs > #loc-container,
     #bindings:target ~ #graphs > #bindings-container,
@@ -33,8 +34,11 @@
     <div id="bindings"></div>
     <div id="bindings-loc"></div>
     <div id="bindings-instances"></div>
-    <a href="../">Home</a>
-    <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+    <div id="links">
+      <a href="../">Home</a>
+      <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+    </div>
+    <h1>XBL Graphs</h1>
     <a href="#">Show all graphs</a>
     <div id="graphs">
       <div class="container" id="burndown-container">

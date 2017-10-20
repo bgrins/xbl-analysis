@@ -154,8 +154,10 @@ getParsedFiles().then(docs => {
     <body>
       <main>
         ${featureElements}
-        <a href="../">Home</a>
-        <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+        <div id="links">
+          <a href="../">Home</a>
+          <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+        </div>
         <h1>XBL Component Tree</h1>
         <p>About this data:</p>
         <ul>
