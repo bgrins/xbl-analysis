@@ -36,10 +36,6 @@ summary {padding: 4px 0; position: relative; width: 100%; }
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
-#sections img {
-  max-height: 128px;
-  min-height: 64px;
-}
 #sections section {
   border: 1px aliceblue solid;
   margin: 10px;
