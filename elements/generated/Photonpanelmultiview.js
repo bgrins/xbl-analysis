@@ -4,8 +4,6 @@ class FirefoxPhotonpanelmultiview extends FirefoxPanelmultiview {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:box anonid="viewContainer" class="panel-viewcontainer" inherits="panelopen,transitioning">
 <xul:box anonid="viewStack" inherits="transitioning" class="panel-viewstack">
 <children includes="panelview">
@@ -16,10 +14,6 @@ class FirefoxPhotonpanelmultiview extends FirefoxPanelmultiview {
 <xul:box anonid="offscreenViewStack" class="panel-viewstack">
 </xul:box>
 </xul:box>`;
-    let comment = document.createComment(
-      "Creating firefox-photonpanelmultiview"
-    );
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

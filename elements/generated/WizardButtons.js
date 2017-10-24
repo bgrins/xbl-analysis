@@ -4,8 +4,6 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox class="wizard-buttons-box-1" flex="1">
 <xul:separator class="wizard-buttons-separator groove">
 </xul:separator>
@@ -32,9 +30,6 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
 </xul:button>
 </xul:hbox>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-wizard-buttons");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_wizardButtonDeck", {
       configurable: true,
       enumerable: true,

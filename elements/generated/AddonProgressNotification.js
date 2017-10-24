@@ -4,12 +4,6 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-addon-progress-notification"
-    );
-    this.prepend(comment);
 
     Object.defineProperty(this, "progressmeter", {
       configurable: true,

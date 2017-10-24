@@ -4,8 +4,6 @@ class FirefoxMenuIconic extends FirefoxMenuBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="menu-iconic-left" align="center" pack="center">
 <xul:image class="menu-iconic-icon" inherits="src=image">
 </xul:image>
@@ -24,8 +22,6 @@ class FirefoxMenuIconic extends FirefoxMenuBase {
 </xul:hbox>
 <children includes="menupopup|template">
 </children>`;
-    let comment = document.createComment("Creating firefox-menu-iconic");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

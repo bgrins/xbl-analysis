@@ -4,10 +4,6 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-findbar-textbox");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_findbar", {
       configurable: true,

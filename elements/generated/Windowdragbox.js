@@ -3,11 +3,6 @@ class FirefoxWindowdragbox extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-windowdragbox");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_dragBindingAlive", {
       configurable: true,
       enumerable: true,

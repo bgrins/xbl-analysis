@@ -3,8 +3,6 @@ class FirefoxContainer extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox flex="1" equalsize="always">
 <xul:hbox flex="1" align="center">
 <xul:hbox inherits="data-identity-icon=containerIcon,data-identity-color=containerColor" height="24" width="24" class="userContext-icon">
@@ -19,8 +17,6 @@ class FirefoxContainer extends BaseElement {
 </xul:button>
 </xul:hbox>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-container");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

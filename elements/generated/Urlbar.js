@@ -4,8 +4,6 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox anonid="textbox-container" class="autocomplete-textbox-container urlbar-textbox-container" flex="1" inherits="focused">
 <children includes="image|deck|stack|box">
 </children>
@@ -26,9 +24,6 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 </xul:popupset>
 <children includes="toolbarbutton">
 </children>`;
-    let comment = document.createComment("Creating firefox-urlbar");
-    this.prepend(comment);
-
     Object.defineProperty(this, "ExtensionSearchHandler", {
       configurable: true,
       enumerable: true,

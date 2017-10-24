@@ -4,8 +4,6 @@ class FirefoxSitelistitem extends FirefoxRichlistitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox flex="1">
 <xul:hbox flex="4" width="50" class="item-box" align="center" inherits="tooltiptext=host">
 <xul:label flex="1" crop="end" inherits="value=host">
@@ -20,8 +18,6 @@ class FirefoxSitelistitem extends FirefoxRichlistitem {
 </xul:label>
 </xul:hbox>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-sitelistitem");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

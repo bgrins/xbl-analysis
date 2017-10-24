@@ -4,10 +4,6 @@ class FirefoxToolbarDrag extends FirefoxToolbar {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-toolbar-drag");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_dragBindingAlive", {
       configurable: true,

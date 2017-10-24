@@ -4,12 +4,6 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-autocomplete-profile-listitem-base"
-    );
-    this.prepend(comment);
 
     Object.defineProperty(this, "selectedByMouseOver", {
       configurable: true,

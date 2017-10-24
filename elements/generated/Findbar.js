@@ -4,8 +4,6 @@ class FirefoxFindbar extends FirefoxToolbar {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
 <xul:hbox anonid="findbar-textbox-wrapper" align="stretch">
 <xul:textbox anonid="findbar-textbox" class="findbar-textbox findbar-find-fast" inherits="flash">
@@ -34,9 +32,6 @@ class FirefoxFindbar extends FirefoxToolbar {
 </xul:hbox>
 <xul:toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="FROM-DTD-findCloseButton-tooltip" oncommand="close();">
 </xul:toolbarbutton>`;
-    let comment = document.createComment("Creating firefox-findbar");
-    this.prepend(comment);
-
     Object.defineProperty(this, "FIND_NORMAL", {
       configurable: true,
       enumerable: true,

@@ -4,8 +4,6 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
 <xul:box anonid="arrowbox" class="panel-arrowbox">
 <xul:image anonid="arrow" class="panel-arrow" inherits="side">
@@ -22,8 +20,6 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
 </xul:arrowscrollbox>
 </xul:box>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-places-popup-arrow");
-    this.prepend(comment);
 
     this.style.pointerEvents = "none";
 

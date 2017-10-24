@@ -4,8 +4,6 @@ class FirefoxWizard extends FirefoxRootElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="wizard-header" anonid="Header">
 </xul:hbox>
 <xul:deck class="wizard-page-box" flex="1" anonid="Deck">
@@ -16,9 +14,6 @@ class FirefoxWizard extends FirefoxRootElement {
 </children>
 <xul:hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage">
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-wizard");
-    this.prepend(comment);
-
     Object.defineProperty(this, "pageCount", {
       configurable: true,
       enumerable: true,

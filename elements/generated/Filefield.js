@@ -4,8 +4,6 @@ class FirefoxFilefield extends FirefoxBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:stringbundle anonid="bundle" src="chrome://global/locale/filefield.properties">
 </xul:stringbundle>
 <xul:hbox class="fileFieldContentBox" align="center" flex="1" inherits="disabled">
@@ -14,9 +12,6 @@ class FirefoxFilefield extends FirefoxBasetext {
 <xul:textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true">
 </xul:textbox>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-filefield");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_file", {
       configurable: true,
       enumerable: true,

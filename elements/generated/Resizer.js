@@ -3,11 +3,6 @@ class FirefoxResizer extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-resizer");
-    this.prepend(comment);
-
     // don't do this for viewport resizers; causes a crash related to
     // bugs 563665 and 581536 otherwise
     if (this.parentNode == this.ownerDocument.documentElement) return;

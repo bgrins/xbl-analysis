@@ -4,10 +4,6 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-places-tree");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_contextMenuShown", {
       configurable: true,

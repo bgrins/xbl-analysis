@@ -3,8 +3,6 @@ class FirefoxExpander extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox align="center">
 <xul:button type="disclosure" class="expanderButton" anonid="disclosure" inherits="disabled" mousethrough="always">
 </xul:button>
@@ -17,8 +15,6 @@ class FirefoxExpander extends BaseElement {
 <children>
 </children>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-expander");
-    this.prepend(comment);
 
     var settings = document.getAnonymousElementByAttribute(
       this,

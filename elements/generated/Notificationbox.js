@@ -3,8 +3,6 @@ class FirefoxNotificationbox extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:stack inherits="hidden=notificationshidden" class="notificationbox-stack">
 <xul:spacer>
 </xul:spacer>
@@ -13,9 +11,6 @@ class FirefoxNotificationbox extends BaseElement {
 </xul:stack>
 <children>
 </children>`;
-    let comment = document.createComment("Creating firefox-notificationbox");
-    this.prepend(comment);
-
     Object.defineProperty(this, "PRIORITY_INFO_LOW", {
       configurable: true,
       enumerable: true,

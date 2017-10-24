@@ -4,13 +4,6 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-suppresschangeevent"
-    );
-    this.prepend(comment);
-
     /* eslint-enable no-multi-spaces */
     this.positionValue = "";
     this.durationValue = "";

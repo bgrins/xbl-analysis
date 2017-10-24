@@ -4,10 +4,6 @@ class FirefoxTabbox extends FirefoxTabBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-tabbox");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_handleMetaAltArrows", {
       configurable: true,

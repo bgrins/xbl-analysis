@@ -4,17 +4,12 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="listheader">
 </children>
 <xul:scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
 <children>
 </children>
 </xul:scrollbox>`;
-    let comment = document.createComment("Creating firefox-richlistbox");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_scrollbox", {
       configurable: true,
       enumerable: true,

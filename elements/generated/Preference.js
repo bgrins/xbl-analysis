@@ -3,11 +3,6 @@ class FirefoxPreference extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-preference");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_constructed", {
       configurable: true,
       enumerable: true,

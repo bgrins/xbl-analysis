@@ -3,18 +3,12 @@ class FirefoxDatetimeInputBase extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly">
 <html:span class="datetime-input-edit-wrapper" anonid="edit-wrapper">
 </html:span>
 <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled">
 </html:button>
 </html:div>`;
-    let comment = document.createComment(
-      "Creating firefox-datetime-input-base"
-    );
-    this.prepend(comment);
 
     this.DEBUG = false;
     this.mInputElement = this.parentNode;

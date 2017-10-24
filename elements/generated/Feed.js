@@ -4,8 +4,6 @@ class FirefoxFeed extends FirefoxRichlistitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox flex="1">
 <xul:hbox flex="1">
 <xul:textbox flex="1" readonly="true" inherits="value=name" class="feedTitle">
@@ -28,8 +26,6 @@ class FirefoxFeed extends FirefoxRichlistitem {
 </xul:button>
 </xul:hbox>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-feed");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

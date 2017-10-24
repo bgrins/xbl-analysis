@@ -3,13 +3,6 @@ class FirefoxAutocompleteTreebody extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-autocomplete-treebody"
-    );
-    this.prepend(comment);
-
     Object.defineProperty(this, "mLastMoveTime", {
       configurable: true,
       enumerable: true,

@@ -4,10 +4,6 @@ class FirefoxBasetext extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-basetext");
-    this.prepend(comment);
 
     Object.defineProperty(this, "labelElement", {
       configurable: true,

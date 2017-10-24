@@ -4,10 +4,6 @@ class FirefoxTreebody extends FirefoxTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-treebody");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_lastSelectedRow", {
       configurable: true,

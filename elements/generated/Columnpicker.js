@@ -4,8 +4,6 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:image class="tree-columnpicker-icon">
 </xul:image>
 <xul:menupopup anonid="popup">
@@ -14,8 +12,6 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
 <xul:menuitem anonid="menuitem" label="FROM-DTD-restoreColumnOrder-label">
 </xul:menuitem>
 </xul:menupopup>`;
-    let comment = document.createComment("Creating firefox-columnpicker");
-    this.prepend(comment);
 
     this.addEventListener("command", event => {
       if (event.originalTarget == this) {

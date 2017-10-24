@@ -4,10 +4,6 @@ class FirefoxButtonBase extends FirefoxBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-button-base");
-    this.prepend(comment);
 
     this.addEventListener("click", event => {
       this._handleClick();

@@ -4,8 +4,6 @@ class FirefoxListbox extends FirefoxListboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="listcols">
 <xul:listcols>
 <xul:listcol flex="1">
@@ -20,9 +18,6 @@ class FirefoxListbox extends FirefoxListboxBase {
 </children>
 </xul:listboxbody>
 </xul:listrows>`;
-    let comment = document.createComment("Creating firefox-listbox");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_touchY", {
       configurable: true,
       enumerable: true,

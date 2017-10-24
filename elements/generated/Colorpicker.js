@@ -4,8 +4,6 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox flex="1">
 <xul:hbox>
 <xul:image class="colorpickertile cp-light" color="#FFFFFF">
@@ -162,8 +160,6 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
 </xul:image>
 </xul:hbox>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-colorpicker");
-    this.prepend(comment);
 
     this.initialize();
 

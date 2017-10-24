@@ -3,11 +3,6 @@ class FirefoxEditor extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-editor");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_editorContentListener", {
       configurable: true,
       enumerable: true,

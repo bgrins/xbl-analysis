@@ -3,8 +3,6 @@ class FirefoxSearchOneOffs extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:deck anonid="search-panel-one-offs-header" selectedIndex="0" class="search-panel-header search-panel-current-input">
 <xul:label anonid="searchbar-oneoffheader-search" value="FROM-DTD-searchWithHeader-label">
 </xul:label>
@@ -39,9 +37,6 @@ class FirefoxSearchOneOffs extends BaseElement {
 <xul:menuitem anonid="search-one-offs-context-set-default" label="FROM-DTD-searchSetAsDefault-label" accesskey="FROM-DTD-searchSetAsDefault-accesskey">
 </xul:menuitem>
 </xul:menupopup>`;
-    let comment = document.createComment("Creating firefox-search-one-offs");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_popup", {
       configurable: true,
       enumerable: true,

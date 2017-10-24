@@ -4,8 +4,6 @@ class FirefoxHandler extends FirefoxHandlerBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox flex="1" equalsize="always">
 <xul:hbox flex="1" align="center" inherits="tooltiptext=typeDescription">
 <xul:image src="moz-icon://goat?size=16" class="typeIcon" inherits="src=typeIcon" height="16" width="16">
@@ -20,8 +18,6 @@ class FirefoxHandler extends FirefoxHandlerBase {
 </xul:label>
 </xul:hbox>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-handler");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

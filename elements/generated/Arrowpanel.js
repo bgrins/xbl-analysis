@@ -4,8 +4,6 @@ class FirefoxArrowpanel extends FirefoxPanel {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
 <xul:box anonid="arrowbox" class="panel-arrowbox">
 <xul:image anonid="arrow" class="panel-arrow" inherits="side">
@@ -16,9 +14,6 @@ class FirefoxArrowpanel extends FirefoxPanel {
 </children>
 </xul:box>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-arrowpanel");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_fadeTimer", {
       configurable: true,
       enumerable: true,

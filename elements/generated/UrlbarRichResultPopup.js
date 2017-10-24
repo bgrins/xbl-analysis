@@ -4,8 +4,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
 <xul:hbox flex="1" align="center" anonid="search-suggestions-opt-out">
 <xul:image class="ac-site-icon" type="searchengine">
@@ -34,11 +32,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
 <xul:vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1">
 </xul:vbox>
 </xul:hbox>`;
-    let comment = document.createComment(
-      "Creating firefox-urlbar-rich-result-popup"
-    );
-    this.prepend(comment);
-
     Object.defineProperty(this, "DOMWindowUtils", {
       configurable: true,
       enumerable: true,

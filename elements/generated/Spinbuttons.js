@@ -4,16 +4,12 @@ class FirefoxSpinbuttons extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox class="spinbuttons-box" flex="1">
 <xul:button anonid="increaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-up" inherits="disabled,disabled=increasedisabled">
 </xul:button>
 <xul:button anonid="decreaseButton" type="repeat" flex="1" class="spinbuttons-button spinbuttons-down" inherits="disabled,disabled=decreasedisabled">
 </xul:button>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-spinbuttons");
-    this.prepend(comment);
 
     this.addEventListener("mousedown", event => {
       // on the Mac, the native theme draws the spinbutton as a single widget

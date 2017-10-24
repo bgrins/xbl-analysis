@@ -4,12 +4,6 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-toolbar-menubar-autohide"
-    );
-    this.prepend(comment);
 
     Object.defineProperty(this, "_inactiveTimeout", {
       configurable: true,

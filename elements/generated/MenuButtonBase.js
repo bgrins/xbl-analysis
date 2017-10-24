@@ -4,10 +4,6 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-menu-button-base");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_pendingActive", {
       configurable: true,

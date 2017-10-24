@@ -4,8 +4,6 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox anonid="searchbar-engine" inherits="showonlysettings" class="search-panel-header search-panel-current-engine">
 <xul:image class="searchbar-engine-image" inherits="src">
 </xul:image>
@@ -22,11 +20,6 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
 </xul:tree>
 <xul:vbox anonid="search-one-off-buttons" class="search-one-offs">
 </xul:vbox>`;
-    let comment = document.createComment(
-      "Creating firefox-browser-search-autocomplete-result-popup"
-    );
-    this.prepend(comment);
-
     Object.defineProperty(this, "_isHiding", {
       configurable: true,
       enumerable: true,

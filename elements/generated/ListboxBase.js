@@ -4,10 +4,6 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-listbox-base");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_lastKeyTime", {
       configurable: true,

@@ -4,10 +4,6 @@ class FirefoxScrollboxBase extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-scrollbox-base");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

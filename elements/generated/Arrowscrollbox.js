@@ -4,8 +4,6 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:autorepeatbutton class="autorepeatbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" oncommand="_autorepeatbuttonScroll(event);">
 </xul:autorepeatbutton>
 <xul:spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart">
@@ -18,9 +16,6 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
 </xul:spacer>
 <xul:autorepeatbutton class="autorepeatbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" oncommand="_autorepeatbuttonScroll(event);">
 </xul:autorepeatbutton>`;
-    let comment = document.createComment("Creating firefox-arrowscrollbox");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_scrollbox", {
       configurable: true,
       enumerable: true,

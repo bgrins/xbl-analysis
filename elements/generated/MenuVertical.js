@@ -4,8 +4,6 @@ class FirefoxMenuVertical extends FirefoxToolbarbutton {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>
 <xul:hbox flex="1" align="center">
@@ -20,8 +18,6 @@ class FirefoxMenuVertical extends FirefoxToolbarbutton {
 <xul:dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label">
 </xul:dropmarker>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-menu-vertical");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

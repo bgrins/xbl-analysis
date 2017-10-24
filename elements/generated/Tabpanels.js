@@ -4,10 +4,6 @@ class FirefoxTabpanels extends FirefoxTabBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-tabpanels");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_tabbox", {
       configurable: true,

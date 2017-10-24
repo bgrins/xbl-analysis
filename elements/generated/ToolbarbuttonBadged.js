@@ -4,8 +4,6 @@ class FirefoxToolbarbuttonBadged extends FirefoxToolbarbutton {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>
 <xul:stack class="toolbarbutton-badge-stack">
@@ -18,10 +16,6 @@ class FirefoxToolbarbuttonBadged extends FirefoxToolbarbutton {
 </xul:label>
 <xul:label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap">
 </xul:label>`;
-    let comment = document.createComment(
-      "Creating firefox-toolbarbutton-badged"
-    );
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

@@ -3,11 +3,6 @@ class FirefoxRootElement extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-root-element");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_lightweightTheme", {
       configurable: true,
       enumerable: true,

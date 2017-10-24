@@ -4,12 +4,8 @@ class FirefoxMenulistPopuponly extends FirefoxMenulist {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="menupopup">
 </children>`;
-    let comment = document.createComment("Creating firefox-menulist-popuponly");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

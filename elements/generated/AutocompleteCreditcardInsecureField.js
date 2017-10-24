@@ -4,14 +4,8 @@ class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProf
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<div anonid="autofill-item-box" class="autofill-insecure-item">
 </div>`;
-    let comment = document.createComment(
-      "Creating firefox-autocomplete-creditcard-insecure-field"
-    );
-    this.prepend(comment);
 
     this._itemBox = document.getAnonymousElementByAttribute(
       this,

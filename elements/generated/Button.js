@@ -4,8 +4,6 @@ class FirefoxButton extends FirefoxButtonBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>
 <xul:hbox class="box-inherit button-box" inherits="align,dir,pack,orient" align="center" pack="center" flex="1" anonid="button-box">
@@ -18,8 +16,6 @@ class FirefoxButton extends FirefoxButtonBase {
 </xul:label>
 </children>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-button");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

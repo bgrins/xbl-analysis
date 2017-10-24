@@ -3,8 +3,6 @@ class FirefoxPopupNotification extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox align="start" class="popup-notification-body-container">
 <xul:image class="popup-notification-icon" inherits="popupid,src=icon,class=iconclass">
 </xul:image>
@@ -45,9 +43,6 @@ class FirefoxPopupNotification extends BaseElement {
 <xul:button anonid="button" class="popup-notification-button" default="true" label="FROM-DTD-defaultButton-label" accesskey="FROM-DTD-defaultButton-accesskey" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled">
 </xul:button>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-popup-notification");
-    this.prepend(comment);
-
     Object.defineProperty(this, "checkbox", {
       configurable: true,
       enumerable: true,

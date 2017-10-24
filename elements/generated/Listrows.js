@@ -3,11 +3,6 @@ class FirefoxListrows extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-listrows");
-    this.prepend(comment);
-
     this.addEventListener(
       "DOMMouseScroll",
       event => {

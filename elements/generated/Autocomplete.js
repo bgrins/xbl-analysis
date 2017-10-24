@@ -4,8 +4,6 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="autocomplete-textbox-container" flex="1" inherits="focused">
 <children includes="image|deck|stack|box">
 </children>
@@ -22,9 +20,6 @@ class FirefoxAutocomplete extends FirefoxTextbox {
 </xul:popupset>
 <children includes="toolbarbutton">
 </children>`;
-    let comment = document.createComment("Creating firefox-autocomplete");
-    this.prepend(comment);
-
     Object.defineProperty(this, "mController", {
       configurable: true,
       enumerable: true,

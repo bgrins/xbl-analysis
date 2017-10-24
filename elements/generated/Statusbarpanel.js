@@ -3,14 +3,10 @@ class FirefoxStatusbarpanel extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<children>
 <xul:label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1">
 </xul:label>
 </children>`;
-    let comment = document.createComment("Creating firefox-statusbarpanel");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 

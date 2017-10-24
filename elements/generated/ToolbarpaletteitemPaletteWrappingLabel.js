@@ -4,18 +4,12 @@ class FirefoxToolbarpaletteitemPaletteWrappingLabel extends FirefoxToolbarpalett
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="toolbarpaletteitem-box" inherits="type,place">
 <children>
 </children>
 </xul:hbox>
 <xul:label inherits="text=title">
 </xul:label>`;
-    let comment = document.createComment(
-      "Creating firefox-toolbarpaletteitem-palette-wrapping-label"
-    );
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

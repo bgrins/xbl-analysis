@@ -4,11 +4,6 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-time-input");
-    this.prepend(comment);
-
     /* eslint-enable no-multi-spaces */
 
     this.mHour12 = this.is12HourTime(this.mLocales);

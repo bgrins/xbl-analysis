@@ -4,8 +4,6 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<vbox class="datepicker-mainbox" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <hbox class="datepicker-monthbox" align="center">
 <button class="datepicker-previous datepicker-button" type="repeat" inherits="disabled" oncommand="document.getBindingParent(this)._increaseOrDecreaseMonth(-1);">
@@ -178,9 +176,6 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
 </rows>
 </grid>
 </vbox>`;
-    let comment = document.createComment("Creating firefox-datepicker-grid");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_hasEntry", {
       configurable: true,
       enumerable: true,

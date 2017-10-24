@@ -4,8 +4,6 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="datetimepicker-input-box" align="center" inherits="context,disabled,readonly">
 <xul:hbox class="textbox-input-box datetimepicker-input-subbox" align="center">
 <html:input class="datetimepicker-input textbox-input" anonid="input-one" size="2" maxlength="2" inherits="disabled,readonly">
@@ -30,11 +28,6 @@ class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
 </xul:hbox>
 <xul:spinbuttons anonid="buttons" inherits="disabled" onup="this.parentNode._increaseOrDecrease(1);" ondown="this.parentNode._increaseOrDecrease(-1);">
 </xul:spinbuttons>`;
-    let comment = document.createComment(
-      "Creating firefox-datetimepicker-base"
-    );
-    this.prepend(comment);
-
     Object.defineProperty(this, "_dateValue", {
       configurable: true,
       enumerable: true,

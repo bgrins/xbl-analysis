@@ -4,14 +4,10 @@ class FirefoxListitemCheckbox extends FirefoxListitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children>
 <xul:listcell type="checkbox" inherits="label,crop,checked,disabled,flexlabel">
 </xul:listcell>
 </children>`;
-    let comment = document.createComment("Creating firefox-listitem-checkbox");
-    this.prepend(comment);
 
     this.addEventListener("mousedown", event => {
       if (!this.disabled && !this.control.disabled) {

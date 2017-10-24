@@ -127,12 +127,7 @@ function getJSForBinding(binding) {
     }
     connectedCallback() {
       ${hasExtends ? 'super.connectedCallback()' : ''}
-      console.log(this, 'connected');
-
       ${innerHTML}
-      let comment = document.createComment('Creating ${elementName}');
-      this.prepend(comment);
-
       ${fields.join('\n')}
 
       ${xblconstructor}

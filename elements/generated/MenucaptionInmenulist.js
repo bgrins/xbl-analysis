@@ -4,8 +4,6 @@ class FirefoxMenucaptionInmenulist extends FirefoxMenucaption {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="menu-iconic-left" align="center" pack="center" inherits="selected,disabled,checked">
 <xul:image class="menu-iconic-icon" inherits="src=image,validate,src">
 </xul:image>
@@ -14,10 +12,6 @@ class FirefoxMenucaptionInmenulist extends FirefoxMenucaption {
 </xul:label>
 <xul:label class="menu-iconic-highlightable-text" inherits="text=label,crop,highlightable" crop="right">
 </xul:label>`;
-    let comment = document.createComment(
-      "Creating firefox-menucaption-inmenulist"
-    );
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

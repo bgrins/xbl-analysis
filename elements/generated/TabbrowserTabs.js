@@ -4,8 +4,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="tab-drop-indicator-box">
 <xul:image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true">
 </xul:image>
@@ -24,9 +22,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 <xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;">
 </xul:spacer>
 </xul:arrowscrollbox>`;
-    let comment = document.createComment("Creating firefox-tabbrowser-tabs");
-    this.prepend(comment);
-
     Object.defineProperty(this, "tabbrowser", {
       configurable: true,
       enumerable: true,

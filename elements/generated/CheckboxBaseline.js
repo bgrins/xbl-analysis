@@ -4,8 +4,6 @@ class FirefoxCheckboxBaseline extends FirefoxBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<input type='checkbox' />
 <xul:image class="checkbox-check" inherits="checked,disabled">
 </xul:image>
@@ -15,8 +13,6 @@ class FirefoxCheckboxBaseline extends FirefoxBasetext {
 <xul:label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1">
 </xul:label>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-checkbox-baseline");
-    this.prepend(comment);
 
     this.addEventListener("click", event => {
       if (!this.disabled) this.checked = !this.checked;

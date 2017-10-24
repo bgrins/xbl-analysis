@@ -4,17 +4,12 @@ class FirefoxTabs extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:spacer class="tabs-left">
 </xul:spacer>
 <children>
 </children>
 <xul:spacer class="tabs-right" flex="1">
 </xul:spacer>`;
-    let comment = document.createComment("Creating firefox-tabs");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_tabbox", {
       configurable: true,
       enumerable: true,

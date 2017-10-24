@@ -4,8 +4,6 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:stack>
 <xul:vbox class="ctrlTab-preview-inner" align="center" pack="center" inherits="width=canvaswidth">
 <xul:hbox class="tabPreview-canvas" inherits="style=canvasstyle">
@@ -20,8 +18,6 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
 </xul:image>
 </xul:hbox>
 </xul:stack>`;
-    let comment = document.createComment("Creating firefox-ctrltab-preview");
-    this.prepend(comment);
 
     this.addEventListener("mouseover", event => {
       ctrlTab._mouseOverFocus(this);

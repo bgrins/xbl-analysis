@@ -4,8 +4,6 @@ class FirefoxOptionsdialog extends FirefoxDialog {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox flex="1">
 <xul:categoryBox anonid="prefsCategories">
 <children>
@@ -18,8 +16,6 @@ class FirefoxOptionsdialog extends FirefoxDialog {
 </xul:iframe>
 </xul:vbox>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-optionsdialog");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

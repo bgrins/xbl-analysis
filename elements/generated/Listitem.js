@@ -4,14 +4,10 @@ class FirefoxListitem extends FirefoxBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children>
 <xul:listcell inherits="label,crop,disabled,flexlabel">
 </xul:listcell>
 </children>`;
-    let comment = document.createComment("Creating firefox-listitem");
-    this.prepend(comment);
 
     this.addEventListener("mousedown", event => {
       var control = this.control;

@@ -4,14 +4,10 @@ class FirefoxToolbarpaletteitem extends FirefoxToolbarBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="toolbarpaletteitem-box" flex="1" inherits="type,place">
 <children>
 </children>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-toolbarpaletteitem");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

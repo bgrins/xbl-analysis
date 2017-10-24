@@ -4,10 +4,6 @@ class FirefoxButtonRepeat extends FirefoxButton {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-button-repeat");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

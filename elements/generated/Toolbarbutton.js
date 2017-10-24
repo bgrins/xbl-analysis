@@ -4,8 +4,6 @@ class FirefoxToolbarbutton extends FirefoxButtonBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>
 <xul:image class="toolbarbutton-icon" inherits="validate,src=image,label,consumeanchor">
@@ -16,8 +14,6 @@ class FirefoxToolbarbutton extends FirefoxButtonBase {
 </xul:label>
 <children includes="box">
 </children>`;
-    let comment = document.createComment("Creating firefox-toolbarbutton");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

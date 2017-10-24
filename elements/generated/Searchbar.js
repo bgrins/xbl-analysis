@@ -3,8 +3,6 @@ class FirefoxSearchbar extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:stringbundle src="chrome://browser/locale/search.properties" anonid="searchbar-stringbundle">
 </xul:stringbundle>
 <xul:textbox class="searchbar-textbox" anonid="searchbar-textbox" type="autocomplete" inputtype="search" placeholder="FROM-DTD-searchInput-placeholder" flex="1" autocompletepopup="PopupSearchAutoComplete" autocompletesearch="search-autocomplete" autocompletesearchparam="searchbar-history" maxrows="10" completeselectedindex="true" minresultsforpopup="0" inherits="disabled,disableautocomplete,searchengine,src,newlines">
@@ -21,9 +19,6 @@ class FirefoxSearchbar extends BaseElement {
 </xul:image>
 </xul:hbox>
 </xul:textbox>`;
-    let comment = document.createComment("Creating firefox-searchbar");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_ignoreFocus", {
       configurable: true,
       enumerable: true,

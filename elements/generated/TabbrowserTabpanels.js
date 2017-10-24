@@ -4,12 +4,6 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-tabbrowser-tabpanels"
-    );
-    this.prepend(comment);
 
     Object.defineProperty(this, "_selectedIndex", {
       configurable: true,

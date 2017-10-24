@@ -3,8 +3,6 @@ class FirefoxPluginPopupnotificationCenterItem extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox pack="center" anonid="itemBox" class="itemBox">
 <xul:description anonid="center-item-label" class="center-item-label">
 </xul:description>
@@ -29,10 +27,6 @@ class FirefoxPluginPopupnotificationCenterItem extends BaseElement {
 </xul:menupopup>
 </xul:menulist>
 </xul:vbox>`;
-    let comment = document.createComment(
-      "Creating firefox-plugin-popupnotification-center-item"
-    );
-    this.prepend(comment);
 
     document.getAnonymousElementByAttribute(
       this,

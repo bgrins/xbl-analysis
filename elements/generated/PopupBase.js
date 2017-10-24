@@ -2,12 +2,7 @@ class FirefoxPopupBase extends BaseElement {
   constructor() {
     super();
   }
-  connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-popup-base");
-    this.prepend(comment);
-  }
+  connectedCallback() {}
   disconnectedCallback() {}
 
   set label(val) {

@@ -3,14 +3,10 @@ class FirefoxStatuspanel extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="statuspanel-inner">
 <xul:label class="statuspanel-label" role="status" aria-live="off" inherits="value=label,crop,mirror" flex="1" crop="end">
 </xul:label>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-statuspanel");
-    this.prepend(comment);
 
     window.addEventListener("resize", this);
   }

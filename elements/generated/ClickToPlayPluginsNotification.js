@@ -4,8 +4,6 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox flex="1" align="stretch" class="click-to-play-plugins-notification-main-box" inherits="popupid">
 <xul:hbox class="click-to-play-plugins-notification-description-box" flex="1" align="start">
 <xul:description class="click-to-play-plugins-outer-description" flex="1">
@@ -44,11 +42,6 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
 </children>
 </xul:box>
 </xul:vbox>`;
-    let comment = document.createComment(
-      "Creating firefox-click-to-play-plugins-notification"
-    );
-    this.prepend(comment);
-
     Object.defineProperty(this, "_states", {
       configurable: true,
       enumerable: true,

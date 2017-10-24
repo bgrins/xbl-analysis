@@ -3,8 +3,6 @@ class FirefoxInputBox extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<children>
 </children>
 <xul:menupopup anonid="input-box-contextmenu" class="textbox-contextmenu" onpopupshowing="var input =
@@ -29,8 +27,6 @@ class FirefoxInputBox extends BaseElement {
 <xul:menuitem label="FROM-DTD-selectAllCmd-label" accesskey="FROM-DTD-selectAllCmd-accesskey" cmd="cmd_selectAll">
 </xul:menuitem>
 </xul:menupopup>`;
-    let comment = document.createComment("Creating firefox-input-box");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
   _doPopupItemEnabling(popupNode) {

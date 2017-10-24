@@ -4,8 +4,6 @@ class FirefoxScrollbar extends FirefoxScrollbarBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:scrollbarbutton sbattr="scrollbar-up-top" type="decrement" inherits="curpos,maxpos,disabled,sborient=orient">
 </xul:scrollbarbutton>
 <xul:scrollbarbutton sbattr="scrollbar-down-top" type="increment" inherits="curpos,maxpos,disabled,sborient=orient">
@@ -18,8 +16,6 @@ class FirefoxScrollbar extends FirefoxScrollbarBase {
 </xul:scrollbarbutton>
 <xul:scrollbarbutton sbattr="scrollbar-down-bottom" type="increment" inherits="curpos,maxpos,disabled,sborient=orient">
 </xul:scrollbarbutton>`;
-    let comment = document.createComment("Creating firefox-scrollbar");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

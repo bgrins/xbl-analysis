@@ -4,8 +4,6 @@ class FirefoxPrefwindow extends FirefoxDialog {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:windowdragbox orient="vertical">
 <xul:radiogroup anonid="selector" orient="horizontal" class="paneSelector chromeclass-toolbar" role="listbox">
 </xul:radiogroup>
@@ -36,9 +34,6 @@ class FirefoxPrefwindow extends FirefoxDialog {
 <children>
 </children>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-prefwindow");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_instantApplyInitialized", {
       configurable: true,
       enumerable: true,

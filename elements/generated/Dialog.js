@@ -4,8 +4,6 @@ class FirefoxDialog extends FirefoxRootElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox class="box-inherit dialog-content-box" flex="1">
 <children>
 </children>
@@ -26,9 +24,6 @@ class FirefoxDialog extends FirefoxRootElement {
 <xul:button dlgtype="disclosure" class="dialog-button" hidden="true">
 </xul:button>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-dialog");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_mStrBundle", {
       configurable: true,
       enumerable: true,

@@ -4,12 +4,6 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-autocomplete-richlistbox"
-    );
-    this.prepend(comment);
 
     Object.defineProperty(this, "mLastMoveTime", {
       configurable: true,

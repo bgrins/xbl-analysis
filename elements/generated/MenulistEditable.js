@@ -4,8 +4,6 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="menulist-editable-box textbox-input-box" inherits="context,disabled,readonly,focused" flex="1">
 <html:input class="menulist-editable-input" anonid="input" allowevents="true" inherits="value=label,value,disabled,tabindex,readonly,placeholder">
 </html:input>
@@ -14,8 +12,6 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
 </xul:dropmarker>
 <children includes="menupopup">
 </children>`;
-    let comment = document.createComment("Creating firefox-menulist-editable");
-    this.prepend(comment);
 
     this.addEventListener(
       "focus",

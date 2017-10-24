@@ -4,8 +4,6 @@ class FirefoxRadio extends FirefoxControlItem {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:image class="radio-check" inherits="disabled,selected">
 </xul:image>
 <xul:hbox class="radio-label-box" align="center" flex="1">
@@ -14,8 +12,6 @@ class FirefoxRadio extends FirefoxControlItem {
 <xul:label class="radio-label" inherits="text=label,accesskey,crop" flex="1">
 </xul:label>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-radio");
-    this.prepend(comment);
 
     // Just clear out the parent's cached list of radio children
     var control = this.control;

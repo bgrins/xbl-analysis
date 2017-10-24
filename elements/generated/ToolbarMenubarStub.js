@@ -2,14 +2,7 @@ class FirefoxToolbarMenubarStub extends BaseElement {
   constructor() {
     super();
   }
-  connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-toolbar-menubar-stub"
-    );
-    this.prepend(comment);
-  }
+  connectedCallback() {}
   disconnectedCallback() {}
 
   get toolbox() {

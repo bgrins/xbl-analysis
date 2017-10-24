@@ -4,8 +4,6 @@ class FirefoxTranslationbar extends FirefoxNotification {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="notification-inner" flex="1" inherits="type">
 <xul:hbox anonid="details" align="center" flex="1">
 <xul:image class="translate-infobar-element messageImage" anonid="messageImage">
@@ -111,8 +109,6 @@ class FirefoxTranslationbar extends FirefoxNotification {
 <xul:toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).closeCommand();">
 </xul:toolbarbutton>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-translationbar");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 

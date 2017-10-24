@@ -4,8 +4,6 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
 </xul:image>
 <xul:image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
@@ -38,10 +36,6 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
 </xul:description>
 </xul:description>
 </xul:hbox>`;
-    let comment = document.createComment(
-      "Creating firefox-autocomplete-richlistitem-insecure-field"
-    );
-    this.prepend(comment);
 
     // Unlike other autocomplete items, the height of the insecure warning
     // increases by wrapping. So "forceHandleUnderflow" is for container to

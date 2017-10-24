@@ -4,17 +4,10 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:stack class="progress-remainder" flex="1" anonid="stack" style="overflow: -moz-hidden-unscrollable;">
 <xul:spacer class="progress-bar" anonid="spacer" top="0" style="margin-right: -1000px;">
 </xul:spacer>
 </xul:stack>`;
-    let comment = document.createComment(
-      "Creating firefox-progressmeter-undetermined"
-    );
-    this.prepend(comment);
-
     Object.defineProperty(this, "_alive", {
       configurable: true,
       enumerable: true,

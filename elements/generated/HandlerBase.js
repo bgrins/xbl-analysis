@@ -4,10 +4,6 @@ class FirefoxHandlerBase extends FirefoxRichlistitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-handler-base");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 

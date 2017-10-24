@@ -3,8 +3,6 @@ class FirefoxPanelmultiview extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox anonid="viewContainer" class="panel-viewcontainer" inherits="panelopen,viewtype,transitioning">
 <xul:stack anonid="viewStack" inherits="viewtype,transitioning" class="panel-viewstack">
 <xul:vbox anonid="mainViewContainer" class="panel-mainview" inherits="viewtype">
@@ -17,8 +15,6 @@ class FirefoxPanelmultiview extends BaseElement {
 </xul:vbox>
 </xul:stack>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-panelmultiview");
-    this.prepend(comment);
 
     const { PanelMultiView } = Components.utils.import(
       "resource:///modules/PanelMultiView.jsm",

@@ -4,8 +4,6 @@ class FirefoxDatepickerPopup extends FirefoxDatepicker {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="textbox-input-box datetimepicker-input-box" align="center" allowevents="true" inherits="context,disabled,readonly">
 <xul:hbox class="datetimepicker-input-subbox" align="baseline">
 <html:input class="datetimepicker-input textbox-input" anonid="input-one" size="2" maxlength="2" inherits="disabled,readonly">
@@ -36,8 +34,6 @@ class FirefoxDatepickerPopup extends FirefoxDatepicker {
 <xul:datepicker anonid="grid" type="grid" class="datepicker-popupgrid" inherits="disabled,readonly,firstdayofweek">
 </xul:datepicker>
 </xul:panel>`;
-    let comment = document.createComment("Creating firefox-datepicker-popup");
-    this.prepend(comment);
 
     var grid = document.getAnonymousElementByAttribute(this, "anonid", "grid");
     this.attachedControl = grid;

@@ -4,10 +4,6 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-menu-base");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 

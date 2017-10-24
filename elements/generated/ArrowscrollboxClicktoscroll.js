@@ -4,8 +4,6 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:toolbarbutton class="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" anonid="scrollbutton-up" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(-1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(-1);" onmouseout="_pauseScroll();">
 </xul:toolbarbutton>
 <xul:spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart">
@@ -18,11 +16,6 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
 </xul:spacer>
 <xul:toolbarbutton class="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" anonid="scrollbutton-down" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(1);" onmouseout="_pauseScroll();">
 </xul:toolbarbutton>`;
-    let comment = document.createComment(
-      "Creating firefox-arrowscrollbox-clicktoscroll"
-    );
-    this.prepend(comment);
-
     Object.defineProperty(this, "_scrollIndex", {
       configurable: true,
       enumerable: true,

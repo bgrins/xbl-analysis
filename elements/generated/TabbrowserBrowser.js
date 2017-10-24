@@ -4,10 +4,6 @@ class FirefoxTabbrowserBrowser extends FirefoxBrowser {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-tabbrowser-browser");
-    this.prepend(comment);
 
     Object.defineProperty(this, "tabModalPromptBox", {
       configurable: true,

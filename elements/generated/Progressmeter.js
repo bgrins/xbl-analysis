@@ -3,14 +3,10 @@ class FirefoxProgressmeter extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:spacer class="progress-bar" inherits="mode">
 </xul:spacer>
 <xul:spacer class="progress-remainder" inherits="mode">
 </xul:spacer>`;
-    let comment = document.createComment("Creating firefox-progressmeter");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 

@@ -3,17 +3,12 @@ class FirefoxTextbox extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<children>
 </children>
 <xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
 <html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
 </html:input>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-textbox");
-    this.prepend(comment);
-
     Object.defineProperty(this, "crop", {
       configurable: true,
       enumerable: true,

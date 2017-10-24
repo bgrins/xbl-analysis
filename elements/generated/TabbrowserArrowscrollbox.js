@@ -4,12 +4,6 @@ class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment(
-      "Creating firefox-tabbrowser-arrowscrollbox"
-    );
-    this.prepend(comment);
 
     this.addEventListener(
       "underflow",

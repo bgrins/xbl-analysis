@@ -4,10 +4,6 @@ class FirefoxToolbardecoration extends FirefoxToolbarBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-toolbardecoration");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

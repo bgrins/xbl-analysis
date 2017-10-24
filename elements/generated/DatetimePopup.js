@@ -4,10 +4,6 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-datetime-popup");
-    this.prepend(comment);
 
     Object.defineProperty(this, "TIME_PICKER_WIDTH", {
       configurable: true,

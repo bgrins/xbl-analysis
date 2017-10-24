@@ -4,18 +4,12 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<div anonid="autofill-footer" class="autofill-item-box autofill-footer">
 <div anonid="autofill-warning" class="autofill-footer-row autofill-warning">
 </div>
 <div anonid="autofill-option-button" class="autofill-footer-row autofill-option-button">
 </div>
 </div>`;
-    let comment = document.createComment(
-      "Creating firefox-autocomplete-profile-listitem-footer"
-    );
-    this.prepend(comment);
 
     this._itemBox = document.getAnonymousElementByAttribute(
       this,

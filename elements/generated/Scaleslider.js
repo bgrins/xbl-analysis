@@ -4,10 +4,6 @@ class FirefoxScaleslider extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-scaleslider");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

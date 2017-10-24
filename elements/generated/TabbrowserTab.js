@@ -4,8 +4,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:stack class="tab-stack" flex="1">
 <xul:vbox inherits="selected=visuallyselected,fadein" class="tab-background">
 <xul:hbox inherits="selected=visuallyselected" class="tab-line">
@@ -36,9 +34,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 </xul:toolbarbutton>
 </xul:hbox>
 </xul:stack>`;
-    let comment = document.createComment("Creating firefox-tabbrowser-tab");
-    this.prepend(comment);
-
     Object.defineProperty(this, "muteReason", {
       configurable: true,
       enumerable: true,

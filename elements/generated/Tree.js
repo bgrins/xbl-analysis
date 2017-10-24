@@ -4,8 +4,6 @@ class FirefoxTree extends FirefoxTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="treecols">
 </children>
 <xul:stack class="tree-stack" flex="1">
@@ -22,9 +20,6 @@ class FirefoxTree extends FirefoxTreeBase {
 <xul:scrollcorner inherits="collapsed=hidevscroll">
 </xul:scrollcorner>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-tree");
-    this.prepend(comment);
-
     Object.defineProperty(this, "pageUpOrDownMovesSelection", {
       configurable: true,
       enumerable: true,

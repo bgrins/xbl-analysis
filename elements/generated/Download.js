@@ -4,8 +4,6 @@ class FirefoxDownload extends FirefoxRichlistitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="downloadMainArea" flex="1" align="center">
 <xul:stack>
 <xul:image class="downloadTypeIcon" validate="always" inherits="src=image">
@@ -56,8 +54,6 @@ class FirefoxDownload extends FirefoxRichlistitem {
 <xul:button class="downloadButton downloadShowBlockedInfo" tooltiptext="FROM-DTD-cmd-chooseUnblock-label" oncommand="DownloadsView.onDownloadCommand(event, 'downloadsCmd_showBlockedInfo');">
 </xul:button>
 </xul:stack>`;
-    let comment = document.createComment("Creating firefox-download");
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

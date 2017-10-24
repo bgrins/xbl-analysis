@@ -3,11 +3,6 @@ class FirefoxStringbundle extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-stringbundle");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_bundle", {
       configurable: true,
       enumerable: true,

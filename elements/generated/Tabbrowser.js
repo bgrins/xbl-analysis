@@ -3,8 +3,6 @@ class FirefoxTabbrowser extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
 <xul:tabpanels flex="1" class="plain" selectedIndex="0" anonid="panelcontainer">
 <xul:notificationbox flex="1" notificationside="top">
@@ -21,9 +19,6 @@ class FirefoxTabbrowser extends BaseElement {
 </xul:tabbox>
 <children>
 </children>`;
-    let comment = document.createComment("Creating firefox-tabbrowser");
-    this.prepend(comment);
-
     Object.defineProperty(this, "tabContainer", {
       configurable: true,
       enumerable: true,

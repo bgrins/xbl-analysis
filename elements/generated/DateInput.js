@@ -4,11 +4,6 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-date-input");
-    this.prepend(comment);
-
     /* eslint-enable no-multi-spaces */
 
     this.mMinMonth = 1;

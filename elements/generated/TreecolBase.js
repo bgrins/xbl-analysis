@@ -4,10 +4,6 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-treecol-base");
-    this.prepend(comment);
 
     this.parentNode.parentNode._columnsDirty = true;
 

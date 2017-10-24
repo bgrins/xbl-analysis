@@ -4,8 +4,6 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<stack flex="1">
 <vbox anonid="statusOverlay" flex="1" class="statusOverlay" hidden="true">
 <box anonid="statusIcon" class="statusIcon">
@@ -72,8 +70,6 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
 </vbox>
 </vbox>
 </stack>`;
-    let comment = document.createComment("Creating firefox-touchcontrols");
-    this.prepend(comment);
 
     this.isTouchControls = true;
     this.TouchUtils = {

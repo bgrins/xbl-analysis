@@ -4,8 +4,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
 </xul:image>
 <xul:image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
@@ -38,11 +36,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
 </xul:description>
 </xul:description>
 </xul:hbox>`;
-    let comment = document.createComment(
-      "Creating firefox-autocomplete-richlistitem"
-    );
-    this.prepend(comment);
-
     Object.defineProperty(this, "_boundaryCutoff", {
       configurable: true,
       enumerable: true,

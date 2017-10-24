@@ -4,8 +4,6 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children>
 </children>
 <xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck" align="center">
@@ -20,9 +18,6 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
 </xul:image>
 </xul:deck>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-search-textbox");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_timer", {
       configurable: true,
       enumerable: true,

@@ -4,8 +4,6 @@ class FirefoxMenulistDescription extends FirefoxMenulist {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="menulist-label-box" flex="1">
 <xul:image class="menulist-icon" inherits="src=image,src">
 </xul:image>
@@ -18,10 +16,6 @@ class FirefoxMenulistDescription extends FirefoxMenulist {
 </xul:dropmarker>
 <children includes="menupopup">
 </children>`;
-    let comment = document.createComment(
-      "Creating firefox-menulist-description"
-    );
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

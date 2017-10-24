@@ -3,8 +3,6 @@ class FirefoxVideocontrols extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<div anonid="controlsContainer" class="controlsContainer" role="none">
 <div anonid="statusOverlay" class="statusOverlay stackItem" hidden="true">
 <div anonid="statusIcon" class="statusIcon">
@@ -67,8 +65,6 @@ class FirefoxVideocontrols extends BaseElement {
 </div>
 </div>
 </div>`;
-    let comment = document.createComment("Creating firefox-videocontrols");
-    this.prepend(comment);
 
     this.isTouchControls = false;
     this.randomID = 0;

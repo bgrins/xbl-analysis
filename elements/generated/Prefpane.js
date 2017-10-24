@@ -3,15 +3,10 @@ class FirefoxPrefpane extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:vbox class="content-box" inherits="flex">
 <children>
 </children>
 </xul:vbox>`;
-    let comment = document.createComment("Creating firefox-prefpane");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_loaded", {
       configurable: true,
       enumerable: true,

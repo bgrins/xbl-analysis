@@ -4,8 +4,6 @@ class FirefoxToolbarbuttonBadgedMenu extends FirefoxToolbarbutton {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children includes="observes|template|menupopup|panel|tooltip">
 </children>
 <xul:stack class="toolbarbutton-badge-stack">
@@ -20,10 +18,6 @@ class FirefoxToolbarbuttonBadgedMenu extends FirefoxToolbarbutton {
 </xul:label>
 <xul:dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label">
 </xul:dropmarker>`;
-    let comment = document.createComment(
-      "Creating firefox-toolbarbutton-badged-menu"
-    );
-    this.prepend(comment);
   }
   disconnectedCallback() {}
 }

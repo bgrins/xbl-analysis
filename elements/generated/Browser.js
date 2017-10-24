@@ -3,13 +3,8 @@ class FirefoxBrowser extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<children>
 </children>`;
-    let comment = document.createComment("Creating firefox-browser");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_sameProcessAsFrameLoader", {
       configurable: true,
       enumerable: true,

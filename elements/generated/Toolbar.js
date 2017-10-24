@@ -4,10 +4,6 @@ class FirefoxToolbar extends FirefoxToolbarBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-toolbar");
-    this.prepend(comment);
 
     Object.defineProperty(this, "_toolbox", {
       configurable: true,

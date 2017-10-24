@@ -3,11 +3,6 @@ class FirefoxGrippy extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-grippy");
-    this.prepend(comment);
-
     this.addEventListener("command", event => {
       var splitter = this.parentNode;
       if (splitter) {

@@ -3,8 +3,6 @@ class FirefoxNotification extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<xul:hbox class="notification-inner" flex="1" inherits="type">
 <xul:hbox anonid="details" align="center" flex="1" oncommand="this.parentNode.parentNode._doButtonCommand(event);">
 <xul:image anonid="messageImage" class="messageImage" inherits="src=image,type,value">
@@ -19,9 +17,6 @@ class FirefoxNotification extends BaseElement {
 <xul:toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).dismiss();">
 </xul:toolbarbutton>
 </xul:hbox>`;
-    let comment = document.createComment("Creating firefox-notification");
-    this.prepend(comment);
-
     Object.defineProperty(this, "timeout", {
       configurable: true,
       enumerable: true,

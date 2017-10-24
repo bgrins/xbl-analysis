@@ -2,12 +2,7 @@ class FirefoxBasecontrol extends BaseElement {
   constructor() {
     super();
   }
-  connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating firefox-basecontrol");
-    this.prepend(comment);
-  }
+  connectedCallback() {}
   disconnectedCallback() {}
 
   set disabled(val) {

@@ -3,16 +3,12 @@ class FirefoxNocontrols extends BaseElement {
     super();
   }
   connectedCallback() {
-    console.log(this, "connected");
-
     this.innerHTML = `<vbox flex="1" class="statusOverlay" hidden="true">
 <box flex="1">
 <box class="clickToPlay" flex="1">
 </box>
 </box>
 </vbox>`;
-    let comment = document.createComment("Creating firefox-nocontrols");
-    this.prepend(comment);
 
     this.randomID = 0;
     this.Utils = {

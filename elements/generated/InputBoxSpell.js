@@ -4,8 +4,6 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log(this, "connected");
-
     this.innerHTML = `<children>
 </children>
 <xul:menupopup anonid="input-box-contextmenu" class="textbox-contextmenu" onpopupshowing="var input =
@@ -46,9 +44,6 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
 </xul:menupopup>
 </xul:menu>
 </xul:menupopup>`;
-    let comment = document.createComment("Creating firefox-input-box-spell");
-    this.prepend(comment);
-
     Object.defineProperty(this, "_spellCheckInitialized", {
       configurable: true,
       enumerable: true,
