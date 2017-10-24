@@ -20,7 +20,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 <xul:hbox inherits="pinned,selected=visuallyselected,titlechanged,attention" class="tab-content" align="center">
 <xul:hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected" anonid="tab-throbber" class="tab-throbber" layer="true">
 </xul:hbox>
-<xul:image inherits="src=image,loadingprincipal=iconLoadingPrincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing" anonid="tab-icon-image" class="tab-icon-image" validate="never" role="presentation">
+<xul:image inherits="src=image,triggeringprincipal=iconloadingprincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing" anonid="tab-icon-image" class="tab-icon-image" validate="never" role="presentation">
 </xul:image>
 <xul:image inherits="sharing,selected=visuallyselected,pinned" anonid="sharing-icon" class="tab-sharing-icon-overlay" role="presentation">
 </xul:image>

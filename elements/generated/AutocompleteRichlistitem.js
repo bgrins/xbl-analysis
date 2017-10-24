@@ -720,7 +720,11 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       : titleRect.left - itemRect.left;
 
     let popup = this.parentNode.parentNode;
-    let itemWidth = itemRect.width - titleStart - popup.overflowPadding;
+    let itemWidth =
+      itemRect.width -
+      titleStart -
+      popup.overflowPadding -
+      (popup.margins ? popup.margins.end : 0);
 
     if (this._tags.hasAttribute("empty")) {
       // The tags box is not displayed in this case.

@@ -179,8 +179,13 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
 
     if (aTab.hasAttribute("busy")) {
       aMenuitem.setAttribute("busy", aTab.getAttribute("busy"));
+      aMenuitem.removeAttribute("iconloadingprincipal");
       aMenuitem.removeAttribute("image");
     } else {
+      aMenuitem.setAttribute(
+        "iconloadingprincipal",
+        aTab.getAttribute("iconloadingprincipal")
+      );
       aMenuitem.setAttribute("image", aTab.getAttribute("image"));
       aMenuitem.removeAttribute("busy");
     }

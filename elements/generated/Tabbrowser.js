@@ -5,7 +5,7 @@ class FirefoxTabbrowser extends BaseElement {
   connectedCallback() {
     console.log(this, "connected");
 
-    this.innerHTML = `<xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="handleCtrlPageUpDown,tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
+    this.innerHTML = `<xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
 <xul:tabpanels flex="1" class="plain" selectedIndex="0" anonid="panelcontainer">
 <xul:notificationbox flex="1" notificationside="top">
 <xul:hbox flex="1" class="browserSidebarContainer">
@@ -1915,7 +1915,7 @@ class FirefoxTabbrowser extends BaseElement {
           !browser.mIconLoadingPrincipal.equals(loadingPrincipal)
         ) {
           aTab.setAttribute(
-            "iconLoadingPrincipal",
+            "iconloadingprincipal",
             this.serializationHelper.serializeToString(loadingPrincipal)
           );
           aTab.setAttribute("requestcontextid", requestContextID);
@@ -1923,7 +1923,7 @@ class FirefoxTabbrowser extends BaseElement {
         }
         aTab.setAttribute("image", sizedIconUrl);
       } else {
-        aTab.removeAttribute("iconLoadingPrincipal");
+        aTab.removeAttribute("iconloadingprincipal");
         delete browser.mIconLoadingPrincipal;
         aTab.removeAttribute("image");
       }
@@ -2502,6 +2502,15 @@ class FirefoxTabbrowser extends BaseElement {
             "@mozilla.org/intl/texttosuburi;1"
           ].getService(Components.interfaces.nsITextToSubURI);
           title = textToSubURI.unEscapeNonAsciiURI(characterSet, title);
+          // If it's a long data: URI that uses base64 encoding, truncate to
+          // a reasonable length rather than trying to display the entire thing.
+          // We can't shorten arbitrary URIs like this, as bidi etc might mean
+          // we need the trailing characters for display. But a base64-encoded
+          // data-URI is plain ASCII, so this is OK for tab-title display.
+          // (See bug 1408854.)
+          if (title.length > 500 && title.match(/^data:[^,]+;base64,/)) {
+            title = title.substring(0, 500) + "\u2026";
+          }
         } catch (ex) {
           /* Do nothing. */
         }
@@ -4643,18 +4652,6 @@ class FirefoxTabbrowser extends BaseElement {
     // tell a new window to take the "dropped" tab
     return window.openDialog(getBrowserURL(), "_blank", options, aTab);
   }
-  openNonRemoteWindow(aTab) {
-    if (!AppConstants.E10S_TESTING_ONLY) {
-      throw "This method is intended only for e10s testing!";
-    }
-    let url = aTab.linkedBrowser.currentURI.spec;
-    return window.openDialog(
-      "chrome://browser/content/",
-      "_blank",
-      "chrome,all,dialog=no,non-remote",
-      url
-    );
-  }
   moveTabTo(aTab, aIndex, aKeepRelatedTabs) {
     var oldPosition = aTab._tPos;
     if (oldPosition == aIndex) return;
@@ -6008,17 +6005,12 @@ class FirefoxTabbrowser extends BaseElement {
     } else {
       label = tab._fullLabel || tab.getAttribute("label");
       if (
-        AppConstants.E10S_TESTING_ONLY &&
+        AppConstants.NIGHTLY_BUILD &&
         tab.linkedBrowser &&
-        tab.linkedBrowser.isRemoteBrowser
+        tab.linkedBrowser.isRemoteBrowser &&
+        tab.linkedBrowser.frameLoader
       ) {
-        label += " - e10s";
-        if (
-          tab.linkedBrowser.frameLoader &&
-          Services.appinfo.maxWebProcessCount > 1
-        ) {
-          label += " (" + tab.linkedBrowser.frameLoader.tabParent.osPid + ")";
-        }
+        label += " (pid " + tab.linkedBrowser.frameLoader.tabParent.osPid + ")";
       }
       if (tab.userContextId) {
         label = gTabBrowserBundle.formatStringFromName(

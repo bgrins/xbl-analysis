@@ -1299,9 +1299,10 @@ class FirefoxBrowser extends BaseElement {
       }
       case "Autoscroll:Start": {
         if (!this.autoscrollEnabled) {
-          return false;
+          return { autoscrollEnabled: false, usingApz: false };
         }
         this.startScroll(data.scrolldir, data.screenX, data.screenY);
+        let usingApz = false;
         if (
           this.isRemoteBrowser &&
           data.scrollId != null &&
@@ -1317,7 +1318,7 @@ class FirefoxBrowser extends BaseElement {
             ].getService(Components.interfaces.nsIObserverService);
             os.addObserver(this, "apz:cancel-autoscroll", true);
 
-            tabParent.startApzAutoscroll(
+            usingApz = tabParent.startApzAutoscroll(
               data.screenX,
               data.screenY,
               data.scrollId,
@@ -1328,7 +1329,7 @@ class FirefoxBrowser extends BaseElement {
           this._autoScrollScrollId = data.scrollId;
           this._autoScrollPresShellId = data.presShellId;
         }
-        return true;
+        return { autoscrollEnabled: true, usingApz };
       }
       case "Autoscroll:Cancel":
         this._autoScrollPopup.hidePopup();

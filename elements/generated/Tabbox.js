@@ -66,15 +66,6 @@ class FirefoxTabbox extends FirefoxTabBase {
     return this.getAttribute("handleCtrlTab") != "false";
   }
 
-  set handleCtrlPageUpDown(val) {
-    this.setAttribute("handleCtrlPageUpDown", val);
-    return val;
-  }
-
-  get handleCtrlPageUpDown() {
-    return this.getAttribute("handleCtrlPageUpDown") != "false";
-  }
-
   get _tabs() {
     return this.tabs;
   }
@@ -173,18 +164,28 @@ class FirefoxTabbox extends FirefoxTabBase {
           }
         break;
       case event.DOM_VK_PAGE_UP:
-        if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey)
-          if (this.tabs && this.handleCtrlPageUpDown) {
-            this.tabs.advanceSelectedTab(-1, true);
-            event.preventDefault();
-          }
+        if (
+          event.ctrlKey &&
+          !event.shiftKey &&
+          !event.altKey &&
+          !event.metaKey &&
+          this.tabs
+        ) {
+          this.tabs.advanceSelectedTab(-1, true);
+          event.preventDefault();
+        }
         break;
       case event.DOM_VK_PAGE_DOWN:
-        if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey)
-          if (this.tabs && this.handleCtrlPageUpDown) {
-            this.tabs.advanceSelectedTab(1, true);
-            event.preventDefault();
-          }
+        if (
+          event.ctrlKey &&
+          !event.shiftKey &&
+          !event.altKey &&
+          !event.metaKey &&
+          this.tabs
+        ) {
+          this.tabs.advanceSelectedTab(1, true);
+          event.preventDefault();
+        }
         break;
       case event.DOM_VK_LEFT:
         if (event.metaKey && event.altKey && !event.shiftKey && !event.ctrlKey)

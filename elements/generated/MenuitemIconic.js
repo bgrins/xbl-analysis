@@ -7,7 +7,7 @@ class FirefoxMenuitemIconic extends FirefoxMenuitem {
     console.log(this, "connected");
 
     this.innerHTML = `<xul:hbox class="menu-iconic-left" align="center" pack="center" inherits="selected,_moz-menuactive,disabled,checked">
-<xul:image class="menu-iconic-icon" inherits="src=image,validate,src">
+<xul:image class="menu-iconic-icon" inherits="src=image,triggeringprincipal=iconloadingprincipal,validate,src">
 </xul:image>
 </xul:hbox>
 <xul:label class="menu-iconic-text" flex="1" inherits="value=label,accesskey,crop,highlightable" crop="right">

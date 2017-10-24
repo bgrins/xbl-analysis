@@ -104,32 +104,6 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
     return Math.min(this.mInput.controller.matchCount, this.maxResults);
   }
 
-  set siteIconStart(val) {
-    if (val != this._siteIconStart) {
-      this._siteIconStart = val;
-      let varName = "--item-padding-start";
-      if (typeof val == "number") {
-        let paddingInCSS =
-          3 + // .autocomplete-richlistbox padding-left/right
-          6 + // .ac-site-icon margin-inline-start
-          16 + // .ac-site-icon width
-          6; // .ac-site-icon margin-inline-end
-        let actualVal = Math.round(val) - paddingInCSS;
-        this.style.setProperty(varName, actualVal + "px");
-      } else {
-        this.style.removeProperty(varName);
-      }
-      for (let item of this.richlistbox.childNodes) {
-        item.handleOverUnderflow();
-      }
-    }
-    return val;
-  }
-
-  get siteIconStart() {
-    return this._siteIconStart;
-  }
-
   get overflowPadding() {
     return Number(this.getAttribute("overflowpadding"));
   }
