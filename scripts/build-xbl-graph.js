@@ -2,6 +2,7 @@
 var fs = require('fs');
 var {getParsedFiles} = require('./xbl-files');
 var {allSortedBindings} = require('./sorted-bindings');
+var moment = require("moment");
 var prettier = require("prettier");
 var data = {};
 
@@ -44,15 +45,28 @@ function mapToObj(map) {
   return obj;
 }
 
-let revs = [
-  'master@{2017-07-01}',
-  'master@{2017-07-15}',
-  'master@{2017-08-01}',
-  'master@{2017-08-15}',
-  'master@{2017-09-01}',
-  'master@{2017-09-15}',
-  'master@{2017-10-01}',
-];
+// Build up an array like:
+// '2017-07-01',
+// '2017-07-15',
+// '2017-08-01',
+// ...
+let old = moment("2017-07-01");
+let now = moment();
+let revs = [];
+let addDays = false;
+while (old < now) {
+  if (addDays) {
+    old.add(14, 'days');
+    if (old < now) {
+      revs.push(old.format('YYYY-MM-DD'));
+    }
+    old.subtract(14, 'days').add(1, 'month');
+  } else {
+    revs.push(old.format('YYYY-MM-DD'));
+  }
+  addDays = !addDays;
+}
+revs = revs.map(r => `master@{${r}}`);
 
 Promise.all(
   revs.map(rev => {

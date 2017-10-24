@@ -11,6 +11,7 @@
   },
   "author": "",
   "dependencies": {
+    "moment": "^2.19.1",
     "prettier": "^1.4.4",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4",
