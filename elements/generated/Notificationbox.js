@@ -1,4 +1,4 @@
-class FirefoxNotificationbox extends BaseElement {
+class FirefoxNotificationbox extends XULElement {
   constructor() {
     super();
   }

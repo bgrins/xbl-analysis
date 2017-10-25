@@ -1,4 +1,4 @@
-class FirefoxGroupboxBase extends BaseElement {
+class FirefoxGroupboxBase extends XULElement {
   constructor() {
     super();
   }

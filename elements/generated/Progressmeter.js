@@ -1,4 +1,4 @@
-class FirefoxProgressmeter extends BaseElement {
+class FirefoxProgressmeter extends XULElement {
   constructor() {
     super();
   }

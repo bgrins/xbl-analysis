@@ -1,4 +1,4 @@
-class FirefoxDialogheader extends BaseElement {
+class FirefoxDialogheader extends XULElement {
   constructor() {
     super();
   }

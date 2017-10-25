@@ -1,4 +1,4 @@
-class FirefoxVideocontrols extends BaseElement {
+class FirefoxVideocontrols extends XULElement {
   constructor() {
     super();
   }

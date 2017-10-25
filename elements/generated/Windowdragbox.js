@@ -1,4 +1,4 @@
-class FirefoxWindowdragbox extends BaseElement {
+class FirefoxWindowdragbox extends XULElement {
   constructor() {
     super();
   }

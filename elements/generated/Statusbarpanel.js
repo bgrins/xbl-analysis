@@ -1,4 +1,4 @@
-class FirefoxStatusbarpanel extends BaseElement {
+class FirefoxStatusbarpanel extends XULElement {
   constructor() {
     super();
   }

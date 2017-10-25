@@ -1,4 +1,4 @@
-class FirefoxDropmarker extends BaseElement {
+class FirefoxDropmarker extends XULElement {
   constructor() {
     super();
   }

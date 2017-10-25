@@ -1,4 +1,4 @@
-class FirefoxScalethumb extends BaseElement {
+class FirefoxScalethumb extends XULElement {
   constructor() {
     super();
   }

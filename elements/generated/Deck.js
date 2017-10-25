@@ -1,4 +1,4 @@
-class FirefoxDeck extends BaseElement {
+class FirefoxDeck extends XULElement {
   constructor() {
     super();
   }

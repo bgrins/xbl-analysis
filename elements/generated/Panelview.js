@@ -1,4 +1,4 @@
-class FirefoxPanelview extends BaseElement {
+class FirefoxPanelview extends XULElement {
   constructor() {
     super();
   }

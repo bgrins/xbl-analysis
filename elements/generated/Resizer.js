@@ -1,4 +1,4 @@
-class FirefoxResizer extends BaseElement {
+class FirefoxResizer extends XULElement {
   constructor() {
     super();
   }

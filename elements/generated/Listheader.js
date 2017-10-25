@@ -1,4 +1,4 @@
-class FirefoxListheader extends BaseElement {
+class FirefoxListheader extends XULElement {
   constructor() {
     super();
   }

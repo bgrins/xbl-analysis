@@ -1,4 +1,4 @@
-class FirefoxGrippy extends BaseElement {
+class FirefoxGrippy extends XULElement {
   constructor() {
     super();
   }

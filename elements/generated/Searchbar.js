@@ -1,4 +1,4 @@
-class FirefoxSearchbar extends BaseElement {
+class FirefoxSearchbar extends XULElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class FirefoxTabbrowser extends BaseElement {
+class FirefoxTabbrowser extends XULElement {
   constructor() {
     super();
   }

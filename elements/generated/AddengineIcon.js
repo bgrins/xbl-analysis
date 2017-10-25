@@ -1,4 +1,4 @@
-class FirefoxAddengineIcon extends BaseElement {
+class FirefoxAddengineIcon extends XULElement {
   constructor() {
     super();
   }

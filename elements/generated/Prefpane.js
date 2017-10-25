@@ -1,4 +1,4 @@
-class FirefoxPrefpane extends BaseElement {
+class FirefoxPrefpane extends XULElement {
   constructor() {
     super();
   }

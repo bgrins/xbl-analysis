@@ -1,4 +1,4 @@
-class FirefoxToolbarMenubarStub extends BaseElement {
+class FirefoxToolbarMenubarStub extends XULElement {
   constructor() {
     super();
   }

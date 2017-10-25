@@ -1,4 +1,4 @@
-class FirefoxImage extends BaseElement {
+class FirefoxImage extends XULElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class FirefoxStringbundle extends BaseElement {
+class FirefoxStringbundle extends XULElement {
   constructor() {
     super();
   }

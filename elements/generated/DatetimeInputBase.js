@@ -1,4 +1,4 @@
-class FirefoxDatetimeInputBase extends BaseElement {
+class FirefoxDatetimeInputBase extends XULElement {
   constructor() {
     super();
   }

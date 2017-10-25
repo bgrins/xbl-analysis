@@ -1,4 +1,4 @@
-class FirefoxSplitter extends BaseElement {
+class FirefoxSplitter extends XULElement {
   constructor() {
     super();
   }

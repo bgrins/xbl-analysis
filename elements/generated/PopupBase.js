@@ -1,4 +1,4 @@
-class FirefoxPopupBase extends BaseElement {
+class FirefoxPopupBase extends XULElement {
   constructor() {
     super();
   }

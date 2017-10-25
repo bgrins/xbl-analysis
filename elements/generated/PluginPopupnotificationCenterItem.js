@@ -1,4 +1,4 @@
-class FirefoxPluginPopupnotificationCenterItem extends BaseElement {
+class FirefoxPluginPopupnotificationCenterItem extends XULElement {
   constructor() {
     super();
   }

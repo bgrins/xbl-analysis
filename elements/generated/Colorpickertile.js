@@ -1,4 +1,4 @@
-class FirefoxColorpickertile extends BaseElement {
+class FirefoxColorpickertile extends XULElement {
   constructor() {
     super();
   }

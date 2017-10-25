@@ -1,4 +1,4 @@
-class FirefoxScrollbarBase extends BaseElement {
+class FirefoxScrollbarBase extends XULElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class FirefoxToolbarBase extends BaseElement {
+class FirefoxToolbarBase extends XULElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class FirefoxThumb extends BaseElement {
+class FirefoxThumb extends XULElement {
   constructor() {
     super();
   }

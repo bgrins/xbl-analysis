@@ -1,4 +1,4 @@
-class FirefoxIframe extends BaseElement {
+class FirefoxIframe extends XULElement {
   constructor() {
     super();
   }

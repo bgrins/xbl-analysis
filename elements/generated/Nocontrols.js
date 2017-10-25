@@ -1,4 +1,4 @@
-class FirefoxNocontrols extends BaseElement {
+class FirefoxNocontrols extends XULElement {
   constructor() {
     super();
   }

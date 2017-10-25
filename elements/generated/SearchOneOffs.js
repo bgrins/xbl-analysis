@@ -1,4 +1,4 @@
-class FirefoxSearchOneOffs extends BaseElement {
+class FirefoxSearchOneOffs extends XULElement {
   constructor() {
     super();
   }

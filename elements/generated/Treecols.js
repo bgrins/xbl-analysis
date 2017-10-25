@@ -1,4 +1,4 @@
-class FirefoxTreecols extends BaseElement {
+class FirefoxTreecols extends XULElement {
   constructor() {
     super();
   }

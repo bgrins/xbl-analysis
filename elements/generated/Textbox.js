@@ -1,4 +1,4 @@
-class FirefoxTextbox extends BaseElement {
+class FirefoxTextbox extends XULElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class FirefoxContainer extends BaseElement {
+class FirefoxContainer extends XULElement {
   constructor() {
     super();
   }

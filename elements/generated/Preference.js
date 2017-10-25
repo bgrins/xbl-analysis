@@ -1,4 +1,4 @@
-class FirefoxPreference extends BaseElement {
+class FirefoxPreference extends XULElement {
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-class FirefoxListrows extends BaseElement {
+class FirefoxListrows extends XULElement {
   constructor() {
     super();
   }

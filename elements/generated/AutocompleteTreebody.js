@@ -1,4 +1,4 @@
-class FirefoxAutocompleteTreebody extends BaseElement {
+class FirefoxAutocompleteTreebody extends XULElement {
   constructor() {
     super();
   }

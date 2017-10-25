@@ -19,7 +19,7 @@ function getJSForBinding(binding) {
   if (hasExtends) {
     js.push(`extends Firefox${formatExtends(binding.attrs.extends)} `);
   } else {
-    js.push(`extends BaseElement `);
+    js.push(`extends XULElement `);
   }
 
   js.push('{')
