@@ -3,18 +3,16 @@ class FirefoxExpander extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<xul:hbox align="center">
-<xul:button type="disclosure" class="expanderButton" anonid="disclosure" inherits="disabled" mousethrough="always">
-</xul:button>
-<xul:label class="header expanderButton" anonid="label" inherits="value=label,disabled" mousethrough="always" flex="1">
-</xul:label>
-<xul:button anonid="clear-button" inherits="label=clearlabel,disabled=cleardisabled,hidden=clearhidden" mousethrough="always" icon="clear">
-</xul:button>
-</xul:hbox>
-<xul:vbox flex="1" anonid="settings" class="settingsContainer" collapsed="true" inherits="align">
-<children>
-</children>
-</xul:vbox>`;
+    this.innerHTML = `
+      <xul:hbox align="center">
+        <xul:button type="disclosure" class="expanderButton" anonid="disclosure" inherits="disabled" mousethrough="always"></xul:button>
+        <xul:label class="header expanderButton" anonid="label" inherits="value=label,disabled" mousethrough="always" flex="1"></xul:label>
+        <xul:button anonid="clear-button" inherits="label=clearlabel,disabled=cleardisabled,hidden=clearhidden" mousethrough="always" icon="clear"></xul:button>
+      </xul:hbox>
+      <xul:vbox flex="1" anonid="settings" class="settingsContainer" collapsed="true" inherits="align">
+        <children></children>
+      </xul:vbox>
+    `;
 
     var settings = document.getAnonymousElementByAttribute(
       this,

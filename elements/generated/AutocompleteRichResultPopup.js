@@ -4,12 +4,12 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1">
-</xul:richlistbox>
-<xul:hbox>
-<children>
-</children>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></xul:richlistbox>
+      <xul:hbox>
+        <children></children>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "_currentIndex", {
       configurable: true,
       enumerable: true,

@@ -4,14 +4,13 @@ class FirefoxFilefield extends FirefoxBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:stringbundle anonid="bundle" src="chrome://global/locale/filefield.properties">
-</xul:stringbundle>
-<xul:hbox class="fileFieldContentBox" align="center" flex="1" inherits="disabled">
-<xul:image class="fileFieldIcon" inherits="src=image,disabled">
-</xul:image>
-<xul:textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true">
-</xul:textbox>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:stringbundle anonid="bundle" src="chrome://global/locale/filefield.properties"></xul:stringbundle>
+      <xul:hbox class="fileFieldContentBox" align="center" flex="1" inherits="disabled">
+        <xul:image class="fileFieldIcon" inherits="src=image,disabled"></xul:image>
+        <xul:textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true"></xul:textbox>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "_file", {
       configurable: true,
       enumerable: true,

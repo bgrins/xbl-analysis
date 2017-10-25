@@ -4,38 +4,33 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type">
-</xul:image>
-<xul:image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type">
-</xul:image>
-<xul:hbox class="ac-title" align="center" inherits="selected">
-<xul:description class="ac-text-overflow-container">
-<xul:description anonid="title-text" class="ac-title-text" inherits="selected">
-</xul:description>
-</xul:description>
-</xul:hbox>
-<xul:hbox anonid="tags" class="ac-tags" align="center" inherits="selected">
-<xul:description class="ac-text-overflow-container">
-<xul:description anonid="tags-text" class="ac-tags-text" inherits="selected">
-</xul:description>
-</xul:description>
-</xul:hbox>
-<xul:hbox anonid="separator" class="ac-separator" align="center" inherits="selected,actiontype,type">
-<xul:description class="ac-separator-text">
-</xul:description>
-</xul:hbox>
-<xul:hbox class="ac-url" align="center" inherits="selected,actiontype">
-<xul:description class="ac-text-overflow-container">
-<xul:description anonid="url-text" class="ac-url-text" inherits="selected">
-</xul:description>
-</xul:description>
-</xul:hbox>
-<xul:hbox class="ac-action" align="center" inherits="selected,actiontype">
-<xul:description class="ac-text-overflow-container">
-<xul:description anonid="action-text" class="ac-action-text" inherits="selected">
-</xul:description>
-</xul:description>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type"></xul:image>
+      <xul:image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type"></xul:image>
+      <xul:hbox class="ac-title" align="center" inherits="selected">
+        <xul:description class="ac-text-overflow-container">
+          <xul:description anonid="title-text" class="ac-title-text" inherits="selected"></xul:description>
+        </xul:description>
+      </xul:hbox>
+      <xul:hbox anonid="tags" class="ac-tags" align="center" inherits="selected">
+        <xul:description class="ac-text-overflow-container">
+          <xul:description anonid="tags-text" class="ac-tags-text" inherits="selected"></xul:description>
+        </xul:description>
+      </xul:hbox>
+      <xul:hbox anonid="separator" class="ac-separator" align="center" inherits="selected,actiontype,type">
+        <xul:description class="ac-separator-text"></xul:description>
+      </xul:hbox>
+      <xul:hbox class="ac-url" align="center" inherits="selected,actiontype">
+        <xul:description class="ac-text-overflow-container">
+          <xul:description anonid="url-text" class="ac-url-text" inherits="selected"></xul:description>
+        </xul:description>
+      </xul:hbox>
+      <xul:hbox class="ac-action" align="center" inherits="selected,actiontype">
+        <xul:description class="ac-text-overflow-container">
+          <xul:description anonid="action-text" class="ac-action-text" inherits="selected"></xul:description>
+        </xul:description>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "_boundaryCutoff", {
       configurable: true,
       enumerable: true,

@@ -4,22 +4,19 @@ class FirefoxTree extends FirefoxTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<children includes="treecols">
-</children>
-<xul:stack class="tree-stack" flex="1">
-<xul:treerows class="tree-rows" flex="1" inherits="hidevscroll">
-<children>
-</children>
-</xul:treerows>
-<xul:textbox anonid="input" class="tree-input" left="0" top="0" hidden="true">
-</xul:textbox>
-</xul:stack>
-<xul:hbox inherits="collapsed=hidehscroll">
-<xul:scrollbar orient="horizontal" flex="1" increment="16" style="position:relative; z-index:2147483647;">
-</xul:scrollbar>
-<xul:scrollcorner inherits="collapsed=hidevscroll">
-</xul:scrollcorner>
-</xul:hbox>`;
+    this.innerHTML = `
+      <children includes="treecols"></children>
+      <xul:stack class="tree-stack" flex="1">
+        <xul:treerows class="tree-rows" flex="1" inherits="hidevscroll">
+          <children></children>
+        </xul:treerows>
+        <xul:textbox anonid="input" class="tree-input" left="0" top="0" hidden="true"></xul:textbox>
+      </xul:stack>
+      <xul:hbox inherits="collapsed=hidehscroll">
+        <xul:scrollbar orient="horizontal" flex="1" increment="16" style="position:relative; z-index:2147483647;"></xul:scrollbar>
+        <xul:scrollcorner inherits="collapsed=hidevscroll"></xul:scrollcorner>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "pageUpOrDownMovesSelection", {
       configurable: true,
       enumerable: true,

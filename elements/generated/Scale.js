@@ -4,10 +4,11 @@ class FirefoxScale extends FirefoxBasecontrol {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:slider anonid="slider" class="scale-slider" snap="true" flex="1" inherits="disabled,orient,dir,curpos=value,minpos=min,maxpos=max,increment,pageincrement,movetoclick">
-<xul:thumb class="scale-thumb" inherits="disabled,orient">
-</xul:thumb>
-</xul:slider>`;
+    this.innerHTML = `
+      <xul:slider anonid="slider" class="scale-slider" snap="true" flex="1" inherits="disabled,orient,dir,curpos=value,minpos=min,maxpos=max,increment,pageincrement,movetoclick">
+        <xul:thumb class="scale-thumb" inherits="disabled,orient"></xul:thumb>
+      </xul:slider>
+    `;
 
     this._userChanged = false;
     var value = parseInt(this.getAttribute("value"), 10);

@@ -8753,27 +8753,24 @@
   if (content.length > 1) {
     throw "Unexpected second content field";
   } else if (content.length === 1) {
-    function printChild(child) {
+    function printChild(child, depth) {
       let attrs = '';
       for (var attr in child.attrs) {
         attrs += ' ' + attr.replace('xbl:', '') + '="' + child.attrs[attr].replace('"', '\"').replace(/xbl\:/g, '') + '"';
       }
-      let name = child.name === "label" ? 'firefox-text-label' : child.name;
-      childMarkup.push(`<${name}${attrs}>`);
-      child.children.forEach(printChild);
-      childMarkup.push(`</${name}>`);
+      let padding = (new Array(depth + 3)).join("  ");
+      childMarkup.push(`\n${padding}<${child.name}${attrs}>`);
+      child.children.forEach(c => printChild(c, depth+1));
+      let closePadding = child.children.length ? `\n${padding}` : '';
+      childMarkup.push(`${closePadding}</${child.name}>`);
     }
-    content[0].children.forEach(printChild);
+    content[0].children.forEach(c => printChild(c, 1));
   } else {
     console.log("No content for binding", binding.attrs.id);
   }
 
-  if (binding.attrs.id == "checkbox-baseline") {
-    childMarkup.unshift("<input type='checkbox' />")
-  }
-
-  var innerHTML = content.length ?
-        "this.innerHTML = `" + childMarkup.join('\n') + "`;" :
+  let innerHTML = content.length ?
+        "this.innerHTML = `" + childMarkup.join('') + "\n    `;" :
         "";
 
   let xblconstructor = (binding.find("constructor") || [])[0];

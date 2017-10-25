@@ -4,20 +4,19 @@ class FirefoxListbox extends FirefoxListboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<children includes="listcols">
-<xul:listcols>
-<xul:listcol flex="1">
-</xul:listcol>
-</xul:listcols>
-</children>
-<xul:listrows>
-<children includes="listhead">
-</children>
-<xul:listboxbody inherits="rows,size,minheight">
-<children includes="listitem">
-</children>
-</xul:listboxbody>
-</xul:listrows>`;
+    this.innerHTML = `
+      <children includes="listcols">
+        <xul:listcols>
+          <xul:listcol flex="1"></xul:listcol>
+        </xul:listcols>
+      </children>
+      <xul:listrows>
+        <children includes="listhead"></children>
+        <xul:listboxbody inherits="rows,size,minheight">
+          <children includes="listitem"></children>
+        </xul:listboxbody>
+      </xul:listrows>
+    `;
     Object.defineProperty(this, "_touchY", {
       configurable: true,
       enumerable: true,

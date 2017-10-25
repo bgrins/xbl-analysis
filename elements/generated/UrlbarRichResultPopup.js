@@ -4,34 +4,28 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
-<xul:hbox flex="1" align="center" anonid="search-suggestions-opt-out">
-<xul:image class="ac-site-icon" type="searchengine">
-</xul:image>
-<xul:hbox anonid="search-suggestions-hint-typing">
-<xul:description class="ac-title-text">
-</xul:description>
-</xul:hbox>
-<xul:hbox anonid="search-suggestions-hint-box" flex="1">
-<xul:description id="search-suggestions-hint">
-<html:span class="prefix">
-</html:span>
-<html:span>
-</html:span>
-</xul:description>
-</xul:hbox>
-<xul:label id="search-suggestions-change-settings" class="text-link" role="link" value="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin" accesskey="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin-accesskey" onclick="openPreferences('paneSearch');" control="search-suggestions-change-settings">
-</xul:label>
-</xul:hbox>
-</xul:deck>
-<xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1">
-</xul:richlistbox>
-<xul:hbox anonid="footer">
-<children>
-</children>
-<xul:vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1">
-</xul:vbox>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
+        <xul:hbox flex="1" align="center" anonid="search-suggestions-opt-out">
+          <xul:image class="ac-site-icon" type="searchengine"></xul:image>
+          <xul:hbox anonid="search-suggestions-hint-typing">
+            <xul:description class="ac-title-text"></xul:description>
+          </xul:hbox>
+          <xul:hbox anonid="search-suggestions-hint-box" flex="1">
+            <xul:description id="search-suggestions-hint">
+              <html:span class="prefix"></html:span>
+              <html:span></html:span>
+            </xul:description>
+          </xul:hbox>
+          <xul:label id="search-suggestions-change-settings" class="text-link" role="link" value="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin" accesskey="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin-accesskey" onclick="openPreferences('paneSearch');" control="search-suggestions-change-settings"></xul:label>
+        </xul:hbox>
+      </xul:deck>
+      <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></xul:richlistbox>
+      <xul:hbox anonid="footer">
+        <children></children>
+        <xul:vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></xul:vbox>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "DOMWindowUtils", {
       configurable: true,
       enumerable: true,

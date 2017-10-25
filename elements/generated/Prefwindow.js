@@ -4,36 +4,28 @@ class FirefoxPrefwindow extends FirefoxDialog {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:windowdragbox orient="vertical">
-<xul:radiogroup anonid="selector" orient="horizontal" class="paneSelector chromeclass-toolbar" role="listbox">
-</xul:radiogroup>
-</xul:windowdragbox>
-<xul:hbox flex="1" class="paneDeckContainer">
-<xul:deck anonid="paneDeck" flex="1">
-<children includes="prefpane">
-</children>
-</xul:deck>
-</xul:hbox>
-<xul:hbox anonid="dlg-buttons" class="prefWindow-dlgbuttons" pack="end">
-<xul:button dlgtype="extra2" class="dialog-button" hidden="true">
-</xul:button>
-<xul:spacer anonid="spacer" flex="1">
-</xul:spacer>
-<xul:button dlgtype="accept" class="dialog-button" icon="accept">
-</xul:button>
-<xul:button dlgtype="extra1" class="dialog-button" hidden="true">
-</xul:button>
-<xul:button dlgtype="cancel" class="dialog-button" icon="cancel">
-</xul:button>
-<xul:button dlgtype="help" class="dialog-button" hidden="true" icon="help">
-</xul:button>
-<xul:button dlgtype="disclosure" class="dialog-button" hidden="true">
-</xul:button>
-</xul:hbox>
-<xul:hbox>
-<children>
-</children>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:windowdragbox orient="vertical">
+        <xul:radiogroup anonid="selector" orient="horizontal" class="paneSelector chromeclass-toolbar" role="listbox"></xul:radiogroup>
+      </xul:windowdragbox>
+      <xul:hbox flex="1" class="paneDeckContainer">
+        <xul:deck anonid="paneDeck" flex="1">
+          <children includes="prefpane"></children>
+        </xul:deck>
+      </xul:hbox>
+      <xul:hbox anonid="dlg-buttons" class="prefWindow-dlgbuttons" pack="end">
+        <xul:button dlgtype="extra2" class="dialog-button" hidden="true"></xul:button>
+        <xul:spacer anonid="spacer" flex="1"></xul:spacer>
+        <xul:button dlgtype="accept" class="dialog-button" icon="accept"></xul:button>
+        <xul:button dlgtype="extra1" class="dialog-button" hidden="true"></xul:button>
+        <xul:button dlgtype="cancel" class="dialog-button" icon="cancel"></xul:button>
+        <xul:button dlgtype="help" class="dialog-button" hidden="true" icon="help"></xul:button>
+        <xul:button dlgtype="disclosure" class="dialog-button" hidden="true"></xul:button>
+      </xul:hbox>
+      <xul:hbox>
+        <children></children>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "_instantApplyInitialized", {
       configurable: true,
       enumerable: true,

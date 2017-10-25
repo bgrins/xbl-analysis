@@ -4,15 +4,13 @@ class FirefoxCheckboxBaseline extends FirefoxBasetext {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<input type='checkbox' />
-<xul:image class="checkbox-check" inherits="checked,disabled">
-</xul:image>
-<xul:hbox class="checkbox-label-box" flex="1">
-<xul:image class="checkbox-icon" inherits="src">
-</xul:image>
-<xul:label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1">
-</xul:label>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:image class="checkbox-check" inherits="checked,disabled"></xul:image>
+      <xul:hbox class="checkbox-label-box" flex="1">
+        <xul:image class="checkbox-icon" inherits="src"></xul:image>
+        <xul:label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1"></xul:label>
+      </xul:hbox>
+    `;
 
     this.addEventListener("click", event => {
       if (!this.disabled) this.checked = !this.checked;

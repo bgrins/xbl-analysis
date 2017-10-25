@@ -4,18 +4,15 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:autorepeatbutton class="autorepeatbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" oncommand="_autorepeatbuttonScroll(event);">
-</xul:autorepeatbutton>
-<xul:spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart">
-</xul:spacer>
-<xul:scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
-<children>
-</children>
-</xul:scrollbox>
-<xul:spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend">
-</xul:spacer>
-<xul:autorepeatbutton class="autorepeatbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" oncommand="_autorepeatbuttonScroll(event);">
-</xul:autorepeatbutton>`;
+    this.innerHTML = `
+      <xul:autorepeatbutton class="autorepeatbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" oncommand="_autorepeatbuttonScroll(event);"></xul:autorepeatbutton>
+      <xul:spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></xul:spacer>
+      <xul:scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
+        <children></children>
+      </xul:scrollbox>
+      <xul:spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></xul:spacer>
+      <xul:autorepeatbutton class="autorepeatbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" oncommand="_autorepeatbuttonScroll(event);"></xul:autorepeatbutton>
+    `;
     Object.defineProperty(this, "_scrollbox", {
       configurable: true,
       enumerable: true,

@@ -4,8 +4,9 @@ class FirefoxRichlistitem extends FirefoxListitem {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<children>
-</children>`;
+    this.innerHTML = `
+      <children></children>
+    `;
     Object.defineProperty(this, "selectedByMouseOver", {
       configurable: true,
       enumerable: true,

@@ -4,46 +4,32 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<children>
-</children>
-<xul:menupopup anonid="input-box-contextmenu" class="textbox-contextmenu" onpopupshowing="var input =
+    this.innerHTML = `
+      <children></children>
+      <xul:menupopup anonid="input-box-contextmenu" class="textbox-contextmenu" onpopupshowing="var input =
                                        this.parentNode.getElementsByAttribute('anonid', 'input')[0];
                                      if (document.commandDispatcher.focusedElement != input)
                                        input.focus();
                                      this.parentNode._doPopupItemEnablingSpell(this);" onpopuphiding="this.parentNode._doPopupItemDisabling(this);" oncommand="var cmd = event.originalTarget.getAttribute('cmd'); if(cmd) { this.parentNode.doCommand(cmd); event.stopPropagation(); }">
-<xul:menuitem label="FROM-DTD-spellNoSuggestions-label" anonid="spell-no-suggestions" disabled="true">
-</xul:menuitem>
-<xul:menuitem label="FROM-DTD-spellAddToDictionary-label" accesskey="FROM-DTD-spellAddToDictionary-accesskey" anonid="spell-add-to-dictionary" oncommand="this.parentNode.parentNode.spellCheckerUI.addToDictionary();">
-</xul:menuitem>
-<xul:menuitem label="FROM-DTD-spellUndoAddToDictionary-label" accesskey="FROM-DTD-spellUndoAddToDictionary-accesskey" anonid="spell-undo-add-to-dictionary" oncommand="this.parentNode.parentNode.spellCheckerUI.undoAddToDictionary();">
-</xul:menuitem>
-<xul:menuseparator anonid="spell-suggestions-separator">
-</xul:menuseparator>
-<xul:menuitem label="FROM-DTD-undoCmd-label" accesskey="FROM-DTD-undoCmd-accesskey" cmd="cmd_undo">
-</xul:menuitem>
-<xul:menuseparator>
-</xul:menuseparator>
-<xul:menuitem label="FROM-DTD-cutCmd-label" accesskey="FROM-DTD-cutCmd-accesskey" cmd="cmd_cut">
-</xul:menuitem>
-<xul:menuitem label="FROM-DTD-copyCmd-label" accesskey="FROM-DTD-copyCmd-accesskey" cmd="cmd_copy">
-</xul:menuitem>
-<xul:menuitem label="FROM-DTD-pasteCmd-label" accesskey="FROM-DTD-pasteCmd-accesskey" cmd="cmd_paste">
-</xul:menuitem>
-<xul:menuitem label="FROM-DTD-deleteCmd-label" accesskey="FROM-DTD-deleteCmd-accesskey" cmd="cmd_delete">
-</xul:menuitem>
-<xul:menuseparator>
-</xul:menuseparator>
-<xul:menuitem label="FROM-DTD-selectAllCmd-label" accesskey="FROM-DTD-selectAllCmd-accesskey" cmd="cmd_selectAll">
-</xul:menuitem>
-<xul:menuseparator anonid="spell-check-separator">
-</xul:menuseparator>
-<xul:menuitem label="FROM-DTD-spellCheckToggle-label" type="checkbox" accesskey="FROM-DTD-spellCheckToggle-accesskey" anonid="spell-check-enabled" oncommand="this.parentNode.parentNode.spellCheckerUI.toggleEnabled();">
-</xul:menuitem>
-<xul:menu label="FROM-DTD-spellDictionaries-label" accesskey="FROM-DTD-spellDictionaries-accesskey" anonid="spell-dictionaries">
-<xul:menupopup anonid="spell-dictionaries-menu" onpopupshowing="event.stopPropagation();" onpopuphiding="event.stopPropagation();">
-</xul:menupopup>
-</xul:menu>
-</xul:menupopup>`;
+        <xul:menuitem label="FROM-DTD-spellNoSuggestions-label" anonid="spell-no-suggestions" disabled="true"></xul:menuitem>
+        <xul:menuitem label="FROM-DTD-spellAddToDictionary-label" accesskey="FROM-DTD-spellAddToDictionary-accesskey" anonid="spell-add-to-dictionary" oncommand="this.parentNode.parentNode.spellCheckerUI.addToDictionary();"></xul:menuitem>
+        <xul:menuitem label="FROM-DTD-spellUndoAddToDictionary-label" accesskey="FROM-DTD-spellUndoAddToDictionary-accesskey" anonid="spell-undo-add-to-dictionary" oncommand="this.parentNode.parentNode.spellCheckerUI.undoAddToDictionary();"></xul:menuitem>
+        <xul:menuseparator anonid="spell-suggestions-separator"></xul:menuseparator>
+        <xul:menuitem label="FROM-DTD-undoCmd-label" accesskey="FROM-DTD-undoCmd-accesskey" cmd="cmd_undo"></xul:menuitem>
+        <xul:menuseparator></xul:menuseparator>
+        <xul:menuitem label="FROM-DTD-cutCmd-label" accesskey="FROM-DTD-cutCmd-accesskey" cmd="cmd_cut"></xul:menuitem>
+        <xul:menuitem label="FROM-DTD-copyCmd-label" accesskey="FROM-DTD-copyCmd-accesskey" cmd="cmd_copy"></xul:menuitem>
+        <xul:menuitem label="FROM-DTD-pasteCmd-label" accesskey="FROM-DTD-pasteCmd-accesskey" cmd="cmd_paste"></xul:menuitem>
+        <xul:menuitem label="FROM-DTD-deleteCmd-label" accesskey="FROM-DTD-deleteCmd-accesskey" cmd="cmd_delete"></xul:menuitem>
+        <xul:menuseparator></xul:menuseparator>
+        <xul:menuitem label="FROM-DTD-selectAllCmd-label" accesskey="FROM-DTD-selectAllCmd-accesskey" cmd="cmd_selectAll"></xul:menuitem>
+        <xul:menuseparator anonid="spell-check-separator"></xul:menuseparator>
+        <xul:menuitem label="FROM-DTD-spellCheckToggle-label" type="checkbox" accesskey="FROM-DTD-spellCheckToggle-accesskey" anonid="spell-check-enabled" oncommand="this.parentNode.parentNode.spellCheckerUI.toggleEnabled();"></xul:menuitem>
+        <xul:menu label="FROM-DTD-spellDictionaries-label" accesskey="FROM-DTD-spellDictionaries-accesskey" anonid="spell-dictionaries">
+          <xul:menupopup anonid="spell-dictionaries-menu" onpopupshowing="event.stopPropagation();" onpopuphiding="event.stopPropagation();"></xul:menupopup>
+        </xul:menu>
+      </xul:menupopup>
+    `;
     Object.defineProperty(this, "_spellCheckInitialized", {
       configurable: true,
       enumerable: true,

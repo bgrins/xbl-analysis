@@ -3,12 +3,13 @@ class FirefoxNocontrols extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<vbox flex="1" class="statusOverlay" hidden="true">
-<box flex="1">
-<box class="clickToPlay" flex="1">
-</box>
-</box>
-</vbox>`;
+    this.innerHTML = `
+      <vbox flex="1" class="statusOverlay" hidden="true">
+        <box flex="1">
+          <box class="clickToPlay" flex="1"></box>
+        </box>
+      </vbox>
+    `;
 
     this.randomID = 0;
     this.Utils = {

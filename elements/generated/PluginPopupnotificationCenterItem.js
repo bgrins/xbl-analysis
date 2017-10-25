@@ -3,30 +3,25 @@ class FirefoxPluginPopupnotificationCenterItem extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<xul:vbox pack="center" anonid="itemBox" class="itemBox">
-<xul:description anonid="center-item-label" class="center-item-label">
-</xul:description>
-<xul:hbox flex="1" pack="start" align="center" anonid="center-item-warning">
-<xul:image anonid="center-item-warning-icon" class="center-item-warning-icon">
-</xul:image>
-<xul:label anonid="center-item-warning-label">
-</xul:label>
-<xul:label anonid="center-item-link" value="FROM-DTD-checkForUpdates" class="text-link">
-</xul:label>
-</xul:hbox>
-</xul:vbox>
-<xul:vbox pack="center">
-<xul:menulist class="center-item-menulist" anonid="center-item-menulist">
-<xul:menupopup>
-<xul:menuitem anonid="allownow" value="allownow" label="FROM-DTD-pluginActivateNow-label">
-</xul:menuitem>
-<xul:menuitem anonid="allowalways" value="allowalways" label="FROM-DTD-pluginActivateAlways-label">
-</xul:menuitem>
-<xul:menuitem anonid="block" value="block" label="FROM-DTD-pluginBlockNow-label">
-</xul:menuitem>
-</xul:menupopup>
-</xul:menulist>
-</xul:vbox>`;
+    this.innerHTML = `
+      <xul:vbox pack="center" anonid="itemBox" class="itemBox">
+        <xul:description anonid="center-item-label" class="center-item-label"></xul:description>
+        <xul:hbox flex="1" pack="start" align="center" anonid="center-item-warning">
+          <xul:image anonid="center-item-warning-icon" class="center-item-warning-icon"></xul:image>
+          <xul:label anonid="center-item-warning-label"></xul:label>
+          <xul:label anonid="center-item-link" value="FROM-DTD-checkForUpdates" class="text-link"></xul:label>
+        </xul:hbox>
+      </xul:vbox>
+      <xul:vbox pack="center">
+        <xul:menulist class="center-item-menulist" anonid="center-item-menulist">
+          <xul:menupopup>
+            <xul:menuitem anonid="allownow" value="allownow" label="FROM-DTD-pluginActivateNow-label"></xul:menuitem>
+            <xul:menuitem anonid="allowalways" value="allowalways" label="FROM-DTD-pluginActivateAlways-label"></xul:menuitem>
+            <xul:menuitem anonid="block" value="block" label="FROM-DTD-pluginBlockNow-label"></xul:menuitem>
+          </xul:menupopup>
+        </xul:menulist>
+      </xul:vbox>
+    `;
 
     document.getAnonymousElementByAttribute(
       this,

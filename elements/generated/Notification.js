@@ -3,20 +3,17 @@ class FirefoxNotification extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<xul:hbox class="notification-inner" flex="1" inherits="type">
-<xul:hbox anonid="details" align="center" flex="1" oncommand="this.parentNode.parentNode._doButtonCommand(event);">
-<xul:image anonid="messageImage" class="messageImage" inherits="src=image,type,value">
-</xul:image>
-<xul:description anonid="messageText" class="messageText" flex="1" inherits="text=label">
-</xul:description>
-<xul:spacer flex="1">
-</xul:spacer>
-<children>
-</children>
-</xul:hbox>
-<xul:toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).dismiss();">
-</xul:toolbarbutton>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:hbox class="notification-inner" flex="1" inherits="type">
+        <xul:hbox anonid="details" align="center" flex="1" oncommand="this.parentNode.parentNode._doButtonCommand(event);">
+          <xul:image anonid="messageImage" class="messageImage" inherits="src=image,type,value"></xul:image>
+          <xul:description anonid="messageText" class="messageText" flex="1" inherits="text=label"></xul:description>
+          <xul:spacer flex="1"></xul:spacer>
+          <children></children>
+        </xul:hbox>
+        <xul:toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).dismiss();"></xul:toolbarbutton>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "timeout", {
       configurable: true,
       enumerable: true,

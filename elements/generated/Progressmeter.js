@@ -3,10 +3,10 @@ class FirefoxProgressmeter extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<xul:spacer class="progress-bar" inherits="mode">
-</xul:spacer>
-<xul:spacer class="progress-remainder" inherits="mode">
-</xul:spacer>`;
+    this.innerHTML = `
+      <xul:spacer class="progress-bar" inherits="mode"></xul:spacer>
+      <xul:spacer class="progress-remainder" inherits="mode"></xul:spacer>
+    `;
   }
 
   set mode(val) {

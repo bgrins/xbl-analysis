@@ -3,10 +3,11 @@ class FirefoxPrefpane extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<xul:vbox class="content-box" inherits="flex">
-<children>
-</children>
-</xul:vbox>`;
+    this.innerHTML = `
+      <xul:vbox class="content-box" inherits="flex">
+        <children></children>
+      </xul:vbox>
+    `;
     Object.defineProperty(this, "_loaded", {
       configurable: true,
       enumerable: true,

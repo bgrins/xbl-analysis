@@ -4,10 +4,10 @@ class FirefoxStatusbarpanelMenuIconic extends FirefoxStatusbarpanel {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:image class="statusbarpanel-icon" inherits="src,src=image">
-</xul:image>
-<children>
-</children>`;
+    this.innerHTML = `
+      <xul:image class="statusbarpanel-icon" inherits="src,src=image"></xul:image>
+      <children></children>
+    `;
   }
 }
 customElements.define(

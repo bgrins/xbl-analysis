@@ -3,8 +3,9 @@ class FirefoxBrowser extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<children>
-</children>`;
+    this.innerHTML = `
+      <children></children>
+    `;
     Object.defineProperty(this, "_sameProcessAsFrameLoader", {
       configurable: true,
       enumerable: true,

@@ -4,44 +4,36 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:vbox flex="1" align="stretch" class="click-to-play-plugins-notification-main-box" inherits="popupid">
-<xul:hbox class="click-to-play-plugins-notification-description-box" flex="1" align="start">
-<xul:description class="click-to-play-plugins-outer-description" flex="1">
-<html:span anonid="click-to-play-plugins-notification-description">
-</html:span>
-<html:br>
-</html:br>
-<xul:label class="text-link click-to-play-plugins-notification-link popup-notification-learnmore-link" anonid="click-to-play-plugins-notification-link">
-</xul:label>
-</xul:description>
-</xul:hbox>
-<xul:grid anonid="click-to-play-plugins-notification-center-box" class="click-to-play-plugins-notification-center-box">
-<xul:columns>
-<xul:column flex="1">
-</xul:column>
-<xul:column>
-</xul:column>
-</xul:columns>
-<xul:rows>
-<children includes="row">
-</children>
-<xul:hbox pack="start" anonid="plugin-notification-showbox">
-<xul:button label="FROM-DTD-pluginNotification-showAll-label" accesskey="FROM-DTD-pluginNotification-showAll-accesskey" class="plugin-notification-showbutton" oncommand="document.getBindingParent(this)._setState(2)">
-</xul:button>
-</xul:hbox>
-</xul:rows>
-</xul:grid>
-<xul:hbox anonid="button-container" class="click-to-play-plugins-notification-button-container" pack="center" align="center">
-<xul:button anonid="primarybutton" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this)" flex="1">
-</xul:button>
-<xul:button anonid="secondarybutton" default="true" highlight="true" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this);" flex="1">
-</xul:button>
-</xul:hbox>
-<xul:box hidden="true">
-<children>
-</children>
-</xul:box>
-</xul:vbox>`;
+    this.innerHTML = `
+      <xul:vbox flex="1" align="stretch" class="click-to-play-plugins-notification-main-box" inherits="popupid">
+        <xul:hbox class="click-to-play-plugins-notification-description-box" flex="1" align="start">
+          <xul:description class="click-to-play-plugins-outer-description" flex="1">
+            <html:span anonid="click-to-play-plugins-notification-description"></html:span>
+            <html:br></html:br>
+            <xul:label class="text-link click-to-play-plugins-notification-link popup-notification-learnmore-link" anonid="click-to-play-plugins-notification-link"></xul:label>
+          </xul:description>
+        </xul:hbox>
+        <xul:grid anonid="click-to-play-plugins-notification-center-box" class="click-to-play-plugins-notification-center-box">
+          <xul:columns>
+            <xul:column flex="1"></xul:column>
+            <xul:column></xul:column>
+          </xul:columns>
+          <xul:rows>
+            <children includes="row"></children>
+            <xul:hbox pack="start" anonid="plugin-notification-showbox">
+              <xul:button label="FROM-DTD-pluginNotification-showAll-label" accesskey="FROM-DTD-pluginNotification-showAll-accesskey" class="plugin-notification-showbutton" oncommand="document.getBindingParent(this)._setState(2)"></xul:button>
+            </xul:hbox>
+          </xul:rows>
+        </xul:grid>
+        <xul:hbox anonid="button-container" class="click-to-play-plugins-notification-button-container" pack="center" align="center">
+          <xul:button anonid="primarybutton" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this)" flex="1"></xul:button>
+          <xul:button anonid="secondarybutton" default="true" highlight="true" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this);" flex="1"></xul:button>
+        </xul:hbox>
+        <xul:box hidden="true">
+          <children></children>
+        </xul:box>
+      </xul:vbox>
+    `;
     Object.defineProperty(this, "_states", {
       configurable: true,
       enumerable: true,

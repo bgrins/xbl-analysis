@@ -4,10 +4,11 @@ class FirefoxListitemCheckboxIconic extends FirefoxListitemCheckbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<children>
-<xul:listcell type="checkbox" class="listcell-iconic" inherits="label,image,crop,checked,disabled,flexlabel">
-</xul:listcell>
-</children>`;
+    this.innerHTML = `
+      <children>
+        <xul:listcell type="checkbox" class="listcell-iconic" inherits="label,image,crop,checked,disabled,flexlabel"></xul:listcell>
+      </children>
+    `;
   }
 }
 customElements.define(

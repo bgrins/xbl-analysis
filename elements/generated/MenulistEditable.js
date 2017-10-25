@@ -4,14 +4,13 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:hbox class="menulist-editable-box textbox-input-box" inherits="context,disabled,readonly,focused" flex="1">
-<html:input class="menulist-editable-input" anonid="input" allowevents="true" inherits="value=label,value,disabled,tabindex,readonly,placeholder">
-</html:input>
-</xul:hbox>
-<xul:dropmarker class="menulist-dropmarker" type="menu" inherits="open,disabled,parentfocused=focused">
-</xul:dropmarker>
-<children includes="menupopup">
-</children>`;
+    this.innerHTML = `
+      <xul:hbox class="menulist-editable-box textbox-input-box" inherits="context,disabled,readonly,focused" flex="1">
+        <html:input class="menulist-editable-input" anonid="input" allowevents="true" inherits="value=label,value,disabled,tabindex,readonly,placeholder"></html:input>
+      </xul:hbox>
+      <xul:dropmarker class="menulist-dropmarker" type="menu" inherits="open,disabled,parentfocused=focused"></xul:dropmarker>
+      <children includes="menupopup"></children>
+    `;
 
     this.addEventListener(
       "focus",

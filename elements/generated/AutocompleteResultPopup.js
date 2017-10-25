@@ -4,14 +4,14 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:tree anonid="tree" class="autocomplete-tree plain" hidecolumnpicker="true" flex="1" seltype="single">
-<xul:treecols anonid="treecols">
-<xul:treecol id="treecolAutoCompleteValue" class="autocomplete-treecol" flex="1" overflow="true">
-</xul:treecol>
-</xul:treecols>
-<xul:treechildren class="autocomplete-treebody">
-</xul:treechildren>
-</xul:tree>`;
+    this.innerHTML = `
+      <xul:tree anonid="tree" class="autocomplete-tree plain" hidecolumnpicker="true" flex="1" seltype="single">
+        <xul:treecols anonid="treecols">
+          <xul:treecol id="treecolAutoCompleteValue" class="autocomplete-treecol" flex="1" overflow="true"></xul:treecol>
+        </xul:treecols>
+        <xul:treechildren class="autocomplete-treebody"></xul:treechildren>
+      </xul:tree>
+    `;
     Object.defineProperty(this, "mShowCommentColumn", {
       configurable: true,
       enumerable: true,

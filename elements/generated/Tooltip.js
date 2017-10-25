@@ -4,10 +4,11 @@ class FirefoxTooltip extends FirefoxPopupBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<children>
-<xul:label class="tooltip-label" inherits="text=label" flex="1">
-</xul:label>
-</children>`;
+    this.innerHTML = `
+      <children>
+        <xul:label class="tooltip-label" inherits="text=label" flex="1"></xul:label>
+      </children>
+    `;
     Object.defineProperty(this, "_mouseOutCount", {
       configurable: true,
       enumerable: true,

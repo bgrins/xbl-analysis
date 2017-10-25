@@ -3,10 +3,11 @@ class FirefoxStatuspanel extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<xul:hbox class="statuspanel-inner">
-<xul:label class="statuspanel-label" role="status" aria-live="off" inherits="value=label,crop,mirror" flex="1" crop="end">
-</xul:label>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:hbox class="statuspanel-inner">
+        <xul:label class="statuspanel-label" role="status" aria-live="off" inherits="value=label,crop,mirror" flex="1" crop="end"></xul:label>
+      </xul:hbox>
+    `;
 
     window.addEventListener("resize", this);
   }

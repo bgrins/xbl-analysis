@@ -3,12 +3,12 @@ class FirefoxDatetimeInputBase extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly">
-<html:span class="datetime-input-edit-wrapper" anonid="edit-wrapper">
-</html:span>
-<html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled">
-</html:button>
-</html:div>`;
+    this.innerHTML = `
+      <html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly">
+        <html:span class="datetime-input-edit-wrapper" anonid="edit-wrapper"></html:span>
+        <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled"></html:button>
+      </html:div>
+    `;
 
     this.DEBUG = false;
     this.mInputElement = this.parentNode;

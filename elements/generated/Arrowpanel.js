@@ -4,16 +4,16 @@ class FirefoxArrowpanel extends FirefoxPanel {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
-<xul:box anonid="arrowbox" class="panel-arrowbox">
-<xul:image anonid="arrow" class="panel-arrow" inherits="side">
-</xul:image>
-</xul:box>
-<xul:box class="panel-arrowcontent" inherits="side,align,dir,orient,pack" flex="1">
-<children>
-</children>
-</xul:box>
-</xul:vbox>`;
+    this.innerHTML = `
+      <xul:vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
+        <xul:box anonid="arrowbox" class="panel-arrowbox">
+          <xul:image anonid="arrow" class="panel-arrow" inherits="side"></xul:image>
+        </xul:box>
+        <xul:box class="panel-arrowcontent" inherits="side,align,dir,orient,pack" flex="1">
+          <children></children>
+        </xul:box>
+      </xul:vbox>
+    `;
     Object.defineProperty(this, "_fadeTimer", {
       configurable: true,
       enumerable: true,

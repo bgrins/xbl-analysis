@@ -4,12 +4,12 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<div anonid="autofill-footer" class="autofill-item-box autofill-footer">
-<div anonid="autofill-warning" class="autofill-footer-row autofill-warning">
-</div>
-<div anonid="autofill-option-button" class="autofill-footer-row autofill-option-button">
-</div>
-</div>`;
+    this.innerHTML = `
+      <div anonid="autofill-footer" class="autofill-item-box autofill-footer">
+        <div anonid="autofill-warning" class="autofill-footer-row autofill-warning"></div>
+        <div anonid="autofill-option-button" class="autofill-footer-row autofill-option-button"></div>
+      </div>
+    `;
 
     this._itemBox = document.getAnonymousElementByAttribute(
       this,

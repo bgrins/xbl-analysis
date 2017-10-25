@@ -4,10 +4,10 @@ class FirefoxLabelControl extends FirefoxTextLabel {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<children>
-</children>
-<html:span anonid="accessKeyParens">
-</html:span>`;
+    this.innerHTML = `
+      <children></children>
+      <html:span anonid="accessKeyParens"></html:span>
+    `;
     Object.defineProperty(this, "mUnderlineAccesskey", {
       configurable: true,
       enumerable: true,

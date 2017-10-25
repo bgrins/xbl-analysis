@@ -4,14 +4,13 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:image class="tree-columnpicker-icon">
-</xul:image>
-<xul:menupopup anonid="popup">
-<xul:menuseparator anonid="menuseparator">
-</xul:menuseparator>
-<xul:menuitem anonid="menuitem" label="FROM-DTD-restoreColumnOrder-label">
-</xul:menuitem>
-</xul:menupopup>`;
+    this.innerHTML = `
+      <xul:image class="tree-columnpicker-icon"></xul:image>
+      <xul:menupopup anonid="popup">
+        <xul:menuseparator anonid="menuseparator"></xul:menuseparator>
+        <xul:menuitem anonid="menuitem" label="FROM-DTD-restoreColumnOrder-label"></xul:menuitem>
+      </xul:menupopup>
+    `;
 
     this.addEventListener("command", event => {
       if (event.originalTarget == this) {

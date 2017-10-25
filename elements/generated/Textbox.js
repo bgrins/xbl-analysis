@@ -3,12 +3,12 @@ class FirefoxTextbox extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<children>
-</children>
-<xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
-<html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck">
-</html:input>
-</xul:hbox>`;
+    this.innerHTML = `
+      <children></children>
+      <xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
+        <html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck"></html:input>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "crop", {
       configurable: true,
       enumerable: true,

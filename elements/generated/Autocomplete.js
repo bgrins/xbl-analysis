@@ -4,22 +4,18 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:hbox class="autocomplete-textbox-container" flex="1" inherits="focused">
-<children includes="image|deck|stack|box">
-</children>
-<xul:hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
-<children>
-</children>
-<html:input anonid="input" class="autocomplete-textbox textbox-input" allowevents="true" inherits="tooltiptext=inputtooltiptext,value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint">
-</html:input>
-</xul:hbox>
-<children includes="hbox">
-</children>
-</xul:hbox>
-<xul:popupset anonid="popupset" class="autocomplete-result-popupset">
-</xul:popupset>
-<children includes="toolbarbutton">
-</children>`;
+    this.innerHTML = `
+      <xul:hbox class="autocomplete-textbox-container" flex="1" inherits="focused">
+        <children includes="image|deck|stack|box"></children>
+        <xul:hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
+          <children></children>
+          <html:input anonid="input" class="autocomplete-textbox textbox-input" allowevents="true" inherits="tooltiptext=inputtooltiptext,value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
+        </xul:hbox>
+        <children includes="hbox"></children>
+      </xul:hbox>
+      <xul:popupset anonid="popupset" class="autocomplete-result-popupset"></xul:popupset>
+      <children includes="toolbarbutton"></children>
+    `;
     Object.defineProperty(this, "mController", {
       configurable: true,
       enumerable: true,

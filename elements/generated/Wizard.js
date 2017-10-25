@@ -4,16 +4,14 @@ class FirefoxWizard extends FirefoxRootElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:hbox class="wizard-header" anonid="Header">
-</xul:hbox>
-<xul:deck class="wizard-page-box" flex="1" anonid="Deck">
-<children includes="wizardpage">
-</children>
-</xul:deck>
-<children>
-</children>
-<xul:hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage">
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:hbox class="wizard-header" anonid="Header"></xul:hbox>
+      <xul:deck class="wizard-page-box" flex="1" anonid="Deck">
+        <children includes="wizardpage"></children>
+      </xul:deck>
+      <children></children>
+      <xul:hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage"></xul:hbox>
+    `;
     Object.defineProperty(this, "pageCount", {
       configurable: true,
       enumerable: true,

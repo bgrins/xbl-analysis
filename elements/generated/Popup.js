@@ -4,10 +4,11 @@ class FirefoxPopup extends FirefoxPopupBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
-<children>
-</children>
-</xul:arrowscrollbox>`;
+    this.innerHTML = `
+      <xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+        <children></children>
+      </xul:arrowscrollbox>
+    `;
     Object.defineProperty(this, "scrollBox", {
       configurable: true,
       enumerable: true,

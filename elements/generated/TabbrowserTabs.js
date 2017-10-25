@@ -4,24 +4,20 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:hbox class="tab-drop-indicator-box">
-<xul:image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true">
-</xul:image>
-</xul:hbox>
-<xul:arrowscrollbox anonid="arrowscrollbox" orient="horizontal" flex="1" style="min-width: 1px;" class="tabbrowser-arrowscrollbox">
-<children includes="tab">
-</children>
-<children>
-</children>
-<xul:toolbarbutton class="tabs-newtab-button toolbarbutton-1" anonid="tabs-newtab-button" command="cmd_newNavigatorTab" onclick="checkForMiddleClick(this, event);" tooltip="dynamic-shortcut-tooltip">
-</xul:toolbarbutton>
-<xul:hbox class="restore-tabs-button-wrapper" anonid="restore-tabs-button-wrapper">
-<xul:toolbarbutton anonid="restore-tabs-button" class="restore-tabs-button" onclick="SessionStore.restoreLastSession();">
-</xul:toolbarbutton>
-</xul:hbox>
-<xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;">
-</xul:spacer>
-</xul:arrowscrollbox>`;
+    this.innerHTML = `
+      <xul:hbox class="tab-drop-indicator-box">
+        <xul:image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true"></xul:image>
+      </xul:hbox>
+      <xul:arrowscrollbox anonid="arrowscrollbox" orient="horizontal" flex="1" style="min-width: 1px;" class="tabbrowser-arrowscrollbox">
+        <children includes="tab"></children>
+        <children></children>
+        <xul:toolbarbutton class="tabs-newtab-button toolbarbutton-1" anonid="tabs-newtab-button" command="cmd_newNavigatorTab" onclick="checkForMiddleClick(this, event);" tooltip="dynamic-shortcut-tooltip"></xul:toolbarbutton>
+        <xul:hbox class="restore-tabs-button-wrapper" anonid="restore-tabs-button-wrapper">
+          <xul:toolbarbutton anonid="restore-tabs-button" class="restore-tabs-button" onclick="SessionStore.restoreLastSession();"></xul:toolbarbutton>
+        </xul:hbox>
+        <xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;"></xul:spacer>
+      </xul:arrowscrollbox>
+    `;
     Object.defineProperty(this, "tabbrowser", {
       configurable: true,
       enumerable: true,

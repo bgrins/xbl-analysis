@@ -3,14 +3,13 @@ class FirefoxNotificationbox extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<xul:stack inherits="hidden=notificationshidden" class="notificationbox-stack">
-<xul:spacer>
-</xul:spacer>
-<children includes="notification">
-</children>
-</xul:stack>
-<children>
-</children>`;
+    this.innerHTML = `
+      <xul:stack inherits="hidden=notificationshidden" class="notificationbox-stack">
+        <xul:spacer></xul:spacer>
+        <children includes="notification"></children>
+      </xul:stack>
+      <children></children>
+    `;
     Object.defineProperty(this, "PRIORITY_INFO_LOW", {
       configurable: true,
       enumerable: true,

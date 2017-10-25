@@ -4,12 +4,12 @@ class FirefoxTreerows extends FirefoxTreeBase {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:hbox flex="1" class="tree-bodybox">
-<children>
-</children>
-</xul:hbox>
-<xul:scrollbar height="0" minwidth="0" minheight="0" orient="vertical" inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;">
-</xul:scrollbar>`;
+    this.innerHTML = `
+      <xul:hbox flex="1" class="tree-bodybox">
+        <children></children>
+      </xul:hbox>
+      <xul:scrollbar height="0" minwidth="0" minheight="0" orient="vertical" inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;"></xul:scrollbar>
+    `;
 
     this.addEventListener("underflow", event => {
       // Scrollport event orientation

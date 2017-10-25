@@ -3,10 +3,11 @@ class FirefoxStatusbarpanel extends XULElement {
     super();
   }
   connectedCallback() {
-    this.innerHTML = `<children>
-<xul:label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1">
-</xul:label>
-</children>`;
+    this.innerHTML = `
+      <children>
+        <xul:label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1"></xul:label>
+      </children>
+    `;
   }
 
   set label(val) {

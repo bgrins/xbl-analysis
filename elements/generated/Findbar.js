@@ -4,34 +4,24 @@ class FirefoxFindbar extends FirefoxToolbar {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
-<xul:hbox anonid="findbar-textbox-wrapper" align="stretch">
-<xul:textbox anonid="findbar-textbox" class="findbar-textbox findbar-find-fast" inherits="flash">
-</xul:textbox>
-<xul:toolbarbutton anonid="find-previous" class="findbar-find-previous tabbable" tooltiptext="FROM-DTD-previous-tooltip" oncommand="onFindAgainCommand(true);" disabled="true" inherits="accesskey=findpreviousaccesskey">
-</xul:toolbarbutton>
-<xul:toolbarbutton anonid="find-next" class="findbar-find-next tabbable" tooltiptext="FROM-DTD-next-tooltip" oncommand="onFindAgainCommand(false);" disabled="true" inherits="accesskey=findnextaccesskey">
-</xul:toolbarbutton>
-</xul:hbox>
-<xul:toolbarbutton anonid="highlight" class="findbar-highlight findbar-button tabbable" label="FROM-DTD-highlightAll-label" accesskey="FROM-DTD-highlightAll-accesskey" tooltiptext="FROM-DTD-highlightAll-tooltiptext" oncommand="toggleHighlight(this.checked);" type="checkbox" inherits="accesskey=highlightaccesskey">
-</xul:toolbarbutton>
-<xul:toolbarbutton anonid="find-case-sensitive" class="findbar-case-sensitive findbar-button tabbable" label="FROM-DTD-caseSensitive-label" accesskey="FROM-DTD-caseSensitive-accesskey" tooltiptext="FROM-DTD-caseSensitive-tooltiptext" oncommand="_setCaseSensitivity(this.checked ? 1 : 0);" type="checkbox" inherits="accesskey=matchcaseaccesskey">
-</xul:toolbarbutton>
-<xul:toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="FROM-DTD-entireWord-label" accesskey="FROM-DTD-entireWord-accesskey" tooltiptext="FROM-DTD-entireWord-tooltiptext" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey">
-</xul:toolbarbutton>
-<xul:label anonid="match-case-status" class="findbar-find-fast">
-</xul:label>
-<xul:label anonid="entire-word-status" class="findbar-find-fast">
-</xul:label>
-<xul:label anonid="found-matches" class="findbar-find-fast found-matches" hidden="true">
-</xul:label>
-<xul:image anonid="find-status-icon" class="findbar-find-fast find-status-icon">
-</xul:image>
-<xul:description anonid="find-status" control="findbar-textbox" class="findbar-find-fast findbar-find-status">
-</xul:description>
-</xul:hbox>
-<xul:toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="FROM-DTD-findCloseButton-tooltip" oncommand="close();">
-</xul:toolbarbutton>`;
+    this.innerHTML = `
+      <xul:hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
+        <xul:hbox anonid="findbar-textbox-wrapper" align="stretch">
+          <xul:textbox anonid="findbar-textbox" class="findbar-textbox findbar-find-fast" inherits="flash"></xul:textbox>
+          <xul:toolbarbutton anonid="find-previous" class="findbar-find-previous tabbable" tooltiptext="FROM-DTD-previous-tooltip" oncommand="onFindAgainCommand(true);" disabled="true" inherits="accesskey=findpreviousaccesskey"></xul:toolbarbutton>
+          <xul:toolbarbutton anonid="find-next" class="findbar-find-next tabbable" tooltiptext="FROM-DTD-next-tooltip" oncommand="onFindAgainCommand(false);" disabled="true" inherits="accesskey=findnextaccesskey"></xul:toolbarbutton>
+        </xul:hbox>
+        <xul:toolbarbutton anonid="highlight" class="findbar-highlight findbar-button tabbable" label="FROM-DTD-highlightAll-label" accesskey="FROM-DTD-highlightAll-accesskey" tooltiptext="FROM-DTD-highlightAll-tooltiptext" oncommand="toggleHighlight(this.checked);" type="checkbox" inherits="accesskey=highlightaccesskey"></xul:toolbarbutton>
+        <xul:toolbarbutton anonid="find-case-sensitive" class="findbar-case-sensitive findbar-button tabbable" label="FROM-DTD-caseSensitive-label" accesskey="FROM-DTD-caseSensitive-accesskey" tooltiptext="FROM-DTD-caseSensitive-tooltiptext" oncommand="_setCaseSensitivity(this.checked ? 1 : 0);" type="checkbox" inherits="accesskey=matchcaseaccesskey"></xul:toolbarbutton>
+        <xul:toolbarbutton anonid="find-entire-word" class="findbar-entire-word findbar-button tabbable" label="FROM-DTD-entireWord-label" accesskey="FROM-DTD-entireWord-accesskey" tooltiptext="FROM-DTD-entireWord-tooltiptext" oncommand="toggleEntireWord(this.checked);" type="checkbox" inherits="accesskey=entirewordaccesskey"></xul:toolbarbutton>
+        <xul:label anonid="match-case-status" class="findbar-find-fast"></xul:label>
+        <xul:label anonid="entire-word-status" class="findbar-find-fast"></xul:label>
+        <xul:label anonid="found-matches" class="findbar-find-fast found-matches" hidden="true"></xul:label>
+        <xul:image anonid="find-status-icon" class="findbar-find-fast find-status-icon"></xul:image>
+        <xul:description anonid="find-status" control="findbar-textbox" class="findbar-find-fast findbar-find-status"></xul:description>
+      </xul:hbox>
+      <xul:toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="FROM-DTD-findCloseButton-tooltip" oncommand="close();"></xul:toolbarbutton>
+    `;
     Object.defineProperty(this, "FIND_NORMAL", {
       configurable: true,
       enumerable: true,

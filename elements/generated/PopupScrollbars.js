@@ -4,10 +4,11 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
-<children>
-</children>
-</xul:scrollbox>`;
+    this.innerHTML = `
+      <xul:scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
+        <children></children>
+      </xul:scrollbox>
+    `;
     Object.defineProperty(this, "AUTOSCROLL_INTERVAL", {
       configurable: true,
       enumerable: true,

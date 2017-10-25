@@ -4,16 +4,16 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
   }
   connectedCallback() {
     super.connectedCallback();
-    this.innerHTML = `<xul:hbox flex="1">
-<xul:vbox class="menupopup-drop-indicator-bar" hidden="true">
-<xul:image class="menupopup-drop-indicator" mousethrough="always">
-</xul:image>
-</xul:vbox>
-<xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
-<children>
-</children>
-</xul:arrowscrollbox>
-</xul:hbox>`;
+    this.innerHTML = `
+      <xul:hbox flex="1">
+        <xul:vbox class="menupopup-drop-indicator-bar" hidden="true">
+          <xul:image class="menupopup-drop-indicator" mousethrough="always"></xul:image>
+        </xul:vbox>
+        <xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+          <children></children>
+        </xul:arrowscrollbox>
+      </xul:hbox>
+    `;
     Object.defineProperty(this, "AppConstants", {
       configurable: true,
       enumerable: true,
