@@ -39,7 +39,7 @@ class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll
       tabs._handleTabSelect(true);
     });
   }
-  disconnectedCallback() {}
+
   _getScrollableElements() {
     return Array.filter(
       document.getBindingParent(this).childNodes,

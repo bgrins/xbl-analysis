@@ -10,6 +10,5 @@ class FirefoxStatusbar extends BaseElement {
 </xul:resizer>
 </xul:statusbarpanel>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-statusbar", FirefoxStatusbar);

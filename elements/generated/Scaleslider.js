@@ -5,6 +5,5 @@ class FirefoxScaleslider extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-scaleslider", FirefoxScaleslider);

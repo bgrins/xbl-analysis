@@ -58,7 +58,6 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
       }
     });
   }
-  disconnectedCallback() {}
 
   get inputField() {
     if (!this.mInputField)

@@ -8,6 +8,5 @@ class FirefoxListhead extends BaseElement {
 </children>
 </xul:listheaditem>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-listhead", FirefoxListhead);

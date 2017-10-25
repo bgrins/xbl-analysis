@@ -75,7 +75,6 @@ class FirefoxScale extends FirefoxBasecontrol {
       this._userChanged = false;
     });
   }
-  disconnectedCallback() {}
 
   set value(val) {
     return this._setIntegerAttribute("curpos", val);

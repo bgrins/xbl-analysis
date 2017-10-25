@@ -18,7 +18,6 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
       }
     });
   }
-  disconnectedCallback() {}
 
   set selectedIndex(val) {
     if (val < 0 || val >= this.childNodes.length) return val;

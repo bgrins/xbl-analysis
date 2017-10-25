@@ -3,7 +3,6 @@ class FirefoxIframe extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 
   get docShell() {
     let { frameLoader } = this;

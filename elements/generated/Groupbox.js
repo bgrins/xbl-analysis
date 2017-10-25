@@ -13,6 +13,5 @@ class FirefoxGroupbox extends FirefoxGroupboxBase {
 </children>
 </xul:box>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-groupbox", FirefoxGroupbox);

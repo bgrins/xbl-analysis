@@ -113,7 +113,6 @@ class FirefoxAutocompleteBasePopup extends FirefoxPopup {
       }
     });
   }
-  disconnectedCallback() {}
 
   get input() {
     return this.mInput;

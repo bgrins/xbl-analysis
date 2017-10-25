@@ -42,7 +42,6 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
       }
     });
   }
-  disconnectedCallback() {}
 
   set ordinal(val) {
     this.setAttribute("ordinal", val);

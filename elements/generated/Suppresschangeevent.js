@@ -15,7 +15,6 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
     this.Utils = document.getBindingParent(this.parentNode).Utils;
     this.valueBar = this.Utils.progressBar;
   }
-  disconnectedCallback() {}
 
   get accessibleName() {
     var currTime = this.positionValue;

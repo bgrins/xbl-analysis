@@ -110,7 +110,6 @@ class FirefoxTranslationbar extends FirefoxNotification {
 </xul:toolbarbutton>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 
   set state(val) {
     let deck = this._getAnonElt("translationStates");

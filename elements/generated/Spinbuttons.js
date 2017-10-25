@@ -45,7 +45,6 @@ class FirefoxSpinbuttons extends FirefoxBasecontrol {
       return !cancel;
     });
   }
-  disconnectedCallback() {}
 
   get _increaseButton() {
     return document.getAnonymousElementByAttribute(

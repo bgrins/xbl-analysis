@@ -24,7 +24,6 @@ class FirefoxCheckboxBaseline extends FirefoxBasetext {
       event.preventDefault();
     });
   }
-  disconnectedCallback() {}
 
   set checked(val) {
     return this.setChecked(val);

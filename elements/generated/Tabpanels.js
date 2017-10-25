@@ -30,7 +30,6 @@ class FirefoxTabpanels extends FirefoxTabBase {
       }
     });
   }
-  disconnectedCallback() {}
 
   get tabbox() {
     // Memoize the result in a field rather than replacing this property,

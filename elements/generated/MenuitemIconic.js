@@ -19,6 +19,5 @@ class FirefoxMenuitemIconic extends FirefoxMenuitem {
 </xul:label>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-menuitem-iconic", FirefoxMenuitemIconic);

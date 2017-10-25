@@ -13,7 +13,6 @@ class FirefoxMenuitemIconicDescNoaccel extends FirefoxMenuitem {
 <xul:label class="menu-iconic-text menu-description" inherits="value=description" crop="right" flex="10000">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-menuitem-iconic-desc-noaccel",

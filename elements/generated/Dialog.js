@@ -87,7 +87,6 @@ class FirefoxDialog extends FirefoxRootElement {
       true
     );
   }
-  disconnectedCallback() {}
 
   set buttons(val) {
     this._configureButtons(val);

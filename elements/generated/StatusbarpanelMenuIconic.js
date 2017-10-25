@@ -9,7 +9,6 @@ class FirefoxStatusbarpanelMenuIconic extends FirefoxStatusbarpanel {
 <children>
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-statusbarpanel-menu-iconic",

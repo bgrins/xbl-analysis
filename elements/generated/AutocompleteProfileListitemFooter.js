@@ -91,7 +91,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
       window.openPreferences("panePrivacy", { origin: "autofillFooter" });
     });
   }
-  disconnectedCallback() {}
+
   _onCollapse() {
     /* global messageManager */
 

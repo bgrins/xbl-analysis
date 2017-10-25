@@ -27,6 +27,5 @@ class FirefoxFeed extends FirefoxRichlistitem {
 </xul:hbox>
 </xul:vbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-feed", FirefoxFeed);

@@ -317,7 +317,6 @@ class FirefoxWizard extends FirefoxRootElement {
       if (!event.defaultPrevented) this.cancel();
     });
   }
-  disconnectedCallback() {}
 
   set title(val) {
     return (document.title = val);

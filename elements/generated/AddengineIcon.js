@@ -8,6 +8,5 @@ class FirefoxAddengineIcon extends BaseElement {
 <xul:image class="addengine-badge">
 </xul:image>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-addengine-icon", FirefoxAddengineIcon);

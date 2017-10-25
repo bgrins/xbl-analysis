@@ -15,6 +15,5 @@ class FirefoxToolbarbutton extends FirefoxButtonBase {
 <children includes="box">
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-toolbarbutton", FirefoxToolbarbutton);

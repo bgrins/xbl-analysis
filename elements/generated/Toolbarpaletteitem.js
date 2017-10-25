@@ -9,6 +9,5 @@ class FirefoxToolbarpaletteitem extends FirefoxToolbarBase {
 </children>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-toolbarpaletteitem", FirefoxToolbarpaletteitem);

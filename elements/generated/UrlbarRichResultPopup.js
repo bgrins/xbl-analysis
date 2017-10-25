@@ -264,7 +264,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       }
     });
   }
-  disconnectedCallback() {}
 
   set overrideValue(val) {
     this._overrideValue = val;

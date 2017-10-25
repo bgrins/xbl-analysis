@@ -12,7 +12,6 @@ class FirefoxPanelview extends BaseElement {
 <children>
 </children>`;
   }
-  disconnectedCallback() {}
 
   get header() {
     return document.getAnonymousElementByAttribute(this, "anonid", "header");

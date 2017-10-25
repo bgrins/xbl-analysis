@@ -17,6 +17,5 @@ class FirefoxTreecols extends BaseElement {
         splitter.setAttribute("resizeafter", "farthest");
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-treecols", FirefoxTreecols);

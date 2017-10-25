@@ -5,7 +5,6 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 
   set open(val) {
     this.boxObject.openMenu(val);

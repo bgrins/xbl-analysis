@@ -5,6 +5,5 @@ class FirefoxCheckbox extends FirefoxCheckboxBaseline {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-checkbox", FirefoxCheckbox);

@@ -108,7 +108,6 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
       event.preventDefault();
     });
   }
-  disconnectedCallback() {}
 
   get findbar() {
     return this._findbar

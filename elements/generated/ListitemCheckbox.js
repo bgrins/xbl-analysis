@@ -16,7 +16,6 @@ class FirefoxListitemCheckbox extends FirefoxListitem {
       }
     });
   }
-  disconnectedCallback() {}
 
   set checked(val) {
     if (val) this.setAttribute("checked", "true");

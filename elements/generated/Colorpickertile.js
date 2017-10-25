@@ -3,6 +3,5 @@ class FirefoxColorpickertile extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-colorpickertile", FirefoxColorpickertile);

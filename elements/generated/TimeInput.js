@@ -30,7 +30,6 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
       this.setFieldsFromInputValue();
     }
   }
-  disconnectedCallback() {}
 
   get kMsPerSecond() {
     return 1000;

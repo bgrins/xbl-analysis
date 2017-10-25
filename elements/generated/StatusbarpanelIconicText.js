@@ -9,7 +9,6 @@ class FirefoxStatusbarpanelIconicText extends FirefoxStatusbarpanel {
 <xul:label class="statusbarpanel-text" inherits="value=label,crop">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-statusbarpanel-iconic-text",

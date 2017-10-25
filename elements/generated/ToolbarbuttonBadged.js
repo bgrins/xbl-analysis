@@ -17,7 +17,6 @@ class FirefoxToolbarbuttonBadged extends FirefoxToolbarbutton {
 <xul:label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-toolbarbutton-badged",

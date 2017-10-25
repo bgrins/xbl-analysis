@@ -11,6 +11,5 @@ class FirefoxListcellCheckbox extends FirefoxListcell {
 </xul:label>
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-listcell-checkbox", FirefoxListcellCheckbox);

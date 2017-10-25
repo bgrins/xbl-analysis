@@ -91,7 +91,6 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
       event.stopPropagation();
     });
   }
-  disconnectedCallback() {}
 
   set timeout(val) {
     this.setAttribute("timeout", val);

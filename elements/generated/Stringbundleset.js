@@ -3,6 +3,5 @@ class FirefoxStringbundleset extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-stringbundleset", FirefoxStringbundleset);

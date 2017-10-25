@@ -13,7 +13,6 @@ class FirefoxToolbarbuttonDropdown extends FirefoxMenuBase {
 <children includes="menupopup">
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-toolbarbutton-dropdown",

@@ -16,7 +16,6 @@ class FirefoxStringbundle extends BaseElement {
       }
     });
   }
-  disconnectedCallback() {}
 
   get stringBundle() {
     if (!this._bundle) {

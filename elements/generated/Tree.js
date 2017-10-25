@@ -440,7 +440,6 @@ class FirefoxTree extends FirefoxTreeBase {
       }
     });
   }
-  disconnectedCallback() {}
 
   get columns() {
     return this.treeBoxObject.columns;

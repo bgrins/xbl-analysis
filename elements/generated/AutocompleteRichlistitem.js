@@ -148,7 +148,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       control.currentItem = this;
     });
   }
-  disconnectedCallback() {}
 
   get label() {
     // This property is a string that is read aloud by screen readers,

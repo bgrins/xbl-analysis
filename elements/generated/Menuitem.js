@@ -11,6 +11,5 @@ class FirefoxMenuitem extends FirefoxMenuitemBase {
 </xul:label>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-menuitem", FirefoxMenuitem);

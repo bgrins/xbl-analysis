@@ -10,6 +10,5 @@ class FirefoxListheader extends BaseElement {
 <xul:image class="listheader-sortdirection" inherits="sortDirection">
 </xul:image>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-listheader", FirefoxListheader);

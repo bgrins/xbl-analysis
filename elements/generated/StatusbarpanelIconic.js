@@ -7,7 +7,6 @@ class FirefoxStatusbarpanelIconic extends FirefoxStatusbarpanel {
     this.innerHTML = `<xul:image class="statusbarpanel-icon" inherits="src,src=image">
 </xul:image>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-statusbarpanel-iconic",

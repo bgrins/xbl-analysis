@@ -19,6 +19,5 @@ class FirefoxScrollbarBase extends BaseElement {
       event.stopPropagation();
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-scrollbar-base", FirefoxScrollbarBase);

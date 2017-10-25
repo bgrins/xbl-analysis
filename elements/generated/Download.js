@@ -55,6 +55,5 @@ class FirefoxDownload extends FirefoxRichlistitem {
 </xul:button>
 </xul:stack>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-download", FirefoxDownload);

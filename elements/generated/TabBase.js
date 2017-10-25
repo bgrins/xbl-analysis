@@ -3,6 +3,5 @@ class FirefoxTabBase extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-tab-base", FirefoxTabBase);

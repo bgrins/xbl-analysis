@@ -23,7 +23,6 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
       else if (event.keyCode == 27 && this.open) this.hidePopup();
     });
   }
-  disconnectedCallback() {}
 
   set open(val) {
     this.showPopup();

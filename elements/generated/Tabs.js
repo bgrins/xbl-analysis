@@ -57,7 +57,6 @@ class FirefoxTabs extends FirefoxBasecontrol {
     if (value) this.value = value;
     else this.selectedIndex = 0;
   }
-  disconnectedCallback() {}
 
   get itemCount() {
     return this.childNodes.length;

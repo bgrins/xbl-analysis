@@ -49,7 +49,6 @@ class FirefoxTimedTextbox extends FirefoxTextbox {
       event.preventDefault();
     });
   }
-  disconnectedCallback() {}
 
   set timeout(val) {
     this.setAttribute("timeout", val);

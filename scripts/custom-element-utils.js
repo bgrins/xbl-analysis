@@ -64,6 +64,9 @@ function getJSForBinding(binding) {
   xbldestructor = xbldestructor ? `${xbldestructor.cdata || xbldestructor.value}` : '';
   // Or, try / catch since many components will fail when loaded in a tab due to chrome references
   // xbldestructor = xbldestructor ? `try { ${xbldestructor.cdata} } catch(e) { }` : '';
+  if (xbldestructor != '') {
+    xbldestructor = `disconnectedCallback() { ${xbldestructor} }`
+  }
 
   let handlers = [];
   // <handler>
@@ -134,9 +137,7 @@ function getJSForBinding(binding) {
 
       ${handlers.join('\n')}
     }
-    disconnectedCallback() {
-      ${xbldestructor}
-    }
+    ${xbldestructor}
   `);
 
   // <property>

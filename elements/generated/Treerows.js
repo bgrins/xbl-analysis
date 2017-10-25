@@ -29,6 +29,5 @@ class FirefoxTreerows extends FirefoxTreeBase {
       event.stopPropagation();
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-treerows", FirefoxTreerows);

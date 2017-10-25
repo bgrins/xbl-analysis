@@ -105,7 +105,6 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
       }
     });
   }
-  disconnectedCallback() {}
 
   get spellCheckerUI() {
     if (!this._spellCheckInitialized) {

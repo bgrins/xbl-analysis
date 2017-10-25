@@ -67,7 +67,6 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
       this.mLastMoveTime = Date.now();
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-autocomplete-richlistbox",

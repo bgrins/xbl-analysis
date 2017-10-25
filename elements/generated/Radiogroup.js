@@ -100,7 +100,6 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       this.focusedItem = null;
     });
   }
-  disconnectedCallback() {}
 
   set value(val) {
     this.setAttribute("value", val);

@@ -88,7 +88,7 @@ class FirefoxArrowpanel extends FirefoxPanel {
       this.adjustArrowPosition();
     });
   }
-  disconnectedCallback() {}
+
   sizeTo(aWidth, aHeight) {
     this.popupBoxObject.sizeTo(aWidth, aHeight);
     if (this.state == "open") {

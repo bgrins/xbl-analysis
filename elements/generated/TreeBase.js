@@ -5,7 +5,7 @@ class FirefoxTreeBase extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
+
   _isAccelPressed(aEvent) {
     return aEvent.getModifierState("Accel");
   }

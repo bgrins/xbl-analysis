@@ -78,7 +78,7 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
       this.removeAttribute("animate");
     });
   }
-  disconnectedCallback() {}
+
   adjustArrowPosition() {
     var arrow = document.getAnonymousElementByAttribute(
       this,

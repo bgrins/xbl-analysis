@@ -148,7 +148,6 @@ class FirefoxNotificationbox extends BaseElement {
         this._finishAnimation();
     });
   }
-  disconnectedCallback() {}
 
   get _allowAnimation() {
     var prefs = Components.classes[

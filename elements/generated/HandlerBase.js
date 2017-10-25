@@ -5,7 +5,6 @@ class FirefoxHandlerBase extends FirefoxRichlistitem {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 
   get type() {
     return this.getAttribute("type");

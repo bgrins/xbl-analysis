@@ -25,7 +25,6 @@ class FirefoxTextLink extends FirefoxTextLabel {
       this.click();
     });
   }
-  disconnectedCallback() {}
 
   set href(val) {
     this.setAttribute("href", val);

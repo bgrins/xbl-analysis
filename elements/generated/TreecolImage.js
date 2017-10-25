@@ -7,6 +7,5 @@ class FirefoxTreecolImage extends FirefoxTreecolBase {
     this.innerHTML = `<xul:image class="treecol-icon" inherits="src">
 </xul:image>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-treecol-image", FirefoxTreecolImage);

@@ -15,6 +15,5 @@ class FirefoxWizardHeader extends FirefoxWizardBase {
 </xul:image>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-wizard-header", FirefoxWizardHeader);

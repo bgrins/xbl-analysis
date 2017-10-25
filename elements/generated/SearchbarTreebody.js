@@ -10,6 +10,5 @@ class FirefoxSearchbarTreebody extends FirefoxAutocompleteTreebody {
       event.preventDefault();
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-searchbar-treebody", FirefoxSearchbarTreebody);

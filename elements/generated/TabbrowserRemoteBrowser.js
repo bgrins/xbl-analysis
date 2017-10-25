@@ -18,7 +18,7 @@ class FirefoxTabbrowserRemoteBrowser extends FirefoxRemoteBrowser {
       }
     });
   }
-  disconnectedCallback() {}
+
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {
     var params = arguments[1];
     if (typeof params == "number") {

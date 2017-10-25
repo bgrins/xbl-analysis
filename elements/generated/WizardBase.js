@@ -3,6 +3,5 @@ class FirefoxWizardBase extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-wizard-base", FirefoxWizardBase);

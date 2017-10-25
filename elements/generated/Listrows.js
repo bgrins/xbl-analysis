@@ -33,6 +33,5 @@ class FirefoxListrows extends BaseElement {
       true
     );
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-listrows", FirefoxListrows);

@@ -5,6 +5,5 @@ class FirefoxMenuseparator extends FirefoxMenuitemBase {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-menuseparator", FirefoxMenuseparator);

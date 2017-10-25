@@ -18,6 +18,5 @@ class FirefoxContainer extends BaseElement {
 </xul:hbox>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-container", FirefoxContainer);

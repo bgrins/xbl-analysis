@@ -98,7 +98,6 @@ class FirefoxListbox extends FirefoxListboxBase {
       this._touchY = -1;
     });
   }
-  disconnectedCallback() {}
 
   get listBoxObject() {
     return this.boxObject;

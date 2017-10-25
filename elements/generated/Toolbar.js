@@ -42,7 +42,6 @@ class FirefoxToolbar extends FirefoxToolbarBase {
       });
     }
   }
-  disconnectedCallback() {}
 
   set toolbarName(val) {
     this.setAttribute("toolbarname", val);

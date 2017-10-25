@@ -17,6 +17,5 @@ class FirefoxScrollbar extends FirefoxScrollbarBase {
 <xul:scrollbarbutton sbattr="scrollbar-down-bottom" type="increment" inherits="curpos,maxpos,disabled,sborient=orient">
 </xul:scrollbarbutton>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-scrollbar", FirefoxScrollbar);

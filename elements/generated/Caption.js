@@ -11,6 +11,5 @@ class FirefoxCaption extends FirefoxBasetext {
 </xul:label>
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-caption", FirefoxCaption);

@@ -3,6 +3,5 @@ class FirefoxSplitter extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-splitter", FirefoxSplitter);

@@ -116,6 +116,5 @@ class FirefoxPopupNotification extends BaseElement {
       }
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-popup-notification", FirefoxPopupNotification);

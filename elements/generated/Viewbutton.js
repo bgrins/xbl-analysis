@@ -9,6 +9,5 @@ class FirefoxViewbutton extends FirefoxRadio {
 <xul:label class="viewButtonLabel" inherits="value=label">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-viewbutton", FirefoxViewbutton);

@@ -15,7 +15,6 @@ class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProf
 
     this._adjustAcItem();
   }
-  disconnectedCallback() {}
 
   set selected(val) {
     // Make this item unselectable since we see this item as a pure message.

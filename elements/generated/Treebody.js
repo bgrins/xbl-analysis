@@ -191,6 +191,5 @@ class FirefoxTreebody extends FirefoxTreeBase {
         this.parentNode.changeOpenState(row);
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-treebody", FirefoxTreebody);

@@ -11,6 +11,5 @@ class FirefoxTextarea extends FirefoxTextbox {
 </html:textarea>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-textarea", FirefoxTextarea);

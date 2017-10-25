@@ -90,7 +90,6 @@ class FirefoxButtonBase extends FirefoxBasetext {
       if (buttonBox) this.fireAccessKeyButton(buttonBox, charPressedLower);
     });
   }
-  disconnectedCallback() {}
 
   set type(val) {
     this.setAttribute("type", val);

@@ -3,7 +3,6 @@ class FirefoxImage extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 
   set src(val) {
     this.setAttribute("src", val);

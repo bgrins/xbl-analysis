@@ -30,7 +30,6 @@ class FirefoxNotification extends BaseElement {
       }
     });
   }
-  disconnectedCallback() {}
 
   set label(val) {
     this.setAttribute("label", val);

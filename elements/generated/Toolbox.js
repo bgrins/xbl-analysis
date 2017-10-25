@@ -69,7 +69,6 @@ class FirefoxToolbox extends FirefoxToolbarBase {
       }
     }
   }
-  disconnectedCallback() {}
 
   set customizing(val) {
     if (val) this.setAttribute("customizing", "true");

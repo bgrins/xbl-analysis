@@ -5,7 +5,6 @@ class FirefoxMenuitemBase extends FirefoxControlItem {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 
   get selected() {
     return this.getAttribute("selected") == "true";

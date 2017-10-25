@@ -3,6 +3,5 @@ class FirefoxToolbarBase extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-toolbar-base", FirefoxToolbarBase);

@@ -46,7 +46,6 @@ class FirefoxAutocompleteTreebody extends BaseElement {
       }
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-autocomplete-treebody",

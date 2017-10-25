@@ -21,6 +21,5 @@ class FirefoxHandlerSelected extends FirefoxHandlerBase {
 
     gMainPane.rebuildActionsMenu();
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-handler-selected", FirefoxHandlerSelected);

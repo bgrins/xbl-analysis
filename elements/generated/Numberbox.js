@@ -114,7 +114,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
       }
     });
   }
-  disconnectedCallback() {}
 
   get spinButtons() {
     if (!this._spinButtons)

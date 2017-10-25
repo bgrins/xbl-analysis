@@ -89,7 +89,6 @@ class FirefoxTab extends FirefoxControlItem {
       this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
     });
   }
-  disconnectedCallback() {}
 
   get control() {
     var parent = this.parentNode;

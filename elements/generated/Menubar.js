@@ -64,7 +64,6 @@ class FirefoxMenubar extends FirefoxToolbarBase {
       this._updateStatusText("");
     });
   }
-  disconnectedCallback() {}
 
   set statusbar(val) {
     this.setAttribute("statusbar", val);

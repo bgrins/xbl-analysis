@@ -44,7 +44,6 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     // Notify DateTimePickerHelper.jsm that binding is ready.
     this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
   }
-  disconnectedCallback() {}
 
   get dateTimePopupFrame() {
     let frame = this.querySelector("#dateTimePopupFrame");

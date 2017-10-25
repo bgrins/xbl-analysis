@@ -25,7 +25,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       this.setFieldsFromInputValue();
     }
   }
-  disconnectedCallback() {}
+
   buildEditFields() {
     const HTML_NS = "http://www.w3.org/1999/xhtml";
     let root = document.getAnonymousElementByAttribute(

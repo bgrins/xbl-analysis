@@ -69,7 +69,6 @@ class FirefoxAutocompleteResultPopup extends FirefoxAutocompleteBasePopup {
       }
     });
   }
-  disconnectedCallback() {}
 
   set showCommentColumn(val) {
     if (!val && this.mShowCommentColumn) {

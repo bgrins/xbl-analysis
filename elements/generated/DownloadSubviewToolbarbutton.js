@@ -23,7 +23,6 @@ class FirefoxDownloadSubviewToolbarbutton extends FirefoxMenuButtonBase {
 <xul:toolbarbutton anonid="button" class="action-button">
 </xul:toolbarbutton>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-download-subview-toolbarbutton",

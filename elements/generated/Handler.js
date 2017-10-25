@@ -19,6 +19,5 @@ class FirefoxHandler extends FirefoxHandlerBase {
 </xul:hbox>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-handler", FirefoxHandler);

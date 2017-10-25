@@ -3,7 +3,6 @@ class FirefoxPopupBase extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 
   set label(val) {
     this.setAttribute("label", val);

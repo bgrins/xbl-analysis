@@ -5,6 +5,5 @@ class FirefoxButtonRepeat extends FirefoxButton {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-button-repeat", FirefoxButtonRepeat);

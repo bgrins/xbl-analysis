@@ -91,7 +91,6 @@ class FirefoxPrefpane extends BaseElement {
       }
     });
   }
-  disconnectedCallback() {}
 
   set src(val) {
     this.setAttribute("src", val);

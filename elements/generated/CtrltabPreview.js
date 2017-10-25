@@ -31,6 +31,5 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
       ctrlTab.remove(this);
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-ctrltab-preview", FirefoxCtrltabPreview);

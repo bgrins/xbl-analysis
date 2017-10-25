@@ -47,6 +47,5 @@ class FirefoxPopup extends FirefoxPopupBase {
       for (var i = 0; i < array.length; i++) array[i].width = width;
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-popup", FirefoxPopup);

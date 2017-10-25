@@ -408,7 +408,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       this._cleanupDragDetails();
     });
   }
-  disconnectedCallback() {}
+
   _hideDropIndicator(aEvent) {
     let target = aEvent.target;
 

@@ -53,7 +53,6 @@ class FirefoxLabelControl extends FirefoxTextLabel {
       if (controlElement) controlElement.focus();
     });
   }
-  disconnectedCallback() {}
 
   set accessKey(val) {
     // If this label already has an accesskey attribute store it here as well

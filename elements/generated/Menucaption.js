@@ -7,6 +7,5 @@ class FirefoxMenucaption extends FirefoxMenuBase {
     this.innerHTML = `<xul:label class="menu-text" inherits="value=label,crop" crop="right">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-menucaption", FirefoxMenucaption);

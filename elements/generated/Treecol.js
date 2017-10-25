@@ -9,6 +9,5 @@ class FirefoxTreecol extends FirefoxTreecolBase {
 <xul:image class="treecol-sortdirection" inherits="sortDirection,hidden=hideheader">
 </xul:image>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-treecol", FirefoxTreecol);

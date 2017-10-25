@@ -40,7 +40,6 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
 
     this._adjustAcItem();
   }
-  disconnectedCallback() {}
 
   set selected(val) {
     /* global Cu */

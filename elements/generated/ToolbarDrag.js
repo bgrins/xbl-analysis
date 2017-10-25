@@ -36,6 +36,5 @@ class FirefoxToolbarDrag extends FirefoxToolbar {
       } catch (e) {}
     }
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-toolbar-drag", FirefoxToolbarDrag);

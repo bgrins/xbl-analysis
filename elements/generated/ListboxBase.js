@@ -213,7 +213,6 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
       }
     });
   }
-  disconnectedCallback() {}
 
   set selectedItem(val) {
     this.selectItem(val);

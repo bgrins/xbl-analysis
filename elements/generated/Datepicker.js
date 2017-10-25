@@ -78,7 +78,6 @@ class FirefoxDatepicker extends FirefoxDatetimepickerBase {
       }
     });
   }
-  disconnectedCallback() {}
 
   set value(val) {
     var results = val.match(/^([0-9]{1,4})\-([0-9]{1,2})\-([0-9]{1,2})$/);

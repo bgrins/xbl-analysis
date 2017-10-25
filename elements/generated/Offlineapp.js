@@ -11,6 +11,5 @@ class FirefoxOfflineapp extends FirefoxListitem {
 </xul:listcell>
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-offlineapp", FirefoxOfflineapp);

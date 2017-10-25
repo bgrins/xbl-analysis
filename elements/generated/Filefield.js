@@ -25,7 +25,6 @@ class FirefoxFilefield extends FirefoxBasetext {
       }
     });
   }
-  disconnectedCallback() {}
 
   set label(val) {
     this.setAttribute("label", val);

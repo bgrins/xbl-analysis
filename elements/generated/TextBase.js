@@ -3,7 +3,6 @@ class FirefoxTextBase extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 
   set disabled(val) {
     if (val) this.setAttribute("disabled", "true");

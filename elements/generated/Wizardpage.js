@@ -18,7 +18,6 @@ class FirefoxWizardpage extends FirefoxWizardBase {
       }
     });
   }
-  disconnectedCallback() {}
 
   set pageid(val) {
     this.setAttribute("pageid", val);

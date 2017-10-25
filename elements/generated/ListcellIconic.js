@@ -11,6 +11,5 @@ class FirefoxListcellIconic extends FirefoxListcell {
 </xul:label>
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-listcell-iconic", FirefoxListcellIconic);

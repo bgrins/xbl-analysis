@@ -3,6 +3,5 @@ class FirefoxThumb extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-thumb", FirefoxThumb);

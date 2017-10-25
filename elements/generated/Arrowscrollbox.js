@@ -321,7 +321,6 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       this._updateScrollButtonsDisabledState();
     });
   }
-  disconnectedCallback() {}
 
   get _prefBranch() {
     if (this.__prefBranch === null) {

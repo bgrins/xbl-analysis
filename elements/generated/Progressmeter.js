@@ -8,7 +8,6 @@ class FirefoxProgressmeter extends BaseElement {
 <xul:spacer class="progress-remainder" inherits="mode">
 </xul:spacer>`;
   }
-  disconnectedCallback() {}
 
   set mode(val) {
     if (this.mode != val) this.setAttribute("mode", val);

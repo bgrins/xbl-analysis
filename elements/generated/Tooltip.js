@@ -84,7 +84,6 @@ class FirefoxTooltip extends FirefoxPopupBase {
       this._mouseOutCount = 0;
     });
   }
-  disconnectedCallback() {}
 
   set label(val) {
     this.setAttribute("label", val);

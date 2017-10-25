@@ -3,6 +3,5 @@ class FirefoxScalethumb extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-scalethumb", FirefoxScalethumb);

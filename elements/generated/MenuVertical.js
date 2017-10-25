@@ -19,6 +19,5 @@ class FirefoxMenuVertical extends FirefoxToolbarbutton {
 </xul:dropmarker>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-menu-vertical", FirefoxMenuVertical);

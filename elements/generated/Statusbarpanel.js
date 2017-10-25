@@ -8,7 +8,6 @@ class FirefoxStatusbarpanel extends BaseElement {
 </xul:label>
 </children>`;
   }
-  disconnectedCallback() {}
 
   set label(val) {
     this.setAttribute("label", val);

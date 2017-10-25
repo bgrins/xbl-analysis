@@ -98,7 +98,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       }
     });
   }
-  disconnectedCallback() {}
+
   _tabOnAttrModified(aEvent) {
     var tab = aEvent.target;
     if (tab.mCorrespondingMenuitem)

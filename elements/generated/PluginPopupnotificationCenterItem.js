@@ -162,7 +162,6 @@ class FirefoxPluginPopupnotificationCenterItem extends BaseElement {
       link.hidden = true;
     }
   }
-  disconnectedCallback() {}
 
   set value(val) {
     document.getAnonymousElementByAttribute(

@@ -18,7 +18,6 @@ class FirefoxBasetext extends FirefoxBasecontrol {
       }
     });
   }
-  disconnectedCallback() {}
 
   set label(val) {
     this.setAttribute("label", val);

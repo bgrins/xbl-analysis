@@ -13,7 +13,6 @@ class FirefoxMenucaptionInmenulist extends FirefoxMenucaption {
 <xul:label class="menu-iconic-highlightable-text" inherits="text=label,crop,highlightable" crop="right">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-menucaption-inmenulist",

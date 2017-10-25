@@ -6,6 +6,5 @@ class FirefoxDropmarker extends BaseElement {
     this.innerHTML = `<xul:image class="dropmarker-icon">
 </xul:image>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-dropmarker", FirefoxDropmarker);

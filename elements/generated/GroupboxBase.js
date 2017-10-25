@@ -3,6 +3,5 @@ class FirefoxGroupboxBase extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 }
 customElements.define("firefox-groupbox-base", FirefoxGroupboxBase);

@@ -17,7 +17,6 @@ class FirefoxMenulistDescription extends FirefoxMenulist {
 <children includes="menupopup">
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-menulist-description",

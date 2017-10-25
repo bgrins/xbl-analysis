@@ -96,7 +96,6 @@ class FirefoxPreferences extends BaseElement {
 
     this._preferenceChildren = this.getElementsByTagName("preference");
   }
-  disconnectedCallback() {}
 
   get type() {
     return document.documentElement.type || "";

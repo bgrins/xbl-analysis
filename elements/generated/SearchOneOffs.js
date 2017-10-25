@@ -465,7 +465,6 @@ class FirefoxSearchOneOffs extends BaseElement {
       this._contextEngine = target.engine;
     });
   }
-  disconnectedCallback() {}
 
   get buttonWidth() {
     return 49;

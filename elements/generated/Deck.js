@@ -3,7 +3,6 @@ class FirefoxDeck extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 
   set selectedIndex(val) {
     if (this.selectedIndex == val) return val;

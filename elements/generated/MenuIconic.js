@@ -23,6 +23,5 @@ class FirefoxMenuIconic extends FirefoxMenuBase {
 <children includes="menupopup|template">
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-menu-iconic", FirefoxMenuIconic);

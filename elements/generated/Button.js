@@ -17,6 +17,5 @@ class FirefoxButton extends FirefoxButtonBase {
 </children>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-button", FirefoxButton);

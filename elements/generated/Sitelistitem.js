@@ -19,6 +19,5 @@ class FirefoxSitelistitem extends FirefoxRichlistitem {
 </xul:hbox>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-sitelistitem", FirefoxSitelistitem);

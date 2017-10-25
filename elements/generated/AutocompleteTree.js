@@ -11,6 +11,5 @@ class FirefoxAutocompleteTree extends FirefoxTree {
 </children>
 </xul:treerows>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-autocomplete-tree", FirefoxAutocompleteTree);

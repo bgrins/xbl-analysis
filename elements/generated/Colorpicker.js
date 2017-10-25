@@ -198,7 +198,6 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
       true
     );
   }
-  disconnectedCallback() {}
 
   set color(val) {
     if (!val) return val;

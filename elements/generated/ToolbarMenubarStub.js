@@ -3,7 +3,6 @@ class FirefoxToolbarMenubarStub extends BaseElement {
     super();
   }
   connectedCallback() {}
-  disconnectedCallback() {}
 
   get toolbox() {
     if (this._toolbox) return this._toolbox;

@@ -5,7 +5,6 @@ class FirefoxTextLabel extends FirefoxTextBase {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 
   set accessKey(val) {
     this.setAttribute("accesskey", val);

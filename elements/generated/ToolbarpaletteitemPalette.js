@@ -11,7 +11,6 @@ class FirefoxToolbarpaletteitemPalette extends FirefoxToolbarpaletteitem {
 <xul:label inherits="value=title">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-toolbarpaletteitem-palette",

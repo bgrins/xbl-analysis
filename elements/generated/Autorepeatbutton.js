@@ -7,6 +7,5 @@ class FirefoxAutorepeatbutton extends FirefoxScrollboxBase {
     this.innerHTML = `<xul:image class="autorepeatbutton-icon">
 </xul:image>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-autorepeatbutton", FirefoxAutorepeatbutton);

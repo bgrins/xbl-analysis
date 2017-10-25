@@ -5,7 +5,6 @@ class FirefoxControlItem extends FirefoxBasetext {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 
   set value(val) {
     this.setAttribute("value", val);

@@ -32,7 +32,6 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
       }
     });
   }
-  disconnectedCallback() {}
 
   set buttonover(val) {
     var v = val || val == "true";

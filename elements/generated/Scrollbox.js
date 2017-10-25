@@ -9,7 +9,7 @@ class FirefoxScrollbox extends FirefoxScrollboxBase {
 </children>
 </xul:box>`;
   }
-  disconnectedCallback() {}
+
   scrollByIndex(index) {
     this.boxObject.scrollByIndex(index);
   }

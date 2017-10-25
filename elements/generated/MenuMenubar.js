@@ -9,6 +9,5 @@ class FirefoxMenuMenubar extends FirefoxMenuBase {
 <children includes="menupopup">
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-menu-menubar", FirefoxMenuMenubar);

@@ -50,7 +50,6 @@ class FirefoxListitem extends FirefoxBasetext {
       control._userSelecting = false;
     });
   }
-  disconnectedCallback() {}
 
   set current(val) {
     if (val) this.setAttribute("current", "true");

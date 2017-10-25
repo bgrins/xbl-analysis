@@ -30,7 +30,6 @@ class FirefoxTabbrowserCloseTabButton extends FirefoxToolbarbuttonImage {
       event.stopPropagation();
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-tabbrowser-close-tab-button",

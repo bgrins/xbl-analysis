@@ -12,6 +12,5 @@ class FirefoxGrippy extends BaseElement {
       }
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-grippy", FirefoxGrippy);

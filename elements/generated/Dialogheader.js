@@ -8,6 +8,5 @@ class FirefoxDialogheader extends BaseElement {
 <xul:label class="dialogheader-description" inherits="value=description">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-dialogheader", FirefoxDialogheader);

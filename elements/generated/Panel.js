@@ -123,6 +123,5 @@ class FirefoxPanel extends FirefoxPopupBase {
       }
     });
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-panel", FirefoxPanel);

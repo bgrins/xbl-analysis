@@ -157,7 +157,7 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       }
     });
   }
-  disconnectedCallback() {}
+
   enableDragScrolling(overItem) {
     if (!this._draggingState) {
       this.setCaptureAlways();

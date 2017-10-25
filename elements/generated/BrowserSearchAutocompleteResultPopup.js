@@ -123,7 +123,6 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
       this.oneOffButtons.handleSearchCommand(event, engine);
     });
   }
-  disconnectedCallback() {}
 
   get bundle() {
     if (!this._bundle) {

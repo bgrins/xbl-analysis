@@ -23,7 +23,7 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
 
     this._init();
   }
-  disconnectedCallback() {}
+
   _init() {
     var stack = document.getAnonymousElementByAttribute(
       this,

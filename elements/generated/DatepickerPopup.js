@@ -40,7 +40,6 @@ class FirefoxDatepickerPopup extends FirefoxDatepicker {
     grid.attachedControl = this;
     grid._setValueNoSync(this._dateValue);
   }
-  disconnectedCallback() {}
 
   set open(val) {
     if (this.boxObject instanceof MenuBoxObject) this.boxObject.openMenu(val);

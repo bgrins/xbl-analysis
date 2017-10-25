@@ -18,7 +18,6 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
       }
     });
   }
-  disconnectedCallback() {}
 
   get _stringBundle() {
     /* global Services */

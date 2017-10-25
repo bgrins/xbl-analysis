@@ -43,7 +43,6 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
       }
     });
   }
-  disconnectedCallback() {}
 
   get defaultButton() {
     const kXULNS =

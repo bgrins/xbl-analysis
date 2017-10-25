@@ -11,7 +11,6 @@ class FirefoxToolbarpaletteitemPaletteWrappingLabel extends FirefoxToolbarpalett
 <xul:label inherits="text=title">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-toolbarpaletteitem-palette-wrapping-label",

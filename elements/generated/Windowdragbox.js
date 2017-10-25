@@ -31,6 +31,5 @@ class FirefoxWindowdragbox extends BaseElement {
       } catch (e) {}
     }
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-windowdragbox", FirefoxWindowdragbox);

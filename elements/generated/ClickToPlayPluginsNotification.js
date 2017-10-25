@@ -167,7 +167,7 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
       this._accept(event);
     });
   }
-  disconnectedCallback() {}
+
   _setState(state) {
     var grid = document.getAnonymousElementByAttribute(
       this,

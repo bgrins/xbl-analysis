@@ -9,6 +9,5 @@ class FirefoxMenubuttonItem extends FirefoxMenuitemBase {
 <children includes="menupopup">
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-menubutton-item", FirefoxMenubuttonItem);

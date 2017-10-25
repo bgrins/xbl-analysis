@@ -336,7 +336,6 @@ class FirefoxDatepickerGrid extends FirefoxDatepicker {
       this._increaseOrDecreaseMonth(1);
     });
   }
-  disconnectedCallback() {}
 
   set selectedItem(val) {
     if (!val.value) return val;

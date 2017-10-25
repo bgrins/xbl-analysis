@@ -20,6 +20,5 @@ class FirefoxResizer extends BaseElement {
       this.setAttribute("rtl", "true");
     }
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-resizer", FirefoxResizer);

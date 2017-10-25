@@ -131,7 +131,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       }
     });
   }
-  disconnectedCallback() {}
 
   set _visuallySelected(val) {
     if (val) this.setAttribute("visuallyselected", "true");

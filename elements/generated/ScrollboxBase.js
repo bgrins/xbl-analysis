@@ -5,6 +5,5 @@ class FirefoxScrollboxBase extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback();
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-scrollbox-base", FirefoxScrollboxBase);

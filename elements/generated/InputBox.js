@@ -28,7 +28,7 @@ class FirefoxInputBox extends BaseElement {
 </xul:menuitem>
 </xul:menupopup>`;
   }
-  disconnectedCallback() {}
+
   _doPopupItemEnabling(popupNode) {
     var children = popupNode.childNodes;
     for (var i = 0; i < children.length; i++) {

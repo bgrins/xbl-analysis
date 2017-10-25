@@ -9,6 +9,5 @@ class FirefoxPanebutton extends FirefoxRadio {
 <xul:label class="paneButtonLabel" inherits="value=label">
 </xul:label>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-panebutton", FirefoxPanebutton);

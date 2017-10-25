@@ -58,7 +58,6 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
       }
     });
   }
-  disconnectedCallback() {}
 
   set selectedIndex(val) {
     this.richlistbox.selectedIndex = val;

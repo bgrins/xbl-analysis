@@ -38,7 +38,6 @@ class FirefoxExpander extends BaseElement {
       if (event.originalTarget.localName == "label") this.onCommand(event);
     });
   }
-  disconnectedCallback() {}
 
   set open(val) {
     var settings = document.getAnonymousElementByAttribute(

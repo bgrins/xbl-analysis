@@ -9,7 +9,6 @@ class FirefoxListitemCheckboxIconic extends FirefoxListitemCheckbox {
 </xul:listcell>
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-listitem-checkbox-iconic",

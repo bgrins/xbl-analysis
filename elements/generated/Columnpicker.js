@@ -46,7 +46,7 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
       }
     });
   }
-  disconnectedCallback() {}
+
   buildPopup(aPopup) {
     // We no longer cache the picker content, remove the old content.
     while (aPopup.childNodes.length > 2) aPopup.firstChild.remove();

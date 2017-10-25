@@ -49,7 +49,6 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
       });
     });
   }
-  disconnectedCallback() {}
 
   get _learnMoreString() {
     if (!this.__learnMoreString) {

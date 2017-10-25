@@ -10,7 +10,6 @@ class FirefoxAutocompleteTreerows extends BaseElement {
 <xul:scrollbar inherits="collapsed=hidescrollbar" orient="vertical" class="tree-scrollbar">
 </xul:scrollbar>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-autocomplete-treerows",

@@ -17,6 +17,5 @@ class FirefoxOptionsdialog extends FirefoxDialog {
 </xul:vbox>
 </xul:hbox>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-optionsdialog", FirefoxOptionsdialog);

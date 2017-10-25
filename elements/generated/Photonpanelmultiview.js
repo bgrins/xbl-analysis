@@ -15,7 +15,6 @@ class FirefoxPhotonpanelmultiview extends FirefoxPanelmultiview {
 </xul:box>
 </xul:box>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define(
   "firefox-photonpanelmultiview",

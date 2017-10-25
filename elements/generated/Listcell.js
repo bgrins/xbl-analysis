@@ -9,6 +9,5 @@ class FirefoxListcell extends FirefoxBasecontrol {
 </xul:label>
 </children>`;
   }
-  disconnectedCallback() {}
 }
 customElements.define("firefox-listcell", FirefoxListcell);
