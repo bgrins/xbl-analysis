@@ -235,17 +235,17 @@ new Chart(
       labels: labels,
       datasets: [
         {
-          label: "Lines of XBL",
+          label: "Percentage of lines of XBL",
           backgroundColor: window.chartColors.red,
           borderColor: window.chartColors.red,
-          data: locs.map(loc => loc / maxLoc * 100),
-          fill: false
+          data: locs.map(loc =>  +((loc / maxLoc * 100).toFixed(2))),
+          fill: false,
         },
         {
-          label: "Number of Bindings",
+          label: "Percentage of number of Bindings",
           backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
-          data: bindings.map(binding => binding / maxBinding * 100),
+          data: bindings.map(binding => +((binding / maxBinding * 100).toFixed(2))),
           fill: false
         }
       ]
