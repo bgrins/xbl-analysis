@@ -626,7 +626,7 @@ class FirefoxVideocontrols extends XULElement {
           for (let element of this.controlListeners) {
             try {
               element.item.removeEventListener(element.event, element.func, {
-                mozSystemGroup: true,
+                mozSystemGroup: element.mozSystemGroup,
                 capture: element.capture
               });
             } catch (ex) {}
@@ -1914,16 +1914,22 @@ class FirefoxVideocontrols extends XULElement {
         // Due to this helper function, "Utils" is made available to the event
         // listener functions. Hence declare it as a global for ESLint.
         /* global Utils */
-        function addListener(elem, eventName, func, capture = false) {
+        function addListener(
+          elem,
+          eventName,
+          func,
+          { capture = false, mozSystemGroup = true } = {}
+        ) {
           let boundFunc = func.bind(self);
           self.controlListeners.push({
             item: elem,
             event: eventName,
             func: boundFunc,
-            capture
+            capture,
+            mozSystemGroup
           });
           elem.addEventListener(eventName, boundFunc, {
-            mozSystemGroup: true,
+            mozSystemGroup,
             capture
           });
         }
@@ -1961,8 +1967,16 @@ class FirefoxVideocontrols extends XULElement {
           "fullscreenchange",
           this.onFullscreenChange
         );
-        addListener(this.video, "keypress", this.keyHandler, true);
-
+        addListener(this.video, "keypress", this.keyHandler, { capture: true });
+        // Prevent any click event within media controls from dispatching through to video.
+        addListener(
+          this.videocontrols,
+          "click",
+          function(event) {
+            event.stopPropagation();
+          },
+          { mozSystemGroup: false }
+        );
         addListener(this.videocontrols, "dragstart", function(event) {
           event.preventDefault(); // prevent dragging of controls image (bug 517114)
         });

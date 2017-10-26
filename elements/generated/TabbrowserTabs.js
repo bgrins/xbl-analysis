@@ -1113,8 +1113,15 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     if (this.selectedItem.closing || selectedIndex == 0) {
       this._beforeSelectedTab = null;
     } else {
-      this._beforeSelectedTab = visibleTabs[selectedIndex - 1];
-      this._beforeSelectedTab.setAttribute("beforeselected-visible", "true");
+      let beforeSelectedTab = visibleTabs[selectedIndex - 1];
+      let separatedByScrollButton =
+        this.getAttribute("overflow") == "true" &&
+        beforeSelectedTab.pinned &&
+        !this.selectedItem.pinned;
+      if (!separatedByScrollButton) {
+        this._beforeSelectedTab = beforeSelectedTab;
+        this._beforeSelectedTab.setAttribute("beforeselected-visible", "true");
+      }
     }
 
     if (this._firstTab) this._firstTab.removeAttribute("first-visible-tab");

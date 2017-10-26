@@ -122,9 +122,6 @@ function getJSForBinding(binding) {
   }
 
   js.push(`
-    constructor() {
-      super();
-    }
     connectedCallback() {
       ${hasExtends ? 'super.connectedCallback()' : ''}
       ${innerHTML}

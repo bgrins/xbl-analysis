@@ -221,7 +221,11 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       tabContainer._beforeHoveredTab = null;
     } else {
       let candidate = visibleTabs[tabIndex - 1];
-      if (!candidate.selected) {
+      let separatedByScrollButton =
+        tabContainer.getAttribute("overflow") == "true" &&
+        candidate.pinned &&
+        !this.pinned;
+      if (!candidate.selected && !separatedByScrollButton) {
         tabContainer._beforeHoveredTab = candidate;
         candidate.setAttribute("beforehovered", "true");
       }
