@@ -1,7 +1,4 @@
 class FirefoxViewbutton extends FirefoxRadio {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

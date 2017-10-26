@@ -1,7 +1,4 @@
 class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

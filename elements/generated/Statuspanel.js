@@ -1,7 +1,4 @@
 class FirefoxStatuspanel extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:hbox class="statuspanel-inner">

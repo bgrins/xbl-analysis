@@ -1,7 +1,4 @@
 class FirefoxListhead extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:listheaditem>

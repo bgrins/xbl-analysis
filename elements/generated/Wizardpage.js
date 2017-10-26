@@ -1,7 +1,4 @@
 class FirefoxWizardpage extends FirefoxWizardBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

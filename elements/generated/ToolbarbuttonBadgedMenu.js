@@ -1,7 +1,4 @@
 class FirefoxToolbarbuttonBadgedMenu extends FirefoxToolbarbutton {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

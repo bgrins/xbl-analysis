@@ -1,7 +1,4 @@
 class FirefoxTreeBase extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

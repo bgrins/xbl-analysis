@@ -1,7 +1,4 @@
 class FirefoxListboxBase extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

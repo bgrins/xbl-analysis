@@ -1,7 +1,4 @@
 class FirefoxListrows extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.addEventListener(
       "DOMMouseScroll",

@@ -1,7 +1,4 @@
 class FirefoxToolbardecoration extends FirefoxToolbarBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

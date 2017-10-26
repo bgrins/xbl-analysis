@@ -1,7 +1,4 @@
 class FirefoxPanel extends FirefoxPopupBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

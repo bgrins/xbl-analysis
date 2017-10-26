@@ -1,7 +1,4 @@
 class FirefoxTabpanels extends FirefoxTabBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

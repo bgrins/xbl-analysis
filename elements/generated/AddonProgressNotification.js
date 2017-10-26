@@ -1,7 +1,4 @@
 class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

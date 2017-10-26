@@ -1,7 +1,4 @@
 class FirefoxControlItem extends FirefoxBasetext {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

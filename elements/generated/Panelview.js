@@ -1,7 +1,4 @@
 class FirefoxPanelview extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:box class="panel-header" anonid="header">

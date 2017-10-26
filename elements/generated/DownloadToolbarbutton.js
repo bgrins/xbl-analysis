@@ -1,7 +1,4 @@
 class FirefoxDownloadToolbarbutton extends FirefoxToolbarbuttonBadged {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

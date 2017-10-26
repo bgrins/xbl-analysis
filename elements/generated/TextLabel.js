@@ -1,7 +1,4 @@
 class FirefoxTextLabel extends FirefoxTextBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

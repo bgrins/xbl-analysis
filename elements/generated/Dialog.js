@@ -1,7 +1,4 @@
 class FirefoxDialog extends FirefoxRootElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

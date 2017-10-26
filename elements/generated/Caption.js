@@ -1,7 +1,4 @@
 class FirefoxCaption extends FirefoxBasetext {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

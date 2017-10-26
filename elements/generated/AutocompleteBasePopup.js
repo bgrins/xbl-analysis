@@ -1,7 +1,4 @@
 class FirefoxAutocompleteBasePopup extends FirefoxPopup {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

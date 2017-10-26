@@ -1,7 +1,4 @@
 class FirefoxMenucaptionInmenulist extends FirefoxMenucaption {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

@@ -1,7 +1,4 @@
 class FirefoxButtonRepeat extends FirefoxButton {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

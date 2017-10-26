@@ -1,7 +1,4 @@
 class FirefoxMenuButtonBase extends FirefoxButtonBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

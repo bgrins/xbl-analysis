@@ -1,7 +1,4 @@
 class FirefoxAutocompleteTreebody extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     Object.defineProperty(this, "mLastMoveTime", {
       configurable: true,

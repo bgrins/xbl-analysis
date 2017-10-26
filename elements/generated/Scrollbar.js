@@ -1,7 +1,4 @@
 class FirefoxScrollbar extends FirefoxScrollbarBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

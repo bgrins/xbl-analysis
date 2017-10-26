@@ -1,7 +1,4 @@
 class FirefoxMenuitemIconic extends FirefoxMenuitem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

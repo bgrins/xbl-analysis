@@ -1,7 +1,4 @@
 class FirefoxStatusbarpanel extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <children>

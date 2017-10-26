@@ -1,7 +1,4 @@
 class FirefoxColorpicker extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

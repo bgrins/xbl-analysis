@@ -1,7 +1,4 @@
 class FirefoxCheckbox extends FirefoxCheckboxBaseline {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

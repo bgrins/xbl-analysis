@@ -1,7 +1,4 @@
 class FirefoxArrowpanel extends FirefoxPanel {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

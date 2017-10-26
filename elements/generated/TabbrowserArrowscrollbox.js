@@ -1,7 +1,4 @@
 class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

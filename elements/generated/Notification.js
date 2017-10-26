@@ -1,7 +1,4 @@
 class FirefoxNotification extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:hbox class="notification-inner" flex="1" inherits="type">

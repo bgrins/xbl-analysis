@@ -1,7 +1,4 @@
 class FirefoxToolbarMenubarStub extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {}
 
   get toolbox() {

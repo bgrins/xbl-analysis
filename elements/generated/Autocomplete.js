@@ -1,7 +1,4 @@
 class FirefoxAutocomplete extends FirefoxTextbox {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

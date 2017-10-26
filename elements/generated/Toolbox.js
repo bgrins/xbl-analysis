@@ -1,7 +1,4 @@
 class FirefoxToolbox extends FirefoxToolbarBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

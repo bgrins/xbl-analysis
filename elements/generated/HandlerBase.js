@@ -1,7 +1,4 @@
 class FirefoxHandlerBase extends FirefoxRichlistitem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

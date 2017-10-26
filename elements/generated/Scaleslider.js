@@ -1,7 +1,4 @@
 class FirefoxScaleslider extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

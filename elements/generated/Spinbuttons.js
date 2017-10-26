@@ -1,7 +1,4 @@
 class FirefoxSpinbuttons extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

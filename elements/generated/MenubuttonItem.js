@@ -1,7 +1,4 @@
 class FirefoxMenubuttonItem extends FirefoxMenuitemBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

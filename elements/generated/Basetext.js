@@ -1,7 +1,4 @@
 class FirefoxBasetext extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

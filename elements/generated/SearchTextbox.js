@@ -1,7 +1,4 @@
 class FirefoxSearchTextbox extends FirefoxTextbox {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

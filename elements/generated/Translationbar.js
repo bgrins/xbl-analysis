@@ -1,7 +1,4 @@
 class FirefoxTranslationbar extends FirefoxNotification {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

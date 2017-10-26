@@ -1,7 +1,4 @@
 class FirefoxMenuButton extends FirefoxMenuButtonBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

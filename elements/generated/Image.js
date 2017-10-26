@@ -1,7 +1,4 @@
 class FirefoxImage extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {}
 
   set src(val) {

@@ -1,7 +1,4 @@
 class FirefoxAddengineIcon extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:image class="addengine-icon" inherits="src"></xul:image>

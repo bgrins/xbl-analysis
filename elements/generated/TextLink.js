@@ -1,7 +1,4 @@
 class FirefoxTextLink extends FirefoxTextLabel {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

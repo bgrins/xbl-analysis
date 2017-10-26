@@ -1,7 +1,4 @@
 class FirefoxBasecontrol extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {}
 
   set disabled(val) {

@@ -1,7 +1,4 @@
 class FirefoxNotificationbox extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:stack inherits="hidden=notificationshidden" class="notificationbox-stack">

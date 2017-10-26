@@ -1,7 +1,4 @@
 class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRichlistitem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

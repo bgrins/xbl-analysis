@@ -1,7 +1,4 @@
 class FirefoxListcellCheckbox extends FirefoxListcell {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

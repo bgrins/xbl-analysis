@@ -1,7 +1,4 @@
 class FirefoxFeed extends FirefoxRichlistitem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

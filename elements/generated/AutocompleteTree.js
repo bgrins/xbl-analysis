@@ -1,7 +1,4 @@
 class FirefoxAutocompleteTree extends FirefoxTree {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

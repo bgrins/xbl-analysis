@@ -1,7 +1,4 @@
 class FirefoxPluginPopupnotificationCenterItem extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:vbox pack="center" anonid="itemBox" class="itemBox">

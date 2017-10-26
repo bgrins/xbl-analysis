@@ -1,7 +1,4 @@
 class FirefoxTabbrowser extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">

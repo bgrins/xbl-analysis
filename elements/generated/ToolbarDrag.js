@@ -1,7 +1,4 @@
 class FirefoxToolbarDrag extends FirefoxToolbar {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

@@ -1,7 +1,4 @@
 class FirefoxInputBox extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <children></children>

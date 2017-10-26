@@ -1,7 +1,4 @@
 class FirefoxTabbrowserRemoteBrowser extends FirefoxRemoteBrowser {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

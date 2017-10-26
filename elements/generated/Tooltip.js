@@ -1,7 +1,4 @@
 class FirefoxTooltip extends FirefoxPopupBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

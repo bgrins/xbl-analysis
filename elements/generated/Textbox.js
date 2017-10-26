@@ -1,7 +1,4 @@
 class FirefoxTextbox extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <children></children>

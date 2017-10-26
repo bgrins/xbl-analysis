@@ -1,7 +1,4 @@
 class FirefoxMenuitemIconicNoaccel extends FirefoxMenuitem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

@@ -1,7 +1,4 @@
 class FirefoxProgressmeter extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:spacer class="progress-bar" inherits="mode"></xul:spacer>

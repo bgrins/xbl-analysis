@@ -1,7 +1,4 @@
 class FirefoxWizardButtons extends FirefoxWizardBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

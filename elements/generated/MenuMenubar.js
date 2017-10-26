@@ -1,7 +1,4 @@
 class FirefoxMenuMenubar extends FirefoxMenuBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

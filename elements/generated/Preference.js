@@ -1,7 +1,4 @@
 class FirefoxPreference extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     Object.defineProperty(this, "_constructed", {
       configurable: true,

@@ -1,7 +1,4 @@
 class FirefoxAutorepeatbutton extends FirefoxScrollboxBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

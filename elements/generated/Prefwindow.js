@@ -1,7 +1,4 @@
 class FirefoxPrefwindow extends FirefoxDialog {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

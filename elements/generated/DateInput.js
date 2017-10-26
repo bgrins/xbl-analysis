@@ -1,7 +1,4 @@
 class FirefoxDateInput extends FirefoxDatetimeInputBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     /* eslint-enable no-multi-spaces */

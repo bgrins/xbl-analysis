@@ -1,7 +1,4 @@
 class FirefoxDownloadSubviewToolbarbutton extends FirefoxMenuButtonBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

@@ -1,7 +1,4 @@
 class FirefoxGroupbox extends FirefoxGroupboxBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

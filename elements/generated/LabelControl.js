@@ -1,7 +1,4 @@
 class FirefoxLabelControl extends FirefoxTextLabel {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

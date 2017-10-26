@@ -1,7 +1,4 @@
 class FirefoxDatepickerGrid extends FirefoxDatepicker {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

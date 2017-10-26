@@ -1,7 +1,4 @@
 class FirefoxWizard extends FirefoxRootElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

@@ -1,7 +1,4 @@
 class FirefoxSitelistitem extends FirefoxRichlistitem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

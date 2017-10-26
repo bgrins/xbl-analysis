@@ -1,7 +1,4 @@
 class FirefoxDatetimepickerBase extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

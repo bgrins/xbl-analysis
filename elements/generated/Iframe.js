@@ -1,7 +1,4 @@
 class FirefoxIframe extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {}
 
   get docShell() {

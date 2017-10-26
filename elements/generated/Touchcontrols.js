@@ -1,7 +1,4 @@
 class FirefoxTouchcontrols extends FirefoxVideocontrols {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

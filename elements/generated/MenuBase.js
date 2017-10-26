@@ -1,7 +1,4 @@
 class FirefoxMenuBase extends FirefoxMenuitemBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

@@ -1,7 +1,4 @@
 class FirefoxSearchOneOffs extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:deck anonid="search-panel-one-offs-header" selectedIndex="0" class="search-panel-header search-panel-current-input">

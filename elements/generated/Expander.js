@@ -1,7 +1,4 @@
 class FirefoxExpander extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:hbox align="center">

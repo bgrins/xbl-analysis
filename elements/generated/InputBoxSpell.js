@@ -1,7 +1,4 @@
 class FirefoxInputBoxSpell extends FirefoxInputBox {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

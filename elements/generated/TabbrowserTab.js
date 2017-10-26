@@ -1,7 +1,4 @@
 class FirefoxTabbrowserTab extends FirefoxTab {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

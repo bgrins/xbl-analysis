@@ -1,7 +1,4 @@
 class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteResultPopup {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

@@ -1,7 +1,4 @@
 class FirefoxButtonImage extends FirefoxButton {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

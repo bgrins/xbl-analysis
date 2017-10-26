@@ -1,7 +1,4 @@
 class FirefoxHandler extends FirefoxHandlerBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

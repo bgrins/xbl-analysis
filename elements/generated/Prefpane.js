@@ -1,7 +1,4 @@
 class FirefoxPrefpane extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:vbox class="content-box" inherits="flex">

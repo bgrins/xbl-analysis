@@ -1,7 +1,4 @@
 class FirefoxStringbundle extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     Object.defineProperty(this, "_bundle", {
       configurable: true,

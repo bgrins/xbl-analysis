@@ -1,7 +1,4 @@
 class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

@@ -1,7 +1,4 @@
 class FirefoxTab extends FirefoxControlItem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

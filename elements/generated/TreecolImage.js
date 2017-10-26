@@ -1,7 +1,4 @@
 class FirefoxTreecolImage extends FirefoxTreecolBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

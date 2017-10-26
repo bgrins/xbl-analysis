@@ -1,7 +1,4 @@
 class FirefoxMenulist extends FirefoxMenulistBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

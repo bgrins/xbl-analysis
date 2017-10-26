@@ -1,7 +1,4 @@
 class FirefoxMenulistBase extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

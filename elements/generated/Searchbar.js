@@ -1,7 +1,4 @@
 class FirefoxSearchbar extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:stringbundle src="chrome://browser/locale/search.properties" anonid="searchbar-stringbundle"></xul:stringbundle>

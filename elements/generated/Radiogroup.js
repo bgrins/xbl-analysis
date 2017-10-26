@@ -1,7 +1,4 @@
 class FirefoxRadiogroup extends FirefoxBasecontrol {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

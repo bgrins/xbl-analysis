@@ -1,7 +1,4 @@
 class FirefoxTimepicker extends FirefoxDatetimepickerBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

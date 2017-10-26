@@ -1,7 +1,4 @@
 class FirefoxListitem extends FirefoxBasetext {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

@@ -1,7 +1,4 @@
 class FirefoxStatusbarpanelMenuIconic extends FirefoxStatusbarpanel {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

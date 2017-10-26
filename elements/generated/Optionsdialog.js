@@ -1,7 +1,4 @@
 class FirefoxOptionsdialog extends FirefoxDialog {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

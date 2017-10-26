@@ -1,7 +1,4 @@
 class FirefoxUrlbar extends FirefoxAutocomplete {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

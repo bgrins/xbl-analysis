@@ -1,7 +1,4 @@
 class FirefoxTimedTextbox extends FirefoxTextbox {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

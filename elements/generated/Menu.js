@@ -1,7 +1,4 @@
 class FirefoxMenu extends FirefoxToolbarbutton {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

@@ -1,7 +1,4 @@
 class FirefoxPhotonpanelmultiview extends FirefoxPanelmultiview {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

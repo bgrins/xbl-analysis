@@ -1,7 +1,4 @@
 class FirefoxRichlistbox extends FirefoxListboxBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

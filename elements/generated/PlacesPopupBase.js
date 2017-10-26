@@ -1,7 +1,4 @@
 class FirefoxPlacesPopupBase extends FirefoxPopup {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

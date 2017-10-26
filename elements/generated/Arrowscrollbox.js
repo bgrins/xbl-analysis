@@ -1,7 +1,4 @@
 class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

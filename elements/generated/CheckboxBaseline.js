@@ -1,7 +1,4 @@
 class FirefoxCheckboxBaseline extends FirefoxBasetext {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

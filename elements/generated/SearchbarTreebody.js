@@ -1,7 +1,4 @@
 class FirefoxSearchbarTreebody extends FirefoxAutocompleteTreebody {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

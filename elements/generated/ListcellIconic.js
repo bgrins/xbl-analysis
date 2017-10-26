@@ -1,7 +1,4 @@
 class FirefoxListcellIconic extends FirefoxListcell {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

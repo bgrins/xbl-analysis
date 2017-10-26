@@ -1,7 +1,4 @@
 class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

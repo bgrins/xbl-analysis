@@ -1,7 +1,4 @@
 class FirefoxNumberbox extends FirefoxTextbox {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

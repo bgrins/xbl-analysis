@@ -1,7 +1,4 @@
 class FirefoxTextBase extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {}
 
   set disabled(val) {

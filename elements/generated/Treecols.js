@@ -1,7 +1,4 @@
 class FirefoxTreecols extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:hbox class="tree-scrollable-columns" flex="1">

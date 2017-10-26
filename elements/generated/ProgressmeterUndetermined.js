@@ -1,7 +1,4 @@
 class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

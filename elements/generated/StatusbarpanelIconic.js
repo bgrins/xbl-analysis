@@ -1,7 +1,4 @@
 class FirefoxStatusbarpanelIconic extends FirefoxStatusbarpanel {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

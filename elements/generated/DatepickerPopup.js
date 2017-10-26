@@ -1,7 +1,4 @@
 class FirefoxDatepickerPopup extends FirefoxDatepicker {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

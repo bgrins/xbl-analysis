@@ -1,7 +1,4 @@
 class FirefoxPopupBase extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {}
 
   set label(val) {

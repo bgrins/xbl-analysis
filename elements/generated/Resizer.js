@@ -1,7 +1,4 @@
 class FirefoxResizer extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     // don't do this for viewport resizers; causes a crash related to
     // bugs 563665 and 581536 otherwise

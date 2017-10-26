@@ -1,7 +1,4 @@
 class FirefoxPopupNotification extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:hbox align="start" class="popup-notification-body-container">

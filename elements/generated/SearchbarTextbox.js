@@ -1,7 +1,4 @@
 class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

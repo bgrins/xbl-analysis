@@ -1,7 +1,4 @@
 class FirefoxMenubar extends FirefoxToolbarBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

@@ -1,7 +1,4 @@
 class FirefoxTabbox extends FirefoxTabBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

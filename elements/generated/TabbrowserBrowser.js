@@ -1,7 +1,4 @@
 class FirefoxTabbrowserBrowser extends FirefoxBrowser {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

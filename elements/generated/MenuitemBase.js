@@ -1,7 +1,4 @@
 class FirefoxMenuitemBase extends FirefoxControlItem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
   }

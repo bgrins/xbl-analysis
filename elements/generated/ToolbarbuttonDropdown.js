@@ -1,7 +1,4 @@
 class FirefoxToolbarbuttonDropdown extends FirefoxMenuBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

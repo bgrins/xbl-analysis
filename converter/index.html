@@ -8851,9 +8851,6 @@
   }
 
   js.push(`
-    constructor() {
-      super();
-    }
     connectedCallback() {
       ${hasExtends ? 'super.connectedCallback()' : ''}
       ${innerHTML}

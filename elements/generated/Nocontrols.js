@@ -1,7 +1,4 @@
 class FirefoxNocontrols extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <vbox flex="1" class="statusOverlay" hidden="true">

@@ -1,7 +1,4 @@
 class FirefoxScrollbarBase extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.addEventListener("contextmenu", event => {
       event.stopPropagation();

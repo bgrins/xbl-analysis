@@ -1,7 +1,4 @@
 class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfileListitemBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

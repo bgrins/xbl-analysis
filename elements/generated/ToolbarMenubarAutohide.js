@@ -1,7 +1,4 @@
 class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

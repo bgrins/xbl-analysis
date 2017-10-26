@@ -1,7 +1,4 @@
 class FirefoxToolbarpaletteitemPalette extends FirefoxToolbarpaletteitem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

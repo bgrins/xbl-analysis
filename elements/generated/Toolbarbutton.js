@@ -1,7 +1,4 @@
 class FirefoxToolbarbutton extends FirefoxButtonBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

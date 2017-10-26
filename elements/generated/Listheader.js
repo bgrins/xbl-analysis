@@ -1,7 +1,4 @@
 class FirefoxListheader extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <xul:image class="listheader-icon"></xul:image>

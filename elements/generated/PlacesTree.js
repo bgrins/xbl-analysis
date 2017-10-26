@@ -1,7 +1,4 @@
 class FirefoxPlacesTree extends FirefoxTree {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

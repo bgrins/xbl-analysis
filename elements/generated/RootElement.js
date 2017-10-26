@@ -1,7 +1,4 @@
 class FirefoxRootElement extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     Object.defineProperty(this, "_lightweightTheme", {
       configurable: true,

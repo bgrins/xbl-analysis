@@ -1,7 +1,4 @@
 class FirefoxDeck extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {}
 
   set selectedIndex(val) {

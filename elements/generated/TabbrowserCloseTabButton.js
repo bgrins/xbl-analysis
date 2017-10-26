@@ -1,7 +1,4 @@
 class FirefoxTabbrowserCloseTabButton extends FirefoxToolbarbuttonImage {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
 

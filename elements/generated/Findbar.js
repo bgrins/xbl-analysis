@@ -1,7 +1,4 @@
 class FirefoxFindbar extends FirefoxToolbar {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

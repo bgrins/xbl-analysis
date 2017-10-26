@@ -1,7 +1,4 @@
 class FirefoxVideocontrols extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.innerHTML = `
       <div anonid="controlsContainer" class="controlsContainer" role="none">

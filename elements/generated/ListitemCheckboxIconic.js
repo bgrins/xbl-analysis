@@ -1,7 +1,4 @@
 class FirefoxListitemCheckboxIconic extends FirefoxListitemCheckbox {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

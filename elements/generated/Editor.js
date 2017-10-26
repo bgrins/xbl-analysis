@@ -1,7 +1,4 @@
 class FirefoxEditor extends XULElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     Object.defineProperty(this, "_editorContentListener", {
       configurable: true,

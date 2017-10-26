@@ -1,7 +1,4 @@
 class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

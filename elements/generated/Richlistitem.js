@@ -1,7 +1,4 @@
 class FirefoxRichlistitem extends FirefoxListitem {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `

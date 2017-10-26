@@ -1,7 +1,4 @@
 class FirefoxColumnpicker extends FirefoxTreeBase {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `
