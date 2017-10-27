@@ -614,6 +614,12 @@ class FirefoxTabbrowser extends XULElement {
     );
     XPCOMUtils.defineLazyPreferenceGetter(
       this,
+      "schedulePressureDefaultCount",
+      "browser.schedulePressure.defaultCount",
+      3
+    );
+    XPCOMUtils.defineLazyPreferenceGetter(
+      this,
       "tabWarmingEnabled",
       "browser.tabs.remote.warmup.enabled",
       false
@@ -1636,6 +1642,38 @@ class FirefoxTabbrowser extends XULElement {
             ) {
               this.mTab.setAttribute("busy", "true");
               this.mTab._notselectedsinceload = !this.mTab.selected;
+              SchedulePressure.startMonitoring(window, {
+                highPressureFn() {
+                  // Only switch back to the SVG loading indicator after getting
+                  // three consecutive low pressure callbacks. Used to prevent
+                  // switching quickly between the SVG and APNG loading indicators.
+                  gBrowser.tabContainer._schedulePressureCount =
+                    gBrowser.schedulePressureDefaultCount;
+                  gBrowser.tabContainer.setAttribute(
+                    "schedulepressure",
+                    "true"
+                  );
+                },
+                lowPressureFn() {
+                  if (
+                    !gBrowser.tabContainer._schedulePressureCount ||
+                    --gBrowser.tabContainer._schedulePressureCount <= 0
+                  ) {
+                    gBrowser.tabContainer.removeAttribute("schedulepressure");
+                  }
+
+                  // If tabs are closed while they are loading we need to
+                  // stop monitoring schedule pressure. We don't stop monitoring
+                  // during high pressure times because we want to eventually
+                  // return to the SVG tab loading animations.
+                  let continueMonitoring = true;
+                  if (!document.querySelector(".tabbrowser-tab[busy]")) {
+                    SchedulePressure.stopMonitoring(window);
+                    continueMonitoring = false;
+                  }
+                  return { continueMonitoring };
+                }
+              });
               this._syncThrobberAnimations();
             }
 
@@ -1649,6 +1687,10 @@ class FirefoxTabbrowser extends XULElement {
         ) {
           if (this.mTab.hasAttribute("busy")) {
             this.mTab.removeAttribute("busy");
+            if (!document.querySelector(".tabbrowser-tab[busy]")) {
+              SchedulePressure.stopMonitoring(window);
+              this.mTabBrowser.tabContainer.removeAttribute("schedulepressure");
+            }
 
             // Only animate the "burst" indicating the page has loaded if
             // the top-level page is the one that finished loading.

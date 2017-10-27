@@ -11,6 +11,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
         <xul:hbox inherits="pinned,bursting,notselectedsinceload" anonid="tab-loading-burst" class="tab-loading-burst"></xul:hbox>
         <xul:hbox inherits="pinned,selected=visuallyselected,titlechanged,attention" class="tab-content" align="center">
           <xul:hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected" anonid="tab-throbber" class="tab-throbber" layer="true"></xul:hbox>
+          <xul:image inherits="fadein,pinned,busy,progress,selected=visuallyselected" class="tab-throbber-fallback" role="presentation" layer="true"></xul:image>
           <xul:image inherits="src=image,triggeringprincipal=iconloadingprincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing" anonid="tab-icon-image" class="tab-icon-image" validate="never" role="presentation"></xul:image>
           <xul:image inherits="sharing,selected=visuallyselected,pinned" anonid="sharing-icon" class="tab-sharing-icon-overlay" role="presentation"></xul:image>
           <xul:image inherits="crashed,busy,soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="overlay-icon" class="tab-icon-overlay" role="presentation"></xul:image>

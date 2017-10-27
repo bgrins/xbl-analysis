@@ -12,7 +12,7 @@ class FirefoxVideocontrols extends XULElement {
           <span class="errorLabel" anonid="errorGeneric"></span>
         </div>
         <div anonid="controlsOverlay" class="controlsOverlay stackItem">
-          <div class="controlsSpacerStack" aria-hideen="true">
+          <div class="controlsSpacerStack">
             <div anonid="controlsSpacer" class="controlsSpacer stackItem" role="none"></div>
             <div anonid="clickToPlay" class="clickToPlay" hidden="true"></div>
           </div>

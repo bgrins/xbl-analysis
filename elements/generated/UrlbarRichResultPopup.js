@@ -289,19 +289,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   }
 
   set margins(val) {
-    if (val == this._margins) {
-      return val;
-    }
-
-    if (
-      val &&
-      this._margins &&
-      val.start == this._margins.start &&
-      val.end == this._margins.end
-    ) {
-      return val;
-    }
-
     this._margins = val;
 
     if (val) {
@@ -318,9 +305,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       this.style.removeProperty("--item-padding-start");
       this.style.removeProperty("--item-padding-end");
     }
-    for (let item of this.richlistbox.childNodes) {
-      item.handleOverUnderflow();
-    }
+
     return val;
   }
 
@@ -440,6 +425,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // 250px".  Do this *before* adding any items because when the new
     // value of the margins are different from the previous value, over-
     // and underflow must be handled for each item already in the popup.
+    let needsHandleOverUnderflow = false;
     let boundToCheck = popupDirection == "rtl" ? "right" : "left";
     let inputRect = this.DOMWindowUtils.getBoundsWithoutFlushing(aInput);
     let startOffset = Math.abs(
@@ -462,21 +448,23 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       let identityRect = this.DOMWindowUtils.getBoundsWithoutFlushing(
         identityIcon
       );
-      if (popupDirection == "rtl") {
-        this.margins = {
-          start: documentRect.right - identityRect.right,
-          end: endOffset
-        };
-      } else {
-        this.margins = {
-          start: identityRect.left,
-          end: endOffset
-        };
+      let start = popupDirection == "rtl"
+        ? documentRect.right - identityRect.right
+        : identityRect.left;
+      if (
+        !this.margins ||
+        start != this.margins.start ||
+        endOffset != this.margins.end ||
+        width != this.margins.width
+      ) {
+        this.margins = { start, end: endOffset, width };
+        needsHandleOverUnderflow = true;
       }
-    } else {
+    } else if (this.margins) {
       // Reset the alignment so that the site icons are positioned
       // according to whatever's in the CSS.
       this.margins = undefined;
+      needsHandleOverUnderflow = true;
     }
 
     // Now that the margins have been set, start adding items (via
@@ -529,6 +517,14 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     );
 
     this.openPopup(aElement, "after_start", 0, yOffset, false, false);
+
+    // Do this immediately after we've requested the popup to open. This
+    // will cause sync reflows but prevents flickering.
+    if (needsHandleOverUnderflow) {
+      for (let item of this.richlistbox.childNodes) {
+        item.handleOverUnderflow();
+      }
+    }
   }
   _showSearchSuggestionsNotification(whichNotification, popupDirection) {
     if (whichNotification == "opt-out") {
