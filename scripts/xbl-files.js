@@ -63,6 +63,7 @@ var toolkitFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml',
 ];
 var allFiles = module.exports.files = browserFiles.concat(toolkitFiles);
 
@@ -83,6 +84,12 @@ module.exports.getParsedFiles = (rev) => {
       body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2"); // Replace DTD entities
       body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3"); // Replace DTD entities
       body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3-$4"); // Replace DTD entities
+
+      // This file creates a binding with a duplicate ID from the base binding
+      if (file.includes("themes/windows/global/globalBindings.xml")) {
+        body = body.replace('id="radio"', 'id="windows-radio"');
+      }
+
       return xmlom.parseString(body, { xmlns: true }).then(doc => {
         return { doc, body, url: file, file: file.split('/').reverse()[0] };
       }, (e=> {
