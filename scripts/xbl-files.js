@@ -1,6 +1,7 @@
 var xmlom = require('xmlom');
 var fs = require('fs');
 var request = require('request-promise-native');
+var moment = require("moment");
 
 var browserFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/browser-tabPreviews.xml',
@@ -66,6 +67,32 @@ var toolkitFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml',
 ];
 var allFiles = module.exports.files = browserFiles.concat(toolkitFiles);
+
+
+// Build up an array like:
+// '2017-07-01',
+// '2017-07-15',
+// '2017-08-01',
+// ...
+module.exports.getRevsOverTime = () => {
+  let old = moment("2017-07-01");
+  let now = moment();
+  let revs = [];
+  let addDays = false;
+  while (old < now) {
+    if (addDays) {
+      old.add(14, 'days');
+      if (old < now) {
+        revs.push(old.format('YYYY-MM-DD'));
+      }
+      old.subtract(14, 'days').add(1, 'month');
+    } else {
+      revs.push(old.format('YYYY-MM-DD'));
+    }
+    addDays = !addDays;
+  }
+  return revs.map(r => `master@{${r}}`);
+}
 
 module.exports.getParsedFiles = (rev) => {
   let files = allFiles;

@@ -1,10 +1,11 @@
 
 var fs = require('fs');
-var {getParsedFiles} = require('./xbl-files');
+var {getParsedFiles,getRevsOverTime} = require('./xbl-files');
 var {allSortedBindings} = require('./sorted-bindings');
-var moment = require("moment");
 var prettier = require("prettier");
 var data = {};
+
+const revs = getRevsOverTime();
 
 function countForRev(rev) {
   console.log(`Looking at ${rev}`);
@@ -45,28 +46,6 @@ function mapToObj(map) {
   return obj;
 }
 
-// Build up an array like:
-// '2017-07-01',
-// '2017-07-15',
-// '2017-08-01',
-// ...
-let old = moment("2017-07-01");
-let now = moment();
-let revs = [];
-let addDays = false;
-while (old < now) {
-  if (addDays) {
-    old.add(14, 'days');
-    if (old < now) {
-      revs.push(old.format('YYYY-MM-DD'));
-    }
-    old.subtract(14, 'days').add(1, 'month');
-  } else {
-    revs.push(old.format('YYYY-MM-DD'));
-  }
-  addDays = !addDays;
-}
-revs = revs.map(r => `master@{${r}}`);
 
 Promise.all(
   revs.map(rev => {
