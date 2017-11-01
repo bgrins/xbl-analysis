@@ -492,7 +492,7 @@ const data = {
   },
 
 
-  // https://treeherder.mozilla.org/#/jobs?repo=try&revision=27ba161199d225f983f5598505d26355133b5746
+  // https://treeherder.mozilla.org/#/jobs?repo=try&revision=985ab87e85f5c16b7b1f64f872d9c1ac1c502af7
   "master@{2017-11-01}" : {
     "text-label": 3710,
     "image": 3057,

@@ -68,7 +68,6 @@ var toolkitFiles = [
 ];
 var allFiles = module.exports.files = browserFiles.concat(toolkitFiles);
 
-
 // Build up an array like:
 // '2017-07-01',
 // '2017-07-15',
