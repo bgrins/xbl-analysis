@@ -3397,6 +3397,9 @@ class FirefoxTabbrowser extends XULElement {
     tab.removeAttribute("linkedpanel");
 
     this._createLazyBrowser(tab);
+
+    let evt = new CustomEvent("TabBrowserDiscarded", { bubbles: true });
+    tab.dispatchEvent(evt);
   }
   addTab(
     aURI,

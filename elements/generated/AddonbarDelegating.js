@@ -1,38 +1,60 @@
-class XblAddonbarDelegating extends BaseElement {
-  constructor() {
-    super();
-  }
+class FirefoxAddonbarDelegating extends XULElement {
   connectedCallback() {
-    console.log(this, "connected");
-
-    let comment = document.createComment("Creating xbl-addonbar-delegating");
-    this.prepend(comment);
-
-    try {
-      // Reading these immediately so nobody messes with them anymore:
-      this._delegatingToolbar = this.getAttribute("toolbar-delegate");
-      this._wasCollapsed = this.getAttribute("collapsed") == "true";
-      // Leaving those in here to unbreak some code:
-      if (document.readyState == "complete") {
-        this._init();
-      } else {
-        // Need to wait until XUL overlays are loaded. See bug 554279.
-        let self = this;
-        document.addEventListener(
-          "readystatechange",
-          function onReadyStateChange() {
-            if (document.readyState != "complete") return;
-            document.removeEventListener(
-              "readystatechange",
-              onReadyStateChange
-            );
-            self._init();
-          }
-        );
+    Object.defineProperty(this, "_whiteListed", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._whiteListed;
+        return (this._whiteListed = new Set([
+          "addonbar-closebutton",
+          "status-bar"
+        ]));
       }
-    } catch (e) {}
+    });
+    Object.defineProperty(this, "_isModifying", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._isModifying;
+        return (this._isModifying = false);
+      },
+      set(val) {
+        delete this._isModifying;
+        return (this._isModifying = val);
+      }
+    });
+    Object.defineProperty(this, "_currentSetMigrated", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._currentSetMigrated;
+        return (this._currentSetMigrated = new Set());
+      },
+      set(val) {
+        delete this._currentSetMigrated;
+        return (this._currentSetMigrated = val);
+      }
+    });
+
+    // Reading these immediately so nobody messes with them anymore:
+    this._delegatingToolbar = this.getAttribute("toolbar-delegate");
+    this._wasCollapsed = this.getAttribute("collapsed") == "true";
+    // Leaving those in here to unbreak some code:
+    if (document.readyState == "complete") {
+      this._init();
+    } else {
+      // Need to wait until XUL overlays are loaded. See bug 554279.
+      let self = this;
+      document.addEventListener(
+        "readystatechange",
+        function onReadyStateChange() {
+          if (document.readyState != "complete") return;
+          document.removeEventListener("readystatechange", onReadyStateChange);
+          self._init();
+        }
+      );
+    }
   }
-  disconnectedCallback() {}
 
   get customizationTarget() {
     return this;
@@ -233,4 +255,4 @@ class XblAddonbarDelegating extends BaseElement {
     }
   }
 }
-customElements.define("xbl-addonbar-delegating", XblAddonbarDelegating);
+customElements.define("firefox-addonbar-delegating", FirefoxAddonbarDelegating);

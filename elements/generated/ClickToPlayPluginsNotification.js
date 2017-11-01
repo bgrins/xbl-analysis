@@ -2,13 +2,13 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `
-      <xul:vbox flex="1" align="stretch" class="click-to-play-plugins-notification-main-box" inherits="popupid">
+      <xul:vbox flex="1" align="stretch" class="popup-notification-main-box" inherits="popupid">
         <xul:hbox class="click-to-play-plugins-notification-description-box" flex="1" align="start">
           <xul:description class="click-to-play-plugins-outer-description" flex="1">
             <html:span anonid="click-to-play-plugins-notification-description"></html:span>
-            <html:br></html:br>
-            <xul:label class="text-link click-to-play-plugins-notification-link popup-notification-learnmore-link" anonid="click-to-play-plugins-notification-link"></xul:label>
+            <xul:label class="text-link click-to-play-plugins-notification-link" anonid="click-to-play-plugins-notification-link"></xul:label>
           </xul:description>
+          <xul:toolbarbutton anonid="closebutton" class="messageCloseButton popup-notification-closebutton tabbable close-icon" inherits="oncommand=closebuttoncommand" tooltiptext="FROM-DTD-closeNotification-tooltip"></xul:toolbarbutton>
         </xul:hbox>
         <xul:grid anonid="click-to-play-plugins-notification-center-box" class="click-to-play-plugins-notification-center-box">
           <xul:columns>
@@ -23,8 +23,8 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
           </xul:rows>
         </xul:grid>
         <xul:hbox anonid="button-container" class="click-to-play-plugins-notification-button-container" pack="center" align="center">
-          <xul:button anonid="primarybutton" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this)" flex="1"></xul:button>
-          <xul:button anonid="secondarybutton" default="true" highlight="true" class="click-to-play-popup-button popup-notification-button" oncommand="document.getBindingParent(this)._onButton(this);" flex="1"></xul:button>
+          <xul:button anonid="primarybutton" class="click-to-play-popup-button" oncommand="document.getBindingParent(this)._onButton(this)" flex="1"></xul:button>
+          <xul:button anonid="secondarybutton" class="click-to-play-popup-button" oncommand="document.getBindingParent(this)._onButton(this);" flex="1"></xul:button>
         </xul:hbox>
         <xul:box hidden="true">
           <children></children>
@@ -361,12 +361,6 @@ class FirefoxClickToPlayPluginsNotification extends FirefoxPopupNotification {
       this._primaryButton.setAttribute("default", "true");
     } else if (button2.default) {
       this._secondaryButton.setAttribute("default", "true");
-    }
-
-    if (this._primaryButton.hidden) {
-      this._secondaryButton.setAttribute("alone", "true");
-    } else if (this._secondaryButton.hidden) {
-      this._primaryButton.setAttribute("alone", "true");
     }
   }
   _setupDescription(baseString, pluginName, prePath) {

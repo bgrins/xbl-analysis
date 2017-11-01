@@ -38,7 +38,6 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
            * @param {string[]} data.categories
            *        The categories of all the fields contained in the selected address.
            */
-    const namespace = "category.";
     this._updateWarningNote = ({ data } = {}) => {
       let categories = data && data.categories
         ? data.categories
@@ -49,18 +48,23 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
       let hasExtraCategories = categories.length > 1;
       // Show the categories in certain order to conform with the spec.
       let orderedCategoryList = [
-        "address",
-        "name",
-        "organization",
-        "tel",
-        "email"
+        { id: "address", l10nId: "category.address" },
+        { id: "name", l10nId: "category.name" },
+        { id: "organization", l10nId: "category.organization2" },
+        { id: "tel", l10nId: "category.tel" },
+        { id: "email", l10nId: "category.email" }
       ];
       let showCategories = hasExtraCategories
         ? orderedCategoryList.filter(
             category =>
-              categories.includes(category) && category != this._focusedCategory
+              categories.includes(category.id) &&
+              category.id != this._focusedCategory
           )
-        : [this._focusedCategory];
+        : [
+            orderedCategoryList.find(
+              category => category.id == this._focusedCategory
+            )
+          ];
 
       let separator = this._stringBundle.GetStringFromName(
         "fieldNameSeparator"
@@ -69,9 +73,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
         ? "phishingWarningMessage"
         : "phishingWarningMessage2";
       let categoriesText = showCategories
-        .map(category =>
-          this._stringBundle.GetStringFromName(namespace + category)
-        )
+        .map(category => this._stringBundle.GetStringFromName(category.l10nId))
         .join(separator);
 
       this._warningTextBox.textContent = this._stringBundle.formatStringFromName(
