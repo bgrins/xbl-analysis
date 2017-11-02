@@ -73,7 +73,7 @@ var allFiles = module.exports.files = browserFiles.concat(toolkitFiles);
 // '2017-07-15',
 // '2017-08-01',
 // ...
-module.exports.getRevsOverTime = () => {
+function getRevsOverTime() {
   let old = moment("2017-07-01");
   let now = moment();
   let revs = [];
@@ -92,6 +92,7 @@ module.exports.getRevsOverTime = () => {
   }
   return revs.map(r => `master@{${r}}`);
 }
+module.exports.revs = getRevsOverTime();
 
 module.exports.getParsedFiles = (rev) => {
   let files = allFiles;

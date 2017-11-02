@@ -1,11 +1,9 @@
 
 var fs = require('fs');
-var {getParsedFiles,getRevsOverTime} = require('./xbl-files');
+var {getParsedFiles,revs} = require('./xbl-files');
 var {allSortedBindings} = require('./sorted-bindings');
 var prettier = require("prettier");
 var data = {};
-
-const revs = getRevsOverTime();
 
 function countForRev(rev) {
   console.log(`Looking at ${rev}`);
@@ -45,7 +43,6 @@ function mapToObj(map) {
   }
   return obj;
 }
-
 
 Promise.all(
   revs.map(rev => {
