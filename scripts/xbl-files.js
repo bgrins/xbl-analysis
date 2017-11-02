@@ -94,6 +94,13 @@ function getRevsOverTime() {
 }
 module.exports.revs = getRevsOverTime();
 
+module.exports.getPrettyRev = rev => {
+  if (!rev) {
+    return "index";
+  }
+  return rev.split("{")[1].split("}")[0];
+}
+
 module.exports.getParsedFiles = (rev) => {
   let files = allFiles;
   if (rev) {

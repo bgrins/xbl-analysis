@@ -1,15 +1,9 @@
 
 var fs = require('fs');
 var sortedBindings = require('./sorted-bindings').latest;
-var {getParsedFiles, files, revs} = require('./xbl-files');
+var {getParsedFiles, files, revs, getPrettyRev} = require('./xbl-files');
 
 revs = revs.slice();
-const getPrettyRev = rev => {
-  if (!rev) {
-    return "index";
-  }
-  return rev.split("{")[1].split("}")[0];
-}
 const revlinksHTML = revs.map(r=>`<a href='${getPrettyRev(r)}.html'>${getPrettyRev(r)}</a>`).join(" ");
 // Get the latest data last (will be written into index.html)
 revs.push(undefined);

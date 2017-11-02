@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "all": "npm run tree && npm run elements && npm run graph && npm run converter",
+    "all": "npm run tree && npm run elements && npm run graph && npm run converter && npm run timeline",
     "tree": "node scripts/build-xbl-tree",
     "converter": "node scripts/build-converter",
+    "timeline": "node scripts/build-timeline",
     "elements": "node scripts/build-custom-elements",
     "graph": "node scripts/build-xbl-graph"
   },
