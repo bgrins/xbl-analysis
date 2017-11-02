@@ -72,7 +72,7 @@ Promise.all(
 ).then(() => {
   var text = fs.readFileSync('index.html', 'utf8');
   var newText = text.split("<!-- REPLACE-TIMELINE -->")[0] + "<!-- REPLACE-TIMELINE -->\n";
-  newText += `<p>Started with <b>${maxBindings}</b> bindings, there are <b>${remainingBindings}</b> bindings remaining.</p>`;
+  newText += `<p>Starting with <b>${maxBindings}</b> bindings - there are <b>${remainingBindings}</b> bindings remaining.</p>`;
   newText += `<section id="cd-timeline" class="cd-container">`;
   for (var i = revs.length - 1; i > 0; i--) {
     var {added, deleted} = diff(idsForRev[revs[i-1]], idsForRev[revs[i]]);
