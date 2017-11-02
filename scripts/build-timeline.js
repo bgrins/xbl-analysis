@@ -4,6 +4,8 @@ var fs = require('fs');
 var sortedBindings = require('./sorted-bindings').latest;
 var {getParsedFiles, files, revs, getPrettyRev} = require('./xbl-files');
 
+var maxBindings = 0;
+var remainingBindings = 0;
 var idsForRev = { };
 var KNOWN_BUGS = {
   "": ""
@@ -31,13 +33,21 @@ function diff(base, compared) {
 };
 
 
-function getBindingsForRev(rev) {
+function getBindingsForRev(rev, last) {
   return getParsedFiles(rev).then(docs => {
+    let totalBindings = 0;
     docs.forEach(({doc}, i) => {
-      doc.find('binding').forEach(binding => {
+      let bindings = doc.find('binding');
+      totalBindings += bindings.length;
+      return bindings.forEach(binding => {
         idsForRev[rev][binding.attrs.id] = true;
       })
-    })
+    });
+
+    maxBindings = Math.max(maxBindings, totalBindings);
+    if (last) {
+      remainingBindings = totalBindings;
+    }
   });
 }
 
@@ -55,13 +65,14 @@ function getMarkup(added, date, name) {
 }
 
 Promise.all(
-  revs.map(rev => {
+  revs.map((rev, i) => {
     idsForRev[rev] = {};
-    return getBindingsForRev(rev);
+    return getBindingsForRev(rev, i === revs.length - 1);
   })
 ).then(() => {
   var text = fs.readFileSync('index.html', 'utf8');
   var newText = text.split("<!-- REPLACE-TIMELINE -->")[0] + "<!-- REPLACE-TIMELINE -->\n";
+  newText += `<p>Started with <b>${maxBindings}</b> bindings, there are <b>${remainingBindings}</b> bindings remaining.</p>`;
   newText += `<section id="cd-timeline" class="cd-container">`;
   for (var i = revs.length - 1; i > 0; i--) {
     var {added, deleted} = diff(idsForRev[revs[i-1]], idsForRev[revs[i]]);

@@ -55,6 +55,14 @@ summary {padding: 4px 0; position: relative; width: 100%; }
   color: #7f8c97;
   background-color: #e9f0f5;
 }
+
+#cd-timeline h2 {
+  font-weight: normal;
+}
+.cd-date {
+  font-weight: bold;
+}
+
 #cd-timeline::before {
   /* this is the vertical line */
   content: '';
