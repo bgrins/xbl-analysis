@@ -64,17 +64,21 @@ function getMarkup(added, date, name) {
   </div>`;
 }
 
+function processSequential(list, cb) {
+  list = list.slice();
+  return list.reduce(function (chain, item, i) {
+    return chain.then(cb.bind(null, item, i === list.length - 1));
+  }, cb(list.shift(), false));
+}
+
 function processRev(rev, last) {
   idsForRev[rev] = {};
   console.log("Processing ", rev, last);
   return getBindingsForRev(rev, last);
 }
 
-// Cache files in sequence
-let clonedRevs = revs.slice(0);
-clonedRevs.reduce(function (chain, item, i) {
-  return chain.then(processRev.bind(null, item, i === clonedRevs.length - 1));
-}, processRev(clonedRevs.shift(), false)).then(() => {
+// Cache files in sequence since we are doing every day. Slower but prevents oom.
+processSequential(revs, processRev).then(() => {
   var text = fs.readFileSync('index.html', 'utf8');
   var newText = text.split("<!-- REPLACE-TIMELINE -->")[0] + "<!-- REPLACE-TIMELINE -->\n";
   newText += `<p>Starting with <b>${maxBindings}</b> bindings - there are <b>${remainingBindings}</b> bindings remaining.</p>`;
@@ -98,27 +102,3 @@ clonedRevs.reduce(function (chain, item, i) {
   newText += "\n<!-- END-REPLACE-TIMELINE -->" + text.split("<!-- END-REPLACE-TIMELINE -->")[1];
   fs.writeFileSync('index.html', newText);
 })
-
-
-  //   <div class="cd-timeline-block">
-  //     <div class="cd-timeline-img cd-addition">
-  //     </div>
-
-  //     <div class="cd-timeline-content">
-  //       <h2><span class="cd-date">2017-05-10</span> Added foo-binding</h2>
-  //       <p><a href="#0">Bug foo</a>.</p>
-
-  //     </div> <!-- cd-timeline-content -->
-  //   </div> <!-- cd-timeline-block -->
-
-  //   <div class="cd-timeline-block">
-  //     <div class="cd-timeline-img cd-subtraction">
-  //     </div>
-
-  //     <div class="cd-timeline-content">
-  //       <h2>Title of section 2</h2>
-  //       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?</p>
-  //       <a href="#0" class="cd-read-more">Read more</a>
-  //       <span class="cd-date">Jan 18</span>
-  //     </div> <!-- cd-timeline-content -->
-  //   </div> <!-- cd-timeline-block -->

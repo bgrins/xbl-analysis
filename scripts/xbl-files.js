@@ -138,6 +138,7 @@ function populateCache(rev) {
       fs.writeFileSync(cachedFilePath, body);
     }).catch(e => {
       console.log("Error requesting: ", file, rev);
+      throw "Error requesting file: " + file;
     })
   }));
 }
