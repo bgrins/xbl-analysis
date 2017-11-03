@@ -3,6 +3,8 @@ var fs = require('fs');
 var request = require('request-promise-native');
 var moment = require("moment");
 
+//  egrep -l1 -r -n -i --include="*.xml" "<binding id" .
+
 var browserFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/browser-tabPreviews.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/pageinfo/feeds.xml',
@@ -65,8 +67,14 @@ var toolkitFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/setting.xml',
 ];
-var allFiles = module.exports.files = browserFiles.concat(toolkitFiles);
+var mobileFiles = [
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/checkbox.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/settings.xml',
+];
+
+var allFiles = module.exports.files = browserFiles.concat(toolkitFiles).concat(mobileFiles);
 
 // Build up an array like:
 // '2017-07-01',
