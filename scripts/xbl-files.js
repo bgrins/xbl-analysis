@@ -5,7 +5,7 @@ var moment = require("moment");
 
 process.on('unhandledRejection', (reason, p) => {
   console.log("Exiting due to unhandled rejection!");
-  console.error(reason);
+  console.log(reason, p);
   process.exit(2);
 });
 
@@ -209,10 +209,24 @@ function parseBody(body, file) {
   body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3-$4"); // Replace DTD entities
   body = body.replace(/RESETTHISBACK/g, '&amp;&amp;');
   // This file creates a binding with a duplicate ID from the base binding
-  if (file.includes("themes/windows/global/globalBindings.xml")) {
-    body = body.replace('id="radio"', 'id="windows-radio"');
+
+
+  var replaceDuplicateIds = {
+    "themes/windows/global/globalBindings.xml": "windows",
+    "builtin/android": "builtin-android",
+    "builtin/emacs": "builtin-emacs",
+    "builtin/mac": "builtin-mac",
+    "builtin/unix": "builtin-unix",
+    "builtin/win": "builtin-win",
+    "mobile/android/chrome/content/bindings/checkbox.xml": "android-",
   }
-  
+
+  for (var i in replaceDuplicateIds) {
+    if (file.includes(i)) {
+      body = body.replace(/\<binding id=\"([a-zA-Z]+)\"/gi, `<binding id="${replaceDuplicateIds[i]}-$1"`);
+    }
+  }
+
   return xmlom.parseString(body, { xmlns: true }).then(doc => {
     return { doc, body, url: file, file: file.split('/').reverse()[0] };
   }, (e=> {
