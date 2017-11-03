@@ -2129,9 +2129,9 @@ var DATA = {
   },
   "master@{2017-11-01}": {
     numBindings: 296,
-    loc: 48083,
+    loc: 48095,
     bindingsLOC: {
-      tabbrowser: 6284,
+      tabbrowser: 6296,
       videoControls: 1784,
       browser: 1716,
       urlbar: 1593,

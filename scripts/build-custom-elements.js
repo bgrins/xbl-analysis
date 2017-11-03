@@ -6,7 +6,6 @@ var jsFiles = [];
 var extendsMap = new Map();
 var sampleElements = [];
 
-
 getParsedFiles().then(files => {
   files.forEach(file => {
     file.doc.find("binding").forEach(binding => {
