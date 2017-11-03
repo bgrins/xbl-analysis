@@ -48,19 +48,19 @@
         <p>About this data:</p>
         <ul>
           <li>This script processes xml files where bindings are declared in toolkit/content/widgets.
-              From these 62 files, <strong>237</strong> bindings were detected.</li>
+              From these 78 files, <strong>268</strong> bindings were detected.</li>
           <li>A child in the tree means that it extends the parent</li>
           <li>Features used: 
-                            <code>method</code>: <strong>879</strong>,
-                            <code>property</code>: <strong>560</strong>,
-                            <code>field</code>: <strong>470</strong>,
-                            <code>handler</code>: <strong>338</strong>,
-                            <code>content</code>: <strong>155</strong>,
-                            <code>children</code>: <strong>109</strong>,
-                            <code>constructor</code>: <strong>76</strong>,
-                            <code>resources</code>: <strong>72</strong>,
-                            <code>implements</code>: <strong>50</strong>,
-                            <code>destructor</code>: <strong>31</strong></li>
+                            <code>method</code>: <strong>1026</strong>,
+                            <code>handler</code>: <strong>782</strong>,
+                            <code>property</code>: <strong>634</strong>,
+                            <code>field</code>: <strong>600</strong>,
+                            <code>content</code>: <strong>181</strong>,
+                            <code>children</code>: <strong>119</strong>,
+                            <code>constructor</code>: <strong>91</strong>,
+                            <code>resources</code>: <strong>81</strong>,
+                            <code>implements</code>: <strong>54</strong>,
+                            <code>destructor</code>: <strong>37</strong></li>
           Past data from: <a href='2017-08-01.html'>2017-08-01</a> <a href='2017-08-15.html'>2017-08-15</a> <a href='2017-09-01.html'>2017-09-01</a> <a href='2017-09-15.html'>2017-09-15</a> <a href='2017-10-01.html'>2017-10-01</a> <a href='2017-10-15.html'>2017-10-15</a> <a href='2017-11-01.html'>2017-11-01</a>
         </ul>
         <p>About "total instances":
@@ -71,9 +71,9 @@
         <div class='highlights'>
         Highlights: <a href='#'>clear</a> | 
                                     <a href='#method' highlight="method">method</a> | 
+                                    <a href='#handler' highlight="handler">handler</a> | 
                                     <a href='#property' highlight="property">property</a> | 
                                     <a href='#field' highlight="field">field</a> | 
-                                    <a href='#handler' highlight="handler">handler</a> | 
                                     <a href='#content' highlight="content">content</a> | 
                                     <a href='#children' highlight="children">children</a> | 
                                     <a href='#constructor' highlight="constructor">constructor</a> | 
@@ -248,12 +248,12 @@
       <details open property>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.xml" target="_blank">handler-base</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (1)</code></em></summary><ul><li>
-      <details open content>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.xml" target="_blank">handler</a> (0 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details></li><li>
       <details open content constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.xml" target="_blank">handler-selected</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details></li><li>
+      <details open property content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/handling/content/handler.xml" target="_blank">handler</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code></em></summary></details></li><li>
       <details open content>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/siteListItem.xml" target="_blank">siteListItem</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code></em></summary></details></li><li>
@@ -268,7 +268,25 @@
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code></em></summary></details></li><li>
       <details open property content method constructor implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/extensions/formautofill/content/formautofill.xml" target="_blank">autocomplete-creditcard-insecure-field</a> (0 total instances)
-  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code></em></summary></details></li></ul></details></li></ul></details></li><li>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code></em></summary></details></li></ul></details></li><li>
+      <details open property content constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">category</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li><li>
+      <details open property method>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">addon-base</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='method'>method (5)</code></em></summary><ul><li>
+      <details open property field content handler method constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">addon-generic</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (36)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (33)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details></li><li>
+      <details open field content method constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">addon-uninstalled</a> (0 total instances)
+  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (5)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details></li><li>
+      <details open field content method constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">addon-installing</a> (0 total instances)
+  <em>Used features: <code highlight='field'>field (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details></li><li>
+      <details open property content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/update/content/updates.xml" target="_blank">update</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (6)</code>, <code highlight='content'>content (1)</code></em></summary></details></li></ul></details></li><li>
       <details open content children>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.xml" target="_blank">offlineapp</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li><li>
@@ -358,7 +376,10 @@
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='field'>field (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (21)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
       <details open field handler>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-richlistbox</a> (2 total instances)
-  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (2)</code></em></summary></details></li></ul></details></li><li>
+  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (2)</code></em></summary></details></li><li>
+      <details open method>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">categories-list</a> (0 total instances)
+  <em>Used features: <code highlight='method'>method (1)</code></em></summary></details></li></ul></details></li><li>
       <details open resources property field content handler method children constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">listbox</a> (1 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (12)</code>, <code highlight='children'>children (3)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details></li><li>
@@ -433,25 +454,28 @@
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details></li><li>
       <details open field content handler method children>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml" target="_blank">popup-scrollbars</a> (12 total instances)
-  <em>Used features: <code highlight='field'>field (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (2)</code>, <code highlight='children'>children (1)</code></em></summary></details></li><li>
-      <details open property field handler method implements>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-base-popup</a> (4 total instances)
-  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code></em></summary><ul><li>
-      <details open resources property field content method>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-result-popup</a> (2 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (7)</code></em></summary><ul><li>
+  <em>Used features: <code highlight='field'>field (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (2)</code>, <code highlight='children'>children (1)</code></em></summary><ul><li>
+      <details open resources handler method>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/xpfe/components/autocomplete/resources/content/autocomplete.xml" target="_blank">autocomplete-history-popup</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (1)</code></em></summary></details></li></ul></details></li><li>
+      <details open handler method implements>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">tabbrowser-alltabs-popup</a> (3 total instances)
+  <em>Used features: <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (6)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em></summary></details></li><li>
+      <details open resources property field content handler method constructor destructor implements>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/xpfe/components/autocomplete/resources/content/autocomplete.xml" target="_blank">autocomplete-result-popup</a> (2 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code></em></summary><ul><li>
       <details open resources property field content handler method>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">browser-search-autocomplete-result-popup</a> (1 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (4)</code></em></summary></details></li></ul></details></li><li>
+      <details open property field handler method implements>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-base-popup</a> (2 total instances)
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code></em></summary><ul><li>
       <details open resources property field content handler method children implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-rich-result-popup</a> (2 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code></em></summary><ul><li>
       <details open resources property field content handler method children>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/urlbarBindings.xml" target="_blank">urlbar-rich-result-popup</a> (1 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (14)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (17)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open handler method implements>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">tabbrowser-alltabs-popup</a> (3 total instances)
-  <em>Used features: <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (6)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em></summary></details></li></ul></details></li><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (14)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (17)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details></li></ul></details></li></ul></details></li><li>
       <details open field handler constructor implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml" target="_blank">panel</a> (65 total instances)
   <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULPopupElement)</code></em></summary><ul><li>
@@ -465,7 +489,7 @@
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml" target="_blank">tooltip</a> (8 total instances)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details>
       <details open resources>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">toolbar-base</a> (241 total instances)
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">toolbar-base</a> (242 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
       <details open content children>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">toolbarpaletteitem</a> (116 total instances)
@@ -483,7 +507,7 @@
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">toolbardecoration</a> (115 total instances)
   <em>Used features: </em></summary></details></li><li>
       <details open property field method constructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">toolbar</a> (8 total instances)
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">toolbar</a> (9 total instances)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (5)</code>, <code highlight='constructor'>constructor (1)</code></em></summary><ul><li>
       <details open resources property field content handler method constructor destructor implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/findbar.xml" target="_blank">findbar</a> (3 total instances)
@@ -493,7 +517,10 @@
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li><li>
       <details open field handler method constructor destructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">toolbar-menubar-autohide</a> (1 total instances)
-  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details></li></ul></details></li><li>
+  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details></li><li>
+      <details open resources field content method implements>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/components/printing/content/printPreviewBindings.xml" target="_blank">printpreviewtoolbar</a> (1 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='field'>field (21)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (16)</code>, <code highlight='implements'>implements (nsIMessageListener)</code></em></summary></details></li></ul></details></li><li>
       <details open property field method constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">toolbox</a> (1 total instances)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li><li>
@@ -517,7 +544,10 @@
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='method'>method (1)</code></em></summary></details></li></ul></details>
       <details open resources content>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">dropmarker</a> (105 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code></em></summary></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code></em></summary><ul><li>
+      <details open handler method>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/xpfe/components/autocomplete/resources/content/autocomplete.xml" target="_blank">history-dropmarker</a> (0 total instances)
+  <em>Used features: <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (1)</code></em></summary></details></li></ul></details>
       <details open resources field content children>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/notification.xml" target="_blank">popup-notification</a> (71 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='field'>field (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (3)</code></em></summary><ul><li>
@@ -548,12 +578,15 @@
       <details open property field content method children>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/textbox.xml" target="_blank">input-box-spell</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details>
+      <details open handler>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/win/platformHTMLBindings.xml" target="_blank">inputFields</a> (22 total instances)
+  <em>Used features: <code highlight='handler'>handler (25)</code></em></summary></details>
       <details open resources property field content handler method children constructor destructor implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/textbox.xml" target="_blank">textbox</a> (20 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (18)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (5)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULTextBoxElement, nsIDOMXULLabeledControlElement)</code></em></summary><ul><li>
       <details open resources property field content handler method children constructor destructor implements>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete</a> (9 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (27)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (22)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompleteInput, nsIDOMXULMenuListElement)</code></em></summary><ul><li>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/xpfe/components/autocomplete/resources/content/autocomplete.xml" target="_blank">autocomplete</a> (9 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (25)</code>, <code highlight='field'>field (28)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (35)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULMenuListElement)</code></em></summary><ul><li>
       <details open property field handler method constructor destructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">searchbar-textbox</a> (7 total instances)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details></li><li>
@@ -590,18 +623,15 @@
       <details open property content method constructor destructor implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">statuspanel</a> (3 total instances)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (6)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em></summary></details>
-      <details open resources content children constructor destructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/customizableui/content/panelUI.xml" target="_blank">panelmultiview</a> (3 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
-      <details open content children>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/customizableui/content/panelUI.xml" target="_blank">photonpanelmultiview</a> (3 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details>
       <details open resources property content>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/progressmeter.xml" target="_blank">progressmeter</a> (3 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code></em></summary><ul><li>
       <details open field content method constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/progressmeter.xml" target="_blank">progressmeter-undetermined</a> (0 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details>
+      <details open content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">addengine-icon</a> (3 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details>
       <details open resources>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tabbox.xml" target="_blank">tab-base</a> (3 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
@@ -614,33 +644,39 @@
       <details open property field method constructor destructor implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tabbox.xml" target="_blank">tabbox</a> (1 total instances)
   <em>Used features: <code highlight='property'>property (9)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em></summary></details></li></ul></details>
-      <details open content>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">addengine-icon</a> (3 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details>
       <details open resources content children constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">treecols</a> (3 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
+      <details open resources content children constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/customizableui/content/panelUI.xml" target="_blank">panelmultiview</a> (3 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
+      <details open content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/customizableui/content/panelUI.xml" target="_blank">photonpanelmultiview</a> (3 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details>
       <details open content children>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-treerows</a> (2 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details>
       <details open field handler>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">autocomplete-treebody</a> (2 total instances)
-  <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (3)</code></em></summary><ul><li>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/xpfe/components/autocomplete/resources/content/autocomplete.xml" target="_blank">autocomplete-treebody</a> (2 total instances)
+  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (3)</code></em></summary><ul><li>
       <details open handler>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">searchbar-treebody</a> (1 total instances)
   <em>Used features: <code highlight='handler'>handler (1)</code></em></summary></details></li></ul></details>
+      <details open resources field content handler method constructor destructor implements>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/components/prompts/content/tabprompts.xml" target="_blank">tabmodalprompt</a> (2 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='field'>field (10)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em></summary></details>
       <details open property field content handler method constructor implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">search-one-offs</a> (2 total instances)
   <em>Used features: <code highlight='property'>property (9)</code>, <code highlight='field'>field (18)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (17)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener,nsIObserver,nsIWeakReference)</code></em></summary></details>
       <details open resources property field content handler method constructor destructor implements>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">searchbar</a> (2 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='field'>field (7)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (14)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver)</code></em></summary></details>
+      <details open resources property field content handler method children constructor destructor implements>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">tabbrowser</a> (1 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (30)</code>, <code highlight='field'>field (37)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (113)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener, nsIMessageListener, nsIObserver)</code></em></summary></details>
       <details open >
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/stringbundle.xml" target="_blank">stringbundleset</a> (1 total instances)
   <em>Used features: </em></summary></details>
-      <details open resources handler>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">listrows</a> (1 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='handler'>handler (2)</code></em></summary></details>
       <details open field constructor destructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">root-element</a> (1 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
@@ -656,39 +692,15 @@
       <details open resources property field content handler method children constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizard</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (9)</code>, <code highlight='field'>field (19)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (15)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details>
-      <details open resources property field content handler method children constructor destructor implements>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">tabbrowser</a> (1 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (30)</code>, <code highlight='field'>field (37)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (113)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener, nsIMessageListener, nsIObserver)</code></em></summary></details>
-      <details open property content children>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbarpanel</a> (0 total instances)
-  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary><ul><li>
-      <details open content children>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbarpanel-menu-iconic</a> (0 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li><li>
+      <details open handler>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/win/platformHTMLBindings.xml" target="_blank">textAreas</a> (1 total instances)
+  <em>Used features: <code highlight='handler'>handler (29)</code></em></summary></details>
+      <details open resources handler>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">listrows</a> (1 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='handler'>handler (2)</code></em></summary></details>
       <details open content>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbarpanel-iconic</a> (0 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details></li><li>
-      <details open content>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbarpanel-iconic-text</a> (0 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details></li></ul></details>
-      <details open property field method constructor implements>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/preferences.xml" target="_blank">preferences</a> (0 total instances)
-  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (7)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIObserver)</code></em></summary></details>
-      <details open property field handler method constructor destructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/preferences.xml" target="_blank">preference</a> (0 total instances)
-  <em>Used features: <code highlight='property'>property (14)</code>, <code highlight='field'>field (4)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details>
-      <details open resources property field content handler method children>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/preferences.xml" target="_blank">prefpane</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (10)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (6)</code>, <code highlight='children'>children (1)</code></em></summary></details>
-      <details open content children>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbar</a> (0 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details>
-      <details open resources constructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/resizer.xml" target="_blank">resizer</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
-      <details open resources>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/scale.xml" target="_blank">scalethumb</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code></em></summary></details>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.xml" target="_blank">container</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details>
       <details open >
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/colorpicker.xml" target="_blank">colorpickertile</a> (0 total instances)
   <em>Used features: </em></summary></details>
@@ -704,9 +716,69 @@
       <details open resources content>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/dialog.xml" target="_blank">dialogheader</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code></em></summary></details>
+      <details open resources property content handler method children constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/expander.xml" target="_blank">expander</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
+      <details open property field method constructor implements>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/preferences.xml" target="_blank">preferences</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (7)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIObserver)</code></em></summary></details>
+      <details open property field handler method constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/preferences.xml" target="_blank">preference</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (14)</code>, <code highlight='field'>field (4)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details>
+      <details open resources property field content handler method children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/preferences.xml" target="_blank">prefpane</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (10)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (6)</code>, <code highlight='children'>children (1)</code></em></summary></details>
+      <details open property field method constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/editor.xml" target="_blank">editor</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (18)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details>
+      <details open resources constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/resizer.xml" target="_blank">resizer</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
+      <details open resources>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/scale.xml" target="_blank">scalethumb</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code></em></summary></details>
+      <details open content handler children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xml/resources/XMLPrettyPrint.xml" target="_blank">prettyprint</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='children'>children (1)</code></em></summary></details>
+      <details open resources property method constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml" target="_blank">marquee</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (13)</code>, <code highlight='method'>method (12)</code>, <code highlight='constructor'>constructor (1)</code></em></summary><ul><li>
+      <details open content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml" target="_blank">marquee-horizontal</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li><li>
+      <details open content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml" target="_blank">marquee-vertical</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li></ul></details>
+      <details open property content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbarpanel</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary><ul><li>
+      <details open content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbarpanel-menu-iconic</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details></li><li>
+      <details open content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbarpanel-iconic</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details></li><li>
+      <details open content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbarpanel-iconic-text</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details></li></ul></details>
       <details open resources handler>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/splitter.xml" target="_blank">grippy</a> (0 total instances)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='handler'>handler (1)</code></em></summary></details>
+      <details open content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">statusbar</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details>
+      <details open content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml" target="_blank">marquee-horizontal-editable</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details>
+      <details open content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml" target="_blank">marquee-vertical-editable</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details>
+      <details open resources content children constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/pluginproblem/content/pluginProblem.xml" target="_blank">pluginProblem</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary><ul><li>
+      <details open constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/pluginproblem/content/pluginProblem.xml" target="_blank">replacement</a> (0 total instances)
+  <em>Used features: <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details>
       <details open field constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">windowdragbox</a> (0 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
@@ -716,21 +788,69 @@
       <details open content children>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/groupbox.xml" target="_blank">groupbox</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code></em></summary></details></li></ul></details>
-      <details open property field method constructor destructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/editor.xml" target="_blank">editor</a> (0 total instances)
-  <em>Used features: <code highlight='property'>property (18)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details>
-      <details open resources property content handler method children constructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/expander.xml" target="_blank">expander</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
+      <details open property method>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/customizableui/content/toolbar.xml" target="_blank">toolbar-menubar-stub</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='method'>method (1)</code></em></summary></details>
+      <details open resources content children>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">listhead</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details>
+      <details open resources content handler constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml" target="_blank">videoControls</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
+      <details open content handler constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml" target="_blank">touchControls</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details></li></ul></details>
+      <details open resources content constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml" target="_blank">noControls</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details>
+      <details open resources>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizard-base</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
+      <details open property field>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizardpage</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code></em></summary></details></li><li>
+      <details open content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizard-header</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code></em></summary><ul><li>
       <details open resources content>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">listheader</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code></em></summary></details>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/update/content/updates.xml" target="_blank">updateheader</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code></em></summary></details></li></ul></details></li><li>
+      <details open property field content method>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizard-buttons</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code></em></summary></details></li></ul></details>
+      <details open content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/blocklist.xml" target="_blank">hardblockedaddon</a> (0 total instances)
+  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details>
+      <details open property field content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/blocklist.xml" target="_blank">softblockedaddon</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code></em></summary></details>
+      <details open property content handler method constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">rating</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
+      <details open property field content method constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">download-progress</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
+      <details open property field content method constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">sorters</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='field'>field (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
+      <details open field content method constructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">creator-link</a> (0 total instances)
+  <em>Used features: <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details>
+      <details open field content method constructor destructor>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">install-status</a> (0 total instances)
+  <em>Used features: <code highlight='field'>field (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (13)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details>
+      <details open property content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">detail-row</a> (0 total instances)
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code></em></summary></details>
       <details open property field method constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/setting.xml" target="_blank">setting-base</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (5)</code>, <code highlight='constructor'>constructor (1)</code></em></summary><ul><li>
       <details open property content method>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/setting.xml" target="_blank">setting-bool</a> (0 total instances)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code></em></summary><ul><li>
+      <details open handler>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/settings.xml" target="_blank">setting-fulltoggle-bool</a> (0 total instances)
+  <em>Used features: <code highlight='handler'>handler (2)</code></em></summary></details></li><li>
       <details open method>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/setting.xml" target="_blank">setting-boolint</a> (0 total instances)
   <em>Used features: <code highlight='method'>method (2)</code></em></summary><ul><li>
@@ -742,10 +862,7 @@
   <em>Used features: <code highlight='method'>method (2)</code></em></summary><ul><li>
       <details open handler>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/settings.xml" target="_blank">setting-fulltoggle-localized-bool</a> (0 total instances)
-  <em>Used features: <code highlight='handler'>handler (2)</code></em></summary></details></li></ul></details></li><li>
-      <details open handler>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/settings.xml" target="_blank">setting-fulltoggle-bool</a> (0 total instances)
-  <em>Used features: <code highlight='handler'>handler (2)</code></em></summary></details></li></ul></details></li><li>
+  <em>Used features: <code highlight='handler'>handler (2)</code></em></summary></details></li></ul></details></li></ul></details></li><li>
       <details open content method>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/setting.xml" target="_blank">setting-integer</a> (0 total instances)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='method'>method (2)</code></em></summary></details></li><li>
@@ -764,36 +881,12 @@
       <details open field content method children constructor>
       <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/setting.xml" target="_blank">setting-multi</a> (0 total instances)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em></summary></details></li></ul></details>
-      <details open property method>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/customizableui/content/toolbar.xml" target="_blank">toolbar-menubar-stub</a> (0 total instances)
-  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='method'>method (1)</code></em></summary></details>
-      <details open content>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.xml" target="_blank">container</a> (0 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details>
-      <details open resources content handler constructor destructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml" target="_blank">videoControls</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary><ul><li>
-      <details open content handler constructor destructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml" target="_blank">touchControls</a> (0 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details></li></ul></details>
-      <details open resources content constructor destructor>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml" target="_blank">noControls</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em></summary></details>
-      <details open resources>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizard-base</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code></em></summary><ul><li>
-      <details open property field>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizardpage</a> (0 total instances)
-  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code></em></summary></details></li><li>
-      <details open content>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizard-header</a> (0 total instances)
-  <em>Used features: <code highlight='content'>content (1)</code></em></summary></details></li><li>
-      <details open property field content method>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">wizard-buttons</a> (0 total instances)
-  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code></em></summary></details></li></ul></details>
-      <details open resources content children>
-      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">listhead</a> (0 total instances)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em></summary></details>
+      <details open resources property content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/xpinstallItem.xml" target="_blank">installitem</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='content'>content (1)</code></em></summary></details>
+      <details open resources content>
+      <summary><a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">listheader</a> (0 total instances)
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code></em></summary></details>
         </div>
       </main>
     </body>

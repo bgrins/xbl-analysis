@@ -3,9 +3,15 @@ var fs = require('fs');
 var request = require('request-promise-native');
 var moment = require("moment");
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log("Exiting due to unhandled rejection!");
+  console.error(reason);
+  process.exit(2);
+});
+
 //  egrep -l1 -r -n -i --include="*.xml" "<binding id" .
 
-var browserFiles = [
+var allFiles = module.exports.files = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/browser-tabPreviews.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/pageinfo/feeds.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/pageinfo/pageInfo.xml',
@@ -22,8 +28,17 @@ var browserFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/translation/translation-infobar.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/extensions/formautofill/content/formautofill.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/places/organizer.xml',
-];
-var toolkitFiles = [
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/android/platformHTMLBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/emacs/platformHTMLBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/mac/platformHTMLBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/unix/platformHTMLBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/win/platformHTMLBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xml/resources/XMLPrettyPrint.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/checkbox.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/settings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/components/printing/content/printPreviewBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/components/prompts/content/tabprompts.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/browser.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/button.xml',
@@ -66,15 +81,16 @@ var toolkitFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/blocklist.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/setting.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/xpinstallItem.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/handling/content/handler.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/update/content/updates.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/pluginproblem/content/pluginProblem.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/xpfe/components/autocomplete/resources/content/autocomplete.xml',
 ];
-var mobileFiles = [
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/checkbox.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/chrome/content/bindings/settings.xml',
-];
-
-var allFiles = module.exports.files = browserFiles.concat(toolkitFiles).concat(mobileFiles);
 
 // Build up an array like:
 // '2017-07-01',
@@ -186,11 +202,12 @@ module.exports.getParsedFiles = (rev) => {
 function parseBody(body, file) {
   body = preprocessFile(body);
   body = body.replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
+  body = body.replace(/\&amp\;\&amp\;/g, 'RESETTHISBACK'); // See https://dxr.mozilla.org/mozilla-central/source/xpfe/components/autocomplete/resources/content/autocomplete.xml#1325
   body = body.replace(/\&([a-z0-9\-]+)\;/gi, "FROM-DTD-$1"); // Replace DTD entities
   body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2"); // Replace DTD entities
   body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3"); // Replace DTD entities
   body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3-$4"); // Replace DTD entities
-  
+  body = body.replace(/RESETTHISBACK/g, '&amp;&amp;');
   // This file creates a binding with a duplicate ID from the base binding
   if (file.includes("themes/windows/global/globalBindings.xml")) {
     body = body.replace('id="radio"', 'id="windows-radio"');
