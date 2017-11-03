@@ -103,6 +103,46 @@ function getRevsOverTime(daily = false) {
 module.exports.revsEveryDay = getRevsOverTime(true);
 module.exports.revs = getRevsOverTime();
 
+function populateCache(rev) {
+  if (!rev) {
+    throw "Need a rev";
+  }
+
+  console.log(`Populating ${rev}`);
+
+  let files = allFiles;
+  // Allow for revisions like 'master@{2017-09-19}'
+  files = files.map(file => {
+    return file.replace('/master/', `/${rev}/`);
+  });
+
+  if (!fs.existsSync('cache')) {
+    fs.mkdirSync('cache');
+  }
+  var dir = `cache/${rev}`;
+  if (!fs.existsSync(dir)) {
+    console.log(`Creating directory: ${dir}`);
+    fs.mkdirSync(dir);
+  }
+  return Promise.all(files.map(file => {
+    var fileName = file.replace(/\//g, '-').split('}')[1];
+    var cachedFilePath = `cache/${rev}/${fileName}`;
+    if (fs.existsSync(cachedFilePath)) {
+      console.log(`File already exists: ${cachedFilePath}`);
+      return new Promise(resolve => {
+        resolve();
+      });
+    }
+    console.log(`Requesting file: ${file}`);
+    return request(file).then(body => {
+      fs.writeFileSync(cachedFilePath, body);
+    }).catch(e => {
+      console.log("Error requesting: ", file, rev);
+    })
+  }));
+}
+module.exports.populateCache = populateCache;
+
 module.exports.getPrettyRev = rev => {
   if (!rev) {
     return "index";
@@ -120,27 +160,39 @@ module.exports.getParsedFiles = (rev) => {
   }
 
   return Promise.all(files.map(file => {
-    return request(file).then(body => {
-      body = preprocessFile(body);
-      body = body.replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
-      body = body.replace(/\&([a-z0-9\-]+)\;/gi, "FROM-DTD-$1"); // Replace DTD entities
-      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2"); // Replace DTD entities
-      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3"); // Replace DTD entities
-      body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3-$4"); // Replace DTD entities
-
-      // This file creates a binding with a duplicate ID from the base binding
-      if (file.includes("themes/windows/global/globalBindings.xml")) {
-        body = body.replace('id="radio"', 'id="windows-radio"');
+    if (rev) {
+      var fileName = file.replace(/\//g, '-').split('}-')[1];
+      var cachedFilePath = `cache/${rev}/${fileName}`;
+      if (fs.existsSync(cachedFilePath)) {
+        var body = fs.readFileSync(cachedFilePath, 'utf8');
+        return parseBody(body, file);
       }
-
-      return xmlom.parseString(body, { xmlns: true }).then(doc => {
-        return { doc, body, url: file, file: file.split('/').reverse()[0] };
-      }, (e=> {
-        console.log("Error parsing: ", file, e);
-      }));
+    }
+    return request(file).then(body => {
+      return parseBody(body, file);
     });
   }));
 };
+
+function parseBody(body, file) {
+  body = preprocessFile(body);
+  body = body.replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
+  body = body.replace(/\&([a-z0-9\-]+)\;/gi, "FROM-DTD-$1"); // Replace DTD entities
+  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2"); // Replace DTD entities
+  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3"); // Replace DTD entities
+  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3-$4"); // Replace DTD entities
+  
+  // This file creates a binding with a duplicate ID from the base binding
+  if (file.includes("themes/windows/global/globalBindings.xml")) {
+    body = body.replace('id="radio"', 'id="windows-radio"');
+  }
+  
+  return xmlom.parseString(body, { xmlns: true }).then(doc => {
+    return { doc, body, url: file, file: file.split('/').reverse()[0] };
+  }, (e=> {
+    console.log("Error parsing: ", file, e);
+  }));
+}
 
 function preprocessFile(content) {
   // This maps the text of a "#if" to its truth value. We need to do some cheap parsing

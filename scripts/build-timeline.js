@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var sortedBindings = require('./sorted-bindings').latest;
-var {getParsedFiles, files, revs, getPrettyRev} = require('./xbl-files');
+var {getParsedFiles, files, revsEveryDay: revs, getPrettyRev} = require('./xbl-files');
 
 var maxBindings = 0;
 var remainingBindings = 0;
@@ -64,12 +64,17 @@ function getMarkup(added, date, name) {
   </div>`;
 }
 
-Promise.all(
-  revs.map((rev, i) => {
-    idsForRev[rev] = {};
-    return getBindingsForRev(rev, i === revs.length - 1);
-  })
-).then(() => {
+function processRev(rev, last) {
+  idsForRev[rev] = {};
+  console.log("Processing ", rev, last);
+  return getBindingsForRev(rev, last);
+}
+
+// Cache files in sequence
+let clonedRevs = revs.slice(0);
+clonedRevs.reduce(function (chain, item, i) {
+  return chain.then(processRev.bind(null, item, i === clonedRevs.length - 1));
+}, processRev(clonedRevs.shift(), false)).then(() => {
   var text = fs.readFileSync('index.html', 'utf8');
   var newText = text.split("<!-- REPLACE-TIMELINE -->")[0] + "<!-- REPLACE-TIMELINE -->\n";
   newText += `<p>Starting with <b>${maxBindings}</b> bindings - there are <b>${remainingBindings}</b> bindings remaining.</p>`;

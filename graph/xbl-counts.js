@@ -1,7 +1,7 @@
 var DATA = {
   "master@{2017-08-01}": {
     numBindings: 232,
-    loc: 42813,
+    loc: 42784,
     bindingsLOC: {
       tabbrowser: 5870,
       videoControls: 1741,
@@ -24,7 +24,7 @@ var DATA = {
       searchbar: 555,
       richlistbox: 515,
       "places-popup-base": 479,
-      preference: 456,
+      preference: 446,
       wizard: 432,
       "autocomplete-rich-result-popup": 431,
       translationbar: 422,
@@ -82,15 +82,15 @@ var DATA = {
       tooltip: 114,
       tabpanels: 112,
       suppressChangeEvent: 109,
-      preferences: 107,
       notification: 104,
       panel: 100,
       "autocomplete-richlistitem-insecure-field": 97,
       "toolbar-menubar-autohide": 97,
       "menu-button-base": 96,
       radio: 95,
-      "text-link": 94,
       download: 94,
+      "text-link": 94,
+      preferences: 88,
       spinbuttons: 86,
       columnpicker: 85,
       filefield: 83,
@@ -936,9 +936,9 @@ var DATA = {
   },
   "master@{2017-09-15}": {
     numBindings: 232,
-    loc: 42729,
+    loc: 42731,
     bindingsLOC: {
-      tabbrowser: 6162,
+      tabbrowser: 6164,
       videoControls: 1770,
       browser: 1700,
       urlbar: 1582,
@@ -1750,9 +1750,9 @@ var DATA = {
   },
   "master@{2017-11-01}": {
     numBindings: 228,
-    loc: 42233,
+    loc: 42221,
     bindingsLOC: {
-      tabbrowser: 6296,
+      tabbrowser: 6284,
       videoControls: 1784,
       browser: 1716,
       urlbar: 1593,
