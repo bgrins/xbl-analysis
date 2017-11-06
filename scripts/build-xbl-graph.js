@@ -1,9 +1,16 @@
 
 var fs = require('fs');
-var {getParsedFiles,revs} = require('./xbl-files');
+var { getParsedFiles, revsEveryDay: revs} = require('./xbl-files');
 var {allSortedBindings} = require('./sorted-bindings');
 var prettier = require("prettier");
 var data = {};
+
+function processSequential(list, cb) {
+  list = list.slice();
+  return list.reduce(function (chain, item, i) {
+    return chain.then(cb.bind(null, item, i === list.length - 1));
+  }, cb(list.shift(), false));
+}
 
 function countForRev(rev) {
   console.log(`Looking at ${rev}`);
@@ -28,7 +35,6 @@ function countForRev(rev) {
       loc,
       bindingsLOC: mapToObj(bindingsLOC),
       label,
-      bindingsInstances: allSortedBindings[rev],
     };
   });
 }
@@ -44,21 +50,23 @@ function mapToObj(map) {
   return obj;
 }
 
-Promise.all(
-  revs.map(rev => {
-    return countForRev(rev);
-  })
-).then(() => {
-  for (var rev of revs) {
-  }
+revs = revs.filter((r,i) => (i%2) == 0);
 
+processSequential(revs, countForRev).then(() => {
   let inOrder = {};
   for (var rev of revs) {
     console.log(rev, data[rev].label, data[rev].numBindings, data[rev].loc);
     inOrder[rev] = data[rev];
   }
 
+  var sortedBindings = {};
+  for (var i in allSortedBindings) {
+    sortedBindings[i.match(/@{(.*)}/)[1]] = allSortedBindings[i];
+  }
+
+
   fs.writeFileSync('graph/xbl-counts.js', prettier.format(`
     var DATA = ${JSON.stringify(inOrder)};
+    var SORTED_BINDINGS = ${JSON.stringify(sortedBindings)};
   `));
 });
