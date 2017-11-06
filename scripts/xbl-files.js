@@ -123,14 +123,14 @@ function getAllFilesForRev(rev) {
 // '2017-08-01',
 // ...
 function getRevsOverTime(daily = false) {
-  let old = moment("2017-08-01");
+  let old = moment("2017-09-01");
   let now = moment();
   let revs = [];
 
   if (daily) {
     while (old < now) {
-      old.add(1, 'days');
       revs.push(old.format('YYYY-MM-DD'));
+      old.add(1, 'days');
     }
   } else {
     let addDays = false;
@@ -174,7 +174,7 @@ function populateCache(rev) {
     fs.mkdirSync(dir);
   }
   return Promise.all(files.map(file => {
-    var fileName = file.replace(/\//g, '-').split('}')[1];
+    var fileName = file.replace(/\//g, '-').split('}-')[1];
     var cachedFilePath = `cache/${rev}/${fileName}`;
     if (fs.existsSync(cachedFilePath)) {
       console.log(`File already exists: ${cachedFilePath}`);
