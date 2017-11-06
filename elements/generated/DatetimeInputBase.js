@@ -53,8 +53,6 @@ class FirefoxDatetimeInputBase extends XULElement {
     });
   }
   disconnectedCallback() {
-    this.mInputElement = null;
-
     this.EVENTS.forEach(eventName => {
       this.removeEventListener(eventName, this, { mozSystemGroup: true });
     });
@@ -65,6 +63,8 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.mInputElement.removeEventListener("click", this, {
       mozSystemGroup: true
     });
+
+    this.mInputElement = null;
   }
 
   get EVENTS() {

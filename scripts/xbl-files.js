@@ -11,7 +11,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 //  egrep -l1 -r -n -i --include="*.xml" "<binding id" .
 
-var allFiles = module.exports.files = [
+var allFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/browser-tabPreviews.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/pageinfo/feeds.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/pageinfo/pageInfo.xml',
@@ -88,9 +88,34 @@ var allFiles = module.exports.files = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/handling/content/handler.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/update/content/updates.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/pluginproblem/content/pluginProblem.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/xpfe/components/autocomplete/resources/content/autocomplete.xml',
 ];
+
+var deletedFiles = {
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml': '2017-11-04',
+};
+
+var exportedFiles = allFiles.slice();
+for (var i in deletedFiles) {
+  exportedFiles.push(i);
+}
+module.exports.files = exportedFiles;
+
+function getAllFilesForRev(rev) {
+  var retFiles = allFiles.slice();
+  // No rev: anything that's been deleted in the past should also be deleted on master
+  if (!rev) {
+    return retFiles;
+  }
+
+  let dateForRev = moment(rev.match(/master\@\{(.*)\}/)[1]);
+  for (var i in deletedFiles) {
+    if (dateForRev < moment(deletedFiles[i])) {
+      retFiles.push(i);
+    }
+  }
+  return retFiles;
+}
 
 // Build up an array like:
 // '2017-07-01',
@@ -134,7 +159,7 @@ function populateCache(rev) {
 
   console.log(`Populating ${rev}`);
 
-  let files = allFiles;
+  let files = getAllFilesForRev(rev);
   // Allow for revisions like 'master@{2017-09-19}'
   files = files.map(file => {
     return file.replace('/master/', `/${rev}/`);
@@ -176,7 +201,7 @@ module.exports.getPrettyRev = rev => {
 }
 
 module.exports.getParsedFiles = (rev) => {
-  let files = allFiles;
+  let files = getAllFilesForRev(rev);
   if (rev) {
     // Allow for revisions like 'master@{2017-09-19}'
     files = files.map(file => {

@@ -1742,7 +1742,8 @@ class FirefoxVideocontrols extends XULElement {
           if (
             this.clickToPlay.hidden &&
             !this.video.played.length &&
-            this.video.paused
+            this.video.paused &&
+            this.clickToPlay.hideByAdjustment
           ) {
             this.clickToPlay.hideByAdjustment = false;
           }
