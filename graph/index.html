@@ -215,6 +215,15 @@ function getColorIterator() {
     return ret;
   };
 }
+
+
+let FIRST_REV = null;
+for (var i in DATA) {
+  FIRST_REV = i;
+  break;
+}
+
+
 let locs = [];
 let bindings = [];
 let labels = [];
@@ -290,7 +299,7 @@ for (let rev in DATA) {
   bindingsLOCLabels.push(DATA[rev].label);
 }
 let bindingsLOCData = { labels: bindingsLOCLabels, datasets: [] };
-let bindingsLOC = DATA["master@{2017-10-01}"].bindingsLOC;
+let bindingsLOC = DATA[FIRST_REV].bindingsLOC;
 let bindingLOCColorIterator = getColorIterator();
 
 for (let bindingLOC in bindingsLOC) {
@@ -345,7 +354,7 @@ for (let rev in SORTED_BINDINGS) {
   bindingsInstancesLabels.push(rev);
 }
 let bindingsInstancesData = { labels: bindingsInstancesLabels, datasets: [] };
-let bindingsInstances = SORTED_BINDINGS["2017-10-01"];
+let bindingsInstances = SORTED_BINDINGS["2017-09-01"];
 let bindingsInstancesColorIterator = getColorIterator();
 
 for (let bindingInstance in bindingsInstances) {

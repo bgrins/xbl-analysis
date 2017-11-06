@@ -128,6 +128,8 @@ function getRevsOverTime(daily = false) {
   let revs = [];
 
   if (daily) {
+    // Gather the day before the first
+    old.subtract(1, 'days');
     while (old < now) {
       revs.push(old.format('YYYY-MM-DD'));
       old.add(1, 'days');
