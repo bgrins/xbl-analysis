@@ -41,18 +41,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this.contextMenu = document.getElementById("tabContextMenu"));
       }
     });
-    Object.defineProperty(this, "mTabstripWidth", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mTabstripWidth;
-        return (this.mTabstripWidth = 0);
-      },
-      set(val) {
-        delete this.mTabstripWidth;
-        return (this.mTabstripWidth = val);
-      }
-    });
     Object.defineProperty(this, "mTabstrip", {
       configurable: true,
       enumerable: true,
@@ -990,8 +978,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     let {
       restoreTabsButton,
       restoreTabsButtonWrapperWidth,
-      windowUtils,
-      mTabstripWidth
+      windowUtils
     } = this;
     let restoreTabsButtonWrapper = restoreTabsButton.parentNode;
 
@@ -999,6 +986,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       restoreTabsButtonWrapper.removeAttribute("shown");
       return;
     }
+
+    let tabstripWidth = this.mTabstrip.clientWidth;
 
     let newTabButton = document.getAnonymousElementByAttribute(
       this,
@@ -1023,7 +1012,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     // Subtract the elements' widths from the available space to ensure
     // that showing the restoreTabsButton won't cause any overflow.
-    if (mTabstripWidth - tabbarUsedSpace > restoreTabsButtonWrapperWidth) {
+    if (tabstripWidth - tabbarUsedSpace > restoreTabsButtonWrapperWidth) {
       restoreTabsButtonWrapper.setAttribute("shown", "true");
     } else {
       restoreTabsButtonWrapper.removeAttribute("shown");
@@ -1441,14 +1430,9 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         if (aEvent.target != window) break;
 
         TabsInTitlebar.updateAppearance();
-
-        var width = this.mTabstrip.boxObject.width;
-        if (width != this.mTabstripWidth) {
-          this.adjustTabstrip();
-          this._handleTabSelect(true);
-          this.mTabstripWidth = width;
-          this.updateSessionRestoreVisibility();
-        }
+        this.adjustTabstrip();
+        this._handleTabSelect(true);
+        this.updateSessionRestoreVisibility();
         break;
       case "mouseout":
         // If the "related target" (the node to which the pointer went) is not
