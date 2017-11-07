@@ -68,6 +68,7 @@ function getJSForBinding(binding) {
   let handlers = [];
   // <handler>
   for (let handler of binding.find('handler')) {
+    // XXX: Handle: <handler event="keypress" keycode="VK_END" command="cmd_endLine"/>
     let capturing = handler.attrs.phase === "capturing" ? ", true" : "";
     handlers.push(`
       this.addEventListener("${handler.attrs.event}", (event) => {
