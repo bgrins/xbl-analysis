@@ -1188,7 +1188,7 @@ class FirefoxTabbrowser extends XULElement {
     aTab.setAttribute("pinned", "true");
     this.tabContainer._unlockTabSizing();
     this.tabContainer._positionPinnedTabs();
-    this.tabContainer.adjustTabstrip();
+    this.tabContainer._updateCloseButtons();
 
     this.getBrowserForTab(
       aTab
@@ -1208,7 +1208,7 @@ class FirefoxTabbrowser extends XULElement {
     aTab.style.marginInlineStart = "";
     this.tabContainer._unlockTabSizing();
     this.tabContainer._positionPinnedTabs();
-    this.tabContainer.adjustTabstrip();
+    this.tabContainer._updateCloseButtons();
 
     this.getBrowserForTab(
       aTab
@@ -4177,7 +4177,7 @@ class FirefoxTabbrowser extends XULElement {
       if (aNewTab) focusAndSelectUrlBar();
 
       // workaround for bug 345399
-      this.tabContainer.mTabstrip._updateScrollButtonsDisabledState();
+      this.tabContainer.arrowScrollbox._updateScrollButtonsDisabledState();
     }
 
     // We're going to remove the tab and the browser now.
@@ -4212,7 +4212,7 @@ class FirefoxTabbrowser extends XULElement {
       if (wasPinned) this.tabContainer._positionPinnedTabs();
 
       // update tab close buttons state
-      this.tabContainer.adjustTabstrip();
+      this.tabContainer._updateCloseButtons();
 
       setTimeout(
         function(tabs) {
@@ -4643,7 +4643,7 @@ class FirefoxTabbrowser extends XULElement {
       aTab.removeAttribute("hidden");
       this._visibleTabs = null; // invalidate cache
 
-      this.tabContainer.adjustTabstrip();
+      this.tabContainer._updateCloseButtons();
 
       this.tabContainer._setPositionalAttributes();
 
@@ -4657,7 +4657,7 @@ class FirefoxTabbrowser extends XULElement {
       aTab.setAttribute("hidden", "true");
       this._visibleTabs = null; // invalidate cache
 
-      this.tabContainer.adjustTabstrip();
+      this.tabContainer._updateCloseButtons();
 
       this.tabContainer._setPositionalAttributes();
 

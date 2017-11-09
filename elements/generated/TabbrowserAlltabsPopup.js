@@ -126,8 +126,8 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
     let windowUtils = window
       .QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIDOMWindowUtils);
-    let tabstripRect = windowUtils.getBoundsWithoutFlushing(
-      tabContainer.mTabstrip
+    let arrowScrollboxRect = windowUtils.getBoundsWithoutFlushing(
+      tabContainer.arrowScrollbox
     );
     for (let menuitem of this.childNodes) {
       let curTab = menuitem.tab;
@@ -137,8 +137,8 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       }
       let curTabRect = windowUtils.getBoundsWithoutFlushing(curTab);
       if (
-        curTabRect.left >= tabstripRect.left &&
-        curTabRect.right <= tabstripRect.right
+        curTabRect.left >= arrowScrollboxRect.left &&
+        curTabRect.right <= arrowScrollboxRect.right
       ) {
         menuitem.setAttribute("tabIsVisible", "true");
       } else {

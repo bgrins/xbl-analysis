@@ -41,20 +41,20 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         return (this.contextMenu = document.getElementById("tabContextMenu"));
       }
     });
-    Object.defineProperty(this, "mTabstrip", {
+    Object.defineProperty(this, "arrowScrollbox", {
       configurable: true,
       enumerable: true,
       get() {
-        delete this.mTabstrip;
-        return (this.mTabstrip = document.getAnonymousElementByAttribute(
+        delete this.arrowScrollbox;
+        return (this.arrowScrollbox = document.getAnonymousElementByAttribute(
           this,
           "anonid",
           "arrowscrollbox"
         ));
       },
       set(val) {
-        delete this.mTabstrip;
-        return (this.mTabstrip = val);
+        delete this.arrowScrollbox;
+        return (this.arrowScrollbox = val);
       }
     });
     Object.defineProperty(this, "_firstTab", {
@@ -339,7 +339,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       enumerable: true,
       get() {
         delete this._animateElement;
-        return (this._animateElement = this.mTabstrip._scrollButtonDown);
+        return (this._animateElement = this.arrowScrollbox._scrollButtonDown);
       },
       set(val) {
         delete this._animateElement;
@@ -347,7 +347,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       }
     });
 
-    this.mTabClipWidth = Services.prefs.getIntPref("browser.tabs.tabClipWidth");
+    this._tabClipWidth = Services.prefs.getIntPref("browser.tabs.tabClipWidth");
 
     let { restoreTabsButton } = this;
     restoreTabsButton.setAttribute(
@@ -377,7 +377,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       var tab = event.target;
 
       if (tab.getAttribute("fadein") == "true") {
-        if (tab._fullyOpen) this.adjustTabstrip();
+        if (tab._fullyOpen) this._updateCloseButtons();
         else this._handleNewTab(tab);
       } else if (tab.closing) {
         this.tabbrowser._endRemoveTab(tab);
@@ -633,7 +633,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       tab._dragData = {
         offsetX: event.screenX - window.screenX - tabOffsetX,
         offsetY: event.screenY - window.screenY,
-        scrollX: this.mTabstrip._scrollbox.scrollLeft,
+        scrollX: this.arrowScrollbox._scrollbox.scrollLeft,
         screenX: event.screenX
       };
 
@@ -651,7 +651,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       event.preventDefault();
       event.stopPropagation();
 
-      var tabStrip = this.mTabstrip;
+      var arrowScrollbox = this.arrowScrollbox;
       var ltr = window.getComputedStyle(this).direction == "ltr";
 
       // autoscroll the tab strip if we drag over the scroll
@@ -662,14 +662,14 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         var targetAnonid = event.originalTarget.getAttribute("anonid");
         switch (targetAnonid) {
           case "scrollbutton-up":
-            pixelsToScroll = tabStrip.scrollIncrement * -1;
+            pixelsToScroll = arrowScrollbox.scrollIncrement * -1;
             break;
           case "scrollbutton-down":
-            pixelsToScroll = tabStrip.scrollIncrement;
+            pixelsToScroll = arrowScrollbox.scrollIncrement;
             break;
         }
         if (pixelsToScroll)
-          tabStrip.scrollByPixels((ltr ? 1 : -1) * pixelsToScroll, true);
+          arrowScrollbox.scrollByPixels((ltr ? 1 : -1) * pixelsToScroll, true);
       }
 
       if (
@@ -694,12 +694,12 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         }
       }
 
-      var rect = tabStrip.getBoundingClientRect();
+      var rect = arrowScrollbox.getBoundingClientRect();
       var newMargin;
       if (pixelsToScroll) {
         // if we are scrolling, put the drop indicator at the edge
         // so that it doesn't jump while scrolling
-        let scrollRect = tabStrip.scrollClientRect;
+        let scrollRect = arrowScrollbox.scrollClientRect;
         let minMargin = scrollRect.left - rect.left;
         let maxMargin = Math.min(
           minMargin + scrollRect.width,
@@ -863,7 +863,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       var wX = window.screenX;
       // check if the drop point is horizontally within the window
       if (eX > wX && eX < wX + window.outerWidth) {
-        let bo = this.mTabstrip.boxObject;
+        let bo = this.arrowScrollbox.boxObject;
         // also avoid detaching if the the tab was dropped too close to
         // the tabbar (half a tab)
         let endScreenY = bo.screenY + 1.5 * bo.height;
@@ -987,7 +987,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       return;
     }
 
-    let tabstripWidth = this.mTabstrip.clientWidth;
+    let arrowScrollboxWidth = this.arrowScrollbox.clientWidth;
 
     let newTabButton = document.getAnonymousElementByAttribute(
       this,
@@ -1012,7 +1012,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     // Subtract the elements' widths from the available space to ensure
     // that showing the restoreTabsButton won't cause any overflow.
-    if (tabstripWidth - tabbarUsedSpace > restoreTabsButtonWrapperWidth) {
+    if (arrowScrollboxWidth - tabbarUsedSpace > restoreTabsButtonWrapperWidth) {
       restoreTabsButtonWrapper.setAttribute("shown", "true");
     } else {
       restoreTabsButtonWrapper.removeAttribute("shown");
@@ -1146,7 +1146,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       this.visible = window.toolbar.visible;
     else this.visible = true;
   }
-  adjustTabstrip() {
+  _updateCloseButtons() {
     // If we're overflowing, tabs are at their minimum widths.
     if (this.getAttribute("overflow") == "true") {
       this.setAttribute("closebuttons", "activetab");
@@ -1181,7 +1181,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
             .getBoundsWithoutFlushing(ele);
         };
         let tab = this.tabbrowser.visibleTabs[this.tabbrowser._numPinnedTabs];
-        if (tab && rect(tab).width <= this.mTabClipWidth) {
+        if (tab && rect(tab).width <= this._tabClipWidth) {
           this.setAttribute("closebuttons", "activetab");
         } else {
           this.removeAttribute("closebuttons");
@@ -1191,7 +1191,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
   _handleTabSelect(aInstant) {
     if (this.getAttribute("overflow") == "true")
-      this.mTabstrip.ensureElementIsVisible(this.selectedItem, aInstant);
+      this.arrowScrollbox.ensureElementIsVisible(this.selectedItem, aInstant);
 
     this.selectedItem._notselectedsinceload = false;
   }
@@ -1211,7 +1211,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     if (this.getAttribute("overflow") == "true") {
       // Don't need to do anything if we're in overflow mode and aren't scrolled
       // all the way to the right, or if we're closing the last tab.
-      if (isEndTab || !this.mTabstrip._scrollButtonDown.disabled) return;
+      if (isEndTab || !this.arrowScrollbox._scrollButtonDown.disabled) return;
 
       // If the tab has an owner that will become the active tab, the owner will
       // be to the left of it, so we actually want the left tab to slide over.
@@ -1281,10 +1281,10 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
       let layoutData = this._pinnedTabsLayoutCache;
       if (!layoutData) {
-        let tabstrip = this.mTabstrip;
+        let arrowScrollbox = this.arrowScrollbox;
         layoutData = this._pinnedTabsLayoutCache = {
           pinnedTabWidth: this.childNodes[0].getBoundingClientRect().width,
-          scrollButtonWidth: tabstrip._scrollButtonDown.getBoundingClientRect()
+          scrollButtonWidth: arrowScrollbox._scrollButtonDown.getBoundingClientRect()
             .width
         };
       }
@@ -1349,7 +1349,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     let translateX = screenX - draggedTab._dragData.screenX;
     if (!pinned)
       translateX +=
-        this.mTabstrip._scrollbox.scrollLeft - draggedTab._dragData.scrollX;
+        this.arrowScrollbox._scrollbox.scrollLeft -
+        draggedTab._dragData.scrollX;
     let leftBound = leftTab.boxObject.screenX - tabScreenX;
     let rightBound =
       rightTab.boxObject.screenX +
@@ -1430,7 +1431,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         if (aEvent.target != window) break;
 
         TabsInTitlebar.updateAppearance();
-        this.adjustTabstrip();
+        this._updateCloseButtons();
         this._handleTabSelect(true);
         this.updateSessionRestoreVisibility();
         break;
@@ -1448,7 +1449,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   _notifyBackgroundTab(aTab) {
     if (aTab.pinned || aTab.hidden) return;
 
-    var scrollRect = this.mTabstrip.scrollClientRect;
+    var scrollRect = this.arrowScrollbox.scrollClientRect;
     var tab = aTab.getBoundingClientRect();
 
     // DOMRect left/right properties are immutable.
@@ -1457,7 +1458,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     // Is the new tab already completely visible?
     if (scrollRect.left <= tab.left && tab.right <= scrollRect.right) return;
 
-    if (this.mTabstrip.smoothScroll) {
+    if (this.arrowScrollbox.smoothScroll) {
       let selected =
         !this.selectedItem.pinned && this.selectedItem.getBoundingClientRect();
 
@@ -1467,12 +1468,12 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         Math.max(tab.right - selected.left, selected.right - tab.left) <=
           scrollRect.width
       ) {
-        this.mTabstrip.ensureElementIsVisible(aTab);
+        this.arrowScrollbox.ensureElementIsVisible(aTab);
         return;
       }
 
-      this.mTabstrip.scrollByPixels(
-        this.mTabstrip._isRTLScrollbox
+      this.arrowScrollbox.scrollByPixels(
+        this.arrowScrollbox._isRTLScrollbox
           ? selected.right - scrollRect.right
           : selected.left - scrollRect.left
       );
@@ -1565,7 +1566,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     tab._fullyOpen = true;
     this.tabbrowser.tabAnimationsInProgress--;
 
-    this.adjustTabstrip();
+    this._updateCloseButtons();
 
     if (tab.getAttribute("selected") == "true") {
       this._handleTabSelect();
@@ -1578,7 +1579,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     // if a tab was inserted to the overflow area or removed from it
     // without any scrolling and when the tabbar has already
     // overflowed.
-    this.mTabstrip._updateScrollButtonsDisabledState();
+    this.arrowScrollbox._updateScrollButtonsDisabledState();
 
     // Preload the next about:newtab if there isn't one already.
     this.tabbrowser._createPreloadBrowser();

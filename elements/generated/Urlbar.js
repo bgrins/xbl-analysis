@@ -2,7 +2,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `
-      <xul:hbox anonid="textbox-container" class="autocomplete-textbox-container urlbar-textbox-container" flex="1" inherits="focused">
+      <xul:hbox flex="1" class="urlbar-textbox-container">
         <children includes="image|deck|stack|box"></children>
         <xul:hbox anonid="textbox-input-box" class="textbox-input-box urlbar-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
           <children></children>
@@ -1247,12 +1247,10 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       this.value = droppedItem instanceof URL ? droppedItem.href : droppedItem;
       SetPageProxyState("invalid");
       this.focus();
-      if (droppedItem instanceof URL) {
-        this.handleCommand();
-        // Force not showing the dropped URI immediately.
-        gBrowser.userTypedValue = null;
-        URLBarSetURI();
-      }
+      this.handleCommand();
+      // Force not showing the dropped URI immediately.
+      gBrowser.userTypedValue = null;
+      URLBarSetURI();
     }
   }
   makeURIReadable(aURI) {

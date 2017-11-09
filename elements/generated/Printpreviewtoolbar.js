@@ -447,13 +447,14 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
   }
   promptForScaleValue(aValue) {
     var value = Math.round(aValue);
-    var promptService = Components.classes[
-      "@mozilla.org/embedcomp/prompt-service;1"
-    ].getService(Components.interfaces.nsIPromptService);
     var promptStr = this.mScaleLabel.value;
     var renameTitle = this.mCustomTitle;
     var result = { value };
-    var confirmed = promptService.prompt(
+    let { Services } = Components.utils.import(
+      "resource://gre/modules/Services.jsm",
+      {}
+    );
+    var confirmed = Services.prompt.prompt(
       window,
       renameTitle,
       promptStr,
