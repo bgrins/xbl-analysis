@@ -6,7 +6,6 @@ class FirefoxPluginproblem extends XULElement {
           <html:label>
             <html:button class="icon" anonid="icon"></html:button>
             <html:div class="msg msgVulnerabilityStatus" anonid="vulnerabilityStatus"></html:div>
-            <html:div class="msg msgActivationWarning"></html:div>
             <html:div class="msg msgTapToPlay"></html:div>
             <html:div class="msg msgClickToPlay" anonid="clickToPlay"></html:div>
           </html:label>
