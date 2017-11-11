@@ -7,8 +7,36 @@ var {getParsedFiles, files, revsEveryDay: revs, getPrettyRev} = require('./xbl-f
 var maxBindings = 0;
 var remainingBindings = 0;
 var idsForRev = { };
-var KNOWN_BUGS = {
-  "": ""
+
+var metadataForBindings = {
+  'tabbrowser-tabbox': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1394975',
+    type: '#flatten-inheritance',
+  },
+  'viewbutton': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1410540',
+    type: '#flatten-inheritance',
+  },
+  'windows-radio': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1411640',
+    type: '#flatten-inheritance',
+  },
+  'radio-with-spacing': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1411640',
+    type: '#flatten-inheritance',
+  },
+  'checkbox-baseline': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1412361',
+    type: '#remove-unused',
+  },
+  'checkbox-radio': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1412361',
+    type: '#remove-unused',
+  },
+  'image': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1403231',
+    type: '#special-case',
+  },
 };
 
 function diff(base, compared) {
@@ -52,14 +80,20 @@ function getBindingsForRev(rev, last) {
 }
 
 function getMarkup(added, date, name) {
+  var metadata = metadataForBindings[name] || {};
+  var link = (metadata.bug && `<small><a href='${metadata.bug}'>bug ${metadata.bug.match(/\d+$/)[0]}</a></small>`);
+  var type = (metadata.type && `<small>${metadata.type}</small>`) || '';
+  var metadata = (metadata.bug && `<span style='float: right'>${type} ${link}</span>`) || '';
   return `
   <div class="cd-timeline-block">
     <div class="cd-timeline-img cd-${added ? 'addition' : 'subtraction'}">
     </div>
 
     <div class="cd-timeline-content">
-      <h2><span class="cd-date">${date}</span> ${(added ? "Added new binding: " : "Removed binding: ")} ${name}</h2>
-      <p style='display: none'><a href="#">Bug</a>.</p>
+      <h2>
+        <span class="cd-date">${date}</span> ${(added ? "Added new binding: " : "Removed binding: ")} ${name}
+        ${metadata}
+      </h2>
     </div>
   </div>`;
 }

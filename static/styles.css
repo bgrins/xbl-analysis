@@ -155,3 +155,13 @@ summary {padding: 4px 0; position: relative; width: 100%; }
   border: 7px solid transparent;
   border-right: 7px solid white;
 }
+
+.cd-timeline-content small {
+  border: solid 1px;
+  border-radius: 5px;
+  background: rgba(0, 0, 255, .05);
+  font-size: 50%;
+  vertical-align: middle;
+  margin-right: 2px;
+  padding: 3px;
+}
