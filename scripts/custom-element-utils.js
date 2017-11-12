@@ -104,22 +104,34 @@ function getJSForBinding(binding) {
       }
     }
 
-    let setter = field.attrs.readonly ? '' :
-    `set(val) {
-        delete this.${field.attrs.name};
-        return this.${field.attrs.name} = val;
-    },`;
-
-    fields.push(`Object.defineProperty(this, "${field.attrs.name}", {
-      configurable: true,
-      enumerable: true,
-      get() {
+    let desc = `new ACCDescCE(
+      function() {
         ${comments.join('\n')}
         delete this.${field.attrs.name};
         return this.${field.attrs.name} = ${expressions.join('\n')}
-      },
-      ${setter}
-    })`);
+      }`;
+    if (!field.attrs.readonly) {
+      desc += `,
+      function(val) {
+      delete this.${field.attrs.name};
+      return this.${field.attrs.name} = val;
+    }`;
+    }
+    desc += ")";
+
+    fields.push(`Object.defineProperty(this, "${field.attrs.name}", ${desc})`);
+  }
+  if (fields.length) {
+    fields.unshift(`
+    function AccDescCE(get, set) {
+      this.get = get;
+      if (set)
+        this.set = set;
+    }
+    AccDescCE.prototype.configurable = true;
+    AccDescCE.prototype.enumerable = true;
+    Object.freeze(AccDescCE);
+`);
   }
 
   js.push(`
