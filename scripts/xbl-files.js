@@ -123,7 +123,7 @@ function getAllFilesForRev(rev) {
 // '2017-08-01',
 // ...
 function getRevsOverTime(daily = false) {
-  let old = moment("2017-09-01");
+  let old = moment("2017-10-01");
   let now = moment();
   let revs = [];
 
