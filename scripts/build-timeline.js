@@ -37,6 +37,62 @@ var metadataForBindings = {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1403231',
     type: '#special-case',
   },
+  'checkbox-with-spacing': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-base': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-bool': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-fulltoggle': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-boolint': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-fulltoggle': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-localized': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-fulltoggle': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-integer': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-control': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-string': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-color': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-path': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-multi': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
 };
 
 function diff(base, compared) {
