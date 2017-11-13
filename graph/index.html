@@ -22,8 +22,10 @@
     #loc:target ~ #graphs > #loc-container,
     #bindings:target ~ #graphs > #bindings-container,
     #bindings-loc:target ~ #graphs > #bindings-loc-container,
-    #bindings-instances:target ~ #graphs > #bindings-instances-container {
-    display: block;
+    #bindings-instances:target ~ #graphs > #bindings-instances-container,
+    #directory-loc:target ~ #graphs > #directory-loc-container,
+    #directory-bindings:target ~ #graphs > #directory-bindings-container {
+      display: block;
     }
   </style>
 </head>
@@ -34,6 +36,8 @@
     <div id="bindings"></div>
     <div id="bindings-loc"></div>
     <div id="bindings-instances"></div>
+    <div id="directory-loc"></div>
+    <div id="directory-bindings"></div>
     <div id="links">
       <a href="../">Home</a>
       <a href="https://github.com/bgrins/xbl-analysis">Code</a>
@@ -49,9 +53,17 @@
           <a href="#loc">Show this graph only</a>
           <canvas></canvas>
       </div>
+      <div class="container" id="directory-loc-container">
+        <a href="#directory-loc">Show this graph only</a>
+        <canvas></canvas>
+      </div>
       <div class="container" id="bindings-container">
           <a href="#bindings">Show this graph only</a>
           <canvas></canvas>
+      </div>
+      <div class="container" id="directory-bindings-container">
+        <a href="#directory-bindings">Show this graph only</a>
+        <canvas></canvas>
       </div>
       <div class="container" id="bindings-loc-container">
           <a href="#bindings-loc">Show this graph only</a>
@@ -206,7 +218,10 @@
 function getColorIterator() {
   let colorSeq = [];
   for (let color in chartColors) {
-    colorSeq.push(color);
+    // These are used to represent LOC and # of bindings
+    if (color !== "blue" && color !== "red") {
+      colorSeq.push(color);
+    }
   }
   let lastColor = 0;
   return function() {
@@ -216,19 +231,28 @@ function getColorIterator() {
   };
 }
 
-
 let FIRST_REV = null;
 for (var i in DATA) {
   FIRST_REV = i;
   break;
 }
 
-
 let locs = [];
+let directoryLOC = {};
+let directoryBindings = {};
 let bindings = [];
 let labels = [];
+
+for (var i in DATA[FIRST_REV].directoryLOC) {
+  directoryLOC[i] = [];
+  directoryBindings[i] = [];
+}
 for (var rev in DATA) {
   locs.push(DATA[rev].loc);
+  for (var i in DATA[rev].directoryLOC) {
+    directoryLOC[i].push(DATA[rev].directoryLOC[i]);
+    directoryBindings[i].push(DATA[rev].directoryBindings[i]);
+  }
   bindings.push(DATA[rev].numBindings);
   labels.push(DATA[rev].label);
 }
@@ -407,19 +431,46 @@ new Chart(
   }
 );
 
+let directoryLocDatasets = [];
+let directoryLOCColorIterator = getColorIterator();
+for (var i in directoryLOC) {
+  let color = directoryLOCColorIterator();
+  directoryLocDatasets.push({
+    label: `${i}/`,
+    backgroundColor: color,
+    borderColor: color,
+    data: directoryLOC[i],
+    fill: false
+  })
+}
+directoryLocDatasets = directoryLocDatasets.sort((a,b) => a.data[0] - b.data[0]);
+
+new Chart(document.querySelector("#directory-loc-container canvas").getContext("2d"), {
+  type: "line",
+  data: {
+    labels: labels,
+    datasets: directoryLocDatasets,
+  },
+  options: {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Lines of Code Per Directory"
+    },
+  }
+});
+
 new Chart(document.querySelector("#loc-container canvas").getContext("2d"), {
   type: "line",
   data: {
     labels: labels,
-    datasets: [
-      {
-        label: "Lines of XBL",
-        backgroundColor: window.chartColors.red,
-        borderColor: window.chartColors.red,
-        data: locs,
-        fill: false
-      }
-    ]
+    datasets: [{
+      label: "Total lines of XBL",
+      backgroundColor: window.chartColors.red,
+      borderColor: window.chartColors.red,
+      data: locs,
+      fill: false,
+    }],
   },
   options: {
     responsive: true,
@@ -451,6 +502,36 @@ new Chart(document.querySelector("#loc-container canvas").getContext("2d"), {
   }
 });
 
+let bindingDatasets = [];
+let directoryBindingsColorIterator = getColorIterator();
+for (var i in directoryLOC) {
+  let color = directoryBindingsColorIterator();
+  bindingDatasets.push({
+    label: `${i}/`,
+    backgroundColor: color,
+    borderColor: color,
+    data: directoryBindings[i],
+    fill: false
+  })
+}
+bindingDatasets = bindingDatasets.sort((a, b) => a.data[0] - b.data[0]);
+
+new Chart(document.querySelector("#directory-bindings-container canvas").getContext("2d"),
+{
+  type: "line",
+  data: {
+    labels: labels,
+    datasets: bindingDatasets,
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Number of bindings per directory"
+    },
+    responsive: true,
+  }
+});
+
 new Chart(
   document.querySelector("#bindings-container canvas").getContext("2d"),
   {
@@ -465,7 +546,7 @@ new Chart(
           data: bindings,
           fill: false
         }
-      ]
+      ],
     },
     options: {
       responsive: true,

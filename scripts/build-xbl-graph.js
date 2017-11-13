@@ -16,14 +16,43 @@ function countForRev(rev) {
   console.log(`Looking at ${rev}`);
   return getParsedFiles(rev).then(files => {
     let bindingsLOC = new Map();
+    let directoryLOC = {
+      'browser': 0,
+      'dom': 0,
+      'toolkit': 0,
+      'mobile': 0,
+      'layout': 0,
+      'xpfe': 0,
+    };
+    let directoryBindings = {
+      'browser': 0,
+      'dom': 0,
+      'toolkit': 0,
+      'mobile': 0,
+      'layout': 0,
+      'xpfe': 0,
+    };
     let numBindings = files.map(file => {
+      let bucketedInDir = null;
+      for (let dir in directoryLOC) {
+        if (file.url.includes(`}/${dir}/`)) {
+          bucketedInDir = dir;
+        }
+      }
+      if (!bucketedInDir) {
+        throw `No directory known for: ${file.url}`;
+      }
+
       let lameBindingParse = file.body.split('<binding ').slice(1);
       let docBindings = file.doc.find('binding');
       if (lameBindingParse.length != docBindings.length) {
         throw `Splitting on '<binding ' did not work (${lameBindingParse.length} vs ${docBindings.length})`;
       }
       docBindings.forEach((binding, i) => {
-        bindingsLOC.set(binding.attrs.id, lameBindingParse[i].split(/\n/).length);
+        let loc = lameBindingParse[i].split(/\n/).length;
+        directoryLOC[bucketedInDir] += loc;
+        directoryBindings[bucketedInDir]++;
+        bindingsLOC.set(binding.attrs.id, loc);
       })
       return docBindings.length;
     }).reduce((a, b) => { return a + b; });
@@ -33,6 +62,8 @@ function countForRev(rev) {
     data[rev] = {
       numBindings,
       loc,
+      directoryLOC,
+      directoryBindings,
       bindingsLOC: mapToObj(bindingsLOC),
       label,
     };

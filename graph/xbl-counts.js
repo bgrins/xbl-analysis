@@ -2,6 +2,22 @@ var DATA = {
   "master@{2017-09-30}": {
     numBindings: 300,
     loc: 48617,
+    directoryLOC: {
+      browser: 16930,
+      dom: 723,
+      toolkit: 29841,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 50,
+      dom: 21,
+      toolkit: 214,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6185,
       videoControls: 1773,
@@ -298,6 +314,22 @@ var DATA = {
   "master@{2017-10-02}": {
     numBindings: 300,
     loc: 48617,
+    directoryLOC: {
+      browser: 16930,
+      dom: 723,
+      toolkit: 29841,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 50,
+      dom: 21,
+      toolkit: 214,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6185,
       videoControls: 1773,
@@ -594,6 +626,22 @@ var DATA = {
   "master@{2017-10-04}": {
     numBindings: 300,
     loc: 48613,
+    directoryLOC: {
+      browser: 16979,
+      dom: 723,
+      toolkit: 29788,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 50,
+      dom: 21,
+      toolkit: 214,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6214,
       videoControls: 1773,
@@ -890,6 +938,22 @@ var DATA = {
   "master@{2017-10-06}": {
     numBindings: 300,
     loc: 48670,
+    directoryLOC: {
+      browser: 17027,
+      dom: 723,
+      toolkit: 29797,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 50,
+      dom: 21,
+      toolkit: 214,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6263,
       videoControls: 1773,
@@ -1186,6 +1250,22 @@ var DATA = {
   "master@{2017-10-08}": {
     numBindings: 299,
     loc: 48655,
+    directoryLOC: {
+      browser: 17018,
+      dom: 723,
+      toolkit: 29791,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 214,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6259,
       videoControls: 1773,
@@ -1481,6 +1561,22 @@ var DATA = {
   "master@{2017-10-10}": {
     numBindings: 299,
     loc: 48657,
+    directoryLOC: {
+      browser: 17020,
+      dom: 723,
+      toolkit: 29791,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 214,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6261,
       videoControls: 1773,
@@ -1776,6 +1872,22 @@ var DATA = {
   "master@{2017-10-12}": {
     numBindings: 299,
     loc: 48659,
+    directoryLOC: {
+      browser: 17022,
+      dom: 723,
+      toolkit: 29791,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 214,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6262,
       videoControls: 1773,
@@ -2071,6 +2183,22 @@ var DATA = {
   "master@{2017-10-14}": {
     numBindings: 298,
     loc: 48538,
+    directoryLOC: {
+      browser: 16912,
+      dom: 723,
+      toolkit: 29746,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6262,
       videoControls: 1773,
@@ -2366,6 +2494,22 @@ var DATA = {
   "master@{2017-10-16}": {
     numBindings: 298,
     loc: 48538,
+    directoryLOC: {
+      browser: 16912,
+      dom: 723,
+      toolkit: 29746,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6262,
       videoControls: 1773,
@@ -2661,6 +2805,22 @@ var DATA = {
   "master@{2017-10-18}": {
     numBindings: 298,
     loc: 48544,
+    directoryLOC: {
+      browser: 16918,
+      dom: 723,
+      toolkit: 29746,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6262,
       videoControls: 1773,
@@ -2956,6 +3116,22 @@ var DATA = {
   "master@{2017-10-20}": {
     numBindings: 298,
     loc: 48531,
+    directoryLOC: {
+      browser: 16905,
+      dom: 723,
+      toolkit: 29744,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6257,
       videoControls: 1773,
@@ -3251,6 +3427,22 @@ var DATA = {
   "master@{2017-10-22}": {
     numBindings: 298,
     loc: 48554,
+    directoryLOC: {
+      browser: 16968,
+      dom: 723,
+      toolkit: 29704,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6266,
       videoControls: 1773,
@@ -3546,6 +3738,22 @@ var DATA = {
   "master@{2017-10-24}": {
     numBindings: 298,
     loc: 48537,
+    directoryLOC: {
+      browser: 16951,
+      dom: 723,
+      toolkit: 29704,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6249,
       videoControls: 1773,
@@ -3841,6 +4049,22 @@ var DATA = {
   "master@{2017-10-26}": {
     numBindings: 298,
     loc: 48545,
+    directoryLOC: {
+      browser: 16959,
+      dom: 723,
+      toolkit: 29704,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6249,
       videoControls: 1773,
@@ -4136,6 +4360,22 @@ var DATA = {
   "master@{2017-10-28}": {
     numBindings: 298,
     loc: 48591,
+    directoryLOC: {
+      browser: 16996,
+      dom: 723,
+      toolkit: 29713,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6281,
       videoControls: 1782,
@@ -4431,6 +4671,22 @@ var DATA = {
   "master@{2017-10-30}": {
     numBindings: 298,
     loc: 48591,
+    directoryLOC: {
+      browser: 16996,
+      dom: 723,
+      toolkit: 29713,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 49,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6281,
       videoControls: 1782,
@@ -4726,6 +4982,22 @@ var DATA = {
   "master@{2017-11-01}": {
     numBindings: 296,
     loc: 48083,
+    directoryLOC: {
+      browser: 16486,
+      dom: 723,
+      toolkit: 29715,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 47,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6284,
       videoControls: 1784,
@@ -5019,6 +5291,22 @@ var DATA = {
   "master@{2017-11-03}": {
     numBindings: 296,
     loc: 48095,
+    directoryLOC: {
+      browser: 16498,
+      dom: 723,
+      toolkit: 29715,
+      mobile: 133,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 47,
+      dom: 21,
+      toolkit: 213,
+      mobile: 5,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6296,
       videoControls: 1784,
@@ -5312,6 +5600,22 @@ var DATA = {
   "master@{2017-11-05}": {
     numBindings: 290,
     loc: 47977,
+    directoryLOC: {
+      browser: 16498,
+      dom: 723,
+      toolkit: 29653,
+      mobile: 75,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 47,
+      dom: 21,
+      toolkit: 208,
+      mobile: 4,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6296,
       videoControls: 1785,
@@ -5599,6 +5903,22 @@ var DATA = {
   "master@{2017-11-07}": {
     numBindings: 290,
     loc: 47972,
+    directoryLOC: {
+      browser: 16493,
+      dom: 723,
+      toolkit: 29653,
+      mobile: 75,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 47,
+      dom: 21,
+      toolkit: 208,
+      mobile: 4,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6296,
       videoControls: 1785,
@@ -5886,6 +6206,22 @@ var DATA = {
   "master@{2017-11-09}": {
     numBindings: 289,
     loc: 47959,
+    directoryLOC: {
+      browser: 16480,
+      dom: 723,
+      toolkit: 29651,
+      mobile: 75,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 46,
+      dom: 21,
+      toolkit: 208,
+      mobile: 4,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6296,
       videoControls: 1785,
@@ -6172,6 +6508,22 @@ var DATA = {
   "master@{2017-11-11}": {
     numBindings: 289,
     loc: 47958,
+    directoryLOC: {
+      browser: 16480,
+      dom: 723,
+      toolkit: 29650,
+      mobile: 75,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 46,
+      dom: 21,
+      toolkit: 208,
+      mobile: 4,
+      layout: 5,
+      xpfe: 5
+    },
     bindingsLOC: {
       tabbrowser: 6296,
       videoControls: 1785,
@@ -6454,6 +6806,308 @@ var DATA = {
       stringbundleset: 3
     },
     label: "2017-11-11"
+  },
+  "master@{2017-11-13}": {
+    numBindings: 289,
+    loc: 47950,
+    directoryLOC: {
+      browser: 16476,
+      dom: 723,
+      toolkit: 29646,
+      mobile: 75,
+      layout: 726,
+      xpfe: 1637
+    },
+    directoryBindings: {
+      browser: 46,
+      dom: 21,
+      toolkit: 208,
+      mobile: 4,
+      layout: 5,
+      xpfe: 5
+    },
+    bindingsLOC: {
+      tabbrowser: 6292,
+      videoControls: 1785,
+      browser: 1712,
+      urlbar: 1589,
+      "tabbrowser-tabs": 1392,
+      autocomplete: 1320,
+      "search-one-offs": 1255,
+      findbar: 1199,
+      "addon-generic": 1027,
+      tree: 998,
+      "autocomplete-richlistitem": 922,
+      "places-tree": 784,
+      "urlbar-rich-result-popup": 760,
+      "time-input": 755,
+      marquee: 660,
+      "datetime-input-base": 642,
+      "listbox-base": 582,
+      "remote-browser": 580,
+      prefwindow: 566,
+      arrowscrollbox: 564,
+      searchbar: 556,
+      richlistbox: 515,
+      "places-popup-base": 482,
+      preference: 456,
+      printpreviewtoolbar: 445,
+      wizard: 432,
+      "tabbrowser-tab": 431,
+      radiogroup: 420,
+      dialog: 418,
+      translationbar: 416,
+      colorpicker: 414,
+      "date-input": 408,
+      "autocomplete-rich-result-popup": 404,
+      "datepicker-grid": 388,
+      menulist: 385,
+      notificationbox: 384,
+      "searchbar-textbox": 354,
+      tabs: 353,
+      "datetime-popup": 330,
+      tabmodalprompt: 330,
+      timepicker: 326,
+      toolbar: 311,
+      numberbox: 291,
+      datepicker: 284,
+      touchControls: 263,
+      "install-status": 256,
+      listbox: 256,
+      "popup-base": 241,
+      "label-control": 236,
+      "autocomplete-result-popup": 236,
+      "browser-search-autocomplete-result-popup": 230,
+      textbox: 226,
+      "tabbrowser-alltabs-popup": 224,
+      prefpane: 214,
+      scale: 209,
+      tabbox: 208,
+      "button-base": 207,
+      "treecol-base": 206,
+      "arrowscrollbox-clicktoscroll": 199,
+      "datetimepicker-base": 196,
+      "menulist-editable": 194,
+      treebody: 188,
+      editor: 179,
+      tab: 178,
+      sorters: 176,
+      "addon-progress-notification": 173,
+      arrowpanel: 154,
+      "autocomplete-base-popup": 146,
+      "findbar-textbox": 139,
+      "search-textbox": 135,
+      "colorpicker-button": 134,
+      "places-popup-arrow": 132,
+      noControls: 131,
+      statuspanel: 129,
+      "input-box-spell": 125,
+      "autocomplete-profile-listitem-footer": 124,
+      "menu-base": 122,
+      listitem: 121,
+      "popup-scrollbars": 120,
+      "setting-base": 117,
+      tooltip: 114,
+      "addon-installing": 113,
+      tabpanels: 112,
+      "addon-uninstalled": 110,
+      suppressChangeEvent: 109,
+      rating: 107,
+      preferences: 107,
+      notification: 104,
+      panel: 100,
+      "toolbar-menubar-autohide": 97,
+      "autocomplete-richlistitem-insecure-field": 97,
+      "menu-button-base": 96,
+      radio: 95,
+      "text-link": 94,
+      download: 94,
+      "download-progress": 86,
+      spinbuttons: 86,
+      columnpicker: 85,
+      "builtin-emacs-textAreas": 85,
+      "setting-path": 85,
+      filefield: 83,
+      stringbundle: 82,
+      toolbox: 79,
+      "popup-notification": 78,
+      expander: 77,
+      "datepicker-popup": 76,
+      "autocomplete-profile-listitem-base": 72,
+      "builtin-emacs-inputFields": 69,
+      "autocomplete-profile-listitem": 69,
+      richlistitem: 68,
+      "input-box": 65,
+      "wizard-buttons": 64,
+      pluginProblem: 62,
+      "progressmeter-undetermined": 59,
+      "setting-multi": 59,
+      "addon-base": 57,
+      "timed-textbox": 57,
+      checkbox: 56,
+      update: 56,
+      "tabbrowser-arrowscrollbox": 55,
+      "creator-link": 52,
+      "autocomplete-richlistbox": 51,
+      progressmeter: 48,
+      "setting-bool": 48,
+      menubar: 46,
+      "builtin-android-browser": 45,
+      "builtin-emacs-editor": 44,
+      "builtin-android-editor": 43,
+      "builtin-android-textAreas": 43,
+      "builtin-win-textAreas": 42,
+      "autocomplete-creditcard-insecure-field": 41,
+      "tabbrowser-tabpanels": 40,
+      "builtin-win-editor": 40,
+      panelmultiview: 39,
+      "builtin-unix-browser": 39,
+      popup: 39,
+      "builtin-win-browser": 39,
+      listrows: 38,
+      "setting-color": 38,
+      deck: 38,
+      installitem: 38,
+      "builtin-win-inputFields": 37,
+      "listitem-checkbox": 37,
+      treerows: 36,
+      prettyprint: 36,
+      basetext: 36,
+      "setting-integer": 35,
+      "menuitem-base": 35,
+      "toolbar-menubar-stub": 34,
+      "setting-string": 34,
+      category: 34,
+      panelview: 33,
+      "builtin-emacs-browser": 33,
+      "tabbrowser-remote-browser": 32,
+      resizer: 31,
+      "tabbrowser-browser": 31,
+      "autocomplete-treebody": 30,
+      "text-label": 30,
+      panebutton: 29,
+      "history-dropmarker": 27,
+      softblockedaddon: 27,
+      "setting-localized-bool": 27,
+      "handler-selected": 27,
+      feed: 26,
+      "tabbrowser-close-tab-button": 25,
+      "builtin-android-inputFields": 25,
+      "autocomplete-history-popup": 24,
+      optionsDialog: 24,
+      container: 24,
+      "builtin-mac-browser": 24,
+      "ctrlTab-preview": 24,
+      "detail-row": 23,
+      treecols: 23,
+      "toolbar-drag": 23,
+      "categories-list": 23,
+      grippy: 22,
+      "setting-boolint": 22,
+      statusbarpanel: 21,
+      "marquee-horizontal": 21,
+      windowdragbox: 21,
+      "root-element": 20,
+      iframe: 20,
+      "setting-fulltoggle-bool": 19,
+      handler: 19,
+      "setting-fulltoggle-boolint": 19,
+      "menu-vertical": 19,
+      "setting-fulltoggle-localized-bool": 19,
+      "menu-iconic": 19,
+      siteListItem: 18,
+      "toolbarbutton-badged-menu": 18,
+      toolbarbutton: 18,
+      scrollbox: 18,
+      "checkbox-with-spacing": 18,
+      button: 18,
+      "menu-button": 18,
+      "builtin-mac-editor": 18,
+      wizardpage: 17,
+      "marquee-vertical": 17,
+      "download-subview-toolbarbutton": 17,
+      hardblockedaddon: 17,
+      "toolbarbutton-badged": 16,
+      caption: 16,
+      "menuitem-iconic": 16,
+      updateheader: 16,
+      "download-toolbarbutton": 16,
+      listcell: 15,
+      "tree-base": 15,
+      menu: 15,
+      listheader: 15,
+      "setting-control": 15,
+      "marquee-horizontal-editable": 14,
+      "text-base": 14,
+      photonpanelmultiview: 14,
+      basecontrol: 14,
+      listhead: 14,
+      "menulist-description": 14,
+      "marquee-vertical-editable": 14,
+      scrollbar: 14,
+      "wizard-header": 13,
+      groupbox: 13,
+      "builtin-unix-inputFields": 13,
+      "builtin-unix-textAreas": 13,
+      offlineapp: 12,
+      "menuitem-iconic-noaccel": 12,
+      dialogheader: 12,
+      "menuitem-iconic-desc-noaccel": 12,
+      "searchbar-treebody": 12,
+      "builtin-mac-inputFields": 12,
+      "builtin-mac-textAreas": 12,
+      "listcell-checkbox-iconic": 12,
+      "menucaption-inmenulist": 12,
+      "toolbarbutton-dropdown": 11,
+      "handler-base": 11,
+      "listcell-checkbox": 11,
+      "builtin-unix-editor": 11,
+      "listcell-iconic": 11,
+      "toolbarpaletteitem-palette-wrapping-label": 11,
+      "autocomplete-treerows": 11,
+      dropmarker: 11,
+      "autocomplete-tree": 10,
+      menuitem: 10,
+      "listitem-checkbox-iconic": 10,
+      statusbar: 10,
+      "listitem-iconic": 10,
+      "scrollbar-base": 10,
+      "toolbarpaletteitem-palette": 10,
+      replacement: 10,
+      textarea: 10,
+      "menu-menubar-iconic": 10,
+      "statusbarpanel-menu-iconic": 9,
+      "menu-menubar": 9,
+      toolbarpaletteitem: 9,
+      "statusbarpanel-iconic-text": 9,
+      scaleslider: 8,
+      "menulist-popuponly": 8,
+      "menulist-base": 8,
+      "menubutton-item": 8,
+      "statusbarpanel-iconic": 8,
+      "control-item": 8,
+      "toolbarbutton-image": 8,
+      "addengine-icon": 8,
+      "button-image": 8,
+      treecol: 8,
+      "tab-base": 7,
+      menucaption: 7,
+      scalethumb: 7,
+      splitter: 7,
+      "groupbox-base": 7,
+      "treecol-image": 7,
+      autorepeatbutton: 7,
+      "wizard-base": 7,
+      "scrollbox-base": 7,
+      "toolbar-base": 7,
+      menuseparator: 6,
+      colorpickertile: 5,
+      "button-repeat": 5,
+      toolbardecoration: 4,
+      thumb: 3,
+      stringbundleset: 3
+    },
+    label: "2017-11-13"
   }
 };
 var SORTED_BINDINGS = {
