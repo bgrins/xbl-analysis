@@ -109,6 +109,10 @@ var metadataForBindings = {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1416368',
     type: '#remove-unused',
   },
+  'panebutton': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1412369',
+    type: '#flatten-inheritance',
+  },
 };
 
 var totalMetadata = 0;
