@@ -93,7 +93,29 @@ var metadataForBindings = {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
     type: '#remove-unused',
   },
+  'photonpanelmultiview': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414244',
+    type: '#flatten-inheritance',
+  },
+  'statusbarpanel-menu-iconic': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1416368',
+    type: '#remove-unused',
+  },
+  'statusbarpanel-iconic': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1416368',
+    type: '#remove-unused',
+  },
+  'statusbarpanel-iconic-text': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1416368',
+    type: '#remove-unused',
+  },
 };
+
+var totalMetadata = 0;
+for (var i in metadataForBindings) {
+  totalMetadata++;
+}
+console.log(`We have metadata for ${totalMetadata} bindings`);
 
 function diff(base, compared) {
   var deleted = [],
@@ -163,7 +185,7 @@ function processSequential(list, cb) {
 
 function processRev(rev, last) {
   idsForRev[rev] = {};
-  console.log("Processing ", rev, last);
+  console.log("Processing", rev, last);
   return getBindingsForRev(rev, last);
 }
 
