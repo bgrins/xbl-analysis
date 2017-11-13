@@ -113,13 +113,28 @@ var metadataForBindings = {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1412369',
     type: '#flatten-inheritance',
   },
+  'expander': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=930845',
+    type: '#remove-unused'
+  },
+  'searchbar-treebody': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414020',
+    type: '#flatten-inheritance'
+  },
+  'control-item': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1416483',
+    type: '#flatten-inheritance'
+  },
+  'button-image': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1416524',
+    type: '#remove-unused'
+  },
 };
 
 var totalMetadata = 0;
 for (var i in metadataForBindings) {
   totalMetadata++;
 }
-console.log(`We have metadata for ${totalMetadata} bindings`);
 
 function diff(base, compared) {
   var deleted = [],
@@ -196,6 +211,7 @@ function processRev(rev, last) {
 // Cache files in sequence since we are doing every day. Slower but prevents oom.
 processSequential(revs, processRev).then(() => {
   var text = fs.readFileSync('index.html', 'utf8');
+  var metadataSeen = 0;
   var newText = text.split("<!-- REPLACE-TIMELINE -->")[0] + "<!-- REPLACE-TIMELINE -->\n";
   newText += `<p>Starting with <b>${maxBindings}</b> bindings - there are <b>${remainingBindings}</b> bindings remaining.</p>`;
   newText += `<section id="cd-timeline" class="cd-container">`;
@@ -209,6 +225,9 @@ processSequential(revs, processRev).then(() => {
     }
     if (deleted.length) {
       newText += deleted.map(del => {
+        if (metadataForBindings[del]) {
+          metadataSeen++;
+        }
         return getMarkup(false, getPrettyRev(revs[i]), del);
       }).join("\n");
     }
@@ -217,4 +236,6 @@ processSequential(revs, processRev).then(() => {
   // console.log(idsForRev);
   newText += "\n<!-- END-REPLACE-TIMELINE -->" + text.split("<!-- END-REPLACE-TIMELINE -->")[1];
   fs.writeFileSync('index.html', newText);
+
+  console.log(`Finished processing. We have metadata for ${totalMetadata} bindings, and ${metadataSeen} of them have been removed. So we know of ${totalMetadata - metadataSeen} still in progress.`);
 })
