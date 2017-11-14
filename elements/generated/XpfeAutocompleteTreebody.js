@@ -1,5 +1,17 @@
-class FirefoxAutocompleteTreebody extends XULElement {
+class FirefoxXpfeAutocompleteTreebody extends XULElement {
   connectedCallback() {
+    Object.defineProperty(this, "popup", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.popup;
+        return (this.popup = document.getBindingParent(this));
+      },
+      set(val) {
+        delete this.popup;
+        return (this.popup = val);
+      }
+    });
     Object.defineProperty(this, "mLastMoveTime", {
       configurable: true,
       enumerable: true,
@@ -13,38 +25,35 @@ class FirefoxAutocompleteTreebody extends XULElement {
       }
     });
 
-    this.addEventListener("mouseup", event => {
-      this.parentNode.parentNode.onPopupClick(event);
+    this.addEventListener("mouseout", event => {
+      this.popup.selectedIndex = -1;
     });
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mouseup", event => {
       var rc = this.parentNode.treeBoxObject.getRowAt(
         event.clientX,
         event.clientY
       );
-      if (rc != this.parentNode.currentIndex)
-        this.parentNode.view.selection.select(rc);
+      if (rc != -1) {
+        this.popup.selectedIndex = rc;
+        this.popup.view.handleEnter(true);
+      }
     });
 
     this.addEventListener("mousemove", event => {
-      if (event.defaultPrevented) {
-        // Allow bindings that extend this one to cancel the event so that
-        // nothing is selected.
-        return;
-      }
       if (Date.now() - this.mLastMoveTime > 30) {
         var rc = this.parentNode.treeBoxObject.getRowAt(
           event.clientX,
           event.clientY
         );
-        if (rc != this.parentNode.currentIndex)
-          this.parentNode.view.selection.select(rc);
+        if (rc != -1 && rc != this.popup.selectedIndex)
+          this.popup.selectedIndex = rc;
         this.mLastMoveTime = Date.now();
       }
     });
   }
 }
 customElements.define(
-  "firefox-autocomplete-treebody",
-  FirefoxAutocompleteTreebody
+  "firefox-xpfe-autocomplete-treebody",
+  FirefoxXpfeAutocompleteTreebody
 );

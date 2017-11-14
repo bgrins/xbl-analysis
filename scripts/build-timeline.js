@@ -170,6 +170,9 @@ function getBindingsForRev(rev, last) {
     });
 
     maxBindings = Math.max(maxBindings, totalBindings);
+    if (maxBindings === totalBindings) {
+      console.log("Found max " + maxBindings + " " + rev);
+    }
     if (last) {
       remainingBindings = totalBindings;
     }

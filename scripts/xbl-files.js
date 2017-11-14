@@ -245,12 +245,13 @@ function parseBody(body, file) {
     "builtin/mac": "builtin-mac",
     "builtin/unix": "builtin-unix",
     "builtin/win": "builtin-win",
-    "mobile/android/chrome/content/bindings/checkbox.xml": "android-",
+    "xpfe/components/autocomplete/resources/content/autocomplete.xml": "xpfe",
+    "mobile/android/chrome/content/bindings/checkbox.xml": "android",
   }
 
   for (var i in replaceDuplicateIds) {
     if (file.includes(i)) {
-      body = body.replace(/\<binding id=\"([a-zA-Z]+)\"/gi, `<binding id="${replaceDuplicateIds[i]}-$1"`);
+      body = body.replace(/\<binding id=\"([a-zA-Z\-]+)\"/gi, `<binding id="${replaceDuplicateIds[i]}-$1"`);
     }
   }
 
