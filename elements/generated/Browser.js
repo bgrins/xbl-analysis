@@ -833,12 +833,6 @@ class FirefoxBrowser extends XULElement {
     return this.docShell.contentViewer;
   }
 
-  get contentViewerEdit() {
-    return this.docShell.contentViewer.QueryInterface(
-      Components.interfaces.nsIContentViewerEdit
-    );
-  }
-
   get contentDocument() {
     return this.webNavigation.document;
   }

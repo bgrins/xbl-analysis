@@ -292,11 +292,13 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     this._margins = val;
 
     if (val) {
+      /* eslint-disable no-multi-spaces */
       let paddingInCSS =
         3 + // .autocomplete-richlistbox padding-left/right
         6 + // .ac-site-icon margin-inline-start
         16 + // .ac-site-icon width
         6; // .ac-site-icon margin-inline-end
+      /* eslint-enable no-multi-spaces */
       let actualVal = Math.round(val.start) - paddingInCSS;
       let actualValEnd = Math.round(val.end);
       this.style.setProperty("--item-padding-start", actualVal + "px");

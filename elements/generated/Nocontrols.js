@@ -117,10 +117,6 @@ class FirefoxNocontrols extends XULElement {
         for (let event of this.videoEvents) {
           this.video.addEventListener(event, this, { mozSystemGroup: true });
         }
-
-        if (this.video.autoplay && !this.video.mozAutoplayEnabled) {
-          this.blockedVideoHandler();
-        }
       }
     };
     this.Utils.init(this);

@@ -336,9 +336,7 @@ class FirefoxVideocontrols extends XULElement {
         //
         // (Note: the |controls| attribute is already handled via layout/style/html.css)
         var shouldShow =
-          !this.dynamicControls ||
-          (this.video.paused &&
-            !(this.video.autoplay && this.video.mozAutoplayEnabled));
+          !this.dynamicControls || (this.video.paused && !this.video.autoplay);
         // Hide the overlay if the video time is non-zero or if an error occurred to workaround bug 718107.
         let shouldClickToPlayShow =
           shouldShow &&
@@ -959,10 +957,7 @@ class FirefoxVideocontrols extends XULElement {
         // Suppress fading out the controls until the video has rendered
         // its first frame. But since autoplay videos start off with no
         // controls, let them fade-out so the controls don't get stuck on.
-        if (
-          !this.firstFrameShown &&
-          !(this.video.autoplay && this.video.mozAutoplayEnabled)
-        ) {
+        if (!this.firstFrameShown && !this.video.autoplay) {
           return;
         }
 
@@ -1018,11 +1013,7 @@ class FirefoxVideocontrols extends XULElement {
         // Suppress fading out the controls until the video has rendered
         // its first frame. But since autoplay videos start off with no
         // controls, let them fade-out so the controls don't get stuck on.
-        if (
-          !this.firstFrameShown &&
-          !isMouseOver &&
-          !(this.video.autoplay && this.video.mozAutoplayEnabled)
-        ) {
+        if (!this.firstFrameShown && !isMouseOver && !this.video.autoplay) {
           return;
         }
 
@@ -1742,8 +1733,7 @@ class FirefoxVideocontrols extends XULElement {
           if (
             this.clickToPlay.hidden &&
             !this.video.played.length &&
-            this.video.paused &&
-            this.clickToPlay.hideByAdjustment
+            this.video.paused
           ) {
             this.clickToPlay.hideByAdjustment = false;
           }

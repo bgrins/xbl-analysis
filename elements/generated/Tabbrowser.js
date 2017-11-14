@@ -296,18 +296,6 @@ class FirefoxTabbrowser extends XULElement {
         return (this.serializationHelper = val);
       }
     });
-    Object.defineProperty(this, "mIconLoadingPrincipal", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mIconLoadingPrincipal;
-        return (this.mIconLoadingPrincipal = null);
-      },
-      set(val) {
-        delete this.mIconLoadingPrincipal;
-        return (this.mIconLoadingPrincipal = val);
-      }
-    });
     Object.defineProperty(this, "_tabSwitchID", {
       configurable: true,
       enumerable: true,
@@ -1044,10 +1032,6 @@ class FirefoxTabbrowser extends XULElement {
 
   get markupDocumentViewer() {
     return this.mCurrentBrowser.markupDocumentViewer;
-  }
-
-  get contentViewerEdit() {
-    return this.mCurrentBrowser.contentViewerEdit;
   }
 
   get contentDocument() {
