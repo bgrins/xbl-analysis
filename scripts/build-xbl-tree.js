@@ -87,6 +87,9 @@ function treeForRev(rev) {
           idToFeatureAttrs[binding.attrs.id].push('implements');
         }
 
+        if (idToBinding[binding.attrs.id]) {
+          console.log("Detected duplicate binding: ", binding.attrs.id);
+        }
         idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1] || "NO_EXTENDS";
       });
     });

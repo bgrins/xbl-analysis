@@ -247,6 +247,7 @@ function parseBody(body, file) {
     "builtin/win": "builtin-win",
     "xpfe/components/autocomplete/resources/content/autocomplete.xml": "xpfe",
     "mobile/android/chrome/content/bindings/checkbox.xml": "android",
+    "components/customizableui/content/toolbar.xml": "customizableui",
   }
 
   for (var i in replaceDuplicateIds) {
