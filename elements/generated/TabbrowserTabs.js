@@ -30,7 +30,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       enumerable: true,
       get() {
         delete this.tabbox;
-        return (this.tabbox = this.tabbrowser.mTabBox);
+        return (this.tabbox = this.tabbrowser.tabbox);
       }
     });
     Object.defineProperty(this, "contextMenu", {

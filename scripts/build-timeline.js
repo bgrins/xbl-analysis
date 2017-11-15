@@ -21,7 +21,7 @@ var metadataForBindings = {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1411640',
     type: '#flatten-inheritance',
   },
-  'radio-with-spacing': {
+  'windows-radio-with-spacing': {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1411640',
     type: '#flatten-inheritance',
   },
@@ -29,7 +29,7 @@ var metadataForBindings = {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1412361',
     type: '#remove-unused',
   },
-  'checkbox-radio': {
+  'android-checkbox-radio': {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1412361',
     type: '#remove-unused',
   },
@@ -37,7 +37,7 @@ var metadataForBindings = {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1403231',
     type: '#special-case',
   },
-  'checkbox-with-spacing': {
+  'android-checkbox-with-spacing': {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
     type: '#remove-unused',
   },
@@ -46,6 +46,22 @@ var metadataForBindings = {
     type: '#remove-unused',
   },
   'setting-bool': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-fulltoggle-bool': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-fulltoggle-boolint': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-fulltoggle-localized-bool': {
+    bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
+    type: '#remove-unused',
+  },
+  'setting-localized-bool': {
     bug: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1414406',
     type: '#remove-unused',
   },

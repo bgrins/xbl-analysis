@@ -74,12 +74,12 @@ class FirefoxTabbrowser extends XULElement {
         ].getService(Components.interfaces.mozIPlacesAutoComplete));
       }
     });
-    Object.defineProperty(this, "mTabBox", {
+    Object.defineProperty(this, "tabbox", {
       configurable: true,
       enumerable: true,
       get() {
-        delete this.mTabBox;
-        return (this.mTabBox = document.getAnonymousElementByAttribute(
+        delete this.tabbox;
+        return (this.tabbox = document.getAnonymousElementByAttribute(
           this,
           "anonid",
           "tabbox"
@@ -962,10 +962,10 @@ class FirefoxTabbrowser extends XULElement {
 
   set selectedTab(val) {
     if (gNavToolbox.collapsed && !this._allowTabChange) {
-      return this.mTabBox.selectedTab;
+      return this.tabbox.selectedTab;
     }
     // Update the tab
-    this.mTabBox.selectedTab = val;
+    this.tabbox.selectedTab = val;
     return val;
   }
 
@@ -2310,6 +2310,12 @@ class FirefoxTabbrowser extends XULElement {
     gIdentityHandler.updateSharingIndicator();
 
     this.tabContainer._setPositionalAttributes();
+
+    // Enable touch events to start a native dragging
+    // session to allow the user to easily drag the selected tab.
+    // This is currently only supported on Windows.
+    oldTab.removeAttribute("touchdownstartsdrag");
+    this.mCurrentTab.setAttribute("touchdownstartsdrag", "true");
 
     if (!gMultiProcessBrowser) {
       document.commandDispatcher.unlock();
@@ -5200,7 +5206,7 @@ class FirefoxTabbrowser extends XULElement {
 
           this.maybeVisibleTabs.add(showTab);
 
-          let tabs = this.tabbrowser.mTabBox.tabs;
+          let tabs = this.tabbrowser.tabbox.tabs;
           let tabPanel = this.tabbrowser.mPanelContainer;
           let showPanel = tabs.getRelatedElement(showTab);
           let index = Array.indexOf(tabPanel.childNodes, showPanel);

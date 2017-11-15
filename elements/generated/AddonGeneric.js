@@ -1029,8 +1029,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     }
 
     this._preferencesBtn.hidden =
-      !this.mAddon.optionsURL ||
-      this.mAddon.optionsType == AddonManager.OPTIONS_TYPE_INLINE_INFO;
+      !this.mAddon.optionsType && this.mAddon.type != "plugin";
 
     if (this.typeHasFlag("SUPPORTS_ASK_TO_ACTIVATE")) {
       this._enableBtn.disabled = true;
