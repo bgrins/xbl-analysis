@@ -171,6 +171,42 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
         return (this._scrollButtonUpdatePending = val);
       }
     });
+    Object.defineProperty(this, "_isScrolling", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._isScrolling;
+        return (this._isScrolling = false);
+      },
+      set(val) {
+        delete this._isScrolling;
+        return (this._isScrolling = val);
+      }
+    });
+    Object.defineProperty(this, "_destination", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._destination;
+        return (this._destination = 0);
+      },
+      set(val) {
+        delete this._destination;
+        return (this._destination = val);
+      }
+    });
+    Object.defineProperty(this, "_direction", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._direction;
+        return (this._direction = 0);
+      },
+      set(val) {
+        delete this._direction;
+        return (this._direction = val);
+      }
+    });
 
     if (!this.hasAttribute("smoothscroll")) {
       this.smoothScroll = this._prefBranch.getBoolPref(
@@ -223,6 +259,17 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       }
 
       if (doScroll) {
+        let direction = scrollAmount < 0 ? -1 : 1;
+        let startPos = this.scrollPosition;
+
+        if (!this._isScrolling || this._direction != direction) {
+          this._destination = startPos + scrollAmount;
+          this._direction = direction;
+        } else {
+          // We were already in the process of scrolling in this direction
+          this._destination = this._destination + scrollAmount;
+          scrollAmount = this._destination - startPos;
+        }
         this.scrollByPixels(scrollAmount, instant);
       }
 
@@ -312,7 +359,14 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     );
 
     this.addEventListener("scroll", event => {
+      this._isScrolling = true;
       this._updateScrollButtonsDisabledState();
+    });
+
+    this.addEventListener("scrollend", event => {
+      this._isScrolling = false;
+      this._destination = 0;
+      this._direction = 0;
     });
   }
 
@@ -374,6 +428,12 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     // for consistent speed, let's use avalage with of the elements.
     var elements = this._getScrollableElements();
     return elements.length && this.scrollSize / elements.length;
+  }
+
+  get scrollPosition() {
+    return this.orient == "vertical"
+      ? this._scrollbox.scrollTop
+      : this._scrollbox.scrollLeft;
   }
   _boundsWithoutFlushing(element) {
     if (!("_DOMWindowUtils" in this)) {
@@ -441,55 +501,6 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       nextElement = nextElement.nextSibling;
       index--;
     }
-    if (!targetElement) return;
-
-    this.ensureElementIsVisible(targetElement, aInstant);
-  }
-  scrollByPage(pageDelta, aInstant) {
-    if (pageDelta == 0) return;
-
-    // If a previous call is still in progress because of smooth
-    // scrolling, we need to complete it before starting a new one.
-    if (this._scrollTarget) {
-      let elements = this._getScrollableElements();
-      if (
-        this._scrollTarget != elements[0] &&
-        this._scrollTarget != elements[elements.length - 1]
-      )
-        this.ensureElementIsVisible(this._scrollTarget, true);
-    }
-
-    var [start, end] = this._startEndProps;
-    var rect = this.scrollClientRect;
-    var containerEdge = pageDelta > 0 ? rect[end] + 1 : rect[start] - 1;
-    var pixelDelta = pageDelta * (rect[end] - rect[start]);
-    var destinationPosition = containerEdge + pixelDelta;
-    var nextElement = this._elementFromPoint(containerEdge, pageDelta);
-    if (!nextElement) return;
-
-    // We need to iterate over our elements in the direction of pageDelta.
-    // pageDelta is the physical direction, so in a horizontal scroll box,
-    // positive values scroll to the right no matter if the scrollbox is
-    // LTR or RTL. But RTL changes how we need to advance the iteration
-    // (whether to get the next or the previous sibling of the current
-    // element).
-    var logicalAdvanceDir = pageDelta * (this._isRTLScrollbox ? -1 : 1);
-    var advance = logicalAdvanceDir > 0
-      ? e => e.nextSibling
-      : e => e.previousSibling;
-
-    var extendsPastTarget = pageDelta > 0
-      ? e => e.getBoundingClientRect()[end] > destinationPosition
-      : e => e.getBoundingClientRect()[start] < destinationPosition;
-
-    // We want to scroll to the last element we encounter before we find
-    // an element which extends past destinationPosition.
-    var targetElement;
-    do {
-      if (this._canScrollToElement(nextElement)) targetElement = nextElement;
-      nextElement = advance(nextElement);
-    } while (nextElement && !extendsPastTarget(nextElement));
-
     if (!targetElement) return;
 
     this.ensureElementIsVisible(targetElement, aInstant);

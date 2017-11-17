@@ -2,78 +2,76 @@ class FirefoxTranslationbar extends FirefoxNotification {
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `
-      <xul:hbox class="notification-inner" flex="1" inherits="type">
-        <xul:hbox anonid="details" align="center" flex="1">
-          <xul:image class="translate-infobar-element messageImage" anonid="messageImage"></xul:image>
-          <xul:panel anonid="welcomePanel" class="translation-welcome-panel" type="arrow" align="start">
-            <xul:image class="translation-welcome-logo"></xul:image>
-            <xul:vbox flex="1" class="translation-welcome-content">
-              <xul:description class="translation-welcome-headline" anonid="welcomeHeadline"></xul:description>
-              <xul:description class="translation-welcome-body" anonid="welcomeBody"></xul:description>
-              <xul:hbox align="center">
-                <xul:label anonid="learnMore" class="plain text-link" onclick="openUILinkIn('https://support.mozilla.org/kb/automatic-translation', 'tab'); this.parentNode.parentNode.parentNode.hidePopup();"></xul:label>
-                <xul:spacer flex="1"></xul:spacer>
-                <xul:button class="translate-infobar-element" anonid="thanksButton" onclick="this.parentNode.parentNode.parentNode.hidePopup();"></xul:button>
-              </xul:hbox>
-            </xul:vbox>
-          </xul:panel>
-          <xul:deck anonid="translationStates" selectedIndex="0">
-            <xul:hbox class="translate-offer-box" align="center">
-              <xul:label class="translate-infobar-element" value="FROM-DTD-translation-thisPageIsIn-label"></xul:label>
-              <xul:menulist class="translate-infobar-element" anonid="detectedLanguage">
-                <xul:menupopup></xul:menupopup>
-              </xul:menulist>
-              <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translateThisPage-label"></xul:label>
-              <xul:button class="translate-infobar-element" label="FROM-DTD-translation-translate-button" anonid="translate" oncommand="document.getBindingParent(this).translate();"></xul:button>
-              <xul:button class="translate-infobar-element" label="FROM-DTD-translation-notNow-button" anonid="notNow" oncommand="document.getBindingParent(this).closeCommand();"></xul:button>
+      <xul:hbox anonid="details" align="center" flex="1">
+        <xul:image class="translate-infobar-element messageImage" anonid="messageImage"></xul:image>
+        <xul:panel anonid="welcomePanel" class="translation-welcome-panel" type="arrow" align="start">
+          <xul:image class="translation-welcome-logo"></xul:image>
+          <xul:vbox flex="1" class="translation-welcome-content">
+            <xul:description class="translation-welcome-headline" anonid="welcomeHeadline"></xul:description>
+            <xul:description class="translation-welcome-body" anonid="welcomeBody"></xul:description>
+            <xul:hbox align="center">
+              <xul:label anonid="learnMore" class="plain text-link" onclick="openUILinkIn('https://support.mozilla.org/kb/automatic-translation', 'tab'); this.parentNode.parentNode.parentNode.hidePopup();"></xul:label>
+              <xul:spacer flex="1"></xul:spacer>
+              <xul:button class="translate-infobar-element" anonid="thanksButton" onclick="this.parentNode.parentNode.parentNode.hidePopup();"></xul:button>
             </xul:hbox>
-            <xul:vbox class="translating-box" pack="center">
-              <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translatingContent-label"></xul:label>
-            </xul:vbox>
-            <xul:hbox class="translated-box" align="center">
-              <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translatedFrom-label"></xul:label>
-              <xul:menulist class="translate-infobar-element" anonid="fromLanguage" oncommand="document.getBindingParent(this).translate()">
-                <xul:menupopup></xul:menupopup>
-              </xul:menulist>
-              <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translatedTo-label"></xul:label>
-              <xul:menulist class="translate-infobar-element" anonid="toLanguage" oncommand="document.getBindingParent(this).translate()">
-                <xul:menupopup></xul:menupopup>
-              </xul:menulist>
-              <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translatedToSuffix-label"></xul:label>
-              <xul:button anonid="showOriginal" class="translate-infobar-element" label="FROM-DTD-translation-showOriginal-button" oncommand="document.getBindingParent(this).showOriginal();"></xul:button>
-              <xul:button anonid="showTranslation" class="translate-infobar-element" label="FROM-DTD-translation-showTranslation-button" oncommand="document.getBindingParent(this).showTranslation();"></xul:button>
-            </xul:hbox>
-            <xul:hbox class="translation-error" align="center">
-              <xul:label class="translate-infobar-element" value="FROM-DTD-translation-errorTranslating-label"></xul:label>
-              <xul:button class="translate-infobar-element" label="FROM-DTD-translation-tryAgain-button" anonid="tryAgain" oncommand="document.getBindingParent(this).translate();"></xul:button>
-            </xul:hbox>
-            <xul:vbox class="translation-unavailable" pack="center">
-              <xul:label class="translate-infobar-element" value="FROM-DTD-translation-serviceUnavailable-label"></xul:label>
-            </xul:vbox>
-          </xul:deck>
-          <xul:spacer flex="1"></xul:spacer>
-          <xul:button type="menu" class="translate-infobar-element options-menu-button" anonid="options" label="FROM-DTD-translation-options-menu">
-            <xul:menupopup class="translation-menupopup cui-widget-panel cui-widget-panelview
-                                  cui-widget-panelWithFooter PanelUI-subView" onpopupshowing="document.getBindingParent(this).optionsShowing();">
-              <xul:menuitem anonid="neverForLanguage" oncommand="document.getBindingParent(this).neverForLanguage();"></xul:menuitem>
-              <xul:menuitem anonid="neverForSite" oncommand="document.getBindingParent(this).neverForSite();" label="FROM-DTD-translation-options-neverForSite-label" accesskey="FROM-DTD-translation-options-neverForSite-accesskey"></xul:menuitem>
-              <xul:menuseparator></xul:menuseparator>
-              <xul:menuitem oncommand="openPreferences('paneGeneral', {origin:'translationInfobar'});" label="FROM-DTD-translation-options-preferences-label" accesskey="FROM-DTD-translation-options-preferences-accesskey"></xul:menuitem>
-              <xul:menuitem class="subviewbutton panel-subview-footer" oncommand="document.getBindingParent(this).openProviderAttribution();">
-                <xul:deck anonid="translationEngine" selectedIndex="0">
-                  <xul:hbox class="translation-attribution">
-                    <xul:label></xul:label>
-                    <xul:image src="chrome://browser/content/microsoft-translator-attribution.png" aria-label="Microsoft Translator"></xul:image>
-                    <xul:label></xul:label>
-                  </xul:hbox>
-                  <xul:label class="translation-attribution"></xul:label>
-                </xul:deck>
-              </xul:menuitem>
-            </xul:menupopup>
-          </xul:button>
-        </xul:hbox>
-        <xul:toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).closeCommand();"></xul:toolbarbutton>
+          </xul:vbox>
+        </xul:panel>
+        <xul:deck anonid="translationStates" selectedIndex="0">
+          <xul:hbox class="translate-offer-box" align="center">
+            <xul:label class="translate-infobar-element" value="FROM-DTD-translation-thisPageIsIn-label"></xul:label>
+            <xul:menulist class="translate-infobar-element" anonid="detectedLanguage">
+              <xul:menupopup></xul:menupopup>
+            </xul:menulist>
+            <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translateThisPage-label"></xul:label>
+            <xul:button class="translate-infobar-element" label="FROM-DTD-translation-translate-button" anonid="translate" oncommand="document.getBindingParent(this).translate();"></xul:button>
+            <xul:button class="translate-infobar-element" label="FROM-DTD-translation-notNow-button" anonid="notNow" oncommand="document.getBindingParent(this).closeCommand();"></xul:button>
+          </xul:hbox>
+          <xul:vbox class="translating-box" pack="center">
+            <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translatingContent-label"></xul:label>
+          </xul:vbox>
+          <xul:hbox class="translated-box" align="center">
+            <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translatedFrom-label"></xul:label>
+            <xul:menulist class="translate-infobar-element" anonid="fromLanguage" oncommand="document.getBindingParent(this).translate()">
+              <xul:menupopup></xul:menupopup>
+            </xul:menulist>
+            <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translatedTo-label"></xul:label>
+            <xul:menulist class="translate-infobar-element" anonid="toLanguage" oncommand="document.getBindingParent(this).translate()">
+              <xul:menupopup></xul:menupopup>
+            </xul:menulist>
+            <xul:label class="translate-infobar-element" value="FROM-DTD-translation-translatedToSuffix-label"></xul:label>
+            <xul:button anonid="showOriginal" class="translate-infobar-element" label="FROM-DTD-translation-showOriginal-button" oncommand="document.getBindingParent(this).showOriginal();"></xul:button>
+            <xul:button anonid="showTranslation" class="translate-infobar-element" label="FROM-DTD-translation-showTranslation-button" oncommand="document.getBindingParent(this).showTranslation();"></xul:button>
+          </xul:hbox>
+          <xul:hbox class="translation-error" align="center">
+            <xul:label class="translate-infobar-element" value="FROM-DTD-translation-errorTranslating-label"></xul:label>
+            <xul:button class="translate-infobar-element" label="FROM-DTD-translation-tryAgain-button" anonid="tryAgain" oncommand="document.getBindingParent(this).translate();"></xul:button>
+          </xul:hbox>
+          <xul:vbox class="translation-unavailable" pack="center">
+            <xul:label class="translate-infobar-element" value="FROM-DTD-translation-serviceUnavailable-label"></xul:label>
+          </xul:vbox>
+        </xul:deck>
+        <xul:spacer flex="1"></xul:spacer>
+        <xul:button type="menu" class="translate-infobar-element options-menu-button" anonid="options" label="FROM-DTD-translation-options-menu">
+          <xul:menupopup class="translation-menupopup cui-widget-panel cui-widget-panelview
+                                cui-widget-panelWithFooter PanelUI-subView" onpopupshowing="document.getBindingParent(this).optionsShowing();">
+            <xul:menuitem anonid="neverForLanguage" oncommand="document.getBindingParent(this).neverForLanguage();"></xul:menuitem>
+            <xul:menuitem anonid="neverForSite" oncommand="document.getBindingParent(this).neverForSite();" label="FROM-DTD-translation-options-neverForSite-label" accesskey="FROM-DTD-translation-options-neverForSite-accesskey"></xul:menuitem>
+            <xul:menuseparator></xul:menuseparator>
+            <xul:menuitem oncommand="openPreferences('paneGeneral', {origin:'translationInfobar'});" label="FROM-DTD-translation-options-preferences-label" accesskey="FROM-DTD-translation-options-preferences-accesskey"></xul:menuitem>
+            <xul:menuitem class="subviewbutton panel-subview-footer" oncommand="document.getBindingParent(this).openProviderAttribution();">
+              <xul:deck anonid="translationEngine" selectedIndex="0">
+                <xul:hbox class="translation-attribution">
+                  <xul:label></xul:label>
+                  <xul:image src="chrome://browser/content/microsoft-translator-attribution.png" aria-label="Microsoft Translator"></xul:image>
+                  <xul:label></xul:label>
+                </xul:hbox>
+                <xul:label class="translation-attribution"></xul:label>
+              </xul:deck>
+            </xul:menuitem>
+          </xul:menupopup>
+        </xul:button>
       </xul:hbox>
+      <xul:toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).closeCommand();"></xul:toolbarbutton>
     `;
   }
 

@@ -2,7 +2,7 @@ class FirefoxStatusbarpanel extends XULElement {
   connectedCallback() {
     this.innerHTML = `
       <children>
-        <xul:label class="statusbarpanel-text" inherits="value=label,crop" crop="right" flex="1"></xul:label>
+        <xul:label inherits="value=label,crop" crop="right" flex="1"></xul:label>
       </children>
     `;
   }

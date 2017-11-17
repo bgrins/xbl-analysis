@@ -1272,6 +1272,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       this._closingTabsSpacer.style.width = 0;
     }
   }
+  uiDensityChanged() {
+    this._positionPinnedTabs();
+    this._updateCloseButtons();
+    this._handleTabSelect(true);
+  }
   _positionPinnedTabs() {
     var numPinned = this.tabbrowser._numPinnedTabs;
     var doPosition = this.getAttribute("overflow") == "true" && numPinned > 0;
@@ -1280,9 +1285,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       this.setAttribute("positionpinnedtabs", "true");
 
       let layoutData = this._pinnedTabsLayoutCache;
-      if (!layoutData) {
+      let uiDensity = document.documentElement.getAttribute("uidensity");
+      if (!layoutData || layoutData.uiDensity != uiDensity) {
         let arrowScrollbox = this.arrowScrollbox;
         layoutData = this._pinnedTabsLayoutCache = {
+          uiDensity,
           pinnedTabWidth: this.childNodes[0].getBoundingClientRect().width,
           scrollButtonWidth: arrowScrollbox._scrollButtonDown.getBoundingClientRect()
             .width

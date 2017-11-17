@@ -87,6 +87,10 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
     this._adjustAcItem();
 
     this.addEventListener("click", event => {
+      if (this._warningTextBox.contains(event.originalTarget)) {
+        return;
+      }
+
       window.openPreferences("panePrivacy", { origin: "autofillFooter" });
     });
   }
