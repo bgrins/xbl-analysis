@@ -38,7 +38,7 @@ function treeForRev(rev) {
     totalPrintedBindings++;
     var html = `
       <details open ${idToFeatureAttrs[binding].join(' ')}>
-      <summary><a href="${idToUrls[binding]}" target="_blank">${binding}</a> (${idToNumInstances[binding]} total instances)
+      <summary><a href="${idToUrls[binding]}" target="_blank">${binding}</a> (${idToNumInstances[binding]} total instances) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=${binding}">m-c search</a>)
   `;
 
     html += `<em>Used features: `;
