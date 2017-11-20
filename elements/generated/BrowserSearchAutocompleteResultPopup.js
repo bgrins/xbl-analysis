@@ -10,7 +10,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
         <xul:treecols anonid="treecols">
           <xul:treecol id="treecolAutoCompleteValue" class="autocomplete-treecol" flex="1" overflow="true"></xul:treecol>
         </xul:treecols>
-        <xul:treechildren class="autocomplete-treebody searchbar-treebody"></xul:treechildren>
+        <xul:treechildren class="autocomplete-treebody searchbar-treebody" noSelectOnMouseMove="true"></xul:treechildren>
       </xul:tree>
       <xul:vbox anonid="search-one-off-buttons" class="search-one-offs"></xul:vbox>
     `;

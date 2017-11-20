@@ -25,7 +25,7 @@ class FirefoxVideocontrols extends XULElement {
                   <progress anonid="progressBar" class="progressBar" value="0" max="100" tabindex="-1"></progress>
                 </div>
               </div>
-              <input type="range" anonid="scrubber" class="scrubber" tabindex="-1" mozinputrangeignorepreventdefault="true"></input>
+              <input type="range" anonid="scrubber" class="scrubber" tabindex="-1"></input>
             </div>
             <span anonid="positionLabel" class="positionLabel" role="presentation"></span>
             <span anonid="durationLabel" class="durationLabel" role="presentation"></span>
@@ -33,7 +33,7 @@ class FirefoxVideocontrols extends XULElement {
             <div anonid="controlBarSpacer" class="controlBarSpacer" hidden="true" role="none"></div>
             <button anonid="muteButton" class="muteButton" mutelabel="FROM-DTD-muteButton-muteLabel" unmutelabel="FROM-DTD-muteButton-unmuteLabel" tabindex="-1"></button>
             <div anonid="volumeStack" class="volumeStack progressContainer" role="none">
-              <input type="range" anonid="volumeControl" class="volumeControl" min="0" max="100" step="1" tabindex="-1" mozinputrangeignorepreventdefault="true"></input>
+              <input type="range" anonid="volumeControl" class="volumeControl" min="0" max="100" step="1" tabindex="-1"></input>
             </div>
             <button anonid="closedCaptionButton" class="closedCaptionButton"></button>
             <button anonid="fullscreenButton" class="fullscreenButton" enterfullscreenlabel="FROM-DTD-fullscreenButton-enterfullscreenlabel" exitfullscreenlabel="FROM-DTD-fullscreenButton-exitfullscreenlabel"></button>

@@ -787,6 +787,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
             this._finishAnimateTabMove();
             if (dropIndex !== false)
               this.tabbrowser.moveTabTo(draggedTab, dropIndex);
+
+            this.tabbrowser.syncThrobberAnimations(draggedTab);
           };
           draggedTab.addEventListener("transitionend", onTransitionEnd);
         } else {

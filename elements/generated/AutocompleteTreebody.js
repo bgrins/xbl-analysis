@@ -27,8 +27,8 @@ class FirefoxAutocompleteTreebody extends XULElement {
     });
 
     this.addEventListener("mousemove", event => {
-      if (event.defaultPrevented) {
-        // Allow bindings that extend this one to cancel the event so that
+      if (this.noSelectOnMouseMove) {
+        // Allow uses of this binding to cancel the event so that
         // nothing is selected.
         return;
       }
@@ -42,6 +42,19 @@ class FirefoxAutocompleteTreebody extends XULElement {
         this.mLastMoveTime = Date.now();
       }
     });
+  }
+
+  set noSelectOnMouseMove(val) {
+    if (val) {
+      this.setAttribute("noSelectOnMouseMove", "true");
+    } else {
+      this.removeAttribute("noSelectOnMouseMove");
+    }
+    return !!val;
+  }
+
+  get noSelectOnMouseMove() {
+    return this.getAttribute("noSelectOnMouseMove") == "true";
   }
 }
 customElements.define(
