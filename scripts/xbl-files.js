@@ -116,6 +116,7 @@ function getAllFilesForRev(rev) {
   }
   return retFiles;
 }
+module.exports.getAllFilesForRev = getAllFilesForRev;
 
 // Build up an array like:
 // '2017-07-01',
@@ -153,47 +154,6 @@ function getRevsOverTime(daily = false) {
 }
 module.exports.revsEveryDay = getRevsOverTime(true);
 module.exports.revs = getRevsOverTime();
-
-function populateCache(rev) {
-  if (!rev) {
-    throw "Need a rev";
-  }
-
-  console.log(`Populating ${rev}`);
-
-  let files = getAllFilesForRev(rev);
-  // Allow for revisions like 'master@{2017-09-19}'
-  files = files.map(file => {
-    return file.replace('/master/', `/${rev}/`);
-  });
-
-  if (!fs.existsSync('cache')) {
-    fs.mkdirSync('cache');
-  }
-  var dir = `cache/${rev}`;
-  if (!fs.existsSync(dir)) {
-    console.log(`Creating directory: ${dir}`);
-    fs.mkdirSync(dir);
-  }
-  return Promise.all(files.map(file => {
-    var fileName = file.replace(/\//g, '-').split('}-')[1];
-    var cachedFilePath = `cache/${rev}/${fileName}`;
-    if (fs.existsSync(cachedFilePath)) {
-      console.log(`File already exists: ${cachedFilePath}`);
-      return new Promise(resolve => {
-        resolve();
-      });
-    }
-    console.log(`Requesting file: ${file}`);
-    return request(file).then(body => {
-      fs.writeFileSync(cachedFilePath, body);
-    }).catch(e => {
-      console.log("Error requesting: ", file, rev);
-      throw "Error requesting file: " + file;
-    })
-  }));
-}
-module.exports.populateCache = populateCache;
 
 module.exports.getPrettyRev = rev => {
   if (!rev) {
