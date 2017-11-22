@@ -940,7 +940,11 @@ class FirefoxBrowser extends XULElement {
 
   get mediaBlocked() {
     if (
-      this.mPrefs.getBoolPref("media.block-autoplay-until-in-foreground", true)
+      this.mPrefs.getBoolPref(
+        "media.block-autoplay-until-in-foreground",
+        true
+      ) &&
+      this.mPrefs.getBoolPref("media.autoplay.enabled", true)
     ) {
       return this._mediaBlocked;
     }
@@ -1463,6 +1467,7 @@ class FirefoxBrowser extends XULElement {
     return popup;
   }
   startScroll(scrolldir, screenX, screenY) {
+    const POPUP_SIZE = 28;
     if (!this._autoScrollPopup) {
       if (this.hasAttribute("autoscrollpopup")) {
         // our creator provided a popup to share
@@ -1475,7 +1480,17 @@ class FirefoxBrowser extends XULElement {
         document.documentElement.appendChild(this._autoScrollPopup);
         this._autoScrollNeedsCleanup = true;
       }
+      this._autoScrollPopup.removeAttribute("hidden");
+      this._autoScrollPopup.setAttribute("noautofocus", "true");
+      this._autoScrollPopup.style.height = POPUP_SIZE + "px";
+      this._autoScrollPopup.style.width = POPUP_SIZE + "px";
+      this._autoScrollPopup.style.margin = -POPUP_SIZE / 2 + "px";
     }
+
+    let screenManager = Components.classes[
+      "@mozilla.org/gfx/screenmanager;1"
+    ].getService(Components.interfaces.nsIScreenManager);
+    let screen = screenManager.screenForRect(screenX, screenY, 1, 1);
 
     // we need these attributes so themers don't need to create per-platform packages
     if (screen.colorDepth > 8) {
@@ -1492,14 +1507,37 @@ class FirefoxBrowser extends XULElement {
       );
     }
 
-    this._autoScrollPopup.removeAttribute("hidden");
-    this._autoScrollPopup.setAttribute("noautofocus", "true");
     this._autoScrollPopup.setAttribute("scrolldir", scrolldir);
     this._autoScrollPopup.addEventListener("popuphidden", this, true);
+
+    // Sanitize screenX/screenY for available screen size with half the size
+    // of the popup removed. The popup uses negative margins to center on the
+    // coordinates we pass. Unfortunately `window.screen.availLeft` can be negative
+    // on Windows in multi-monitor setups, so we use nsIScreenManager instead:
+    let left = {},
+      top = {},
+      width = {},
+      height = {};
+    screen.GetAvailRectDisplayPix(left, top, width, height);
+
+    // We need to get screen CSS-pixel (rather than display-pixel) coordinates.
+    // With 175% DPI, the actual ratio of display pixels to CSS pixels is
+    // 1.7647 because of rounding inside gecko. Unfortunately defaultCSSScaleFactor
+    // returns the original 1.75 dpi factor. While window.devicePixelRatio would
+    // get us the correct ratio, if the window is split between 2 screens,
+    // window.devicePixelRatio isn't guaranteed to match the screen we're
+    // autoscrolling on. So instead we do the same math as Gecko.
+    const scaleFactor = 60 / Math.round(60 / screen.defaultCSSScaleFactor);
+    let minX = left.value / scaleFactor + 0.5 * POPUP_SIZE;
+    let maxX = (left.value + width.value) / scaleFactor - 0.5 * POPUP_SIZE;
+    let minY = top.value / scaleFactor + 0.5 * POPUP_SIZE;
+    let maxY = (top.value + height.value) / scaleFactor - 0.5 * POPUP_SIZE;
+    let popupX = Math.max(minX, Math.min(maxX, screenX));
+    let popupY = Math.max(minY, Math.min(maxY, screenY));
     this._autoScrollPopup.showPopup(
       document.documentElement,
-      screenX,
-      screenY,
+      popupX,
+      popupY,
       "popup",
       null,
       null

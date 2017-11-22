@@ -281,15 +281,22 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         originalText = item.getAttribute("ac-text");
         originalType = item.getAttribute("originaltype");
 
-        // All of types are reusable except for autofill-profile,
-        // which has different structure of <content> and overrides
-        // _adjustAcItem().
+        // The styles on the list which have different <content> structure and overrided
+        // _adjustAcItem() are unreusable.
+        const UNREUSEABLE_STYLES = [
+          "autofill-profile",
+          "autofill-footer",
+          "autofill-clear-button",
+          "autofill-insecureWarning"
+        ];
+        // Reuse the item when its style is exactly equal to the previous style or
+        // neither of their style are in the UNREUSEABLE_STYLES.
         reusable =
           originalType === style ||
-          (style !== "autofill-profile" &&
-            originalType !== "autofill-profile" &&
-            style !== "autofill-footer" &&
-            originalType !== "autofill-footer");
+          !(
+            UNREUSEABLE_STYLES.includes(style) ||
+            UNREUSEABLE_STYLES.includes(originalType)
+          );
       } else {
         // need to create a new item
         item = document.createElementNS(

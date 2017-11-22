@@ -4,7 +4,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
     this.innerHTML = `
       <div anonid="autofill-footer" class="autofill-item-box autofill-footer">
         <div anonid="autofill-warning" class="autofill-footer-row autofill-warning"></div>
-        <div anonid="autofill-option-button" class="autofill-footer-row autofill-option-button"></div>
+        <div anonid="autofill-option-button" class="autofill-footer-row autofill-button"></div>
       </div>
     `;
 
@@ -116,14 +116,11 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
       "resource://gre/modules/AppConstants.jsm",
       {}
     );
+    // TODO: The "Short" suffix is pointless now as normal version string is no longer needed,
+    // we should consider removing the suffix if possible when the next time locale change.
     let buttonTextBundleKey = AppConstants.platform == "macosx"
-      ? "autocompleteFooterOptionOSX"
-      : "autocompleteFooterOption";
-    // If the popup shows up with small layout, we should use short string to
-    // have a better fit in the box.
-    if (this._itemBox.getAttribute("size") == "small") {
-      buttonTextBundleKey += "Short";
-    }
+      ? "autocompleteFooterOptionOSXShort"
+      : "autocompleteFooterOptionShort";
     let buttonText = this._stringBundle.GetStringFromName(buttonTextBundleKey);
     this._optionButton.textContent = buttonText;
 

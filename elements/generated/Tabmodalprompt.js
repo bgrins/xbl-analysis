@@ -11,8 +11,8 @@ class FirefoxTabmodalprompt extends XULElement {
             </columns>
             <rows>
               <vbox anonid="infoContainer" align="center" pack="center" flex="1">
-                <description anonid="info.title" class="info.title" hidden="true"></description>
-                <description anonid="info.body" class="info.body"></description>
+                <description anonid="infoTitle" class="infoTitle" hidden="true"></description>
+                <description anonid="infoBody" class="infoBody"></description>
               </vbox>
               <row anonid="loginContainer" hidden="true" align="center">
                 <label anonid="loginLabel" value="FROM-DTD-editfield0-label" control="loginTextbox"></label>
@@ -175,8 +175,8 @@ class FirefoxTabmodalprompt extends XULElement {
       password1Container: getElement("password1Container"),
       password1Textbox: getElement("password1Textbox"),
       password1Label: getElement("password1Label"),
-      infoBody: getElement("info.body"),
-      infoTitle: getElement("info.title"),
+      infoBody: getElement("infoBody"),
+      infoTitle: getElement("infoTitle"),
       infoIcon: null,
       checkbox: getElement("checkbox"),
       checkboxContainer: getElement("checkboxContainer"),

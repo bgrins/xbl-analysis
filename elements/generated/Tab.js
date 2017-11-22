@@ -1,4 +1,4 @@
-class FirefoxTab extends FirefoxControlItem {
+class FirefoxTab extends FirefoxBasetext {
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `
@@ -85,6 +85,15 @@ class FirefoxTab extends FirefoxControlItem {
       var tabs = this.parentNode.childNodes;
       this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
     });
+  }
+
+  set value(val) {
+    this.setAttribute("value", val);
+    return val;
+  }
+
+  get value() {
+    return this.getAttribute("value");
   }
 
   get control() {

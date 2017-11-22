@@ -754,8 +754,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         if (draggedTab.parentNode != this || event.shiftKey)
           this.selectedItem = newTab;
       } else if (draggedTab && draggedTab.parentNode == this) {
-        let oldTranslateX = draggedTab._dragData.translateX;
-        let tabWidth = draggedTab._dragData.tabWidth;
+        let oldTranslateX = Math.round(draggedTab._dragData.translateX);
+        let tabWidth = Math.round(draggedTab._dragData.tabWidth);
         let translateOffset = oldTranslateX % tabWidth;
         let newTranslateX = oldTranslateX - translateOffset;
         if (oldTranslateX > 0 && translateOffset > tabWidth / 2) {
