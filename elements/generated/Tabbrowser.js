@@ -3345,9 +3345,13 @@ class FirefoxTabbrowser extends XULElement {
     });
     aTab.dispatchEvent(evt);
   }
-  discardBrowser(aBrowser) {
+  discardBrowser(aBrowser, aForceDiscard) {
     "use strict";
     let tab = this.getTabForBrowser(aBrowser);
+
+    let permitUnloadFlags = aForceDiscard
+      ? aBrowser.dontPromptAndUnload
+      : aBrowser.dontPromptAndDontUnload;
 
     if (
       !tab ||
@@ -3356,7 +3360,7 @@ class FirefoxTabbrowser extends XULElement {
       this._windowIsClosing ||
       !aBrowser.isConnected ||
       !aBrowser.isRemoteBrowser ||
-      aBrowser.frameLoader.tabParent.hasBeforeUnload
+      !aBrowser.permitUnload(permitUnloadFlags).permitUnload
     ) {
       return;
     }
@@ -6337,10 +6341,24 @@ class FirefoxTabbrowser extends XULElement {
     }
   }
   _updateNewTabVisibility() {
+    let isCustomizing =
+      this.tabContainer.parentNode.getAttribute("customizing") == "true";
+
+    // Confusingly, the <tabs> are never wrapped in <toolbarpaletteitem>s in customize mode,
+    // but the other items will be.
     let sib = this.tabContainer.nextElementSibling;
-    while (sib && sib.hidden) {
-      sib = sib.nextElementSibling;
+    if (isCustomizing) {
+      sib = sib && sib.firstElementChild;
     }
+    while (sib && sib.hidden) {
+      if (isCustomizing) {
+        sib = sib.parentNode.nextElementSibling;
+        sib = sib && sib.firstElementChild;
+      } else {
+        sib = sib.nextElementSibling;
+      }
+    }
+
     const kAttr = "hasadjacentnewtabbutton";
     if (sib && sib.id == "new-tab-button") {
       this.tabContainer.setAttribute(kAttr, "true");

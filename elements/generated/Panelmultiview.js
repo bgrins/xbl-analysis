@@ -1,15 +1,14 @@
 class FirefoxPanelmultiview extends XULElement {
   connectedCallback() {
     this.innerHTML = `
-      <xul:vbox anonid="viewContainer" class="panel-viewcontainer" inherits="panelopen,viewtype,transitioning">
-        <xul:stack anonid="viewStack" inherits="viewtype,transitioning" class="panel-viewstack">
-          <xul:vbox anonid="mainViewContainer" class="panel-mainview" inherits="viewtype"></xul:vbox>
-          <xul:vbox anonid="clickCapturer" class="panel-clickcapturer"></xul:vbox>
-          <xul:vbox anonid="subViews" class="panel-subviews" inherits="panelopen">
-            <children includes="panelview"></children>
-          </xul:vbox>
-        </xul:stack>
-      </xul:vbox>
+      <xul:box anonid="viewContainer" class="panel-viewcontainer" inherits="panelopen,transitioning">
+        <xul:box anonid="viewStack" inherits="transitioning" class="panel-viewstack">
+          <children includes="panelview"></children>
+        </xul:box>
+      </xul:box>
+      <xul:box class="panel-viewcontainer offscreen">
+        <xul:box anonid="offscreenViewStack" class="panel-viewstack"></xul:box>
+      </xul:box>
     `;
 
     const { PanelMultiView } = Components.utils.import(

@@ -4,6 +4,7 @@ class FirefoxToolbarbuttonBadged extends FirefoxToolbarbutton {
     this.innerHTML = `
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <xul:stack class="toolbarbutton-badge-stack">
+        <children></children>
         <xul:image class="toolbarbutton-icon" inherits="validate,src=image,label,consumeanchor"></xul:image>
         <xul:label class="toolbarbutton-badge" inherits="value=badge,style=badgeStyle" top="0" end="0" crop="none"></xul:label>
       </xul:stack>

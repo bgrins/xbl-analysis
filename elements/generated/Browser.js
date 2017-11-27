@@ -985,6 +985,14 @@ class FirefoxBrowser extends XULElement {
   get userTypedValue() {
     return this._userTypedValue;
   }
+
+  get dontPromptAndDontUnload() {
+    return 1;
+  }
+
+  get dontPromptAndUnload() {
+    return 2;
+  }
   _wrapURIChangeCall(fn) {
     if (!this.isRemoteBrowser) {
       this.inLoadURI = true;
@@ -1765,12 +1773,14 @@ class FirefoxBrowser extends XULElement {
     }
     aCallback(this.docShell.contentViewer.inPermitUnload);
   }
-  permitUnload() {
+  permitUnload(aPermitUnloadFlags) {
     if (!this.docShell || !this.docShell.contentViewer) {
       return { permitUnload: true, timedOut: false };
     }
     return {
-      permitUnload: this.docShell.contentViewer.permitUnload(),
+      permitUnload: this.docShell.contentViewer.permitUnload(
+        aPermitUnloadFlags
+      ),
       timedOut: false
     };
   }

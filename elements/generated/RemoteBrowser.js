@@ -533,7 +533,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       aCallback(msg.data.inPermitUnload);
     });
   }
-  permitUnload() {
+  permitUnload(aPermitUnloadFlags) {
     let { tabParent } = this.frameLoader;
 
     if (!tabParent.hasBeforeUnload) {
@@ -576,7 +576,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       Services.obs.removeObserver(observer, "message-manager-close");
     }
 
-    mm.sendAsyncMessage("PermitUnload", { id });
+    mm.sendAsyncMessage("PermitUnload", { id, aPermitUnloadFlags });
     mm.addMessageListener("PermitUnload", msgListener);
     Services.obs.addObserver(observer, "message-manager-close");
 
