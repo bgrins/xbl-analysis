@@ -57,6 +57,7 @@ function treeForRev(rev) {
     return html;
   }
 
+  let allResources = [];
   return getParsedFiles(rev).then(docs => {
     totalPrintedFiles = docs.length;
     docs.forEach(({doc}, i) => {
@@ -79,6 +80,13 @@ function treeForRev(rev) {
           }
         }
 
+        if (files[i].includes("toolkit/content") && binding.find('resources').length) {
+          let resources = binding.find('resources')[0];
+          let stylesheets = resources.find('stylesheet').map(s => {
+            return s.attrs.src;
+          });
+          allResources = allResources.concat(stylesheets);
+        }
         // Count implementation[implements] uses:
         featureCounts['implements'] = featureCounts['implements'] || 0;
         if (binding.find('implementation').length && binding.find('implementation')[0].attrs.implements) {
@@ -154,6 +162,12 @@ function treeForRev(rev) {
                                     <a href='#${key}' highlight="${key}">${key}</a>`);
     featureHighlightStr.unshift(`<a href='#'>clear</a>`);
 
+    let uniqueResources = allResources.filter(function (item, pos) {
+      return allResources.indexOf(item) == pos;
+    }).sort();
+    console.log("ALL RESOURCES: ", uniqueResources.map(r=> {
+      return `@import url("${r}");`
+    }).join("\n"));
     let revTitle = rev ? (': ' + getPrettyRev(rev)) : '';
     fs.writeFileSync(`tree/${getPrettyRev(rev)}.html`, `
   <!DOCTYPE html>
