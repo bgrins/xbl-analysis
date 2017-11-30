@@ -38,16 +38,22 @@ async function treeForRev(rev, metadataForBindings) {
 
   function printSingleBinding(binding) {
     totalPrintedBindings++;
-    if (metadataForBindings[binding]) {
+    let metadata = metadataForBindings[binding] || {};
+    let source = ` (<a href="${idToUrls[binding]}" target="_blank">source</a>)`;
+    let search = ` (<a href="https://dxr.mozilla.org/mozilla-central/search?q=${binding}">m-c search</a>)`;
+    let bug = '';
+    if (metadata.bug) {
+      bug = ` (<a href='${metadata.bug}'>bug</a>)`;
       console.log("Got metadata " + binding + " ", metadataForBindings[binding])
     }
     var html = `
       <details open ${idToFeatureAttrs[binding].join(' ')}>
-      <summary><a id="${binding}" href="${idToUrls[binding]}" target="_blank">${binding}</a> (${idToNumInstances[binding]} total instances) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=${binding}">m-c search</a>)
+      <summary><span id="${binding}">${binding}</span>${source}${search}${bug}
   `;
 
     html += `<em>Used features: `;
     html += idToFeatures[binding].map((feature, i) => `<code highlight='${idToFeatureAttrs[binding][i]}'>${feature}</code>`).join(", ");
+    html += ` <small>(${idToNumInstances[binding]} total instances)</small>`;
     html += `</em></summary>`;
 
     if (bindingTree[binding]) {
