@@ -1,19 +1,22 @@
 
 var fs = require('fs');
 var sortedBindings = require('./sorted-bindings').latest;
-var {getParsedFiles, files, revs, getPrettyRev} = require('./xbl-files');
+var { getParsedFiles, files, revs, getPrettyRev, getBindingMetadata } = require('./xbl-files');
 
 revs = revs.slice();
 const revlinksHTML = revs.map(r=>`<a href='${getPrettyRev(r)}.html'>${getPrettyRev(r)}</a>`).join(" ");
+
 // Get the latest data last (will be written into index.html)
 revs.push(undefined);
-Promise.all(
-  revs.map(rev => {
-    return treeForRev(rev);
-  })
-);
 
-function treeForRev(rev) {
+async function run() {
+  let { metadataForBindings } = await getBindingMetadata();
+  for (var i = 0; i < revs.length; i++) {
+    await treeForRev(revs[i], metadataForBindings);
+  }
+}
+
+async function treeForRev(rev, metadataForBindings) {
   var idToBinding = {};
   var idToFeatures = {};
   var idToFeatureAttrs = {};
@@ -23,7 +26,6 @@ function treeForRev(rev) {
   var bindingTree = {};
   var outputHTML = [];
   var totalPrintedBindings = 0;
-  var totalPrintedFiles = 0;
 
   function getTotalInstances(binding) {
     if (!sortedBindings[binding]) {
@@ -36,6 +38,9 @@ function treeForRev(rev) {
 
   function printSingleBinding(binding) {
     totalPrintedBindings++;
+    if (metadataForBindings[binding]) {
+      console.log("Got metadata " + binding + " ", metadataForBindings[binding])
+    }
     var html = `
       <details open ${idToFeatureAttrs[binding].join(' ')}>
       <summary><a id="${binding}" href="${idToUrls[binding]}" target="_blank">${binding}</a> (${idToNumInstances[binding]} total instances) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=${binding}">m-c search</a>)
@@ -57,105 +62,104 @@ function treeForRev(rev) {
     return html;
   }
 
-  return getParsedFiles(rev).then(docs => {
-    totalPrintedFiles = docs.length;
-    docs.forEach(({doc}, i) => {
-      doc.find('binding').forEach(binding => {
-        idToFeatures[binding.attrs.id] = [];
-        idToFeatureAttrs[binding.attrs.id] = [];
-        idToUrls[binding.attrs.id] = files[i].replace('raw-file', 'file');
+  let docs = await getParsedFiles(rev);
+  let totalPrintedFiles = docs.length;
+  docs.forEach(({doc}, i) => {
+    doc.find('binding').forEach(binding => {
+      idToFeatures[binding.attrs.id] = [];
+      idToFeatureAttrs[binding.attrs.id] = [];
+      idToUrls[binding.attrs.id] = files[i].replace('raw-file', 'file');
 
-        // Handle the easier features to count, where we just need to detect a node:
-        for (let feature of ['resources', 'property', 'field', 'content', 'handler', 'method', 'children', 'constructor', 'destructor']) {
-          featureCounts[feature] = featureCounts[feature] || 0;
-          let foundFeature = binding.find(feature);
-          if (!foundFeature.length && feature === "content") {
-            foundFeature = binding.find("xbl:content");
-          }
-          if (foundFeature.length) {
-            featureCounts[feature] += foundFeature.length;
-            idToFeatures[binding.attrs.id].push(`${feature} (${foundFeature.length})`);
-            idToFeatureAttrs[binding.attrs.id].push(`${feature}`);
-          }
+      // Handle the easier features to count, where we just need to detect a node:
+      for (let feature of ['resources', 'property', 'field', 'content', 'handler', 'method', 'children', 'constructor', 'destructor']) {
+        featureCounts[feature] = featureCounts[feature] || 0;
+        let foundFeature = binding.find(feature);
+        if (!foundFeature.length && feature === "content") {
+          foundFeature = binding.find("xbl:content");
         }
-
-        // Count implementation[implements] uses:
-        featureCounts['implements'] = featureCounts['implements'] || 0;
-        if (binding.find('implementation').length && binding.find('implementation')[0].attrs.implements) {
-          featureCounts['implements']++;
-          idToFeatures[binding.attrs.id].push(`implements (${binding.find('implementation')[0].attrs.implements})`);
-          idToFeatureAttrs[binding.attrs.id].push('implements');
-        }
-
-        if (idToBinding[binding.attrs.id]) {
-          console.log("Detected duplicate binding: ", binding.attrs.id);
-        }
-        idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1] || "NO_EXTENDS";
-      });
-    });
-  }).then(() => {
-    for (let id in idToBinding) {
-      bindingTree[idToBinding[id]] = (bindingTree[idToBinding[id]] || []);
-      bindingTree[idToBinding[id]].push(id);
-    }
-
-    for (let id in idToBinding) {
-      idToNumInstances[id] = getTotalInstances(id);
-    }
-
-    for (let binding in bindingTree) {
-      bindingTree[binding] = bindingTree[binding].sort((a, b) => {
-        return idToNumInstances[b] - idToNumInstances[a];
-      });
-    }
-
-    let candidatesForFlattening = [];
-    for (let binding in bindingTree) {
-      if (bindingTree[binding].length === 1) {
-        let selfInstances = idToNumInstances[bindingTree[binding]];
-        let parentInstances = idToNumInstances[binding];
-        if (selfInstances == parentInstances) {
-          candidatesForFlattening.push(`${bindingTree[binding]} (parent: ${binding}, parent instances: ${parentInstances}, self instances: ${selfInstances})`);
+        if (foundFeature.length) {
+          featureCounts[feature] += foundFeature.length;
+          idToFeatures[binding.attrs.id].push(`${feature} (${foundFeature.length})`);
+          idToFeatureAttrs[binding.attrs.id].push(`${feature}`);
         }
       }
+
+      // Count implementation[implements] uses:
+      featureCounts['implements'] = featureCounts['implements'] || 0;
+      if (binding.find('implementation').length && binding.find('implementation')[0].attrs.implements) {
+        featureCounts['implements']++;
+        idToFeatures[binding.attrs.id].push(`implements (${binding.find('implementation')[0].attrs.implements})`);
+        idToFeatureAttrs[binding.attrs.id].push('implements');
+      }
+
+      if (idToBinding[binding.attrs.id]) {
+        console.log("Detected duplicate binding: ", binding.attrs.id);
+      }
+      idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1] || "NO_EXTENDS";
+    });
+  });
+
+  for (let id in idToBinding) {
+    bindingTree[idToBinding[id]] = (bindingTree[idToBinding[id]] || []);
+    bindingTree[idToBinding[id]].push(id);
+  }
+
+  for (let id in idToBinding) {
+    idToNumInstances[id] = getTotalInstances(id);
+  }
+
+  for (let binding in bindingTree) {
+    bindingTree[binding] = bindingTree[binding].sort((a, b) => {
+      return idToNumInstances[b] - idToNumInstances[a];
+    });
+  }
+
+  let candidatesForFlattening = [];
+  for (let binding in bindingTree) {
+    if (bindingTree[binding].length === 1) {
+      let selfInstances = idToNumInstances[bindingTree[binding]];
+      let parentInstances = idToNumInstances[binding];
+      if (selfInstances == parentInstances) {
+        candidatesForFlattening.push(`${bindingTree[binding]} (parent: ${binding}, parent instances: ${parentInstances}, self instances: ${selfInstances})`);
+      }
     }
-    console.log("idToNumInstances:", idToNumInstances);
-    console.log("idToBinding:", idToBinding);
-    console.log("bindingTree:", bindingTree);
-    console.log(`candidates for flattening (${candidatesForFlattening.length})`, candidatesForFlattening)
+  }
+  console.log("idToNumInstances:", idToNumInstances);
+  console.log("idToBinding:", idToBinding);
+  console.log("bindingTree:", bindingTree);
+  console.log(`candidates for flattening (${candidatesForFlattening.length})`, candidatesForFlattening)
 
-    for (let rootBinding of bindingTree["NO_EXTENDS"]) {
-      outputHTML.push(printSingleBinding(rootBinding))
-    }
+  for (let rootBinding of bindingTree["NO_EXTENDS"]) {
+    outputHTML.push(printSingleBinding(rootBinding))
+  }
 
-    var totalBindings = 0;
-    for (let _ in idToBinding) { totalBindings++; }
+  var totalBindings = 0;
+  for (let _ in idToBinding) { totalBindings++; }
+  if (totalBindings != totalPrintedBindings) {
+    console.warn(`There are some orphaned bindings. Expected ${totalBindings} but printed ${totalPrintedBindings}`);
+  }
 
-    if (totalBindings != totalPrintedBindings) {
-      console.warn(`There are some orphaned bindings. Expected ${totalBindings} but printed ${totalPrintedBindings}`);
-    }
-
-    let featureElements = Object.entries(featureCounts)
-                          .map(([key]) => `<div id=${key}></div>`)
-                          .join('\n');
-    let featureCss = Object.entries(featureCounts)
-                          .map(([key]) =>
+  let featureElements = Object.entries(featureCounts)
+                        .map(([key]) => `<div id=${key}></div>`)
+                        .join('\n');
+  let featureCss = Object.entries(featureCounts)
+                        .map(([key]) =>
 `#${key}:target ~ * [highlight=${key}] { background: yellow; }
 #${key}:target ~ #container details:not([${key}]) > summary { opacity: .5; }`)
-                          .join('\n');
-    let featureStr = Object.entries(featureCounts)
-                            .sort((a, b) => b[1] - a[1])
-                            .map(([key,value]) => `
-                            <code>${key}</code>: <strong>${value}</strong>`)
-                            .join(',');
-    let featureHighlightStr = Object.entries(featureCounts)
-                                    .sort((a, b) => b[1] - a[1])
-                                    .map(([key,value]) => `
-                                    <a href='#${key}' highlight="${key}">${key}</a>`);
-    featureHighlightStr.unshift(`<a href='#'>clear</a>`);
+                        .join('\n');
+  let featureStr = Object.entries(featureCounts)
+                          .sort((a, b) => b[1] - a[1])
+                          .map(([key,value]) => `
+                          <code>${key}</code>: <strong>${value}</strong>`)
+                          .join(',');
+  let featureHighlightStr = Object.entries(featureCounts)
+                                  .sort((a, b) => b[1] - a[1])
+                                  .map(([key,value]) => `
+                                  <a href='#${key}' highlight="${key}">${key}</a>`);
+  featureHighlightStr.unshift(`<a href='#'>clear</a>`);
 
-    let revTitle = rev ? (': ' + getPrettyRev(rev)) : '';
-    fs.writeFileSync(`tree/${getPrettyRev(rev)}.html`, `
+  let revTitle = rev ? (': ' + getPrettyRev(rev)) : '';
+  fs.writeFileSync(`tree/${getPrettyRev(rev)}.html`, `
   <!DOCTYPE html>
   <html>
   <head>
@@ -196,5 +200,6 @@ function treeForRev(rev) {
       </main>
     </body>
   `);
-  });
 }
+
+run();

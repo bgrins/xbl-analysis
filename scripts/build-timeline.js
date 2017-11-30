@@ -2,9 +2,7 @@
 
 var fs = require('fs');
 var sortedBindings = require('./sorted-bindings').latest;
-var {getParsedFiles, files, revsEveryDay: revs, getPrettyRev} = require('./xbl-files');
-
-var request = require('request-promise-native');
+var { getParsedFiles, files, revsEveryDay: revs, getPrettyRev, getBindingMetadata} = require('./xbl-files');
 
 var maxBindings = 0;
 var remainingBindings = 0;
@@ -53,8 +51,8 @@ function getBindingsForRev(rev, last) {
   });
 }
 
-function getMarkup(added, date, name) {
-  var metadata = metadataForBindings[name] || {};
+function getMarkup(added, date, name, metadata) {
+  metadata = metadata || {};
   var link = (metadata.bug && `<small><a href='${metadata.bug}'>bug ${metadata.bug.match(/\d+$/)[0]}</a></small>`);
   var type = (metadata.type && `<small>${metadata.type}</small>`) || '';
   var metadata = (metadata.bug && `<span style='float: right'>${type} ${link}</span>`) || '';
@@ -85,37 +83,10 @@ function processRev(rev, last) {
   return getBindingsForRev(rev, last);
 }
 
-var metadataForBindings = { };
-var totalMetadata = 0;
-
-function getBindingMetadata() {
-  return request("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBOysww1PcGcB19Ew_NOUpPnQMGkP1RQGAOAoYMRvgVMWWhmcdjyOfLjvEDCC_F6nobE7Hu6ooaj7Q/pub?gid=0&single=true&output=csv").then(response => {
-    var rows = response.split("\n");
-    console.log(`Found ${rows.length} rows from spreadsheet`);
-    response.split("\n").forEach((row) => {
-      var cols = row.split(",");
-      var id = cols[1];
-      var bug = cols[2];
-      var type = cols[3];
-      if (bug) {
-        metadataForBindings[id] = {
-          bug,
-          type
-        }
-      }
-    });
-
-    for (var i in metadataForBindings) {
-      totalMetadata++;
-    }
-
-    console.log("Processed metadata: ", metadataForBindings);
-  });
-}
 
 
 // Cache files in sequence since we are doing every day. Slower but prevents oom.
-getBindingMetadata().then(() => {
+getBindingMetadata().then(({metadataForBindings, totalMetadata}) => {
   return processSequential(revs, processRev).then(() => {
     var text = fs.readFileSync('index.html', 'utf8');
     var metadataSeen = 0;
@@ -127,7 +98,7 @@ getBindingMetadata().then(() => {
       console.log(revs[i], added, deleted);
       if (added.length) {
         newText += added.map(add => {
-          return getMarkup(true, getPrettyRev(revs[i]), add);
+          return getMarkup(true, getPrettyRev(revs[i]), add, metadataForBindings[add]);
         }).join("\n");
       }
       if (deleted.length) {
@@ -135,7 +106,7 @@ getBindingMetadata().then(() => {
           if (metadataForBindings[del]) {
             metadataSeen++;
           }
-          return getMarkup(false, getPrettyRev(revs[i]), del);
+          return getMarkup(false, getPrettyRev(revs[i]), del, metadataForBindings[del]);
         }).join("\n");
       }
     }

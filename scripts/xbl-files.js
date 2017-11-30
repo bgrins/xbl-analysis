@@ -258,3 +258,32 @@ function preprocessFile(content) {
   }
   return newLines.join("\n");
 }
+
+function getBindingMetadata() {
+  var metadataForBindings = {};
+  var totalMetadata = 0;
+  return request("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBOysww1PcGcB19Ew_NOUpPnQMGkP1RQGAOAoYMRvgVMWWhmcdjyOfLjvEDCC_F6nobE7Hu6ooaj7Q/pub?gid=0&single=true&output=csv").then(response => {
+    var rows = response.split("\n");
+    console.log(`Found ${rows.length} rows from spreadsheet`);
+    response.split("\n").forEach((row) => {
+      var cols = row.split(",");
+      var id = cols[1];
+      var bug = cols[2];
+      var type = cols[3];
+      if (bug) {
+        metadataForBindings[id] = {
+          bug,
+          type
+        }
+      }
+    });
+
+    for (var i in metadataForBindings) {
+      totalMetadata++;
+    }
+
+    console.log("Processed metadata: ", metadataForBindings);
+    return {metadataForBindings, totalMetadata};
+  });
+}
+exports.getBindingMetadata = getBindingMetadata;
