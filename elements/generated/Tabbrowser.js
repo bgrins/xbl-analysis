@@ -1706,7 +1706,8 @@ class FirefoxTabbrowser extends XULElement {
               this.mBrowser.urlbarChangeTracker.finishedLoad();
             }
 
-            if (!this.mBrowser.mIconURL) {
+            // Ignore initial about:blank to prevent flickering.
+            if (!this.mBrowser.mIconURL && !ignoreBlank) {
               this.mTabBrowser.useDefaultIcon(this.mTab);
             }
           }
@@ -3683,6 +3684,12 @@ class FirefoxTabbrowser extends XULElement {
         notificationbox.remove();
       }
       throw e;
+    }
+
+    // Hack to ensure that the about:newtab favicon is loaded
+    // instantaneously, to avoid flickering and improve perceived performance.
+    if (aURI == BROWSER_NEW_TAB_URL) {
+      this.setIcon(t, "chrome://branding/content/icon32.png");
     }
 
     // Dispatch a new tab notification.  We do this once we're
