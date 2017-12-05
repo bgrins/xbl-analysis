@@ -34,6 +34,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     let yearMaxLength = this.mMaxYear.toString().length;
     this.mYearField = this.createEditField(
       this.mYearPlaceHolder,
+      this.mYearLabel,
       true,
       this.mYearLength,
       yearMaxLength,
@@ -43,6 +44,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     );
     this.mMonthField = this.createEditField(
       this.mMonthPlaceHolder,
+      this.mMonthLabel,
       true,
       this.mMonthDayLength,
       this.mMonthDayLength,
@@ -52,6 +54,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     );
     this.mDayField = this.createEditField(
       this.mDayPlaceHolder,
+      this.mDayLabel,
       true,
       this.mMonthDayLength,
       this.mMonthDayLength,
@@ -335,6 +338,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     });
 
     aField.textContent = formatted;
+    aField.setAttribute("aria-valuetext", formatted);
     this.updateResetButtonVisibility();
   }
   isAnyFieldAvailable(aForPicker) {

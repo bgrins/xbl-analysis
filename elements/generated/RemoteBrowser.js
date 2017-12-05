@@ -510,6 +510,30 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     return this.frameLoader.tabParent.docShellIsActive;
   }
 
+  set renderLayers(val) {
+    let { frameLoader } = this;
+    if (frameLoader && frameLoader.tabParent) {
+      return (frameLoader.tabParent.renderLayers = val);
+    }
+    return false;
+  }
+
+  get renderLayers() {
+    let { frameLoader } = this;
+    if (frameLoader && frameLoader.tabParent) {
+      return frameLoader.tabParent.renderLayers;
+    }
+    return false;
+  }
+
+  get hasLayers() {
+    let { frameLoader } = this;
+    if (frameLoader.tabParent) {
+      return frameLoader.tabParent.hasLayers;
+    }
+    return false;
+  }
+
   get manifestURI() {
     return this._manifestURI;
   }

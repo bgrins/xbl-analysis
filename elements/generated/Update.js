@@ -6,7 +6,6 @@ class FirefoxUpdate extends FirefoxRichlistitem {
         <xul:label class="update-name" inherits="value=name" flex="1" crop="right"></xul:label>
         <xul:label inherits="href=detailsURL,hidden=hideDetailsURL" class="text-link" value="FROM-DTD-update-details-label"></xul:label>
       </xul:hbox>
-      <xul:label class="update-type" inherits="value=type"></xul:label>
       <xul:grid>
         <xul:columns>
           <xul:column class="update-label-column"></xul:column>
@@ -51,15 +50,6 @@ class FirefoxUpdate extends FirefoxRichlistitem {
 
   get installDate() {
     return this.getAttribute("installDate");
-  }
-
-  set type(val) {
-    this.setAttribute("type", val);
-    return val;
-  }
-
-  get type() {
-    return this.getAttribute("type");
   }
 
   set hideDetailsURL(val) {

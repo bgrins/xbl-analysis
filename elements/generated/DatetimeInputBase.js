@@ -1,9 +1,9 @@
 class FirefoxDatetimeInputBase extends XULElement {
   connectedCallback() {
     this.innerHTML = `
-      <html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly">
+      <html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly" role="presentation">
         <html:span class="datetime-input-edit-wrapper" anonid="edit-wrapper"></html:span>
-        <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled"></html:button>
+        <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled" aria-label="FROM-DTD-datetime-reset-label"></html:button>
       </html:div>
     `;
 
@@ -77,6 +77,7 @@ class FirefoxDatetimeInputBase extends XULElement {
   }
   createEditField(
     aPlaceHolder,
+    aLabel,
     aIsNumeric,
     aMinDigits,
     aMaxLength,
@@ -97,6 +98,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     // Set property as well for convenience.
     field.disabled = this.mInputElement.disabled;
     field.readOnly = this.mInputElement.readOnly;
+    field.setAttribute("aria-label", aLabel);
 
     if (aIsNumeric) {
       field.classList.add("numeric");
@@ -117,6 +119,8 @@ class FirefoxDatetimeInputBase extends XULElement {
       // Maximum length for the field, will be advance to the next field
       // automatically if exceeded.
       field.setAttribute("maxlength", aMaxLength);
+      // Set spinbutton ARIA role
+      field.setAttribute("role", "spinbutton");
 
       if (this.mIsRTL) {
         // Force the direction to be "ltr", so that the field stays in the
@@ -126,6 +130,9 @@ class FirefoxDatetimeInputBase extends XULElement {
         field.style.unicodeBidi = "embed";
         field.style.direction = "ltr";
       }
+    } else {
+      // Set generic textbox ARIA role
+      field.setAttribute("role", "textbox");
     }
 
     return field;

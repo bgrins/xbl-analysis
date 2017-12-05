@@ -1136,33 +1136,6 @@ class FirefoxTabbrowser extends XULElement {
       );
     }
   }
-  _setCloseKeyState(aEnabled) {
-    let keyClose = document.getElementById("key_close");
-    let closeKeyEnabled = keyClose.getAttribute("disabled") != "true";
-    if (closeKeyEnabled == aEnabled) return;
-
-    if (aEnabled) keyClose.removeAttribute("disabled");
-    else keyClose.setAttribute("disabled", "true");
-
-    // We also want to remove the keyboard shortcut from the file menu
-    // when the shortcut is disabled, and bring it back when it's
-    // renabled.
-    //
-    // Fixing bug 630826 could make that happen automatically.
-    // Fixing bug 630830 could avoid the ugly hack below.
-
-    let closeMenuItem = document.getElementById("menu_close");
-    let parentPopup = closeMenuItem.parentNode;
-    let nextItem = closeMenuItem.nextSibling;
-    let clonedItem = closeMenuItem.cloneNode(true);
-
-    parentPopup.removeChild(closeMenuItem);
-
-    if (aEnabled) clonedItem.setAttribute("key", "key_close");
-    else clonedItem.removeAttribute("key");
-
-    parentPopup.insertBefore(clonedItem, nextItem);
-  }
   pinTab(aTab) {
     if (aTab.pinned) return;
 
@@ -1177,8 +1150,6 @@ class FirefoxTabbrowser extends XULElement {
     this.getBrowserForTab(
       aTab
     ).messageManager.sendAsyncMessage("Browser:AppTab", { isAppTab: true });
-
-    if (aTab.selected) this._setCloseKeyState(false);
 
     let event = document.createEvent("Events");
     event.initEvent("TabPinned", true, false);
@@ -1197,8 +1168,6 @@ class FirefoxTabbrowser extends XULElement {
     this.getBrowserForTab(
       aTab
     ).messageManager.sendAsyncMessage("Browser:AppTab", { isAppTab: false });
-
-    if (aTab.selected) this._setCloseKeyState(true);
 
     let event = document.createEvent("Events");
     event.initEvent("TabUnpinned", true, false);
@@ -2246,8 +2215,6 @@ class FirefoxTabbrowser extends XULElement {
         false
       );
     }
-
-    this._setCloseKeyState(!this.mCurrentTab.pinned);
 
     // TabSelect events are suppressed during preview mode to avoid confusing extensions and other bits of code
     // that might rely upon the other changes suppressed.
@@ -4977,16 +4944,26 @@ class FirefoxTabbrowser extends XULElement {
         let { tabParent } = browser.frameLoader;
         if (state == this.STATE_LOADING) {
           this.assert(!this.minimizedOrFullyOccluded);
-          browser.docShellIsActive = true;
-          if (!tabParent) {
+
+          if (!this.tabbrowser.tabWarmingEnabled) {
+            browser.docShellIsActive = true;
+          }
+
+          if (tabParent) {
+            browser.renderLayers = true;
+          } else {
             this.onLayersReady(browser);
           }
         } else if (state == this.STATE_UNLOADING) {
           this.unwarmTab(tab);
+          // Setting the docShell to be inactive will also cause it
+          // to stop rendering layers.
           browser.docShellIsActive = false;
           if (!tabParent) {
             this.onLayersCleared(browser);
           }
+        } else if (state == this.STATE_LOADED) {
+          this.maybeActivateDocShell(tab);
         }
 
         if (!tab.linkedBrowser.isRemoteBrowser) {
@@ -5014,11 +4991,6 @@ class FirefoxTabbrowser extends XULElement {
       init() {
         this.log("START");
 
-        // If we minimized the window before the switcher was activated,
-        // we might have set  the preserveLayers flag for the current
-        // browser. Let's clear it.
-        this.tabbrowser.mCurrentBrowser.preserveLayers(false);
-
         window.addEventListener("MozAfterPaint", this);
         window.addEventListener("MozLayerTreeReady", this);
         window.addEventListener("MozLayerTreeCleared", this);
@@ -5028,19 +5000,30 @@ class FirefoxTabbrowser extends XULElement {
         window.addEventListener("SwapDocShells", this, true);
         window.addEventListener("EndSwapDocShells", this, true);
 
-        let tab = this.requestedTab;
-        let browser = tab.linkedBrowser;
-        let tabIsLoaded =
-          !browser.isRemoteBrowser ||
-          browser.frameLoader.tabParent.hasPresented;
+        let initialTab = this.requestedTab;
 
-        if (!this.minimizedOrFullyOccluded) {
-          this.log("Initial tab is loaded?: " + tabIsLoaded);
-          this.setTabState(
-            tab,
-            tabIsLoaded ? this.STATE_LOADED : this.STATE_LOADING
-          );
+        for (let tab of this.tabbrowser.tabs) {
+          if (tab == initialTab && this.minimizedOrFullyOccluded) {
+            continue;
+          }
+
+          if (tab.linkedPanel) {
+            let b = tab.linkedBrowser;
+            let state;
+            if (b.renderLayers && b.hasLayers) {
+              state = this.STATE_LOADED;
+            } else if (b.renderLayers && !b.hasLayers) {
+              state = this.STATE_LOADING;
+            } else if (!b.renderLayers && b.hasLayers) {
+              state = this.STATE_UNLOADING;
+            } else {
+              state = this.STATE_UNLOADED;
+            }
+
+            this.setTabState(tab, state);
+          }
         }
+        this.logState("Tab states initialized");
       },
 
       destroy() {
@@ -5233,6 +5216,8 @@ class FirefoxTabbrowser extends XULElement {
               } else {
                 this.tabbrowser._adjustFocusAfterTabSwitch(showTab);
               }
+
+              this.maybeActivateDocShell(this.requestedTab);
             }
           }
 
@@ -5272,6 +5257,33 @@ class FirefoxTabbrowser extends XULElement {
           this.TAB_SWITCH_TIMEOUT
         );
         this.setTabState(this.requestedTab, this.STATE_LOADING);
+      },
+
+      maybeActivateDocShell(tab) {
+        // If we've reached the point where the requested tab has entered
+        // the loaded state, but the DocShell is still not yet active, we
+        // should activate it.
+        let browser = tab.linkedBrowser;
+        let state = this.getTabState(tab);
+        let canCheckDocShellState =
+          !browser.mDestroyed &&
+          (browser.docShell || browser.frameLoader.tabParent);
+        if (
+          tab == this.requestedTab &&
+          canCheckDocShellState &&
+          state == this.STATE_LOADED &&
+          !browser.docShellIsActive &&
+          !this.minimizedOrFullyOccluded
+        ) {
+          browser.docShellIsActive = true;
+          this.logState(
+            "Set requested tab docshell to active and preserveLayers to false"
+          );
+          // If we minimized the window before the switcher was activated,
+          // we might have set the preserveLayers flag for the current
+          // browser. Let's clear it.
+          browser.preserveLayers(false);
+        }
       },
 
       // This function runs before every event. It fixes up the state
@@ -5452,6 +5464,13 @@ class FirefoxTabbrowser extends XULElement {
       // Fires when the layers become available for a tab.
       onLayersReady(browser) {
         let tab = this.tabbrowser.getTabForBrowser(browser);
+        if (!tab) {
+          // We probably got a layer update from a tab that got before
+          // the switcher was created, or for browser that's not being
+          // tracked by the async tab switcher (like the preloaded about:newtab).
+          return;
+        }
+
         this.logState(
           `onLayersReady(${tab._tPos}, ${browser.isRemoteBrowser})`
         );
@@ -5606,7 +5625,13 @@ class FirefoxTabbrowser extends XULElement {
 
       activateBrowserForPrintPreview(browser) {
         let tab = this.tabbrowser.getTabForBrowser(browser);
-        this.setTabState(tab, this.STATE_LOADING);
+        let state = this.getTabState(tab);
+        if (state != this.STATE_LOADING && state != this.STATE_LOADED) {
+          this.setTabState(tab, this.STATE_LOADING);
+          this.logState(
+            "Activated browser " + this.tinfo(tab) + " for print preview"
+          );
+        }
       },
 
       canWarmTab(tab) {

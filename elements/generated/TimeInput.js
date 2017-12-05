@@ -141,6 +141,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     this.mHourField = this.createEditField(
       this.mHourPlaceHolder,
+      this.mHourLabel,
       true,
       this.mMaxLength,
       this.mMaxLength,
@@ -150,6 +151,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     );
     this.mMinuteField = this.createEditField(
       this.mMinutePlaceHolder,
+      this.mMinuteLabel,
       true,
       this.mMaxLength,
       this.mMaxLength,
@@ -161,14 +163,19 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     if (this.mHour12) {
       this.mDayPeriodField = this.createEditField(
         this.mDayPeriodPlaceHolder,
+        this.mDayPeriodLabel,
         false
       );
+
+      // Give aria autocomplete hint for am/pm
+      this.mDayPeriodField.setAttribute("aria-autocomplete", "inline");
     }
 
     if (this.shouldShowSecondField()) {
       options.second = "numeric";
       this.mSecondField = this.createEditField(
         this.mSecondPlaceHolder,
+        this.mSecondLabel,
         true,
         this.mMaxLength,
         this.mMaxLength,
@@ -180,6 +187,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
       if (this.shouldShowMillisecField()) {
         this.mMillisecField = this.createEditField(
           this.mMillisecPlaceHolder,
+          this.mMillisecLabel,
           true,
           this.mMillisecMaxLength,
           this.mMillisecMaxLength,
@@ -579,6 +587,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     });
 
     aField.textContent = formatted;
+    aField.setAttribute("aria-valuetext", formatted);
     this.updateResetButtonVisibility();
   }
   getDayPeriodValue(aValue) {
