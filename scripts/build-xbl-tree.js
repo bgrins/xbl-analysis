@@ -130,6 +130,14 @@ async function treeForRev(rev, metadataForBindings) {
         idToFeatureAttrs[binding.attrs.id].push("implements");
       }
 
+      // Count [role] uses:
+      featureCounts["role"] = featureCounts["role"] || 0;
+      if (binding.attrs.role) {
+        featureCounts["role"]++;
+        idToFeatures[binding.attrs.id].push(`role (${binding.attrs.role})`);
+        idToFeatureAttrs[binding.attrs.id].push("role");
+      }
+
       if (idToBinding[binding.attrs.id]) {
         console.log("Detected duplicate binding: ", binding.attrs.id);
       }

@@ -26,6 +26,8 @@
 #destructor:target ~ #container details:not([destructor]) > summary { opacity: .5; }
 #implements:target ~ * [highlight=implements] { background: yellow; }
 #implements:target ~ #container details:not([implements]) > summary { opacity: .5; }
+#role:target ~ * [highlight=role] { background: yellow; }
+#role:target ~ #container details:not([role]) > summary { opacity: .5; }
     </style>
     </head>
     <body>
@@ -40,6 +42,7 @@
 <div id=constructor></div>
 <div id=destructor></div>
 <div id=implements></div>
+<div id=role></div>
         <div id="links">
           <a href="../">Home</a>
           <a href="https://github.com/bgrins/xbl-analysis">Code</a>
@@ -60,6 +63,7 @@
                           <code>constructor</code>: <strong>88</strong>,
                           <code>resources</code>: <strong>81</strong>,
                           <code>implements</code>: <strong>53</strong>,
+                          <code>role</code>: <strong>49</strong>,
                           <code>destructor</code>: <strong>37</strong></li>
           <a href="index.html">Most recent data</a>
         </ul>
@@ -79,22 +83,23 @@
                                   <a href='#constructor' highlight="constructor">constructor</a> | 
                                   <a href='#resources' highlight="resources">resources</a> | 
                                   <a href='#implements' highlight="implements">implements</a> | 
+                                  <a href='#role' highlight="role">role</a> | 
                                   <a href='#destructor' highlight="destructor">destructor</a>
         </div>
         <div id='container'>
         
-      <details open property implements>
+      <details open property implements role>
       <summary><span id="text-base">text-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/text.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=text-base">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULDescriptionElement)</code> <small>(922 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULDescriptionElement)</code>, <code highlight='role'>role (xul:text)</code> <small>(922 total instances)</small></em></summary><ul><li>
       <details open property implements>
       <summary><span id="text-label">text-label</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/text.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=text-label">m-c search</a>)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='implements'>implements (nsIDOMXULLabelElement)</code> <small>(858 total instances)</small></em></summary><ul><li>
       <details open property field content handler method children constructor implements>
       <summary><span id="label-control">label-control</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/text.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=label-control">m-c search</a>)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULLabelElement)</code> <small>(25 total instances)</small></em></summary></details></li><li>
-      <details open property handler method>
+      <details open property handler method role>
       <summary><span id="text-link">text-link</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/text.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=text-link">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (1)</code> <small>(16 total instances)</small></em></summary></details></li></ul></details></li></ul></details>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:link)</code> <small>(16 total instances)</small></em></summary></details></li></ul></details></li></ul></details>
       <details open property implements>
       <summary><span id="basecontrol">basecontrol</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=basecontrol">m-c search</a>)
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='implements'>implements (nsIDOMXULControlElement)</code> <small>(770 total instances)</small></em></summary><ul><li>
@@ -104,9 +109,9 @@
       <details open property>
       <summary><span id="control-item">control-item</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=control-item">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1416483'>bug</a>)
   <em>Used features: <code highlight='property'>property (1)</code> <small>(316 total instances)</small></em></summary><ul><li>
-      <details open resources property implements>
+      <details open resources property implements role>
       <summary><span id="menuitem-base">menuitem-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menuitem-base">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement, nsIDOMXULContainerItemElement)</code> <small>(312 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement, nsIDOMXULContainerItemElement)</code>, <code highlight='role'>role (xul:menuitem)</code> <small>(312 total instances)</small></em></summary><ul><li>
       <details open content>
       <summary><span id="menuitem">menuitem</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menuitem">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code> <small>(239 total instances)</small></em></summary><ul><li>
@@ -119,9 +124,9 @@
       <details open content>
       <summary><span id="menuitem-iconic-desc-noaccel">menuitem-iconic-desc-noaccel</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menuitem-iconic-desc-noaccel">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1418459'>bug</a>)
   <em>Used features: <code highlight='content'>content (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open >
+      <details open role>
       <summary><span id="menuseparator">menuseparator</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menuseparator">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1416493'>bug</a>)
-  <em>Used features:  <small>(62 total instances)</small></em></summary></details></li><li>
+  <em>Used features: <code highlight='role'>role (xul:menuseparator)</code> <small>(62 total instances)</small></em></summary></details></li><li>
       <details open property method implements>
       <summary><span id="menu-base">menu-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menu-base">m-c search</a>)
   <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='method'>method (5)</code>, <code highlight='implements'>implements (nsIDOMXULContainerElement)</code> <small>(11 total instances)</small></em></summary><ul><li>
@@ -146,24 +151,24 @@
       <details open content children>
       <summary><span id="menubutton-item">menubutton-item</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menubutton-item">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open resources property content handler constructor destructor implements>
+      <details open resources property content handler constructor destructor implements role>
       <summary><span id="radio">radio</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/radio.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=radio">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code> <small>(3 total instances)</small></em></summary><ul><li>
-      <details open resources content>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:radiobutton)</code> <small>(3 total instances)</small></em></summary><ul><li>
+      <details open resources content role>
       <summary><span id="panebutton">panebutton</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/preferences.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=panebutton">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1412369'>bug</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open resources property field content handler method implements>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:listitem)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
+      <details open resources property field content handler method implements role>
       <summary><span id="tab">tab</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tab">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code> <small>(1 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:tab)</code> <small>(1 total instances)</small></em></summary><ul><li>
       <details open resources property field content handler method constructor>
       <summary><span id="tabbrowser-tab">tabbrowser-tab</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser-tab">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (10)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (10)</code>, <code highlight='constructor'>constructor (1)</code> <small>(1 total instances)</small></em></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open property handler method implements>
+      <details open property handler method implements role>
       <summary><span id="button-base">button-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/button.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=button-base">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIDOMXULButtonElement)</code> <small>(154 total instances)</small></em></summary><ul><li>
-      <details open resources content children>
+  <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIDOMXULButtonElement)</code>, <code highlight='role'>role (xul:button)</code> <small>(154 total instances)</small></em></summary><ul><li>
+      <details open resources content children role>
       <summary><span id="toolbarbutton">toolbarbutton</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarbutton">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code> <small>(108 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code>, <code highlight='role'>role (xul:toolbarbutton)</code> <small>(108 total instances)</small></em></summary><ul><li>
       <details open content children>
       <summary><span id="menu">menu</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menu">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(6 total instances)</small></em></summary></details></li><li>
@@ -206,18 +211,18 @@
       <details open resources content children>
       <summary><span id="menu-button">menu-button</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menu-button">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open resources property content handler method implements>
+      <details open resources property content handler method implements role>
       <summary><span id="checkbox">checkbox</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/checkbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=checkbox">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULCheckboxElement)</code> <small>(16 total instances)</small></em></summary></details></li><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULCheckboxElement)</code>, <code highlight='role'>role (xul:checkbox)</code> <small>(16 total instances)</small></em></summary></details></li><li>
       <details open resources property field content method implements>
       <summary><span id="filefield">filefield</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/filefield.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=filefield">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='implements'>implements (nsIDOMXULLabeledControlElement)</code> <small>(0 total instances)</small></em></summary></details></li><li>
       <details open resources content children>
       <summary><span id="caption">caption</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/groupbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=caption">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
-      <details open resources property content handler method children implements>
+      <details open resources property content handler method children implements role>
       <summary><span id="listitem">listitem</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listitem">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code> <small>(0 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:listitem)</code> <small>(0 total instances)</small></em></summary><ul><li>
       <details open content children>
       <summary><span id="offlineapp">offlineapp</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=offlineapp">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
@@ -308,9 +313,9 @@
       <details open resources>
       <summary><span id="menulist-base">menulist-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menulist.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menulist-base">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code> <small>(4 total instances)</small></em></summary><ul><li>
-      <details open property content handler method children constructor destructor implements>
+      <details open property content handler method children constructor destructor implements role>
       <summary><span id="menulist">menulist</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menulist.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menulist">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (12)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULMenuListElement)</code> <small>(4 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (12)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULMenuListElement)</code>, <code highlight='role'>role (xul:menulist)</code> <small>(4 total instances)</small></em></summary><ul><li>
       <details open content children>
       <summary><span id="menulist-popuponly">menulist-popuponly</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menulist.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menulist-popuponly">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(1 total instances)</small></em></summary></details></li><li>
@@ -323,36 +328,36 @@
       <details open resources method>
       <summary><span id="tree-base">tree-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tree-base">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='method'>method (1)</code> <small>(3 total instances)</small></em></summary><ul><li>
-      <details open property field content handler method children implements>
+      <details open property field content handler method children implements role>
       <summary><span id="tree">tree</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tree">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (17)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (28)</code>, <code highlight='method'>method (15)</code>, <code highlight='children'>children (2)</code>, <code highlight='implements'>implements (nsIDOMXULTreeElement, nsIDOMXULMultiSelectControlElement)</code> <small>(1 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (17)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (28)</code>, <code highlight='method'>method (15)</code>, <code highlight='children'>children (2)</code>, <code highlight='implements'>implements (nsIDOMXULTreeElement, nsIDOMXULMultiSelectControlElement)</code>, <code highlight='role'>role (xul:tree)</code> <small>(1 total instances)</small></em></summary><ul><li>
       <details open content children>
       <summary><span id="autocomplete-tree">autocomplete-tree</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete-tree">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code> <small>(1 total instances)</small></em></summary></details></li><li>
       <details open property field handler method constructor destructor>
       <summary><span id="places-tree">places-tree</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=places-tree">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=760974'>bug</a>)
   <em>Used features: <code highlight='property'>property (15)</code>, <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (10)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open property handler method constructor>
+      <details open property handler method constructor role>
       <summary><span id="treecol-base">treecol-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treecol-base">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code> <small>(1 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:treecolumnitem)</code> <small>(1 total instances)</small></em></summary><ul><li>
       <details open content>
       <summary><span id="treecol">treecol</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treecol">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code> <small>(1 total instances)</small></em></summary></details></li><li>
       <details open content>
       <summary><span id="treecol-image">treecol-image</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treecol-image">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open content handler method>
+      <details open content handler method role>
       <summary><span id="columnpicker">columnpicker</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=columnpicker">m-c search</a>)
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (1)</code> <small>(1 total instances)</small></em></summary></details></li><li>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:button)</code> <small>(1 total instances)</small></em></summary></details></li><li>
       <details open content handler children>
       <summary><span id="treerows">treerows</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treerows">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
       <details open field handler constructor>
       <summary><span id="treebody">treebody</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treebody">m-c search</a>)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open property field handler method implements>
+      <details open property field handler method implements role>
       <summary><span id="listbox-base">listbox-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listbox-base">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (10)</code>, <code highlight='field'>field (9)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (17)</code>, <code highlight='implements'>implements (nsIDOMXULMultiSelectControlElement)</code> <small>(2 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (10)</code>, <code highlight='field'>field (9)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (17)</code>, <code highlight='implements'>implements (nsIDOMXULMultiSelectControlElement)</code>, <code highlight='role'>role (xul:listbox)</code> <small>(2 total instances)</small></em></summary><ul><li>
       <details open resources property field content handler method children constructor destructor>
       <summary><span id="richlistbox">richlistbox</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/richlistbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=richlistbox">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='field'>field (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (21)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code> <small>(2 total instances)</small></em></summary><ul><li>
@@ -365,30 +370,30 @@
       <details open resources property field content handler method children constructor>
       <summary><span id="listbox">listbox</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listbox">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (12)</code>, <code highlight='children'>children (3)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open resources property field handler method constructor implements>
+      <details open resources property field handler method constructor implements role>
       <summary><span id="radiogroup">radiogroup</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/radio.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=radiogroup">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement)</code> <small>(1 total instances)</small></em></summary></details></li><li>
-      <details open resources property field content method children constructor implements>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement)</code>, <code highlight='role'>role (xul:radiogroup)</code> <small>(1 total instances)</small></em></summary></details></li><li>
+      <details open resources property field content method children constructor implements role>
       <summary><span id="tabs">tabs</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabs">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement, nsIDOMXULRelatedElement)</code> <small>(1 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement, nsIDOMXULRelatedElement)</code>, <code highlight='role'>role (xul:tabs)</code> <small>(1 total instances)</small></em></summary><ul><li>
       <details open resources property field content handler method children constructor destructor implements>
       <summary><span id="tabbrowser-tabs">tabbrowser-tabs</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser-tabs">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='field'>field (27)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (11)</code>, <code highlight='method'>method (21)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener, nsIObserver)</code> <small>(1 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open resources property content handler method constructor>
+      <details open resources property content handler method constructor role>
       <summary><span id="colorpicker-button">colorpicker-button</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/colorpicker.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=colorpicker-button">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:colorpicker)</code> <small>(0 total instances)</small></em></summary></details></li><li>
       <details open resources>
       <summary><span id="scaleslider">scaleslider</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/scale.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=scaleslider">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
-      <details open resources property content handler method constructor implements>
+      <details open resources property content handler method constructor implements role>
       <summary><span id="scale">scale</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/scale.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=scale">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsISliderListener)</code> <small>(0 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsISliderListener)</code>, <code highlight='role'>role (xul:scale)</code> <small>(0 total instances)</small></em></summary><ul><li>
       <details open property method constructor implements>
       <summary><span id="suppressChangeEvent">suppressChangeEvent</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=suppressChangeEvent">m-c search</a>)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIXBLAccessible)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open resources content children>
+      <details open resources content children role>
       <summary><span id="listcell">listcell</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listcell">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:listcell)</code> <small>(0 total instances)</small></em></summary><ul><li>
       <details open content children>
       <summary><span id="listcell-iconic">listcell-iconic</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listcell-iconic">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
@@ -422,9 +427,9 @@
       <details open resources property method implements>
       <summary><span id="popup-base">popup-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=popup-base">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (9)</code>, <code highlight='method'>method (12)</code>, <code highlight='implements'>implements (nsIDOMXULPopupElement)</code> <small>(100 total instances)</small></em></summary><ul><li>
-      <details open field content handler children>
+      <details open field content handler children role>
       <summary><span id="popup">popup</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=popup">m-c search</a>)
-  <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='children'>children (1)</code> <small>(73 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:menupopup)</code> <small>(73 total instances)</small></em></summary><ul><li>
       <details open field content handler method children>
       <summary><span id="places-popup-base">places-popup-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=places-popup-base">m-c search</a>)
   <em>Used features: <code highlight='field'>field (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code> <small>(8 total instances)</small></em></summary><ul><li>
@@ -440,9 +445,9 @@
       <details open handler method implements>
       <summary><span id="tabbrowser-alltabs-popup">tabbrowser-alltabs-popup</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser-alltabs-popup">m-c search</a>)
   <em>Used features: <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (6)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code> <small>(3 total instances)</small></em></summary></details></li><li>
-      <details open property field handler method implements>
+      <details open property field handler method implements role>
       <summary><span id="autocomplete-base-popup">autocomplete-base-popup</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete-base-popup">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code> <small>(3 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code>, <code highlight='role'>role (none)</code> <small>(3 total instances)</small></em></summary><ul><li>
       <details open resources property field content handler method children implements>
       <summary><span id="autocomplete-rich-result-popup">autocomplete-rich-result-popup</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete-rich-result-popup">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code> <small>(2 total instances)</small></em></summary><ul><li>
@@ -458,27 +463,27 @@
       <details open resources property field content handler method constructor destructor implements>
       <summary><span id="xpfe-autocomplete-result-popup">xpfe-autocomplete-result-popup</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=xpfe-autocomplete-result-popup">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1417119'>bug</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li><li>
-      <details open field handler constructor implements>
+      <details open field handler constructor implements role>
       <summary><span id="panel">panel</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=panel">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1397876'>bug</a>)
-  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULPopupElement)</code> <small>(19 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULPopupElement)</code>, <code highlight='role'>role (xul:panel)</code> <small>(19 total instances)</small></em></summary><ul><li>
       <details open field content handler method children>
       <summary><span id="arrowpanel">arrowpanel</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=arrowpanel">m-c search</a>)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code> <small>(16 total instances)</small></em></summary><ul><li>
       <details open resources property field method constructor>
       <summary><span id="datetime-popup">datetime-popup</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/datetimepopup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=datetime-popup">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (12)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open property field content handler method children>
+      <details open property field content handler method children role>
       <summary><span id="tooltip">tooltip</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tooltip">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code> <small>(8 total instances)</small></em></summary></details></li></ul></details>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:tooltip)</code> <small>(8 total instances)</small></em></summary></details></li></ul></details>
       <details open resources>
       <summary><span id="toolbar-base">toolbar-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbar-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1422386'>bug</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code> <small>(31 total instances)</small></em></summary><ul><li>
-      <details open >
+      <details open role>
       <summary><span id="toolbardecoration">toolbardecoration</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbardecoration">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1422386'>bug</a>)
-  <em>Used features:  <small>(25 total instances)</small></em></summary></details></li><li>
-      <details open property field method constructor>
+  <em>Used features: <code highlight='role'>role (xul:toolbarseparator)</code> <small>(25 total instances)</small></em></summary></details></li><li>
+      <details open property field method constructor role>
       <summary><span id="toolbar">toolbar</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbar">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (5)</code>, <code highlight='constructor'>constructor (1)</code> <small>(4 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (5)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:toolbar)</code> <small>(4 total instances)</small></em></summary><ul><li>
       <details open field handler method constructor destructor>
       <summary><span id="toolbar-menubar-autohide">toolbar-menubar-autohide</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbar-menubar-autohide">m-c search</a>)
   <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code> <small>(1 total instances)</small></em></summary></details></li><li>
@@ -500,9 +505,9 @@
       <details open property field method constructor>
       <summary><span id="toolbox">toolbox</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbox">m-c search</a>)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code> <small>(1 total instances)</small></em></summary></details></li><li>
-      <details open property field handler method>
+      <details open property field handler method role>
       <summary><span id="menubar">menubar</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menubar">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (3)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code> <small>(1 total instances)</small></em></summary></details></li><li>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (3)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:menubar)</code> <small>(1 total instances)</small></em></summary></details></li><li>
       <details open content children>
       <summary><span id="toolbarpaletteitem">toolbarpaletteitem</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarpaletteitem">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary><ul><li>
@@ -512,9 +517,9 @@
       <details open content children>
       <summary><span id="toolbarpaletteitem-palette-wrapping-label">toolbarpaletteitem-palette-wrapping-label</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarpaletteitem-palette-wrapping-label">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details></li></ul></details>
-      <details open resources content>
+      <details open resources content role>
       <summary><span id="dropmarker">dropmarker</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=dropmarker">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code> <small>(24 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:dropmarker)</code> <small>(24 total instances)</small></em></summary><ul><li>
       <details open handler method>
       <summary><span id="xpfe-history-dropmarker">xpfe-history-dropmarker</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=xpfe-history-dropmarker">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1417119'>bug</a>)
   <em>Used features: <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
@@ -533,12 +538,12 @@
       <details open property field content handler method children>
       <summary><span id="notificationbox">notificationbox</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/notification.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=notificationbox">m-c search</a>)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (14)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (10)</code>, <code highlight='children'>children (2)</code> <small>(3 total instances)</small></em></summary></details>
-      <details open resources property field content handler method children constructor destructor implements>
+      <details open resources property field content handler method children constructor destructor implements role>
       <summary><span id="textbox">textbox</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/textbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=textbox">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (18)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (5)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULTextBoxElement, nsIDOMXULLabeledControlElement)</code> <small>(3 total instances)</small></em></summary><ul><li>
-      <details open resources property field content handler method children constructor destructor implements>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (18)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (5)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULTextBoxElement, nsIDOMXULLabeledControlElement)</code>, <code highlight='role'>role (xul:textbox)</code> <small>(3 total instances)</small></em></summary><ul><li>
+      <details open resources property field content handler method children constructor destructor implements role>
       <summary><span id="autocomplete">autocomplete</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (27)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (22)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompleteInput, nsIDOMXULMenuListElement)</code> <small>(1 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (27)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (22)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompleteInput, nsIDOMXULMenuListElement)</code>, <code highlight='role'>role (xul:combobox)</code> <small>(1 total instances)</small></em></summary><ul><li>
       <details open property field content handler method children constructor destructor implements>
       <summary><span id="urlbar">urlbar</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/urlbarBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=urlbar">m-c search</a>)
   <em>Used features: <code highlight='property'>property (5)</code>, <code highlight='field'>field (16)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (32)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver, nsIDOMEventListener)</code> <small>(1 total instances)</small></em></summary></details></li><li>
@@ -560,9 +565,9 @@
       <details open content children>
       <summary><span id="textarea">textarea</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/textbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=textarea">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
-      <details open resources property field content handler method children constructor destructor implements>
+      <details open resources property field content handler method children constructor destructor implements role>
       <summary><span id="xpfe-autocomplete">xpfe-autocomplete</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/globalBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=xpfe-autocomplete">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1417119'>bug</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (25)</code>, <code highlight='field'>field (28)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (35)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULMenuListElement)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (25)</code>, <code highlight='field'>field (28)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (35)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULMenuListElement)</code>, <code highlight='role'>role (xul:combobox)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
       <details open content method children>
       <summary><span id="input-box">input-box</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/textbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=input-box">m-c search</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code> <small>(3 total instances)</small></em></summary><ul><li>
@@ -572,9 +577,9 @@
       <details open property field content handler method constructor implements>
       <summary><span id="search-one-offs">search-one-offs</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=search-one-offs">m-c search</a>)
   <em>Used features: <code highlight='property'>property (9)</code>, <code highlight='field'>field (18)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (17)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener,nsIObserver,nsIWeakReference)</code> <small>(2 total instances)</small></em></summary></details>
-      <details open property field content handler method children constructor destructor implements>
+      <details open property field content handler method children constructor destructor implements role>
       <summary><span id="browser">browser</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/browser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=browser">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (51)</code>, <code highlight='field'>field (33)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (49)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver, nsIDOMEventListener, nsIMessageListener, nsIBrowser)</code> <small>(2 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (51)</code>, <code highlight='field'>field (33)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (49)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver, nsIDOMEventListener, nsIMessageListener, nsIBrowser)</code>, <code highlight='role'>role (outerdoc)</code> <small>(2 total instances)</small></em></summary><ul><li>
       <details open property field handler method constructor destructor implements>
       <summary><span id="remote-browser">remote-browser</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/remote-browser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=remote-browser">m-c search</a>)
   <em>Used features: <code highlight='property'>property (24)</code>, <code highlight='field'>field (23)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (9)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver, nsIDOMEventListener, nsIMessageListener, nsIRemoteBrowser)</code> <small>(1 total instances)</small></em></summary><ul><li>
@@ -590,18 +595,18 @@
       <details open property field method constructor destructor implements>
       <summary><span id="tabbox">tabbox</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbox">m-c search</a>)
   <em>Used features: <code highlight='property'>property (9)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code> <small>(1 total instances)</small></em></summary></details></li><li>
-      <details open property field method implements>
+      <details open property field method implements role>
       <summary><span id="tabpanels">tabpanels</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabpanels">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULRelatedElement)</code> <small>(1 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULRelatedElement)</code>, <code highlight='role'>role (xul:tabpanels)</code> <small>(1 total instances)</small></em></summary><ul><li>
       <details open property field>
       <summary><span id="tabbrowser-tabpanels">tabbrowser-tabpanels</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser-tabpanels">m-c search</a>)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (1)</code> <small>(1 total instances)</small></em></summary></details></li></ul></details></li></ul></details>
       <details open property content method constructor destructor implements>
       <summary><span id="statuspanel">statuspanel</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=statuspanel">m-c search</a>)
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (6)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code> <small>(1 total instances)</small></em></summary></details>
-      <details open resources property content>
+      <details open resources property content role>
       <summary><span id="progressmeter">progressmeter</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/progressmeter.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=progressmeter">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code> <small>(1 total instances)</small></em></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:progressmeter)</code> <small>(1 total instances)</small></em></summary><ul><li>
       <details open field content method constructor>
       <summary><span id="progressmeter-undetermined">progressmeter-undetermined</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/progressmeter.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=progressmeter-undetermined">m-c search</a>)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
@@ -635,12 +640,12 @@
       <details open handler>
       <summary><span id="searchbar-treebody">searchbar-treebody</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=searchbar-treebody">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1414020'>bug</a>)
   <em>Used features: <code highlight='handler'>handler (1)</code> <small>(1 total instances)</small></em></summary></details></li></ul></details>
-      <details open resources property field content method children>
+      <details open resources property field content method children role>
       <summary><span id="notification">notification</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/notification.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=notification">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (7)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code> <small>(1 total instances)</small></em></summary><ul><li>
-      <details open resources property content method>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (7)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:alert)</code> <small>(1 total instances)</small></em></summary><ul><li>
+      <details open resources property content method role>
       <summary><span id="translationbar">translationbar</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/translation/translation-infobar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=translationbar">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (11)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (11)</code>, <code highlight='role'>role (xul:alert)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
       <details open field constructor destructor>
       <summary><span id="root-element">root-element</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=root-element">m-c search</a>)
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code> <small>(1 total instances)</small></em></summary><ul><li>
@@ -656,9 +661,9 @@
       <details open resources property field content handler method children constructor>
       <summary><span id="wizard">wizard</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=wizard">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (9)</code>, <code highlight='field'>field (19)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (15)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
-      <details open resources content children constructor>
+      <details open resources content children constructor role>
       <summary><span id="treecols">treecols</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treecols">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code> <small>(1 total instances)</small></em></summary></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:treecolumns)</code> <small>(1 total instances)</small></em></summary></details>
       <details open handler>
       <summary><span id="builtin-win-textAreas">builtin-win-textAreas</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/win/platformHTMLBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=builtin-win-textAreas">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419091'>bug</a>)
   <em>Used features: <code highlight='handler'>handler (29)</code> <small>(0 total instances)</small></em></summary></details>
@@ -698,12 +703,12 @@
       <details open property content children>
       <summary><span id="panelview">panelview</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/customizableui/content/panelUI.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=panelview">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1417042'>bug</a>)
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details>
-      <details open resources property field method constructor>
+      <details open resources property field method constructor role>
       <summary><span id="customizableui-toolbar">customizableui-toolbar</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/customizableui/content/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=customizableui-toolbar">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='field'>field (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details>
-      <details open >
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='field'>field (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:toolbar)</code> <small>(0 total instances)</small></em></summary></details>
+      <details open role>
       <summary><span id="colorpickertile">colorpickertile</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/colorpicker.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=colorpickertile">m-c search</a>)
-  <em>Used features:  <small>(0 total instances)</small></em></summary></details>
+  <em>Used features: <code highlight='role'>role (xul:colorpickertile)</code> <small>(0 total instances)</small></em></summary></details>
       <details open resources property content method constructor destructor implements>
       <summary><span id="datetime-input-base">datetime-input-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/datetimebox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=datetime-input-base">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (33)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDateTimeInputArea)</code> <small>(0 total instances)</small></em></summary><ul><li>
@@ -716,9 +721,9 @@
       <details open resources content>
       <summary><span id="dialogheader">dialogheader</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/dialog.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=dialogheader">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419600'>bug</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code> <small>(0 total instances)</small></em></summary></details>
-      <details open property field method constructor destructor>
+      <details open property field method constructor destructor role>
       <summary><span id="editor">editor</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/editor.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=editor">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (18)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code> <small>(0 total instances)</small></em></summary></details>
+  <em>Used features: <code highlight='property'>property (18)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='role'>role (outerdoc)</code> <small>(0 total instances)</small></em></summary></details>
       <details open resources property content handler method children constructor>
       <summary><span id="expander">expander</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/expander.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=expander">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=930845'>bug</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details>
@@ -737,15 +742,15 @@
       <details open content children>
       <summary><span id="statusbarpanel-menu-iconic">statusbarpanel-menu-iconic</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=statusbarpanel-menu-iconic">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1416368'>bug</a>)
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
-      <details open content>
+      <details open content role>
       <summary><span id="statusbarpanel-iconic">statusbarpanel-iconic</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=statusbarpanel-iconic">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1416368'>bug</a>)
-  <em>Used features: <code highlight='content'>content (1)</code> <small>(0 total instances)</small></em></summary></details></li><li>
-      <details open content>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:button)</code> <small>(0 total instances)</small></em></summary></details></li><li>
+      <details open content role>
       <summary><span id="statusbarpanel-iconic-text">statusbarpanel-iconic-text</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=statusbarpanel-iconic-text">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1416368'>bug</a>)
-  <em>Used features: <code highlight='content'>content (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
-      <details open content children>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:button)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
+      <details open content children role>
       <summary><span id="statusbar">statusbar</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=statusbar">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419170'>bug</a>)
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:statusbar)</code> <small>(0 total instances)</small></em></summary></details>
       <details open content>
       <summary><span id="addengine-icon">addengine-icon</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=addengine-icon">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419198'>bug</a>)
   <em>Used features: <code highlight='content'>content (1)</code> <small>(0 total instances)</small></em></summary></details>
@@ -758,18 +763,18 @@
       <details open resources>
       <summary><span id="groupbox-base">groupbox-base</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/groupbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=groupbox-base">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code> <small>(0 total instances)</small></em></summary><ul><li>
-      <details open content children>
+      <details open content children role>
       <summary><span id="groupbox">groupbox</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/groupbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=groupbox">m-c search</a>)
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code>, <code highlight='role'>role (xul:groupbox)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
       <details open resources handler>
       <summary><span id="listrows">listrows</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listrows">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='handler'>handler (2)</code> <small>(0 total instances)</small></em></summary></details>
-      <details open resources content children>
+      <details open resources content children role>
       <summary><span id="listhead">listhead</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listhead">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code> <small>(0 total instances)</small></em></summary></details>
-      <details open resources content>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:listhead)</code> <small>(0 total instances)</small></em></summary></details>
+      <details open resources content role>
       <summary><span id="listheader">listheader</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listheader">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code> <small>(0 total instances)</small></em></summary></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:listheader)</code> <small>(0 total instances)</small></em></summary></details>
       <details open handler>
       <summary><span id="builtin-android-textAreas">builtin-android-textAreas</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/android/platformHTMLBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=builtin-android-textAreas">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419091'>bug</a>)
   <em>Used features: <code highlight='handler'>handler (31)</code> <small>(0 total instances)</small></em></summary></details>
@@ -797,9 +802,9 @@
       <details open resources constructor>
       <summary><span id="resizer">resizer</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/resizer.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=resizer">m-c search</a>)
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details>
-      <details open resources>
+      <details open resources role>
       <summary><span id="scalethumb">scalethumb</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/scale.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=scalethumb">m-c search</a>)
-  <em>Used features: <code highlight='resources'>resources (1)</code> <small>(0 total instances)</small></em></summary></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='role'>role (xul:thumb)</code> <small>(0 total instances)</small></em></summary></details>
       <details open handler>
       <summary><span id="builtin-emacs-browser">builtin-emacs-browser</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/emacs/platformHTMLBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=builtin-emacs-browser">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419091'>bug</a>)
   <em>Used features: <code highlight='handler'>handler (24)</code> <small>(0 total instances)</small></em></summary></details>
@@ -893,9 +898,9 @@
       <details open constructor>
       <summary><span id="replacement">replacement</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/pluginproblem/content/pluginProblem.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=replacement">m-c search</a>)
   <em>Used features: <code highlight='constructor'>constructor (1)</code> <small>(0 total instances)</small></em></summary></details></li></ul></details>
-      <details open property>
+      <details open property role>
       <summary><span id="iframe">iframe</span> (<a href="https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=iframe">m-c search</a>)
-  <em>Used features: <code highlight='property'>property (4)</code> <small>(0 total instances)</small></em></summary></details>
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='role'>role (outerdoc)</code> <small>(0 total instances)</small></em></summary></details>
         </div>
       </main>
     </body>
