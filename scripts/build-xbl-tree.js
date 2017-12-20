@@ -1,10 +1,17 @@
-
-var fs = require('fs');
-var sortedBindings = require('./sorted-bindings').latest;
-var { getParsedFiles, files, revs, getPrettyRev, getBindingMetadata } = require('./xbl-files');
+var fs = require("fs");
+var sortedBindings = require("./sorted-bindings").latest;
+var {
+  getParsedFiles,
+  files,
+  revs,
+  getPrettyRev,
+  getBindingMetadata
+} = require("./xbl-files");
 
 revs = revs.slice();
-const revlinksHTML = revs.map(r=>`<a href='${getPrettyRev(r)}.html'>${getPrettyRev(r)}</a>`).join(" ");
+const revlinksHTML = revs
+  .map(r => `<a href='${getPrettyRev(r)}.html'>${getPrettyRev(r)}</a>`)
+  .join(" ");
 
 // Get the latest data last (will be written into index.html)
 revs.push(undefined);
@@ -41,43 +48,61 @@ async function treeForRev(rev, metadataForBindings) {
     let metadata = metadataForBindings[binding] || {};
     let source = ` (<a href="${idToUrls[binding]}" target="_blank">source</a>)`;
     let search = ` (<a href="https://dxr.mozilla.org/mozilla-central/search?q=${binding}">m-c search</a>)`;
-    let bug = '';
+    let bug = "";
     if (metadata.bug) {
       bug = ` (<a href='${metadata.bug}'>bug</a>)`;
-      console.log("Got metadata " + binding + " ", metadataForBindings[binding])
+      console.log(
+        "Got metadata " + binding + " ",
+        metadataForBindings[binding]
+      );
     }
     var html = `
-      <details open ${idToFeatureAttrs[binding].join(' ')}>
+      <details open ${idToFeatureAttrs[binding].join(" ")}>
       <summary><span id="${binding}">${binding}</span>${source}${search}${bug}
   `;
 
     html += `<em>Used features: `;
-    html += idToFeatures[binding].map((feature, i) => `<code highlight='${idToFeatureAttrs[binding][i]}'>${feature}</code>`).join(", ");
+    html += idToFeatures[binding]
+      .map(
+        (feature, i) =>
+          `<code highlight='${idToFeatureAttrs[binding][i]}'>${feature}</code>`
+      )
+      .join(", ");
     html += ` <small>(${idToNumInstances[binding]} total instances)</small>`;
     html += `</em></summary>`;
 
     if (bindingTree[binding]) {
-      html += `<ul>`
+      html += `<ul>`;
       for (let subBinding of bindingTree[binding]) {
-        html += `<li>${printSingleBinding(subBinding)}</li>`
+        html += `<li>${printSingleBinding(subBinding)}</li>`;
       }
-      html += `</ul>`
+      html += `</ul>`;
     }
 
-    html += `</details>`
+    html += `</details>`;
     return html;
   }
 
   let docs = await getParsedFiles(rev);
   let totalPrintedFiles = docs.length;
-  docs.forEach(({doc}, i) => {
-    doc.find('binding').forEach(binding => {
+  docs.forEach(({ doc }, i) => {
+    doc.find("binding").forEach(binding => {
       idToFeatures[binding.attrs.id] = [];
       idToFeatureAttrs[binding.attrs.id] = [];
-      idToUrls[binding.attrs.id] = files[i].replace('raw-file', 'file');
+      idToUrls[binding.attrs.id] = files[i].replace("raw-file", "file");
 
       // Handle the easier features to count, where we just need to detect a node:
-      for (let feature of ['resources', 'property', 'field', 'content', 'handler', 'method', 'children', 'constructor', 'destructor']) {
+      for (let feature of [
+        "resources",
+        "property",
+        "field",
+        "content",
+        "handler",
+        "method",
+        "children",
+        "constructor",
+        "destructor"
+      ]) {
         featureCounts[feature] = featureCounts[feature] || 0;
         let foundFeature = binding.find(feature);
         if (!foundFeature.length && feature === "content") {
@@ -85,28 +110,36 @@ async function treeForRev(rev, metadataForBindings) {
         }
         if (foundFeature.length) {
           featureCounts[feature] += foundFeature.length;
-          idToFeatures[binding.attrs.id].push(`${feature} (${foundFeature.length})`);
+          idToFeatures[binding.attrs.id].push(
+            `${feature} (${foundFeature.length})`
+          );
           idToFeatureAttrs[binding.attrs.id].push(`${feature}`);
         }
       }
 
       // Count implementation[implements] uses:
-      featureCounts['implements'] = featureCounts['implements'] || 0;
-      if (binding.find('implementation').length && binding.find('implementation')[0].attrs.implements) {
-        featureCounts['implements']++;
-        idToFeatures[binding.attrs.id].push(`implements (${binding.find('implementation')[0].attrs.implements})`);
-        idToFeatureAttrs[binding.attrs.id].push('implements');
+      featureCounts["implements"] = featureCounts["implements"] || 0;
+      if (
+        binding.find("implementation").length &&
+        binding.find("implementation")[0].attrs.implements
+      ) {
+        featureCounts["implements"]++;
+        idToFeatures[binding.attrs.id].push(
+          `implements (${binding.find("implementation")[0].attrs.implements})`
+        );
+        idToFeatureAttrs[binding.attrs.id].push("implements");
       }
 
       if (idToBinding[binding.attrs.id]) {
         console.log("Detected duplicate binding: ", binding.attrs.id);
       }
-      idToBinding[binding.attrs.id] = (binding.attrs.extends || '').split('#')[1] || "NO_EXTENDS";
+      idToBinding[binding.attrs.id] =
+        (binding.attrs.extends || "").split("#")[1] || "NO_EXTENDS";
     });
   });
 
   for (let id in idToBinding) {
-    bindingTree[idToBinding[id]] = (bindingTree[idToBinding[id]] || []);
+    bindingTree[idToBinding[id]] = bindingTree[idToBinding[id]] || [];
     bindingTree[idToBinding[id]].push(id);
   }
 
@@ -126,46 +159,65 @@ async function treeForRev(rev, metadataForBindings) {
       let selfInstances = idToNumInstances[bindingTree[binding]];
       let parentInstances = idToNumInstances[binding];
       if (selfInstances == parentInstances) {
-        candidatesForFlattening.push(`${bindingTree[binding]} (parent: ${binding}, parent instances: ${parentInstances}, self instances: ${selfInstances})`);
+        candidatesForFlattening.push(
+          `${bindingTree[
+            binding
+          ]} (parent: ${binding}, parent instances: ${parentInstances}, self instances: ${selfInstances})`
+        );
       }
     }
   }
   console.log("idToNumInstances:", idToNumInstances);
   console.log("idToBinding:", idToBinding);
   console.log("bindingTree:", bindingTree);
-  console.log(`candidates for flattening (${candidatesForFlattening.length})`, candidatesForFlattening)
+  console.log(
+    `candidates for flattening (${candidatesForFlattening.length})`,
+    candidatesForFlattening
+  );
 
   for (let rootBinding of bindingTree["NO_EXTENDS"]) {
-    outputHTML.push(printSingleBinding(rootBinding))
+    outputHTML.push(printSingleBinding(rootBinding));
   }
 
   var totalBindings = 0;
-  for (let _ in idToBinding) { totalBindings++; }
+  for (let _ in idToBinding) {
+    totalBindings++;
+  }
   if (totalBindings != totalPrintedBindings) {
-    console.warn(`There are some orphaned bindings. Expected ${totalBindings} but printed ${totalPrintedBindings}`);
+    console.warn(
+      `There are some orphaned bindings. Expected ${totalBindings} but printed ${totalPrintedBindings}`
+    );
   }
 
   let featureElements = Object.entries(featureCounts)
-                        .map(([key]) => `<div id=${key}></div>`)
-                        .join('\n');
+    .map(([key]) => `<div id=${key}></div>`)
+    .join("\n");
   let featureCss = Object.entries(featureCounts)
-                        .map(([key]) =>
-`#${key}:target ~ * [highlight=${key}] { background: yellow; }
-#${key}:target ~ #container details:not([${key}]) > summary { opacity: .5; }`)
-                        .join('\n');
+    .map(
+      ([key]) =>
+        `#${key}:target ~ * [highlight=${key}] { background: yellow; }
+#${key}:target ~ #container details:not([${key}]) > summary { opacity: .5; }`
+    )
+    .join("\n");
   let featureStr = Object.entries(featureCounts)
-                          .sort((a, b) => b[1] - a[1])
-                          .map(([key,value]) => `
-                          <code>${key}</code>: <strong>${value}</strong>`)
-                          .join(',');
+    .sort((a, b) => b[1] - a[1])
+    .map(
+      ([key, value]) => `
+                          <code>${key}</code>: <strong>${value}</strong>`
+    )
+    .join(",");
   let featureHighlightStr = Object.entries(featureCounts)
-                                  .sort((a, b) => b[1] - a[1])
-                                  .map(([key,value]) => `
-                                  <a href='#${key}' highlight="${key}">${key}</a>`);
+    .sort((a, b) => b[1] - a[1])
+    .map(
+      ([key, value]) => `
+                                  <a href='#${key}' highlight="${key}">${key}</a>`
+    );
   featureHighlightStr.unshift(`<a href='#'>clear</a>`);
 
-  let revTitle = rev ? (': ' + getPrettyRev(rev)) : '';
-  fs.writeFileSync(`tree/${getPrettyRev(rev)}.html`, `
+  let revTitle = rev ? ": " + getPrettyRev(rev) : "";
+  fs.writeFileSync(
+    `tree/${getPrettyRev(rev)}.html`,
+    `
   <!DOCTYPE html>
   <html>
   <head>
@@ -190,7 +242,9 @@ async function treeForRev(rev, metadataForBindings) {
               From these ${totalPrintedFiles} files, <strong>${totalBindings}</strong> bindings were detected.</li>
           <li>A child in the tree means that it extends the parent</li>
           <li>Features used: ${featureStr}</li>
-          ${rev ? '<a href="index.html">Most recent data</a>' : ('Past data from: ' + revlinksHTML)}
+          ${rev
+            ? '<a href="index.html">Most recent data</a>'
+            : "Past data from: " + revlinksHTML}
         </ul>
         <p>About "total instances":
           This is a count of how many elements have a particular binding applied
@@ -201,11 +255,12 @@ async function treeForRev(rev, metadataForBindings) {
         Highlights: ${featureHighlightStr.join(" | ")}
         </div>
         <div id='container'>
-        ${outputHTML.join('')}
+        ${outputHTML.join("")}
         </div>
       </main>
     </body>
-  `);
+  `
+  );
 }
 
 run();
