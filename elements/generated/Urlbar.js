@@ -1159,7 +1159,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         break;
       case accel:
         try {
-          suffix = gPrefService.getCharPref("browser.fixup.alternate.suffix");
+          suffix = Services.prefs.getCharPref("browser.fixup.alternate.suffix");
           if (suffix.charAt(suffix.length - 1) != "/") suffix += "/";
         } catch (e) {
           suffix = ".com/";

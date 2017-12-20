@@ -144,17 +144,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
     return this._value;
   }
 
-  set wrapAround(val) {
-    if (val) this.setAttribute("wraparound", "true");
-    else this.removeAttribute("wraparound");
-    this._enableDisableButtons();
-    return val;
-  }
-
-  get wrapAround() {
-    return this.getAttribute("wraparound") == "true";
-  }
-
   set min(val) {
     if (typeof val == "number") {
       this.setAttribute("min", val);
@@ -226,9 +215,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
   _enableDisableButtons() {
     var buttons = this.spinButtons;
-    if (this.wrapAround) {
-      buttons.decreaseDisabled = buttons.increaseDisabled = false;
-    } else if (this.disabled || this.readOnly) {
+    if (this.disabled || this.readOnly) {
       buttons.decreaseDisabled = buttons.increaseDisabled = true;
     } else {
       buttons.decreaseDisabled = this.valueNumber <= this.min;
@@ -240,9 +227,8 @@ class FirefoxNumberbox extends FirefoxTextbox {
 
     var min = this.min;
     var max = this.max;
-    var wrapAround = this.wrapAround && min != -Infinity && max != Infinity;
-    if (aValue < min) aValue = aIsIncDec && wrapAround ? max : min;
-    else if (aValue > max) aValue = aIsIncDec && wrapAround ? min : max;
+    if (aValue < min) aValue = min;
+    else if (aValue > max) aValue = max;
 
     var places = this.decimalPlaces;
     aValue = places == Infinity ? "" + aValue : aValue.toFixed(places);
@@ -251,7 +237,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
     this._value = Number(aValue);
     this.inputField.value = aValue.replace(/\./, this.decimalSymbol);
 
-    if (!wrapAround) this._enableDisableButtons();
+    this._enableDisableButtons();
 
     return aValue;
   }

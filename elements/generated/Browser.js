@@ -690,18 +690,6 @@ class FirefoxBrowser extends XULElement {
     return this.docShell && this.docShell.isActive;
   }
 
-  set renderLayers(val) {
-    return (this.docShellIsActive = val);
-  }
-
-  get renderLayers() {
-    return this.docShellIsActive;
-  }
-
-  get hasLayers() {
-    return this.docShellIsActive;
-  }
-
   get imageDocument() {
     var document = this.contentDocument;
     if (

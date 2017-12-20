@@ -116,7 +116,7 @@ class FirefoxNotification extends XULElement {
     } else {
       var callback = button.callback;
       if (callback) {
-        var result = callback(this, button, aEvent.target);
+        var result = callback(this, button, aEvent.target, aEvent);
         if (!result) this.close();
         aEvent.stopPropagation();
       }

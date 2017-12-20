@@ -669,6 +669,16 @@ class FirefoxPlacesTree extends FirefoxTree {
       )
         index = ids.indexOf(PlacesUtils.asQuery(node).folderItemId);
 
+      if (index == -1) {
+        index = ids.indexOf(node.bookmarkGuid);
+        if (index == -1) {
+          let concreteGuid = PlacesUtils.getConcreteItemGuid(node);
+          if (concreteGuid != node.bookmarkGuid) {
+            index = ids.indexOf(concreteGuid);
+          }
+        }
+      }
+
       if (index != -1) {
         nodes.push(node);
         foundOne = true;

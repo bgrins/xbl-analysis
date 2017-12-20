@@ -170,6 +170,18 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
         return (this._contentRequestContextID = val);
       }
     });
+    Object.defineProperty(this, "_contentDocument", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._contentDocument;
+        return (this._contentDocument = null);
+      },
+      set(val) {
+        delete this._contentDocument;
+        return (this._contentDocument = val);
+      }
+    });
     Object.defineProperty(this, "_imageDocument", {
       configurable: true,
       enumerable: true,
@@ -442,7 +454,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   get contentDocumentAsCPOW() {
-    return this.contentWindowAsCPOW ? this.contentWindowAsCPOW.document : null;
+    return this._contentDocument;
   }
 
   get imageDocument() {
@@ -508,30 +520,6 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
   get docShellIsActive() {
     return this.frameLoader.tabParent.docShellIsActive;
-  }
-
-  set renderLayers(val) {
-    let { frameLoader } = this;
-    if (frameLoader && frameLoader.tabParent) {
-      return (frameLoader.tabParent.renderLayers = val);
-    }
-    return false;
-  }
-
-  get renderLayers() {
-    let { frameLoader } = this;
-    if (frameLoader && frameLoader.tabParent) {
-      return frameLoader.tabParent.renderLayers;
-    }
-    return false;
-  }
-
-  get hasLayers() {
-    let { frameLoader } = this;
-    if (frameLoader.tabParent) {
-      return frameLoader.tabParent.hasLayers;
-    }
-    return false;
   }
 
   get manifestURI() {
