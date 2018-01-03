@@ -2,17 +2,15 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `
-      <xul:stack>
-        <xul:vbox class="ctrlTab-preview-inner" align="center" pack="center" inherits="width=canvaswidth">
-          <xul:hbox class="tabPreview-canvas" inherits="style=canvasstyle">
-            <children></children>
-          </xul:hbox>
-          <xul:label inherits="value=label" crop="end" class="plain"></xul:label>
-        </xul:vbox>
+      <xul:vbox class="ctrlTab-preview-inner">
+        <xul:hbox class="ctrlTab-canvas" inherits="style=canvasstyle,width=canvaswidth">
+          <children></children>
+        </xul:hbox>
         <xul:hbox class="ctrlTab-favicon-container" inherits="hidden=noicon">
           <xul:image class="ctrlTab-favicon" inherits="src=image"></xul:image>
         </xul:hbox>
-      </xul:stack>
+        <xul:label class="ctrlTab-label plain" inherits="value=label" crop="end"></xul:label>
+      </xul:vbox>
     `;
 
     this.addEventListener("mouseover", event => {

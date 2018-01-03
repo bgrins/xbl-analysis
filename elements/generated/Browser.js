@@ -1526,7 +1526,7 @@ class FirefoxBrowser extends XULElement {
       top = {},
       width = {},
       height = {};
-    screen.GetAvailRectDisplayPix(left, top, width, height);
+    screen.GetAvailRect(left, top, width, height);
 
     // We need to get screen CSS-pixel (rather than display-pixel) coordinates.
     // With 175% DPI, the actual ratio of display pixels to CSS pixels is

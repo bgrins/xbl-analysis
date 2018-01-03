@@ -15,27 +15,54 @@ class FirefoxCustomizableuiToolbar extends XULElement {
 
     let scope = {};
     Cu.import("resource:///modules/CustomizableUI.jsm", scope);
+    let CustomizableUI = scope.CustomizableUI;
     // Add an early overflow event listener that will mark if the
     // toolbar overflowed during construction.
-    if (scope.CustomizableUI.isAreaOverflowable(this.id)) {
+    if (CustomizableUI.isAreaOverflowable(this.id)) {
       this.addEventListener("overflow", this);
       this.addEventListener("underflow", this);
     }
 
-    if (document.readyState == "complete") {
-      this._init();
-    } else {
-      // Need to wait until XUL overlays are loaded. See bug 554279.
-      let self = this;
-      document.addEventListener(
-        "readystatechange",
-        function onReadyStateChange() {
-          if (document.readyState != "complete") return;
-          document.removeEventListener("readystatechange", onReadyStateChange);
-          self._init();
+    // Bug 989289: Forcibly set the now unsupported "mode" and "iconsize"
+    // attributes, just in case they accidentally get restored from
+    // persistence from a user that's been upgrading and downgrading.
+    if (CustomizableUI.isBuiltinToolbar(this.id)) {
+      const kAttributes = new Map([["mode", "icons"], ["iconsize", "small"]]);
+      for (let [attribute, value] of kAttributes) {
+        if (this.getAttribute(attribute) != value) {
+          this.setAttribute(attribute, value);
+          document.persist(this.id, attribute);
         }
-      );
+        if (this.toolbox) {
+          if (this.toolbox.getAttribute(attribute) != value) {
+            this.toolbox.setAttribute(attribute, value);
+            document.persist(this.toolbox.id, attribute);
+          }
+        }
+      }
     }
+
+    // Searching for the toolbox palette in the toolbar binding because
+    // toolbars are constructed first.
+    let toolbox = this.toolbox;
+    if (toolbox && !toolbox.palette) {
+      for (let node of toolbox.children) {
+        if (node.localName == "toolbarpalette") {
+          // Hold on to the palette but remove it from the document.
+          toolbox.palette = node;
+          toolbox.removeChild(node);
+          break;
+        }
+      }
+    }
+
+    // pass the current set of children for comparison with placements:
+    let children = Array.from(this.childNodes)
+      .filter(
+        node => node.getAttribute("skipintoolbarset") != "true" && node.id
+      )
+      .map(node => node.id);
+    CustomizableUI.registerToolbarNode(this, children);
   }
 
   set toolbarName(val) {
@@ -147,52 +174,6 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     }
     let orderedPlacements = CustomizableUI.getWidgetIdsInArea(this.id);
     return orderedPlacements.filter(w => currentWidgets.has(w)).join(",");
-  }
-  _init() {
-    let scope = {};
-    Cu.import("resource:///modules/CustomizableUI.jsm", scope);
-    let CustomizableUI = scope.CustomizableUI;
-
-    // Bug 989289: Forcibly set the now unsupported "mode" and "iconsize"
-    // attributes, just in case they accidentally get restored from
-    // persistence from a user that's been upgrading and downgrading.
-    if (CustomizableUI.isBuiltinToolbar(this.id)) {
-      const kAttributes = new Map([["mode", "icons"], ["iconsize", "small"]]);
-      for (let [attribute, value] of kAttributes) {
-        if (this.getAttribute(attribute) != value) {
-          this.setAttribute(attribute, value);
-          document.persist(this.id, attribute);
-        }
-        if (this.toolbox) {
-          if (this.toolbox.getAttribute(attribute) != value) {
-            this.toolbox.setAttribute(attribute, value);
-            document.persist(this.toolbox.id, attribute);
-          }
-        }
-      }
-    }
-
-    // Searching for the toolbox palette in the toolbar binding because
-    // toolbars are constructed first.
-    let toolbox = this.toolbox;
-    if (toolbox && !toolbox.palette) {
-      for (let node of toolbox.children) {
-        if (node.localName == "toolbarpalette") {
-          // Hold on to the palette but remove it from the document.
-          toolbox.palette = node;
-          toolbox.removeChild(node);
-          break;
-        }
-      }
-    }
-
-    // pass the current set of children for comparison with placements:
-    let children = Array.from(this.childNodes)
-      .filter(
-        node => node.getAttribute("skipintoolbarset") != "true" && node.id
-      )
-      .map(node => node.id);
-    CustomizableUI.registerToolbarNode(this, children);
   }
   handleEvent(aEvent) {
     if (aEvent.type == "overflow" && aEvent.detail > 0) {
