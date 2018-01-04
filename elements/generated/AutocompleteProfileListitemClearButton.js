@@ -36,7 +36,7 @@ class FirefoxAutocompleteProfileListitemClearButton extends FirefoxAutocompleteP
     this.setAttribute("formautofillattached", "true");
 
     let clearFormBtnLabel = this._stringBundle.GetStringFromName(
-      "clearFormBtnLabel"
+      "clearFormBtnLabel2"
     );
     this._clearBtn.textContent = clearFormBtnLabel;
   }
