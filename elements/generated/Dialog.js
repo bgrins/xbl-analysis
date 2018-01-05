@@ -14,6 +14,9 @@ class FirefoxDialog extends FirefoxRootElement {
         <xul:button dlgtype="help" class="dialog-button" hidden="true"></xul:button>
         <xul:button dlgtype="disclosure" class="dialog-button" hidden="true"></xul:button>
       </xul:hbox>
+      <xul:keyset>
+        <xul:key phase="capturing" oncommand="document.documentElement.openHelp(event)" keycode="FROM-DTD-openHelp-commandkey"></xul:key>
+      </xul:keyset>
     `;
     Object.defineProperty(this, "_mStrBundle", {
       configurable: true,
@@ -205,6 +208,13 @@ class FirefoxDialog extends FirefoxRootElement {
 
     // Give focus after onload completes, see bug 103197.
     setTimeout(focusInit, 0);
+  }
+  openHelp(event) {
+    var helpButton = document.documentElement.getButton("help");
+    if (helpButton.disabled || helpButton.hidden) return;
+    this._fireButtonEvent("help");
+    event.stopPropagation();
+    event.preventDefault();
   }
   _configureButtons(aButtons) {
     // by default, get all the anonymous button elements

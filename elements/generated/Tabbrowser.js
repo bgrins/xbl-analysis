@@ -2987,11 +2987,14 @@ class FirefoxTabbrowser extends XULElement {
     // Also, we do not need to take care of attaching nsIFormFillControllers
     // in the case that the browser is remote, as remote browsers take
     // care of that themselves.
-    if (browser && this.hasAttribute("autocompletepopup")) {
-      browser.setAttribute(
-        "autocompletepopup",
-        this.getAttribute("autocompletepopup")
-      );
+    if (browser) {
+      browser.setAttribute("preloadedState", "consumed");
+      if (this.hasAttribute("autocompletepopup")) {
+        browser.setAttribute(
+          "autocompletepopup",
+          this.getAttribute("autocompletepopup")
+        );
+      }
     }
 
     return browser;
@@ -3084,8 +3087,23 @@ class FirefoxTabbrowser extends XULElement {
       );
     }
 
+    /*
+             * This attribute is meant to describe if the browser is the
+             * preloaded browser. There are 2 defined states: "preloaded" or
+             * "consumed". The order of events goes as follows:
+             *   1. The preloaded browser is created and the 'preloadedState'
+             *      attribute for that browser is set to "preloaded".
+             *   2. When a new tab is opened and it is time to show that
+             *      preloaded browser, the 'preloadedState' attribute for that
+             *      browser is set to "consumed"
+             *   3. When we then navigate away from about:newtab, the "consumed"
+             *      browsers will attempt to switch to a new content process,
+             *      therefore the 'preloadedState' attribute is removed from
+             *      that browser altogether
+             * See more details on Bug 1420285.
+             */
     if (aParams.isPreloadBrowser) {
-      b.setAttribute("isPreloadBrowser", "true");
+      b.setAttribute("preloadedState", "preloaded");
     }
 
     if (this.hasAttribute("selectmenulist"))
