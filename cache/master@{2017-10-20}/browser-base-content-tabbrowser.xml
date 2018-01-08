@@ -1010,14 +1010,14 @@
               if (sizedIconUrl) {
                 if (!browser.mIconLoadingPrincipal ||
                     !browser.mIconLoadingPrincipal.equals(loadingPrincipal)) {
-                  aTab.setAttribute("iconLoadingPrincipal",
+                  aTab.setAttribute("iconloadingprincipal",
                     this.serializationHelper.serializeToString(loadingPrincipal));
                   aTab.setAttribute("requestcontextid", requestContextID);
                   browser.mIconLoadingPrincipal = loadingPrincipal;
                 }
                 aTab.setAttribute("image", sizedIconUrl);
               } else {
-                aTab.removeAttribute("iconLoadingPrincipal");
+                aTab.removeAttribute("iconloadingprincipal");
                 delete browser.mIconLoadingPrincipal;
                 aTab.removeAttribute("image");
               }
@@ -1625,6 +1625,15 @@
                   const textToSubURI = Components.classes["@mozilla.org/intl/texttosuburi;1"]
                                                  .getService(Components.interfaces.nsITextToSubURI);
                   title = textToSubURI.unEscapeNonAsciiURI(characterSet, title);
+                  // If it's a long data: URI that uses base64 encoding, truncate to
+                  // a reasonable length rather than trying to display the entire thing.
+                  // We can't shorten arbitrary URIs like this, as bidi etc might mean
+                  // we need the trailing characters for display. But a base64-encoded
+                  // data-URI is plain ASCII, so this is OK for tab-title display.
+                  // (See bug 1408854.)
+                  if (title.length > 500 && title.match(/^data:[^,]+;base64,/)) {
+                    title = title.substring(0, 500) + "\u2026";
+                  }
                 } catch (ex) { /* Do nothing. */ }
               } else {
                 // Still no title? Fall back to our untitled string.
@@ -7760,7 +7769,7 @@
                     anonid="tab-throbber"
                     class="tab-throbber"
                     layer="true"/>
-          <xul:image xbl:inherits="src=image,loadingprincipal=iconLoadingPrincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing"
+          <xul:image xbl:inherits="src=image,loadingprincipal=iconloadingprincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing"
                      anonid="tab-icon-image"
                      class="tab-icon-image"
                      validate="never"
@@ -8249,8 +8258,10 @@
 
           if (aTab.hasAttribute("busy")) {
             aMenuitem.setAttribute("busy", aTab.getAttribute("busy"));
+            aMenuitem.removeAttribute("iconloadingprincipal");
             aMenuitem.removeAttribute("image");
           } else {
+            aMenuitem.setAttribute("iconloadingprincipal", aTab.getAttribute("iconloadingprincipal"));
             aMenuitem.setAttribute("image", aTab.getAttribute("image"));
             aMenuitem.removeAttribute("busy");
           }

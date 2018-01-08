@@ -1,9 +1,9 @@
-Fetched from http://queue.taskcluster.net/v1/task/awwjZ2LxRymEcb9kQkJ3tg/artifacts/public/test_info/xulsummary.txt
+Fetched from http://queue.taskcluster.net/v1/task/PEyv_jdZRQav1tj2bh98Ug/artifacts/public/test_info/xulsummary.txt
 
 Elements in namespace http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul
   994   label
   532   hbox
-  526   image
+  525   image
   242   menuitem
   154   spacer
   134   autorepeatbutton
@@ -89,7 +89,7 @@ Elements in namespace null
   2     _moz_generated_content_after
   1     _moz_generated_content_before
 XBL bindings
-  1978  null
+  1977  null
   829   url("chrome://global/content/bindings/text.xml#text-label")
   216   url("chrome://global/content/bindings/menu.xml#menuitem")
   134   url("chrome://global/content/bindings/scrollbox.xml#autorepeatbutton")

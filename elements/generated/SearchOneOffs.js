@@ -812,9 +812,9 @@ class FirefoxSearchOneOffs extends XULElement {
 
     if (tooManyEngines) {
       // Make the top-level menu button.
-      let button = document.createElementNS(kXULNS, "button");
+      let button = document.createElementNS(kXULNS, "toolbarbutton");
       list.appendChild(button);
-      button.classList.add("addengine-item");
+      button.classList.add("addengine-item", "badged-button");
       button.setAttribute("anonid", "addengine-menu-button");
       button.setAttribute("type", "menu");
       button.setAttribute(
@@ -858,10 +858,13 @@ class FirefoxSearchOneOffs extends XULElement {
     // menupopup created earlier.  In the latter case, create menuitem
     // elements instead of buttons, because buttons don't get keyboard
     // handling for free inside menupopups.
-    let eltType = tooManyEngines ? "menuitem" : "button";
+    let eltType = tooManyEngines ? "menuitem" : "toolbarbutton";
     for (let engine of engines) {
       let button = document.createElementNS(kXULNS, eltType);
       button.classList.add("addengine-item");
+      if (!tooManyEngines) {
+        button.classList.add("badged-button");
+      }
       button.id =
         this.telemetryOrigin +
         "-add-engine-" +
