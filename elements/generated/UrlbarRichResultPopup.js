@@ -14,7 +14,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
               <html:span></html:span>
             </xul:description>
           </xul:hbox>
-          <xul:label id="search-suggestions-change-settings" class="text-link" role="link" value="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin" accesskey="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin-accesskey" onclick="openPreferences('paneSearch');" control="search-suggestions-change-settings"></xul:label>
+          <xul:label id="search-suggestions-change-settings" class="text-link" role="link" value="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin" accesskey="FROM-DTD-urlbar-searchSuggestionsNotification-changeSettingsWin-accesskey" onclick="openPreferences('paneSearch', {origin: 'searchChangeSettings'});" control="search-suggestions-change-settings"></xul:label>
         </xul:hbox>
       </xul:deck>
       <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></xul:richlistbox>

@@ -81,7 +81,8 @@ function mapToObj(map) {
   return obj;
 }
 
-revs = revs.filter((r,i) => (i%2) == 0);
+// Show even days plus today
+revs = revs.filter((r,i) => (i%2) == 0 || i == revs.length - 1);
 
 processSequential(revs, countForRev).then(() => {
   let inOrder = {};
