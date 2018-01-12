@@ -19,7 +19,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
             <xul:label class="tab-text tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation"></xul:label>
           </xul:hbox>
           <xul:image inherits="soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="soundplaying-icon" class="tab-icon-sound" role="presentation"></xul:image>
-          <xul:toolbarbutton anonid="close-button" inherits="fadein,pinned,selected=visuallyselected" class="tab-close-button close-icon"></xul:toolbarbutton>
+          <xul:image anonid="close-button" inherits="fadein,pinned,selected=visuallyselected" class="tab-close-button close-icon" role="presentation"></xul:image>
         </xul:hbox>
       </xul:stack>
     `;

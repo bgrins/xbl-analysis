@@ -1,7 +1,5 @@
-class FirefoxTabbrowserCloseTabButton extends FirefoxToolbarbuttonImage {
+class FirefoxTabbrowserCloseTabButton extends XULElement {
   connectedCallback() {
-    super.connectedCallback();
-
     this.addEventListener("click", event => {
       var bindingParent = document.getBindingParent(this);
       var tabContainer = bindingParent.parentNode;
