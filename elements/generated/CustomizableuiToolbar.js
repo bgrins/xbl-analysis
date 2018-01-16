@@ -23,25 +23,6 @@ class FirefoxCustomizableuiToolbar extends XULElement {
       this.addEventListener("underflow", this);
     }
 
-    // Bug 989289: Forcibly set the now unsupported "mode" and "iconsize"
-    // attributes, just in case they accidentally get restored from
-    // persistence from a user that's been upgrading and downgrading.
-    if (CustomizableUI.isBuiltinToolbar(this.id)) {
-      const kAttributes = new Map([["mode", "icons"], ["iconsize", "small"]]);
-      for (let [attribute, value] of kAttributes) {
-        if (this.getAttribute(attribute) != value) {
-          this.setAttribute(attribute, value);
-          document.persist(this.id, attribute);
-        }
-        if (this.toolbox) {
-          if (this.toolbox.getAttribute(attribute) != value) {
-            this.toolbox.setAttribute(attribute, value);
-            document.persist(this.toolbox.id, attribute);
-          }
-        }
-      }
-    }
-
     // Searching for the toolbox palette in the toolbar binding because
     // toolbars are constructed first.
     let toolbox = this.toolbox;
@@ -94,9 +75,6 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     if (toolboxId) {
       let toolbox = document.getElementById(toolboxId);
       if (toolbox) {
-        if (toolbox.externalToolbars.indexOf(this) == -1)
-          toolbox.externalToolbars.push(this);
-
         this._toolbox = toolbox;
       }
     }

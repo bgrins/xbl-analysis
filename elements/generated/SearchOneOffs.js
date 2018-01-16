@@ -688,11 +688,15 @@ class FirefoxSearchOneOffs extends XULElement {
 
     let engines = this.engines;
     let oneOffCount = engines.length;
+    let collapsed =
+      !oneOffCount ||
+      (oneOffCount == 1 &&
+        engines[0].name == Services.search.currentEngine.name);
 
     // header is a xul:deck so collapsed doesn't work on it, see bug 589569.
-    this.header.hidden = this.buttons.collapsed = !oneOffCount;
+    this.header.hidden = this.buttons.collapsed = collapsed;
 
-    if (!oneOffCount) return;
+    if (collapsed) return;
 
     let panelWidth = parseInt(this.popup.clientWidth);
 
@@ -1042,6 +1046,7 @@ class FirefoxSearchOneOffs extends XULElement {
     }
   }
   _handleKeyPress(event, numListItems, allowEmptySelection, textboxUserValue) {
+    if (this.compact && this.buttons.collapsed) return false;
     if (
       event.keyCode == KeyEvent.DOM_VK_RIGHT &&
       this.selectedButton &&

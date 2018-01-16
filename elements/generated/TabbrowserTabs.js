@@ -392,7 +392,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
       if (event.button != 0 || event.originalTarget.localName != "box") return;
 
-      // See hack note in the tabbrowser-close-tab-button binding
       if (!this._blockDblClick) BrowserOpenTab();
 
       event.preventDefault();
@@ -442,8 +441,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
          * double-clicks the button, the dblclick event will be dispatched
          * with the tabbar as its event target (and explicit/originalTarget),
          * which treats that as a mouse gesture for opening a new tab.
-         * In this context, we're manually blocking the dblclick event
-         * (see tabbrowser-close-tab-button dblclick handler).
+         * In this context, we're manually blocking the dblclick event.
          */
         if (this._blockDblClick) {
           if (!("_clickedTabBarOnce" in this)) {

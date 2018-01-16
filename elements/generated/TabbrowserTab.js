@@ -65,15 +65,17 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     }
 
     this.addEventListener("mouseover", event => {
-      let anonid = event.originalTarget.getAttribute("anonid");
-      if (anonid == "close-button") this.mOverCloseButton = true;
+      if (event.originalTarget.getAttribute("anonid") == "close-button") {
+        this.mOverCloseButton = true;
+      }
 
       this._mouseenter();
     });
 
     this.addEventListener("mouseout", event => {
-      let anonid = event.originalTarget.getAttribute("anonid");
-      if (anonid == "close-button") this.mOverCloseButton = false;
+      if (event.originalTarget.getAttribute("anonid") == "close-button") {
+        this.mOverCloseButton = false;
+      }
 
       this._mouseleave();
     });
@@ -85,6 +87,12 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       },
       true
     );
+
+    this.addEventListener("dragstart", event => {
+      if (this.mOverCloseButton) {
+        event.stopPropagation();
+      }
+    });
 
     this.addEventListener(
       "mousedown",
@@ -104,18 +112,36 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     });
 
     this.addEventListener("click", event => {
-      if (event.button != 0) {
+      if (this._overPlayingIcon) {
+        this.toggleMuteAudio();
         return;
       }
 
-      if (this._overPlayingIcon) {
-        this.toggleMuteAudio();
+      if (event.originalTarget.getAttribute("anonid") == "close-button") {
+        let tabContainer = this.parentNode;
+        tabContainer.tabbrowser.removeTab(this, {
+          animate: true,
+          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE
+        });
+        // This enables double-click protection for the tab container
+        // (see tabbrowser-tabs 'click' handler).
+        tabContainer._blockDblClick = true;
       }
     });
 
+    this.addEventListener(
+      "dblclick",
+      event => {
+        // for the one-close-button case
+        if (event.originalTarget.getAttribute("anonid") == "close-button") {
+          event.stopPropagation();
+        }
+      },
+      true
+    );
+
     this.addEventListener("animationend", event => {
-      let anonid = event.originalTarget.getAttribute("anonid");
-      if (anonid == "tab-loading-burst") {
+      if (event.originalTarget.getAttribute("anonid") == "tab-loading-burst") {
         this.removeAttribute("bursting");
       }
     });
