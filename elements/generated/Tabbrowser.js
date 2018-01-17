@@ -4246,8 +4246,10 @@ class FirefoxTabbrowser extends XULElement {
     if (aCloseWindow)
       this._windowIsClosing = closeWindow(true, window.warnAboutClosingWindow);
   }
-  _blurTab(aTab) {
-    if (!aTab.selected) return;
+  _findTabToBlurTo(aTab) {
+    if (!aTab.selected) {
+      return null;
+    }
 
     if (
       aTab.owner &&
@@ -4255,8 +4257,7 @@ class FirefoxTabbrowser extends XULElement {
       !aTab.owner.closing &&
       Services.prefs.getBoolPref("browser.tabs.selectOwnerOnClose")
     ) {
-      this.selectedTab = aTab.owner;
-      return;
+      return aTab.owner;
     }
 
     // Switch to a visible tab unless there aren't any others remaining
@@ -4273,7 +4274,7 @@ class FirefoxTabbrowser extends XULElement {
     }
 
     // Try to find a remaining tab that comes after the given tab
-    var tab = aTab;
+    let tab = aTab;
     do {
       tab = tab.nextSibling;
     } while (tab && remainingTabs.indexOf(tab) == -1);
@@ -4286,7 +4287,10 @@ class FirefoxTabbrowser extends XULElement {
       } while (tab && remainingTabs.indexOf(tab) == -1);
     }
 
-    this.selectedTab = tab;
+    return tab;
+  }
+  _blurTab(aTab) {
+    this.selectedTab = this._findTabToBlurTo(aTab);
   }
   swapBrowsersAndCloseOther(aOurTab, aOtherTab) {
     // Do not allow transfering a private tab to a non-private window
@@ -5659,6 +5663,10 @@ class FirefoxTabbrowser extends XULElement {
 
       canWarmTab(tab) {
         if (!this.tabbrowser.tabWarmingEnabled) {
+          return false;
+        }
+
+        if (!tab) {
           return false;
         }
 

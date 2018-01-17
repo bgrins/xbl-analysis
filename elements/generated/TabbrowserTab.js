@@ -273,7 +273,12 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 
     // Prepare connection to host beforehand.
     SessionStore.speculativeConnectOnTabHover(this);
-    tabContainer.tabbrowser.warmupTab(this);
+
+    let tabToWarm = this;
+    if (this.mOverCloseButton) {
+      tabToWarm = tabContainer.tabbrowser._findTabToBlurTo(this);
+    }
+    tabContainer.tabbrowser.warmupTab(tabToWarm);
   }
   _mouseleave() {
     let tabContainer = this.parentNode;

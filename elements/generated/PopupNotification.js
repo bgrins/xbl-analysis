@@ -7,7 +7,11 @@ class FirefoxPopupNotification extends XULElement {
           <xul:hbox align="start">
             <xul:vbox flex="1">
               <xul:label class="popup-notification-origin header" inherits="value=origin,tooltiptext=origin" crop="center"></xul:label>
-              <xul:description class="popup-notification-description" inherits="text=label,popupid"></xul:description>
+              <xul:description>
+                <html:span inherits="text=startlabel,popupid"></html:span>
+                <html:b inherits="text=hostname,popupid"></html:b>
+                <html:span inherits="text=endlabel,popupid"></html:span>
+              </xul:description>
             </xul:vbox>
             <xul:toolbarbutton anonid="closebutton" class="messageCloseButton close-icon popup-notification-closebutton tabbable" inherits="oncommand=closebuttoncommand,hidden=closebuttonhidden" tooltiptext="FROM-DTD-closeNotification-tooltip"></xul:toolbarbutton>
           </xul:hbox>
