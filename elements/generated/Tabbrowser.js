@@ -2450,6 +2450,14 @@ class FirefoxTabbrowser extends XULElement {
     if (aBrowser == this.mCurrentBrowser)
       gIdentityHandler.updateSharingIndicator();
   }
+  getTabSharingState(aTab) {
+    // Normalize the state object for consumers (ie.extensions).
+    let state = Object.assign({}, aTab._sharingState);
+    // ensure bool if undefined
+    state.camera = !!state.camera;
+    state.microphone = !!state.microphone;
+    return state;
+  }
   setTabTitleLoading(aTab) {}
   setInitialTabTitle(aTab, aTitle, aOptions) {
     if (aTitle) {
@@ -4630,7 +4638,13 @@ class FirefoxTabbrowser extends XULElement {
     }
   }
   hideTab(aTab) {
-    if (!aTab.hidden && !aTab.pinned && !aTab.selected && !aTab.closing) {
+    if (
+      !aTab.hidden &&
+      !aTab.pinned &&
+      !aTab.selected &&
+      !aTab.closing &&
+      !aTab._sharingState
+    ) {
       aTab.setAttribute("hidden", "true");
       this._visibleTabs = null; // invalidate cache
 

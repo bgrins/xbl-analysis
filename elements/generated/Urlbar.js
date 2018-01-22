@@ -1270,7 +1270,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     return aURI;
   }
   _getSelectedValueForClipboard() {
-    // Grab the actual input field's value, not our value, which could include moz-action:
+    // Grab the actual input field's value, not our value, which could
+    // include "moz-action:".
     var inputVal = this.inputField.value;
     let selection = this.editor.selection;
     const flags =
@@ -1285,8 +1286,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       return selectedVal;
     }
 
-    // If the selection doesn't start at the beginning or doesn't span the full domain or
-    // the URL bar is modified or there is no text at all, nothing else to do here.
+    // If the selection doesn't start at the beginning or doesn't span the
+    // full domain or the URL bar is modified or there is no text at all,
+    // nothing else to do here.
     if (this.selectionStart > 0 || this.valueIsTyped || selectedVal == "")
       return selectedVal;
     // The selection doesn't span the full domain if it doesn't contain a slash and is
@@ -1295,6 +1297,10 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       let remainder = inputVal.replace(selectedVal, "");
       if (remainder != "" && remainder[0] != "/") return selectedVal;
     }
+
+    // If the value was filled by a search suggestion, just return it.
+    let action = this._parseActionUrl(this.value);
+    if (action && action.type == "searchengine") return selectedVal;
 
     let uriFixup = Cc["@mozilla.org/docshell/urifixup;1"].getService(
       Ci.nsIURIFixup
