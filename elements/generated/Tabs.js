@@ -27,11 +27,6 @@ class FirefoxTabs extends FirefoxBasecontrol {
       }
     });
 
-    // first and last tabs need to be able to have unique styles
-    // and also need to select first tab on startup.
-    if (this.firstChild) this.firstChild.setAttribute("first-tab", "true");
-    if (this.lastChild) this.lastChild.setAttribute("last-tab", "true");
-
     if (!this.hasAttribute("orient")) this.setAttribute("orient", "horizontal");
 
     if (this.tabbox && this.tabbox.hasAttribute("selectedIndex")) {

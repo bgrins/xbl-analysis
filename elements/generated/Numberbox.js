@@ -43,26 +43,11 @@ class FirefoxNumberbox extends FirefoxTextbox {
         return (this._value = val);
       }
     });
-    Object.defineProperty(this, "decimalSymbol", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.decimalSymbol;
-        return (this.decimalSymbol = ".");
-      },
-      set(val) {
-        delete this.decimalSymbol;
-        return (this.decimalSymbol = val);
-      }
-    });
 
     if (this.max < this.min) this.max = this.min;
 
-    var dsymbol = Number(5.4).toLocaleString().match(/\D/);
-    if (dsymbol != null) this.decimalSymbol = dsymbol[0];
-
     var value = this.inputField.value || 0;
-    this._validateValue(value, false);
+    this._validateValue(value);
 
     this.addEventListener(
       "input",
@@ -74,13 +59,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
 
     this.addEventListener("keypress", event => {
       if (!event.ctrlKey && !event.metaKey && !event.altKey && event.charCode) {
-        if (
-          event.charCode == this.decimalSymbol.charCodeAt(0) &&
-          this.decimalPlaces &&
-          String(this.inputField.value).indexOf(this.decimalSymbol) == -1
-        )
-          return;
-
         if (event.charCode == 45 && this.min < 0) return;
 
         if (event.charCode < 48 || event.charCode > 57) event.preventDefault();
@@ -106,8 +84,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
     this.addEventListener("change", event => {
       if (event.originalTarget == this.inputField) {
         var newval = this.inputField.value;
-        newval = newval.replace(this.decimalSymbol, ".");
-        this._validateValue(newval, false);
+        this._validateValue(newval);
       }
     });
   }
@@ -131,15 +108,14 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
 
   set valueNumber(val) {
-    this._validateValue(val, false);
+    this._validateValue(val);
     return val;
   }
 
   get valueNumber() {
     if (this._valueEntered) {
       var newval = this.inputField.value;
-      newval = newval.replace(this.decimalSymbol, ".");
-      this._validateValue(newval, false);
+      this._validateValue(newval);
     }
     return this._value;
   }
@@ -147,7 +123,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
   set min(val) {
     if (typeof val == "number") {
       this.setAttribute("min", val);
-      if (this.valueNumber < val) this._validateValue(val, false);
+      if (this.valueNumber < val) this._validateValue(val);
     }
     return val;
   }
@@ -162,7 +138,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
     var min = this.min;
     if (val < min) val = min;
     this.setAttribute("max", val);
-    if (this.valueNumber > val) this._validateValue(val, false);
+    if (this.valueNumber > val) this._validateValue(val);
     return val;
   }
 
@@ -170,46 +146,17 @@ class FirefoxNumberbox extends FirefoxTextbox {
     var max = this.getAttribute("max");
     return max ? Number(max) : Infinity;
   }
-
-  set decimalPlaces(val) {
-    if (typeof val == "number") {
-      this.setAttribute("decimalplaces", val);
-      this._validateValue(this.valueNumber, false);
-    }
-    return val;
-  }
-
-  get decimalPlaces() {
-    var places = this.getAttribute("decimalplaces");
-    return places ? Number(places) : 0;
-  }
-
-  set increment(val) {
-    if (typeof val == "number") this.setAttribute("increment", val);
-    return val;
-  }
-
-  get increment() {
-    var increment = this.getAttribute("increment");
-    return increment ? Number(increment) : 1;
-  }
-  decrease() {
-    return this._validateValue(this.valueNumber - this.increment, true);
-  }
-  increase() {
-    return this._validateValue(this.valueNumber + this.increment, true);
-  }
   _modifyUp() {
     if (this.disabled || this.readOnly) return;
     var oldval = this.valueNumber;
-    var newval = this.increase();
+    var newval = this._validateValue(this.valueNumber + 1);
     this.inputField.select();
     if (oldval != newval) this._fireChange();
   }
   _modifyDown() {
     if (this.disabled || this.readOnly) return;
     var oldval = this.valueNumber;
-    var newval = this.decrease();
+    var newval = this._validateValue(this.valueNumber - 1);
     this.inputField.select();
     if (oldval != newval) this._fireChange();
   }
@@ -222,20 +169,18 @@ class FirefoxNumberbox extends FirefoxTextbox {
       buttons.increaseDisabled = this.valueNumber >= this.max;
     }
   }
-  _validateValue(aValue, aIsIncDec) {
+  _validateValue(aValue) {
     aValue = Number(aValue) || 0;
+    aValue = Math.round(aValue);
 
     var min = this.min;
     var max = this.max;
     if (aValue < min) aValue = min;
     else if (aValue > max) aValue = max;
 
-    var places = this.decimalPlaces;
-    aValue = places == Infinity ? "" + aValue : aValue.toFixed(places);
-
     this._valueEntered = false;
     this._value = Number(aValue);
-    this.inputField.value = aValue.replace(/\./, this.decimalSymbol);
+    this.inputField.value = aValue;
 
     this._enableDisableButtons();
 

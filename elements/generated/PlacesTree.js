@@ -523,7 +523,7 @@ class FirefoxPlacesTree extends FirefoxTree {
       for (var i = parents.length - 1; i >= 0; --i) {
         let index = view.treeIndexForNode(parents[i]);
         if (
-          index != Ci.nsINavHistoryResultTreeViewer.INDEX_INVISIBLE &&
+          index != -1 &&
           view.isContainer(index) &&
           !view.isContainerOpen(index)
         )
@@ -533,7 +533,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     }
 
     let index = view.treeIndexForNode(node);
-    if (index == Ci.nsINavHistoryResultTreeViewer.INDEX_INVISIBLE) return;
+    if (index == -1) return;
 
     view.selection.select(index);
     // ... and ensure it's visible, not scrolled off somewhere.
@@ -739,7 +739,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     }
     for (let i = 0; i < nodes.length; i++) {
       var index = resultview.treeIndexForNode(nodes[i]);
-      if (index == Ci.nsINavHistoryResultTreeViewer.INDEX_INVISIBLE) continue;
+      if (index == -1) continue;
       selection.rangedSelect(index, index, true);
     }
     selection.selectEventsSuppressed = false;

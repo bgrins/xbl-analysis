@@ -152,8 +152,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     else this.removeAttribute("visuallyselected");
     this.parentNode.tabbrowser._tabAttrModified(this, ["visuallyselected"]);
 
-    this._setPositionAttributes(val);
-
     return val;
   }
 
