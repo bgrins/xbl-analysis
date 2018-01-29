@@ -555,6 +555,12 @@ class FirefoxTabbrowser extends XULElement {
 
     if (Services.prefs.getBoolPref("browser.display.use_system_colors"))
       this.style.backgroundColor = "-moz-default-background-color";
+    else if (
+      Services.prefs.getIntPref("browser.display.document_color_use") == 2
+    )
+      this.style.backgroundColor = Services.prefs.getCharPref(
+        "browser.display.background_color"
+      );
 
     let messageManager = window.getGroupMessageManager("browsers");
 
@@ -3379,6 +3385,13 @@ class FirefoxTabbrowser extends XULElement {
 
     this._tabListeners.delete(tab);
     this._tabFilters.delete(tab);
+
+    // Reset the findbar and remove it if it is attached to the tab.
+    if (tab._findBar) {
+      tab._findBar.close(true);
+      tab._findBar.remove();
+      delete tab._findBar;
+    }
 
     aBrowser.destroy();
 

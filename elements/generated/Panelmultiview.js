@@ -15,7 +15,8 @@ class FirefoxPanelmultiview extends XULElement {
       "resource:///modules/PanelMultiView.jsm",
       {}
     );
-    this.instance = new PanelMultiView(this);
+    this.instance = PanelMultiView.forNode(this);
+    this.instance.connect();
   }
   disconnectedCallback() {
     this.instance.destructor();
