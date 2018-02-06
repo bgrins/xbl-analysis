@@ -20,7 +20,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       enumerable: true,
       get() {
         delete this.ExtensionSearchHandler;
-        return (this.ExtensionSearchHandler = Components.utils.import(
+        return (this.ExtensionSearchHandler = ChromeUtils.import(
           "resource://gre/modules/ExtensionSearchHandler.jsm",
           {}
         ).ExtensionSearchHandler);

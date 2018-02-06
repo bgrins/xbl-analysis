@@ -17,7 +17,7 @@ class FirefoxWindowdragbox extends XULElement {
       this._draggableStarted = true;
       try {
         let tmp = {};
-        Components.utils.import(
+        ChromeUtils.import(
           "resource://gre/modules/WindowDraggingUtils.jsm",
           tmp
         );

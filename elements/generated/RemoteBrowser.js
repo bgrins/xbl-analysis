@@ -303,7 +303,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this._remoteWebNavigationImpl.swapBrowser(this);
 
     // Initialize contentPrincipal to the about:blank principal for this loadcontext
-    let { Services } = Components.utils.import(
+    let { Services } = ChromeUtils.import(
       "resource://gre/modules/Services.jsm",
       {}
     );
@@ -365,7 +365,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       if (!this.messageManager) return null;
 
       let jsm = "resource://gre/modules/RemoteSecurityUI.jsm";
-      let RemoteSecurityUI = Components.utils.import(jsm, {}).RemoteSecurityUI;
+      let RemoteSecurityUI = ChromeUtils.import(jsm, {}).RemoteSecurityUI;
       this._securityUI = new RemoteSecurityUI();
     }
 
@@ -388,7 +388,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       if (!this.messageManager) return null;
 
       let jsm = "resource://gre/modules/RemoteWebProgress.jsm";
-      let { RemoteWebProgressManager } = Components.utils.import(jsm, {});
+      let { RemoteWebProgressManager } = ChromeUtils.import(jsm, {});
       this._remoteWebProgressManager = new RemoteWebProgressManager(this);
       this._remoteWebProgress = this._remoteWebProgressManager.topLevelWebProgress;
     }
@@ -402,7 +402,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       if (!this.messageManager) return null;
 
       let jsm = "resource://gre/modules/RemoteFinder.jsm";
-      let { RemoteFinder } = Components.utils.import(jsm, {});
+      let { RemoteFinder } = ChromeUtils.import(jsm, {});
       this._remoteFinder = new RemoteFinder(this);
     }
     return this._remoteFinder;
@@ -583,10 +583,8 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     let permitUnload;
     let id = this._permitUnloadId++;
     let mm = this.messageManager;
-    let Services = Components.utils.import(
-      "resource://gre/modules/Services.jsm",
-      {}
-    ).Services;
+    let Services = ChromeUtils.import("resource://gre/modules/Services.jsm", {})
+      .Services;
 
     let msgListener = msg => {
       if (msg.data.id != id) {
@@ -657,7 +655,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     }
 
     if (!this.hasAttribute("disablehistory")) {
-      let Services = Components.utils.import(
+      let Services = ChromeUtils.import(
         "resource://gre/modules/Services.jsm",
         {}
       ).Services;
@@ -686,7 +684,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
       case "Forms:ShowDropDown": {
         if (!this._selectParentHelper) {
-          this._selectParentHelper = Cu.import(
+          this._selectParentHelper = ChromeUtils.import(
             "resource://gre/modules/SelectParentHelper.jsm",
             {}
           ).SelectParentHelper;

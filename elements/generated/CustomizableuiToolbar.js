@@ -14,7 +14,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     });
 
     let scope = {};
-    Cu.import("resource:///modules/CustomizableUI.jsm", scope);
+    ChromeUtils.import("resource:///modules/CustomizableUI.jsm", scope);
     let CustomizableUI = scope.CustomizableUI;
     // Add an early overflow event listener that will mark if the
     // toolbar overflowed during construction.

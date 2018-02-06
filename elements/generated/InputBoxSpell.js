@@ -94,14 +94,14 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
       this._spellCheckInitialized = true;
 
       const CI = Components.interfaces;
-      if (!(document instanceof CI.nsIDOMXULDocument)) return null;
+      if (ChromeUtils.getClassName(document) != "XULDocument") return null;
 
       var textbox = document.getBindingParent(this);
       if (!textbox || !(textbox instanceof CI.nsIDOMXULTextBoxElement))
         return null;
 
       try {
-        Components.utils.import(
+        ChromeUtils.import(
           "resource://gre/modules/InlineSpellChecker.jsm",
           this
         );

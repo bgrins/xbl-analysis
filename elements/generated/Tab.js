@@ -130,7 +130,7 @@ class FirefoxTab extends FirefoxBasetext {
 
   get TelemetryStopwatch() {
     let module = {};
-    Cu.import("resource://gre/modules/TelemetryStopwatch.jsm", module);
+    ChromeUtils.import("resource://gre/modules/TelemetryStopwatch.jsm", module);
     Object.defineProperty(this, "TelemetryStopwatch", {
       configurable: true,
       enumerable: true,

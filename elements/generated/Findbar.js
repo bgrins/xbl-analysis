@@ -388,7 +388,7 @@ class FirefoxFindbar extends FirefoxToolbar {
 
   get pluralForm() {
     if (!this._pluralForm) {
-      this._pluralForm = Components.utils.import(
+      this._pluralForm = ChromeUtils.import(
         "resource://gre/modules/PluralForm.jsm",
         {}
       ).PluralForm;
@@ -915,7 +915,7 @@ class FirefoxFindbar extends FirefoxToolbar {
       );
     }
 
-    let { PromiseUtils } = Components.utils.import(
+    let { PromiseUtils } = ChromeUtils.import(
       "resource://gre/modules/PromiseUtils.jsm",
       {}
     );

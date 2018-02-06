@@ -22,7 +22,7 @@ class FirefoxAutocompleteProfileListitemClearButton extends FirefoxAutocompleteP
 
     this.addEventListener("click", event => {
       /* global Cu */
-      let { AutoCompletePopup } = Cu.import(
+      let { AutoCompletePopup } = ChromeUtils.import(
         "resource://gre/modules/AutoCompletePopup.jsm",
         {}
       );

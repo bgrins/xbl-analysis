@@ -99,7 +99,7 @@ class FirefoxSearchbar extends XULElement {
       enumerable: true,
       get() {
         delete this.FormHistory;
-        return (this.FormHistory = Components.utils.import(
+        return (this.FormHistory = ChromeUtils.import(
           "resource://gre/modules/FormHistory.jsm",
           {}
         ).FormHistory);

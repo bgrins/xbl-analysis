@@ -223,7 +223,7 @@ class FirefoxTabmodalprompt extends XULElement {
         let bnum = this.args.defaultButtonNum || 0;
         let defaultButton = this.ui["button" + bnum];
 
-        let { AppConstants } = Components.utils.import(
+        let { AppConstants } = ChromeUtils.import(
           "resource://gre/modules/AppConstants.jsm",
           {}
         );
@@ -284,7 +284,7 @@ class FirefoxTabmodalprompt extends XULElement {
     // a "pagehide" event.
 
     let tmp = {};
-    Components.utils.import("resource://gre/modules/CommonDialog.jsm", tmp);
+    ChromeUtils.import("resource://gre/modules/CommonDialog.jsm", tmp);
     this.Dialog = new tmp.CommonDialog(args, this.ui);
     this.Dialog.onLoad(null);
 

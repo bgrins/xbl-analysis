@@ -15,7 +15,7 @@ class FirefoxRootElement extends XULElement {
 
     if (this.hasAttribute("lightweightthemes")) {
       let temp = {};
-      Components.utils.import(
+      ChromeUtils.import(
         "resource://gre/modules/LightweightThemeConsumer.jsm",
         temp
       );

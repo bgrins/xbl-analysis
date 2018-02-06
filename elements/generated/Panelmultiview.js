@@ -11,7 +11,7 @@ class FirefoxPanelmultiview extends XULElement {
       </xul:box>
     `;
 
-    const { PanelMultiView } = Components.utils.import(
+    const { PanelMultiView } = ChromeUtils.import(
       "resource:///modules/PanelMultiView.jsm",
       {}
     );

@@ -436,7 +436,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
 
   get PrivateBrowsingUtils() {
     let module = {};
-    Components.utils.import(
+    ChromeUtils.import(
       "resource://gre/modules/PrivateBrowsingUtils.jsm",
       module
     );

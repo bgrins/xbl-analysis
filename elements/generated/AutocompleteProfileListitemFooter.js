@@ -112,7 +112,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
     this._adjustAutofillItemLayout();
     this.setAttribute("formautofillattached", "true");
 
-    let { AppConstants } = Cu.import(
+    let { AppConstants } = ChromeUtils.import(
       "resource://gre/modules/AppConstants.jsm",
       {}
     );

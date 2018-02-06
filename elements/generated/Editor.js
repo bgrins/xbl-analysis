@@ -92,10 +92,8 @@ class FirefoxEditor extends XULElement {
     if (!this._finder) {
       if (!this.docShell) return null;
 
-      let Finder = Components.utils.import(
-        "resource://gre/modules/Finder.jsm",
-        {}
-      ).Finder;
+      let Finder = ChromeUtils.import("resource://gre/modules/Finder.jsm", {})
+        .Finder;
       this._finder = new Finder(this.docShell);
     }
     return this._finder;

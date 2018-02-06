@@ -341,7 +341,7 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
   }
 
   initialize(aPPBrowser) {
-    let { Services } = Components.utils.import(
+    let { Services } = ChromeUtils.import(
       "resource://gre/modules/Services.jsm",
       {}
     );
@@ -361,7 +361,7 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     let ltr = document.documentElement.matches(":root:-moz-locale-dir(ltr)");
     // Windows 7 doesn't support ⏮ and ⏭ by default, and fallback doesn't
     // always work (bug 1343330).
-    let { AppConstants } = Components.utils.import(
+    let { AppConstants } = ChromeUtils.import(
       "resource://gre/modules/AppConstants.jsm",
       {}
     );
@@ -450,7 +450,7 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     var promptStr = this.mScaleLabel.value;
     var renameTitle = this.mCustomTitle;
     var result = { value };
-    let { Services } = Components.utils.import(
+    let { Services } = ChromeUtils.import(
       "resource://gre/modules/Services.jsm",
       {}
     );

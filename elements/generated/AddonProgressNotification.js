@@ -43,7 +43,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
 
   get DownloadUtils() {
     let module = {};
-    Components.utils.import("resource://gre/modules/DownloadUtils.jsm", module);
+    ChromeUtils.import("resource://gre/modules/DownloadUtils.jsm", module);
     Object.defineProperty(this, "DownloadUtils", {
       configurable: true,
       enumerable: true,

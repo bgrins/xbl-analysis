@@ -45,7 +45,7 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
       this.removeAttribute("selected");
     }
 
-    let { AutoCompletePopup } = Cu.import(
+    let { AutoCompletePopup } = ChromeUtils.import(
       "resource://gre/modules/AutoCompletePopup.jsm",
       {}
     );

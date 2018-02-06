@@ -733,7 +733,7 @@ class FirefoxBrowser extends XULElement {
       return remoteType;
     }
 
-    let E10SUtils = Components.utils.import(
+    let E10SUtils = ChromeUtils.import(
       "resource://gre/modules/E10SUtils.jsm",
       {}
     ).E10SUtils;
@@ -771,10 +771,8 @@ class FirefoxBrowser extends XULElement {
     if (!this._finder) {
       if (!this.docShell) return null;
 
-      let Finder = Components.utils.import(
-        "resource://gre/modules/Finder.jsm",
-        {}
-      ).Finder;
+      let Finder = ChromeUtils.import("resource://gre/modules/Finder.jsm", {})
+        .Finder;
       this._finder = new Finder(this.docShell);
     }
     return this._finder;
@@ -1367,7 +1365,7 @@ class FirefoxBrowser extends XULElement {
         break;
       case "Forms:ShowDropDown": {
         if (!this._selectParentHelper) {
-          this._selectParentHelper = Cu.import(
+          this._selectParentHelper = ChromeUtils.import(
             "resource://gre/modules/SelectParentHelper.jsm",
             {}
           ).SelectParentHelper;

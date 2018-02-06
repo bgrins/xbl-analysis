@@ -16,7 +16,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       enumerable: true,
       get() {
         delete this.AppConstants;
-        return (this.AppConstants = Components.utils.import(
+        return (this.AppConstants = ChromeUtils.import(
           "resource://gre/modules/AppConstants.jsm",
           {}
         ).AppConstants);
