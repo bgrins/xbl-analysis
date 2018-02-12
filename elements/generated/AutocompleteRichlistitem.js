@@ -52,18 +52,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
         return (this._inOverflow = val);
       }
     });
-    Object.defineProperty(this, "_textToSubURI", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._textToSubURI;
-        return (this._textToSubURI = null);
-      },
-      set(val) {
-        delete this._textToSubURI;
-        return (this._textToSubURI = val);
-      }
-    });
 
     this._typeIcon = document.getAnonymousElementByAttribute(
       this,
@@ -414,12 +402,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     }
   }
   _unescapeUrl(url) {
-    if (!this._textToSubURI) {
-      this._textToSubURI = Components.classes[
-        "@mozilla.org/intl/texttosuburi;1"
-      ].getService(Components.interfaces.nsITextToSubURI);
-    }
-    return this._textToSubURI.unEscapeURIForUI("UTF-8", url);
+    return Services.textToSubURI.unEscapeURIForUI("UTF-8", url);
   }
   _reuseAcItem() {
     let action = this._parseActionUrl(this.getAttribute("url"));

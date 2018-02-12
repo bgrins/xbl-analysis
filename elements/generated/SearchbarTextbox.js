@@ -277,11 +277,8 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
       }
 
       popup.mInput = this;
-      popup.view = this.controller.QueryInterface(Ci.nsITreeView);
-      popup.invalidate();
-
-      popup.showCommentColumn = this.showCommentColumn;
-      popup.showImageColumn = this.showImageColumn;
+      // clear any previous selection, see bugs 400671 and 488357
+      popup.selectedIndex = -1;
 
       document.popupNode = null;
 
@@ -293,6 +290,9 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
         ? innerRect.right - outerRect.left
         : outerRect.right - innerRect.left;
       popup.setAttribute("width", width > 100 ? width : 100);
+
+      // invalidate() depends on the width attribute
+      popup._invalidate();
 
       var yOffset = outerRect.bottom - innerRect.bottom;
       popup.openPopup(this.inputField, "after_start", 0, yOffset, false, false);
@@ -330,7 +330,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
       }
       engine = oneOff.engine;
     }
-    if (this._selectionDetails && this._selectionDetails.currentIndex != -1) {
+    if (this._selectionDetails) {
       BrowserSearch.searchBar.telemetrySearchDetails = this._selectionDetails;
       this._selectionDetails = null;
     }
@@ -344,8 +344,9 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     // the selection on the one-off buttons.
     if (aEvent.getModifierState("Accel")) return;
 
-    let suggestionsHidden = popup.tree.getAttribute("collapsed") == "true";
-    let numItems = suggestionsHidden ? 0 : this.popup.view.rowCount;
+    let suggestionsHidden =
+      popup.richlistbox.getAttribute("collapsed") == "true";
+    let numItems = suggestionsHidden ? 0 : this.popup.matchCount;
     this.popup.oneOffButtons.handleKeyPress(aEvent, numItems, true);
   }
 }

@@ -566,8 +566,8 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     this.classList.add("showSearchSuggestionsNotification");
     // Don't show the one-off buttons if we are showing onboarding and
     // there's no result, since it would be ugly and pointless.
-    this.footer.collapsed = this._matchCount == 0;
-    this.input.tabScrolling = this._matchCount != 0;
+    this.footer.collapsed = this.matchCount == 0;
+    this.input.tabScrolling = this.matchCount != 0;
 
     // This event allows accessibility APIs to see the notification.
     if (!this.popupOpen) {
@@ -581,7 +581,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     this.richlistbox.flex = 1;
     this.removeAttribute("dontanimate");
     this.searchSuggestionsNotification.removeAttribute("animate");
-    if (this._matchCount) {
+    if (this.matchCount) {
       // Update popup height.
       this._invalidate();
     } else {
@@ -607,7 +607,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   handleKeyPress(aEvent) {
     this.oneOffSearchButtons.handleKeyPress(
       aEvent,
-      this._matchCount,
+      this.matchCount,
       !this._isFirstResultHeuristic,
       gBrowser.userTypedValue
     );

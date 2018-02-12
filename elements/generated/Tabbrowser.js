@@ -1084,8 +1084,7 @@ class FirefoxTabbrowser extends XULElement {
   }
 
   set tabMinWidth(val) {
-    let root = document.documentElement;
-    root.style.setProperty("--tab-min-width", val + "px");
+    this.tabContainer.style.setProperty("--tab-min-width", val + "px");
     return val;
   }
   isFindBarInitialized(aTab) {
@@ -1495,6 +1494,7 @@ class FirefoxTabbrowser extends XULElement {
         );
       },
 
+      /* eslint-disable complexity */
       onStateChange(aWebProgress, aRequest, aStateFlags, aStatus) {
         if (!aRequest) return;
 
@@ -1732,6 +1732,7 @@ class FirefoxTabbrowser extends XULElement {
         this.mStateFlags = aStateFlags;
         this.mStatus = aStatus;
       },
+      /* eslint-enable complexity */
 
       onLocationChange(aWebProgress, aRequest, aLocation, aFlags) {
         // OnLocationChange is called for both the top-level content
@@ -2512,11 +2513,6 @@ class FirefoxTabbrowser extends XULElement {
         // Let's try to unescape it using a character set
         // in case the URI is not ASCII.
         try {
-          var characterSet = browser.characterSet;
-          const textToSubURI = Components.classes[
-            "@mozilla.org/intl/texttosuburi;1"
-          ].getService(Components.interfaces.nsITextToSubURI);
-          title = textToSubURI.unEscapeNonAsciiURI(characterSet, title);
           // If it's a long data: URI that uses base64 encoding, truncate to
           // a reasonable length rather than trying to display the entire thing.
           // We can't shorten arbitrary URIs like this, as bidi etc might mean
@@ -2525,6 +2521,12 @@ class FirefoxTabbrowser extends XULElement {
           // (See bug 1408854.)
           if (title.length > 500 && title.match(/^data:[^,]+;base64,/)) {
             title = title.substring(0, 500) + "\u2026";
+          } else {
+            var characterSet = browser.characterSet;
+            title = Services.textToSubURI.unEscapeNonAsciiURI(
+              characterSet,
+              title
+            );
           }
         } catch (ex) {
           /* Do nothing. */
@@ -3718,7 +3720,7 @@ class FirefoxTabbrowser extends XULElement {
     ) {
       // pretend the user typed this so it'll be available till
       // the document successfully loads
-      if (aURI && gInitialPages.indexOf(aURI) == -1) b.userTypedValue = aURI;
+      if (aURI && !gInitialPages.includes(aURI)) b.userTypedValue = aURI;
 
       let flags = Ci.nsIWebNavigation.LOAD_FLAGS_NONE;
       if (aAllowThirdPartyFixup) {
@@ -4298,14 +4300,14 @@ class FirefoxTabbrowser extends XULElement {
     let tab = aTab;
     do {
       tab = tab.nextSibling;
-    } while (tab && remainingTabs.indexOf(tab) == -1);
+    } while (tab && !remainingTabs.includes(tab));
 
     if (!tab) {
       tab = aTab;
 
       do {
         tab = tab.previousSibling;
-      } while (tab && remainingTabs.indexOf(tab) == -1);
+      } while (tab && !remainingTabs.includes(tab));
     }
 
     return tab;
@@ -4630,7 +4632,7 @@ class FirefoxTabbrowser extends XULElement {
   }
   showOnlyTheseTabs(aTabs) {
     for (let tab of this.tabs) {
-      if (aTabs.indexOf(tab) == -1) this.hideTab(tab);
+      if (!aTabs.includes(tab)) this.hideTab(tab);
       else this.showTab(tab);
     }
 

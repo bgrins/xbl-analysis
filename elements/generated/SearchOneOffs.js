@@ -1093,7 +1093,7 @@ class FirefoxSearchOneOffs extends XULElement {
       return !!this.selectedButton;
     }
 
-    if (event.keyCode == Ci.nsIDOMKeyEvent.DOM_VK_UP) {
+    if (event.keyCode == KeyboardEvent.DOM_VK_UP) {
       if (event.altKey) {
         // Keep the currently selected result in the list (if any) as a
         // secondary "alt" selection and move the selection up within the
@@ -1141,7 +1141,7 @@ class FirefoxSearchOneOffs extends XULElement {
       return true;
     }
 
-    if (event.keyCode == Ci.nsIDOMKeyEvent.DOM_VK_DOWN) {
+    if (event.keyCode == KeyboardEvent.DOM_VK_DOWN) {
       if (event.altKey) {
         // Keep the currently selected result in the list (if any) as a
         // secondary "alt" selection and move the selection down within
@@ -1197,7 +1197,7 @@ class FirefoxSearchOneOffs extends XULElement {
       return false;
     }
 
-    if (event.keyCode == Ci.nsIDOMKeyEvent.DOM_VK_LEFT) {
+    if (event.keyCode == KeyboardEvent.DOM_VK_LEFT) {
       if (this.selectedButton && (this.compact || this.selectedButton.engine)) {
         // Moving left within the buttons.
         this.advanceSelection(false, this.compact, true);
@@ -1206,7 +1206,7 @@ class FirefoxSearchOneOffs extends XULElement {
       return false;
     }
 
-    if (event.keyCode == Ci.nsIDOMKeyEvent.DOM_VK_RIGHT) {
+    if (event.keyCode == KeyboardEvent.DOM_VK_RIGHT) {
       if (this.selectedButton && (this.compact || this.selectedButton.engine)) {
         // Moving right within the buttons.
         this.advanceSelection(true, this.compact, true);

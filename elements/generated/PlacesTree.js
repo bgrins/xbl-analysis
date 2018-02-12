@@ -405,7 +405,8 @@ class FirefoxPlacesTree extends FirefoxTree {
     if (
       PlacesUtils.nodeIsHistoryContainer(queryNode) ||
       options.resultType == options.RESULTS_AS_TAG_QUERY ||
-      options.resultType == options.RESULTS_AS_TAG_CONTENTS
+      options.resultType == options.RESULTS_AS_TAG_CONTENTS ||
+      options.resultType == options.RESULTS_AS_ROOTS_QUERY
     )
       options.resultType = options.RESULTS_AS_URI;
 
@@ -693,8 +694,15 @@ class FirefoxPlacesTree extends FirefoxTree {
       )
         return foundOne;
 
-      // Only follow a query if it has been been explicitly opened by the caller.
-      let shouldOpen = aOpenContainers && PlacesUtils.nodeIsFolder(node);
+      // Only follow a query if it has been been explicitly opened by the
+      // caller. We support the "AllBookmarks" case to allow callers to
+      // specify just the top-level bookmark folders.
+      let shouldOpen =
+        aOpenContainers &&
+        (PlacesUtils.nodeIsFolder(node) ||
+          (PlacesUtils.nodeIsQuery(node) &&
+            node.itemId == PlacesUIUtils.leftPaneQueries.AllBookmarks));
+
       PlacesUtils.asContainer(node);
       if (!node.containerOpen && !shouldOpen) return foundOne;
 

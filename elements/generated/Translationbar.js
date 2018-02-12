@@ -288,7 +288,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
     let neverForLangs = Services.prefs.getCharPref(
       "browser.translation.neverForLanguages"
     );
-    item.disabled = neverForLangs.split(",").indexOf(lang) != -1;
+    item.disabled = neverForLangs.split(",").includes(lang);
 
     // Check if translation is disabled for the domain:
     let uri = this.translation.browser.currentURI;

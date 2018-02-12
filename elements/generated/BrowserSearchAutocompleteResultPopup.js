@@ -1,4 +1,4 @@
-class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteResultPopup {
+class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRichResultPopup {
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `
@@ -6,12 +6,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
         <xul:image class="searchbar-engine-image" inherits="src"></xul:image>
         <xul:label anonid="searchbar-engine-name" flex="1" crop="end" role="presentation"></xul:label>
       </xul:hbox>
-      <xul:tree anonid="tree" flex="1" class="autocomplete-tree plain search-panel-tree" hidecolumnpicker="true" seltype="single">
-        <xul:treecols anonid="treecols">
-          <xul:treecol id="treecolAutoCompleteValue" class="autocomplete-treecol" flex="1" overflow="true"></xul:treecol>
-        </xul:treecols>
-        <xul:treechildren class="autocomplete-treebody searchbar-treebody" noSelectOnMouseMove="true"></xul:treechildren>
-      </xul:tree>
+      <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox search-panel-tree" flex="1"></xul:richlistbox>
       <xul:vbox anonid="search-one-off-buttons" class="search-one-offs"></xul:vbox>
     `;
     Object.defineProperty(this, "_isHiding", {
@@ -83,14 +78,14 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
 
         // Setting this with an xbl-inherited attribute gets overridden the
         // second time the user clicks the glass icon for some reason...
-        this.tree.collapsed = true;
+        this.richlistbox.collapsed = true;
       } else {
         this.removeAttribute("showonlysettings");
-        // Uncollapse as long as we have a tree with a view which has >= 1 row.
+        // Uncollapse as long as we have a view which has >= 1 row.
         // The autocomplete binding itself will take care of uncollapsing later,
         // if we currently have no rows but end up having some in the future
         // when the search string changes
-        this.tree.collapsed = !this.tree.view || !this.tree.view.rowCount;
+        this.richlistbox.collapsed = this.matchCount == 0;
       }
 
       // Show the current default engine in the top header of the panel.
@@ -145,7 +140,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRes
     var popupForSearchBar = searchBar && searchBar.textbox == this.mInput;
     if (popupForSearchBar) {
       searchBar.telemetrySearchDetails = {
-        index: controller.selection.currentIndex,
+        index: this.selectedIndex,
         kind: "mouse"
       };
     }

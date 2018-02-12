@@ -96,7 +96,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     let oldIds = CustomizableUI.getWidgetIdsInArea(this.id);
 
     // Get a list of items only in the new list
-    let newIds = newVal.filter(id => oldIds.indexOf(id) == -1);
+    let newIds = newVal.filter(id => !oldIds.includes(id));
     CustomizableUI.beginBatchUpdate();
     try {
       for (let newId of newIds) {
@@ -118,7 +118,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
 
       let currentIds = this.currentSet.split(",");
       let removedIds = currentIds.filter(
-        id => newIds.indexOf(id) == -1 && newVal.indexOf(id) == -1
+        id => !newIds.includes(id) && !newVal.includes(id)
       );
       for (let removedId of removedIds) {
         CustomizableUI.removeWidgetFromArea(removedId);
@@ -154,6 +154,11 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     return orderedPlacements.filter(w => currentWidgets.has(w)).join(",");
   }
   handleEvent(aEvent) {
+    // Ignore overflow/underflow events from from nodes inside the toolbar.
+    if (aEvent.target != this.customizationTarget) {
+      return;
+    }
+
     if (aEvent.type == "overflow" && aEvent.detail > 0) {
       if (this.overflowable && this.overflowable.initialized) {
         this.overflowable.onOverflow(aEvent);

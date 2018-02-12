@@ -274,10 +274,9 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       // collecting the child nodes could trigger constructors
       // which would blow away our list.
 
-      const nsIDOMNodeFilter = Components.interfaces.nsIDOMNodeFilter;
       var iterator = doc.createTreeWalker(
         this,
-        nsIDOMNodeFilter.SHOW_ELEMENT,
+        NodeFilter.SHOW_ELEMENT,
         this._filterRadioGroup
       );
       while (iterator.nextNode()) radioChildren.push(iterator.currentNode);

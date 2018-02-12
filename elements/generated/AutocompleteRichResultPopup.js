@@ -1,4 +1,4 @@
-class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
+class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
   connectedCallback() {
     super.connectedCallback();
     this.innerHTML = `
@@ -7,6 +7,30 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         <children></children>
       </xul:hbox>
     `;
+    Object.defineProperty(this, "mInput", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mInput;
+        return (this.mInput = null);
+      },
+      set(val) {
+        delete this.mInput;
+        return (this.mInput = val);
+      }
+    });
+    Object.defineProperty(this, "mPopupOpen", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.mPopupOpen;
+        return (this.mPopupOpen = false);
+      },
+      set(val) {
+        delete this.mPopupOpen;
+        return (this.mPopupOpen = val);
+      }
+    });
     Object.defineProperty(this, "_currentIndex", {
       configurable: true,
       enumerable: true,
@@ -31,6 +55,26 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         return (this._rlbAnimated = val);
       }
     });
+    Object.defineProperty(this, "defaultMaxRows", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this.defaultMaxRows;
+        return (this.defaultMaxRows = 6);
+      }
+    });
+    Object.defineProperty(this, "_normalMaxRows", {
+      configurable: true,
+      enumerable: true,
+      get() {
+        delete this._normalMaxRows;
+        return (this._normalMaxRows = -1);
+      },
+      set(val) {
+        delete this._normalMaxRows;
+        return (this._normalMaxRows = val);
+      }
+    });
     Object.defineProperty(this, "richlistbox", {
       configurable: true,
       enumerable: true,
@@ -48,12 +92,91 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
       }
     });
 
+    this.addEventListener("popupshowing", event => {
+      // If normalMaxRows wasn't already set by the input, then set it here
+      // so that we restore the correct number when the popup is hidden.
+
+      // Null-check this.mInput; see bug 1017914
+      if (this._normalMaxRows < 0 && this.mInput) {
+        this._normalMaxRows = this.mInput.maxRows;
+      }
+
+      // Set an attribute for styling the popup based on the input.
+      let inputID = "";
+      if (
+        this.mInput &&
+        this.mInput.ownerDocument &&
+        this.mInput.ownerDocument.documentURIObject.schemeIs("chrome")
+      ) {
+        inputID = this.mInput.id;
+        // Take care of elements with no id that are inside xbl bindings
+        if (!inputID) {
+          let bindingParent = this.mInput.ownerDocument.getBindingParent(
+            this.mInput
+          );
+          if (bindingParent) {
+            inputID = bindingParent.id;
+          }
+        }
+      }
+      this.setAttribute("autocompleteinput", inputID);
+
+      this.mPopupOpen = true;
+    });
+
     this.addEventListener("popupshown", event => {
       if (this._adjustHeightOnPopupShown) {
         delete this._adjustHeightOnPopupShown;
         this.adjustHeight();
       }
     });
+
+    this.addEventListener("popuphiding", event => {
+      var isListActive = true;
+      if (this.selectedIndex == -1) isListActive = false;
+      var controller = this.view.QueryInterface(
+        Components.interfaces.nsIAutoCompleteController
+      );
+      controller.stopSearch();
+
+      this.removeAttribute("autocompleteinput");
+      this.mPopupOpen = false;
+
+      // Reset the maxRows property to the cached "normal" value (if there's
+      // any), and reset normalMaxRows so that we can detect whether it was set
+      // by the input when the popupshowing handler runs.
+
+      // Null-check this.mInput; see bug 1017914
+      if (this.mInput && this._normalMaxRows > 0) {
+        this.mInput.maxRows = this._normalMaxRows;
+      }
+      this._normalMaxRows = -1;
+      // If the list was being navigated and then closed, make sure
+      // we fire accessible focus event back to textbox
+
+      // Null-check this.mInput; see bug 1017914
+      if (isListActive && this.mInput) {
+        this.mInput.mIgnoreFocus = true;
+        this.mInput._focus();
+        this.mInput.mIgnoreFocus = false;
+      }
+    });
+  }
+
+  get input() {
+    return this.mInput;
+  }
+
+  get overrideValue() {
+    return null;
+  }
+
+  get popupOpen() {
+    return this.mPopupOpen;
+  }
+
+  get maxRows() {
+    return (this.mInput && this.mInput.maxRows) || this.defaultMaxRows;
   }
 
   set selectedIndex(val) {
@@ -89,7 +212,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
     return 20;
   }
 
-  get _matchCount() {
+  get matchCount() {
     return Math.min(this.mInput.controller.matchCount, this.maxResults);
   }
 
@@ -103,6 +226,33 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
 
   get view() {
     return this.mInput.controller;
+  }
+  closePopup() {
+    if (this.mPopupOpen) {
+      this.hidePopup();
+      this.removeAttribute("width");
+    }
+  }
+  getNextIndex(aReverse, aAmount, aIndex, aMaxRow) {
+    if (aMaxRow < 0) return -1;
+
+    var newIdx = aIndex + (aReverse ? -1 : 1) * aAmount;
+    if ((aReverse && aIndex == -1) || (newIdx > aMaxRow && aIndex != aMaxRow))
+      newIdx = aMaxRow;
+    else if ((!aReverse && aIndex == -1) || (newIdx < 0 && aIndex != 0))
+      newIdx = 0;
+
+    if ((newIdx < 0 && aIndex == 0) || (newIdx > aMaxRow && aIndex == aMaxRow))
+      aIndex = -1;
+    else aIndex = newIdx;
+
+    return aIndex;
+  }
+  onPopupClick(aEvent) {
+    var controller = this.view.QueryInterface(
+      Components.interfaces.nsIAutoCompleteController
+    );
+    controller.handleEnter(true, aEvent);
   }
   onSearchBegin() {
     this.richlistbox.mousedOverIndex = -1;
@@ -143,7 +293,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
   }
   _invalidate(reason) {
     // collapsed if no matches
-    this.richlistbox.collapsed = this._matchCount == 0;
+    this.richlistbox.collapsed = this.matchCount == 0;
 
     // Update the richlistbox height.
     if (this._adjustHeightTimeout) {
@@ -168,7 +318,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
   }
   _collapseUnusedItems() {
     let existingItemsCount = this.richlistbox.childNodes.length;
-    for (let i = this._matchCount; i < existingItemsCount; ++i) {
+    for (let i = this.matchCount; i < existingItemsCount; ++i) {
       let item = this.richlistbox.childNodes[i];
 
       item.collapsed = true;
@@ -180,7 +330,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
   adjustHeight() {
     // Figure out how many rows to show
     let rows = this.richlistbox.childNodes;
-    let numRows = Math.min(this._matchCount, this.maxRows, rows.length);
+    let numRows = Math.min(this.matchCount, this.maxRows, rows.length);
 
     this.removeAttribute("height");
 
@@ -249,7 +399,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
   }
   _appendCurrentResult(invalidateReason) {
     var controller = this.mInput.controller;
-    var matchCount = this._matchCount;
+    var matchCount = this.matchCount;
     var existingItemsCount = this.richlistbox.childNodes.length;
 
     // Process maxRows per chunk to improve performance and user experience
@@ -377,7 +527,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxAutocompleteBasePopup {
         aReverse,
         amount,
         this.selectedIndex,
-        this._matchCount - 1
+        this.matchCount - 1
       );
       if (this.selectedIndex == -1) {
         this.input._focus();

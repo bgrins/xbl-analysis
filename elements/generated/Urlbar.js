@@ -108,8 +108,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       get() {
         delete this._keyCodesToDefer;
         return (this._keyCodesToDefer = new Set([
-          Ci.nsIDOMKeyEvent.DOM_VK_DOWN,
-          Ci.nsIDOMKeyEvent.DOM_VK_TAB
+          KeyboardEvent.DOM_VK_DOWN,
+          KeyboardEvent.DOM_VK_TAB
         ]));
       },
       set(val) {
@@ -272,6 +272,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       "browser.search.suggest.enabled"
     );
 
+    this.openInTab = this._prefs.getBoolPref("openintab");
     this.clickSelectsAll = this._prefs.getBoolPref("clickSelectsAll");
     this.doubleClickSelectsAll = this._prefs.getBoolPref(
       "doubleClickSelectsAll"
@@ -695,9 +696,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     if (!this.gotResultForCurrentQuery || !this.popupOpen) {
       return true;
     }
-    let maxResultsRemaining = this.popup.maxResults - this.popup._matchCount;
+    let maxResultsRemaining = this.popup.maxResults - this.popup.matchCount;
     let lastResultSelected =
-      this.popup.selectedIndex + 1 == this.popup._matchCount;
+      this.popup.selectedIndex + 1 == this.popup.matchCount;
     return maxResultsRemaining > 0 && lastResultSelected;
   }
   _deferKeyEvent(event, methodName) {
@@ -774,7 +775,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       !uriInfo ||
       !uriInfo.fixedURI ||
       uriInfo.keywordProviderName ||
-      ["http", "https", "ftp"].indexOf(uriInfo.fixedURI.scheme) == -1
+      !["http", "https", "ftp"].includes(uriInfo.fixedURI.scheme)
     ) {
       return;
     }
@@ -859,6 +860,29 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // was scrolling when they hit escape
     return !isScrolling;
   }
+  _whereToOpen(event) {
+    let isMouseEvent = event instanceof MouseEvent;
+    let reuseEmpty = !isMouseEvent;
+    let where = undefined;
+    if (isMouseEvent) {
+      where = whereToOpenLink(event, false, false);
+    } else {
+      let altEnter = event && event.altKey;
+      where = altEnter ? "tab" : "current";
+    }
+    if (this.openInTab) {
+      if (where == "current") {
+        where = "tab";
+      } else if (where == "tab") {
+        where = "current";
+      }
+      reuseEmpty = true;
+    }
+    if (where == "tab" && reuseEmpty && isTabEmpty(gBrowser.selectedTab)) {
+      where = "current";
+    }
+    return where;
+  }
   handleCommand(event, openUILinkWhere, openUILinkParams) {
     let isMouseEvent = event instanceof MouseEvent;
     if (isMouseEvent && event.button == 2) {
@@ -888,20 +912,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       return;
     }
 
-    let where = openUILinkWhere;
-    if (!where) {
-      if (isMouseEvent) {
-        where = whereToOpenLink(event, false, false);
-      } else {
-        // If the current tab is empty, ignore Alt+Enter (reuse this tab)
-        let altEnter =
-          !isMouseEvent &&
-          event &&
-          event.altKey &&
-          !isTabEmpty(gBrowser.selectedTab);
-        where = altEnter ? "tab" : "current";
-      }
-    }
+    let where = openUILinkWhere || this._whereToOpen(event);
 
     let url = this.value;
     if (!url) {
@@ -1363,6 +1374,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           break;
         case "speculativeConnect.enabled":
           this.speculativeConnectEnabled = this._prefs.getBoolPref(aData);
+          break;
+        case "openintab":
+          this.openInTab = this._prefs.getBoolPref(aData);
           break;
         case "browser.search.suggest.enabled":
           this.browserSearchSuggestEnabled = Services.prefs.getBoolPref(aData);

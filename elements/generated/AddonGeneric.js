@@ -1152,11 +1152,8 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
       this._relNotesLoading.hidden = true;
 
-      var processor = Components.classes[
-        "@mozilla.org/document-transformer;1?type=xslt"
-      ].createInstance(Components.interfaces.nsIXSLTProcessor);
-      processor.flags |=
-        Components.interfaces.nsIXSLTProcessorPrivate.DISABLE_ALL_LOADS;
+      var processor = new XSLTProcessor();
+      processor.flags |= XSLTProcessor.DISABLE_ALL_LOADS;
 
       processor.importStylesheet(transformData);
       var fragment = processor.transformToFragment(relNotesData, document);
@@ -1181,7 +1178,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       var req = aEvent.target;
       var ct = req.getResponseHeader("content-type");
       if (
-        (!ct || ct.indexOf("text/html") < 0) &&
+        (!ct || !ct.includes("text/html")) &&
         req.responseXML &&
         req.responseXML.documentElement.namespaceURI != XMLURI_PARSE_ERROR
       ) {
@@ -1324,9 +1321,9 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
   }
   onPropertyChanged(aProperties) {
     if (
-      aProperties.indexOf("appDisabled") != -1 ||
-      aProperties.indexOf("signedState") != -1 ||
-      aProperties.indexOf("userDisabled") != -1
+      aProperties.includes("appDisabled") ||
+      aProperties.includes("signedState") ||
+      aProperties.includes("userDisabled")
     )
       this._updateState();
   }

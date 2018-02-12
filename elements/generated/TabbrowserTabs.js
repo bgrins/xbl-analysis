@@ -360,7 +360,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     tab.setAttribute("onerror", "this.removeAttribute('image');");
 
     window.addEventListener("resize", this);
-    window.addEventListener("load", this);
+    window.addEventListener("DOMContentLoaded", this);
 
     Services.prefs.addObserver("privacy.userContext", this);
     this.observe(null, "nsPref:changed", "privacy.userContext.enabled");
@@ -1430,7 +1430,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
   handleEvent(aEvent) {
     switch (aEvent.type) {
-      case "load":
+      case "DOMContentLoaded":
         this.updateVisibility();
         TabsInTitlebar.init();
         break;

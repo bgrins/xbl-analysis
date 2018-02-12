@@ -3,9 +3,8 @@ class FirefoxNumberbox extends FirefoxTextbox {
     super.connectedCallback();
     this.innerHTML = `
       <xul:hbox class="textbox-input-box numberbox-input-box" flex="1" inherits="context,disabled,focused">
-        <html:input class="numberbox-input textbox-input" anonid="input" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"></html:input>
+        <html:input class="numberbox-input textbox-input" type="number" anonid="input" inherits="value,min,max,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"></html:input>
       </xul:hbox>
-      <xul:spinbuttons anonid="buttons" inherits="disabled,hidden=hidespinbuttons"></xul:spinbuttons>
     `;
     Object.defineProperty(this, "_valueEntered", {
       configurable: true,
@@ -17,18 +16,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
       set(val) {
         delete this._valueEntered;
         return (this._valueEntered = val);
-      }
-    });
-    Object.defineProperty(this, "_spinButtons", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._spinButtons;
-        return (this._spinButtons = null);
-      },
-      set(val) {
-        delete this._spinButtons;
-        return (this._spinButtons = val);
       }
     });
     Object.defineProperty(this, "_value", {
@@ -65,38 +52,11 @@ class FirefoxNumberbox extends FirefoxTextbox {
       }
     });
 
-    this.addEventListener("keypress", event => {
-      this._modifyUp();
-    });
-
-    this.addEventListener("keypress", event => {
-      this._modifyDown();
-    });
-
-    this.addEventListener("up", event => {
-      this._modifyUp();
-    });
-
-    this.addEventListener("down", event => {
-      this._modifyDown();
-    });
-
     this.addEventListener("change", event => {
       if (event.originalTarget == this.inputField) {
-        var newval = this.inputField.value;
-        this._validateValue(newval);
+        this._validateValue(this.inputField.value);
       }
     });
-  }
-
-  get spinButtons() {
-    if (!this._spinButtons)
-      this._spinButtons = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "buttons"
-      );
-    return this._spinButtons;
   }
 
   set value(val) {
@@ -104,7 +64,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
 
   get value() {
-    return "" + this.valueNumber;
+    return String(this.valueNumber);
   }
 
   set valueNumber(val) {
@@ -146,29 +106,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
     var max = this.getAttribute("max");
     return max ? Number(max) : Infinity;
   }
-  _modifyUp() {
-    if (this.disabled || this.readOnly) return;
-    var oldval = this.valueNumber;
-    var newval = this._validateValue(this.valueNumber + 1);
-    this.inputField.select();
-    if (oldval != newval) this._fireChange();
-  }
-  _modifyDown() {
-    if (this.disabled || this.readOnly) return;
-    var oldval = this.valueNumber;
-    var newval = this._validateValue(this.valueNumber - 1);
-    this.inputField.select();
-    if (oldval != newval) this._fireChange();
-  }
-  _enableDisableButtons() {
-    var buttons = this.spinButtons;
-    if (this.disabled || this.readOnly) {
-      buttons.decreaseDisabled = buttons.increaseDisabled = true;
-    } else {
-      buttons.decreaseDisabled = this.valueNumber <= this.min;
-      buttons.increaseDisabled = this.valueNumber >= this.max;
-    }
-  }
   _validateValue(aValue) {
     aValue = Number(aValue) || 0;
     aValue = Math.round(aValue);
@@ -181,8 +118,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
     this._valueEntered = false;
     this._value = Number(aValue);
     this.inputField.value = aValue;
-
-    this._enableDisableButtons();
 
     return aValue;
   }

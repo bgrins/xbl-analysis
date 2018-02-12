@@ -97,7 +97,7 @@ class FirefoxSorters extends XULElement {
     // Toggle ascending if sort by is not changing, otherwise
     // name sorting defaults to ascending, others to descending
     if (aSort == this.sortBy) this.ascending = !this.ascending;
-    else this.setSort(aSort, ASCENDING_SORT_FIELDS.indexOf(aSort) >= 0);
+    else this.setSort(aSort, ASCENDING_SORT_FIELDS.includes(aSort));
   }
   _refreshState() {
     var sortBy = this.sortBy;

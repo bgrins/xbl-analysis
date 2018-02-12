@@ -119,26 +119,32 @@ class FirefoxTextbox extends XULElement {
       event => {
         if (this.hasAttribute("focused")) return;
 
-        switch (event.originalTarget) {
-          case this:
-            // Forward focus to actual HTML input
-            this.inputField.focus();
-            break;
-          case this.inputField:
-            if (this.mIgnoreFocus) {
-              this.mIgnoreFocus = false;
-            } else if (this.clickSelectsAll) {
-              try {
-                if (!this.editor || !this.editor.composing)
-                  this.editor.selectAll();
-              } catch (e) {}
-            }
-            break;
-          default:
-            // Allow other children (e.g. URL bar buttons) to get focus
-            return;
+        let { originalTarget } = event;
+        if (originalTarget == this) {
+          // Forward focus to actual HTML input
+          this.inputField.focus();
+          this.setAttribute("focused", "true");
+          return;
         }
-        this.setAttribute("focused", "true");
+
+        // We check for the parent nodes to support input[type=number] where originalTarget may be an
+        // anonymous child input.
+        if (
+          originalTarget == this.inputField ||
+          (originalTarget.localName == "input" &&
+            originalTarget.parentNode.parentNode == this.inputField)
+        ) {
+          if (this.mIgnoreFocus) {
+            this.mIgnoreFocus = false;
+          } else if (this.clickSelectsAll) {
+            try {
+              if (!this.editor || !this.editor.composing)
+                this.editor.selectAll();
+            } catch (e) {}
+          }
+          this.setAttribute("focused", "true");
+        }
+        // Otherwise, allow other children (e.g. URL bar buttons) to get focus
       },
       true
     );
@@ -164,7 +170,7 @@ class FirefoxTextbox extends XULElement {
 
       if (!this.mIgnoreClick) {
         this.mIgnoreFocus = true;
-        this.inputField.setSelectionRange(0, 0);
+        this.setSelectionRange(0, 0);
         if (
           event.originalTarget == this ||
           event.originalTarget == this.inputField.parentNode
@@ -360,7 +366,14 @@ class FirefoxTextbox extends XULElement {
     this.inputField.select();
   }
   setSelectionRange(aSelectionStart, aSelectionEnd) {
-    this.inputField.setSelectionRange(aSelectionStart, aSelectionEnd);
+    // According to https://html.spec.whatwg.org/#do-not-apply,
+    // setSelectionRange() is only available on a limited set of input types.
+    if (
+      this.inputField.type == "text" ||
+      this.inputField.tagName == "html:textarea"
+    ) {
+      this.inputField.setSelectionRange(aSelectionStart, aSelectionEnd);
+    }
   }
   _setNewlineHandling() {
     var str = this.getAttribute("newlines");
