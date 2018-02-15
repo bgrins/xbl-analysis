@@ -23,42 +23,12 @@ class FirefoxTabbrowserTab extends FirefoxTab {
         </xul:hbox>
       </xul:stack>
     `;
-    Object.defineProperty(this, "muteReason", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.muteReason;
-        return (this.muteReason = undefined);
-      },
-      set(val) {
-        delete this.muteReason;
-        return (this.muteReason = val);
-      }
-    });
-    Object.defineProperty(this, "mOverCloseButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mOverCloseButton;
-        return (this.mOverCloseButton = false);
-      },
-      set(val) {
-        delete this.mOverCloseButton;
-        return (this.mOverCloseButton = val);
-      }
-    });
-    Object.defineProperty(this, "mCorrespondingMenuitem", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mCorrespondingMenuitem;
-        return (this.mCorrespondingMenuitem = null);
-      },
-      set(val) {
-        delete this.mCorrespondingMenuitem;
-        return (this.mCorrespondingMenuitem = val);
-      }
-    });
+
+    this.muteReason = undefined;
+
+    this.mOverCloseButton = false;
+
+    this.mCorrespondingMenuitem = null;
 
     if (!("_lastAccessed" in this)) {
       this.updateLastAccessed();

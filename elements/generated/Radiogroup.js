@@ -2,18 +2,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_radioChildren", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._radioChildren;
-        return (this._radioChildren = null);
-      },
-      set(val) {
-        delete this._radioChildren;
-        return (this._radioChildren = val);
-      }
-    });
+    this._radioChildren = null;
 
     if (this.getAttribute("disabled") == "true") this.disabled = true;
 

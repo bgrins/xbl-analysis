@@ -1,17 +1,6 @@
 class FirefoxCustomizableuiToolbar extends XULElement {
   connectedCallback() {
-    Object.defineProperty(this, "overflowedDuringConstruction", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.overflowedDuringConstruction;
-        return (this.overflowedDuringConstruction = null);
-      },
-      set(val) {
-        delete this.overflowedDuringConstruction;
-        return (this.overflowedDuringConstruction = val);
-      }
-    });
+    this.overflowedDuringConstruction = null;
 
     let scope = {};
     ChromeUtils.import("resource:///modules/CustomizableUI.jsm", scope);

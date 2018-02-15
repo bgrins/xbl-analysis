@@ -2,294 +2,53 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_securityUI", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._securityUI;
-        return (this._securityUI = null);
-      },
-      set(val) {
-        delete this._securityUI;
-        return (this._securityUI = val);
-      }
-    });
-    Object.defineProperty(this, "_controller", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._controller;
-        return (this._controller = null);
-      },
-      set(val) {
-        delete this._controller;
-        return (this._controller = val);
-      }
-    });
-    Object.defineProperty(this, "_selectParentHelper", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._selectParentHelper;
-        return (this._selectParentHelper = null);
-      },
-      set(val) {
-        delete this._selectParentHelper;
-        return (this._selectParentHelper = val);
-      }
-    });
-    Object.defineProperty(this, "_remoteWebNavigation", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._remoteWebNavigation;
-        return (this._remoteWebNavigation = null);
-      },
-      set(val) {
-        delete this._remoteWebNavigation;
-        return (this._remoteWebNavigation = val);
-      }
-    });
-    Object.defineProperty(this, "_remoteWebProgress", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._remoteWebProgress;
-        return (this._remoteWebProgress = null);
-      },
-      set(val) {
-        delete this._remoteWebProgress;
-        return (this._remoteWebProgress = val);
-      }
-    });
-    Object.defineProperty(this, "_remoteFinder", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._remoteFinder;
-        return (this._remoteFinder = null);
-      },
-      set(val) {
-        delete this._remoteFinder;
-        return (this._remoteFinder = val);
-      }
-    });
-    Object.defineProperty(this, "_documentURI", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._documentURI;
-        return (this._documentURI = null);
-      },
-      set(val) {
-        delete this._documentURI;
-        return (this._documentURI = val);
-      }
-    });
-    Object.defineProperty(this, "_documentContentType", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._documentContentType;
-        return (this._documentContentType = null);
-      },
-      set(val) {
-        delete this._documentContentType;
-        return (this._documentContentType = val);
-      }
-    });
-    Object.defineProperty(this, "_contentTitle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contentTitle;
-        return (this._contentTitle = "");
-      },
-      set(val) {
-        delete this._contentTitle;
-        return (this._contentTitle = val);
-      }
-    });
-    Object.defineProperty(this, "_characterSet", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._characterSet;
-        return (this._characterSet = "");
-      },
-      set(val) {
-        delete this._characterSet;
-        return (this._characterSet = val);
-      }
-    });
-    Object.defineProperty(this, "_mayEnableCharacterEncodingMenu", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._mayEnableCharacterEncodingMenu;
-        return (this._mayEnableCharacterEncodingMenu = null);
-      },
-      set(val) {
-        delete this._mayEnableCharacterEncodingMenu;
-        return (this._mayEnableCharacterEncodingMenu = val);
-      }
-    });
-    Object.defineProperty(this, "_contentWindow", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contentWindow;
-        return (this._contentWindow = null);
-      },
-      set(val) {
-        delete this._contentWindow;
-        return (this._contentWindow = val);
-      }
-    });
-    Object.defineProperty(this, "_contentPrincipal", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contentPrincipal;
-        return (this._contentPrincipal = null);
-      },
-      set(val) {
-        delete this._contentPrincipal;
-        return (this._contentPrincipal = val);
-      }
-    });
-    Object.defineProperty(this, "_contentRequestContextID", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contentRequestContextID;
-        return (this._contentRequestContextID = null);
-      },
-      set(val) {
-        delete this._contentRequestContextID;
-        return (this._contentRequestContextID = val);
-      }
-    });
-    Object.defineProperty(this, "_contentDocument", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contentDocument;
-        return (this._contentDocument = null);
-      },
-      set(val) {
-        delete this._contentDocument;
-        return (this._contentDocument = val);
-      }
-    });
-    Object.defineProperty(this, "_imageDocument", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._imageDocument;
-        return (this._imageDocument = null);
-      },
-      set(val) {
-        delete this._imageDocument;
-        return (this._imageDocument = val);
-      }
-    });
-    Object.defineProperty(this, "_fullZoom", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._fullZoom;
-        return (this._fullZoom = 1);
-      },
-      set(val) {
-        delete this._fullZoom;
-        return (this._fullZoom = val);
-      }
-    });
-    Object.defineProperty(this, "_textZoom", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._textZoom;
-        return (this._textZoom = 1);
-      },
-      set(val) {
-        delete this._textZoom;
-        return (this._textZoom = val);
-      }
-    });
-    Object.defineProperty(this, "_isSyntheticDocument", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._isSyntheticDocument;
-        return (this._isSyntheticDocument = false);
-      },
-      set(val) {
-        delete this._isSyntheticDocument;
-        return (this._isSyntheticDocument = val);
-      }
-    });
-    Object.defineProperty(this, "_outerWindowID", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._outerWindowID;
-        return (this._outerWindowID = null);
-      },
-      set(val) {
-        delete this._outerWindowID;
-        return (this._outerWindowID = val);
-      }
-    });
-    Object.defineProperty(this, "_innerWindowID", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._innerWindowID;
-        return (this._innerWindowID = null);
-      },
-      set(val) {
-        delete this._innerWindowID;
-        return (this._innerWindowID = val);
-      }
-    });
-    Object.defineProperty(this, "_manifestURI", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._manifestURI;
-        return (this._manifestURI = "");
-      },
-      set(val) {
-        delete this._manifestURI;
-        return (this._manifestURI = val);
-      }
-    });
-    Object.defineProperty(this, "mDestroyed", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mDestroyed;
-        return (this.mDestroyed = false);
-      },
-      set(val) {
-        delete this.mDestroyed;
-        return (this.mDestroyed = val);
-      }
-    });
-    Object.defineProperty(this, "_permitUnloadId", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._permitUnloadId;
-        return (this._permitUnloadId = 0);
-      },
-      set(val) {
-        delete this._permitUnloadId;
-        return (this._permitUnloadId = val);
-      }
-    });
+    this._securityUI = null;
+
+    this._controller = null;
+
+    this._selectParentHelper = null;
+
+    this._remoteWebNavigation = null;
+
+    this._remoteWebProgress = null;
+
+    this._remoteFinder = null;
+
+    this._documentURI = null;
+
+    this._documentContentType = null;
+
+    this._contentTitle = "";
+
+    this._characterSet = "";
+
+    this._mayEnableCharacterEncodingMenu = null;
+
+    this._contentWindow = null;
+
+    this._contentPrincipal = null;
+
+    this._contentRequestContextID = null;
+
+    this._contentDocument = null;
+
+    this._imageDocument = null;
+
+    this._fullZoom = 1;
+
+    this._textZoom = 1;
+
+    this._isSyntheticDocument = false;
+
+    this._outerWindowID = null;
+
+    this._innerWindowID = null;
+
+    this._manifestURI = "";
+
+    this.mDestroyed = false;
+
+    this._permitUnloadId = 0;
 
     /*
            * Don't try to send messages from this function. The message manager for

@@ -7,14 +7,8 @@ class FirefoxTab extends FirefoxBasetext {
         <xul:label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation"></xul:label>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "arrowKeysShouldWrap", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.arrowKeysShouldWrap;
-        return (this.arrowKeysShouldWrap = /Mac/.test(navigator.platform));
-      }
-    });
+
+    this.arrowKeysShouldWrap = /Mac/.test(navigator.platform);
 
     this.addEventListener("mousedown", event => {
       if (this.disabled) return;

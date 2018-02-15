@@ -2,30 +2,9 @@ class FirefoxPanel extends FirefoxPopupBase {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_prevFocus", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._prevFocus;
-        return (this._prevFocus = 0);
-      },
-      set(val) {
-        delete this._prevFocus;
-        return (this._prevFocus = val);
-      }
-    });
-    Object.defineProperty(this, "_dragBindingAlive", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._dragBindingAlive;
-        return (this._dragBindingAlive = true);
-      },
-      set(val) {
-        delete this._dragBindingAlive;
-        return (this._dragBindingAlive = val);
-      }
-    });
+    this._prevFocus = 0;
+
+    this._dragBindingAlive = true;
 
     if (this.getAttribute("backdrag") == "true" && !this._draggableStarted) {
       this._draggableStarted = true;

@@ -5,42 +5,12 @@ class FirefoxLabelControl extends FirefoxTextLabel {
       <children></children>
       <html:span anonid="accessKeyParens"></html:span>
     `;
-    Object.defineProperty(this, "mUnderlineAccesskey", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mUnderlineAccesskey;
-        return (this.mUnderlineAccesskey = !/Mac/.test(navigator.platform));
-      },
-      set(val) {
-        delete this.mUnderlineAccesskey;
-        return (this.mUnderlineAccesskey = val);
-      }
-    });
-    Object.defineProperty(this, "mInsertSeparator", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mInsertSeparator;
-        return (this.mInsertSeparator = "");
-      },
-      set(val) {
-        delete this.mInsertSeparator;
-        return (this.mInsertSeparator = val);
-      }
-    });
-    Object.defineProperty(this, "mAlwaysAppendAccessKey", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mAlwaysAppendAccessKey;
-        return (this.mAlwaysAppendAccessKey = false);
-      },
-      set(val) {
-        delete this.mAlwaysAppendAccessKey;
-        return (this.mAlwaysAppendAccessKey = val);
-      }
-    });
+
+    this.mUnderlineAccesskey = !/Mac/.test(navigator.platform);
+
+    this.mInsertSeparator = "";
+
+    this.mAlwaysAppendAccessKey = false;
 
     this.formatAccessKey(true);
 

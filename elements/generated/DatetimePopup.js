@@ -2,38 +2,13 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "TIME_PICKER_WIDTH", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.TIME_PICKER_WIDTH;
-        return (this.TIME_PICKER_WIDTH = "12em");
-      }
-    });
-    Object.defineProperty(this, "TIME_PICKER_HEIGHT", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.TIME_PICKER_HEIGHT;
-        return (this.TIME_PICKER_HEIGHT = "21em");
-      }
-    });
-    Object.defineProperty(this, "DATE_PICKER_WIDTH", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.DATE_PICKER_WIDTH;
-        return (this.DATE_PICKER_WIDTH = "23.1em");
-      }
-    });
-    Object.defineProperty(this, "DATE_PICKER_HEIGHT", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.DATE_PICKER_HEIGHT;
-        return (this.DATE_PICKER_HEIGHT = "20.7em");
-      }
-    });
+    this.TIME_PICKER_WIDTH = "12em";
+
+    this.TIME_PICKER_HEIGHT = "21em";
+
+    this.DATE_PICKER_WIDTH = "23.1em";
+
+    this.DATE_PICKER_HEIGHT = "20.7em";
 
     this.mozIntl = Components.classes["@mozilla.org/mozintl;1"].getService(
       Components.interfaces.mozIMozIntl

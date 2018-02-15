@@ -15,337 +15,80 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         <xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;"></xul:spacer>
       </xul:arrowscrollbox>
     `;
-    Object.defineProperty(this, "tabbrowser", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.tabbrowser;
-        return (this.tabbrowser = document.getElementById(
-          this.getAttribute("tabbrowser")
-        ));
-      }
-    });
-    Object.defineProperty(this, "tabbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.tabbox;
-        return (this.tabbox = this.tabbrowser.tabbox);
-      }
-    });
-    Object.defineProperty(this, "contextMenu", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.contextMenu;
-        return (this.contextMenu = document.getElementById("tabContextMenu"));
-      }
-    });
-    Object.defineProperty(this, "arrowScrollbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.arrowScrollbox;
-        return (this.arrowScrollbox = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "arrowscrollbox"
-        ));
-      },
-      set(val) {
-        delete this.arrowScrollbox;
-        return (this.arrowScrollbox = val);
-      }
-    });
-    Object.defineProperty(this, "_firstTab", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._firstTab;
-        return (this._firstTab = null);
-      },
-      set(val) {
-        delete this._firstTab;
-        return (this._firstTab = val);
-      }
-    });
-    Object.defineProperty(this, "_lastTab", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastTab;
-        return (this._lastTab = null);
-      },
-      set(val) {
-        delete this._lastTab;
-        return (this._lastTab = val);
-      }
-    });
-    Object.defineProperty(this, "_beforeSelectedTab", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._beforeSelectedTab;
-        return (this._beforeSelectedTab = null);
-      },
-      set(val) {
-        delete this._beforeSelectedTab;
-        return (this._beforeSelectedTab = val);
-      }
-    });
-    Object.defineProperty(this, "_beforeHoveredTab", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._beforeHoveredTab;
-        return (this._beforeHoveredTab = null);
-      },
-      set(val) {
-        delete this._beforeHoveredTab;
-        return (this._beforeHoveredTab = val);
-      }
-    });
-    Object.defineProperty(this, "_afterHoveredTab", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._afterHoveredTab;
-        return (this._afterHoveredTab = null);
-      },
-      set(val) {
-        delete this._afterHoveredTab;
-        return (this._afterHoveredTab = val);
-      }
-    });
-    Object.defineProperty(this, "_hoveredTab", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._hoveredTab;
-        return (this._hoveredTab = null);
-      },
-      set(val) {
-        delete this._hoveredTab;
-        return (this._hoveredTab = val);
-      }
-    });
-    Object.defineProperty(this, "restoreTabsButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.restoreTabsButton;
-        return (this.restoreTabsButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "restore-tabs-button"
-        ));
-      },
-      set(val) {
-        delete this.restoreTabsButton;
-        return (this.restoreTabsButton = val);
-      }
-    });
-    Object.defineProperty(this, "_restoreTabsButtonWrapperWidth", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._restoreTabsButtonWrapperWidth;
-        return (this._restoreTabsButtonWrapperWidth = 0);
-      },
-      set(val) {
-        delete this._restoreTabsButtonWrapperWidth;
-        return (this._restoreTabsButtonWrapperWidth = val);
-      }
-    });
-    Object.defineProperty(this, "windowUtils", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.windowUtils;
-        return (this.windowUtils = window
-          .QueryInterface(Ci.nsIInterfaceRequestor)
-          .getInterface(Ci.nsIDOMWindowUtils));
-      },
-      set(val) {
-        delete this.windowUtils;
-        return (this.windowUtils = val);
-      }
-    });
-    Object.defineProperty(this, "_blockDblClick", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._blockDblClick;
-        return (this._blockDblClick = false);
-      },
-      set(val) {
-        delete this._blockDblClick;
-        return (this._blockDblClick = val);
-      }
-    });
-    Object.defineProperty(this, "_tabDropIndicator", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabDropIndicator;
-        return (this._tabDropIndicator = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "tab-drop-indicator"
-        ));
-      },
-      set(val) {
-        delete this._tabDropIndicator;
-        return (this._tabDropIndicator = val);
-      }
-    });
-    Object.defineProperty(this, "_dragOverDelay", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._dragOverDelay;
-        return (this._dragOverDelay = 350);
-      },
-      set(val) {
-        delete this._dragOverDelay;
-        return (this._dragOverDelay = val);
-      }
-    });
-    Object.defineProperty(this, "_dragTime", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._dragTime;
-        return (this._dragTime = 0);
-      },
-      set(val) {
-        delete this._dragTime;
-        return (this._dragTime = val);
-      }
-    });
-    Object.defineProperty(this, "_container", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._container;
-        return (this._container = this.parentNode &&
-          this.parentNode.localName == "toolbar"
-          ? this.parentNode
-          : this);
-      }
-    });
-    Object.defineProperty(this, "_propagatedVisibilityOnce", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._propagatedVisibilityOnce;
-        return (this._propagatedVisibilityOnce = false);
-      },
-      set(val) {
-        delete this._propagatedVisibilityOnce;
-        return (this._propagatedVisibilityOnce = val);
-      }
-    });
-    Object.defineProperty(this, "_closeButtonsUpdatePending", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._closeButtonsUpdatePending;
-        return (this._closeButtonsUpdatePending = false);
-      },
-      set(val) {
-        delete this._closeButtonsUpdatePending;
-        return (this._closeButtonsUpdatePending = val);
-      }
-    });
-    Object.defineProperty(this, "_closingTabsSpacer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._closingTabsSpacer;
-        return (this._closingTabsSpacer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "closing-tabs-spacer"
-        ));
-      },
-      set(val) {
-        delete this._closingTabsSpacer;
-        return (this._closingTabsSpacer = val);
-      }
-    });
-    Object.defineProperty(this, "_tabDefaultMaxWidth", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabDefaultMaxWidth;
-        return (this._tabDefaultMaxWidth = NaN);
-      },
-      set(val) {
-        delete this._tabDefaultMaxWidth;
-        return (this._tabDefaultMaxWidth = val);
-      }
-    });
-    Object.defineProperty(this, "_lastTabClosedByMouse", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastTabClosedByMouse;
-        return (this._lastTabClosedByMouse = false);
-      },
-      set(val) {
-        delete this._lastTabClosedByMouse;
-        return (this._lastTabClosedByMouse = val);
-      }
-    });
-    Object.defineProperty(this, "_hasTabTempMaxWidth", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._hasTabTempMaxWidth;
-        return (this._hasTabTempMaxWidth = false);
-      },
-      set(val) {
-        delete this._hasTabTempMaxWidth;
-        return (this._hasTabTempMaxWidth = val);
-      }
-    });
-    Object.defineProperty(this, "_lastNumPinned", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastNumPinned;
-        return (this._lastNumPinned = 0);
-      },
-      set(val) {
-        delete this._lastNumPinned;
-        return (this._lastNumPinned = val);
-      }
-    });
-    Object.defineProperty(this, "_pinnedTabsLayoutCache", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._pinnedTabsLayoutCache;
-        return (this._pinnedTabsLayoutCache = null);
-      },
-      set(val) {
-        delete this._pinnedTabsLayoutCache;
-        return (this._pinnedTabsLayoutCache = val);
-      }
-    });
-    Object.defineProperty(this, "_animateElement", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._animateElement;
-        return (this._animateElement = this.arrowScrollbox._scrollButtonDown);
-      },
-      set(val) {
-        delete this._animateElement;
-        return (this._animateElement = val);
-      }
-    });
+
+    this.tabbrowser = document.getElementById(this.getAttribute("tabbrowser"));
+
+    this.tabbox = this.tabbrowser.tabbox;
+
+    this.contextMenu = document.getElementById("tabContextMenu");
+
+    this.arrowScrollbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "arrowscrollbox"
+    );
+
+    this._firstTab = null;
+
+    this._lastTab = null;
+
+    this._beforeSelectedTab = null;
+
+    this._beforeHoveredTab = null;
+
+    this._afterHoveredTab = null;
+
+    this._hoveredTab = null;
+
+    this.restoreTabsButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "restore-tabs-button"
+    );
+
+    this._restoreTabsButtonWrapperWidth = 0;
+
+    this.windowUtils = window
+      .QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIDOMWindowUtils);
+
+    this._blockDblClick = false;
+
+    this._tabDropIndicator = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "tab-drop-indicator"
+    );
+
+    this._dragOverDelay = 350;
+
+    this._dragTime = 0;
+
+    this._container = this.parentNode && this.parentNode.localName == "toolbar"
+      ? this.parentNode
+      : this;
+
+    this._propagatedVisibilityOnce = false;
+
+    this._closeButtonsUpdatePending = false;
+
+    this._closingTabsSpacer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "closing-tabs-spacer"
+    );
+
+    this._tabDefaultMaxWidth = NaN;
+
+    this._lastTabClosedByMouse = false;
+
+    this._hasTabTempMaxWidth = false;
+
+    this._lastNumPinned = 0;
+
+    this._pinnedTabsLayoutCache = null;
+
+    this._animateElement = this.arrowScrollbox._scrollButtonDown;
 
     this._tabClipWidth = Services.prefs.getIntPref("browser.tabs.tabClipWidth");
 

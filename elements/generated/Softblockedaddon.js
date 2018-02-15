@@ -13,22 +13,12 @@ class FirefoxSoftblockedaddon extends XULElement {
         </xul:hbox>
       </xul:vbox>
     `;
-    Object.defineProperty(this, "_checkbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._checkbox;
-        return (this._checkbox = document.getAnonymousElementByAttribute(
-          this,
-          "class",
-          "disableCheckbox"
-        ));
-      },
-      set(val) {
-        delete this._checkbox;
-        return (this._checkbox = val);
-      }
-    });
+
+    this._checkbox = document.getAnonymousElementByAttribute(
+      this,
+      "class",
+      "disableCheckbox"
+    );
   }
 
   get checked() {

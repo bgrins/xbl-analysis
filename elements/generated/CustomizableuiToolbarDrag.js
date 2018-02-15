@@ -2,18 +2,7 @@ class FirefoxCustomizableuiToolbarDrag extends FirefoxToolbar {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_dragBindingAlive", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._dragBindingAlive;
-        return (this._dragBindingAlive = true);
-      },
-      set(val) {
-        delete this._dragBindingAlive;
-        return (this._dragBindingAlive = val);
-      }
-    });
+    this._dragBindingAlive = true;
 
     if (!this._draggableStarted) {
       this._draggableStarted = true;

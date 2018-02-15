@@ -9,18 +9,8 @@ class FirefoxNotification extends XULElement {
       </xul:hbox>
       <xul:toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" anonid="close-button" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).dismiss();"></xul:toolbarbutton>
     `;
-    Object.defineProperty(this, "timeout", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.timeout;
-        return (this.timeout = 0);
-      },
-      set(val) {
-        delete this.timeout;
-        return (this.timeout = val);
-      }
-    });
+
+    this.timeout = 0;
   }
 
   set label(val) {

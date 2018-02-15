@@ -4,50 +4,20 @@ class FirefoxSorters extends XULElement {
       <xul:button anonid="name-btn" class="sorter" label="FROM-DTD-sort-name-label" tooltiptext="FROM-DTD-sort-name-tooltip" oncommand="this.parentNode._handleChange('name');"></xul:button>
       <xul:button anonid="date-btn" class="sorter" label="FROM-DTD-sort-dateUpdated-label" tooltiptext="FROM-DTD-sort-dateUpdated-tooltip" oncommand="this.parentNode._handleChange('updateDate');"></xul:button>
     `;
-    Object.defineProperty(this, "handler", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.handler;
-        return (this.handler = null);
-      },
-      set(val) {
-        delete this.handler;
-        return (this.handler = val);
-      }
-    });
-    Object.defineProperty(this, "_btnName", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._btnName;
-        return (this._btnName = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "name-btn"
-        ));
-      },
-      set(val) {
-        delete this._btnName;
-        return (this._btnName = val);
-      }
-    });
-    Object.defineProperty(this, "_btnDate", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._btnDate;
-        return (this._btnDate = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "date-btn"
-        ));
-      },
-      set(val) {
-        delete this._btnDate;
-        return (this._btnDate = val);
-      }
-    });
+
+    this.handler = null;
+
+    this._btnName = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "name-btn"
+    );
+
+    this._btnDate = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "date-btn"
+    );
 
     if (!this.hasAttribute("sortby")) this.setAttribute("sortby", "name");
 

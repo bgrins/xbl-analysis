@@ -104,22 +104,27 @@ function getJSForBinding(binding) {
       }
     }
 
-    let setter = field.attrs.readonly ? '' :
-    `set(val) {
-        delete this.${field.attrs.name};
-        return this.${field.attrs.name} = val;
-    },`;
+    fields.push(`
+      ${comments.join("\n")}
+      this.${field.attrs.name} = ${expressions.join("\n")};
+    `);
 
-    fields.push(`Object.defineProperty(this, "${field.attrs.name}", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        ${comments.join('\n')}
-        delete this.${field.attrs.name};
-        return this.${field.attrs.name} = ${expressions.join('\n')}
-      },
-      ${setter}
-    })`);
+    // let setter = field.attrs.readonly ? '' :
+    // `set(val) {
+    //     delete this.${field.attrs.name};
+    //     return this.${field.attrs.name} = val;
+    // },`;
+
+    // fields.push(`Object.defineProperty(this, "${field.attrs.name}", {
+    //   configurable: true,
+    //   enumerable: true,
+    //   get() {
+    //     ${comments.join('\n')}
+    //     delete this.${field.attrs.name};
+    //     return this.${field.attrs.name} = ${expressions.join('\n')}
+    //   },
+    //   ${setter}
+    // })`);
   }
 
   js.push(`

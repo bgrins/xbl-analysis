@@ -1,82 +1,37 @@
 class FirefoxEditor extends XULElement {
   connectedCallback() {
-    Object.defineProperty(this, "_editorContentListener", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._editorContentListener;
-        return (this._editorContentListener = {
-          QueryInterface(iid) {
-            if (
-              iid.equals(Components.interfaces.nsIURIContentListener) ||
-              iid.equals(Components.interfaces.nsISupportsWeakReference) ||
-              iid.equals(Components.interfaces.nsISupports)
-            )
-              return this;
+    this._editorContentListener = {
+      QueryInterface(iid) {
+        if (
+          iid.equals(Components.interfaces.nsIURIContentListener) ||
+          iid.equals(Components.interfaces.nsISupportsWeakReference) ||
+          iid.equals(Components.interfaces.nsISupports)
+        )
+          return this;
 
-            throw Components.results.NS_ERROR_NO_INTERFACE;
-          },
-          onStartURIOpen(uri) {
-            return false;
-          },
-          doContent(contentType, isContentPreferred, request, contentHandler) {
-            return false;
-          },
-          isPreferred(contentType, desiredContentType) {
-            return false;
-          },
-          canHandleContent(
-            contentType,
-            isContentPreferred,
-            desiredContentType
-          ) {
-            return false;
-          },
-          loadCookie: null,
-          parentContentListener: null
-        });
+        throw Components.results.NS_ERROR_NO_INTERFACE;
       },
-      set(val) {
-        delete this._editorContentListener;
-        return (this._editorContentListener = val);
-      }
-    });
-    Object.defineProperty(this, "_finder", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._finder;
-        return (this._finder = null);
+      onStartURIOpen(uri) {
+        return false;
       },
-      set(val) {
-        delete this._finder;
-        return (this._finder = val);
-      }
-    });
-    Object.defineProperty(this, "_fastFind", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._fastFind;
-        return (this._fastFind = null);
+      doContent(contentType, isContentPreferred, request, contentHandler) {
+        return false;
       },
-      set(val) {
-        delete this._fastFind;
-        return (this._fastFind = val);
-      }
-    });
-    Object.defineProperty(this, "_lastSearchString", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastSearchString;
-        return (this._lastSearchString = null);
+      isPreferred(contentType, desiredContentType) {
+        return false;
       },
-      set(val) {
-        delete this._lastSearchString;
-        return (this._lastSearchString = val);
-      }
-    });
+      canHandleContent(contentType, isContentPreferred, desiredContentType) {
+        return false;
+      },
+      loadCookie: null,
+      parentContentListener: null
+    };
+
+    this._finder = null;
+
+    this._fastFind = null;
+
+    this._lastSearchString = null;
 
     // Make window editable immediately only
     //   if the "editortype" attribute is supplied

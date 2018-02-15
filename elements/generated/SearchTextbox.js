@@ -12,50 +12,20 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
         </xul:deck>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "_timer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._timer;
-        return (this._timer = null);
-      },
-      set(val) {
-        delete this._timer;
-        return (this._timer = val);
-      }
-    });
-    Object.defineProperty(this, "_searchIcons", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._searchIcons;
-        return (this._searchIcons = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "search-icons"
-        ));
-      },
-      set(val) {
-        delete this._searchIcons;
-        return (this._searchIcons = val);
-      }
-    });
-    Object.defineProperty(this, "_searchButtonIcon", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._searchButtonIcon;
-        return (this._searchButtonIcon = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "searchbutton-icon"
-        ));
-      },
-      set(val) {
-        delete this._searchButtonIcon;
-        return (this._searchButtonIcon = val);
-      }
-    });
+
+    this._timer = null;
+
+    this._searchIcons = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "search-icons"
+    );
+
+    this._searchButtonIcon = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "searchbutton-icon"
+    );
 
     // Ensure the button state is up to date:
     this.searchButton = this.searchButton;

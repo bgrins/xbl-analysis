@@ -10,30 +10,18 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
         <xul:spacer flex="5000"></xul:spacer>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "_notice", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._notice;
-        return (this._notice = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "notice"
-        ));
-      }
-    });
-    Object.defineProperty(this, "_restartBtn", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._restartBtn;
-        return (this._restartBtn = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "restart-btn"
-        ));
-      }
-    });
+
+    this._notice = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "notice"
+    );
+
+    this._restartBtn = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "restart-btn"
+    );
 
     this._notice.textContent = gStrings.ext.formatStringFromName(
       "uninstallNotice",

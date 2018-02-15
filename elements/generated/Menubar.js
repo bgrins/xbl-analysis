@@ -2,42 +2,11 @@ class FirefoxMenubar extends FirefoxToolbarBase {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_active", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._active;
-        return (this._active = false);
-      },
-      set(val) {
-        delete this._active;
-        return (this._active = val);
-      }
-    });
-    Object.defineProperty(this, "_statusbar", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._statusbar;
-        return (this._statusbar = null);
-      },
-      set(val) {
-        delete this._statusbar;
-        return (this._statusbar = val);
-      }
-    });
-    Object.defineProperty(this, "_originalStatusText", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._originalStatusText;
-        return (this._originalStatusText = null);
-      },
-      set(val) {
-        delete this._originalStatusText;
-        return (this._originalStatusText = val);
-      }
-    });
+    this._active = false;
+
+    this._statusbar = null;
+
+    this._originalStatusText = null;
 
     this.addEventListener("DOMMenuBarActive", event => {
       if (!this.statusbar) return;

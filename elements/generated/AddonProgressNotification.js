@@ -2,26 +2,13 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "progressmeter", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.progressmeter;
-        return (this.progressmeter = document.getElementById(
-          "addon-progress-notification-progressmeter"
-        ));
-      }
-    });
-    Object.defineProperty(this, "progresstext", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.progresstext;
-        return (this.progresstext = document.getElementById(
-          "addon-progress-notification-progresstext"
-        ));
-      }
-    });
+    this.progressmeter = document.getElementById(
+      "addon-progress-notification-progressmeter"
+    );
+
+    this.progresstext = document.getElementById(
+      "addon-progress-notification-progresstext"
+    );
 
     if (!this.notification) return;
 

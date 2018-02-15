@@ -14,104 +14,22 @@ class FirefoxTree extends FirefoxTreeBase {
         <xul:scrollcorner inherits="collapsed=hidevscroll"></xul:scrollcorner>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "pageUpOrDownMovesSelection", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.pageUpOrDownMovesSelection;
-        return (this.pageUpOrDownMovesSelection = !/Mac/.test(
-          navigator.platform
-        ));
-      },
-      set(val) {
-        delete this.pageUpOrDownMovesSelection;
-        return (this.pageUpOrDownMovesSelection = val);
-      }
-    });
-    Object.defineProperty(this, "_inputField", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._inputField;
-        return (this._inputField = null);
-      },
-      set(val) {
-        delete this._inputField;
-        return (this._inputField = val);
-      }
-    });
-    Object.defineProperty(this, "_editingRow", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._editingRow;
-        return (this._editingRow = -1);
-      },
-      set(val) {
-        delete this._editingRow;
-        return (this._editingRow = val);
-      }
-    });
-    Object.defineProperty(this, "_editingColumn", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._editingColumn;
-        return (this._editingColumn = null);
-      },
-      set(val) {
-        delete this._editingColumn;
-        return (this._editingColumn = val);
-      }
-    });
-    Object.defineProperty(this, "_columnsDirty", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._columnsDirty;
-        return (this._columnsDirty = true);
-      },
-      set(val) {
-        delete this._columnsDirty;
-        return (this._columnsDirty = val);
-      }
-    });
-    Object.defineProperty(this, "_lastKeyTime", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastKeyTime;
-        return (this._lastKeyTime = 0);
-      },
-      set(val) {
-        delete this._lastKeyTime;
-        return (this._lastKeyTime = val);
-      }
-    });
-    Object.defineProperty(this, "_incrementalString", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._incrementalString;
-        return (this._incrementalString = "");
-      },
-      set(val) {
-        delete this._incrementalString;
-        return (this._incrementalString = val);
-      }
-    });
-    Object.defineProperty(this, "_touchY", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._touchY;
-        return (this._touchY = -1);
-      },
-      set(val) {
-        delete this._touchY;
-        return (this._touchY = val);
-      }
-    });
+
+    this.pageUpOrDownMovesSelection = !/Mac/.test(navigator.platform);
+
+    this._inputField = null;
+
+    this._editingRow = -1;
+
+    this._editingColumn = null;
+
+    this._columnsDirty = true;
+
+    this._lastKeyTime = 0;
+
+    this._incrementalString = "";
+
+    this._touchY = -1;
 
     this.addEventListener("touchstart", event => {
       function isScrollbarElement(target) {

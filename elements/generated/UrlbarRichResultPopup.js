@@ -23,178 +23,54 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         <xul:vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></xul:vbox>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "DOMWindowUtils", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.DOMWindowUtils;
-        return (this.DOMWindowUtils = window
-          .QueryInterface(Ci.nsIInterfaceRequestor)
-          .getInterface(Ci.nsIDOMWindowUtils));
-      },
-      set(val) {
-        delete this.DOMWindowUtils;
-        return (this.DOMWindowUtils = val);
-      }
-    });
-    Object.defineProperty(this, "_maxResults", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._maxResults;
-        return (this._maxResults = 0);
-      },
-      set(val) {
-        delete this._maxResults;
-        return (this._maxResults = val);
-      }
-    });
-    Object.defineProperty(this, "_bundle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._bundle;
-        return (this._bundle = Cc["@mozilla.org/intl/stringbundle;1"]
-          .getService(Ci.nsIStringBundleService)
-          .createBundle("chrome://browser/locale/places/places.properties"));
-      }
-    });
-    Object.defineProperty(this, "searchSuggestionsNotification", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.searchSuggestionsNotification;
-        return (this.searchSuggestionsNotification = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "search-suggestions-notification"
-        ));
-      }
-    });
-    Object.defineProperty(this, "footer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.footer;
-        return (this.footer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "footer"
-        ));
-      }
-    });
-    Object.defineProperty(this, "oneOffSearchButtons", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.oneOffSearchButtons;
-        return (this.oneOffSearchButtons = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "one-off-search-buttons"
-        ));
-      }
-    });
-    Object.defineProperty(this, "_oneOffSearchesEnabled", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._oneOffSearchesEnabled;
-        return (this._oneOffSearchesEnabled = false);
-      },
-      set(val) {
-        delete this._oneOffSearchesEnabled;
-        return (this._oneOffSearchesEnabled = val);
-      }
-    });
-    Object.defineProperty(this, "_overrideValue", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._overrideValue;
-        return (this._overrideValue = null);
-      },
-      set(val) {
-        delete this._overrideValue;
-        return (this._overrideValue = val);
-      }
-    });
-    Object.defineProperty(this, "_addonIframe", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addonIframe;
-        return (this._addonIframe = null);
-      },
-      set(val) {
-        delete this._addonIframe;
-        return (this._addonIframe = val);
-      }
-    });
-    Object.defineProperty(this, "_addonIframeOwner", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addonIframeOwner;
-        return (this._addonIframeOwner = null);
-      },
-      set(val) {
-        delete this._addonIframeOwner;
-        return (this._addonIframeOwner = val);
-      }
-    });
-    Object.defineProperty(this, "_addonIframeOverriddenFunctionsByName", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addonIframeOverriddenFunctionsByName;
-        return (this._addonIframeOverriddenFunctionsByName = {});
-      },
-      set(val) {
-        delete this._addonIframeOverriddenFunctionsByName;
-        return (this._addonIframeOverriddenFunctionsByName = val);
-      }
-    });
-    Object.defineProperty(this, "_addonIframeOverrideFunctionNames", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addonIframeOverrideFunctionNames;
-        return (this._addonIframeOverrideFunctionNames = ["_invalidate"]);
-      },
-      set(val) {
-        delete this._addonIframeOverrideFunctionNames;
-        return (this._addonIframeOverrideFunctionNames = val);
-      }
-    });
-    Object.defineProperty(this, "_addonIframeHiddenAnonids", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addonIframeHiddenAnonids;
-        return (this._addonIframeHiddenAnonids = [
-          "search-suggestions-notification",
-          "richlistbox",
-          "one-off-search-buttons"
-        ]);
-      },
-      set(val) {
-        delete this._addonIframeHiddenAnonids;
-        return (this._addonIframeHiddenAnonids = val);
-      }
-    });
-    Object.defineProperty(this, "_addonIframeHiddenDisplaysByAnonid", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addonIframeHiddenDisplaysByAnonid;
-        return (this._addonIframeHiddenDisplaysByAnonid = {});
-      },
-      set(val) {
-        delete this._addonIframeHiddenDisplaysByAnonid;
-        return (this._addonIframeHiddenDisplaysByAnonid = val);
-      }
-    });
+
+    this.DOMWindowUtils = window
+      .QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIDOMWindowUtils);
+
+    this._maxResults = 0;
+
+    this._bundle = Cc["@mozilla.org/intl/stringbundle;1"]
+      .getService(Ci.nsIStringBundleService)
+      .createBundle("chrome://browser/locale/places/places.properties");
+
+    this.searchSuggestionsNotification = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "search-suggestions-notification"
+    );
+
+    this.footer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "footer"
+    );
+
+    this.oneOffSearchButtons = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "one-off-search-buttons"
+    );
+
+    this._oneOffSearchesEnabled = false;
+
+    this._overrideValue = null;
+
+    this._addonIframe = null;
+
+    this._addonIframeOwner = null;
+
+    this._addonIframeOverriddenFunctionsByName = {};
+
+    this._addonIframeOverrideFunctionNames = ["_invalidate"];
+
+    this._addonIframeHiddenAnonids = [
+      "search-suggestions-notification",
+      "richlistbox",
+      "one-off-search-buttons"
+    ];
+
+    this._addonIframeHiddenDisplaysByAnonid = {};
 
     this.addEventListener("SelectedOneOffButtonChanged", event => {
       this._selectedOneOffChanged();

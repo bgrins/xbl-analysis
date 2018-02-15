@@ -14,97 +14,31 @@ class FirefoxSearchbar extends XULElement {
         </xul:hbox>
       </xul:textbox>
     `;
-    Object.defineProperty(this, "_ignoreFocus", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._ignoreFocus;
-        return (this._ignoreFocus = false);
-      },
-      set(val) {
-        delete this._ignoreFocus;
-        return (this._ignoreFocus = val);
-      }
-    });
-    Object.defineProperty(this, "_clickClosedPopup", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._clickClosedPopup;
-        return (this._clickClosedPopup = false);
-      },
-      set(val) {
-        delete this._clickClosedPopup;
-        return (this._clickClosedPopup = val);
-      }
-    });
-    Object.defineProperty(this, "_stringBundle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._stringBundle;
-        return (this._stringBundle = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "searchbar-stringbundle"
-        ));
-      },
-      set(val) {
-        delete this._stringBundle;
-        return (this._stringBundle = val);
-      }
-    });
-    Object.defineProperty(this, "_textboxInitialized", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._textboxInitialized;
-        return (this._textboxInitialized = false);
-      },
-      set(val) {
-        delete this._textboxInitialized;
-        return (this._textboxInitialized = val);
-      }
-    });
-    Object.defineProperty(this, "_textbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._textbox;
-        return (this._textbox = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "searchbar-textbox"
-        ));
-      },
-      set(val) {
-        delete this._textbox;
-        return (this._textbox = val);
-      }
-    });
-    Object.defineProperty(this, "_engines", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._engines;
-        return (this._engines = null);
-      },
-      set(val) {
-        delete this._engines;
-        return (this._engines = val);
-      }
-    });
-    Object.defineProperty(this, "FormHistory", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.FormHistory;
-        return (this.FormHistory = ChromeUtils.import(
-          "resource://gre/modules/FormHistory.jsm",
-          {}
-        ).FormHistory);
-      }
-    });
+
+    this._ignoreFocus = false;
+
+    this._clickClosedPopup = false;
+
+    this._stringBundle = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "searchbar-stringbundle"
+    );
+
+    this._textboxInitialized = false;
+
+    this._textbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "searchbar-textbox"
+    );
+
+    this._engines = null;
+
+    this.FormHistory = ChromeUtils.import(
+      "resource://gre/modules/FormHistory.jsm",
+      {}
+    ).FormHistory;
 
     if (this.parentNode.parentNode.localName == "toolbarpaletteitem") return;
 

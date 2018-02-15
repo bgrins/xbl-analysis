@@ -2,26 +2,9 @@ class FirefoxTabbox extends FirefoxTabBase {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_handleMetaAltArrows", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._handleMetaAltArrows;
-        return (this._handleMetaAltArrows = /Mac/.test(navigator.platform));
-      }
-    });
-    Object.defineProperty(this, "_eventNode", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._eventNode;
-        return (this._eventNode = this);
-      },
-      set(val) {
-        delete this._eventNode;
-        return (this._eventNode = val);
-      }
-    });
+    this._handleMetaAltArrows = /Mac/.test(navigator.platform);
+
+    this._eventNode = this;
 
     switch (this.getAttribute("eventnode")) {
       case "parent":

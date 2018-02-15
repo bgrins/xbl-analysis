@@ -1,17 +1,6 @@
 class FirefoxRootElement extends XULElement {
   connectedCallback() {
-    Object.defineProperty(this, "_lightweightTheme", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lightweightTheme;
-        return (this._lightweightTheme = null);
-      },
-      set(val) {
-        delete this._lightweightTheme;
-        return (this._lightweightTheme = val);
-      }
-    });
+    this._lightweightTheme = null;
 
     if (this.hasAttribute("lightweightthemes")) {
       let temp = {};

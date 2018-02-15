@@ -21,18 +21,12 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
         </xul:hbox>
       </xul:vbox>
     `;
-    Object.defineProperty(this, "_wizardButtonDeck", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._wizardButtonDeck;
-        return (this._wizardButtonDeck = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "WizardButtonDeck"
-        ));
-      }
-    });
+
+    this._wizardButtonDeck = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "WizardButtonDeck"
+    );
   }
 
   get defaultButton() {

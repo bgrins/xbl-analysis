@@ -18,32 +18,12 @@ class FirefoxDialog extends FirefoxRootElement {
         <xul:key phase="capturing" oncommand="document.documentElement.openHelp(event)" keycode="FROM-DTD-openHelp-commandkey"></xul:key>
       </xul:keyset>
     `;
-    Object.defineProperty(this, "_mStrBundle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._mStrBundle;
-        return (this._mStrBundle = null);
-      },
-      set(val) {
-        delete this._mStrBundle;
-        return (this._mStrBundle = val);
-      }
-    });
-    Object.defineProperty(this, "_closeHandler", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._closeHandler;
-        return (this._closeHandler = function(event) {
-          if (!document.documentElement.cancelDialog()) event.preventDefault();
-        });
-      },
-      set(val) {
-        delete this._closeHandler;
-        return (this._closeHandler = val);
-      }
-    });
+
+    this._mStrBundle = null;
+
+    this._closeHandler = function(event) {
+      if (!document.documentElement.cancelDialog()) event.preventDefault();
+    };
 
     this._configureButtons(this.buttons);
 

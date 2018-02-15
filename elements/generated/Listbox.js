@@ -14,18 +14,8 @@ class FirefoxListbox extends FirefoxListboxBase {
         </xul:listboxbody>
       </xul:listrows>
     `;
-    Object.defineProperty(this, "_touchY", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._touchY;
-        return (this._touchY = -1);
-      },
-      set(val) {
-        delete this._touchY;
-        return (this._touchY = val);
-      }
-    });
+
+    this._touchY = -1;
 
     var count = this.itemCount;
     for (var index = 0; index < count; index++) {

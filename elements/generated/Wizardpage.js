@@ -2,18 +2,7 @@ class FirefoxWizardpage extends FirefoxWizardBase {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "pageIndex", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.pageIndex;
-        return (this.pageIndex = -1);
-      },
-      set(val) {
-        delete this.pageIndex;
-        return (this.pageIndex = val);
-      }
-    });
+    this.pageIndex = -1;
   }
 
   set pageid(val) {

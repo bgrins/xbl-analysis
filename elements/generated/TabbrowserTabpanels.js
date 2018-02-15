@@ -2,18 +2,7 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_selectedIndex", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._selectedIndex;
-        return (this._selectedIndex = 0);
-      },
-      set(val) {
-        delete this._selectedIndex;
-        return (this._selectedIndex = val);
-      }
-    });
+    this._selectedIndex = 0;
   }
 
   set selectedIndex(val) {

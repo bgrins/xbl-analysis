@@ -24,222 +24,62 @@ class FirefoxSearchOneOffs extends XULElement {
         <xul:menuitem anonid="search-one-offs-context-set-default" label="FROM-DTD-searchSetAsDefault-label" accesskey="FROM-DTD-searchSetAsDefault-accesskey"></xul:menuitem>
       </xul:menupopup>
     `;
-    Object.defineProperty(this, "_popup", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._popup;
-        return (this._popup = null);
-      },
-      set(val) {
-        delete this._popup;
-        return (this._popup = val);
-      }
-    });
-    Object.defineProperty(this, "_textbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._textbox;
-        return (this._textbox = null);
-      },
-      set(val) {
-        delete this._textbox;
-        return (this._textbox = val);
-      }
-    });
-    Object.defineProperty(this, "_textboxWidth", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._textboxWidth;
-        return (this._textboxWidth = 0);
-      },
-      set(val) {
-        delete this._textboxWidth;
-        return (this._textboxWidth = val);
-      }
-    });
-    Object.defineProperty(this, "telemetryOrigin", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.telemetryOrigin;
-        return (this.telemetryOrigin = "");
-      },
-      set(val) {
-        delete this.telemetryOrigin;
-        return (this.telemetryOrigin = val);
-      }
-    });
-    Object.defineProperty(this, "_query", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._query;
-        return (this._query = "");
-      },
-      set(val) {
-        delete this._query;
-        return (this._query = val);
-      }
-    });
-    Object.defineProperty(this, "_selectedButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._selectedButton;
-        return (this._selectedButton = null);
-      },
-      set(val) {
-        delete this._selectedButton;
-        return (this._selectedButton = val);
-      }
-    });
-    Object.defineProperty(this, "buttons", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.buttons;
-        return (this.buttons = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "search-panel-one-offs"
-        ));
-      }
-    });
-    Object.defineProperty(this, "header", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.header;
-        return (this.header = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "search-panel-one-offs-header"
-        ));
-      }
-    });
-    Object.defineProperty(this, "addEngines", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.addEngines;
-        return (this.addEngines = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "add-engines"
-        ));
-      }
-    });
-    Object.defineProperty(this, "settingsButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.settingsButton;
-        return (this.settingsButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "search-settings"
-        ));
-      }
-    });
-    Object.defineProperty(this, "settingsButtonCompact", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.settingsButtonCompact;
-        return (this.settingsButtonCompact = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "search-settings-compact"
-        ));
-      }
-    });
-    Object.defineProperty(this, "_bundle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._bundle;
-        return (this._bundle = null);
-      },
-      set(val) {
-        delete this._bundle;
-        return (this._bundle = val);
-      }
-    });
-    Object.defineProperty(this, "_contextEngine", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contextEngine;
-        return (this._contextEngine = null);
-      },
-      set(val) {
-        delete this._contextEngine;
-        return (this._contextEngine = val);
-      }
-    });
-    Object.defineProperty(this, "_engines", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._engines;
-        return (this._engines = null);
-      },
-      set(val) {
-        delete this._engines;
-        return (this._engines = val);
-      }
-    });
-    Object.defineProperty(this, "_addEngineMenuThreshold", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addEngineMenuThreshold;
-        return (this._addEngineMenuThreshold = 5);
-      },
-      set(val) {
-        delete this._addEngineMenuThreshold;
-        return (this._addEngineMenuThreshold = val);
-      }
-    });
-    Object.defineProperty(this, "_addEngineMenuTimeoutMs", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addEngineMenuTimeoutMs;
-        return (this._addEngineMenuTimeoutMs = 200);
-      },
-      set(val) {
-        delete this._addEngineMenuTimeoutMs;
-        return (this._addEngineMenuTimeoutMs = val);
-      }
-    });
-    Object.defineProperty(this, "_addEngineMenuTimeout", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addEngineMenuTimeout;
-        return (this._addEngineMenuTimeout = null);
-      },
-      set(val) {
-        delete this._addEngineMenuTimeout;
-        return (this._addEngineMenuTimeout = val);
-      }
-    });
-    Object.defineProperty(this, "_addEngineMenuShouldBeOpen", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._addEngineMenuShouldBeOpen;
-        return (this._addEngineMenuShouldBeOpen = false);
-      },
-      set(val) {
-        delete this._addEngineMenuShouldBeOpen;
-        return (this._addEngineMenuShouldBeOpen = val);
-      }
-    });
+
+    this._popup = null;
+
+    this._textbox = null;
+
+    this._textboxWidth = 0;
+
+    this.telemetryOrigin = "";
+
+    this._query = "";
+
+    this._selectedButton = null;
+
+    this.buttons = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "search-panel-one-offs"
+    );
+
+    this.header = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "search-panel-one-offs-header"
+    );
+
+    this.addEngines = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "add-engines"
+    );
+
+    this.settingsButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "search-settings"
+    );
+
+    this.settingsButtonCompact = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "search-settings-compact"
+    );
+
+    this._bundle = null;
+
+    this._contextEngine = null;
+
+    this._engines = null;
+
+    this._addEngineMenuThreshold = 5;
+
+    this._addEngineMenuTimeoutMs = 200;
+
+    this._addEngineMenuTimeout = null;
+
+    this._addEngineMenuShouldBeOpen = false;
 
     // Prevent popup events from the context menu from reaching the autocomplete
     // binding (or other listeners).

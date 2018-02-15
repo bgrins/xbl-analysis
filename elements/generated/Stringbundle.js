@@ -1,17 +1,6 @@
 class FirefoxStringbundle extends XULElement {
   connectedCallback() {
-    Object.defineProperty(this, "_bundle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._bundle;
-        return (this._bundle = null);
-      },
-      set(val) {
-        delete this._bundle;
-        return (this._bundle = val);
-      }
-    });
+    this._bundle = null;
   }
 
   get stringBundle() {

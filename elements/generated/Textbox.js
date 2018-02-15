@@ -6,102 +6,22 @@ class FirefoxTextbox extends XULElement {
         <html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck"></html:input>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "crop", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.crop;
-        return (this.crop = "");
-      },
-      set(val) {
-        delete this.crop;
-        return (this.crop = val);
-      }
-    });
-    Object.defineProperty(this, "image", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.image;
-        return (this.image = "");
-      },
-      set(val) {
-        delete this.image;
-        return (this.image = val);
-      }
-    });
-    Object.defineProperty(this, "command", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.command;
-        return (this.command = "");
-      },
-      set(val) {
-        delete this.command;
-        return (this.command = val);
-      }
-    });
-    Object.defineProperty(this, "accessKey", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.accessKey;
-        return (this.accessKey = "");
-      },
-      set(val) {
-        delete this.accessKey;
-        return (this.accessKey = val);
-      }
-    });
-    Object.defineProperty(this, "mInputField", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mInputField;
-        return (this.mInputField = null);
-      },
-      set(val) {
-        delete this.mInputField;
-        return (this.mInputField = val);
-      }
-    });
-    Object.defineProperty(this, "mIgnoreClick", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mIgnoreClick;
-        return (this.mIgnoreClick = false);
-      },
-      set(val) {
-        delete this.mIgnoreClick;
-        return (this.mIgnoreClick = val);
-      }
-    });
-    Object.defineProperty(this, "mIgnoreFocus", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mIgnoreFocus;
-        return (this.mIgnoreFocus = false);
-      },
-      set(val) {
-        delete this.mIgnoreFocus;
-        return (this.mIgnoreFocus = val);
-      }
-    });
-    Object.defineProperty(this, "mEditor", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mEditor;
-        return (this.mEditor = null);
-      },
-      set(val) {
-        delete this.mEditor;
-        return (this.mEditor = val);
-      }
-    });
+
+    this.crop = "";
+
+    this.image = "";
+
+    this.command = "";
+
+    this.accessKey = "";
+
+    this.mInputField = null;
+
+    this.mIgnoreClick = false;
+
+    this.mIgnoreFocus = false;
+
+    this.mEditor = null;
 
     var str = this.boxObject.getProperty("value");
     if (str) {

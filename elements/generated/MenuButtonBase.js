@@ -2,18 +2,7 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_pendingActive", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._pendingActive;
-        return (this._pendingActive = false);
-      },
-      set(val) {
-        delete this._pendingActive;
-        return (this._pendingActive = val);
-      }
-    });
+    this._pendingActive = false;
 
     this.init();
 

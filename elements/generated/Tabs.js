@@ -6,26 +6,10 @@ class FirefoxTabs extends FirefoxBasecontrol {
       <children></children>
       <xul:spacer class="tabs-right" flex="1"></xul:spacer>
     `;
-    Object.defineProperty(this, "_tabbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabbox;
-        return (this._tabbox = null);
-      },
-      set(val) {
-        delete this._tabbox;
-        return (this._tabbox = val);
-      }
-    });
-    Object.defineProperty(this, "_tabbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabbox;
-        return (this._tabbox = this.tabbox);
-      }
-    });
+
+    this._tabbox = null;
+
+    this._tabbox = this.tabbox;
 
     if (!this.hasAttribute("orient")) this.setAttribute("orient", "horizontal");
 

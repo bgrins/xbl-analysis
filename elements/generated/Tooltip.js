@@ -6,30 +6,10 @@ class FirefoxTooltip extends FirefoxPopupBase {
         <xul:label class="tooltip-label" inherits="text=label" flex="1"></xul:label>
       </children>
     `;
-    Object.defineProperty(this, "_mouseOutCount", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._mouseOutCount;
-        return (this._mouseOutCount = 0);
-      },
-      set(val) {
-        delete this._mouseOutCount;
-        return (this._mouseOutCount = val);
-      }
-    });
-    Object.defineProperty(this, "_isMouseOver", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._isMouseOver;
-        return (this._isMouseOver = false);
-      },
-      set(val) {
-        delete this._isMouseOver;
-        return (this._isMouseOver = val);
-      }
-    });
+
+    this._mouseOutCount = 0;
+
+    this._isMouseOver = false;
 
     this.addEventListener("mouseover", event => {
       var rel = event.relatedTarget;

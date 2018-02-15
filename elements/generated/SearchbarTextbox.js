@@ -2,50 +2,43 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "searchbarController", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.searchbarController;
-        return (this.searchbarController = {
-          _self: this,
-          supportsCommand(aCommand) {
-            return (
-              aCommand == "cmd_clearhistory" || aCommand == "cmd_togglesuggest"
+    this.searchbarController = {
+      _self: this,
+      supportsCommand(aCommand) {
+        return (
+          aCommand == "cmd_clearhistory" || aCommand == "cmd_togglesuggest"
+        );
+      },
+
+      isCommandEnabled(aCommand) {
+        return true;
+      },
+
+      doCommand(aCommand) {
+        switch (aCommand) {
+          case "cmd_clearhistory":
+            var param = this._self.getAttribute("autocompletesearchparam");
+
+            BrowserSearch.searchBar.FormHistory.update(
+              { op: "remove", fieldname: param },
+              null
             );
-          },
-
-          isCommandEnabled(aCommand) {
-            return true;
-          },
-
-          doCommand(aCommand) {
-            switch (aCommand) {
-              case "cmd_clearhistory":
-                var param = this._self.getAttribute("autocompletesearchparam");
-
-                BrowserSearch.searchBar.FormHistory.update(
-                  { op: "remove", fieldname: param },
-                  null
-                );
-                this._self.value = "";
-                break;
-              case "cmd_togglesuggest":
-                let enabled = Services.prefs.getBoolPref(
-                  "browser.search.suggest.enabled"
-                );
-                Services.prefs.setBoolPref(
-                  "browser.search.suggest.enabled",
-                  !enabled
-                );
-                break;
-              default:
-              // do nothing with unrecognized command
-            }
-          }
-        });
+            this._self.value = "";
+            break;
+          case "cmd_togglesuggest":
+            let enabled = Services.prefs.getBoolPref(
+              "browser.search.suggest.enabled"
+            );
+            Services.prefs.setBoolPref(
+              "browser.search.suggest.enabled",
+              !enabled
+            );
+            break;
+          default:
+          // do nothing with unrecognized command
+        }
       }
-    });
+    };
 
     if (
       document.getBindingParent(this).parentNode.parentNode.localName ==

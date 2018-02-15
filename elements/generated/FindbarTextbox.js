@@ -2,18 +2,7 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_findbar", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._findbar;
-        return (this._findbar = null);
-      },
-      set(val) {
-        delete this._findbar;
-        return (this._findbar = val);
-      }
-    });
+    this._findbar = null;
 
     this.addEventListener("input", event => {
       // We should do nothing during composition.  E.g., composing string

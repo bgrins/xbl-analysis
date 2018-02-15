@@ -28,30 +28,10 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
         </xul:description>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "_boundaryCutoff", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._boundaryCutoff;
-        return (this._boundaryCutoff = null);
-      },
-      set(val) {
-        delete this._boundaryCutoff;
-        return (this._boundaryCutoff = val);
-      }
-    });
-    Object.defineProperty(this, "_inOverflow", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._inOverflow;
-        return (this._inOverflow = false);
-      },
-      set(val) {
-        delete this._inOverflow;
-        return (this._inOverflow = val);
-      }
-    });
+
+    this._boundaryCutoff = null;
+
+    this._inOverflow = false;
 
     this._typeIcon = document.getAnonymousElementByAttribute(
       this,

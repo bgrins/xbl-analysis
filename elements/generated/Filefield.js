@@ -8,18 +8,8 @@ class FirefoxFilefield extends FirefoxBasetext {
         <xul:textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true"></xul:textbox>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "_file", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._file;
-        return (this._file = null);
-      },
-      set(val) {
-        delete this._file;
-        return (this._file = val);
-      }
-    });
+
+    this._file = null;
   }
 
   set label(val) {

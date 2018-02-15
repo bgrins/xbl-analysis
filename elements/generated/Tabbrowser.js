@@ -16,482 +16,162 @@ class FirefoxTabbrowser extends XULElement {
       </xul:tabbox>
       <children></children>
     `;
-    Object.defineProperty(this, "tabContainer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.tabContainer;
-        return (this.tabContainer = document.getElementById(
-          this.getAttribute("tabcontainer")
-        ));
-      }
-    });
-    Object.defineProperty(this, "tabs", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.tabs;
-        return (this.tabs = this.tabContainer.childNodes);
-      }
-    });
-    Object.defineProperty(this, "closingTabsEnum", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.closingTabsEnum;
-        return (this.closingTabsEnum = { ALL: 0, OTHER: 1, TO_END: 2 });
-      }
-    });
-    Object.defineProperty(this, "_visibleTabs", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._visibleTabs;
-        return (this._visibleTabs = null);
+
+    this.tabContainer = document.getElementById(
+      this.getAttribute("tabcontainer")
+    );
+
+    this.tabs = this.tabContainer.childNodes;
+
+    this.closingTabsEnum = { ALL: 0, OTHER: 1, TO_END: 2 };
+
+    this._visibleTabs = null;
+
+    this.mURIFixup = Components.classes[
+      "@mozilla.org/docshell/urifixup;1"
+    ].getService(Components.interfaces.nsIURIFixup);
+
+    this._unifiedComplete = Components.classes[
+      "@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
+    ].getService(Components.interfaces.mozIPlacesAutoComplete);
+
+    this.tabbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "tabbox"
+    );
+
+    this.mPanelContainer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "panelcontainer"
+    );
+
+    this.mCurrentTab = null;
+
+    this._lastRelatedTabMap = new WeakMap();
+
+    this.mCurrentBrowser = null;
+
+    this.mProgressListeners = [];
+
+    this.mTabsProgressListeners = [];
+
+    this._tabListeners = new Map();
+
+    this._tabFilters = new Map();
+
+    this.mIsBusy = false;
+
+    this._outerWindowIDBrowserMap = new Map();
+
+    this.arrowKeysShouldWrap = AppConstants == "macosx";
+
+    this._autoScrollPopup = null;
+
+    this._previewMode = false;
+
+    this._lastFindValue = "";
+
+    this._contentWaitingCount = 0;
+
+    this.tabAnimationsInProgress = 0;
+
+    this._tabForBrowser = new WeakMap();
+
+    this.serializationHelper = Cc[
+      "@mozilla.org/network/serialization-helper;1"
+    ].getService(Ci.nsISerializationHelper);
+
+    this._tabSwitchID = null;
+
+    this._preloadedBrowser = null;
+
+    this._browserBindingProperties = [
+      "canGoBack",
+      "canGoForward",
+      "goBack",
+      "goForward",
+      "permitUnload",
+      "reload",
+      "reloadWithFlags",
+      "stop",
+      "loadURI",
+      "loadURIWithFlags",
+      "goHome",
+      "homePage",
+      "gotoIndex",
+      "currentURI",
+      "documentURI",
+      "preferences",
+      "imageDocument",
+      "isRemoteBrowser",
+      "messageManager",
+      "getTabBrowser",
+      "finder",
+      "fastFind",
+      "sessionHistory",
+      "contentTitle",
+      "characterSet",
+      "fullZoom",
+      "textZoom",
+      "webProgress",
+      "addProgressListener",
+      "removeProgressListener",
+      "audioPlaybackStarted",
+      "audioPlaybackStopped",
+      "pauseMedia",
+      "stopMedia",
+      "resumeMedia",
+      "mute",
+      "unmute",
+      "blockedPopups",
+      "lastURI",
+      "purgeSessionHistory",
+      "stopScroll",
+      "startScroll",
+      "userTypedValue",
+      "userTypedClear",
+      "mediaBlocked",
+      "didStartLoadSinceLastUserTyping"
+    ];
+
+    this._removingTabs = [];
+
+    this._windowIsClosing = false;
+
+    // This defines a proxy which allows us to access browsers by
+    // index without actually creating a full array of browsers.
+    this.browsers = new Proxy([], {
+      has: (target, name) => {
+        if (typeof name == "string" && Number.isInteger(parseInt(name))) {
+          return name in this.tabs;
+        }
+        return false;
       },
-      set(val) {
-        delete this._visibleTabs;
-        return (this._visibleTabs = val);
-      }
-    });
-    Object.defineProperty(this, "mURIFixup", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mURIFixup;
-        return (this.mURIFixup = Components.classes[
-          "@mozilla.org/docshell/urifixup;1"
-        ].getService(Components.interfaces.nsIURIFixup));
-      }
-    });
-    Object.defineProperty(this, "_unifiedComplete", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._unifiedComplete;
-        return (this._unifiedComplete = Components.classes[
-          "@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
-        ].getService(Components.interfaces.mozIPlacesAutoComplete));
-      }
-    });
-    Object.defineProperty(this, "tabbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.tabbox;
-        return (this.tabbox = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "tabbox"
-        ));
-      }
-    });
-    Object.defineProperty(this, "mPanelContainer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPanelContainer;
-        return (this.mPanelContainer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "panelcontainer"
-        ));
-      }
-    });
-    Object.defineProperty(this, "mCurrentTab", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mCurrentTab;
-        return (this.mCurrentTab = null);
-      },
-      set(val) {
-        delete this.mCurrentTab;
-        return (this.mCurrentTab = val);
-      }
-    });
-    Object.defineProperty(this, "_lastRelatedTabMap", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastRelatedTabMap;
-        return (this._lastRelatedTabMap = new WeakMap());
-      },
-      set(val) {
-        delete this._lastRelatedTabMap;
-        return (this._lastRelatedTabMap = val);
-      }
-    });
-    Object.defineProperty(this, "mCurrentBrowser", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mCurrentBrowser;
-        return (this.mCurrentBrowser = null);
-      },
-      set(val) {
-        delete this.mCurrentBrowser;
-        return (this.mCurrentBrowser = val);
-      }
-    });
-    Object.defineProperty(this, "mProgressListeners", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mProgressListeners;
-        return (this.mProgressListeners = []);
-      },
-      set(val) {
-        delete this.mProgressListeners;
-        return (this.mProgressListeners = val);
-      }
-    });
-    Object.defineProperty(this, "mTabsProgressListeners", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mTabsProgressListeners;
-        return (this.mTabsProgressListeners = []);
-      },
-      set(val) {
-        delete this.mTabsProgressListeners;
-        return (this.mTabsProgressListeners = val);
-      }
-    });
-    Object.defineProperty(this, "_tabListeners", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabListeners;
-        return (this._tabListeners = new Map());
-      },
-      set(val) {
-        delete this._tabListeners;
-        return (this._tabListeners = val);
-      }
-    });
-    Object.defineProperty(this, "_tabFilters", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabFilters;
-        return (this._tabFilters = new Map());
-      },
-      set(val) {
-        delete this._tabFilters;
-        return (this._tabFilters = val);
-      }
-    });
-    Object.defineProperty(this, "mIsBusy", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mIsBusy;
-        return (this.mIsBusy = false);
-      },
-      set(val) {
-        delete this.mIsBusy;
-        return (this.mIsBusy = val);
-      }
-    });
-    Object.defineProperty(this, "_outerWindowIDBrowserMap", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._outerWindowIDBrowserMap;
-        return (this._outerWindowIDBrowserMap = new Map());
-      },
-      set(val) {
-        delete this._outerWindowIDBrowserMap;
-        return (this._outerWindowIDBrowserMap = val);
-      }
-    });
-    Object.defineProperty(this, "arrowKeysShouldWrap", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.arrowKeysShouldWrap;
-        return (this.arrowKeysShouldWrap = AppConstants == "macosx");
-      }
-    });
-    Object.defineProperty(this, "_autoScrollPopup", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._autoScrollPopup;
-        return (this._autoScrollPopup = null);
-      },
-      set(val) {
-        delete this._autoScrollPopup;
-        return (this._autoScrollPopup = val);
-      }
-    });
-    Object.defineProperty(this, "_previewMode", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._previewMode;
-        return (this._previewMode = false);
-      },
-      set(val) {
-        delete this._previewMode;
-        return (this._previewMode = val);
-      }
-    });
-    Object.defineProperty(this, "_lastFindValue", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastFindValue;
-        return (this._lastFindValue = "");
-      },
-      set(val) {
-        delete this._lastFindValue;
-        return (this._lastFindValue = val);
-      }
-    });
-    Object.defineProperty(this, "_contentWaitingCount", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contentWaitingCount;
-        return (this._contentWaitingCount = 0);
-      },
-      set(val) {
-        delete this._contentWaitingCount;
-        return (this._contentWaitingCount = val);
-      }
-    });
-    Object.defineProperty(this, "tabAnimationsInProgress", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.tabAnimationsInProgress;
-        return (this.tabAnimationsInProgress = 0);
-      },
-      set(val) {
-        delete this.tabAnimationsInProgress;
-        return (this.tabAnimationsInProgress = val);
-      }
-    });
-    Object.defineProperty(this, "_tabForBrowser", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabForBrowser;
-        return (this._tabForBrowser = new WeakMap());
-      }
-    });
-    Object.defineProperty(this, "serializationHelper", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.serializationHelper;
-        return (this.serializationHelper = Cc[
-          "@mozilla.org/network/serialization-helper;1"
-        ].getService(Ci.nsISerializationHelper));
-      },
-      set(val) {
-        delete this.serializationHelper;
-        return (this.serializationHelper = val);
-      }
-    });
-    Object.defineProperty(this, "_tabSwitchID", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabSwitchID;
-        return (this._tabSwitchID = null);
-      },
-      set(val) {
-        delete this._tabSwitchID;
-        return (this._tabSwitchID = val);
-      }
-    });
-    Object.defineProperty(this, "_preloadedBrowser", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._preloadedBrowser;
-        return (this._preloadedBrowser = null);
-      },
-      set(val) {
-        delete this._preloadedBrowser;
-        return (this._preloadedBrowser = val);
-      }
-    });
-    Object.defineProperty(this, "_browserBindingProperties", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._browserBindingProperties;
-        return (this._browserBindingProperties = [
-          "canGoBack",
-          "canGoForward",
-          "goBack",
-          "goForward",
-          "permitUnload",
-          "reload",
-          "reloadWithFlags",
-          "stop",
-          "loadURI",
-          "loadURIWithFlags",
-          "goHome",
-          "homePage",
-          "gotoIndex",
-          "currentURI",
-          "documentURI",
-          "preferences",
-          "imageDocument",
-          "isRemoteBrowser",
-          "messageManager",
-          "getTabBrowser",
-          "finder",
-          "fastFind",
-          "sessionHistory",
-          "contentTitle",
-          "characterSet",
-          "fullZoom",
-          "textZoom",
-          "webProgress",
-          "addProgressListener",
-          "removeProgressListener",
-          "audioPlaybackStarted",
-          "audioPlaybackStopped",
-          "pauseMedia",
-          "stopMedia",
-          "resumeMedia",
-          "mute",
-          "unmute",
-          "blockedPopups",
-          "lastURI",
-          "purgeSessionHistory",
-          "stopScroll",
-          "startScroll",
-          "userTypedValue",
-          "userTypedClear",
-          "mediaBlocked",
-          "didStartLoadSinceLastUserTyping"
-        ]);
-      },
-      set(val) {
-        delete this._browserBindingProperties;
-        return (this._browserBindingProperties = val);
-      }
-    });
-    Object.defineProperty(this, "_removingTabs", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._removingTabs;
-        return (this._removingTabs = []);
-      },
-      set(val) {
-        delete this._removingTabs;
-        return (this._removingTabs = val);
-      }
-    });
-    Object.defineProperty(this, "_windowIsClosing", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._windowIsClosing;
-        return (this._windowIsClosing = false);
-      },
-      set(val) {
-        delete this._windowIsClosing;
-        return (this._windowIsClosing = val);
-      }
-    });
-    Object.defineProperty(this, "browsers", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        // This defines a proxy which allows us to access browsers by
-        // index without actually creating a full array of browsers.
-        delete this.browsers;
-        return (this.browsers = new Proxy([], {
-          has: (target, name) => {
-            if (typeof name == "string" && Number.isInteger(parseInt(name))) {
-              return name in this.tabs;
-            }
-            return false;
-          },
-          get: (target, name) => {
-            if (name == "length") {
-              return this.tabs.length;
-            }
-            if (typeof name == "string" && Number.isInteger(parseInt(name))) {
-              if (!(name in this.tabs)) {
-                return undefined;
-              }
-              return this.tabs[name].linkedBrowser;
-            }
-            return target[name];
+      get: (target, name) => {
+        if (name == "length") {
+          return this.tabs.length;
+        }
+        if (typeof name == "string" && Number.isInteger(parseInt(name))) {
+          if (!(name in this.tabs)) {
+            return undefined;
           }
-        }));
+          return this.tabs[name].linkedBrowser;
+        }
+        return target[name];
       }
     });
-    Object.defineProperty(this, "_printPreviewBrowsers", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._printPreviewBrowsers;
-        return (this._printPreviewBrowsers = new Set());
-      },
-      set(val) {
-        delete this._printPreviewBrowsers;
-        return (this._printPreviewBrowsers = val);
-      }
-    });
-    Object.defineProperty(this, "_switcher", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._switcher;
-        return (this._switcher = null);
-      },
-      set(val) {
-        delete this._switcher;
-        return (this._switcher = val);
-      }
-    });
-    Object.defineProperty(this, "_tabMinWidthLimit", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabMinWidthLimit;
-        return (this._tabMinWidthLimit = 50);
-      },
-      set(val) {
-        delete this._tabMinWidthLimit;
-        return (this._tabMinWidthLimit = val);
-      }
-    });
-    Object.defineProperty(this, "_soundPlayingAttrRemovalTimer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._soundPlayingAttrRemovalTimer;
-        return (this._soundPlayingAttrRemovalTimer = 0);
-      },
-      set(val) {
-        delete this._soundPlayingAttrRemovalTimer;
-        return (this._soundPlayingAttrRemovalTimer = val);
-      }
-    });
-    Object.defineProperty(this, "_hoverTabTimer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._hoverTabTimer;
-        return (this._hoverTabTimer = null);
-      },
-      set(val) {
-        delete this._hoverTabTimer;
-        return (this._hoverTabTimer = val);
-      }
-    });
+
+    this._printPreviewBrowsers = new Set();
+
+    this._switcher = null;
+
+    this._tabMinWidthLimit = 50;
+
+    this._soundPlayingAttrRemovalTimer = 0;
+
+    this._hoverTabTimer = null;
 
     this.mCurrentBrowser = document.getAnonymousElementByAttribute(
       this,

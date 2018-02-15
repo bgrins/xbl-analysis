@@ -2,18 +2,7 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "selectedByMouseOver", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.selectedByMouseOver;
-        return (this.selectedByMouseOver = true);
-      },
-      set(val) {
-        delete this.selectedByMouseOver;
-        return (this.selectedByMouseOver = val);
-      }
-    });
+    this.selectedByMouseOver = true;
   }
 
   get _stringBundle() {

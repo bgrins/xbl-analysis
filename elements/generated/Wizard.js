@@ -9,248 +9,58 @@ class FirefoxWizard extends FirefoxRootElement {
       <children></children>
       <xul:hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage"></xul:hbox>
     `;
-    Object.defineProperty(this, "pageCount", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.pageCount;
-        return (this.pageCount = 0);
-      },
-      set(val) {
-        delete this.pageCount;
-        return (this.pageCount = val);
-      }
-    });
-    Object.defineProperty(this, "_accessMethod", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._accessMethod;
-        return (this._accessMethod = null);
-      },
-      set(val) {
-        delete this._accessMethod;
-        return (this._accessMethod = val);
-      }
-    });
-    Object.defineProperty(this, "_pageStack", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._pageStack;
-        return (this._pageStack = null);
-      },
-      set(val) {
-        delete this._pageStack;
-        return (this._pageStack = val);
-      }
-    });
-    Object.defineProperty(this, "_currentPage", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._currentPage;
-        return (this._currentPage = null);
-      },
-      set(val) {
-        delete this._currentPage;
-        return (this._currentPage = val);
-      }
-    });
-    Object.defineProperty(this, "_canAdvance", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._canAdvance;
-        return (this._canAdvance = "");
-      },
-      set(val) {
-        delete this._canAdvance;
-        return (this._canAdvance = val);
-      }
-    });
-    Object.defineProperty(this, "_canRewind", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._canRewind;
-        return (this._canRewind = "");
-      },
-      set(val) {
-        delete this._canRewind;
-        return (this._canRewind = val);
-      }
-    });
-    Object.defineProperty(this, "_wizardHeader", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._wizardHeader;
-        return (this._wizardHeader = "");
-      },
-      set(val) {
-        delete this._wizardHeader;
-        return (this._wizardHeader = val);
-      }
-    });
-    Object.defineProperty(this, "_wizardButtons", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._wizardButtons;
-        return (this._wizardButtons = "");
-      },
-      set(val) {
-        delete this._wizardButtons;
-        return (this._wizardButtons = val);
-      }
-    });
-    Object.defineProperty(this, "_deck", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._deck;
-        return (this._deck = "");
-      },
-      set(val) {
-        delete this._deck;
-        return (this._deck = val);
-      }
-    });
-    Object.defineProperty(this, "_backButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._backButton;
-        return (this._backButton = "");
-      },
-      set(val) {
-        delete this._backButton;
-        return (this._backButton = val);
-      }
-    });
-    Object.defineProperty(this, "_nextButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._nextButton;
-        return (this._nextButton = "");
-      },
-      set(val) {
-        delete this._nextButton;
-        return (this._nextButton = val);
-      }
-    });
-    Object.defineProperty(this, "_cancelButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._cancelButton;
-        return (this._cancelButton = "");
-      },
-      set(val) {
-        delete this._cancelButton;
-        return (this._cancelButton = val);
-      }
-    });
-    Object.defineProperty(this, "_backFunc", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._backFunc;
-        return (this._backFunc = function() {
-          document.documentElement.rewind();
-        });
-      },
-      set(val) {
-        delete this._backFunc;
-        return (this._backFunc = val);
-      }
-    });
-    Object.defineProperty(this, "_nextFunc", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._nextFunc;
-        return (this._nextFunc = function() {
-          document.documentElement.advance();
-        });
-      },
-      set(val) {
-        delete this._nextFunc;
-        return (this._nextFunc = val);
-      }
-    });
-    Object.defineProperty(this, "_finishFunc", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._finishFunc;
-        return (this._finishFunc = function() {
-          document.documentElement.advance();
-        });
-      },
-      set(val) {
-        delete this._finishFunc;
-        return (this._finishFunc = val);
-      }
-    });
-    Object.defineProperty(this, "_cancelFunc", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._cancelFunc;
-        return (this._cancelFunc = function() {
-          document.documentElement.cancel();
-        });
-      },
-      set(val) {
-        delete this._cancelFunc;
-        return (this._cancelFunc = val);
-      }
-    });
-    Object.defineProperty(this, "_extra1Func", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._extra1Func;
-        return (this._extra1Func = function() {
-          document.documentElement.extra1();
-        });
-      },
-      set(val) {
-        delete this._extra1Func;
-        return (this._extra1Func = val);
-      }
-    });
-    Object.defineProperty(this, "_extra2Func", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._extra2Func;
-        return (this._extra2Func = function() {
-          document.documentElement.extra2();
-        });
-      },
-      set(val) {
-        delete this._extra2Func;
-        return (this._extra2Func = val);
-      }
-    });
-    Object.defineProperty(this, "_closeHandler", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._closeHandler;
-        return (this._closeHandler = function(event) {
-          if (document.documentElement.cancel()) event.preventDefault();
-        });
-      },
-      set(val) {
-        delete this._closeHandler;
-        return (this._closeHandler = val);
-      }
-    });
+
+    this.pageCount = 0;
+
+    this._accessMethod = null;
+
+    this._pageStack = null;
+
+    this._currentPage = null;
+
+    this._canAdvance = "";
+
+    this._canRewind = "";
+
+    this._wizardHeader = "";
+
+    this._wizardButtons = "";
+
+    this._deck = "";
+
+    this._backButton = "";
+
+    this._nextButton = "";
+
+    this._cancelButton = "";
+
+    this._backFunc = function() {
+      document.documentElement.rewind();
+    };
+
+    this._nextFunc = function() {
+      document.documentElement.advance();
+    };
+
+    this._finishFunc = function() {
+      document.documentElement.advance();
+    };
+
+    this._cancelFunc = function() {
+      document.documentElement.cancel();
+    };
+
+    this._extra1Func = function() {
+      document.documentElement.extra1();
+    };
+
+    this._extra2Func = function() {
+      document.documentElement.extra2();
+    };
+
+    this._closeHandler = function(event) {
+      if (document.documentElement.cancel()) event.preventDefault();
+    };
 
     this._canAdvance = true;
     this._canRewind = false;

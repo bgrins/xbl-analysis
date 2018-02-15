@@ -6,78 +6,18 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
         <children></children>
       </xul:scrollbox>
     `;
-    Object.defineProperty(this, "AUTOSCROLL_INTERVAL", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.AUTOSCROLL_INTERVAL;
-        return (this.AUTOSCROLL_INTERVAL = 25);
-      },
-      set(val) {
-        delete this.AUTOSCROLL_INTERVAL;
-        return (this.AUTOSCROLL_INTERVAL = val);
-      }
-    });
-    Object.defineProperty(this, "NOT_DRAGGING", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.NOT_DRAGGING;
-        return (this.NOT_DRAGGING = 0);
-      },
-      set(val) {
-        delete this.NOT_DRAGGING;
-        return (this.NOT_DRAGGING = val);
-      }
-    });
-    Object.defineProperty(this, "DRAG_OVER_BUTTON", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.DRAG_OVER_BUTTON;
-        return (this.DRAG_OVER_BUTTON = -1);
-      },
-      set(val) {
-        delete this.DRAG_OVER_BUTTON;
-        return (this.DRAG_OVER_BUTTON = val);
-      }
-    });
-    Object.defineProperty(this, "DRAG_OVER_POPUP", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.DRAG_OVER_POPUP;
-        return (this.DRAG_OVER_POPUP = 1);
-      },
-      set(val) {
-        delete this.DRAG_OVER_POPUP;
-        return (this.DRAG_OVER_POPUP = val);
-      }
-    });
-    Object.defineProperty(this, "_draggingState", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._draggingState;
-        return (this._draggingState = this.NOT_DRAGGING);
-      },
-      set(val) {
-        delete this._draggingState;
-        return (this._draggingState = val);
-      }
-    });
-    Object.defineProperty(this, "_scrollTimer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._scrollTimer;
-        return (this._scrollTimer = 0);
-      },
-      set(val) {
-        delete this._scrollTimer;
-        return (this._scrollTimer = val);
-      }
-    });
+
+    this.AUTOSCROLL_INTERVAL = 25;
+
+    this.NOT_DRAGGING = 0;
+
+    this.DRAG_OVER_BUTTON = -1;
+
+    this.DRAG_OVER_POPUP = 1;
+
+    this._draggingState = this.NOT_DRAGGING;
+
+    this._scrollTimer = 0;
 
     this.addEventListener("popupshown", event => {
       // Enable drag scrolling even when the mouse wasn't used. The mousemove

@@ -2,18 +2,7 @@ class FirefoxTreebody extends FirefoxTreeBase {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_lastSelectedRow", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastSelectedRow;
-        return (this._lastSelectedRow = -1);
-      },
-      set(val) {
-        delete this._lastSelectedRow;
-        return (this._lastSelectedRow = val);
-      }
-    });
+    this._lastSelectedRow = -1;
 
     if ("_ensureColumnOrder" in this.parentNode)
       this.parentNode._ensureColumnOrder();

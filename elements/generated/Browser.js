@@ -3,412 +3,86 @@ class FirefoxBrowser extends XULElement {
     this.innerHTML = `
       <children></children>
     `;
-    Object.defineProperty(this, "_sameProcessAsFrameLoader", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._sameProcessAsFrameLoader;
-        return (this._sameProcessAsFrameLoader = null);
-      },
-      set(val) {
-        delete this._sameProcessAsFrameLoader;
-        return (this._sameProcessAsFrameLoader = val);
-      }
-    });
-    Object.defineProperty(this, "_docShell", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._docShell;
-        return (this._docShell = null);
-      },
-      set(val) {
-        delete this._docShell;
-        return (this._docShell = val);
-      }
-    });
-    Object.defineProperty(this, "_loadContext", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._loadContext;
-        return (this._loadContext = null);
-      },
-      set(val) {
-        delete this._loadContext;
-        return (this._loadContext = val);
-      }
-    });
-    Object.defineProperty(this, "_webNavigation", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._webNavigation;
-        return (this._webNavigation = null);
-      },
-      set(val) {
-        delete this._webNavigation;
-        return (this._webNavigation = val);
-      }
-    });
-    Object.defineProperty(this, "_webBrowserFind", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._webBrowserFind;
-        return (this._webBrowserFind = null);
-      },
-      set(val) {
-        delete this._webBrowserFind;
-        return (this._webBrowserFind = val);
-      }
-    });
-    Object.defineProperty(this, "_finder", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._finder;
-        return (this._finder = null);
-      },
-      set(val) {
-        delete this._finder;
-        return (this._finder = val);
-      }
-    });
-    Object.defineProperty(this, "_fastFind", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._fastFind;
-        return (this._fastFind = null);
-      },
-      set(val) {
-        delete this._fastFind;
-        return (this._fastFind = val);
-      }
-    });
-    Object.defineProperty(this, "_lastSearchString", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastSearchString;
-        return (this._lastSearchString = null);
-      },
-      set(val) {
-        delete this._lastSearchString;
-        return (this._lastSearchString = val);
-      }
-    });
-    Object.defineProperty(this, "_contentWindow", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contentWindow;
-        return (this._contentWindow = null);
-      },
-      set(val) {
-        delete this._contentWindow;
-        return (this._contentWindow = val);
-      }
-    });
-    Object.defineProperty(this, "mPrefs", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPrefs;
-        return (this.mPrefs = Components.classes[
-          "@mozilla.org/preferences-service;1"
-        ].getService(Components.interfaces.nsIPrefBranch));
-      }
-    });
-    Object.defineProperty(this, "_mStrBundle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._mStrBundle;
-        return (this._mStrBundle = null);
-      },
-      set(val) {
-        delete this._mStrBundle;
-        return (this._mStrBundle = val);
-      }
-    });
-    Object.defineProperty(this, "blockedPopups", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.blockedPopups;
-        return (this.blockedPopups = null);
-      },
-      set(val) {
-        delete this.blockedPopups;
-        return (this.blockedPopups = val);
-      }
-    });
-    Object.defineProperty(this, "_audioMuted", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._audioMuted;
-        return (this._audioMuted = false);
-      },
-      set(val) {
-        delete this._audioMuted;
-        return (this._audioMuted = val);
-      }
-    });
-    Object.defineProperty(this, "_mediaBlocked", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._mediaBlocked;
-        return (this._mediaBlocked = true);
-      },
-      set(val) {
-        delete this._mediaBlocked;
-        return (this._mediaBlocked = val);
-      }
-    });
-    Object.defineProperty(this, "_hasAnyPlayingMediaBeenBlocked", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._hasAnyPlayingMediaBeenBlocked;
-        return (this._hasAnyPlayingMediaBeenBlocked = false);
-      },
-      set(val) {
-        delete this._hasAnyPlayingMediaBeenBlocked;
-        return (this._hasAnyPlayingMediaBeenBlocked = val);
-      }
-    });
-    Object.defineProperty(this, "_shouldSendUnselectedTabHover", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._shouldSendUnselectedTabHover;
-        return (this._shouldSendUnselectedTabHover = false);
-      },
-      set(val) {
-        delete this._shouldSendUnselectedTabHover;
-        return (this._shouldSendUnselectedTabHover = val);
-      }
-    });
-    Object.defineProperty(this, "_unselectedTabHoverMessageListenerCount", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._unselectedTabHoverMessageListenerCount;
-        return (this._unselectedTabHoverMessageListenerCount = 0);
-      },
-      set(val) {
-        delete this._unselectedTabHoverMessageListenerCount;
-        return (this._unselectedTabHoverMessageListenerCount = val);
-      }
-    });
-    Object.defineProperty(this, "urlbarChangeTracker", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.urlbarChangeTracker;
-        return (this.urlbarChangeTracker = {
-          _startedLoadSinceLastUserTyping: false,
 
-          startedLoad() {
-            this._startedLoadSinceLastUserTyping = true;
-          },
-          finishedLoad() {
-            this._startedLoadSinceLastUserTyping = false;
-          },
-          userTyped() {
-            this._startedLoadSinceLastUserTyping = false;
-          }
-        });
+    this._sameProcessAsFrameLoader = null;
+
+    this._docShell = null;
+
+    this._loadContext = null;
+
+    this._webNavigation = null;
+
+    this._webBrowserFind = null;
+
+    this._finder = null;
+
+    this._fastFind = null;
+
+    this._lastSearchString = null;
+
+    this._contentWindow = null;
+
+    this.mPrefs = Components.classes[
+      "@mozilla.org/preferences-service;1"
+    ].getService(Components.interfaces.nsIPrefBranch);
+
+    this._mStrBundle = null;
+
+    this.blockedPopups = null;
+
+    this._audioMuted = false;
+
+    this._mediaBlocked = true;
+
+    this._hasAnyPlayingMediaBeenBlocked = false;
+
+    this._shouldSendUnselectedTabHover = false;
+
+    this._unselectedTabHoverMessageListenerCount = 0;
+
+    this.urlbarChangeTracker = {
+      _startedLoadSinceLastUserTyping: false,
+
+      startedLoad() {
+        this._startedLoadSinceLastUserTyping = true;
       },
-      set(val) {
-        delete this.urlbarChangeTracker;
-        return (this.urlbarChangeTracker = val);
-      }
-    });
-    Object.defineProperty(this, "_userTypedValue", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._userTypedValue;
-        return (this._userTypedValue = null);
+      finishedLoad() {
+        this._startedLoadSinceLastUserTyping = false;
       },
-      set(val) {
-        delete this._userTypedValue;
-        return (this._userTypedValue = val);
+      userTyped() {
+        this._startedLoadSinceLastUserTyping = false;
       }
-    });
-    Object.defineProperty(this, "mFormFillAttached", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mFormFillAttached;
-        return (this.mFormFillAttached = false);
-      },
-      set(val) {
-        delete this.mFormFillAttached;
-        return (this.mFormFillAttached = val);
-      }
-    });
-    Object.defineProperty(this, "isShowingMessage", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.isShowingMessage;
-        return (this.isShowingMessage = false);
-      },
-      set(val) {
-        delete this.isShowingMessage;
-        return (this.isShowingMessage = val);
-      }
-    });
-    Object.defineProperty(this, "droppedLinkHandler", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.droppedLinkHandler;
-        return (this.droppedLinkHandler = null);
-      },
-      set(val) {
-        delete this.droppedLinkHandler;
-        return (this.droppedLinkHandler = val);
-      }
-    });
-    Object.defineProperty(this, "mIconURL", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mIconURL;
-        return (this.mIconURL = null);
-      },
-      set(val) {
-        delete this.mIconURL;
-        return (this.mIconURL = val);
-      }
-    });
-    Object.defineProperty(this, "lastURI", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.lastURI;
-        return (this.lastURI = null);
-      },
-      set(val) {
-        delete this.lastURI;
-        return (this.lastURI = val);
-      }
-    });
-    Object.defineProperty(this, "mDestroyed", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mDestroyed;
-        return (this.mDestroyed = false);
-      },
-      set(val) {
-        delete this.mDestroyed;
-        return (this.mDestroyed = val);
-      }
-    });
-    Object.defineProperty(this, "_AUTOSCROLL_SNAP", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._AUTOSCROLL_SNAP;
-        return (this._AUTOSCROLL_SNAP = 10);
-      },
-      set(val) {
-        delete this._AUTOSCROLL_SNAP;
-        return (this._AUTOSCROLL_SNAP = val);
-      }
-    });
-    Object.defineProperty(this, "_scrolling", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._scrolling;
-        return (this._scrolling = false);
-      },
-      set(val) {
-        delete this._scrolling;
-        return (this._scrolling = val);
-      }
-    });
-    Object.defineProperty(this, "_startX", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._startX;
-        return (this._startX = null);
-      },
-      set(val) {
-        delete this._startX;
-        return (this._startX = val);
-      }
-    });
-    Object.defineProperty(this, "_startY", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._startY;
-        return (this._startY = null);
-      },
-      set(val) {
-        delete this._startY;
-        return (this._startY = val);
-      }
-    });
-    Object.defineProperty(this, "_autoScrollPopup", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._autoScrollPopup;
-        return (this._autoScrollPopup = null);
-      },
-      set(val) {
-        delete this._autoScrollPopup;
-        return (this._autoScrollPopup = val);
-      }
-    });
-    Object.defineProperty(this, "_autoScrollNeedsCleanup", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._autoScrollNeedsCleanup;
-        return (this._autoScrollNeedsCleanup = false);
-      },
-      set(val) {
-        delete this._autoScrollNeedsCleanup;
-        return (this._autoScrollNeedsCleanup = val);
-      }
-    });
-    Object.defineProperty(this, "_autoScrollScrollId", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._autoScrollScrollId;
-        return (this._autoScrollScrollId = null);
-      },
-      set(val) {
-        delete this._autoScrollScrollId;
-        return (this._autoScrollScrollId = val);
-      }
-    });
-    Object.defineProperty(this, "_autoScrollPresShellId", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._autoScrollPresShellId;
-        return (this._autoScrollPresShellId = null);
-      },
-      set(val) {
-        delete this._autoScrollPresShellId;
-        return (this._autoScrollPresShellId = val);
-      }
-    });
+    };
+
+    this._userTypedValue = null;
+
+    this.mFormFillAttached = false;
+
+    this.isShowingMessage = false;
+
+    this.droppedLinkHandler = null;
+
+    this.mIconURL = null;
+
+    this.lastURI = null;
+
+    this.mDestroyed = false;
+
+    this._AUTOSCROLL_SNAP = 10;
+
+    this._scrolling = false;
+
+    this._startX = null;
+
+    this._startY = null;
+
+    this._autoScrollPopup = null;
+
+    this._autoScrollNeedsCleanup = false;
+
+    this._autoScrollScrollId = null;
+
+    this._autoScrollPresShellId = null;
 
     try {
       // |webNavigation.sessionHistory| will have been set by the frame

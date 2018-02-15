@@ -5,86 +5,36 @@ class FirefoxInstallStatus extends XULElement {
       <xul:progressmeter anonid="progress" class="download-progress"></xul:progressmeter>
       <xul:button anonid="install-remote-btn" hidden="true" class="addon-control install" label="FROM-DTD-addon-install-label" tooltiptext="FROM-DTD-addon-install-tooltip" oncommand="document.getBindingParent(this).installRemote();"></xul:button>
     `;
-    Object.defineProperty(this, "_message", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._message;
-        return (this._message = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "message"
-        ));
-      },
-      set(val) {
-        delete this._message;
-        return (this._message = val);
-      }
-    });
-    Object.defineProperty(this, "_progress", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._progress;
-        return (this._progress = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "progress"
-        ));
-      },
-      set(val) {
-        delete this._progress;
-        return (this._progress = val);
-      }
-    });
-    Object.defineProperty(this, "_installRemote", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._installRemote;
-        return (this._installRemote = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "install-remote-btn"
-        ));
-      },
-      set(val) {
-        delete this._installRemote;
-        return (this._installRemote = val);
-      }
-    });
-    Object.defineProperty(this, "_restartNeeded", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._restartNeeded;
-        return (this._restartNeeded = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "restart-needed"
-        ));
-      },
-      set(val) {
-        delete this._restartNeeded;
-        return (this._restartNeeded = val);
-      }
-    });
-    Object.defineProperty(this, "_undo", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._undo;
-        return (this._undo = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "undo-btn"
-        ));
-      },
-      set(val) {
-        delete this._undo;
-        return (this._undo = val);
-      }
-    });
+
+    this._message = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "message"
+    );
+
+    this._progress = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "progress"
+    );
+
+    this._installRemote = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "install-remote-btn"
+    );
+
+    this._restartNeeded = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "restart-needed"
+    );
+
+    this._undo = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "undo-btn"
+    );
 
     if (this.mInstall) this.initWithInstall(this.mInstall);
     else if (this.mControl.mAddon.install)

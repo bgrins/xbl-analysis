@@ -2,18 +2,7 @@ class FirefoxBasetext extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "labelElement", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.labelElement;
-        return (this.labelElement = "");
-      },
-      set(val) {
-        delete this.labelElement;
-        return (this.labelElement = val);
-      }
-    });
+    this.labelElement = "";
   }
 
   set label(val) {

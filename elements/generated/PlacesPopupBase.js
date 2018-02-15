@@ -11,207 +11,159 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
         </xul:arrowscrollbox>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "AppConstants", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.AppConstants;
-        return (this.AppConstants = ChromeUtils.import(
-          "resource://gre/modules/AppConstants.jsm",
-          {}
-        ).AppConstants);
-      }
-    });
-    Object.defineProperty(this, "_indicatorBar", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._indicatorBar;
-        return (this._indicatorBar = document.getAnonymousElementByAttribute(
-          this,
-          "class",
-          "menupopup-drop-indicator-bar"
-        ));
+
+    this.AppConstants = ChromeUtils.import(
+      "resource://gre/modules/AppConstants.jsm",
+      {}
+    ).AppConstants;
+
+    this._indicatorBar = document.getAnonymousElementByAttribute(
+      this,
+      "class",
+      "menupopup-drop-indicator-bar"
+    );
+
+    this._scrollBox = document.getAnonymousElementByAttribute(
+      this,
+      "class",
+      "popup-internal-box"
+    );
+
+    this._rootView = PlacesUIUtils.getViewForNode(this);
+
+    this._overFolder = {
+      _self: this,
+      _folder: {
+        elt: null,
+        openTimer: null,
+        hoverTime: 350,
+        closeTimer: null
       },
-      set(val) {
-        delete this._indicatorBar;
-        return (this._indicatorBar = val);
-      }
-    });
-    Object.defineProperty(this, "_scrollBox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._scrollBox;
-        return (this._scrollBox = document.getAnonymousElementByAttribute(
-          this,
-          "class",
-          "popup-internal-box"
-        ));
+      _closeMenuTimer: null,
+
+      get elt() {
+        return this._folder.elt;
       },
-      set(val) {
-        delete this._scrollBox;
-        return (this._scrollBox = val);
-      }
-    });
-    Object.defineProperty(this, "_rootView", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._rootView;
-        return (this._rootView = PlacesUIUtils.getViewForNode(this));
+      set elt(val) {
+        return (this._folder.elt = val);
       },
-      set(val) {
-        delete this._rootView;
-        return (this._rootView = val);
-      }
-    });
-    Object.defineProperty(this, "_overFolder", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._overFolder;
-        return (this._overFolder = {
-          _self: this,
-          _folder: {
-            elt: null,
-            openTimer: null,
-            hoverTime: 350,
-            closeTimer: null
-          },
-          _closeMenuTimer: null,
 
-          get elt() {
-            return this._folder.elt;
-          },
-          set elt(val) {
-            return (this._folder.elt = val);
-          },
+      get openTimer() {
+        return this._folder.openTimer;
+      },
+      set openTimer(val) {
+        return (this._folder.openTimer = val);
+      },
 
-          get openTimer() {
-            return this._folder.openTimer;
-          },
-          set openTimer(val) {
-            return (this._folder.openTimer = val);
-          },
+      get hoverTime() {
+        return this._folder.hoverTime;
+      },
+      set hoverTime(val) {
+        return (this._folder.hoverTime = val);
+      },
 
-          get hoverTime() {
-            return this._folder.hoverTime;
-          },
-          set hoverTime(val) {
-            return (this._folder.hoverTime = val);
-          },
+      get closeTimer() {
+        return this._folder.closeTimer;
+      },
+      set closeTimer(val) {
+        return (this._folder.closeTimer = val);
+      },
 
-          get closeTimer() {
-            return this._folder.closeTimer;
-          },
-          set closeTimer(val) {
-            return (this._folder.closeTimer = val);
-          },
+      get closeMenuTimer() {
+        return this._closeMenuTimer;
+      },
+      set closeMenuTimer(val) {
+        return (this._closeMenuTimer = val);
+      },
 
-          get closeMenuTimer() {
-            return this._closeMenuTimer;
-          },
-          set closeMenuTimer(val) {
-            return (this._closeMenuTimer = val);
-          },
+      setTimer: function OF__setTimer(aTime) {
+        var timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
+        timer.initWithCallback(this, aTime, timer.TYPE_ONE_SHOT);
+        return timer;
+      },
 
-          setTimer: function OF__setTimer(aTime) {
-            var timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
-            timer.initWithCallback(this, aTime, timer.TYPE_ONE_SHOT);
-            return timer;
-          },
+      notify: function OF__notify(aTimer) {
+        // Function to process all timer notifications.
 
-          notify: function OF__notify(aTimer) {
-            // Function to process all timer notifications.
+        if (aTimer == this._folder.openTimer) {
+          // Timer to open a submenu that's being dragged over.
+          this._folder.elt.lastChild.setAttribute("autoopened", "true");
+          this._folder.elt.lastChild.showPopup(this._folder.elt);
+          this._folder.openTimer = null;
+        } else if (aTimer == this._folder.closeTimer) {
+          // Timer to close a submenu that's been dragged off of.
+          // Only close the submenu if the mouse isn't being dragged over any
+          // of its child menus.
+          var draggingOverChild = PlacesControllerDragHelper.draggingOverChildNode(
+            this._folder.elt
+          );
+          if (draggingOverChild) this._folder.elt = null;
+          this.clear();
 
-            if (aTimer == this._folder.openTimer) {
-              // Timer to open a submenu that's being dragged over.
-              this._folder.elt.lastChild.setAttribute("autoopened", "true");
-              this._folder.elt.lastChild.showPopup(this._folder.elt);
-              this._folder.openTimer = null;
-            } else if (aTimer == this._folder.closeTimer) {
-              // Timer to close a submenu that's been dragged off of.
-              // Only close the submenu if the mouse isn't being dragged over any
-              // of its child menus.
-              var draggingOverChild = PlacesControllerDragHelper.draggingOverChildNode(
-                this._folder.elt
-              );
-              if (draggingOverChild) this._folder.elt = null;
-              this.clear();
-
-              // Close any parent folders which aren't being dragged over.
-              // (This is necessary because of the above code that keeps a folder
-              // open while its children are being dragged over.)
-              if (!draggingOverChild) this.closeParentMenus();
-            } else if (aTimer == this.closeMenuTimer) {
-              // Timer to close this menu after the drag exit.
-              var popup = this._self;
-              // if we are no more dragging we can leave the menu open to allow
-              // for better D&D bookmark organization
-              if (
-                PlacesControllerDragHelper.getSession() &&
-                !PlacesControllerDragHelper.draggingOverChildNode(
-                  popup.parentNode
-                )
-              ) {
-                popup.hidePopup();
-                // Close any parent menus that aren't being dragged over;
-                // otherwise they'll stay open because they couldn't close
-                // while this menu was being dragged over.
-                this.closeParentMenus();
-              }
-              this._closeMenuTimer = null;
-            }
-          },
-
-          //  Helper function to close all parent menus of this menu,
-          //  as long as none of the parent's children are currently being
-          //  dragged over.
-          closeParentMenus: function OF__closeParentMenus() {
-            var popup = this._self;
-            var parent = popup.parentNode;
-            while (parent) {
-              if (parent.localName == "menupopup" && parent._placesNode) {
-                if (
-                  PlacesControllerDragHelper.draggingOverChildNode(
-                    parent.parentNode
-                  )
-                )
-                  break;
-                parent.hidePopup();
-              }
-              parent = parent.parentNode;
-            }
-          },
-
-          //  The mouse is no longer dragging over the stored menubutton.
-          //  Close the menubutton, clear out drag styles, and clear all
-          //  timers for opening/closing it.
-          clear: function OF__clear() {
-            if (this._folder.elt && this._folder.elt.lastChild) {
-              if (!this._folder.elt.lastChild.hasAttribute("dragover"))
-                this._folder.elt.lastChild.hidePopup();
-              // remove menuactive style
-              this._folder.elt.removeAttribute("_moz-menuactive");
-              this._folder.elt = null;
-            }
-            if (this._folder.openTimer) {
-              this._folder.openTimer.cancel();
-              this._folder.openTimer = null;
-            }
-            if (this._folder.closeTimer) {
-              this._folder.closeTimer.cancel();
-              this._folder.closeTimer = null;
-            }
+          // Close any parent folders which aren't being dragged over.
+          // (This is necessary because of the above code that keeps a folder
+          // open while its children are being dragged over.)
+          if (!draggingOverChild) this.closeParentMenus();
+        } else if (aTimer == this.closeMenuTimer) {
+          // Timer to close this menu after the drag exit.
+          var popup = this._self;
+          // if we are no more dragging we can leave the menu open to allow
+          // for better D&D bookmark organization
+          if (
+            PlacesControllerDragHelper.getSession() &&
+            !PlacesControllerDragHelper.draggingOverChildNode(popup.parentNode)
+          ) {
+            popup.hidePopup();
+            // Close any parent menus that aren't being dragged over;
+            // otherwise they'll stay open because they couldn't close
+            // while this menu was being dragged over.
+            this.closeParentMenus();
           }
-        });
+          this._closeMenuTimer = null;
+        }
       },
-      set(val) {
-        delete this._overFolder;
-        return (this._overFolder = val);
+
+      //  Helper function to close all parent menus of this menu,
+      //  as long as none of the parent's children are currently being
+      //  dragged over.
+      closeParentMenus: function OF__closeParentMenus() {
+        var popup = this._self;
+        var parent = popup.parentNode;
+        while (parent) {
+          if (parent.localName == "menupopup" && parent._placesNode) {
+            if (
+              PlacesControllerDragHelper.draggingOverChildNode(
+                parent.parentNode
+              )
+            )
+              break;
+            parent.hidePopup();
+          }
+          parent = parent.parentNode;
+        }
+      },
+
+      //  The mouse is no longer dragging over the stored menubutton.
+      //  Close the menubutton, clear out drag styles, and clear all
+      //  timers for opening/closing it.
+      clear: function OF__clear() {
+        if (this._folder.elt && this._folder.elt.lastChild) {
+          if (!this._folder.elt.lastChild.hasAttribute("dragover"))
+            this._folder.elt.lastChild.hidePopup();
+          // remove menuactive style
+          this._folder.elt.removeAttribute("_moz-menuactive");
+          this._folder.elt = null;
+        }
+        if (this._folder.openTimer) {
+          this._folder.openTimer.cancel();
+          this._folder.openTimer = null;
+        }
+        if (this._folder.closeTimer) {
+          this._folder.closeTimer.cancel();
+          this._folder.closeTimer = null;
+        }
       }
-    });
+    };
 
     this.addEventListener("DOMMenuItemActive", event => {
       let elt = event.target;

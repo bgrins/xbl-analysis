@@ -6,18 +6,12 @@ class FirefoxPopup extends FirefoxPopupBase {
         <children></children>
       </xul:arrowscrollbox>
     `;
-    Object.defineProperty(this, "scrollBox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.scrollBox;
-        return (this.scrollBox = document.getAnonymousElementByAttribute(
-          this,
-          "class",
-          "popup-internal-box"
-        ));
-      }
-    });
+
+    this.scrollBox = document.getAnonymousElementByAttribute(
+      this,
+      "class",
+      "popup-internal-box"
+    );
 
     this.addEventListener("popupshowing", event => {
       var array = [];

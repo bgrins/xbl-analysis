@@ -5,54 +5,24 @@ class FirefoxCreatorLink extends XULElement {
       <xul:label anonid="creator-link" class="creator-link text-link"></xul:label>
       <xul:label anonid="creator-name" class="creator-name"></xul:label>
     `;
-    Object.defineProperty(this, "_label", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._label;
-        return (this._label = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "label"
-        ));
-      },
-      set(val) {
-        delete this._label;
-        return (this._label = val);
-      }
-    });
-    Object.defineProperty(this, "_creatorLink", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._creatorLink;
-        return (this._creatorLink = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "creator-link"
-        ));
-      },
-      set(val) {
-        delete this._creatorLink;
-        return (this._creatorLink = val);
-      }
-    });
-    Object.defineProperty(this, "_creatorName", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._creatorName;
-        return (this._creatorName = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "creator-name"
-        ));
-      },
-      set(val) {
-        delete this._creatorName;
-        return (this._creatorName = val);
-      }
-    });
+
+    this._label = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "label"
+    );
+
+    this._creatorLink = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "creator-link"
+    );
+
+    this._creatorName = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "creator-name"
+    );
 
     if (
       this.hasAttribute("nameonly") &&

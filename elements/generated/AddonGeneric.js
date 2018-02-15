@@ -95,578 +95,218 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
         </xul:vbox>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "_warningContainer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._warningContainer;
-        return (this._warningContainer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "warning-container"
-        ));
-      },
-      set(val) {
-        delete this._warningContainer;
-        return (this._warningContainer = val);
-      }
-    });
-    Object.defineProperty(this, "_warning", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._warning;
-        return (this._warning = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "warning"
-        ));
-      },
-      set(val) {
-        delete this._warning;
-        return (this._warning = val);
-      }
-    });
-    Object.defineProperty(this, "_warningLink", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._warningLink;
-        return (this._warningLink = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "warning-link"
-        ));
-      },
-      set(val) {
-        delete this._warningLink;
-        return (this._warningLink = val);
-      }
-    });
-    Object.defineProperty(this, "_warningBtn", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._warningBtn;
-        return (this._warningBtn = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "warning-btn"
-        ));
-      },
-      set(val) {
-        delete this._warningBtn;
-        return (this._warningBtn = val);
-      }
-    });
-    Object.defineProperty(this, "_errorContainer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._errorContainer;
-        return (this._errorContainer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "error-container"
-        ));
-      },
-      set(val) {
-        delete this._errorContainer;
-        return (this._errorContainer = val);
-      }
-    });
-    Object.defineProperty(this, "_error", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._error;
-        return (this._error = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "error"
-        ));
-      },
-      set(val) {
-        delete this._error;
-        return (this._error = val);
-      }
-    });
-    Object.defineProperty(this, "_errorLink", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._errorLink;
-        return (this._errorLink = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "error-link"
-        ));
-      },
-      set(val) {
-        delete this._errorLink;
-        return (this._errorLink = val);
-      }
-    });
-    Object.defineProperty(this, "_pendingContainer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._pendingContainer;
-        return (this._pendingContainer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "pending-container"
-        ));
-      },
-      set(val) {
-        delete this._pendingContainer;
-        return (this._pendingContainer = val);
-      }
-    });
-    Object.defineProperty(this, "_pending", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._pending;
-        return (this._pending = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "pending"
-        ));
-      },
-      set(val) {
-        delete this._pending;
-        return (this._pending = val);
-      }
-    });
-    Object.defineProperty(this, "_infoContainer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._infoContainer;
-        return (this._infoContainer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "info-container"
-        ));
-      },
-      set(val) {
-        delete this._infoContainer;
-        return (this._infoContainer = val);
-      }
-    });
-    Object.defineProperty(this, "_info", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._info;
-        return (this._info = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "info"
-        ));
-      },
-      set(val) {
-        delete this._info;
-        return (this._info = val);
-      }
-    });
-    Object.defineProperty(this, "_experimentState", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._experimentState;
-        return (this._experimentState = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "experiment-state"
-        ));
-      },
-      set(val) {
-        delete this._experimentState;
-        return (this._experimentState = val);
-      }
-    });
-    Object.defineProperty(this, "_experimentTime", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._experimentTime;
-        return (this._experimentTime = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "experiment-time"
-        ));
-      },
-      set(val) {
-        delete this._experimentTime;
-        return (this._experimentTime = val);
-      }
-    });
-    Object.defineProperty(this, "_icon", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._icon;
-        return (this._icon = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "icon"
-        ));
-      },
-      set(val) {
-        delete this._icon;
-        return (this._icon = val);
-      }
-    });
-    Object.defineProperty(this, "_dateUpdated", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._dateUpdated;
-        return (this._dateUpdated = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "date-updated"
-        ));
-      },
-      set(val) {
-        delete this._dateUpdated;
-        return (this._dateUpdated = val);
-      }
-    });
-    Object.defineProperty(this, "_description", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._description;
-        return (this._description = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "description"
-        ));
-      },
-      set(val) {
-        delete this._description;
-        return (this._description = val);
-      }
-    });
-    Object.defineProperty(this, "_stateMenulist", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._stateMenulist;
-        return (this._stateMenulist = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "state-menulist"
-        ));
-      },
-      set(val) {
-        delete this._stateMenulist;
-        return (this._stateMenulist = val);
-      }
-    });
-    Object.defineProperty(this, "_askToActivateMenuitem", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._askToActivateMenuitem;
-        return (this._askToActivateMenuitem = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "ask-to-activate-menuitem"
-        ));
-      },
-      set(val) {
-        delete this._askToActivateMenuitem;
-        return (this._askToActivateMenuitem = val);
-      }
-    });
-    Object.defineProperty(this, "_alwaysActivateMenuitem", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._alwaysActivateMenuitem;
-        return (this._alwaysActivateMenuitem = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "always-activate-menuitem"
-        ));
-      },
-      set(val) {
-        delete this._alwaysActivateMenuitem;
-        return (this._alwaysActivateMenuitem = val);
-      }
-    });
-    Object.defineProperty(this, "_neverActivateMenuitem", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._neverActivateMenuitem;
-        return (this._neverActivateMenuitem = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "never-activate-menuitem"
-        ));
-      },
-      set(val) {
-        delete this._neverActivateMenuitem;
-        return (this._neverActivateMenuitem = val);
-      }
-    });
-    Object.defineProperty(this, "_preferencesBtn", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._preferencesBtn;
-        return (this._preferencesBtn = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "preferences-btn"
-        ));
-      },
-      set(val) {
-        delete this._preferencesBtn;
-        return (this._preferencesBtn = val);
-      }
-    });
-    Object.defineProperty(this, "_enableBtn", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._enableBtn;
-        return (this._enableBtn = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "enable-btn"
-        ));
-      },
-      set(val) {
-        delete this._enableBtn;
-        return (this._enableBtn = val);
-      }
-    });
-    Object.defineProperty(this, "_disableBtn", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._disableBtn;
-        return (this._disableBtn = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "disable-btn"
-        ));
-      },
-      set(val) {
-        delete this._disableBtn;
-        return (this._disableBtn = val);
-      }
-    });
-    Object.defineProperty(this, "_removeBtn", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._removeBtn;
-        return (this._removeBtn = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "remove-btn"
-        ));
-      },
-      set(val) {
-        delete this._removeBtn;
-        return (this._removeBtn = val);
-      }
-    });
-    Object.defineProperty(this, "_updateBtn", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._updateBtn;
-        return (this._updateBtn = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "update-btn"
-        ));
-      },
-      set(val) {
-        delete this._updateBtn;
-        return (this._updateBtn = val);
-      }
-    });
-    Object.defineProperty(this, "_controlContainer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._controlContainer;
-        return (this._controlContainer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "control-container"
-        ));
-      },
-      set(val) {
-        delete this._controlContainer;
-        return (this._controlContainer = val);
-      }
-    });
-    Object.defineProperty(this, "_installStatus", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._installStatus;
-        return (this._installStatus = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "install-status"
-        ));
-      },
-      set(val) {
-        delete this._installStatus;
-        return (this._installStatus = val);
-      }
-    });
-    Object.defineProperty(this, "_checkingUpdate", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._checkingUpdate;
-        return (this._checkingUpdate = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "checking-update"
-        ));
-      },
-      set(val) {
-        delete this._checkingUpdate;
-        return (this._checkingUpdate = val);
-      }
-    });
-    Object.defineProperty(this, "_updateAvailable", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._updateAvailable;
-        return (this._updateAvailable = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "update-available"
-        ));
-      },
-      set(val) {
-        delete this._updateAvailable;
-        return (this._updateAvailable = val);
-      }
-    });
-    Object.defineProperty(this, "_includeUpdate", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._includeUpdate;
-        return (this._includeUpdate = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "include-update"
-        ));
-      },
-      set(val) {
-        delete this._includeUpdate;
-        return (this._includeUpdate = val);
-      }
-    });
-    Object.defineProperty(this, "_relNotesLoaded", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._relNotesLoaded;
-        return (this._relNotesLoaded = false);
-      },
-      set(val) {
-        delete this._relNotesLoaded;
-        return (this._relNotesLoaded = val);
-      }
-    });
-    Object.defineProperty(this, "_relNotesToggle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._relNotesToggle;
-        return (this._relNotesToggle = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "relnotes-toggle-btn"
-        ));
-      },
-      set(val) {
-        delete this._relNotesToggle;
-        return (this._relNotesToggle = val);
-      }
-    });
-    Object.defineProperty(this, "_relNotesLoading", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._relNotesLoading;
-        return (this._relNotesLoading = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "relnotes-loading"
-        ));
-      },
-      set(val) {
-        delete this._relNotesLoading;
-        return (this._relNotesLoading = val);
-      }
-    });
-    Object.defineProperty(this, "_relNotesError", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._relNotesError;
-        return (this._relNotesError = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "relnotes-error"
-        ));
-      },
-      set(val) {
-        delete this._relNotesError;
-        return (this._relNotesError = val);
-      }
-    });
-    Object.defineProperty(this, "_relNotesContainer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._relNotesContainer;
-        return (this._relNotesContainer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "relnotes-container"
-        ));
-      },
-      set(val) {
-        delete this._relNotesContainer;
-        return (this._relNotesContainer = val);
-      }
-    });
-    Object.defineProperty(this, "_relNotes", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._relNotes;
-        return (this._relNotes = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "relnotes"
-        ));
-      },
-      set(val) {
-        delete this._relNotes;
-        return (this._relNotes = val);
-      }
-    });
+
+    this._warningContainer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "warning-container"
+    );
+
+    this._warning = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "warning"
+    );
+
+    this._warningLink = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "warning-link"
+    );
+
+    this._warningBtn = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "warning-btn"
+    );
+
+    this._errorContainer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "error-container"
+    );
+
+    this._error = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "error"
+    );
+
+    this._errorLink = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "error-link"
+    );
+
+    this._pendingContainer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "pending-container"
+    );
+
+    this._pending = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "pending"
+    );
+
+    this._infoContainer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "info-container"
+    );
+
+    this._info = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "info"
+    );
+
+    this._experimentState = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "experiment-state"
+    );
+
+    this._experimentTime = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "experiment-time"
+    );
+
+    this._icon = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "icon"
+    );
+
+    this._dateUpdated = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "date-updated"
+    );
+
+    this._description = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "description"
+    );
+
+    this._stateMenulist = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "state-menulist"
+    );
+
+    this._askToActivateMenuitem = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "ask-to-activate-menuitem"
+    );
+
+    this._alwaysActivateMenuitem = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "always-activate-menuitem"
+    );
+
+    this._neverActivateMenuitem = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "never-activate-menuitem"
+    );
+
+    this._preferencesBtn = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "preferences-btn"
+    );
+
+    this._enableBtn = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "enable-btn"
+    );
+
+    this._disableBtn = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "disable-btn"
+    );
+
+    this._removeBtn = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "remove-btn"
+    );
+
+    this._updateBtn = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "update-btn"
+    );
+
+    this._controlContainer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "control-container"
+    );
+
+    this._installStatus = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "install-status"
+    );
+
+    this._checkingUpdate = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "checking-update"
+    );
+
+    this._updateAvailable = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "update-available"
+    );
+
+    this._includeUpdate = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "include-update"
+    );
+
+    this._relNotesLoaded = false;
+
+    this._relNotesToggle = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "relnotes-toggle-btn"
+    );
+
+    this._relNotesLoading = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "relnotes-loading"
+    );
+
+    this._relNotesError = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "relnotes-error"
+    );
+
+    this._relNotesContainer = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "relnotes-container"
+    );
+
+    this._relNotes = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "relnotes"
+    );
 
     this._installStatus = document.getAnonymousElementByAttribute(
       this,

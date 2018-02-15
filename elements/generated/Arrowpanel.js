@@ -11,18 +11,8 @@ class FirefoxArrowpanel extends FirefoxPanel {
         </xul:box>
       </xul:vbox>
     `;
-    Object.defineProperty(this, "_fadeTimer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._fadeTimer;
-        return (this._fadeTimer = null);
-      },
-      set(val) {
-        delete this._fadeTimer;
-        return (this._fadeTimer = val);
-      }
-    });
+
+    this._fadeTimer = null;
 
     this.addEventListener("popupshowing", event => {
       var arrow = document.getAnonymousElementByAttribute(

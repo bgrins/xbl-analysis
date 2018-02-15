@@ -15,246 +15,90 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       <xul:popupset anonid="popupset" class="autocomplete-result-popupset"></xul:popupset>
       <children includes="toolbarbutton"></children>
     `;
-    Object.defineProperty(this, "ExtensionSearchHandler", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.ExtensionSearchHandler;
-        return (this.ExtensionSearchHandler = ChromeUtils.import(
-          "resource://gre/modules/ExtensionSearchHandler.jsm",
-          {}
-        ).ExtensionSearchHandler);
-      }
-    });
-    Object.defineProperty(this, "goButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.goButton;
-        return (this.goButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "urlbar-go-button"
-        ));
-      },
-      set(val) {
-        delete this.goButton;
-        return (this.goButton = val);
-      }
-    });
-    Object.defineProperty(this, "_value", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._value;
-        return (this._value = "");
-      },
-      set(val) {
-        delete this._value;
-        return (this._value = val);
-      }
-    });
-    Object.defineProperty(this, "gotResultForCurrentQuery", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.gotResultForCurrentQuery;
-        return (this.gotResultForCurrentQuery = false);
-      },
-      set(val) {
-        delete this.gotResultForCurrentQuery;
-        return (this.gotResultForCurrentQuery = val);
-      }
-    });
-    Object.defineProperty(this, "handleEnterInstance", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.handleEnterInstance;
-        return (this.handleEnterInstance = null);
-      },
-      set(val) {
-        delete this.handleEnterInstance;
-        return (this.handleEnterInstance = val);
-      }
-    });
-    Object.defineProperty(this, "textRunsMaxLen", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.textRunsMaxLen;
-        return (this.textRunsMaxLen = 255);
-      },
-      set(val) {
-        delete this.textRunsMaxLen;
-        return (this.textRunsMaxLen = val);
-      }
-    });
-    Object.defineProperty(this, "userInitiatedFocus", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.userInitiatedFocus;
-        return (this.userInitiatedFocus = false);
-      },
-      set(val) {
-        delete this.userInitiatedFocus;
-        return (this.userInitiatedFocus = val);
-      }
-    });
-    Object.defineProperty(this, "_keyCodesToDefer", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._keyCodesToDefer;
-        return (this._keyCodesToDefer = new Set([
-          KeyboardEvent.DOM_VK_DOWN,
-          KeyboardEvent.DOM_VK_TAB
-        ]));
-      },
-      set(val) {
-        delete this._keyCodesToDefer;
-        return (this._keyCodesToDefer = val);
-      }
-    });
-    Object.defineProperty(this, "_deferredKeyEventQueue", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._deferredKeyEventQueue;
-        return (this._deferredKeyEventQueue = []);
-      },
-      set(val) {
-        delete this._deferredKeyEventQueue;
-        return (this._deferredKeyEventQueue = val);
-      }
-    });
-    Object.defineProperty(this, "_deferredKeyEventTimeout", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._deferredKeyEventTimeout;
-        return (this._deferredKeyEventTimeout = null);
-      },
-      set(val) {
-        delete this._deferredKeyEventTimeout;
-        return (this._deferredKeyEventTimeout = val);
-      }
-    });
-    Object.defineProperty(this, "_deferredKeyEventTimeoutMs", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._deferredKeyEventTimeoutMs;
-        return (this._deferredKeyEventTimeoutMs = 200);
-      },
-      set(val) {
-        delete this._deferredKeyEventTimeoutMs;
-        return (this._deferredKeyEventTimeoutMs = val);
-      }
-    });
-    Object.defineProperty(this, "_searchStartDate", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._searchStartDate;
-        return (this._searchStartDate = 0);
-      },
-      set(val) {
-        delete this._searchStartDate;
-        return (this._searchStartDate = val);
-      }
-    });
-    Object.defineProperty(this, "_mayTrimURLs", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._mayTrimURLs;
-        return (this._mayTrimURLs = true);
-      },
-      set(val) {
-        delete this._mayTrimURLs;
-        return (this._mayTrimURLs = val);
-      }
-    });
-    Object.defineProperty(this, "_formattingEnabled", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._formattingEnabled;
-        return (this._formattingEnabled = true);
-      },
-      set(val) {
-        delete this._formattingEnabled;
-        return (this._formattingEnabled = val);
-      }
-    });
-    Object.defineProperty(this, "_copyCutController", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._copyCutController;
-        return (this._copyCutController = {
-          urlbar: this,
-          doCommand(aCommand) {
-            var urlbar = this.urlbar;
-            var val = urlbar._getSelectedValueForClipboard();
-            if (!val) return;
 
-            if (aCommand == "cmd_cut" && this.isCommandEnabled(aCommand)) {
-              let start = urlbar.selectionStart;
-              let end = urlbar.selectionEnd;
-              urlbar.inputField.value =
-                urlbar.inputField.value.substring(0, start) +
-                urlbar.inputField.value.substring(end);
-              urlbar.selectionStart = urlbar.selectionEnd = start;
+    this.ExtensionSearchHandler = ChromeUtils.import(
+      "resource://gre/modules/ExtensionSearchHandler.jsm",
+      {}
+    ).ExtensionSearchHandler;
 
-              let event = document.createEvent("UIEvents");
-              event.initUIEvent("input", true, false, window, 0);
-              urlbar.dispatchEvent(event);
+    this.goButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "urlbar-go-button"
+    );
 
-              SetPageProxyState("invalid");
-            }
+    this._value = "";
 
-            Cc["@mozilla.org/widget/clipboardhelper;1"]
-              .getService(Ci.nsIClipboardHelper)
-              .copyString(val);
-          },
-          supportsCommand(aCommand) {
-            switch (aCommand) {
-              case "cmd_copy":
-              case "cmd_cut":
-                return true;
-            }
-            return false;
-          },
-          isCommandEnabled(aCommand) {
-            return (
-              this.supportsCommand(aCommand) &&
-              (aCommand != "cmd_cut" || !this.urlbar.readOnly) &&
-              this.urlbar.selectionStart < this.urlbar.selectionEnd
-            );
-          },
-          onEvent(aEventName) {}
-        });
+    this.gotResultForCurrentQuery = false;
+
+    this.handleEnterInstance = null;
+
+    this.textRunsMaxLen = 255;
+
+    this.userInitiatedFocus = false;
+
+    this._keyCodesToDefer = new Set([
+      KeyboardEvent.DOM_VK_DOWN,
+      KeyboardEvent.DOM_VK_TAB
+    ]);
+
+    this._deferredKeyEventQueue = [];
+
+    this._deferredKeyEventTimeout = null;
+
+    this._deferredKeyEventTimeoutMs = 200;
+
+    this._searchStartDate = 0;
+
+    this._mayTrimURLs = true;
+
+    this._formattingEnabled = true;
+
+    this._copyCutController = {
+      urlbar: this,
+      doCommand(aCommand) {
+        var urlbar = this.urlbar;
+        var val = urlbar._getSelectedValueForClipboard();
+        if (!val) return;
+
+        if (aCommand == "cmd_cut" && this.isCommandEnabled(aCommand)) {
+          let start = urlbar.selectionStart;
+          let end = urlbar.selectionEnd;
+          urlbar.inputField.value =
+            urlbar.inputField.value.substring(0, start) +
+            urlbar.inputField.value.substring(end);
+          urlbar.selectionStart = urlbar.selectionEnd = start;
+
+          let event = document.createEvent("UIEvents");
+          event.initUIEvent("input", true, false, window, 0);
+          urlbar.dispatchEvent(event);
+
+          SetPageProxyState("invalid");
+        }
+
+        Cc["@mozilla.org/widget/clipboardhelper;1"]
+          .getService(Ci.nsIClipboardHelper)
+          .copyString(val);
       },
-      set(val) {
-        delete this._copyCutController;
-        return (this._copyCutController = val);
-      }
-    });
-    Object.defineProperty(this, "_pressedNoActionKeys", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._pressedNoActionKeys;
-        return (this._pressedNoActionKeys = new Set());
+      supportsCommand(aCommand) {
+        switch (aCommand) {
+          case "cmd_copy":
+          case "cmd_cut":
+            return true;
+        }
+        return false;
       },
-      set(val) {
-        delete this._pressedNoActionKeys;
-        return (this._pressedNoActionKeys = val);
-      }
-    });
+      isCommandEnabled(aCommand) {
+        return (
+          this.supportsCommand(aCommand) &&
+          (aCommand != "cmd_cut" || !this.urlbar.readOnly) &&
+          this.urlbar.selectionStart < this.urlbar.selectionEnd
+        );
+      },
+      onEvent(aEventName) {}
+    };
+
+    this._pressedNoActionKeys = new Set();
 
     this._prefs = Components.classes["@mozilla.org/preferences-service;1"]
       .getService(Components.interfaces.nsIPrefService)

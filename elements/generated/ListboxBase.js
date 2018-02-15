@@ -2,114 +2,23 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_lastKeyTime", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._lastKeyTime;
-        return (this._lastKeyTime = 0);
-      },
-      set(val) {
-        delete this._lastKeyTime;
-        return (this._lastKeyTime = val);
-      }
-    });
-    Object.defineProperty(this, "_incrementalString", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._incrementalString;
-        return (this._incrementalString = "");
-      },
-      set(val) {
-        delete this._incrementalString;
-        return (this._incrementalString = val);
-      }
-    });
-    Object.defineProperty(this, "selectedItems", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.selectedItems;
-        return (this.selectedItems = new ChromeNodeList());
-      },
-      set(val) {
-        delete this.selectedItems;
-        return (this.selectedItems = val);
-      }
-    });
-    Object.defineProperty(this, "_suppressOnSelect", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._suppressOnSelect;
-        return (this._suppressOnSelect = false);
-      },
-      set(val) {
-        delete this._suppressOnSelect;
-        return (this._suppressOnSelect = val);
-      }
-    });
-    Object.defineProperty(this, "_userSelecting", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._userSelecting;
-        return (this._userSelecting = false);
-      },
-      set(val) {
-        delete this._userSelecting;
-        return (this._userSelecting = val);
-      }
-    });
-    Object.defineProperty(this, "_mayReverse", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._mayReverse;
-        return (this._mayReverse = false);
-      },
-      set(val) {
-        delete this._mayReverse;
-        return (this._mayReverse = val);
-      }
-    });
-    Object.defineProperty(this, "_selectTimeout", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._selectTimeout;
-        return (this._selectTimeout = null);
-      },
-      set(val) {
-        delete this._selectTimeout;
-        return (this._selectTimeout = val);
-      }
-    });
-    Object.defineProperty(this, "_currentItem", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._currentItem;
-        return (this._currentItem = null);
-      },
-      set(val) {
-        delete this._currentItem;
-        return (this._currentItem = val);
-      }
-    });
-    Object.defineProperty(this, "_selectionStart", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._selectionStart;
-        return (this._selectionStart = null);
-      },
-      set(val) {
-        delete this._selectionStart;
-        return (this._selectionStart = val);
-      }
-    });
+    this._lastKeyTime = 0;
+
+    this._incrementalString = "";
+
+    this.selectedItems = new ChromeNodeList();
+
+    this._suppressOnSelect = false;
+
+    this._userSelecting = false;
+
+    this._mayReverse = false;
+
+    this._selectTimeout = null;
+
+    this._currentItem = null;
+
+    this._selectionStart = null;
 
     this.addEventListener("keypress", event => {
       this._moveByOffsetFromUserEvent(-1, event);

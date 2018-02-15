@@ -4,18 +4,8 @@ class FirefoxRichlistitem extends FirefoxListitem {
     this.innerHTML = `
       <children></children>
     `;
-    Object.defineProperty(this, "selectedByMouseOver", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.selectedByMouseOver;
-        return (this.selectedByMouseOver = false);
-      },
-      set(val) {
-        delete this.selectedByMouseOver;
-        return (this.selectedByMouseOver = val);
-      }
-    });
+
+    this.selectedByMouseOver = false;
   }
   disconnectedCallback() {
     var control = this.control;

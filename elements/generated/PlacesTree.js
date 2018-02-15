@@ -2,30 +2,9 @@ class FirefoxPlacesTree extends FirefoxTree {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_contextMenuShown", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._contextMenuShown;
-        return (this._contextMenuShown = false);
-      },
-      set(val) {
-        delete this._contextMenuShown;
-        return (this._contextMenuShown = val);
-      }
-    });
-    Object.defineProperty(this, "_active", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._active;
-        return (this._active = true);
-      },
-      set(val) {
-        delete this._active;
-        return (this._active = val);
-      }
-    });
+    this._contextMenuShown = false;
+
+    this._active = true;
 
     // Force an initial build.
     if (this.place) this.place = this.place;

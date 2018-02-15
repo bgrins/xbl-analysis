@@ -7,134 +7,34 @@ class FirefoxNotificationbox extends XULElement {
       </xul:stack>
       <children></children>
     `;
-    Object.defineProperty(this, "PRIORITY_INFO_LOW", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_INFO_LOW;
-        return (this.PRIORITY_INFO_LOW = 1);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_INFO_MEDIUM", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_INFO_MEDIUM;
-        return (this.PRIORITY_INFO_MEDIUM = 2);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_INFO_HIGH", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_INFO_HIGH;
-        return (this.PRIORITY_INFO_HIGH = 3);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_WARNING_LOW", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_WARNING_LOW;
-        return (this.PRIORITY_WARNING_LOW = 4);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_WARNING_MEDIUM", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_WARNING_MEDIUM;
-        return (this.PRIORITY_WARNING_MEDIUM = 5);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_WARNING_HIGH", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_WARNING_HIGH;
-        return (this.PRIORITY_WARNING_HIGH = 6);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_CRITICAL_LOW", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_CRITICAL_LOW;
-        return (this.PRIORITY_CRITICAL_LOW = 7);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_CRITICAL_MEDIUM", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_CRITICAL_MEDIUM;
-        return (this.PRIORITY_CRITICAL_MEDIUM = 8);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_CRITICAL_HIGH", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_CRITICAL_HIGH;
-        return (this.PRIORITY_CRITICAL_HIGH = 9);
-      }
-    });
-    Object.defineProperty(this, "PRIORITY_CRITICAL_BLOCK", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.PRIORITY_CRITICAL_BLOCK;
-        return (this.PRIORITY_CRITICAL_BLOCK = 10);
-      }
-    });
-    Object.defineProperty(this, "currentNotification", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.currentNotification;
-        return (this.currentNotification = null);
-      },
-      set(val) {
-        delete this.currentNotification;
-        return (this.currentNotification = val);
-      }
-    });
-    Object.defineProperty(this, "_closedNotification", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._closedNotification;
-        return (this._closedNotification = null);
-      },
-      set(val) {
-        delete this._closedNotification;
-        return (this._closedNotification = val);
-      }
-    });
-    Object.defineProperty(this, "_blockingCanvas", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._blockingCanvas;
-        return (this._blockingCanvas = null);
-      },
-      set(val) {
-        delete this._blockingCanvas;
-        return (this._blockingCanvas = val);
-      }
-    });
-    Object.defineProperty(this, "_animating", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._animating;
-        return (this._animating = false);
-      },
-      set(val) {
-        delete this._animating;
-        return (this._animating = val);
-      }
-    });
+
+    this.PRIORITY_INFO_LOW = 1;
+
+    this.PRIORITY_INFO_MEDIUM = 2;
+
+    this.PRIORITY_INFO_HIGH = 3;
+
+    this.PRIORITY_WARNING_LOW = 4;
+
+    this.PRIORITY_WARNING_MEDIUM = 5;
+
+    this.PRIORITY_WARNING_HIGH = 6;
+
+    this.PRIORITY_CRITICAL_LOW = 7;
+
+    this.PRIORITY_CRITICAL_MEDIUM = 8;
+
+    this.PRIORITY_CRITICAL_HIGH = 9;
+
+    this.PRIORITY_CRITICAL_BLOCK = 10;
+
+    this.currentNotification = null;
+
+    this._closedNotification = null;
+
+    this._blockingCanvas = null;
+
+    this._animating = false;
 
     this.addEventListener("transitionend", event => {
       if (

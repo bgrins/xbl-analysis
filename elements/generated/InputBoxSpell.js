@@ -27,66 +27,26 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
         </xul:menu>
       </xul:menupopup>
     `;
-    Object.defineProperty(this, "_spellCheckInitialized", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._spellCheckInitialized;
-        return (this._spellCheckInitialized = false);
-      },
-      set(val) {
-        delete this._spellCheckInitialized;
-        return (this._spellCheckInitialized = val);
-      }
-    });
-    Object.defineProperty(this, "_enabledCheckbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._enabledCheckbox;
-        return (this._enabledCheckbox = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "spell-check-enabled"
-        ));
-      },
-      set(val) {
-        delete this._enabledCheckbox;
-        return (this._enabledCheckbox = val);
-      }
-    });
-    Object.defineProperty(this, "_suggestionsSeparator", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._suggestionsSeparator;
-        return (this._suggestionsSeparator = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "spell-no-suggestions"
-        ));
-      },
-      set(val) {
-        delete this._suggestionsSeparator;
-        return (this._suggestionsSeparator = val);
-      }
-    });
-    Object.defineProperty(this, "_dictionariesMenu", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._dictionariesMenu;
-        return (this._dictionariesMenu = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "spell-dictionaries-menu"
-        ));
-      },
-      set(val) {
-        delete this._dictionariesMenu;
-        return (this._dictionariesMenu = val);
-      }
-    });
+
+    this._spellCheckInitialized = false;
+
+    this._enabledCheckbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "spell-check-enabled"
+    );
+
+    this._suggestionsSeparator = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "spell-no-suggestions"
+    );
+
+    this._dictionariesMenu = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "spell-dictionaries-menu"
+    );
   }
 
   get spellCheckerUI() {

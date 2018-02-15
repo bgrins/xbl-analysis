@@ -7,61 +7,25 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
         <children></children>
       </xul:scrollbox>
     `;
-    Object.defineProperty(this, "_scrollbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._scrollbox;
-        return (this._scrollbox = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "main-box"
-        ));
-      },
-      set(val) {
-        delete this._scrollbox;
-        return (this._scrollbox = val);
+
+    this._scrollbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "main-box"
+    );
+
+    this.scrollBoxObject = this._scrollbox.boxObject;
+
+    this._builderListener = {
+      mOuter: this,
+      item: null,
+      willRebuild(builder) {},
+      didRebuild(builder) {
+        this.mOuter._refreshSelection();
       }
-    });
-    Object.defineProperty(this, "scrollBoxObject", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.scrollBoxObject;
-        return (this.scrollBoxObject = this._scrollbox.boxObject);
-      },
-      set(val) {
-        delete this.scrollBoxObject;
-        return (this.scrollBoxObject = val);
-      }
-    });
-    Object.defineProperty(this, "_builderListener", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._builderListener;
-        return (this._builderListener = {
-          mOuter: this,
-          item: null,
-          willRebuild(builder) {},
-          didRebuild(builder) {
-            this.mOuter._refreshSelection();
-          }
-        });
-      }
-    });
-    Object.defineProperty(this, "_currentIndex", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._currentIndex;
-        return (this._currentIndex = null);
-      },
-      set(val) {
-        delete this._currentIndex;
-        return (this._currentIndex = val);
-      }
-    });
+    };
+
+    this._currentIndex = null;
 
     // add a template build listener
     if (this.builder) this.builder.addListener(this._builderListener);

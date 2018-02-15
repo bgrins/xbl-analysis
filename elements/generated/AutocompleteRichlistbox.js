@@ -2,30 +2,9 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "mLastMoveTime", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mLastMoveTime;
-        return (this.mLastMoveTime = Date.now());
-      },
-      set(val) {
-        delete this.mLastMoveTime;
-        return (this.mLastMoveTime = val);
-      }
-    });
-    Object.defineProperty(this, "mousedOverIndex", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mousedOverIndex;
-        return (this.mousedOverIndex = -1);
-      },
-      set(val) {
-        delete this.mousedOverIndex;
-        return (this.mousedOverIndex = val);
-      }
-    });
+    this.mLastMoveTime = Date.now();
+
+    this.mousedOverIndex = -1;
 
     this.addEventListener("mouseup", event => {
       // don't call onPopupClick for the scrollbar buttons, thumb, slider, etc.

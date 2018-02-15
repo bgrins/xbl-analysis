@@ -41,126 +41,26 @@ class FirefoxTabmodalprompt extends XULElement {
       </hbox>
       <spacer flex="2"></spacer>
     `;
-    Object.defineProperty(this, "ui", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.ui;
-        return (this.ui = "");
-      },
-      set(val) {
-        delete this.ui;
-        return (this.ui = val);
-      }
-    });
-    Object.defineProperty(this, "args", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.args;
-        return (this.args = "");
-      },
-      set(val) {
-        delete this.args;
-        return (this.args = val);
-      }
-    });
-    Object.defineProperty(this, "linkedTab", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.linkedTab;
-        return (this.linkedTab = "");
-      },
-      set(val) {
-        delete this.linkedTab;
-        return (this.linkedTab = val);
-      }
-    });
-    Object.defineProperty(this, "onCloseCallback", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.onCloseCallback;
-        return (this.onCloseCallback = "");
-      },
-      set(val) {
-        delete this.onCloseCallback;
-        return (this.onCloseCallback = val);
-      }
-    });
-    Object.defineProperty(this, "Dialog", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.Dialog;
-        return (this.Dialog = "");
-      },
-      set(val) {
-        delete this.Dialog;
-        return (this.Dialog = val);
-      }
-    });
-    Object.defineProperty(this, "isLive", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.isLive;
-        return (this.isLive = "");
-      },
-      set(val) {
-        delete this.isLive;
-        return (this.isLive = val);
-      }
-    });
-    Object.defineProperty(this, "availWidth", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.availWidth;
-        return (this.availWidth = "");
-      },
-      set(val) {
-        delete this.availWidth;
-        return (this.availWidth = val);
-      }
-    });
-    Object.defineProperty(this, "availHeight", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.availHeight;
-        return (this.availHeight = "");
-      },
-      set(val) {
-        delete this.availHeight;
-        return (this.availHeight = val);
-      }
-    });
-    Object.defineProperty(this, "minWidth", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.minWidth;
-        return (this.minWidth = "");
-      },
-      set(val) {
-        delete this.minWidth;
-        return (this.minWidth = val);
-      }
-    });
-    Object.defineProperty(this, "minHeight", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.minHeight;
-        return (this.minHeight = "");
-      },
-      set(val) {
-        delete this.minHeight;
-        return (this.minHeight = val);
-      }
-    });
+
+    this.ui = "";
+
+    this.args = "";
+
+    this.linkedTab = "";
+
+    this.onCloseCallback = "";
+
+    this.Dialog = "";
+
+    this.isLive = "";
+
+    this.availWidth = "";
+
+    this.availHeight = "";
+
+    this.minWidth = "";
+
+    this.minHeight = "";
 
     let self = this;
     function getElement(anonid) {

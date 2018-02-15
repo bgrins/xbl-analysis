@@ -6,30 +6,10 @@ class FirefoxNumberbox extends FirefoxTextbox {
         <html:input class="numberbox-input textbox-input" type="number" anonid="input" inherits="value,min,max,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"></html:input>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "_valueEntered", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._valueEntered;
-        return (this._valueEntered = false);
-      },
-      set(val) {
-        delete this._valueEntered;
-        return (this._valueEntered = val);
-      }
-    });
-    Object.defineProperty(this, "_value", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._value;
-        return (this._value = 0);
-      },
-      set(val) {
-        delete this._value;
-        return (this._value = val);
-      }
-    });
+
+    this._valueEntered = false;
+
+    this._value = 0;
 
     if (this.max < this.min) this.max = this.min;
 

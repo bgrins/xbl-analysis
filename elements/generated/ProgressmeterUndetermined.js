@@ -6,18 +6,8 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
         <xul:spacer class="progress-bar" anonid="spacer" top="0" style="margin-right: -1000px;"></xul:spacer>
       </xul:stack>
     `;
-    Object.defineProperty(this, "_alive", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._alive;
-        return (this._alive = true);
-      },
-      set(val) {
-        delete this._alive;
-        return (this._alive = val);
-      }
-    });
+
+    this._alive = true;
 
     this._init();
   }

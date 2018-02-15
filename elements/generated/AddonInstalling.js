@@ -24,86 +24,36 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
         </xul:vbox>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "_icon", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._icon;
-        return (this._icon = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "icon"
-        ));
-      },
-      set(val) {
-        delete this._icon;
-        return (this._icon = val);
-      }
-    });
-    Object.defineProperty(this, "_name", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._name;
-        return (this._name = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "name"
-        ));
-      },
-      set(val) {
-        delete this._name;
-        return (this._name = val);
-      }
-    });
-    Object.defineProperty(this, "_warning", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._warning;
-        return (this._warning = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "warning"
-        ));
-      },
-      set(val) {
-        delete this._warning;
-        return (this._warning = val);
-      }
-    });
-    Object.defineProperty(this, "_warningLink", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._warningLink;
-        return (this._warningLink = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "warning-link"
-        ));
-      },
-      set(val) {
-        delete this._warningLink;
-        return (this._warningLink = val);
-      }
-    });
-    Object.defineProperty(this, "_installStatus", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._installStatus;
-        return (this._installStatus = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "install-status"
-        ));
-      },
-      set(val) {
-        delete this._installStatus;
-        return (this._installStatus = val);
-      }
-    });
+
+    this._icon = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "icon"
+    );
+
+    this._name = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "name"
+    );
+
+    this._warning = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "warning"
+    );
+
+    this._warningLink = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "warning-link"
+    );
+
+    this._installStatus = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "install-status"
+    );
 
     this._installStatus.mControl = this;
     this._installStatus.mInstall = this.mInstall;

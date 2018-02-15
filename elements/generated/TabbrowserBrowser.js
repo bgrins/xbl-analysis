@@ -2,18 +2,7 @@ class FirefoxTabbrowserBrowser extends FirefoxBrowser {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "tabModalPromptBox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.tabModalPromptBox;
-        return (this.tabModalPromptBox = null);
-      },
-      set(val) {
-        delete this.tabModalPromptBox;
-        return (this.tabModalPromptBox = val);
-      }
-    });
+    this.tabModalPromptBox = null;
   }
 
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {

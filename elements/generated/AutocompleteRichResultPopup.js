@@ -7,90 +7,24 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
         <children></children>
       </xul:hbox>
     `;
-    Object.defineProperty(this, "mInput", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mInput;
-        return (this.mInput = null);
-      },
-      set(val) {
-        delete this.mInput;
-        return (this.mInput = val);
-      }
-    });
-    Object.defineProperty(this, "mPopupOpen", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPopupOpen;
-        return (this.mPopupOpen = false);
-      },
-      set(val) {
-        delete this.mPopupOpen;
-        return (this.mPopupOpen = val);
-      }
-    });
-    Object.defineProperty(this, "_currentIndex", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._currentIndex;
-        return (this._currentIndex = 0);
-      },
-      set(val) {
-        delete this._currentIndex;
-        return (this._currentIndex = val);
-      }
-    });
-    Object.defineProperty(this, "_rlbAnimated", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._rlbAnimated;
-        return (this._rlbAnimated = false);
-      },
-      set(val) {
-        delete this._rlbAnimated;
-        return (this._rlbAnimated = val);
-      }
-    });
-    Object.defineProperty(this, "defaultMaxRows", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.defaultMaxRows;
-        return (this.defaultMaxRows = 6);
-      }
-    });
-    Object.defineProperty(this, "_normalMaxRows", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._normalMaxRows;
-        return (this._normalMaxRows = -1);
-      },
-      set(val) {
-        delete this._normalMaxRows;
-        return (this._normalMaxRows = val);
-      }
-    });
-    Object.defineProperty(this, "richlistbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.richlistbox;
-        return (this.richlistbox = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "richlistbox"
-        ));
-      },
-      set(val) {
-        delete this.richlistbox;
-        return (this.richlistbox = val);
-      }
-    });
+
+    this.mInput = null;
+
+    this.mPopupOpen = false;
+
+    this._currentIndex = 0;
+
+    this._rlbAnimated = false;
+
+    this.defaultMaxRows = 6;
+
+    this._normalMaxRows = -1;
+
+    this.richlistbox = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "richlistbox"
+    );
 
     this.addEventListener("popupshowing", event => {
       // If normalMaxRows wasn't already set by the input, then set it here

@@ -52,292 +52,68 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
       <xul:button label="FROM-DTD-close-label" accesskey="FROM-DTD-close-accesskey" oncommand="PrintUtils.exitPrintPreview();" icon="close"></xul:button>
       <xul:data value="FROM-DTD-customPrompt-title"></xul:data>
     `;
-    Object.defineProperty(this, "mPrintButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPrintButton;
-        return (this.mPrintButton = document.getAnonymousNodes(this)[0]);
-      },
-      set(val) {
-        delete this.mPrintButton;
-        return (this.mPrintButton = val);
-      }
-    });
-    Object.defineProperty(this, "mPageSetupButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPageSetupButton;
-        return (this.mPageSetupButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "pageSetup"
-        ));
-      },
-      set(val) {
-        delete this.mPageSetupButton;
-        return (this.mPageSetupButton = val);
-      }
-    });
-    Object.defineProperty(this, "mNavigateHomeButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mNavigateHomeButton;
-        return (this.mNavigateHomeButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "navigateHome"
-        ));
-      },
-      set(val) {
-        delete this.mNavigateHomeButton;
-        return (this.mNavigateHomeButton = val);
-      }
-    });
-    Object.defineProperty(this, "mNavigatePreviousButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mNavigatePreviousButton;
-        return (this.mNavigatePreviousButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "navigatePrevious"
-        ));
-      },
-      set(val) {
-        delete this.mNavigatePreviousButton;
-        return (this.mNavigatePreviousButton = val);
-      }
-    });
-    Object.defineProperty(this, "mPageTextBox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPageTextBox;
-        return (this.mPageTextBox = document.getAnonymousNodes(
-          this
-        )[5].childNodes[0]);
-      },
-      set(val) {
-        delete this.mPageTextBox;
-        return (this.mPageTextBox = val);
-      }
-    });
-    Object.defineProperty(this, "mNavigateNextButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mNavigateNextButton;
-        return (this.mNavigateNextButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "navigateNext"
-        ));
-      },
-      set(val) {
-        delete this.mNavigateNextButton;
-        return (this.mNavigateNextButton = val);
-      }
-    });
-    Object.defineProperty(this, "mNavigateEndButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mNavigateEndButton;
-        return (this.mNavigateEndButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "navigateEnd"
-        ));
-      },
-      set(val) {
-        delete this.mNavigateEndButton;
-        return (this.mNavigateEndButton = val);
-      }
-    });
-    Object.defineProperty(this, "mTotalPages", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mTotalPages;
-        return (this.mTotalPages = document.getAnonymousNodes(
-          this
-        )[5].childNodes[2]);
-      },
-      set(val) {
-        delete this.mTotalPages;
-        return (this.mTotalPages = val);
-      }
-    });
-    Object.defineProperty(this, "mScaleLabel", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mScaleLabel;
-        return (this.mScaleLabel = document.getAnonymousNodes(
-          this
-        )[9].firstChild);
-      },
-      set(val) {
-        delete this.mScaleLabel;
-        return (this.mScaleLabel = val);
-      }
-    });
-    Object.defineProperty(this, "mScaleCombobox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mScaleCombobox;
-        return (this.mScaleCombobox = document.getAnonymousNodes(
-          this
-        )[10].firstChild);
-      },
-      set(val) {
-        delete this.mScaleCombobox;
-        return (this.mScaleCombobox = val);
-      }
-    });
-    Object.defineProperty(this, "mOrientButtonsBox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mOrientButtonsBox;
-        return (this.mOrientButtonsBox = document.getAnonymousNodes(this)[12]);
-      },
-      set(val) {
-        delete this.mOrientButtonsBox;
-        return (this.mOrientButtonsBox = val);
-      }
-    });
-    Object.defineProperty(this, "mPortaitButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPortaitButton;
-        return (this.mPortaitButton = this.mOrientButtonsBox.childNodes[0]);
-      },
-      set(val) {
-        delete this.mPortaitButton;
-        return (this.mPortaitButton = val);
-      }
-    });
-    Object.defineProperty(this, "mLandscapeButton", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mLandscapeButton;
-        return (this.mLandscapeButton = this.mOrientButtonsBox.childNodes[1]);
-      },
-      set(val) {
-        delete this.mLandscapeButton;
-        return (this.mLandscapeButton = val);
-      }
-    });
-    Object.defineProperty(this, "mSimplifyPageCheckbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mSimplifyPageCheckbox;
-        return (this.mSimplifyPageCheckbox = document.getAnonymousNodes(
-          this
-        )[14]);
-      },
-      set(val) {
-        delete this.mSimplifyPageCheckbox;
-        return (this.mSimplifyPageCheckbox = val);
-      }
-    });
-    Object.defineProperty(this, "mSimplifyPageNotAllowed", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mSimplifyPageNotAllowed;
-        return (this.mSimplifyPageNotAllowed = this.mSimplifyPageCheckbox.disabled);
-      },
-      set(val) {
-        delete this.mSimplifyPageNotAllowed;
-        return (this.mSimplifyPageNotAllowed = val);
-      }
-    });
-    Object.defineProperty(this, "mSimplifyPageToolbarSeparator", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mSimplifyPageToolbarSeparator;
-        return (this.mSimplifyPageToolbarSeparator = document.getAnonymousNodes(
-          this
-        )[15]);
-      },
-      set(val) {
-        delete this.mSimplifyPageToolbarSeparator;
-        return (this.mSimplifyPageToolbarSeparator = val);
-      }
-    });
-    Object.defineProperty(this, "mCustomTitle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mCustomTitle;
-        return (this.mCustomTitle = document.getAnonymousNodes(
-          this
-        )[17].firstChild);
-      },
-      set(val) {
-        delete this.mCustomTitle;
-        return (this.mCustomTitle = val);
-      }
-    });
-    Object.defineProperty(this, "mPrintPreviewObs", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPrintPreviewObs;
-        return (this.mPrintPreviewObs = "");
-      },
-      set(val) {
-        delete this.mPrintPreviewObs;
-        return (this.mPrintPreviewObs = val);
-      }
-    });
-    Object.defineProperty(this, "mWebProgress", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mWebProgress;
-        return (this.mWebProgress = "");
-      },
-      set(val) {
-        delete this.mWebProgress;
-        return (this.mWebProgress = val);
-      }
-    });
-    Object.defineProperty(this, "mPPBrowser", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mPPBrowser;
-        return (this.mPPBrowser = null);
-      },
-      set(val) {
-        delete this.mPPBrowser;
-        return (this.mPPBrowser = val);
-      }
-    });
-    Object.defineProperty(this, "mMessageManager", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.mMessageManager;
-        return (this.mMessageManager = null);
-      },
-      set(val) {
-        delete this.mMessageManager;
-        return (this.mMessageManager = val);
-      }
-    });
+
+    this.mPrintButton = document.getAnonymousNodes(this)[0];
+
+    this.mPageSetupButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "pageSetup"
+    );
+
+    this.mNavigateHomeButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "navigateHome"
+    );
+
+    this.mNavigatePreviousButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "navigatePrevious"
+    );
+
+    this.mPageTextBox = document.getAnonymousNodes(this)[5].childNodes[0];
+
+    this.mNavigateNextButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "navigateNext"
+    );
+
+    this.mNavigateEndButton = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "navigateEnd"
+    );
+
+    this.mTotalPages = document.getAnonymousNodes(this)[5].childNodes[2];
+
+    this.mScaleLabel = document.getAnonymousNodes(this)[9].firstChild;
+
+    this.mScaleCombobox = document.getAnonymousNodes(this)[10].firstChild;
+
+    this.mOrientButtonsBox = document.getAnonymousNodes(this)[12];
+
+    this.mPortaitButton = this.mOrientButtonsBox.childNodes[0];
+
+    this.mLandscapeButton = this.mOrientButtonsBox.childNodes[1];
+
+    this.mSimplifyPageCheckbox = document.getAnonymousNodes(this)[14];
+
+    this.mSimplifyPageNotAllowed = this.mSimplifyPageCheckbox.disabled;
+
+    this.mSimplifyPageToolbarSeparator = document.getAnonymousNodes(this)[15];
+
+    this.mCustomTitle = document.getAnonymousNodes(this)[17].firstChild;
+
+    this.mPrintPreviewObs = "";
+
+    this.mWebProgress = "";
+
+    this.mPPBrowser = null;
+
+    this.mMessageManager = null;
   }
 
   initialize(aPPBrowser) {

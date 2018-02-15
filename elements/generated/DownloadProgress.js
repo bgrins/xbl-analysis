@@ -15,54 +15,24 @@ class FirefoxDownloadProgress extends XULElement {
         </xul:hbox>
       </xul:stack>
     `;
-    Object.defineProperty(this, "_progress", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._progress;
-        return (this._progress = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "progress"
-        ));
-      },
-      set(val) {
-        delete this._progress;
-        return (this._progress = val);
-      }
-    });
-    Object.defineProperty(this, "_cancel", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._cancel;
-        return (this._cancel = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "cancel-btn"
-        ));
-      },
-      set(val) {
-        delete this._cancel;
-        return (this._cancel = val);
-      }
-    });
-    Object.defineProperty(this, "_status", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._status;
-        return (this._status = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "status"
-        ));
-      },
-      set(val) {
-        delete this._status;
-        return (this._status = val);
-      }
-    });
+
+    this._progress = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "progress"
+    );
+
+    this._cancel = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "cancel-btn"
+    );
+
+    this._status = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "status"
+    );
 
     var progress = 0;
     if (this.hasAttribute("progress"))

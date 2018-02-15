@@ -9,42 +9,16 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
       <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox search-panel-tree" flex="1"></xul:richlistbox>
       <xul:vbox anonid="search-one-off-buttons" class="search-one-offs"></xul:vbox>
     `;
-    Object.defineProperty(this, "_isHiding", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._isHiding;
-        return (this._isHiding = false);
-      },
-      set(val) {
-        delete this._isHiding;
-        return (this._isHiding = val);
-      }
-    });
-    Object.defineProperty(this, "_bundle", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._bundle;
-        return (this._bundle = null);
-      },
-      set(val) {
-        delete this._bundle;
-        return (this._bundle = val);
-      }
-    });
-    Object.defineProperty(this, "oneOffButtons", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this.oneOffButtons;
-        return (this.oneOffButtons = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "search-one-off-buttons"
-        ));
-      }
-    });
+
+    this._isHiding = false;
+
+    this._bundle = null;
+
+    this.oneOffButtons = document.getAnonymousElementByAttribute(
+      this,
+      "anonid",
+      "search-one-off-buttons"
+    );
 
     this.addEventListener("popupshowing", event => {
       // Force the panel to have the width of the searchbar rather than

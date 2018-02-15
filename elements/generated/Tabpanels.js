@@ -2,30 +2,9 @@ class FirefoxTabpanels extends FirefoxTabBase {
   connectedCallback() {
     super.connectedCallback();
 
-    Object.defineProperty(this, "_tabbox", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._tabbox;
-        return (this._tabbox = null);
-      },
-      set(val) {
-        delete this._tabbox;
-        return (this._tabbox = val);
-      }
-    });
-    Object.defineProperty(this, "_selectedPanel", {
-      configurable: true,
-      enumerable: true,
-      get() {
-        delete this._selectedPanel;
-        return (this._selectedPanel = this.childNodes.item(this.selectedIndex));
-      },
-      set(val) {
-        delete this._selectedPanel;
-        return (this._selectedPanel = val);
-      }
-    });
+    this._tabbox = null;
+
+    this._selectedPanel = this.childNodes.item(this.selectedIndex);
   }
 
   get tabbox() {
