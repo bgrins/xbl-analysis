@@ -1,6 +1,6 @@
-class FirefoxFindbar extends FirefoxToolbar {
+class FirefoxFindbar extends XULElement {
   connectedCallback() {
-    super.connectedCallback()
+
     this.innerHTML = `
       <xul:hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
         <xul:hbox anonid="findbar-textbox-wrapper" align="stretch">

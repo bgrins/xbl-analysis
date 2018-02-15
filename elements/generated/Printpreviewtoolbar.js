@@ -1,6 +1,6 @@
-class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
+class FirefoxPrintpreviewtoolbar extends XULElement {
   connectedCallback() {
-    super.connectedCallback()
+
     this.innerHTML = `
       <xul:button label="FROM-DTD-print-label" accesskey="FROM-DTD-print-accesskey" oncommand="this.parentNode.print();" icon="print"></xul:button>
       <xul:button anonid="pageSetup" label="FROM-DTD-pageSetup-label" accesskey="FROM-DTD-pageSetup-accesskey" oncommand="this.parentNode.doPageSetup();"></xul:button>

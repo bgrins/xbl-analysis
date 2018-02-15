@@ -1,6 +1,6 @@
-class FirefoxToolbarpaletteitem extends FirefoxToolbarBase {
+class FirefoxToolbarpaletteitem extends XULElement {
   connectedCallback() {
-    super.connectedCallback()
+
     this.innerHTML = `
       <xul:hbox class="toolbarpaletteitem-box" flex="1" inherits="type,place">
         <children></children>

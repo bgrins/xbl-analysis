@@ -1,6 +1,5 @@
-class FirefoxMenubar extends FirefoxToolbarBase {
+class FirefoxMenubar extends XULElement {
   connectedCallback() {
-    super.connectedCallback()
 
     this._active = false;
 

@@ -131,15 +131,13 @@ function getJSForBinding(binding) {
 
   js.push(`
     connectedCallback() {
-      ${hasExtends ? 'super.connectedCallback()' : ''}
+      ${hasExtends ? "super.connectedCallback()" : ""}
       ${innerHTML}
-      ${fields.join('\n')}
+      ${fields.join("\n")}
 
       ${xblconstructor}
-
-      ${handlers.join('\n')}
+      this.setupHandlers();
     }
-    ${xbldestructor}
   `);
 
   // <property>
@@ -172,6 +170,14 @@ function getJSForBinding(binding) {
     js.push(method.find('body')[0].cdata || method.find('body')[0].value);
     js.push(`}`);
   }
+
+  js.push(`
+    ${xbldestructor}
+
+    setupHandlers() {
+      ${handlers.join("\n")}
+    }
+  `);
 
   js.push('}');
 

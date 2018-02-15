@@ -1,6 +1,5 @@
-class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
+class FirefoxToolbarMenubarAutohide extends XULElement {
   connectedCallback() {
-    super.connectedCallback()
 
     this._inactiveTimeout = null;
 
