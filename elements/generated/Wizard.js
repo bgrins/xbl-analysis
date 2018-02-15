@@ -1,6 +1,5 @@
-class FirefoxWizard extends FirefoxRootElement {
+class FirefoxWizard extends XULElement {
   connectedCallback() {
-    super.connectedCallback();
     this.innerHTML = `
       <xul:hbox class="wizard-header" anonid="Header"></xul:hbox>
       <xul:deck class="wizard-page-box" flex="1" anonid="Deck">

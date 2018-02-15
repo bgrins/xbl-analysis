@@ -5,7 +5,7 @@ class FirefoxTreerows extends FirefoxTreeBase {
       <xul:hbox flex="1" class="tree-bodybox">
         <children></children>
       </xul:hbox>
-      <xul:scrollbar height="0" minwidth="0" minheight="0" orient="vertical" inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;"></xul:scrollbar>
+      <xul:scrollbar height="0" minwidth="0" minheight="0" orient="vertical" inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></xul:scrollbar>
     `;
 
     this.addEventListener("underflow", event => {

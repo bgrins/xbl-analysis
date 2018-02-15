@@ -1,6 +1,5 @@
-class FirefoxDialog extends FirefoxRootElement {
+class FirefoxDialog extends XULElement {
   connectedCallback() {
-    super.connectedCallback();
     this.innerHTML = `
       <xul:vbox class="box-inherit dialog-content-box" flex="1">
         <children></children>

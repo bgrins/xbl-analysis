@@ -210,9 +210,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
 
       // Force a copy action if parent node is a query or we are dragging a
       // not-removable node.
-      if (
-        !PlacesControllerDragHelper.canMoveNode(draggedElt, this._rootView, elt)
-      )
+      if (!PlacesControllerDragHelper.canMoveNode(draggedElt, this._rootView))
         event.dataTransfer.effectAllowed = "copyLink";
 
       // Activate the view and cache the dragged element.

@@ -10,8 +10,8 @@ class FirefoxTree extends FirefoxTreeBase {
         <xul:textbox anonid="input" class="tree-input" left="0" top="0" hidden="true"></xul:textbox>
       </xul:stack>
       <xul:hbox inherits="collapsed=hidehscroll">
-        <xul:scrollbar orient="horizontal" flex="1" increment="16" style="position:relative; z-index:2147483647;"></xul:scrollbar>
-        <xul:scrollcorner inherits="collapsed=hidevscroll"></xul:scrollcorner>
+        <xul:scrollbar orient="horizontal" flex="1" increment="16" style="position:relative; z-index:2147483647;" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></xul:scrollbar>
+        <xul:scrollcorner inherits="collapsed=hidevscroll" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></xul:scrollcorner>
       </xul:hbox>
     `;
 

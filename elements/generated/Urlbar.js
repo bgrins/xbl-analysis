@@ -370,6 +370,11 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     });
   }
   disconnectedCallback() {
+    // Somehow, it's possible for the XBL destructor to fire without the
+    // constructor ever having fired. Fix:
+    if (!this._prefs) {
+      return;
+    }
     this._prefs.removeObserver("", this);
     this._prefs = null;
     Services.prefs.removeObserver("browser.search.suggest.enabled", this);

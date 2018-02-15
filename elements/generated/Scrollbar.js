@@ -1,6 +1,5 @@
-class FirefoxScrollbar extends FirefoxScrollbarBase {
+class FirefoxScrollbar extends XULElement {
   connectedCallback() {
-    super.connectedCallback();
     this.innerHTML = `
       <xul:scrollbarbutton sbattr="scrollbar-up-top" type="decrement" inherits="curpos,maxpos,disabled,sborient=orient"></xul:scrollbarbutton>
       <xul:scrollbarbutton sbattr="scrollbar-down-top" type="increment" inherits="curpos,maxpos,disabled,sborient=orient"></xul:scrollbarbutton>

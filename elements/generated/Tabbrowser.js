@@ -4330,9 +4330,10 @@ class FirefoxTabbrowser extends XULElement {
       let event = document.createEvent("Events");
       event.initEvent("TabShow", true, false);
       aTab.dispatchEvent(event);
+      SessionStore.deleteTabValue(aTab, "hiddenBy");
     }
   }
-  hideTab(aTab) {
+  hideTab(aTab, aSource) {
     if (
       !aTab.hidden &&
       !aTab.pinned &&
@@ -4350,6 +4351,9 @@ class FirefoxTabbrowser extends XULElement {
       let event = document.createEvent("Events");
       event.initEvent("TabHide", true, false);
       aTab.dispatchEvent(event);
+      if (aSource) {
+        SessionStore.setTabValue(aTab, "hiddenBy", aSource);
+      }
     }
   }
   selectTabAtIndex(aIndex, aEvent) {
