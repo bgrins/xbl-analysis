@@ -1,26 +1,26 @@
 class FirefoxWizardpage extends FirefoxWizardBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this.pageIndex = -1;
+
   }
 
   set pageid(val) {
-    this.setAttribute("pageid", val);
+    this.setAttribute('pageid', val);
   }
 
   get pageid() {
-    return this.getAttribute("pageid");
+    return this.getAttribute('pageid');
   }
 
   set next(val) {
-    this.setAttribute("next", val);
-    this.parentNode._accessMethod = "random";
+    this.setAttribute('next', val);
+    this.parentNode._accessMethod = 'random';
     return val;
   }
 
   get next() {
-    return this.getAttribute("next");
+    return this.getAttribute('next');
   }
 }
-customElements.define("firefox-wizardpage", FirefoxWizardpage);

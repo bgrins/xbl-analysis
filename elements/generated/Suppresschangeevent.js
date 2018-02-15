@@ -1,6 +1,8 @@
 class FirefoxSuppresschangeevent extends FirefoxScale {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
+
+    ;
     /* eslint-enable no-multi-spaces */
     this.positionValue = "";
     this.durationValue = "";
@@ -11,6 +13,7 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
     this.type = this.getAttribute("class");
     this.Utils = document.getBindingParent(this.parentNode).Utils;
     this.valueBar = this.Utils.progressBar;
+
   }
 
   get accessibleName() {
@@ -28,10 +31,7 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
     switch (which) {
       case "curpos":
         // Update the time shown in the thumb.
-        this.positionValue = this.Utils.formatTime(
-          newValue,
-          this.Utils.showHours
-        );
+        this.positionValue = this.Utils.formatTime(newValue, this.Utils.showHours);
         this.Utils.positionLabel.setAttribute("value", this.positionValue);
         // Update the value bar to match the thumb position.
         let percent = newValue / this.max;
@@ -72,17 +72,10 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
     }
   }
   pauseVideoDuringDragging() {
-    if (
-      this.isDragging &&
-      !this.Utils.video.paused &&
-      !this.isPausedByDragging
-    ) {
+    if (this.isDragging &&
+      !this.Utils.video.paused && !this.isPausedByDragging) {
       this.isPausedByDragging = true;
       this.Utils.video.pause();
     }
   }
 }
-customElements.define(
-  "firefox-suppresschangeevent",
-  FirefoxSuppresschangeevent
-);

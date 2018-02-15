@@ -1,6 +1,6 @@
 class FirefoxMenulist extends FirefoxMenulistBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="menulist-label-box" flex="1">
         <xul:image class="menulist-icon" inherits="src=image,src"></xul:image>
@@ -17,16 +17,11 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     this.menuBoxObject = this.boxObject;
     this.setInitialSelection();
 
-    this.addEventListener(
-      "command",
-      event => {
-        if (event.target.parentNode.parentNode == this)
-          this.selectedItem = event.target;
-      },
-      true
-    );
+    this.addEventListener("command", (event) => {
+      if (event.target.parentNode.parentNode == this) this.selectedItem = event.target;
+    }, true);
 
-    this.addEventListener("popupshowing", event => {
+    this.addEventListener("popupshowing", (event) => {
       if (event.target.parentNode == this) {
         this.menuBoxObject.activeChild = null;
         if (this.selectedItem)
@@ -36,9 +31,8 @@ class FirefoxMenulist extends FirefoxMenulistBase {
       }
     });
 
-    this.addEventListener("keypress", event => {
-      if (
-        !event.defaultPrevented &&
+    this.addEventListener("keypress", (event) => {
+      if (!event.defaultPrevented &&
         (event.keyCode == KeyEvent.DOM_VK_UP ||
           event.keyCode == KeyEvent.DOM_VK_DOWN ||
           event.keyCode == KeyEvent.DOM_VK_PAGE_UP ||
@@ -46,8 +40,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
           event.keyCode == KeyEvent.DOM_VK_HOME ||
           event.keyCode == KeyEvent.DOM_VK_END ||
           event.keyCode == KeyEvent.DOM_VK_BACK_SPACE ||
-          event.charCode > 0)
-      ) {
+          event.charCode > 0)) {
         // Moving relative to an item: start from the currently selected item
         this.menuBoxObject.activeChild = this.mSelectedInternal;
         if (this.menuBoxObject.handleKeyPress(event)) {
@@ -56,6 +49,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
         }
       }
     });
+
   }
   disconnectedCallback() {
     if (this.mAttributeObserver) {
@@ -65,13 +59,16 @@ class FirefoxMenulist extends FirefoxMenulistBase {
 
   set value(val) {
     // if the new value is null, we still need to remove the old value
-    if (val == null) return (this.selectedItem = val);
+    if (val == null)
+      return this.selectedItem = val;
 
     var arr = null;
     var popup = this.menupopup;
-    if (popup) arr = popup.getElementsByAttribute("value", val);
+    if (popup)
+      arr = popup.getElementsByAttribute("value", val);
 
-    if (arr && arr.item(0)) this.selectedItem = arr[0];
+    if (arr && arr.item(0))
+      this.selectedItem = arr[0];
     else {
       this.selectedItem = null;
       this.setAttribute("value", val);
@@ -81,7 +78,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
   }
 
   get value() {
-    return this.getAttribute("value");
+    return this.getAttribute('value');
   }
 
   get inputField() {
@@ -89,34 +86,34 @@ class FirefoxMenulist extends FirefoxMenulistBase {
   }
 
   set crop(val) {
-    this.setAttribute("crop", val);
+    this.setAttribute('crop', val);
     return val;
   }
 
   get crop() {
-    return this.getAttribute("crop");
+    return this.getAttribute('crop');
   }
 
   set image(val) {
-    this.setAttribute("image", val);
+    this.setAttribute('image', val);
     return val;
   }
 
   get image() {
-    return this.getAttribute("image");
+    return this.getAttribute('image');
   }
 
   get label() {
-    return this.getAttribute("label");
+    return this.getAttribute('label');
   }
 
   set description(val) {
-    this.setAttribute("description", val);
+    this.setAttribute('description', val);
     return val;
   }
 
   get description() {
-    return this.getAttribute("description");
+    return this.getAttribute('description');
   }
 
   set editable(val) {
@@ -132,7 +129,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
   }
 
   get editable() {
-    return this.getAttribute("editable") == "true";
+    return this.getAttribute('editable') == 'true';
   }
 
   set open(val) {
@@ -141,16 +138,17 @@ class FirefoxMenulist extends FirefoxMenulistBase {
   }
 
   get open() {
-    return this.hasAttribute("open");
+    return this.hasAttribute('open');
   }
 
   get itemCount() {
-    return this.menupopup ? this.menupopup.childNodes.length : 0;
+    return this.menupopup ? this.menupopup.childNodes.length : 0
   }
 
   get menupopup() {
     var popup = this.firstChild;
-    while (popup && popup.localName != "menupopup") popup = popup.nextSibling;
+    while (popup && popup.localName != "menupopup")
+      popup = popup.nextSibling;
     return popup;
   }
 
@@ -159,31 +157,34 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     if (popup && 0 <= val) {
       if (val < popup.childNodes.length)
         this.selectedItem = popup.childNodes[val];
-    } else this.selectedItem = null;
+    } else
+      this.selectedItem = null;
     return val;
   }
 
   get selectedIndex() {
     // Quick and dirty. We won't deal with hierarchical menulists yet.
-    if (
-      !this.selectedItem ||
+    if (!this.selectedItem ||
       !this.mSelectedInternal.parentNode ||
-      this.mSelectedInternal.parentNode.parentNode != this
-    )
+      this.mSelectedInternal.parentNode.parentNode != this)
       return -1;
 
     var children = this.mSelectedInternal.parentNode.childNodes;
     var i = children.length;
-    while (i--) if (children[i] == this.mSelectedInternal) break;
+    while (i--)
+      if (children[i] == this.mSelectedInternal)
+        break;
 
     return i;
   }
 
   set selectedItem(val) {
     var oldval = this.mSelectedInternal;
-    if (oldval == val) return val;
+    if (oldval == val)
+      return val;
 
-    if (val && !this.contains(val)) return val;
+    if (val && !this.contains(val))
+      return val;
 
     if (oldval) {
       oldval.removeAttribute("selected");
@@ -202,10 +203,10 @@ class FirefoxMenulist extends FirefoxMenulistBase {
         }
       }
 
-      this.mAttributeObserver = new MutationObserver(
-        this.handleMutation.bind(this)
-      );
-      this.mAttributeObserver.observe(val, { attributeFilter });
+      this.mAttributeObserver = new MutationObserver(this.handleMutation.bind(this));
+      this.mAttributeObserver.observe(val, {
+        attributeFilter
+      });
     } else {
       for (let attr of attributeFilter) {
         this.removeAttribute(attr);
@@ -236,15 +237,18 @@ class FirefoxMenulist extends FirefoxMenulistBase {
       if (!arr.item(0) && value)
         arr = popup.getElementsByAttribute(editable ? "label" : "value", value);
 
-      if (arr.item(0)) this.selectedItem = arr[0];
-      else if (!editable) this.selectedIndex = 0;
+      if (arr.item(0))
+        this.selectedItem = arr[0];
+      else if (!editable)
+        this.selectedIndex = 0;
     }
   }
   contains(item) {
-    if (!item) return false;
+    if (!item)
+      return false;
 
     var parent = item.parentNode;
-    return parent && parent.parentNode == this;
+    return (parent && parent.parentNode == this);
   }
   handleMutation(aRecords) {
     for (let record of aRecords) {
@@ -270,7 +274,9 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     if (popup) {
       var children = popup.childNodes;
       var i = children.length;
-      while (i--) if (children[i] == item) return i;
+      while (i--)
+        if (children[i] == item)
+          return i;
     }
     return -1;
   }
@@ -278,38 +284,38 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     var popup = this.menupopup;
     if (popup) {
       var children = popup.childNodes;
-      if (index >= 0 && index < children.length) return children[index];
+      if (index >= 0 && index < children.length)
+        return children[index];
     }
     return null;
   }
   appendItem(label, value, description) {
-    const XULNS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var popup =
-      this.menupopup ||
+    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    var popup = this.menupopup ||
       this.appendChild(document.createElementNS(XULNS, "menupopup"));
     var item = document.createElementNS(XULNS, "menuitem");
     item.setAttribute("label", label);
     item.setAttribute("value", value);
-    if (description) item.setAttribute("description", description);
+    if (description)
+      item.setAttribute("description", description);
 
     popup.appendChild(item);
     return item;
   }
   insertItemAt(index, label, value, description) {
-    const XULNS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var popup =
-      this.menupopup ||
+    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    var popup = this.menupopup ||
       this.appendChild(document.createElementNS(XULNS, "menupopup"));
     var item = document.createElementNS(XULNS, "menuitem");
     item.setAttribute("label", label);
     item.setAttribute("value", value);
-    if (description) item.setAttribute("description", description);
+    if (description)
+      item.setAttribute("description", description);
 
     if (index >= 0 && index < popup.childNodes.length)
       popup.insertBefore(item, popup.childNodes[index]);
-    else popup.appendChild(item);
+    else
+      popup.appendChild(item);
     return item;
   }
   removeItemAt(index) {
@@ -324,7 +330,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
   removeAllItems() {
     this.selectedItem = null;
     var popup = this.menupopup;
-    if (popup) this.removeChild(popup);
+    if (popup)
+      this.removeChild(popup);
   }
 }
-customElements.define("firefox-menulist", FirefoxMenulist);

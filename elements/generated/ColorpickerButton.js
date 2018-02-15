@@ -1,6 +1,6 @@
 class FirefoxColorpickerButton extends FirefoxBasecontrol {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:image class="colorpicker-button-colorbox" anonid="colorbox" flex="1" inherits="disabled"></xul:image>
       <xul:panel class="colorpicker-button-menupopup" anonid="colorpopup" noautofocus="true" level="top" onmousedown="event.stopPropagation()" onpopupshowing="this._colorPicker.onPopupShowing()" onpopuphiding="this._colorPicker.onPopupHiding()" onselect="this._colorPicker.pickerChange()">
@@ -10,15 +10,14 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
 
     this.initialize();
 
-    this.addEventListener("keydown", event => {
+    this.addEventListener("keydown", (event) => {
       // open popup if key is space/up/left/right/down and popup is closed
-      if (
-        (event.keyCode == 32 || (event.keyCode > 36 && event.keyCode < 41)) &&
-        !this.open
-      )
+      if ((event.keyCode == 32 || (event.keyCode > 36 && event.keyCode < 41)) && !this.open)
         this.showPopup();
-      else if (event.keyCode == 27 && this.open) this.hidePopup();
+      else if ((event.keyCode == 27) && this.open)
+        this.hidePopup();
     });
+
   }
 
   set open(val) {
@@ -26,16 +25,14 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
   }
 
   get open() {
-    return this.getAttribute("open") == "true";
+    return this.getAttribute('open') == 'true'
   }
 
   set color(val) {
-    this.mColorBox.setAttribute(
-      "src",
+    this.mColorBox.setAttribute("src",
       "data:image/svg+xml,<svg style='background-color: " +
-        encodeURIComponent(val) +
-        "' xmlns='http://www.w3.org/2000/svg' />"
-    );
+      encodeURIComponent(val) +
+      "' xmlns='http://www.w3.org/2000/svg' />");
     this.setAttribute("color", val);
     return val;
   }
@@ -44,30 +41,16 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
     return this.getAttribute("color");
   }
   initialize() {
-    this.mColorBox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "colorbox"
-    );
-    this.mColorBox.setAttribute(
-      "src",
+    this.mColorBox = document.getAnonymousElementByAttribute(this, "anonid", "colorbox");
+    this.mColorBox.setAttribute("src",
       "data:image/svg+xml,<svg style='background-color: " +
-        encodeURIComponent(this.color) +
-        "' xmlns='http://www.w3.org/2000/svg' />"
-    );
+      encodeURIComponent(this.color) +
+      "' xmlns='http://www.w3.org/2000/svg' />");
 
-    var popup = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "colorpopup"
-    );
+    var popup = document.getAnonymousElementByAttribute(this, "anonid", "colorpopup");
     popup._colorPicker = this;
 
-    this.mPicker = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "colorpicker"
-    );
+    this.mPicker = document.getAnonymousElementByAttribute(this, "anonid", "colorpicker");
   }
   _fireEvent(aTarget, aEventName) {
     try {
@@ -77,7 +60,8 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
       if (aTarget.hasAttribute("on" + aEventName)) {
         var fn = new Function("event", aTarget.getAttribute("on" + aEventName));
         var rv = fn.call(aTarget, event);
-        if (rv == false) cancel = true;
+        if (rv == false)
+          cancel = true;
       }
       return !cancel;
     } catch (e) {
@@ -92,7 +76,8 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
     this.mPicker.parentNode.hidePopup();
   }
   onPopupShowing() {
-    if ("resetHover" in this.mPicker) this.mPicker.resetHover();
+    if ("resetHover" in this.mPicker)
+      this.mPicker.resetHover();
     document.addEventListener("keydown", this.mPicker, true);
     this.mPicker.mIsPopup = true;
     // Initialize to current button's color
@@ -105,15 +90,10 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
   }
   pickerChange() {
     this.color = this.mPicker.color;
-    setTimeout(
-      function(aPopup) {
-        aPopup.hidePopup();
-      },
-      1,
-      this.mPicker.parentNode
-    );
+    setTimeout(function(aPopup) {
+      aPopup.hidePopup();
+    }, 1, this.mPicker.parentNode);
 
     this._fireEvent(this, "change");
   }
 }
-customElements.define("firefox-colorpicker-button", FirefoxColorpickerButton);

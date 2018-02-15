@@ -1,6 +1,6 @@
 class FirefoxPlacesPopupBase extends FirefoxPopup {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox flex="1">
         <xul:vbox class="menupopup-drop-indicator-bar" hidden="true">
@@ -12,26 +12,17 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       </xul:hbox>
     `;
 
-    this.AppConstants = ChromeUtils.import(
-      "resource://gre/modules/AppConstants.jsm",
-      {}
-    ).AppConstants;
+    this.AppConstants = (ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {})).AppConstants;
 
-    this._indicatorBar = document.getAnonymousElementByAttribute(
-      this,
-      "class",
-      "menupopup-drop-indicator-bar"
-    );
+    this._indicatorBar = document.getAnonymousElementByAttribute(this, "class",
+      "menupopup-drop-indicator-bar");
 
-    this._scrollBox = document.getAnonymousElementByAttribute(
-      this,
-      "class",
-      "popup-internal-box"
-    );
+    this._scrollBox = document.getAnonymousElementByAttribute(this, "class",
+      "popup-internal-box");
 
     this._rootView = PlacesUIUtils.getViewForNode(this);
 
-    this._overFolder = {
+    this._overFolder = ({
       _self: this,
       _folder: {
         elt: null,
@@ -45,35 +36,35 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
         return this._folder.elt;
       },
       set elt(val) {
-        return (this._folder.elt = val);
+        return this._folder.elt = val;
       },
 
       get openTimer() {
         return this._folder.openTimer;
       },
       set openTimer(val) {
-        return (this._folder.openTimer = val);
+        return this._folder.openTimer = val;
       },
 
       get hoverTime() {
         return this._folder.hoverTime;
       },
       set hoverTime(val) {
-        return (this._folder.hoverTime = val);
+        return this._folder.hoverTime = val;
       },
 
       get closeTimer() {
         return this._folder.closeTimer;
       },
       set closeTimer(val) {
-        return (this._folder.closeTimer = val);
+        return this._folder.closeTimer = val;
       },
 
       get closeMenuTimer() {
         return this._closeMenuTimer;
       },
       set closeMenuTimer(val) {
-        return (this._closeMenuTimer = val);
+        return this._closeMenuTimer = val;
       },
 
       setTimer: function OF__setTimer(aTime) {
@@ -94,25 +85,24 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
           // Timer to close a submenu that's been dragged off of.
           // Only close the submenu if the mouse isn't being dragged over any
           // of its child menus.
-          var draggingOverChild = PlacesControllerDragHelper.draggingOverChildNode(
-            this._folder.elt
-          );
-          if (draggingOverChild) this._folder.elt = null;
+          var draggingOverChild = PlacesControllerDragHelper
+            .draggingOverChildNode(this._folder.elt);
+          if (draggingOverChild)
+            this._folder.elt = null;
           this.clear();
 
           // Close any parent folders which aren't being dragged over.
           // (This is necessary because of the above code that keeps a folder
           // open while its children are being dragged over.)
-          if (!draggingOverChild) this.closeParentMenus();
+          if (!draggingOverChild)
+            this.closeParentMenus();
         } else if (aTimer == this.closeMenuTimer) {
           // Timer to close this menu after the drag exit.
           var popup = this._self;
           // if we are no more dragging we can leave the menu open to allow
           // for better D&D bookmark organization
-          if (
-            PlacesControllerDragHelper.getSession() &&
-            !PlacesControllerDragHelper.draggingOverChildNode(popup.parentNode)
-          ) {
+          if (PlacesControllerDragHelper.getSession() &&
+            !PlacesControllerDragHelper.draggingOverChildNode(popup.parentNode)) {
             popup.hidePopup();
             // Close any parent menus that aren't being dragged over;
             // otherwise they'll stay open because they couldn't close
@@ -131,11 +121,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
         var parent = popup.parentNode;
         while (parent) {
           if (parent.localName == "menupopup" && parent._placesNode) {
-            if (
-              PlacesControllerDragHelper.draggingOverChildNode(
-                parent.parentNode
-              )
-            )
+            if (PlacesControllerDragHelper.draggingOverChildNode(parent.parentNode))
               break;
             parent.hidePopup();
           }
@@ -163,18 +149,20 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
           this._folder.closeTimer = null;
         }
       }
-    };
+    });
 
-    this.addEventListener("DOMMenuItemActive", event => {
+    this.addEventListener("DOMMenuItemActive", (event) => {
       let elt = event.target;
-      if (elt.parentNode != this) return;
+      if (elt.parentNode != this)
+        return;
 
       if (this.AppConstants.platform === "macosx") {
         // XXX: The following check is a temporary hack until bug 420033 is
         // resolved.
         let parentElt = elt.parent;
         while (parentElt) {
-          if (parentElt.id == "bookmarksMenuPopup" || parentElt.id == "goPopup")
+          if (parentElt.id == "bookmarksMenuPopup" ||
+            parentElt.id == "goPopup")
             return;
 
           parentElt = parentElt.parentNode;
@@ -190,21 +178,24 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
         else if (elt.hasAttribute("targetURI"))
           linkURI = elt.getAttribute("targetURI");
 
-        if (linkURI) window.XULBrowserWindow.setOverLink(linkURI, null);
+        if (linkURI)
+          window.XULBrowserWindow.setOverLink(linkURI, null);
       }
     });
 
-    this.addEventListener("DOMMenuItemInactive", event => {
+    this.addEventListener("DOMMenuItemInactive", (event) => {
       let elt = event.target;
-      if (elt.parentNode != this) return;
+      if (elt.parentNode != this)
+        return;
 
       if (window.XULBrowserWindow)
         window.XULBrowserWindow.setOverLink("", null);
     });
 
-    this.addEventListener("dragstart", event => {
+    this.addEventListener("dragstart", (event) => {
       let elt = event.target;
-      if (!elt._placesNode) return;
+      if (!elt._placesNode)
+        return;
 
       let draggedElt = elt._placesNode;
 
@@ -220,15 +211,13 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       event.stopPropagation();
     });
 
-    this.addEventListener("drop", event => {
+    this.addEventListener("drop", (event) => {
       PlacesControllerDragHelper.currentDropTarget = event.target;
 
       let dropPoint = this._getDropPoint(event);
       if (dropPoint && dropPoint.ip) {
-        PlacesControllerDragHelper.onDrop(
-          dropPoint.ip,
-          event.dataTransfer
-        ).catch(Components.utils.reportError);
+        PlacesControllerDragHelper.onDrop(dropPoint.ip, event.dataTransfer)
+          .catch(Components.utils.reportError);
         event.preventDefault();
       }
 
@@ -236,16 +225,13 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       event.stopPropagation();
     });
 
-    this.addEventListener("dragover", event => {
+    this.addEventListener("dragover", (event) => {
       PlacesControllerDragHelper.currentDropTarget = event.target;
       let dt = event.dataTransfer;
 
       let dropPoint = this._getDropPoint(event);
-      if (
-        !dropPoint ||
-        !dropPoint.ip ||
-        !PlacesControllerDragHelper.canDrop(dropPoint.ip, dt)
-      ) {
+      if (!dropPoint || !dropPoint.ip ||
+        !PlacesControllerDragHelper.canDrop(dropPoint.ip, dt)) {
         this._indicatorBar.hidden = true;
         event.stopPropagation();
         return;
@@ -257,19 +243,16 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       if (dropPoint.folderElt) {
         // We are dragging over a folder.
         // _overFolder should take the care of opening it on a timer.
-        if (
-          this._overFolder.elt &&
-          this._overFolder.elt != dropPoint.folderElt
-        ) {
+        if (this._overFolder.elt &&
+          this._overFolder.elt != dropPoint.folderElt) {
           // We are dragging over a new folder, let's clear old values
           this._overFolder.clear();
         }
         if (!this._overFolder.elt) {
           this._overFolder.elt = dropPoint.folderElt;
           // Create the timer to open this folder.
-          this._overFolder.openTimer = this._overFolder.setTimer(
-            this._overFolder.hoverTime
-          );
+          this._overFolder.openTimer = this._overFolder
+            .setTimer(this._overFolder.hoverTime);
         }
         // Since we are dropping into a folder set the corresponding style.
         dropPoint.folderElt.setAttribute("_moz-menuactive", true);
@@ -304,13 +287,13 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       let newMarginTop = 0;
       if (scrollDir == 0) {
         let elt = this.firstChild;
-        while (
-          elt &&
-          event.screenY > elt.boxObject.screenY + elt.boxObject.height / 2
-        )
+        while (elt && event.screenY > elt.boxObject.screenY +
+          elt.boxObject.height / 2)
           elt = elt.nextSibling;
-        newMarginTop = elt ? elt.boxObject.screenY - sbo.screenY : sbo.height;
-      } else if (scrollDir == 1) newMarginTop = sbo.height;
+        newMarginTop = elt ? elt.boxObject.screenY - sbo.screenY :
+          sbo.height;
+      } else if (scrollDir == 1)
+        newMarginTop = sbo.height;
 
       // Set the new marginTop based on arrowscrollbox.
       newMarginTop += sbo.y - this._scrollBox.boxObject.y;
@@ -321,20 +304,20 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       event.stopPropagation();
     });
 
-    this.addEventListener("dragexit", event => {
+    this.addEventListener("dragexit", (event) => {
       PlacesControllerDragHelper.currentDropTarget = null;
       this.removeAttribute("dragover");
 
       // If we have not moved to a valid new target clear the drop indicator
       // this happens when moving out of the popup.
       let target = event.relatedTarget;
-      if (!target || !this.contains(target)) this._indicatorBar.hidden = true;
+      if (!target || !this.contains(target))
+        this._indicatorBar.hidden = true;
 
       // Close any folder being hovered over
       if (this._overFolder.elt) {
-        this._overFolder.closeTimer = this._overFolder.setTimer(
-          this._overFolder.hoverTime
-        );
+        this._overFolder.closeTimer = this._overFolder
+          .setTimer(this._overFolder.hoverTime);
       }
 
       // The autoopened attribute is set when this folder was automatically
@@ -342,18 +325,19 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       // auto-close the folder on drag exit.
       // We should also try to close this popup if the drag has started
       // from here, the timer will check if we are dragging over a child.
-      if (this.hasAttribute("autoopened") || this.hasAttribute("dragstart")) {
-        this._overFolder.closeMenuTimer = this._overFolder.setTimer(
-          this._overFolder.hoverTime
-        );
+      if (this.hasAttribute("autoopened") ||
+        this.hasAttribute("dragstart")) {
+        this._overFolder.closeMenuTimer = this._overFolder
+          .setTimer(this._overFolder.hoverTime);
       }
 
       event.stopPropagation();
     });
 
-    this.addEventListener("dragend", event => {
+    this.addEventListener("dragend", (event) => {
       this._cleanupDragDetails();
     });
+
   }
 
   _hideDropIndicator(aEvent) {
@@ -362,10 +346,8 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     // Don't draw the drop indicator outside of markers or if current
     // node is not a Places node.
     let betweenMarkers =
-      this._startMarker.compareDocumentPosition(target) &
-        Node.DOCUMENT_POSITION_FOLLOWING &&
-      this._endMarker.compareDocumentPosition(target) &
-        Node.DOCUMENT_POSITION_PRECEDING;
+      (this._startMarker.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING) &&
+      (this._endMarker.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_PRECEDING);
 
     // Hide the dropmarker if current node is not a Places node.
     return !(target && target._placesNode && betweenMarkers);
@@ -374,24 +356,26 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     // Can't drop if the menu isn't a folder
     let resultNode = this._placesNode;
 
-    if (
-      !PlacesUtils.nodeIsFolder(resultNode) ||
-      PlacesControllerDragHelper.disallowInsertion(resultNode, this._rootView)
-    ) {
+    if (!PlacesUtils.nodeIsFolder(resultNode) ||
+      PlacesControllerDragHelper.disallowInsertion(resultNode, this._rootView)) {
       return null;
     }
 
-    var dropPoint = { ip: null, folderElt: null };
+    var dropPoint = {
+      ip: null,
+      folderElt: null
+    };
 
     // The element we are dragging over
     let elt = aEvent.target;
-    if (elt.localName == "menupopup") elt = elt.parentNode;
+    if (elt.localName == "menupopup")
+      elt = elt.parentNode;
 
     // Calculate positions taking care of arrowscrollbox
     let scrollbox = this._scrollBox;
     let eventY = aEvent.layerY + (scrollbox.boxObject.y - this.boxObject.y);
-    let scrollboxOffset =
-      scrollbox.scrollBoxObject.y - (scrollbox.boxObject.y - this.boxObject.y);
+    let scrollboxOffset = scrollbox.scrollBoxObject.y -
+      (scrollbox.boxObject.y - this.boxObject.y);
     let eltY = elt.boxObject.y - scrollboxOffset;
     let eltHeight = elt.boxObject.height;
 
@@ -403,25 +387,22 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       });
       // We can set folderElt if we are dropping over a static menu that
       // has an internal placespopup.
-      let isMenu =
-        elt.localName == "menu" ||
+      let isMenu = elt.localName == "menu" ||
         (elt.localName == "toolbarbutton" &&
           elt.getAttribute("type") == "menu");
-      if (isMenu && elt.lastChild && elt.lastChild.hasAttribute("placespopup"))
+      if (isMenu && elt.lastChild &&
+        elt.lastChild.hasAttribute("placespopup"))
         dropPoint.folderElt = elt;
       return dropPoint;
     }
 
-    let tagName = PlacesUtils.nodeIsTagQuery(elt._placesNode)
-      ? elt._placesNode.title
-      : null;
-    if (
-      (PlacesUtils.nodeIsFolder(elt._placesNode) &&
+    let tagName = PlacesUtils.nodeIsTagQuery(elt._placesNode) ?
+      elt._placesNode.title : null;
+    if ((PlacesUtils.nodeIsFolder(elt._placesNode) &&
         !PlacesUIUtils.isFolderReadOnly(elt._placesNode, this._rootView)) ||
-      PlacesUtils.nodeIsTagQuery(elt._placesNode)
-    ) {
+      PlacesUtils.nodeIsTagQuery(elt._placesNode)) {
       // This is a folder or a tag container.
-      if (eventY - eltY < eltHeight * 0.2) {
+      if (eventY - eltY < eltHeight * 0.20) {
         // If mouse is in the top part of the element, drop above folder.
         dropPoint.ip = new InsertionPoint({
           parentId: PlacesUtils.getConcreteItemId(resultNode),
@@ -431,7 +412,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
           dropNearNode: elt._placesNode
         });
         return dropPoint;
-      } else if (eventY - eltY < eltHeight * 0.8) {
+      } else if (eventY - eltY < eltHeight * 0.80) {
         // If mouse is in the middle of the element, drop inside folder.
         dropPoint.ip = new InsertionPoint({
           parentId: PlacesUtils.getConcreteItemId(elt._placesNode),
@@ -460,7 +441,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       parentGuid: PlacesUtils.getConcreteItemGuid(resultNode),
       orientation: Ci.nsITreeView.DROP_AFTER,
       tagName,
-      dropNearNode: elt._placesNode
+      dropNearNode: elt._placesNode,
     });
     return dropPoint;
   }
@@ -473,4 +454,3 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     this._indicatorBar.hidden = true;
   }
 }
-customElements.define("firefox-places-popup-base", FirefoxPlacesPopupBase);

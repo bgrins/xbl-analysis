@@ -1,5 +1,6 @@
 class FirefoxDialog extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:vbox class="box-inherit dialog-content-box" flex="1">
         <children></children>
@@ -20,9 +21,10 @@ class FirefoxDialog extends XULElement {
 
     this._mStrBundle = null;
 
-    this._closeHandler = function(event) {
-      if (!document.documentElement.cancelDialog()) event.preventDefault();
-    };
+    this._closeHandler = (function(event) {
+      if (!document.documentElement.cancelDialog())
+        event.preventDefault();
+    });
 
     this._configureButtons(this.buttons);
 
@@ -35,30 +37,21 @@ class FirefoxDialog extends XULElement {
     window.moveToAlertPosition = this.moveToAlertPosition;
     window.centerWindowOnScreen = this.centerWindowOnScreen;
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._hitEnter(event);
     });
 
-    this.addEventListener("keypress", event => {
-      if (!event.defaultPrevented) this.cancelDialog();
+    this.addEventListener("keypress", (event) => {
+      if (!event.defaultPrevented)
+        this.cancelDialog();
     });
 
-    this.addEventListener(
-      "focus",
-      event => {
-        var btn = this.getButton(this.defaultButton);
-        if (btn)
-          btn.setAttribute(
-            "default",
-            event.originalTarget == btn ||
-              !(
-                event.originalTarget instanceof
-                Components.interfaces.nsIDOMXULButtonElement
-              )
-          );
-      },
-      true
-    );
+    this.addEventListener("focus", (event) => {
+      var btn = this.getButton(this.defaultButton);
+      if (btn)
+        btn.setAttribute("default", event.originalTarget == btn || !(event.originalTarget instanceof Components.interfaces.nsIDOMXULButtonElement));
+    }, true);
+
   }
 
   set buttons(val) {
@@ -67,7 +60,7 @@ class FirefoxDialog extends XULElement {
   }
 
   get buttons() {
-    return this.getAttribute("buttons");
+    return this.getAttribute('buttons');
   }
 
   set defaultButton(val) {
@@ -103,9 +96,7 @@ class FirefoxDialog extends XULElement {
   moveToAlertPosition() {
     // hack. we need this so the window has something like its final size
     if (window.outerWidth == 1) {
-      dump(
-        "Trying to position a sizeless window; caller should have called sizeToContent() or sizeTo(). See bug 75649.\n"
-      );
+      dump("Trying to position a sizeless window; caller should have called sizeToContent() or sizeTo(). See bug 75649.\n");
       sizeToContent();
     }
 
@@ -121,13 +112,15 @@ class FirefoxDialog extends XULElement {
     }
 
     // ensure the window is fully onscreen (if smaller than the screen)
-    if (newX < screen.availLeft) newX = screen.availLeft + 20;
-    if (newX + window.outerWidth > screen.availLeft + screen.availWidth)
-      newX = screen.availLeft + screen.availWidth - window.outerWidth - 20;
+    if (newX < screen.availLeft)
+      newX = screen.availLeft + 20;
+    if ((newX + window.outerWidth) > (screen.availLeft + screen.availWidth))
+      newX = (screen.availLeft + screen.availWidth) - window.outerWidth - 20;
 
-    if (newY < screen.availTop) newY = screen.availTop + 20;
-    if (newY + window.outerHeight > screen.availTop + screen.availHeight)
-      newY = screen.availTop + screen.availHeight - window.outerHeight - 60;
+    if (newY < screen.availTop)
+      newY = screen.availTop + 20;
+    if ((newY + window.outerHeight) > (screen.availTop + screen.availHeight))
+      newY = (screen.availTop + screen.availHeight) - window.outerHeight - 60;
 
     window.moveTo(newX, newY);
   }
@@ -150,10 +143,8 @@ class FirefoxDialog extends XULElement {
         var focusedElt = document.commandDispatcher.focusedElement;
         if (focusedElt) {
           var initialFocusedElt = focusedElt;
-          while (
-            focusedElt.localName == "tab" ||
-            focusedElt.getAttribute("noinitialfocus") == "true"
-          ) {
+          while (focusedElt.localName == "tab" ||
+            focusedElt.getAttribute("noinitialfocus") == "true") {
             document.commandDispatcher.advanceFocusIntoSubtree(focusedElt);
             focusedElt = document.commandDispatcher.focusedElement;
             if (focusedElt == initialFocusedElt) {
@@ -170,18 +161,16 @@ class FirefoxDialog extends XULElement {
               // so return focus to the tab itself
               initialFocusedElt.focus();
             }
-          } else if (
-            !/Mac/.test(navigator.platform) &&
-            focusedElt.hasAttribute("dlgtype") &&
-            focusedElt != defaultButton
-          ) {
+          } else if (!/Mac/.test(navigator.platform) &&
+            focusedElt.hasAttribute("dlgtype") && focusedElt != defaultButton) {
             defaultButton.focus();
           }
         }
       }
 
       try {
-        if (defaultButton) window.notifyDefaultButtonLoaded(defaultButton);
+        if (defaultButton)
+          window.notifyDefaultButtonLoaded(defaultButton);
       } catch (e) {}
     }
 
@@ -190,7 +179,8 @@ class FirefoxDialog extends XULElement {
   }
   openHelp(event) {
     var helpButton = document.documentElement.getButton("help");
-    if (helpButton.disabled || helpButton.hidden) return;
+    if (helpButton.disabled || helpButton.hidden)
+      return;
     this._fireButtonEvent("help");
     event.stopPropagation();
     event.preventDefault();
@@ -199,36 +189,12 @@ class FirefoxDialog extends XULElement {
     // by default, get all the anonymous button elements
     var buttons = {};
     this._buttons = buttons;
-    buttons.accept = document.getAnonymousElementByAttribute(
-      this,
-      "dlgtype",
-      "accept"
-    );
-    buttons.cancel = document.getAnonymousElementByAttribute(
-      this,
-      "dlgtype",
-      "cancel"
-    );
-    buttons.extra1 = document.getAnonymousElementByAttribute(
-      this,
-      "dlgtype",
-      "extra1"
-    );
-    buttons.extra2 = document.getAnonymousElementByAttribute(
-      this,
-      "dlgtype",
-      "extra2"
-    );
-    buttons.help = document.getAnonymousElementByAttribute(
-      this,
-      "dlgtype",
-      "help"
-    );
-    buttons.disclosure = document.getAnonymousElementByAttribute(
-      this,
-      "dlgtype",
-      "disclosure"
-    );
+    buttons.accept = document.getAnonymousElementByAttribute(this, "dlgtype", "accept");
+    buttons.cancel = document.getAnonymousElementByAttribute(this, "dlgtype", "cancel");
+    buttons.extra1 = document.getAnonymousElementByAttribute(this, "dlgtype", "extra1");
+    buttons.extra2 = document.getAnonymousElementByAttribute(this, "dlgtype", "extra2");
+    buttons.help = document.getAnonymousElementByAttribute(this, "dlgtype", "help");
+    buttons.disclosure = document.getAnonymousElementByAttribute(this, "dlgtype", "disclosure");
 
     // look for any overriding explicit button elements
     var exBtns = this.getElementsByAttribute("dlgtype", "*");
@@ -249,36 +215,23 @@ class FirefoxDialog extends XULElement {
       if (!button.hasAttribute("label")) {
         // dialog attributes override the default labels in dialog.properties
         if (this.hasAttribute("buttonlabel" + dlgtype)) {
-          button.setAttribute(
-            "label",
-            this.getAttribute("buttonlabel" + dlgtype)
-          );
+          button.setAttribute("label", this.getAttribute("buttonlabel" + dlgtype));
           if (this.hasAttribute("buttonaccesskey" + dlgtype))
-            button.setAttribute(
-              "accesskey",
-              this.getAttribute("buttonaccesskey" + dlgtype)
-            );
+            button.setAttribute("accesskey", this.getAttribute("buttonaccesskey" + dlgtype));
         } else if (dlgtype != "extra1" && dlgtype != "extra2") {
-          button.setAttribute(
-            "label",
-            this.mStrBundle.GetStringFromName("button-" + dlgtype)
-          );
-          var accessKey = this.mStrBundle.GetStringFromName(
-            "accesskey-" + dlgtype
-          );
-          if (accessKey) button.setAttribute("accesskey", accessKey);
+          button.setAttribute("label", this.mStrBundle.GetStringFromName("button-" + dlgtype));
+          var accessKey = this.mStrBundle.GetStringFromName("accesskey-" + dlgtype);
+          if (accessKey)
+            button.setAttribute("accesskey", accessKey);
         }
       }
       // allow specifying alternate icons in the dialog header
       if (!button.hasAttribute("icon")) {
         // if there's an icon specified, use that
         if (this.hasAttribute("buttonicon" + dlgtype))
-          button.setAttribute(
-            "icon",
-            this.getAttribute("buttonicon" + dlgtype)
-          );
+          button.setAttribute("icon", this.getAttribute("buttonicon" + dlgtype));
+        // otherwise set defaults
         else
-          // otherwise set defaults
           switch (dlgtype) {
             case "accept":
               button.setAttribute("icon", "accept");
@@ -315,18 +268,16 @@ class FirefoxDialog extends XULElement {
         extra1: false,
         extra2: false
       };
-      for (i = 0; i < list.length; ++i) shown[list[i].replace(/ /g, "")] = true;
+      for (i = 0; i < list.length; ++i)
+        shown[list[i].replace(/ /g, "")] = true;
 
       // hide/show the buttons we want
-      for (dlgtype in buttons) buttons[dlgtype].hidden = !shown[dlgtype];
+      for (dlgtype in buttons)
+        buttons[dlgtype].hidden = !shown[dlgtype];
 
       // show the spacer on Windows only when the extra2 button is present
       if (/Win/.test(navigator.platform)) {
-        var spacer = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "spacer"
-        );
+        var spacer = document.getAnonymousElementByAttribute(this, "anonid", "spacer");
         spacer.removeAttribute("hidden");
         spacer.setAttribute("flex", shown.extra2 ? "1" : "0");
       }
@@ -335,7 +286,8 @@ class FirefoxDialog extends XULElement {
   _setDefaultButton(aNewDefault) {
     // remove the default attribute from the previous default button, if any
     var oldDefaultButton = this.getButton(this.defaultButton);
-    if (oldDefaultButton) oldDefaultButton.removeAttribute("default");
+    if (oldDefaultButton)
+      oldDefaultButton.removeAttribute("default");
 
     var newDefaultButton = this.getButton(aNewDefault);
     if (newDefaultButton) {
@@ -344,15 +296,12 @@ class FirefoxDialog extends XULElement {
     } else {
       this.setAttribute("defaultButton", "none");
       if (aNewDefault != "none")
-        dump(
-          "invalid new default button: " + aNewDefault + ", assuming: none\n"
-        );
+        dump("invalid new default button: " + aNewDefault + ", assuming: none\n");
     }
   }
   _handleButtonCommand(aEvent) {
     return document.documentElement._doButtonCommand(
-      aEvent.target.getAttribute("dlgtype")
-    );
+      aEvent.target.getAttribute("dlgtype"));
   }
   _doButtonCommand(aDlgType) {
     var button = this.getButton(aDlgType);
@@ -362,7 +311,9 @@ class FirefoxDialog extends XULElement {
         if (aDlgType == "accept" || aDlgType == "cancel") {
           var closingEvent = new CustomEvent("dialogclosing", {
             bubbles: true,
-            detail: { button: aDlgType }
+            detail: {
+              button: aDlgType
+            },
           });
           this.dispatchEvent(closingEvent);
           window.close();
@@ -384,16 +335,18 @@ class FirefoxDialog extends XULElement {
     if (handler != "") {
       var fn = new Function("event", handler);
       var returned = fn(event);
-      if (returned == false) noCancel = false;
+      if (returned == false)
+        noCancel = false;
     }
 
     return noCancel;
   }
   _hitEnter(evt) {
-    if (evt.defaultPrevented) return;
+    if (evt.defaultPrevented)
+      return;
 
     var btn = this.getButton(this.defaultButton);
-    if (btn) this._doButtonCommand(this.defaultButton);
+    if (btn)
+      this._doButtonCommand(this.defaultButton);
   }
 }
-customElements.define("firefox-dialog", FirefoxDialog);

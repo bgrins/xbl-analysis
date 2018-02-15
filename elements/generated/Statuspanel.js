@@ -1,5 +1,6 @@
 class FirefoxStatuspanel extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:hbox class="statuspanel-inner">
         <xul:label class="statuspanel-label" role="status" aria-live="off" inherits="value=label,crop,mirror" flex="1" crop="end"></xul:label>
@@ -7,6 +8,7 @@ class FirefoxStatuspanel extends XULElement {
     `;
 
     window.addEventListener("resize", this);
+
   }
   disconnectedCallback() {
     window.removeEventListener("resize", this);
@@ -19,20 +21,17 @@ class FirefoxStatuspanel extends XULElement {
       this.removeAttribute("sizelimit");
     }
 
-    if (
-      this.getAttribute("type") == "status" &&
-      this.getAttribute("previoustype") == "status"
-    ) {
+    if (this.getAttribute("type") == "status" &&
+      this.getAttribute("previoustype") == "status") {
       // Before updating the label, set the panel's current width as its
       // min-width to let the panel grow but not shrink and prevent
       // unnecessary flicker while loading pages. We only care about the
       // panel's width once it has been painted, so we can do this
       // without flushing layout.
       this.style.minWidth =
-        window
-          .QueryInterface(Ci.nsIInterfaceRequestor)
-          .getInterface(Ci.nsIDOMWindowUtils)
-          .getBoundsWithoutFlushing(this).width + "px";
+        window.QueryInterface(Ci.nsIInterfaceRequestor)
+        .getInterface(Ci.nsIDOMWindowUtils)
+        .getBoundsWithoutFlushing(this).width + "px";
     } else {
       this.style.minWidth = "";
     }
@@ -66,7 +65,8 @@ class FirefoxStatuspanel extends XULElement {
     this._mirror();
   }
   handleEvent(event) {
-    if (!this.label) return;
+    if (!this.label)
+      return;
 
     switch (event.type) {
       case "resize":
@@ -76,24 +76,22 @@ class FirefoxStatuspanel extends XULElement {
   }
   _calcMouseTargetRect() {
     let container = this.parentNode;
-    let alignRight = getComputedStyle(container).direction == "rtl";
+    let alignRight = (getComputedStyle(container).direction == "rtl");
     let panelRect = this.getBoundingClientRect();
     let containerRect = container.getBoundingClientRect();
 
     this._mouseTargetRect = {
       top: panelRect.top,
       bottom: panelRect.bottom,
-      left: alignRight
-        ? containerRect.right - panelRect.width
-        : containerRect.left,
-      right: alignRight
-        ? containerRect.right
-        : containerRect.left + panelRect.width
+      left: alignRight ? containerRect.right - panelRect.width : containerRect.left,
+      right: alignRight ? containerRect.right : containerRect.left + panelRect.width
     };
   }
   _mirror() {
-    if (this.hasAttribute("mirror")) this.removeAttribute("mirror");
-    else this.setAttribute("mirror", "true");
+    if (this.hasAttribute("mirror"))
+      this.removeAttribute("mirror");
+    else
+      this.setAttribute("mirror", "true");
 
     if (!this.hasAttribute("sizelimit")) {
       this.setAttribute("sizelimit", "true");
@@ -101,4 +99,3 @@ class FirefoxStatuspanel extends XULElement {
     }
   }
 }
-customElements.define("firefox-statuspanel", FirefoxStatuspanel);

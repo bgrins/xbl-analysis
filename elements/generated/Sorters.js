@@ -1,5 +1,6 @@
 class FirefoxSorters extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:button anonid="name-btn" class="sorter" label="FROM-DTD-sort-name-label" tooltiptext="FROM-DTD-sort-name-tooltip" oncommand="this.parentNode._handleChange('name');"></xul:button>
       <xul:button anonid="date-btn" class="sorter" label="FROM-DTD-sort-dateUpdated-label" tooltiptext="FROM-DTD-sort-dateUpdated-tooltip" oncommand="this.parentNode._handleChange('updateDate');"></xul:button>
@@ -7,21 +8,15 @@ class FirefoxSorters extends XULElement {
 
     this.handler = null;
 
-    this._btnName = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "name-btn"
-    );
+    this._btnName = document.getAnonymousElementByAttribute(this, "anonid", "name-btn");
 
-    this._btnDate = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "date-btn"
-    );
+    this._btnDate = document.getAnonymousElementByAttribute(this, "anonid", "date-btn");
 
-    if (!this.hasAttribute("sortby")) this.setAttribute("sortby", "name");
+    if (!this.hasAttribute("sortby"))
+      this.setAttribute("sortby", "name");
 
     this._refreshState();
+
   }
 
   set sortBy(val) {
@@ -44,7 +39,7 @@ class FirefoxSorters extends XULElement {
   }
 
   get ascending() {
-    return this.getAttribute("ascending") == "true";
+    return (this.getAttribute("ascending") == "true");
   }
   setSort(aSort, aAscending) {
     var sortChanged = false;
@@ -59,15 +54,18 @@ class FirefoxSorters extends XULElement {
       sortChanged = true;
     }
 
-    if (sortChanged) this._refreshState();
+    if (sortChanged)
+      this._refreshState();
   }
   _handleChange(aSort) {
     const ASCENDING_SORT_FIELDS = ["name"];
 
     // Toggle ascending if sort by is not changing, otherwise
     // name sorting defaults to ascending, others to descending
-    if (aSort == this.sortBy) this.ascending = !this.ascending;
-    else this.setSort(aSort, ASCENDING_SORT_FIELDS.includes(aSort));
+    if (aSort == this.sortBy)
+      this.ascending = !this.ascending;
+    else
+      this.setSort(aSort, ASCENDING_SORT_FIELDS.includes(aSort));
   }
   _refreshState() {
     var sortBy = this.sortBy;
@@ -93,4 +91,3 @@ class FirefoxSorters extends XULElement {
       this.handler.onSortChanged(sortBy, this.ascending);
   }
 }
-customElements.define("firefox-sorters", FirefoxSorters);

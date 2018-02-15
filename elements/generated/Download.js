@@ -1,6 +1,6 @@
 class FirefoxDownload extends FirefoxRichlistitem {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="downloadMainArea" flex="1" align="center">
         <xul:stack>
@@ -33,6 +33,7 @@ class FirefoxDownload extends FirefoxRichlistitem {
         <xul:button class="downloadButton downloadShowBlockedInfo" tooltiptext="FROM-DTD-cmd-chooseUnblock-label" oncommand="DownloadsView.onDownloadCommand(event, 'downloadsCmd_showBlockedInfo');"></xul:button>
       </xul:stack>
     `;
+
   }
+
 }
-customElements.define("firefox-download", FirefoxDownload);

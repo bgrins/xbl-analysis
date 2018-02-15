@@ -1,15 +1,16 @@
 class FirefoxPlacesTree extends FirefoxTree {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._contextMenuShown = false;
 
     this._active = true;
 
     // Force an initial build.
-    if (this.place) this.place = this.place;
+    if (this.place)
+      this.place = this.place;
 
-    this.addEventListener("focus", event => {
+    this.addEventListener("focus", (event) => {
       this._cachedInsertionPoint = undefined;
 
       // See select handler. We need the sidebar's places commandset to be
@@ -17,21 +18,23 @@ class FirefoxPlacesTree extends FirefoxTree {
       document.commandDispatcher.updateCommands("focus");
     });
 
-    this.addEventListener("select", event => {
+    this.addEventListener("select", (event) => {
       this._cachedInsertionPoint = undefined;
 
       // This additional complexity is here for the sidebars
       var win = window;
       while (true) {
         win.document.commandDispatcher.updateCommands("focus");
-        if (win == window.top) break;
+        if (win == window.top)
+          break;
 
         win = win.parent;
       }
     });
 
-    this.addEventListener("dragstart", event => {
-      if (event.target.localName != "treechildren") return;
+    this.addEventListener("dragstart", (event) => {
+      if (event.target.localName != "treechildren")
+        return;
 
       let nodes = this.selectedNodes;
       for (let i = 0; i < nodes.length; i++) {
@@ -56,13 +59,14 @@ class FirefoxPlacesTree extends FirefoxTree {
       event.stopPropagation();
     });
 
-    this.addEventListener("dragover", event => {
-      if (event.target.localName != "treechildren") return;
+    this.addEventListener("dragover", (event) => {
+      if (event.target.localName != "treechildren")
+        return;
 
       let cell = this.treeBoxObject.getCellAt(event.clientX, event.clientY);
-      let node = cell.row != -1
-        ? this.view.nodeForTreeIndex(cell.row)
-        : this.result.root;
+      let node = cell.row != -1 ?
+        this.view.nodeForTreeIndex(cell.row) :
+        this.result.root;
       // cache the dropTarget for the view
       PlacesControllerDragHelper.currentDropTarget = node;
 
@@ -70,9 +74,7 @@ class FirefoxPlacesTree extends FirefoxTree {
       // it and we want to be consistent with the dropfeedback.
       let tbo = this.treeBoxObject;
       let rowHeight = tbo.rowHeight;
-      let eventY =
-        event.clientY -
-        tbo.treeBody.boxObject.y -
+      let eventY = event.clientY - tbo.treeBody.boxObject.y -
         rowHeight * (cell.row - tbo.getFirstVisibleRow());
 
       let orientation = Ci.nsITreeView.DROP_BEFORE;
@@ -80,31 +82,29 @@ class FirefoxPlacesTree extends FirefoxTree {
       if (cell.row == -1) {
         // If the row is not valid we try to insert inside the resultNode.
         orientation = Ci.nsITreeView.DROP_ON;
-      } else if (
-        PlacesUtils.nodeIsContainer(node) &&
-        eventY > rowHeight * 0.75
-      ) {
+      } else if (PlacesUtils.nodeIsContainer(node) &&
+        eventY > rowHeight * 0.75) {
         // If we are below the 75% of a container the treeview we try
         // to drop after the node.
         orientation = Ci.nsITreeView.DROP_AFTER;
-      } else if (
-        PlacesUtils.nodeIsContainer(node) &&
-        eventY > rowHeight * 0.25
-      ) {
+      } else if (PlacesUtils.nodeIsContainer(node) &&
+        eventY > rowHeight * 0.25) {
         // If we are below the 25% of a container the treeview we try
         // to drop inside the node.
         orientation = Ci.nsITreeView.DROP_ON;
       }
 
-      if (!this.view.canDrop(cell.row, orientation, event.dataTransfer)) return;
+      if (!this.view.canDrop(cell.row, orientation, event.dataTransfer))
+        return;
 
       event.preventDefault();
       event.stopPropagation();
     });
 
-    this.addEventListener("dragend", event => {
+    this.addEventListener("dragend", (event) => {
       PlacesControllerDragHelper.currentDropTarget = null;
     });
+
   }
   disconnectedCallback() {
     // Break the treeviewer->result->treeviewer cycle.
@@ -129,11 +129,11 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
 
   get controller() {
-    return this._controller;
+    return this._controller
   }
 
   set view(val) {
-    return (this.treeBoxObject.view = val);
+    return this.treeBoxObject.view = val;
   }
 
   get view() {
@@ -145,14 +145,15 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
 
   get associatedElement() {
-    return this;
+    return this
   }
 
   set flatList(val) {
     if (this.flatList != val) {
       this.setAttribute("flatList", val);
       // reload with the last place set
-      if (this.place) this.place = this.place;
+      if (this.place)
+        this.place = this.place;
     }
     return val;
   }
@@ -165,7 +166,8 @@ class FirefoxPlacesTree extends FirefoxTree {
     if (this.onOpenFlatContainer != val) {
       this.setAttribute("onopenflatcontainer", val);
       // reload with the last place set
-      if (this.place) this.place = this.place;
+      if (this.place)
+        this.place = this.place;
     }
     return val;
   }
@@ -188,12 +190,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     var queriesRef = {};
     var queryCountRef = {};
     var optionsRef = {};
-    PlacesUtils.history.queryStringToQueries(
-      val,
-      queriesRef,
-      queryCountRef,
-      optionsRef
-    );
+    PlacesUtils.history.queryStringToQueries(val, queriesRef, queryCountRef, optionsRef);
     if (queryCountRef.value == 0)
       queriesRef.value = [PlacesUtils.history.getNewQuery()];
     if (!optionsRef.value)
@@ -214,7 +211,8 @@ class FirefoxPlacesTree extends FirefoxTree {
 
   get selectedNodes() {
     let nodes = [];
-    if (!this.hasSelection) return nodes;
+    if (!this.hasSelection)
+      return nodes;
 
     let selection = this.view.selection;
     let rc = selection.getRangeCount();
@@ -255,7 +253,8 @@ class FirefoxPlacesTree extends FirefoxTree {
     // the folder's children may be selected.
     //
     let nodes = [];
-    if (!this.hasSelection) return nodes;
+    if (!this.hasSelection)
+      return nodes;
 
     var selection = this.view.selection;
     var rc = selection.getRangeCount();
@@ -272,7 +271,8 @@ class FirefoxPlacesTree extends FirefoxTree {
       selection.getRangeAt(i, min, max);
 
       for (var j = min.value; j <= max.value; ++j) {
-        if (this.view.isContainer(j)) containers[j] = true;
+        if (this.view.isContainer(j))
+          containers[j] = true;
         if (!(this.view.getParentIndex(j) in containers))
           range.push(resultview.nodeForTreeIndex(j));
       }
@@ -282,12 +282,13 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
 
   get draggableSelection() {
-    return this.selectedNodes;
+    return this.selectedNodes
   }
 
   get selectedNode() {
     var view = this.view;
-    if (!view || view.selection.count != 1) return null;
+    if (!view || view.selection.count != 1)
+      return null;
 
     var selection = view.selection;
     var min = {},
@@ -305,18 +306,17 @@ class FirefoxPlacesTree extends FirefoxTree {
     // there is no insertion point for history queries
     // so bail out now and save a lot of work when updating commands
     var resultNode = this.result.root;
-    if (
-      PlacesUtils.nodeIsQuery(resultNode) &&
+    if (PlacesUtils.nodeIsQuery(resultNode) &&
       PlacesUtils.asQuery(resultNode).queryOptions.queryType ==
-        Ci.nsINavHistoryQueryOptions.QUERY_TYPE_HISTORY
-    )
-      return (this._cachedInsertionPoint = null);
+      Ci.nsINavHistoryQueryOptions.QUERY_TYPE_HISTORY)
+      return this._cachedInsertionPoint = null;
 
     var orientation = Ci.nsITreeView.DROP_BEFORE;
     // If there is no selection, insert at the end of the container.
     if (!this.hasSelection) {
       var index = this.view.rowCount - 1;
-      this._cachedInsertionPoint = this._getInsertionPoint(index, orientation);
+      this._cachedInsertionPoint =
+        this._getInsertionPoint(index, orientation);
       return this._cachedInsertionPoint;
     }
 
@@ -348,17 +348,12 @@ class FirefoxPlacesTree extends FirefoxTree {
     //
     // If the sole selection is the bookmarks toolbar folder, we insert
     // into it even if it is not opened
-    if (
-      selection.count == 1 &&
-      resultView.isContainer(max.value) &&
-      !this.flatList
-    )
+    if (selection.count == 1 && resultView.isContainer(max.value) &&
+      !this.flatList)
       orientation = Ci.nsITreeView.DROP_ON;
 
-    this._cachedInsertionPoint = this._getInsertionPoint(
-      max.value,
-      orientation
-    );
+    this._cachedInsertionPoint =
+      this._getInsertionPoint(max.value, orientation);
     return this._cachedInsertionPoint;
   }
 
@@ -367,11 +362,11 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
 
   set active(val) {
-    return (this._active = val);
+    return this._active = val
   }
 
   get active() {
-    return this._active;
+    return this._active
   }
   applyFilter(filterString, folderRestrict, includeHidden) {
     // preserve grouping
@@ -381,12 +376,10 @@ class FirefoxPlacesTree extends FirefoxTree {
     // Make sure we're getting uri results.
     // We do not yet support searching into grouped queries or into
     // tag containers, so we must fall to the default case.
-    if (
-      PlacesUtils.nodeIsHistoryContainer(queryNode) ||
+    if (PlacesUtils.nodeIsHistoryContainer(queryNode) ||
       options.resultType == options.RESULTS_AS_TAG_QUERY ||
       options.resultType == options.RESULTS_AS_TAG_CONTENTS ||
-      options.resultType == options.RESULTS_AS_ROOTS_QUERY
-    )
+      options.resultType == options.RESULTS_AS_ROOTS_QUERY)
       options.resultType = options.RESULTS_AS_URI;
 
     var query = PlacesUtils.history.getNewQuery();
@@ -402,11 +395,9 @@ class FirefoxPlacesTree extends FirefoxTree {
     this.load([query], options);
   }
   load(queries, options) {
-    let result = PlacesUtils.history.executeQueries(
-      queries,
-      queries.length,
-      options
-    );
+    let result = PlacesUtils.history
+      .executeQueries(queries, queries.length,
+        options);
     let callback;
     if (this.flatList) {
       let onOpenFlatContainer = this.onOpenFlatContainer;
@@ -419,11 +410,7 @@ class FirefoxPlacesTree extends FirefoxTree {
       this.controllers.appendController(this._controller);
     }
 
-    let treeView = new PlacesTreeView(
-      this.flatList,
-      callback,
-      this._controller
-    );
+    let treeView = new PlacesTreeView(this.flatList, callback, this._controller);
 
     // Observer removal is done within the view itself.  When the tree
     // goes away, treeboxobject calls view.setTree(null), which then
@@ -431,10 +418,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     result.addObserver(treeView);
     this.view = treeView;
 
-    if (
-      this.getAttribute("selectfirstnode") == "true" &&
-      treeView.rowCount > 0
-    ) {
+    if (this.getAttribute("selectfirstnode") == "true" && treeView.rowCount > 0) {
       treeView.selection.select(0);
     }
 
@@ -442,42 +426,48 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
   selectPlaceURI(placeURI) {
     // Do nothing if a node matching the given uri is already selected
-    if (this.hasSelection && this.selectedNode.uri == placeURI) return;
+    if (this.hasSelection && this.selectedNode.uri == placeURI)
+      return;
 
     function findNode(container, nodesURIChecked) {
       var containerURI = container.uri;
-      if (containerURI == placeURI) return container;
-      if (nodesURIChecked.includes(containerURI)) return null;
+      if (containerURI == placeURI)
+        return container;
+      if (nodesURIChecked.includes(containerURI))
+        return null;
 
       // never check the contents of the same query
       nodesURIChecked.push(containerURI);
 
       var wasOpen = container.containerOpen;
-      if (!wasOpen) container.containerOpen = true;
+      if (!wasOpen)
+        container.containerOpen = true;
       for (var i = 0; i < container.childCount; ++i) {
         var child = container.getChild(i);
         var childURI = child.uri;
-        if (childURI == placeURI) return child;
+        if (childURI == placeURI)
+          return child;
         else if (PlacesUtils.nodeIsContainer(child)) {
-          var nested = findNode(
-            PlacesUtils.asContainer(child),
-            nodesURIChecked
-          );
-          if (nested) return nested;
+          var nested = findNode(PlacesUtils.asContainer(child), nodesURIChecked);
+          if (nested)
+            return nested;
         }
       }
 
-      if (!wasOpen) container.containerOpen = false;
+      if (!wasOpen)
+        container.containerOpen = false;
 
       return null;
     }
 
     var container = this.result.root;
     NS_ASSERT(container, "No result, cannot select place URI!");
-    if (!container) return;
+    if (!container)
+      return;
 
     var child = findNode(container, []);
-    if (child) this.selectNode(child);
+    if (child)
+      this.selectNode(child);
     else {
       // If the specified child could not be located, clear the selection
       var selection = this.view.selection;
@@ -502,18 +492,16 @@ class FirefoxPlacesTree extends FirefoxTree {
       // opening each folder as we go.
       for (var i = parents.length - 1; i >= 0; --i) {
         let index = view.treeIndexForNode(parents[i]);
-        if (
-          index != -1 &&
-          view.isContainer(index) &&
-          !view.isContainerOpen(index)
-        )
+        if (index != -1 &&
+          view.isContainer(index) && !view.isContainerOpen(index))
           view.toggleOpenState(index);
       }
       // Select the specified node...
     }
 
     let index = view.treeIndexForNode(node);
-    if (index == -1) return;
+    if (index == -1)
+      return;
 
     view.selection.select(index);
     // ... and ensure it's visible, not scrolled off somewhere.
@@ -532,19 +520,14 @@ class FirefoxPlacesTree extends FirefoxTree {
     // the view is populated from (i.e. the result's itemId).
     if (index != -1) {
       var lastSelected = resultview.nodeForTreeIndex(index);
-      if (
-        resultview.isContainer(index) &&
-        orientation == Ci.nsITreeView.DROP_ON
-      ) {
+      if (resultview.isContainer(index) && orientation == Ci.nsITreeView.DROP_ON) {
         // If the last selected item is an open container, append _into_
         // it, rather than insert adjacent to it.
         container = lastSelected;
         index = -1;
-      } else if (
-        lastSelected.containerOpen &&
+      } else if (lastSelected.containerOpen &&
         orientation == Ci.nsITreeView.DROP_AFTER &&
-        lastSelected.hasChildren
-      ) {
+        lastSelected.hasChildren) {
         // If the last selected item is an open container and the user is
         // trying to drag into it as a first item, really insert into it.
         container = lastSelected;
@@ -555,7 +538,8 @@ class FirefoxPlacesTree extends FirefoxTree {
         container = lastSelected.parent;
 
         // See comment in the treeView.js's copy of this method
-        if (!container || !container.containerOpen) return null;
+        if (!container || !container.containerOpen)
+          return null;
 
         // Avoid the potentially expensive call to getChildIndex
         // if we know this container doesn't allow insertion
@@ -563,16 +547,13 @@ class FirefoxPlacesTree extends FirefoxTree {
           return null;
 
         var queryOptions = PlacesUtils.asQuery(result.root).queryOptions;
-        if (
-          queryOptions.sortingMode != Ci.nsINavHistoryQueryOptions.SORT_BY_NONE
-        ) {
+        if (queryOptions.sortingMode !=
+          Ci.nsINavHistoryQueryOptions.SORT_BY_NONE) {
           // If we are within a sorted view, insert at the end
           index = -1;
-        } else if (
-          queryOptions.excludeItems ||
+        } else if (queryOptions.excludeItems ||
           queryOptions.excludeQueries ||
-          queryOptions.excludeReadOnlyFolders
-        ) {
+          queryOptions.excludeReadOnlyFolders) {
           // Some item may be invisible, insert near last selected one.
           // We don't replace index here to avoid requests to the db,
           // instead it will be calculated later by the controller.
@@ -592,7 +573,8 @@ class FirefoxPlacesTree extends FirefoxTree {
     let tagName = null;
     if (PlacesUtils.nodeIsTagQuery(container)) {
       tagName = container.title;
-      if (!tagName) return null;
+      if (!tagName)
+        return null;
     }
 
     return new InsertionPoint({
@@ -609,11 +591,13 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
   selectItems(aIDs, aOpenContainers) {
     // Never open containers in flat lists.
-    if (this.flatList) aOpenContainers = false;
+    if (this.flatList)
+      aOpenContainers = false;
     // By default, we do search and select within containers which were
     // closed (note that containers in which nodes were not found are
     // closed).
-    if (aOpenContainers === undefined) aOpenContainers = true;
+    if (aOpenContainers === undefined)
+      aOpenContainers = true;
 
     var ids = aIDs; // don't manipulate the caller's array
 
@@ -630,23 +614,21 @@ class FirefoxPlacesTree extends FirefoxTree {
     var checkedGuidsSet = new Set();
 
     /**
-           * Recursively search through a node's children for items
-           * with the given IDs. When a matching item is found, remove its ID
-           * from the IDs array, and add the found node to the nodes dictionary.
-           *
-           * NOTE: This method will leave open any node that had matching items
-           * in its subtree.
-           */
+     * Recursively search through a node's children for items
+     * with the given IDs. When a matching item is found, remove its ID
+     * from the IDs array, and add the found node to the nodes dictionary.
+     *
+     * NOTE: This method will leave open any node that had matching items
+     * in its subtree.
+     */
     function findNodes(node) {
       var foundOne = false;
       // See if node matches an ID we wanted; add to results.
       // For simple folder queries, check both itemId and the concrete
       // item id.
       var index = ids.indexOf(node.itemId);
-      if (
-        index == -1 &&
-        node.type == Ci.nsINavHistoryResultNode.RESULT_TYPE_FOLDER_SHORTCUT
-      )
+      if (index == -1 &&
+        node.type == Ci.nsINavHistoryResultNode.RESULT_TYPE_FOLDER_SHORTCUT)
         index = ids.indexOf(PlacesUtils.asQuery(node).folderItemId);
 
       if (index == -1) {
@@ -666,24 +648,19 @@ class FirefoxPlacesTree extends FirefoxTree {
       }
 
       var concreteGuid = PlacesUtils.getConcreteItemGuid(node);
-      if (
-        ids.length == 0 ||
-        !PlacesUtils.nodeIsContainer(node) ||
-        checkedGuidsSet.has(concreteGuid)
-      )
+      if (ids.length == 0 || !PlacesUtils.nodeIsContainer(node) ||
+        checkedGuidsSet.has(concreteGuid))
         return foundOne;
 
       // Only follow a query if it has been been explicitly opened by the
       // caller. We support the "AllBookmarks" case to allow callers to
       // specify just the top-level bookmark folders.
-      let shouldOpen =
-        aOpenContainers &&
-        (PlacesUtils.nodeIsFolder(node) ||
-          (PlacesUtils.nodeIsQuery(node) &&
-            node.itemId == PlacesUIUtils.leftPaneQueries.AllBookmarks));
+      let shouldOpen = aOpenContainers && (PlacesUtils.nodeIsFolder(node) ||
+        (PlacesUtils.nodeIsQuery(node) && node.itemId == PlacesUIUtils.leftPaneQueries.AllBookmarks));
 
       PlacesUtils.asContainer(node);
-      if (!node.containerOpen && !shouldOpen) return foundOne;
+      if (!node.containerOpen && !shouldOpen)
+        return foundOne;
 
       checkedGuidsSet.add(concreteGuid);
 
@@ -694,12 +671,14 @@ class FirefoxPlacesTree extends FirefoxTree {
       for (var child = 0; child < node.childCount && ids.length > 0; child++) {
         var childNode = node.getChild(child);
         var found = findNodes(childNode);
-        if (!foundOne) foundOne = found;
+        if (!foundOne)
+          foundOne = found;
       }
 
       // If we didn't find any additional matches in this node's
       // subtree, revert the node to its previous openness.
-      if (foundOne) nodesToOpen.unshift(node);
+      if (foundOne)
+        nodesToOpen.unshift(node);
       node.containerOpen = previousOpenness;
       return foundOne;
     }
@@ -707,11 +686,13 @@ class FirefoxPlacesTree extends FirefoxTree {
     // Disable notifications while looking for nodes.
     let result = this.result;
     let didSuppressNotifications = result.suppressNotifications;
-    if (!didSuppressNotifications) result.suppressNotifications = true;
+    if (!didSuppressNotifications)
+      result.suppressNotifications = true;
     try {
       findNodes(this.result.root);
     } finally {
-      if (!didSuppressNotifications) result.suppressNotifications = false;
+      if (!didSuppressNotifications)
+        result.suppressNotifications = false;
     }
 
     // For all the nodes we've found, highlight the corresponding
@@ -726,7 +707,8 @@ class FirefoxPlacesTree extends FirefoxTree {
     }
     for (let i = 0; i < nodes.length; i++) {
       var index = resultview.treeIndexForNode(nodes[i]);
-      if (index == -1) continue;
+      if (index == -1)
+        continue;
       selection.rangedSelect(index, index, true);
     }
     selection.selectEventsSuppressed = false;
@@ -737,4 +719,3 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
   destroyContextMenu(aPopup) {}
 }
-customElements.define("firefox-places-tree", FirefoxPlacesTree);

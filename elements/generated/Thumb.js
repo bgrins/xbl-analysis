@@ -1,4 +1,6 @@
 class FirefoxThumb extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-thumb", FirefoxThumb);

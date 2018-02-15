@@ -1,16 +1,13 @@
 class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
-    this.progressmeter = document.getElementById(
-      "addon-progress-notification-progressmeter"
-    );
+    this.progressmeter = document.getElementById("addon-progress-notification-progressmeter");
 
-    this.progresstext = document.getElementById(
-      "addon-progress-notification-progresstext"
-    );
+    this.progresstext = document.getElementById("addon-progress-notification-progresstext");
 
-    if (!this.notification) return;
+    if (!this.notification)
+      return;
 
     this.notification.options.installs.forEach(function(aInstall) {
       aInstall.addListener(this);
@@ -23,6 +20,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     // opportunity
     this.setProgress(0, -1);
     this._updateProgressTimeout = setTimeout(this.updateProgress.bind(this), 0);
+
   }
   disconnectedCallback() {
     this.destroy();
@@ -40,7 +38,8 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     return module.DownloadUtils;
   }
   destroy() {
-    if (!this.notification) return;
+    if (!this.notification)
+      return;
 
     this.notification.options.installs.forEach(function(aInstall) {
       aInstall.removeListener(this);
@@ -52,7 +51,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
       this.progressmeter.setAttribute("mode", "undetermined");
     } else {
       this.progressmeter.setAttribute("mode", "determined");
-      this.progressmeter.setAttribute("value", aProgress * 100 / aMaxProgress);
+      this.progressmeter.setAttribute("value", (aProgress * 100) / aMaxProgress);
     }
 
     let now = Date.now();
@@ -64,7 +63,8 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     }
 
     let delta = now - this.notification.lastUpdate;
-    if (delta < 400 && aProgress < aMaxProgress) return;
+    if ((delta < 400) && (aProgress < aMaxProgress))
+      return;
 
     delta /= 1000;
 
@@ -78,12 +78,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     this.notification.speed = speed;
 
     let status = null;
-    [status, this.notification.last] = this.DownloadUtils.getDownloadStatus(
-      aProgress,
-      aMaxProgress,
-      speed,
-      this.notification.last
-    );
+    [status, this.notification.last] = this.DownloadUtils.getDownloadStatus(aProgress, aMaxProgress, speed, this.notification.last);
     this.progresstext.setAttribute("value", status);
     this.progresstext.setAttribute("tooltiptext", status);
   }
@@ -100,17 +95,21 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     PopupNotifications.remove(this.notification);
   }
   updateProgress() {
-    if (!this.notification) return;
+    if (!this.notification)
+      return;
 
     let downloadingCount = 0;
     let progress = 0;
     let maxProgress = 0;
 
     this.notification.options.installs.forEach(function(aInstall) {
-      if (aInstall.maxProgress == -1) maxProgress = -1;
+      if (aInstall.maxProgress == -1)
+        maxProgress = -1;
       progress += aInstall.progress;
-      if (maxProgress >= 0) maxProgress += aInstall.maxProgress;
-      if (aInstall.state < AddonManager.STATE_DOWNLOADED) downloadingCount++;
+      if (maxProgress >= 0)
+        maxProgress += aInstall.maxProgress;
+      if (aInstall.state < AddonManager.STATE_DOWNLOADED)
+        downloadingCount++;
     });
 
     if (downloadingCount == 0) {
@@ -140,7 +139,3 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     this.updateProgress();
   }
 }
-customElements.define(
-  "firefox-addon-progress-notification",
-  FirefoxAddonProgressNotification
-);

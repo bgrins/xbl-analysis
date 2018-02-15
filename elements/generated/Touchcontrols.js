@@ -1,6 +1,6 @@
 class FirefoxTouchcontrols extends FirefoxVideocontrols {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <stack flex="1">
         <vbox anonid="statusOverlay" flex="1" class="statusOverlay" hidden="true">
@@ -59,10 +59,8 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
       },
 
       get visible() {
-        return (
-          !this.Utils.controlBar.hasAttribute("fadeout") &&
-          !(this.Utils.controlBar.getAttribute("hidden") == "true")
-        );
+        return !this.Utils.controlBar.hasAttribute("fadeout") &&
+          !(this.Utils.controlBar.getAttribute("hidden") == "true");
       },
 
       _firstShow: false,
@@ -193,26 +191,17 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
           self.delayHideControls(self.controlsTimeout);
         });
 
-        this.castingButton = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "castingButton"
-        );
+        this.castingButton = document.getAnonymousElementByAttribute(binding, "anonid", "castingButton");
         this.castingButton.addEventListener("command", function() {
           self.startCasting();
         });
 
-        this.video.addEventListener(
-          "media-videoCasting",
-          function(e) {
-            if (!e.isTrusted) {
-              return;
-            }
-            self.updateCasting(e.detail);
-          },
-          false,
-          true
-        );
+        this.video.addEventListener("media-videoCasting", function(e) {
+          if (!e.isTrusted) {
+            return;
+          }
+          self.updateCasting(e.detail);
+        }, false, true);
 
         // The first time the controls appear we want to just display
         // a play button that does not fade away. The firstShow property
@@ -220,12 +209,8 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
         // may be called again when we switch in or out of fullscreen
         // mode. So we only set firstShow if we're not autoplaying and
         // if we are at the beginning of the video and not already playing
-        if (
-          !this.video.autoplay &&
-          this.Utils.dynamicControls &&
-          this.video.paused &&
-          this.video.currentTime === 0
-        ) {
+        if (!this.video.autoplay && this.Utils.dynamicControls && this.video.paused &&
+          this.video.currentTime === 0) {
           this.firstShow = true;
         }
 
@@ -242,7 +227,7 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
     this.TouchUtils.init(this);
     this.dispatchEvent(new CustomEvent("VideoBindingAttached"));
 
-    this.addEventListener("mouseup", event => {
+    this.addEventListener("mouseup", (event) => {
       if (event.originalTarget.nodeName == "vbox") {
         if (this.TouchUtils.firstShow) {
           this.Utils.video.play();
@@ -250,6 +235,7 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
         this.TouchUtils.toggleControls();
       }
     });
+
   }
   disconnectedCallback() {
     // XBL destructors don't appear to be inherited properly, so we need
@@ -257,4 +243,3 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
     delete this.randomID;
   }
 }
-customElements.define("firefox-touchcontrols", FirefoxTouchcontrols);

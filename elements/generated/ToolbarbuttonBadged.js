@@ -1,6 +1,6 @@
 class FirefoxToolbarbuttonBadged extends FirefoxToolbarbutton {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <xul:stack class="toolbarbutton-badge-stack">
@@ -11,9 +11,7 @@ class FirefoxToolbarbuttonBadged extends FirefoxToolbarbutton {
       <xul:label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,wrap"></xul:label>
       <xul:label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap"></xul:label>
     `;
+
   }
+
 }
-customElements.define(
-  "firefox-toolbarbutton-badged",
-  FirefoxToolbarbuttonBadged
-);

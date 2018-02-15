@@ -1,6 +1,6 @@
 class FirefoxAutocomplete extends FirefoxTextbox {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children includes="image|deck|stack|box"></children>
       <xul:hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
@@ -40,7 +40,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
 
     this._valueIsPasted = false;
 
-    this._pasteController = {
+    this._pasteController = ({
       _autocomplete: this,
       _kGlobalClipboard: Components.interfaces.nsIClipboard.kGlobalClipboard,
       supportsCommand: aCommand => aCommand == "cmd_paste",
@@ -50,17 +50,14 @@ class FirefoxAutocomplete extends FirefoxTextbox {
         this._autocomplete._valueIsPasted = false;
       },
       isCommandEnabled(aCommand) {
-        return (
-          this._autocomplete.editor.isSelectionEditable &&
-          this._autocomplete.editor.canPaste(this._kGlobalClipboard)
-        );
+        return this._autocomplete.editor.isSelectionEditable &&
+          this._autocomplete.editor.canPaste(this._kGlobalClipboard);
       },
       onEvent() {}
-    };
+    });
 
-    this.mController = Components.classes[
-      "@mozilla.org/autocomplete/controller;1"
-    ].getService(Components.interfaces.nsIAutoCompleteController);
+    this.mController = Components.classes["@mozilla.org/autocomplete/controller;1"].
+    getService(Components.interfaces.nsIAutoCompleteController);
 
     this._searchBeginHandler = this.initEventHandler("searchbegin");
     this._searchCompleteHandler = this.initEventHandler("searchcomplete");
@@ -70,85 +67,59 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     // For security reasons delay searches on pasted values.
     this.inputField.controllers.insertControllerAt(0, this._pasteController);
 
-    this.addEventListener("input", event => {
+    this.addEventListener("input", (event) => {
       this.onInput(event);
     });
 
-    this.addEventListener(
-      "keypress",
-      event => {
-        return this.onKeyPress(event);
-      },
-      true
-    );
+    this.addEventListener("keypress", (event) => {
+      return this.onKeyPress(event);
+    }, true);
 
-    this.addEventListener(
-      "compositionstart",
-      event => {
-        if (this.mController.input == this)
-          this.mController.handleStartComposition();
-      },
-      true
-    );
+    this.addEventListener("compositionstart", (event) => {
+      if (this.mController.input == this) this.mController.handleStartComposition();
+    }, true);
 
-    this.addEventListener(
-      "compositionend",
-      event => {
-        if (this.mController.input == this)
-          this.mController.handleEndComposition();
-      },
-      true
-    );
+    this.addEventListener("compositionend", (event) => {
+      if (this.mController.input == this) this.mController.handleEndComposition();
+    }, true);
 
-    this.addEventListener(
-      "focus",
-      event => {
-        this.attachController();
-        if (
-          window.gBrowser &&
-          window.gBrowser.selectedBrowser.hasAttribute("usercontextid")
-        ) {
-          this.userContextId = parseInt(
-            window.gBrowser.selectedBrowser.getAttribute("usercontextid")
-          );
-        } else {
-          this.userContextId = 0;
-        }
-      },
-      true
-    );
+    this.addEventListener("focus", (event) => {
+      this.attachController();
+      if (window.gBrowser && window.gBrowser.selectedBrowser.hasAttribute("usercontextid")) {
+        this.userContextId = parseInt(window.gBrowser.selectedBrowser.getAttribute("usercontextid"));
+      } else {
+        this.userContextId = 0;
+      }
+    }, true);
 
-    this.addEventListener(
-      "blur",
-      event => {
-        if (!this._dontBlur) {
-          if (this.forceComplete && this.mController.matchCount >= 1) {
-            // mousemove sets selected index. Don't blindly use that selected
-            // index in this blur handler since if the popup is open you can
-            // easily "select" another match just by moving the mouse over it.
-            let filledVal = this.value.replace(/.+ >> /, "").toLowerCase();
-            let selectedVal = null;
-            if (this.popup.selectedIndex >= 0) {
-              selectedVal = this.mController.getFinalCompleteValueAt(
-                this.popup.selectedIndex
-              );
-            }
-            if (selectedVal && filledVal != selectedVal.toLowerCase()) {
-              for (let i = 0; i < this.mController.matchCount; i++) {
-                let matchVal = this.mController.getFinalCompleteValueAt(i);
-                if (matchVal.toLowerCase() == filledVal) {
-                  this.popup.selectedIndex = i;
-                  break;
-                }
+    this.addEventListener("blur", (event) => {
+      if (!this._dontBlur) {
+        if (this.forceComplete && this.mController.matchCount >= 1) {
+          // mousemove sets selected index. Don't blindly use that selected
+          // index in this blur handler since if the popup is open you can
+          // easily "select" another match just by moving the mouse over it.
+          let filledVal = this.value.replace(/.+ >> /, "").toLowerCase();
+          let selectedVal = null;
+          if (this.popup.selectedIndex >= 0) {
+            selectedVal = this.mController.getFinalCompleteValueAt(
+              this.popup.selectedIndex);
+          }
+          if (selectedVal && filledVal != selectedVal.toLowerCase()) {
+            for (let i = 0; i < this.mController.matchCount; i++) {
+              let matchVal = this.mController.getFinalCompleteValueAt(i);
+              if (matchVal.toLowerCase() == filledVal) {
+                this.popup.selectedIndex = i;
+                break;
               }
             }
-            this.mController.handleEnter(false);
           }
-          if (!this.ignoreBlurWhileSearching) this.detachController();
+          this.mController.handleEnter(false);
         }
-      },
-      true
-    );
+        if (!this.ignoreBlurWhileSearching)
+          this.detachController();
+      }
+    }, true);
+
   }
   disconnectedCallback() {
     this.inputField.controllers.removeController(this._pasteController);
@@ -172,16 +143,12 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       popup.setAttribute("autogenerated", "true");
       popup.setAttribute("noautofocus", "true");
 
-      let popupset = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "popupset"
-      );
+      let popupset = document.getAnonymousElementByAttribute(this, "anonid", "popupset");
       popupset.appendChild(popup);
     }
     popup.mInput = this;
 
-    return (this._popup = popup);
+    return this._popup = popup;
   }
 
   get controller() {
@@ -198,53 +165,53 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   }
 
   set disableAutoComplete(val) {
-    this.setAttribute("disableautocomplete", val);
+    this.setAttribute('disableautocomplete', val);
     return val;
   }
 
   get disableAutoComplete() {
-    return this.getAttribute("disableautocomplete") == "true";
+    return this.getAttribute('disableautocomplete') == 'true';
   }
 
   set completeDefaultIndex(val) {
-    this.setAttribute("completedefaultindex", val);
+    this.setAttribute('completedefaultindex', val);
     return val;
   }
 
   get completeDefaultIndex() {
-    return this.getAttribute("completedefaultindex") == "true";
+    return this.getAttribute('completedefaultindex') == 'true';
   }
 
   set completeSelectedIndex(val) {
-    this.setAttribute("completeselectedindex", val);
+    this.setAttribute('completeselectedindex', val);
     return val;
   }
 
   get completeSelectedIndex() {
-    return this.getAttribute("completeselectedindex") == "true";
+    return this.getAttribute('completeselectedindex') == 'true';
   }
 
   set forceComplete(val) {
-    this.setAttribute("forcecomplete", val);
+    this.setAttribute('forcecomplete', val);
     return val;
   }
 
   get forceComplete() {
-    return this.getAttribute("forcecomplete") == "true";
+    return this.getAttribute('forcecomplete') == 'true';
   }
 
   set minResultsForPopup(val) {
-    this.setAttribute("minresultsforpopup", val);
+    this.setAttribute('minresultsforpopup', val);
     return val;
   }
 
   get minResultsForPopup() {
-    var m = parseInt(this.getAttribute("minresultsforpopup"));
+    var m = parseInt(this.getAttribute('minresultsforpopup'));
     return isNaN(m) ? 1 : m;
   }
 
   set timeout(val) {
-    this.setAttribute("timeout", val);
+    this.setAttribute('timeout', val);
     return val;
   }
 
@@ -260,12 +227,12 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   }
 
   set searchParam(val) {
-    this.setAttribute("autocompletesearchparam", val);
+    this.setAttribute('autocompletesearchparam', val);
     return val;
   }
 
   get searchParam() {
-    return this.getAttribute("autocompletesearchparam") || "";
+    return this.getAttribute('autocompletesearchparam') || '';
   }
 
   get searchCount() {
@@ -275,10 +242,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
 
   get PrivateBrowsingUtils() {
     let module = {};
-    ChromeUtils.import(
-      "resource://gre/modules/PrivateBrowsingUtils.jsm",
-      module
-    );
+    ChromeUtils.import("resource://gre/modules/PrivateBrowsingUtils.jsm", module);
     Object.defineProperty(this, "PrivateBrowsingUtils", {
       configurable: true,
       enumerable: true,
@@ -293,7 +257,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   }
 
   get noRollupOnCaretMove() {
-    return this.popup.getAttribute("norolluponanchor") == "true";
+    return this.popup.getAttribute('norolluponanchor') == 'true'
   }
 
   set textValue(val) {
@@ -328,21 +292,23 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   }
 
   set crop(val) {
-    this.setAttribute("crop", val);
+    this.setAttribute('crop', val);
     return val;
   }
 
   get crop() {
-    return this.getAttribute("crop");
+    return this.getAttribute('crop');
   }
 
   set open(val) {
-    if (val) this.showHistoryPopup();
-    else this.closePopup();
+    if (val)
+      this.showHistoryPopup();
+    else
+      this.closePopup();
   }
 
   get open() {
-    return this.getAttribute("open") == "true";
+    return this.getAttribute('open') == 'true';
   }
 
   set value(val) {
@@ -357,7 +323,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.valueIsTyped = false;
     this.inputField.value = val;
 
-    if (typeof this.formatValue == "function") this.formatValue();
+    if (typeof this.formatValue == "function")
+      this.formatValue();
 
     this.mIgnoreInput = false;
     var event = document.createEvent("Events");
@@ -369,69 +336,67 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   get value() {
     if (typeof this.onBeforeValueGet == "function") {
       var result = this.onBeforeValueGet();
-      if (result) return result.value;
+      if (result)
+        return result.value;
     }
     return this.inputField.value;
   }
 
   get focused() {
-    return this.getAttribute("focused") == "true";
+    return this.getAttribute('focused') == 'true';
   }
 
   set maxRows(val) {
-    this.setAttribute("maxrows", val);
+    this.setAttribute('maxrows', val);
     return val;
   }
 
   get maxRows() {
-    return parseInt(this.getAttribute("maxrows")) || 0;
+    return parseInt(this.getAttribute('maxrows')) || 0;
   }
 
   set tabScrolling(val) {
-    this.setAttribute("tabscrolling", val);
+    this.setAttribute('tabscrolling', val);
     return val;
   }
 
   get tabScrolling() {
-    return this.getAttribute("tabscrolling") == "true";
+    return this.getAttribute('tabscrolling') == 'true';
   }
 
   set ignoreBlurWhileSearching(val) {
-    this.setAttribute("ignoreblurwhilesearching", val);
+    this.setAttribute('ignoreblurwhilesearching', val);
     return val;
   }
 
   get ignoreBlurWhileSearching() {
-    return this.getAttribute("ignoreblurwhilesearching") == "true";
+    return this.getAttribute('ignoreblurwhilesearching') == 'true';
   }
 
   set disableKeyNavigation(val) {
-    this.setAttribute("disablekeynavigation", val);
+    this.setAttribute('disablekeynavigation', val);
     return val;
   }
 
   get disableKeyNavigation() {
-    return this.getAttribute("disablekeynavigation") == "true";
+    return this.getAttribute('disablekeynavigation') == 'true';
   }
 
   set highlightNonMatches(val) {
-    this.setAttribute("highlightnonmatches", val);
+    this.setAttribute('highlightnonmatches', val);
     return val;
   }
 
   get highlightNonMatches() {
-    return this.getAttribute("highlightnonmatches") == "true";
+    return this.getAttribute('highlightnonmatches') == 'true';
   }
   getSearchAt(aIndex) {
     this.initSearchNames();
     return this.mSearchNames[aIndex];
   }
   setTextValueWithReason(aValue, aReason) {
-    if (
-      aReason ==
-      Components.interfaces.nsIAutoCompleteInput
-        .TEXTVALUE_REASON_COMPLETEDEFAULT
-    ) {
+    if (aReason == Components.interfaces.nsIAutoCompleteInput
+      .TEXTVALUE_REASON_COMPLETEDEFAULT) {
       this._disableTrim = true;
     }
     this.textValue = aValue;
@@ -443,18 +408,22 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   onSearchBegin() {
     if (this.popup && typeof this.popup.onSearchBegin == "function")
       this.popup.onSearchBegin();
-    if (this._searchBeginHandler) this._searchBeginHandler();
+    if (this._searchBeginHandler)
+      this._searchBeginHandler();
   }
   onSearchComplete() {
-    if (this.mController.matchCount == 0) this.setAttribute("nomatch", "true");
-    else this.removeAttribute("nomatch");
+    if (this.mController.matchCount == 0)
+      this.setAttribute("nomatch", "true");
+    else
+      this.removeAttribute("nomatch");
 
     if (this.ignoreBlurWhileSearching && !this.focused) {
       this.handleEnter();
       this.detachController();
     }
 
-    if (this._searchCompleteHandler) this._searchCompleteHandler();
+    if (this._searchCompleteHandler)
+      this._searchCompleteHandler();
   }
   onTextEntered(event) {
     let rv = false;
@@ -464,17 +433,20 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     return rv;
   }
   onTextReverted() {
-    if (this._textRevertedHandler) return this._textRevertedHandler();
+    if (this._textRevertedHandler)
+      return this._textRevertedHandler();
     return false;
   }
   attachController() {
     this.mController.input = this;
   }
   detachController() {
-    if (this.mController.input == this) this.mController.input = null;
+    if (this.mController.input == this)
+      this.mController.input = null;
   }
   openPopup() {
-    if (this.focused) this.popup.openAutocompletePopup(this, this);
+    if (this.focused)
+      this.popup.openAutocompletePopup(this, this);
   }
   closePopup() {
     this.popup.closePopup();
@@ -490,21 +462,21 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.maxRows = this.maxDropMarkerRows;
 
     // Ensure that we have focus.
-    if (!this.focused) this.focus();
+    if (!this.focused)
+      this.focus();
     this.attachController();
     this.mController.startSearch("");
   }
   toggleHistoryPopup() {
-    if (!this.popup.popupOpen) this.showHistoryPopup();
-    else this.closePopup();
+    if (!this.popup.popupOpen)
+      this.showHistoryPopup();
+    else
+      this.closePopup();
   }
   initEventHandler(aEventType) {
     let handlerString = this.getAttribute("on" + aEventType);
     if (handlerString) {
-      return new Function("eventType", "param", handlerString).bind(
-        this,
-        aEventType
-      );
+      return (new Function("eventType", "param", handlerString)).bind(this, aEventType);
     }
     return null;
   }
@@ -512,7 +484,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     return this.handleKeyPress(aEvent);
   }
   handleKeyPress(aEvent) {
-    if (aEvent.target.localName != "textbox") return true; // Let child buttons of autocomplete take input
+    if (aEvent.target.localName != "textbox")
+      return true; // Let child buttons of autocomplete take input
 
     // Re: urlbarDeferred, see the comment in urlbarBindings.xml.
     if (aEvent.defaultPrevented && !aEvent.urlbarDeferred) {
@@ -524,9 +497,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     // Catch any keys that could potentially move the caret. Ctrl can be
     // used in combination with these keys on Windows and Linux; and Alt
     // can be used on OS X, so make sure the unused one isn't used.
-    let metaKey = /Mac/.test(navigator.platform)
-      ? aEvent.ctrlKey
-      : aEvent.altKey;
+    let metaKey = /Mac/.test(navigator.platform) ? aEvent.ctrlKey : aEvent.altKey;
     if (!this.disableKeyNavigation && !metaKey) {
       switch (aEvent.keyCode) {
         case KeyEvent.DOM_VK_LEFT:
@@ -542,9 +513,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       switch (aEvent.keyCode) {
         case KeyEvent.DOM_VK_TAB:
           if (this.tabScrolling && this.popup.popupOpen)
-            cancel = this.mController.handleKeyNavigation(
-              aEvent.shiftKey ? KeyEvent.DOM_VK_UP : KeyEvent.DOM_VK_DOWN
-            );
+            cancel = this.mController.handleKeyNavigation(aEvent.shiftKey ?
+              KeyEvent.DOM_VK_UP :
+              KeyEvent.DOM_VK_DOWN);
           else if (this.forceComplete && this.mController.matchCount >= 1)
             this.mController.handleTab();
           break;
@@ -566,7 +537,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       case KeyEvent.DOM_VK_RETURN:
         if (/Mac/.test(navigator.platform)) {
           // Prevent the default action, since it will beep on Mac
-          if (aEvent.metaKey) aEvent.preventDefault();
+          if (aEvent.metaKey)
+            aEvent.preventDefault();
         }
         if (this.popup.selectedIndex >= 0) {
           this._selectionDetails = {
@@ -589,7 +561,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
         break;
       case KeyEvent.DOM_VK_DOWN:
       case KeyEvent.DOM_VK_UP:
-        if (aEvent.altKey) this.toggleHistoryPopup();
+        if (aEvent.altKey)
+          this.toggleHistoryPopup();
         break;
       case KeyEvent.DOM_VK_F4:
         if (!/Mac/.test(navigator.platform)) {
@@ -614,8 +587,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   initSearchNames() {
     if (!this.mSearchNames) {
       var names = this.getAttribute("autocompletesearch");
-      if (!names) this.mSearchNames = [];
-      else this.mSearchNames = names.split(" ");
+      if (!names)
+        this.mSearchNames = [];
+      else
+        this.mSearchNames = names.split(" ");
     }
   }
   _focus() {
@@ -624,7 +599,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this._dontBlur = false;
   }
   resetActionType() {
-    if (this.mIgnoreInput) return;
+    if (this.mIgnoreInput)
+      return;
     this.removeAttribute("actiontype");
   }
   onInput(aEvent) {
@@ -635,4 +611,3 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.resetActionType();
   }
 }
-customElements.define("firefox-autocomplete", FirefoxAutocomplete);

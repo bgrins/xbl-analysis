@@ -1,28 +1,26 @@
 class FirefoxMenuitemBase extends FirefoxBasetext {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
+
   }
 
   set value(val) {
-    this.setAttribute("value", val);
+    this.setAttribute('value', val);
     return val;
   }
 
   get value() {
-    return this.getAttribute("value");
+    return this.getAttribute('value');
   }
 
   get selected() {
-    return this.getAttribute("selected") == "true";
+    return this.getAttribute('selected') == 'true';
   }
 
   get control() {
     var parent = this.parentNode;
-    if (
-      parent &&
-      parent.parentNode instanceof
-        Components.interfaces.nsIDOMXULSelectControlElement
-    )
+    if (parent &&
+      parent.parentNode instanceof Components.interfaces.nsIDOMXULSelectControlElement)
       return parent.parentNode;
     return null;
   }
@@ -35,4 +33,3 @@ class FirefoxMenuitemBase extends FirefoxBasetext {
     return null;
   }
 }
-customElements.define("firefox-menuitem-base", FirefoxMenuitemBase);

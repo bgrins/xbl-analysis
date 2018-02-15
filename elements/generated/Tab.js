@@ -1,6 +1,6 @@
 class FirefoxTab extends FirefoxBasetext {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
         <xul:image class="tab-icon" inherits="validate,src=image" role="presentation"></xul:image>
@@ -10,11 +10,11 @@ class FirefoxTab extends FirefoxBasetext {
 
     this.arrowKeysShouldWrap = /Mac/.test(navigator.platform);
 
-    this.addEventListener("mousedown", event => {
-      if (this.disabled) return;
+    this.addEventListener("mousedown", (event) => {
+      if (this.disabled)
+        return;
 
-      if (this != this.parentNode.selectedItem) {
-        // Not selected yet
+      if (this != this.parentNode.selectedItem) { // Not selected yet
         let stopwatchid = this.parentNode.getAttribute("stopwatchid");
         if (stopwatchid) {
           this.TelemetryStopwatch.start(stopwatchid);
@@ -26,7 +26,7 @@ class FirefoxTab extends FirefoxBasetext {
 
         var isTabFocused = false;
         try {
-          isTabFocused = document.commandDispatcher.focusedElement == this;
+          isTabFocused = (document.commandDispatcher.focusedElement == this);
         } catch (e) {}
 
         // Set '-moz-user-focus' to 'ignore' so that PostHandleEvent() can't
@@ -47,47 +47,42 @@ class FirefoxTab extends FirefoxBasetext {
       // Only a click on an already selected tab should focus the tab itself.
     });
 
-    this.addEventListener("keydown", event => {
+    this.addEventListener("keydown", (event) => {
       var direction = window.getComputedStyle(this.parentNode).direction;
-      this.parentNode.advanceSelectedTab(
-        direction == "ltr" ? -1 : 1,
-        this.arrowKeysShouldWrap
-      );
+      this.parentNode.advanceSelectedTab(direction == "ltr" ? -1 : 1, this.arrowKeysShouldWrap);
     });
 
-    this.addEventListener("keydown", event => {
+    this.addEventListener("keydown", (event) => {
       var direction = window.getComputedStyle(this.parentNode).direction;
-      this.parentNode.advanceSelectedTab(
-        direction == "ltr" ? 1 : -1,
-        this.arrowKeysShouldWrap
-      );
+      this.parentNode.advanceSelectedTab(direction == "ltr" ? 1 : -1, this.arrowKeysShouldWrap);
     });
 
-    this.addEventListener("keydown", event => {
+    this.addEventListener("keydown", (event) => {
       this.parentNode.advanceSelectedTab(-1, this.arrowKeysShouldWrap);
     });
 
-    this.addEventListener("keydown", event => {
+    this.addEventListener("keydown", (event) => {
       this.parentNode.advanceSelectedTab(1, this.arrowKeysShouldWrap);
     });
 
-    this.addEventListener("keydown", event => {
+    this.addEventListener("keydown", (event) => {
       this.parentNode._selectNewTab(this.parentNode.childNodes[0]);
     });
 
-    this.addEventListener("keydown", event => {
+    this.addEventListener("keydown", (event) => {
       var tabs = this.parentNode.childNodes;
       this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
     });
+
   }
 
   set value(val) {
-    this.setAttribute("value", val);
+    this.setAttribute('value', val);
     return val;
   }
 
   get value() {
-    return this.getAttribute("value");
+    return this.getAttribute('value');
   }
 
   get control() {
@@ -98,7 +93,7 @@ class FirefoxTab extends FirefoxBasetext {
   }
 
   get selected() {
-    return this.getAttribute("selected") == "true";
+    return this.getAttribute('selected') == 'true';
   }
 
   set _selected(val) {
@@ -114,12 +109,12 @@ class FirefoxTab extends FirefoxBasetext {
   }
 
   set linkedPanel(val) {
-    this.setAttribute("linkedpanel", val);
+    this.setAttribute('linkedpanel', val);
     return val;
   }
 
   get linkedPanel() {
-    return this.getAttribute("linkedpanel");
+    return this.getAttribute('linkedpanel')
   }
 
   get TelemetryStopwatch() {
@@ -134,4 +129,3 @@ class FirefoxTab extends FirefoxBasetext {
     return module.TelemetryStopwatch;
   }
 }
-customElements.define("firefox-tab", FirefoxTab);

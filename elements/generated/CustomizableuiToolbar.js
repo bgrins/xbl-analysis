@@ -1,5 +1,6 @@
 class FirefoxCustomizableuiToolbar extends XULElement {
   connectedCallback() {
+
     this.overflowedDuringConstruction = null;
 
     let scope = {};
@@ -28,37 +29,40 @@ class FirefoxCustomizableuiToolbar extends XULElement {
 
     // pass the current set of children for comparison with placements:
     let children = Array.from(this.childNodes)
-      .filter(
-        node => node.getAttribute("skipintoolbarset") != "true" && node.id
-      )
+      .filter(node => node.getAttribute("skipintoolbarset") != "true" && node.id)
       .map(node => node.id);
     CustomizableUI.registerToolbarNode(this, children);
+
   }
 
   set toolbarName(val) {
-    this.setAttribute("toolbarname", val);
+    this.setAttribute('toolbarname', val);
     return val;
   }
 
   get toolbarName() {
-    return this.getAttribute("toolbarname");
+    return this.getAttribute('toolbarname');
   }
 
   get customizationTarget() {
-    if (this._customizationTarget) return this._customizationTarget;
+    if (this._customizationTarget)
+      return this._customizationTarget;
 
     let id = this.getAttribute("customizationtarget");
-    if (id) this._customizationTarget = document.getElementById(id);
+    if (id)
+      this._customizationTarget = document.getElementById(id);
 
     if (this._customizationTarget)
       this._customizationTarget.insertItem = this.insertItem.bind(this);
-    else this._customizationTarget = this;
+    else
+      this._customizationTarget = this;
 
     return this._customizationTarget;
   }
 
   get toolbox() {
-    if (this._toolbox) return this._toolbox;
+    if (this._toolbox)
+      return this._toolbox;
 
     let toolboxId = this.getAttribute("toolboxid");
     if (toolboxId) {
@@ -68,11 +72,8 @@ class FirefoxCustomizableuiToolbar extends XULElement {
       }
     }
 
-    if (
-      !this._toolbox &&
-      this.parentNode &&
-      this.parentNode.localName == "toolbox"
-    ) {
+    if (!this._toolbox && this.parentNode &&
+      this.parentNode.localName == "toolbox") {
       this._toolbox = this.parentNode;
     }
 
@@ -106,9 +107,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
       }
 
       let currentIds = this.currentSet.split(",");
-      let removedIds = currentIds.filter(
-        id => !newIds.includes(id) && !newVal.includes(id)
-      );
+      let removedIds = currentIds.filter(id => !newIds.includes(id) && !newVal.includes(id));
       for (let removedId of removedIds) {
         CustomizableUI.removeWidgetFromArea(removedId);
       }
@@ -120,9 +119,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
   get currentSet() {
     let currentWidgets = new Set();
     for (let node of this.customizationTarget.children) {
-      let realNode = node.localName == "toolbarpaletteitem"
-        ? node.firstChild
-        : node;
+      let realNode = node.localName == "toolbarpaletteitem" ? node.firstChild : node;
       if (realNode.getAttribute("skipintoolbarset") != "true") {
         currentWidgets.add(realNode.id);
       }
@@ -131,9 +128,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
       let overflowTarget = this.getAttribute("overflowtarget");
       let overflowList = this.ownerDocument.getElementById(overflowTarget);
       for (let node of overflowList.children) {
-        let realNode = node.localName == "toolbarpaletteitem"
-          ? node.firstChild
-          : node;
+        let realNode = node.localName == "toolbarpaletteitem" ? node.firstChild : node;
         if (realNode.getAttribute("skipintoolbarset") != "true") {
           currentWidgets.add(realNode.id);
         }
@@ -160,12 +155,8 @@ class FirefoxCustomizableuiToolbar extends XULElement {
   }
   insertItem(aId, aBeforeElt, aWrapper) {
     if (aWrapper) {
-      Cu.reportError(
-        "Can't insert " +
-          aId +
-          ": using insertItem " +
-          "no longer supports wrapper elements."
-      );
+      Cu.reportError("Can't insert " + aId + ": using insertItem " +
+        "no longer supports wrapper elements.");
       return null;
     }
 
@@ -174,15 +165,9 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     if (aBeforeElt) {
       let beforeInfo = CustomizableUI.getPlacementOfWidget(aBeforeElt.id);
       if (beforeInfo.area != this.id) {
-        Cu.reportError(
-          "Can't insert " +
-            aId +
-            " before " +
-            aBeforeElt.id +
-            " which isn't in this area (" +
-            this.id +
-            ")."
-        );
+        Cu.reportError("Can't insert " + aId + " before " +
+          aBeforeElt.id + " which isn't in this area (" +
+          this.id + ").");
         return null;
       }
       pos = beforeInfo.position;
@@ -192,7 +177,3 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     return this.ownerDocument.getElementById(aId);
   }
 }
-customElements.define(
-  "firefox-customizableui-toolbar",
-  FirefoxCustomizableuiToolbar
-);

@@ -1,5 +1,6 @@
 class FirefoxNotificationbox extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:stack inherits="hidden=notificationshidden" class="notificationbox-stack">
         <xul:spacer></xul:spacer>
@@ -36,30 +37,29 @@ class FirefoxNotificationbox extends XULElement {
 
     this._animating = false;
 
-    this.addEventListener("transitionend", event => {
-      if (
-        event.target.localName == "notification" &&
-        event.propertyName == "margin-top"
-      )
+    this.addEventListener("transitionend", (event) => {
+      if (event.target.localName == "notification" &&
+        event.propertyName == "margin-top")
         this._finishAnimation();
     });
+
   }
 
   get _allowAnimation() {
-    var prefs = Components.classes[
-      "@mozilla.org/preferences-service;1"
-    ].getService(Components.interfaces.nsIPrefBranch);
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+      .getService(Components.interfaces.nsIPrefBranch);
     return prefs.getBoolPref("toolkit.cosmeticAnimations.enabled");
   }
 
   set notificationsHidden(val) {
-    if (val) this.setAttribute("notificationshidden", true);
+    if (val)
+      this.setAttribute("notificationshidden", true);
     else this.removeAttribute("notificationshidden");
     return val;
   }
 
   get notificationsHidden() {
-    return this.getAttribute("notificationshidden") == "true";
+    return this.getAttribute('notificationshidden') == 'true';
   }
 
   get allNotifications() {
@@ -75,18 +75,9 @@ class FirefoxNotificationbox extends XULElement {
     }
     return null;
   }
-  appendNotification(
-    aLabel,
-    aValue,
-    aImage,
-    aPriority,
-    aButtons,
-    aEventCallback
-  ) {
-    if (
-      aPriority < this.PRIORITY_INFO_LOW ||
-      aPriority > this.PRIORITY_CRITICAL_BLOCK
-    )
+  appendNotification(aLabel, aValue, aImage, aPriority, aButtons, aEventCallback) {
+    if (aPriority < this.PRIORITY_INFO_LOW ||
+      aPriority > this.PRIORITY_CRITICAL_BLOCK)
       throw "Invalid notification priority " + aPriority;
 
     // check for where the notification should be inserted according to
@@ -94,22 +85,21 @@ class FirefoxNotificationbox extends XULElement {
     var notifications = this.allNotifications;
     var insertPos = null;
     for (var n = notifications.length - 1; n >= 0; n--) {
-      if (notifications[n].priority < aPriority) break;
+      if (notifications[n].priority < aPriority)
+        break;
       insertPos = notifications[n];
     }
 
-    const XULNS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var newitem = document.createElementNS(XULNS, "notification");
     // Can't use instanceof in case this was created from a different document:
-    let labelIsDocFragment =
-      aLabel &&
-      typeof aLabel == "object" &&
-      aLabel.nodeType &&
+    let labelIsDocFragment = aLabel && typeof aLabel == "object" && aLabel.nodeType &&
       aLabel.nodeType == aLabel.DOCUMENT_FRAGMENT_NODE;
-    if (!labelIsDocFragment) newitem.setAttribute("label", aLabel);
+    if (!labelIsDocFragment)
+      newitem.setAttribute("label", aLabel);
     newitem.setAttribute("value", aValue);
-    if (aImage) newitem.setAttribute("image", aImage);
+    if (aImage)
+      newitem.setAttribute("image", aImage);
     newitem.eventCallback = aEventCallback;
 
     if (aButtons) {
@@ -127,10 +117,8 @@ class FirefoxNotificationbox extends XULElement {
           buttonElem.setAttribute("accesskey", button.accessKey);
         if (typeof button.type == "string") {
           buttonElem.setAttribute("type", button.type);
-          if (
-            (button.type == "menu-button" || button.type == "menu") &&
-            "popup" in button
-          ) {
+          if ((button.type == "menu-button" || button.type == "menu") &&
+            "popup" in button) {
             buttonElem.appendChild(button.popup);
             delete button.popup;
           }
@@ -139,14 +127,16 @@ class FirefoxNotificationbox extends XULElement {
         }
         buttonElem.classList.add("notification-button");
 
-        if (button.isDefault || (b == 0 && !("isDefault" in button)))
+        if (button.isDefault ||
+          b == 0 && !("isDefault" in button))
           defaultElem = buttonElem;
 
         newitem.appendChild(buttonElem);
         buttonElem.buttonInfo = button;
       }
 
-      if (defaultElem) defaultElem.classList.add("notification-button-default");
+      if (defaultElem)
+        defaultElem.classList.add("notification-button-default");
     }
 
     newitem.setAttribute("priority", aPriority);
@@ -154,7 +144,8 @@ class FirefoxNotificationbox extends XULElement {
       newitem.setAttribute("type", "critical");
     else if (aPriority <= this.PRIORITY_INFO_HIGH)
       newitem.setAttribute("type", "info");
-    else newitem.setAttribute("type", "warning");
+    else
+      newitem.setAttribute("type", "warning");
 
     if (!insertPos) {
       newitem.style.position = "fixed";
@@ -166,12 +157,12 @@ class FirefoxNotificationbox extends XULElement {
     // Can only insert the document fragment after the item has been created because
     // otherwise the XBL structure isn't there yet:
     if (labelIsDocFragment) {
-      document
-        .getAnonymousElementByAttribute(newitem, "anonid", "messageText")
+      document.getAnonymousElementByAttribute(newitem, "anonid", "messageText")
         .appendChild(aLabel);
     }
 
-    if (!insertPos) this._showNotification(newitem, true);
+    if (!insertPos)
+      this._showNotification(newitem, true);
 
     // Fire event for accessibility APIs
     var event = document.createEvent("Events");
@@ -188,13 +179,13 @@ class FirefoxNotificationbox extends XULElement {
     return aItem;
   }
   _removeNotificationElement(aChild) {
-    if (aChild.eventCallback) aChild.eventCallback("removed");
+    if (aChild.eventCallback)
+      aChild.eventCallback("removed");
     this.removeChild(aChild);
 
     // make sure focus doesn't get lost (workaround for bug 570835)
-    let fm = Components.classes["@mozilla.org/focus-manager;1"].getService(
-      Components.interfaces.nsIFocusManager
-    );
+    let fm = Components.classes["@mozilla.org/focus-manager;1"]
+      .getService(Components.interfaces.nsIFocusManager);
     if (!fm.getFocusedElementForWindow(window, false, {}))
       fm.moveFocus(window, this, fm.MOVEFOCUS_FORWARD, 0);
   }
@@ -204,8 +195,10 @@ class FirefoxNotificationbox extends XULElement {
   removeAllNotifications(aImmediate) {
     var notifications = this.allNotifications;
     for (var n = notifications.length - 1; n >= 0; n--) {
-      if (aImmediate) this._removeNotificationElement(notifications[n]);
-      else this.removeNotification(notifications[n]);
+      if (aImmediate)
+        this._removeNotificationElement(notifications[n]);
+      else
+        this.removeNotification(notifications[n]);
     }
     this.currentNotification = null;
 
@@ -215,13 +208,15 @@ class FirefoxNotificationbox extends XULElement {
     // the user toggled `toolkit.cosmeticAnimations.enabled` to false
     // and called this method immediately after an animated notification
     // displayed (although this case isn't very likely).
-    if (aImmediate || !this._allowAnimation) this._finishAnimation();
+    if (aImmediate || !this._allowAnimation)
+      this._finishAnimation();
   }
   removeTransientNotifications() {
     var notifications = this.allNotifications;
     for (var n = notifications.length - 1; n >= 0; n--) {
       var notification = notifications[n];
-      if (notification.persistence) notification.persistence--;
+      if (notification.persistence)
+        notification.persistence--;
       else if (Date.now() > notification.timeout)
         this.removeNotification(notification);
     }
@@ -230,7 +225,8 @@ class FirefoxNotificationbox extends XULElement {
     this._finishAnimation();
 
     var height = aNotification.boxObject.height;
-    var skipAnimation = aSkipAnimation || height == 0 || !this._allowAnimation;
+    var skipAnimation = aSkipAnimation || height == 0 ||
+      !this._allowAnimation;
     aNotification.classList.toggle("animated", !skipAnimation);
 
     if (aSlideIn) {
@@ -248,7 +244,7 @@ class FirefoxNotificationbox extends XULElement {
       this._closedNotification = aNotification;
       var notifications = this.allNotifications;
       var idx = notifications.length - 1;
-      this.currentNotification = idx >= 0 ? notifications[idx] : null;
+      this.currentNotification = (idx >= 0) ? notifications[idx] : null;
 
       if (skipAnimation) {
         this._removeNotificationElement(this._closedNotification);
@@ -274,23 +270,17 @@ class FirefoxNotificationbox extends XULElement {
     }
   }
   _setBlockingState(aNotification) {
-    var isblock =
-      aNotification && aNotification.priority == this.PRIORITY_CRITICAL_BLOCK;
+    var isblock = aNotification &&
+      aNotification.priority == this.PRIORITY_CRITICAL_BLOCK;
     var canvas = this._blockingCanvas;
     if (isblock) {
       if (!canvas)
-        canvas = document.createElementNS(
-          "http://www.w3.org/1999/xhtml",
-          "canvas"
-        );
-      const XULNS =
-        "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+        canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "canvas");
+      const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
       let content = this.firstChild;
-      if (
-        !content ||
+      if (!content ||
         content.namespaceURI != XULNS ||
-        content.localName != "browser"
-      )
+        content.localName != "browser")
         return;
 
       var width = content.boxObject.width;
@@ -306,29 +296,22 @@ class FirefoxNotificationbox extends XULElement {
 
       var bgcolor = "white";
       try {
-        var prefService = Components.classes[
-          "@mozilla.org/preferences-service;1"
-        ].getService(Components.interfaces.nsIPrefBranch);
+        var prefService = Components.classes["@mozilla.org/preferences-service;1"].
+        getService(Components.interfaces.nsIPrefBranch);
         bgcolor = prefService.getCharPref("browser.display.background_color");
 
         var win = content.contentWindow;
         var context = canvas.getContext("2d");
         context.globalAlpha = 0.5;
-        context.drawWindow(
-          win,
-          win.scrollX,
-          win.scrollY,
-          width,
-          height,
-          bgcolor
-        );
+        context.drawWindow(win, win.scrollX, win.scrollY,
+          width, height, bgcolor);
       } catch (ex) {}
     } else if (canvas) {
       canvas.remove();
       this._blockingCanvas = null;
       let content = this.firstChild;
-      if (content) content.collapsed = false;
+      if (content)
+        content.collapsed = false;
     }
   }
 }
-customElements.define("firefox-notificationbox", FirefoxNotificationbox);

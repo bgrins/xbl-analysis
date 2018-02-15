@@ -1,44 +1,45 @@
 class FirefoxBasetext extends FirefoxBasecontrol {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this.labelElement = "";
+
   }
 
   set label(val) {
-    this.setAttribute("label", val);
+    this.setAttribute('label', val);
     return val;
   }
 
   get label() {
-    return this.getAttribute("label");
+    return this.getAttribute('label');
   }
 
   set crop(val) {
-    this.setAttribute("crop", val);
+    this.setAttribute('crop', val);
     return val;
   }
 
   get crop() {
-    return this.getAttribute("crop");
+    return this.getAttribute('crop');
   }
 
   set image(val) {
-    this.setAttribute("image", val);
+    this.setAttribute('image', val);
     return val;
   }
 
   get image() {
-    return this.getAttribute("image");
+    return this.getAttribute('image');
   }
 
   set command(val) {
-    this.setAttribute("command", val);
+    this.setAttribute('command', val);
     return val;
   }
 
   get command() {
-    return this.getAttribute("command");
+    return this.getAttribute('command');
   }
 
   set accessKey(val) {
@@ -53,9 +54,6 @@ class FirefoxBasetext extends FirefoxBasecontrol {
   }
 
   get accessKey() {
-    return this.labelElement
-      ? this.labelElement.accessKey
-      : this.getAttribute("accesskey");
+    return this.labelElement ? this.labelElement.accessKey : this.getAttribute("accesskey");
   }
 }
-customElements.define("firefox-basetext", FirefoxBasetext);

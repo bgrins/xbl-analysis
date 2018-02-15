@@ -1,10 +1,10 @@
 class FirefoxFindbarTextbox extends FirefoxTextbox {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._findbar = null;
 
-    this.addEventListener("input", event => {
+    this.addEventListener("input", (event) => {
       // We should do nothing during composition.  E.g., composing string
       // before converting may matches a forward word of expected word.
       // After that, even if user converts the composition string to the
@@ -24,9 +24,9 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
       this.findbar._find(this.value);
     });
 
-    this.addEventListener("keypress", event => {
-      let shouldHandle =
-        !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey;
+    this.addEventListener("keypress", (event) => {
+      let shouldHandle = !event.altKey && !event.ctrlKey &&
+        !event.metaKey && !event.shiftKey;
 
       switch (event.keyCode) {
         case KeyEvent.DOM_VK_RETURN:
@@ -50,21 +50,21 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
       }
     });
 
-    this.addEventListener("blur", event => {
+    this.addEventListener("blur", (event) => {
       let findbar = this.findbar;
       // Note: This code used to remove the selection
       // if it matched an editable.
       findbar.browser.finder.enableSelection();
     });
 
-    this.addEventListener("focus", event => {
+    this.addEventListener("focus", (event) => {
       if (/Mac/.test(navigator.platform)) {
         let findbar = this.findbar;
         findbar._onFindFieldFocus();
       }
     });
 
-    this.addEventListener("compositionstart", event => {
+    this.addEventListener("compositionstart", (event) => {
       // Don't close the find toolbar while IME is composing.
       let findbar = this.findbar;
       findbar._isIMEComposing = true;
@@ -74,36 +74,37 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
       }
     });
 
-    this.addEventListener("compositionend", event => {
+    this.addEventListener("compositionend", (event) => {
       let findbar = this.findbar;
       findbar._isIMEComposing = false;
       if (findbar._findMode != findbar.FIND_NORMAL)
         findbar._setFindCloseTimeout();
     });
 
-    this.addEventListener("dragover", event => {
+    this.addEventListener("dragover", (event) => {
       if (event.dataTransfer.types.includes("text/plain"))
         event.preventDefault();
     });
 
-    this.addEventListener("drop", event => {
+    this.addEventListener("drop", (event) => {
       let value = event.dataTransfer.getData("text/plain");
       this.value = value;
       this.findbar._find(value);
       event.stopPropagation();
       event.preventDefault();
     });
+
   }
 
   get findbar() {
-    return this._findbar
-      ? this._findbar
-      : (this._findbar = document.getBindingParent(this));
+    return this._findbar ?
+      this._findbar : this._findbar = document.getBindingParent(this);
   }
   _handleEnter(aEvent) {
     if (this.findbar._findMode == this.findbar.FIND_NORMAL) {
       let findString = this.findbar._findField;
-      if (!findString.value) return;
+      if (!findString.value)
+        return;
       if (aEvent.getModifierState("Accel")) {
         this.findbar.getElement("highlight").click();
         return;
@@ -115,10 +116,12 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
     }
   }
   _handleTab(aEvent) {
-    let shouldHandle = !aEvent.altKey && !aEvent.ctrlKey && !aEvent.metaKey;
-    if (shouldHandle && this.findbar._findMode != this.findbar.FIND_NORMAL) {
+    let shouldHandle = !aEvent.altKey && !aEvent.ctrlKey &&
+      !aEvent.metaKey;
+    if (shouldHandle &&
+      this.findbar._findMode != this.findbar.FIND_NORMAL) {
+
       this.findbar._finishFAYT(aEvent);
     }
   }
 }
-customElements.define("firefox-findbar-textbox", FirefoxFindbarTextbox);

@@ -1,4 +1,6 @@
 class FirefoxScalethumb extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-scalethumb", FirefoxScalethumb);

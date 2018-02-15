@@ -1,8 +1,11 @@
 class FirefoxDeck extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
 
   set selectedIndex(val) {
-    if (this.selectedIndex == val) return val;
+    if (this.selectedIndex == val)
+      return val;
     this.setAttribute("selectedIndex", val);
     var event = document.createEvent("Events");
     event.initEvent("select", true, true);
@@ -11,7 +14,7 @@ class FirefoxDeck extends XULElement {
   }
 
   get selectedIndex() {
-    return this.getAttribute("selectedIndex") || "0";
+    return this.getAttribute('selectedIndex') || '0'
   }
 
   set selectedPanel(val) {
@@ -26,4 +29,3 @@ class FirefoxDeck extends XULElement {
     return this.childNodes[this.selectedIndex];
   }
 }
-customElements.define("firefox-deck", FirefoxDeck);

@@ -13,6 +13,7 @@
   },
   "author": "",
   "dependencies": {
+    "js-beautify": "^1.7.5",
     "moment": "^2.19.1",
     "prettier": "^1.4.4",
     "request": "^2.81.0",

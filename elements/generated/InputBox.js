@@ -1,5 +1,6 @@
 class FirefoxInputBox extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <children></children>
       <xul:menupopup anonid="input-box-contextmenu" class="textbox-contextmenu" onpopupshowing="var input =
@@ -17,6 +18,7 @@ class FirefoxInputBox extends XULElement {
         <xul:menuitem label="FROM-DTD-selectAllCmd-label" accesskey="FROM-DTD-selectAllCmd-accesskey" cmd="cmd_selectAll"></xul:menuitem>
       </xul:menupopup>
     `;
+
   }
 
   _doPopupItemEnabling(popupNode) {
@@ -24,27 +26,21 @@ class FirefoxInputBox extends XULElement {
     for (var i = 0; i < children.length; i++) {
       var command = children[i].getAttribute("cmd");
       if (command) {
-        var controller = document.commandDispatcher.getControllerForCommand(
-          command
-        );
+        var controller = document.commandDispatcher.getControllerForCommand(command);
         var enabled = controller.isCommandEnabled(command);
-        if (enabled) children[i].removeAttribute("disabled");
-        else children[i].setAttribute("disabled", "true");
+        if (enabled)
+          children[i].removeAttribute("disabled");
+        else
+          children[i].setAttribute("disabled", "true");
       }
     }
   }
   _setMenuItemVisibility(anonid, visible) {
-    document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      anonid
-    ).hidden = !visible;
+    document.getAnonymousElementByAttribute(this, "anonid", anonid).
+    hidden = !visible;
   }
   doCommand(command) {
-    var controller = document.commandDispatcher.getControllerForCommand(
-      command
-    );
+    var controller = document.commandDispatcher.getControllerForCommand(command);
     controller.doCommand(command);
   }
 }
-customElements.define("firefox-input-box", FirefoxInputBox);

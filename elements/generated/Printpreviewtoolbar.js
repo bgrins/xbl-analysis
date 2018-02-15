@@ -1,6 +1,6 @@
 class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:button label="FROM-DTD-print-label" accesskey="FROM-DTD-print-accesskey" oncommand="this.parentNode.print();" icon="print"></xul:button>
       <xul:button anonid="pageSetup" label="FROM-DTD-pageSetup-label" accesskey="FROM-DTD-pageSetup-accesskey" oncommand="this.parentNode.doPageSetup();"></xul:button>
@@ -55,37 +55,17 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
 
     this.mPrintButton = document.getAnonymousNodes(this)[0];
 
-    this.mPageSetupButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "pageSetup"
-    );
+    this.mPageSetupButton = document.getAnonymousElementByAttribute(this, "anonid", "pageSetup");
 
-    this.mNavigateHomeButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "navigateHome"
-    );
+    this.mNavigateHomeButton = document.getAnonymousElementByAttribute(this, "anonid", "navigateHome");
 
-    this.mNavigatePreviousButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "navigatePrevious"
-    );
+    this.mNavigatePreviousButton = document.getAnonymousElementByAttribute(this, "anonid", "navigatePrevious");
 
     this.mPageTextBox = document.getAnonymousNodes(this)[5].childNodes[0];
 
-    this.mNavigateNextButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "navigateNext"
-    );
+    this.mNavigateNextButton = document.getAnonymousElementByAttribute(this, "anonid", "navigateNext");
 
-    this.mNavigateEndButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "navigateEnd"
-    );
+    this.mNavigateEndButton = document.getAnonymousElementByAttribute(this, "anonid", "navigateEnd");
 
     this.mTotalPages = document.getAnonymousNodes(this)[5].childNodes[2];
 
@@ -114,37 +94,30 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     this.mPPBrowser = null;
 
     this.mMessageManager = null;
+
   }
 
   initialize(aPPBrowser) {
-    let { Services } = ChromeUtils.import(
-      "resource://gre/modules/Services.jsm",
-      {}
-    );
+    let {
+      Services
+    } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
     if (!Services.prefs.getBoolPref("print.use_simplify_page")) {
       this.mSimplifyPageCheckbox.hidden = true;
       this.mSimplifyPageToolbarSeparator.hidden = true;
     }
     this.mPPBrowser = aPPBrowser;
     this.mMessageManager = aPPBrowser.messageManager;
-    this.mMessageManager.addMessageListener(
-      "Printing:Preview:UpdatePageCount",
-      this
-    );
+    this.mMessageManager.addMessageListener("Printing:Preview:UpdatePageCount", this);
     this.updateToolbar();
 
     let $ = id => document.getAnonymousElementByAttribute(this, "anonid", id);
     let ltr = document.documentElement.matches(":root:-moz-locale-dir(ltr)");
     // Windows 7 doesn't support ⏮ and ⏭ by default, and fallback doesn't
     // always work (bug 1343330).
-    let { AppConstants } = ChromeUtils.import(
-      "resource://gre/modules/AppConstants.jsm",
-      {}
-    );
-    let useCompatCharacters = AppConstants.isPlatformAndVersionAtMost(
-      "win",
-      "6.1"
-    );
+    let {
+      AppConstants
+    } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
+    let useCompatCharacters = AppConstants.isPlatformAndVersionAtMost("win", "6.1");
     let leftEnd = useCompatCharacters ? "⏪" : "⏮";
     let rightEnd = useCompatCharacters ? "⏩" : "⏭";
     $("navigateHome").label = ltr ? leftEnd : rightEnd;
@@ -153,10 +126,7 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     $("navigateEnd").label = ltr ? rightEnd : leftEnd;
   }
   destroy() {
-    this.mMessageManager.removeMessageListener(
-      "Printing:Preview:UpdatePageCount",
-      this
-    );
+    this.mMessageManager.removeMessageListener("Printing:Preview:UpdatePageCount", this);
     delete this.mMessageManager;
     delete this.mPPBrowser;
   }
@@ -171,8 +141,7 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     this.mScaleCombobox.disabled = aDisabled;
     this.mPortaitButton.disabled = aDisabled;
     this.mLandscapeButton.disabled = aDisabled;
-    this.mSimplifyPageCheckbox.disabled =
-      this.mSimplifyPageNotAllowed || aDisabled;
+    this.mSimplifyPageCheckbox.disabled = this.mSimplifyPageNotAllowed || aDisabled;
   }
   doPageSetup() {
     /* import-globals-from printUtils.js */
@@ -215,7 +184,7 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
 
     this.mMessageManager.sendAsyncMessage("Printing:Preview:Navigate", {
       navType,
-      pageNum
+      pageNum,
     });
   }
   print() {
@@ -225,39 +194,22 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     var value = Math.round(aValue);
     var promptStr = this.mScaleLabel.value;
     var renameTitle = this.mCustomTitle;
-    var result = { value };
-    let { Services } = ChromeUtils.import(
-      "resource://gre/modules/Services.jsm",
-      {}
-    );
-    var confirmed = Services.prompt.prompt(
-      window,
-      renameTitle,
-      promptStr,
-      result,
-      null,
-      { value }
-    );
-    if (!confirmed || !result.value || result.value == "") {
+    var result = {
+      value
+    };
+    let {
+      Services
+    } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
+    var confirmed = Services.prompt.prompt(window, renameTitle, promptStr, result, null, {
+      value
+    });
+    if (!confirmed || (!result.value) || (result.value == "")) {
       return -1;
     }
     return result.value;
   }
   setScaleCombobox(aValue) {
-    var scaleValues = [
-      0.3,
-      0.4,
-      0.5,
-      0.6,
-      0.7,
-      0.8,
-      0.9,
-      1,
-      1.25,
-      1.5,
-      1.75,
-      2
-    ];
+    var scaleValues = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.25, 1.5, 1.75, 2];
 
     aValue = Number(aValue);
 
@@ -274,10 +226,7 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     if (aValue == "ShrinkToFit") {
       if (!settings.shrinkToFit) {
         settings.shrinkToFit = true;
-        this.savePrintSettings(
-          settings,
-          settings.kInitSaveShrinkToFit | settings.kInitSaveScaling
-        );
+        this.savePrintSettings(settings, settings.kInitSaveShrinkToFit | settings.kInitSaveScaling);
         PrintUtils.printPreview();
       }
       return;
@@ -289,35 +238,26 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
         aValue /= 100.0;
       } else {
         if (this.mScaleCombobox.hasAttribute("lastValidInx")) {
-          this.mScaleCombobox.selectedIndex = this.mScaleCombobox.getAttribute(
-            "lastValidInx"
-          );
+          this.mScaleCombobox.selectedIndex = this.mScaleCombobox.getAttribute("lastValidInx");
         }
         return;
       }
     }
 
     this.setScaleCombobox(aValue);
-    this.mScaleCombobox.setAttribute(
-      "lastValidInx",
-      this.mScaleCombobox.selectedIndex
-    );
+    this.mScaleCombobox.setAttribute("lastValidInx", this.mScaleCombobox.selectedIndex);
 
     if (settings.scaling != aValue || settings.shrinkToFit) {
       settings.shrinkToFit = false;
       settings.scaling = aValue;
-      this.savePrintSettings(
-        settings,
-        settings.kInitSaveShrinkToFit | settings.kInitSaveScaling
-      );
+      this.savePrintSettings(settings, settings.kInitSaveShrinkToFit | settings.kInitSaveScaling);
       PrintUtils.printPreview();
     }
   }
   orient(aOrientation) {
     const kIPrintSettings = Components.interfaces.nsIPrintSettings;
-    var orientValue = aOrientation == "portrait"
-      ? kIPrintSettings.kPortraitOrientation
-      : kIPrintSettings.kLandscapeOrientation;
+    var orientValue = (aOrientation == "portrait") ? kIPrintSettings.kPortraitOrientation :
+      kIPrintSettings.kLandscapeOrientation;
     var settings = PrintUtils.getPrintSettings();
     if (settings.orientation != orientValue) {
       settings.orientation = orientValue;
@@ -332,25 +272,19 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
   enableSimplifyPage() {
     this.mSimplifyPageNotAllowed = false;
     this.mSimplifyPageCheckbox.disabled = false;
-    this.mSimplifyPageCheckbox.setAttribute(
-      "tooltiptext",
-      this.mSimplifyPageCheckbox.getAttribute("tooltiptext-enabled")
-    );
+    this.mSimplifyPageCheckbox.setAttribute("tooltiptext",
+      this.mSimplifyPageCheckbox.getAttribute("tooltiptext-enabled"));
   }
   disableSimplifyPage() {
     this.mSimplifyPageNotAllowed = true;
     this.mSimplifyPageCheckbox.disabled = true;
-    this.mSimplifyPageCheckbox.setAttribute(
-      "tooltiptext",
-      this.mSimplifyPageCheckbox.getAttribute("tooltiptext-disabled")
-    );
+    this.mSimplifyPageCheckbox.setAttribute("tooltiptext",
+      this.mSimplifyPageCheckbox.getAttribute("tooltiptext-disabled"));
   }
   updateToolbar() {
     var settings = PrintUtils.getPrintSettings();
 
-    var isPortrait =
-      settings.orientation ==
-      Components.interfaces.nsIPrintSettings.kPortraitOrientation;
+    var isPortrait = settings.orientation == Components.interfaces.nsIPrintSettings.kPortraitOrientation;
 
     this.mPortaitButton.checked = isPortrait;
     this.mLandscapeButton.checked = !isPortrait;
@@ -364,9 +298,8 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     this.mPageTextBox.value = 1;
   }
   savePrintSettings(settings, flags) {
-    var PSSVC = Components.classes[
-      "@mozilla.org/gfx/printsettings-service;1"
-    ].getService(Components.interfaces.nsIPrintSettingsService);
+    var PSSVC = Components.classes["@mozilla.org/gfx/printsettings-service;1"]
+      .getService(Components.interfaces.nsIPrintSettingsService);
     PSSVC.savePrintSettingsToPrefs(settings, true, flags);
   }
   receiveMessage(message) {
@@ -377,7 +310,3 @@ class FirefoxPrintpreviewtoolbar extends FirefoxToolbar {
     }
   }
 }
-customElements.define(
-  "firefox-printpreviewtoolbar",
-  FirefoxPrintpreviewtoolbar
-);

@@ -71,9 +71,7 @@ function getJSForBinding(binding) {
     // XXX: Handle: <handler event="keypress" keycode="VK_END" command="cmd_endLine"/>
     let capturing = handler.attrs.phase === "capturing" ? ", true" : "";
     handlers.push(`
-      this.addEventListener("${handler.attrs.event}", (event) => {
-        ${handler.cdata || handler.value || handler.attrs.action}
-      }${capturing});
+      this.addEventListener("${handler.attrs.event}", (event) => {${handler.cdata || handler.value || handler.attrs.action}}${capturing});
     `);
   }
 
@@ -104,9 +102,13 @@ function getJSForBinding(binding) {
       }
     }
 
+    let expr = expressions.join("\n");
+    if (expr[expr.length - 1] !== ";") {
+      expr += ";";
+    }
     fields.push(`
       ${comments.join("\n")}
-      this.${field.attrs.name} = ${expressions.join("\n")};
+      this.${field.attrs.name} = ${expr}
     `);
 
     // let setter = field.attrs.readonly ? '' :
@@ -144,28 +146,20 @@ function getJSForBinding(binding) {
   for (let property of binding.find('property')) {
     if (property.attrs.onset) {
       js.push(`
-        set ${property.attrs.name}(val) {
-          ${property.attrs.onset}
-        }
+        set ${property.attrs.name}(val) {${property.attrs.onset}}
       `);
     } else if(property.find('setter').length) {
       js.push(`
-        set ${property.attrs.name}(val) {
-          ${property.find('setter')[0].cdata || property.find('setter')[0].value}
-        }
+        set ${property.attrs.name}(val) {${property.find('setter')[0].cdata || property.find('setter')[0].value}}
       `);
     }
     if (property.attrs.onget) {
       js.push(`
-        get ${property.attrs.name}() {
-          ${property.attrs.onget}
-        }
+        get ${property.attrs.name}() {${property.attrs.onget}}
       `);
     } else if(property.find('getter').length) {
       js.push(`
-        get ${property.attrs.name}() {
-          ${property.find('getter')[0].cdata || property.find('getter')[0].value}
-        }
+        get ${property.attrs.name}() {${property.find('getter')[0].cdata || property.find('getter')[0].value}}
       `);
     }
   }
@@ -181,9 +175,9 @@ function getJSForBinding(binding) {
 
   js.push('}');
 
-  js.push(`
-    customElements.define("${elementName}", ${className});
-  `)
+  // js.push(`
+  //   customElements.define("${elementName}", ${className});
+  // `)
   return js.join(' ');
 }
 

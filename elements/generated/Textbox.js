@@ -1,5 +1,6 @@
 class FirefoxTextbox extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <children></children>
       <xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
@@ -34,88 +35,74 @@ class FirefoxTextbox extends XULElement {
     if (this.hasAttribute("emptytext"))
       this.placeholder = this.getAttribute("emptytext");
 
-    this.addEventListener(
-      "focus",
-      event => {
-        if (this.hasAttribute("focused")) return;
+    this.addEventListener("focus", (event) => {
+      if (this.hasAttribute("focused"))
+        return;
 
-        let { originalTarget } = event;
-        if (originalTarget == this) {
-          // Forward focus to actual HTML input
-          this.inputField.focus();
-          this.setAttribute("focused", "true");
-          return;
+      let {
+        originalTarget
+      } = event;
+      if (originalTarget == this) {
+        // Forward focus to actual HTML input
+        this.inputField.focus();
+        this.setAttribute("focused", "true");
+        return;
+      }
+
+      // We check for the parent nodes to support input[type=number] where originalTarget may be an
+      // anonymous child input.
+      if (originalTarget == this.inputField ||
+        originalTarget.localName == "input" && originalTarget.parentNode.parentNode == this.inputField) {
+        if (this.mIgnoreFocus) {
+          this.mIgnoreFocus = false;
+        } else if (this.clickSelectsAll) {
+          try {
+            if (!this.editor || !this.editor.composing)
+              this.editor.selectAll();
+          } catch (e) {}
         }
+        this.setAttribute("focused", "true");
+      }
+      // Otherwise, allow other children (e.g. URL bar buttons) to get focus
+    }, true);
 
-        // We check for the parent nodes to support input[type=number] where originalTarget may be an
-        // anonymous child input.
-        if (
-          originalTarget == this.inputField ||
-          (originalTarget.localName == "input" &&
-            originalTarget.parentNode.parentNode == this.inputField)
-        ) {
-          if (this.mIgnoreFocus) {
-            this.mIgnoreFocus = false;
-          } else if (this.clickSelectsAll) {
-            try {
-              if (!this.editor || !this.editor.composing)
-                this.editor.selectAll();
-            } catch (e) {}
-          }
-          this.setAttribute("focused", "true");
-        }
-        // Otherwise, allow other children (e.g. URL bar buttons) to get focus
-      },
-      true
-    );
+    this.addEventListener("blur", (event) => {
+      this.removeAttribute("focused");
 
-    this.addEventListener(
-      "blur",
-      event => {
-        this.removeAttribute("focused");
+      // don't trigger clickSelectsAll when switching application windows
+      if (window == window.top &&
+        window.isChromeWindow &&
+        document.activeElement == this.inputField)
+        this.mIgnoreFocus = true;
+    }, true);
 
-        // don't trigger clickSelectsAll when switching application windows
-        if (
-          window == window.top &&
-          window.isChromeWindow &&
-          document.activeElement == this.inputField
-        )
-          this.mIgnoreFocus = true;
-      },
-      true
-    );
-
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       this.mIgnoreClick = this.hasAttribute("focused");
 
       if (!this.mIgnoreClick) {
         this.mIgnoreFocus = true;
         this.setSelectionRange(0, 0);
-        if (
-          event.originalTarget == this ||
-          event.originalTarget == this.inputField.parentNode
-        )
+        if (event.originalTarget == this ||
+          event.originalTarget == this.inputField.parentNode)
           this.inputField.focus();
       }
     });
 
-    this.addEventListener("click", event => {
+    this.addEventListener("click", (event) => {
       this._maybeSelectAll();
     });
+
   }
   disconnectedCallback() {
     var field = this.inputField;
-    if (field && field.value) this.boxObject.setProperty("value", field.value);
+    if (field && field.value)
+      this.boxObject.setProperty("value", field.value);
     this.mInputField = null;
   }
 
   get inputField() {
     if (!this.mInputField)
-      this.mInputField = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "input"
-      );
+      this.mInputField = document.getAnonymousElementByAttribute(this, "anonid", "input");
     return this.mInputField;
   }
 
@@ -138,15 +125,14 @@ class FirefoxTextbox extends XULElement {
   }
 
   set label(val) {
-    this.setAttribute("label", val);
+    this.setAttribute('label', val);
     return val;
   }
 
   get label() {
-    return (
-      this.getAttribute("label") ||
-      (this.labelElement ? this.labelElement.value : this.placeholder)
-    );
+    return this.getAttribute('label') ||
+      (this.labelElement ? this.labelElement.value :
+        this.placeholder);
   }
 
   set placeholder(val) {
@@ -168,13 +154,13 @@ class FirefoxTextbox extends XULElement {
   }
 
   set type(val) {
-    if (val) this.setAttribute("type", val);
-    else this.removeAttribute("type");
+    if (val) this.setAttribute('type', val);
+    else this.removeAttribute('type');
     return val;
   }
 
   get type() {
-    return this.getAttribute("type");
+    return this.getAttribute('type');
   }
 
   set maxLength(val) {
@@ -188,8 +174,8 @@ class FirefoxTextbox extends XULElement {
 
   set disabled(val) {
     this.inputField.disabled = val;
-    if (val) this.setAttribute("disabled", "true");
-    else this.removeAttribute("disabled");
+    if (val) this.setAttribute('disabled', 'true');
+    else this.removeAttribute('disabled');
     return val;
   }
 
@@ -199,13 +185,13 @@ class FirefoxTextbox extends XULElement {
 
   set tabIndex(val) {
     this.inputField.tabIndex = val;
-    if (val) this.setAttribute("tabindex", val);
-    else this.removeAttribute("tabindex");
+    if (val) this.setAttribute('tabindex', val);
+    else this.removeAttribute('tabindex');
     return val;
   }
 
   get tabIndex() {
-    return parseInt(this.getAttribute("tabindex"));
+    return parseInt(this.getAttribute('tabindex'));
   }
 
   set size(val) {
@@ -219,8 +205,8 @@ class FirefoxTextbox extends XULElement {
 
   set readOnly(val) {
     this.inputField.readOnly = val;
-    if (val) this.setAttribute("readonly", "true");
-    else this.removeAttribute("readonly");
+    if (val) this.setAttribute('readonly', 'true');
+    else this.removeAttribute('readonly');
     return val;
   }
 
@@ -229,28 +215,25 @@ class FirefoxTextbox extends XULElement {
   }
 
   set clickSelectsAll(val) {
-    if (val) this.setAttribute("clickSelectsAll", "true");
-    else this.removeAttribute("clickSelectsAll");
+    if (val) this.setAttribute('clickSelectsAll', 'true');
+    else this.removeAttribute('clickSelectsAll');
     return val;
   }
 
   get clickSelectsAll() {
-    return this.getAttribute("clickSelectsAll") == "true";
+    return this.getAttribute('clickSelectsAll') == 'true';
   }
 
   get editor() {
     if (!this.mEditor) {
-      const nsIDOMNSEditableElement =
-        Components.interfaces.nsIDOMNSEditableElement;
-      this.mEditor = this.inputField.QueryInterface(
-        nsIDOMNSEditableElement
-      ).editor;
+      const nsIDOMNSEditableElement = Components.interfaces.nsIDOMNSEditableElement;
+      this.mEditor = this.inputField.QueryInterface(nsIDOMNSEditableElement).editor;
     }
     return this.mEditor;
   }
 
   get controllers() {
-    return this.inputField.controllers;
+    return this.inputField.controllers
   }
 
   get textLength() {
@@ -288,10 +271,8 @@ class FirefoxTextbox extends XULElement {
   setSelectionRange(aSelectionStart, aSelectionEnd) {
     // According to https://html.spec.whatwg.org/#do-not-apply,
     // setSelectionRange() is only available on a limited set of input types.
-    if (
-      this.inputField.type == "text" ||
-      this.inputField.tagName == "html:textarea"
-    ) {
+    if (this.inputField.type == "text" ||
+      this.inputField.tagName == "html:textarea") {
       this.inputField.setSelectionRange(aSelectionStart, aSelectionEnd);
     }
   }
@@ -302,8 +283,8 @@ class FirefoxTextbox extends XULElement {
       for (var x in nsIPlaintextEditor) {
         if (/^eNewlines/.test(x)) {
           if (str == RegExp.rightContext.toLowerCase()) {
-            this.editor.QueryInterface(nsIPlaintextEditor).newlineHandling =
-              nsIPlaintextEditor[x];
+            this.editor.QueryInterface(nsIPlaintextEditor)
+              .newlineHandling = nsIPlaintextEditor[x];
             break;
           }
         }
@@ -311,13 +292,9 @@ class FirefoxTextbox extends XULElement {
     }
   }
   _maybeSelectAll() {
-    if (
-      !this.mIgnoreClick &&
-      this.clickSelectsAll &&
+    if (!this.mIgnoreClick && this.clickSelectsAll &&
       document.activeElement == this.inputField &&
-      this.inputField.selectionStart == this.inputField.selectionEnd
-    )
+      this.inputField.selectionStart == this.inputField.selectionEnd)
       this.editor.selectAll();
   }
 }
-customElements.define("firefox-textbox", FirefoxTextbox);

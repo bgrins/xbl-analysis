@@ -1,6 +1,6 @@
 class FirefoxAddonInstalling extends FirefoxAddonBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox anonid="warning-container" class="warning">
         <xul:image class="warning-icon"></xul:image>
@@ -25,39 +25,21 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
       </xul:hbox>
     `;
 
-    this._icon = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "icon"
-    );
+    this._icon = document.getAnonymousElementByAttribute(this, "anonid", "icon");
 
-    this._name = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "name"
-    );
+    this._name = document.getAnonymousElementByAttribute(this, "anonid", "name");
 
-    this._warning = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "warning"
-    );
+    this._warning = document.getAnonymousElementByAttribute(this, "anonid", "warning");
 
-    this._warningLink = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "warning-link"
-    );
+    this._warningLink = document.getAnonymousElementByAttribute(this, "anonid", "warning-link");
 
-    this._installStatus = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "install-status"
-    );
+    this._installStatus = document.getAnonymousElementByAttribute(this, "anonid",
+      "install-status");
 
     this._installStatus.mControl = this;
     this._installStatus.mInstall = this.mInstall;
     this.refreshInfo();
+
   }
 
   onInstallCompleted() {
@@ -69,8 +51,8 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
   refreshInfo() {
     this.mAddon = this.mAddon || this.mInstall.addon;
     if (this.mAddon) {
-      this._icon.src =
-        this.mAddon.iconURL || (this.mInstall ? this.mInstall.iconURL : "");
+      this._icon.src = this.mAddon.iconURL ||
+        (this.mInstall ? this.mInstall.iconURL : "");
       this._name.value = this.mAddon.name;
     } else {
       this._icon.src = this.mInstall.iconURL;
@@ -78,17 +60,11 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
       if (this.mInstall.name) {
         this._name.value = this.mInstall.name;
       } else if (this.mInstall.sourceURI) {
-        var url = Components.classes[
-          "@mozilla.org/network/standard-url-mutator;1"
-        ]
+        var url = Components.classes["@mozilla.org/network/standard-url-mutator;1"]
           .createInstance(Components.interfaces.nsIStandardURLMutator)
-          .init(
-            Components.interfaces.nsIStandardURL.URLTYPE_STANDARD,
-            80,
-            this.mInstall.sourceURI.spec,
-            null,
-            null
-          )
+          .init(Components.interfaces.nsIStandardURL.URLTYPE_STANDARD,
+            80, this.mInstall.sourceURI.spec,
+            null, null)
           .finalize()
           .QueryInterface(Components.interfaces.nsIURL);
         this._name.value = url.fileName;
@@ -98,29 +74,17 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
     if (this.mInstall.state == AddonManager.STATE_DOWNLOAD_FAILED) {
       this.setAttribute("notification", "warning");
       this._warning.textContent = gStrings.ext.formatStringFromName(
-        "notification.downloadError",
-        [this._name.value],
-        1
+        "notification.downloadError", [this._name.value], 1
       );
-      this._warningLink.label = gStrings.ext.GetStringFromName(
-        "notification.downloadError.retry"
-      );
-      this._warningLink.tooltipText = gStrings.ext.GetStringFromName(
-        "notification.downloadError.retry.tooltip"
-      );
+      this._warningLink.label = gStrings.ext.GetStringFromName("notification.downloadError.retry");
+      this._warningLink.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
     } else if (this.mInstall.state == AddonManager.STATE_INSTALL_FAILED) {
       this.setAttribute("notification", "warning");
       this._warning.textContent = gStrings.ext.formatStringFromName(
-        "notification.installError",
-        [this._name.value],
-        1
+        "notification.installError", [this._name.value], 1
       );
-      this._warningLink.label = gStrings.ext.GetStringFromName(
-        "notification.installError.retry"
-      );
-      this._warningLink.tooltipText = gStrings.ext.GetStringFromName(
-        "notification.downloadError.retry.tooltip"
-      );
+      this._warningLink.label = gStrings.ext.GetStringFromName("notification.installError.retry");
+      this._warningLink.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
     } else {
       this.removeAttribute("notification");
     }
@@ -129,4 +93,3 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
     this.mInstall.install();
   }
 }
-customElements.define("firefox-addon-installing", FirefoxAddonInstalling);

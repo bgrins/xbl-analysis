@@ -1,6 +1,8 @@
 class FirefoxStringbundle extends XULElement {
   connectedCallback() {
+
     this._bundle = null;
+
   }
 
   get stringBundle() {
@@ -36,33 +38,16 @@ class FirefoxStringbundle extends XULElement {
     try {
       return this.stringBundle.GetStringFromName(aStringKey);
     } catch (e) {
-      dump(
-        "*** Failed to get string " +
-          aStringKey +
-          " in bundle: " +
-          this.src +
-          "\n"
-      );
+      dump("*** Failed to get string " + aStringKey + " in bundle: " + this.src + "\n");
       throw e;
     }
   }
   getFormattedString(aStringKey, aStringsArray) {
     try {
-      return this.stringBundle.formatStringFromName(
-        aStringKey,
-        aStringsArray,
-        aStringsArray.length
-      );
+      return this.stringBundle.formatStringFromName(aStringKey, aStringsArray, aStringsArray.length);
     } catch (e) {
-      dump(
-        "*** Failed to format string " +
-          aStringKey +
-          " in bundle: " +
-          this.src +
-          "\n"
-      );
+      dump("*** Failed to format string " + aStringKey + " in bundle: " + this.src + "\n");
       throw e;
     }
   }
 }
-customElements.define("firefox-stringbundle", FirefoxStringbundle);

@@ -1,5 +1,6 @@
 class FirefoxHardblockedaddon extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:image inherits="src=icon"></xul:image>
       <xul:vbox flex="1">
@@ -13,6 +14,7 @@ class FirefoxHardblockedaddon extends XULElement {
         </xul:hbox>
       </xul:vbox>
     `;
+
   }
+
 }
-customElements.define("firefox-hardblockedaddon", FirefoxHardblockedaddon);

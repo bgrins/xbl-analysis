@@ -1,6 +1,6 @@
 class FirefoxInputBoxSpell extends FirefoxInputBox {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children></children>
       <xul:menupopup anonid="input-box-contextmenu" class="textbox-contextmenu" onpopupshowing="var input =
@@ -30,23 +30,12 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
 
     this._spellCheckInitialized = false;
 
-    this._enabledCheckbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "spell-check-enabled"
-    );
+    this._enabledCheckbox = document.getAnonymousElementByAttribute(this, "anonid", "spell-check-enabled");
 
-    this._suggestionsSeparator = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "spell-no-suggestions"
-    );
+    this._suggestionsSeparator = document.getAnonymousElementByAttribute(this, "anonid", "spell-no-suggestions");
 
-    this._dictionariesMenu = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "spell-dictionaries-menu"
-    );
+    this._dictionariesMenu = document.getAnonymousElementByAttribute(this, "anonid", "spell-dictionaries-menu");
+
   }
 
   get spellCheckerUI() {
@@ -54,17 +43,15 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
       this._spellCheckInitialized = true;
 
       const CI = Components.interfaces;
-      if (ChromeUtils.getClassName(document) != "XULDocument") return null;
+      if (ChromeUtils.getClassName(document) != "XULDocument")
+        return null;
 
       var textbox = document.getBindingParent(this);
       if (!textbox || !(textbox instanceof CI.nsIDOMXULTextBoxElement))
         return null;
 
       try {
-        ChromeUtils.import(
-          "resource://gre/modules/InlineSpellChecker.jsm",
-          this
-        );
+        ChromeUtils.import("resource://gre/modules/InlineSpellChecker.jsm", this);
         this.InlineSpellCheckerUI = new this.InlineSpellChecker(textbox.editor);
       } catch (ex) {}
     }
@@ -84,7 +71,8 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
       return;
     }
 
-    spellui.initFromEvent(document.popupRangeParent, document.popupRangeOffset);
+    spellui.initFromEvent(document.popupRangeParent,
+      document.popupRangeOffset);
 
     var enabled = spellui.enabled;
     var showUndo = spellui.canSpellCheck && spellui.canUndo();
@@ -93,27 +81,14 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
     var overMisspelling = spellui.overMisspelling;
     this._setMenuItemVisibility("spell-add-to-dictionary", overMisspelling);
     this._setMenuItemVisibility("spell-undo-add-to-dictionary", showUndo);
-    this._setMenuItemVisibility(
-      "spell-suggestions-separator",
-      overMisspelling || showUndo
-    );
+    this._setMenuItemVisibility("spell-suggestions-separator", overMisspelling || showUndo);
 
     // suggestion list
-    var numsug = spellui.addSuggestionsToMenu(
-      popupNode,
-      this._suggestionsSeparator,
-      5
-    );
-    this._setMenuItemVisibility(
-      "spell-no-suggestions",
-      overMisspelling && numsug == 0
-    );
+    var numsug = spellui.addSuggestionsToMenu(popupNode, this._suggestionsSeparator, 5);
+    this._setMenuItemVisibility("spell-no-suggestions", overMisspelling && numsug == 0);
 
     // dictionary list
-    var numdicts = spellui.addDictionaryListToMenu(
-      this._dictionariesMenu,
-      null
-    );
+    var numdicts = spellui.addDictionaryListToMenu(this._dictionariesMenu, null);
     this._setMenuItemVisibility("spell-dictionaries", enabled && numdicts > 1);
 
     this._doPopupItemEnabling(popupNode);
@@ -125,4 +100,3 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
     }
   }
 }
-customElements.define("firefox-input-box-spell", FirefoxInputBoxSpell);

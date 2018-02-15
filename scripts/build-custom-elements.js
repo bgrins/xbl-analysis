@@ -1,7 +1,7 @@
 var fs = require('fs');
 var {getParsedFiles, files} = require('./xbl-files');
 var {getJSForBinding, titleCase, formatExtends} = require("./custom-element-utils");
-var prettier = require("prettier");
+var js_beautify = require("js-beautify").js_beautify;
 var jsFiles = [];
 var extendsMap = new Map();
 var sampleElements = [];
@@ -18,7 +18,14 @@ getParsedFiles().then(files => {
 
       sampleElements.push(binding.attrs.id);
       jsFiles.push(fileName);
-      fs.writeFileSync(`elements/generated/${fileName}`, prettier.format(getJSForBinding(binding)));
+      fs.writeFileSync(`elements/generated/${fileName}`, js_beautify(
+          getJSForBinding(binding),
+          {
+            indent_size: 2,
+            // preserve_newlines: false,
+            max_preserve_newlines: 2,
+          }
+        ));
     });
   });
 

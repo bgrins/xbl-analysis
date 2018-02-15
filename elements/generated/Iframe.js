@@ -1,15 +1,17 @@
 class FirefoxIframe extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
 
   get docShell() {
-    let { frameLoader } = this;
+    let {
+      frameLoader
+    } = this;
     return frameLoader ? frameLoader.docShell : null;
   }
 
   get contentWindow() {
-    return this.docShell
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIDOMWindow);
+    return this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
   }
 
   get webNavigation() {
@@ -20,4 +22,3 @@ class FirefoxIframe extends XULElement {
     return this.webNavigation.document;
   }
 }
-customElements.define("firefox-iframe", FirefoxIframe);

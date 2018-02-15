@@ -1,48 +1,36 @@
 class FirefoxInstallStatus extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:label anonid="message"></xul:label>
       <xul:progressmeter anonid="progress" class="download-progress"></xul:progressmeter>
       <xul:button anonid="install-remote-btn" hidden="true" class="addon-control install" label="FROM-DTD-addon-install-label" tooltiptext="FROM-DTD-addon-install-tooltip" oncommand="document.getBindingParent(this).installRemote();"></xul:button>
     `;
 
-    this._message = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "message"
-    );
+    this._message = document.getAnonymousElementByAttribute(this, "anonid", "message");
 
-    this._progress = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "progress"
-    );
+    this._progress = document.getAnonymousElementByAttribute(this, "anonid", "progress");
 
-    this._installRemote = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "install-remote-btn"
-    );
+    this._installRemote = document.getAnonymousElementByAttribute(this, "anonid",
+      "install-remote-btn");
 
-    this._restartNeeded = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "restart-needed"
-    );
+    this._restartNeeded = document.getAnonymousElementByAttribute(this, "anonid",
+      "restart-needed");
 
-    this._undo = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "undo-btn"
-    );
+    this._undo = document.getAnonymousElementByAttribute(this, "anonid",
+      "undo-btn");
 
-    if (this.mInstall) this.initWithInstall(this.mInstall);
+    if (this.mInstall)
+      this.initWithInstall(this.mInstall);
     else if (this.mControl.mAddon.install)
       this.initWithInstall(this.mControl.mAddon.install);
-    else this.refreshState();
+    else
+      this.refreshState();
+
   }
   disconnectedCallback() {
-    if (this.mInstall) this.mInstall.removeListener(this);
+    if (this.mInstall)
+      this.mInstall.removeListener(this);
   }
   initWithInstall(aInstall) {
     if (this.mInstall) {
@@ -58,9 +46,11 @@ class FirefoxInstallStatus extends XULElement {
     var showInstallRemote = false;
 
     if (this.mInstall) {
+
       switch (this.mInstall.state) {
         case AddonManager.STATE_AVAILABLE:
-          if (this.mControl.getAttribute("remote") != "true") break;
+          if (this.mControl.getAttribute("remote") != "true")
+            break;
 
           this._progress.hidden = true;
           showInstallRemote = true;
@@ -89,79 +79,75 @@ class FirefoxInstallStatus extends XULElement {
           this.showMessage("installCancelled", true);
           break;
       }
+
     }
 
     this._installRemote.hidden = !showInstallRemote;
 
-    if ("refreshInfo" in this.mControl) this.mControl.refreshInfo();
+    if ("refreshInfo" in this.mControl)
+      this.mControl.refreshInfo();
   }
   showMessage(aMsgId, aHideProgress) {
     this._message.setAttribute("hidden", !aHideProgress);
     this._progress.setAttribute("hidden", !!aHideProgress);
 
     var msg = gStrings.ext.GetStringFromName(aMsgId);
-    if (aHideProgress) this._message.value = msg;
-    else this._progress.status = msg;
+    if (aHideProgress)
+      this._message.value = msg;
+    else
+      this._progress.status = msg;
   }
   installRemote() {
-    if (this.mControl.getAttribute("remote") != "true") return;
+    if (this.mControl.getAttribute("remote") != "true")
+      return;
 
     if (this.mControl.mAddon.eula) {
       var data = {
         addon: this.mControl.mAddon,
         accepted: false
       };
-      window.openDialog(
-        "chrome://mozapps/content/extensions/eula.xul",
-        "_blank",
-        "chrome,dialog,modal,centerscreen,resizable=no",
-        data
-      );
-      if (!data.accepted) return;
+      window.openDialog("chrome://mozapps/content/extensions/eula.xul", "_blank",
+        "chrome,dialog,modal,centerscreen,resizable=no", data);
+      if (!data.accepted)
+        return;
     }
 
     delete this.mControl.mAddon;
     this.mControl.mInstall = this.mInstall;
     this.mControl.setAttribute("status", "installing");
-    let prompt = Services.prefs.getBoolPref(
-      "extensions.webextPermissionPrompts",
-      false
-    );
+    let prompt = Services.prefs.getBoolPref("extensions.webextPermissionPrompts", false);
     if (prompt) {
-      this.mInstall.promptHandler = info =>
-        new Promise((resolve, reject) => {
-          // Skip prompts for non-webextensions
-          if (!info.addon.userPermissions) {
-            resolve();
-            return;
-          }
-          let subject = {
-            wrappedJSObject: {
-              target: window
-                .QueryInterface(Ci.nsIInterfaceRequestor)
-                .getInterface(Ci.nsIDocShell).chromeEventHandler,
-              info: {
-                addon: info.addon,
-                source: "AMO",
-                icon: info.addon.iconURL,
-                permissions: info.addon.userPermissions,
-                resolve,
-                reject
-              }
-            }
-          };
-          Services.obs.notifyObservers(
-            subject,
-            "webextension-permission-prompt"
-          );
-        });
+      this.mInstall.promptHandler = info => new Promise((resolve, reject) => {
+        // Skip prompts for non-webextensions
+        if (!info.addon.userPermissions) {
+          resolve();
+          return;
+        }
+        let subject = {
+          wrappedJSObject: {
+            target: window.QueryInterface(Ci.nsIInterfaceRequestor)
+              .getInterface(Ci.nsIDocShell).chromeEventHandler,
+            info: {
+              addon: info.addon,
+              source: "AMO",
+              icon: info.addon.iconURL,
+              permissions: info.addon.userPermissions,
+              resolve,
+              reject,
+            },
+          },
+        };
+        Services.obs.notifyObservers(subject, "webextension-permission-prompt");
+      });
     }
     this.mInstall.install();
   }
   undoAction() {
-    if (!this.mAddon) return;
+    if (!this.mAddon)
+      return;
     var pending = this.mAddon.pendingOperations;
-    if (pending & AddonManager.PENDING_ENABLE) this.mAddon.userDisabled = true;
+    if (pending & AddonManager.PENDING_ENABLE)
+      this.mAddon.userDisabled = true;
     else if (pending & AddonManager.PENDING_DISABLE)
       this.mAddon.userDisabled = false;
     this.refreshState();
@@ -192,4 +178,3 @@ class FirefoxInstallStatus extends XULElement {
     this.refreshState();
   }
 }
-customElements.define("firefox-install-status", FirefoxInstallStatus);

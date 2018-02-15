@@ -1,6 +1,6 @@
 class FirefoxAddonGeneric extends FirefoxAddonBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox anonid="warning-container" class="warning">
         <xul:image class="warning-icon"></xul:image>
@@ -96,223 +96,111 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       </xul:hbox>
     `;
 
-    this._warningContainer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "warning-container"
-    );
+    this._warningContainer = document.getAnonymousElementByAttribute(this, "anonid",
+      "warning-container");
 
-    this._warning = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "warning"
-    );
+    this._warning = document.getAnonymousElementByAttribute(this, "anonid",
+      "warning");
 
-    this._warningLink = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "warning-link"
-    );
+    this._warningLink = document.getAnonymousElementByAttribute(this, "anonid",
+      "warning-link");
 
-    this._warningBtn = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "warning-btn"
-    );
+    this._warningBtn = document.getAnonymousElementByAttribute(this, "anonid",
+      "warning-btn");
 
-    this._errorContainer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "error-container"
-    );
+    this._errorContainer = document.getAnonymousElementByAttribute(this, "anonid",
+      "error-container");
 
-    this._error = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "error"
-    );
+    this._error = document.getAnonymousElementByAttribute(this, "anonid",
+      "error");
 
-    this._errorLink = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "error-link"
-    );
+    this._errorLink = document.getAnonymousElementByAttribute(this, "anonid",
+      "error-link");
 
-    this._pendingContainer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "pending-container"
-    );
+    this._pendingContainer = document.getAnonymousElementByAttribute(this, "anonid",
+      "pending-container");
 
-    this._pending = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "pending"
-    );
+    this._pending = document.getAnonymousElementByAttribute(this, "anonid",
+      "pending");
 
-    this._infoContainer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "info-container"
-    );
+    this._infoContainer = document.getAnonymousElementByAttribute(this, "anonid",
+      "info-container");
 
-    this._info = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "info"
-    );
+    this._info = document.getAnonymousElementByAttribute(this, "anonid",
+      "info");
 
-    this._experimentState = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "experiment-state"
-    );
+    this._experimentState = document.getAnonymousElementByAttribute(this, "anonid", "experiment-state");
 
-    this._experimentTime = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "experiment-time"
-    );
+    this._experimentTime = document.getAnonymousElementByAttribute(this, "anonid", "experiment-time");
 
-    this._icon = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "icon"
-    );
+    this._icon = document.getAnonymousElementByAttribute(this, "anonid", "icon");
 
-    this._dateUpdated = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "date-updated"
-    );
+    this._dateUpdated = document.getAnonymousElementByAttribute(this, "anonid",
+      "date-updated");
 
-    this._description = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "description"
-    );
+    this._description = document.getAnonymousElementByAttribute(this, "anonid",
+      "description");
 
-    this._stateMenulist = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "state-menulist"
-    );
+    this._stateMenulist = document.getAnonymousElementByAttribute(this, "anonid",
+      "state-menulist");
 
-    this._askToActivateMenuitem = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "ask-to-activate-menuitem"
-    );
+    this._askToActivateMenuitem = document.getAnonymousElementByAttribute(this, "anonid",
+      "ask-to-activate-menuitem");
 
-    this._alwaysActivateMenuitem = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "always-activate-menuitem"
-    );
+    this._alwaysActivateMenuitem = document.getAnonymousElementByAttribute(this, "anonid",
+      "always-activate-menuitem");
 
-    this._neverActivateMenuitem = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "never-activate-menuitem"
-    );
+    this._neverActivateMenuitem = document.getAnonymousElementByAttribute(this, "anonid",
+      "never-activate-menuitem");
 
-    this._preferencesBtn = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "preferences-btn"
-    );
+    this._preferencesBtn = document.getAnonymousElementByAttribute(this, "anonid",
+      "preferences-btn");
 
-    this._enableBtn = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "enable-btn"
-    );
+    this._enableBtn = document.getAnonymousElementByAttribute(this, "anonid",
+      "enable-btn");
 
-    this._disableBtn = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "disable-btn"
-    );
+    this._disableBtn = document.getAnonymousElementByAttribute(this, "anonid",
+      "disable-btn");
 
-    this._removeBtn = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "remove-btn"
-    );
+    this._removeBtn = document.getAnonymousElementByAttribute(this, "anonid",
+      "remove-btn");
 
-    this._updateBtn = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "update-btn"
-    );
+    this._updateBtn = document.getAnonymousElementByAttribute(this, "anonid",
+      "update-btn");
 
-    this._controlContainer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "control-container"
-    );
+    this._controlContainer = document.getAnonymousElementByAttribute(this, "anonid",
+      "control-container");
 
-    this._installStatus = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "install-status"
-    );
+    this._installStatus = document.getAnonymousElementByAttribute(this, "anonid",
+      "install-status");
 
-    this._checkingUpdate = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "checking-update"
-    );
+    this._checkingUpdate = document.getAnonymousElementByAttribute(this, "anonid",
+      "checking-update");
 
-    this._updateAvailable = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "update-available"
-    );
+    this._updateAvailable = document.getAnonymousElementByAttribute(this, "anonid",
+      "update-available");
 
-    this._includeUpdate = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "include-update"
-    );
+    this._includeUpdate = document.getAnonymousElementByAttribute(this, "anonid",
+      "include-update");
 
     this._relNotesLoaded = false;
 
-    this._relNotesToggle = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "relnotes-toggle-btn"
-    );
+    this._relNotesToggle = document.getAnonymousElementByAttribute(this, "anonid",
+      "relnotes-toggle-btn");
 
-    this._relNotesLoading = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "relnotes-loading"
-    );
+    this._relNotesLoading = document.getAnonymousElementByAttribute(this, "anonid",
+      "relnotes-loading");
 
-    this._relNotesError = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "relnotes-error"
-    );
+    this._relNotesError = document.getAnonymousElementByAttribute(this, "anonid",
+      "relnotes-error");
 
-    this._relNotesContainer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "relnotes-container"
-    );
+    this._relNotesContainer = document.getAnonymousElementByAttribute(this, "anonid",
+      "relnotes-container");
 
-    this._relNotes = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "relnotes"
-    );
+    this._relNotes = document.getAnonymousElementByAttribute(this, "anonid",
+      "relnotes");
 
-    this._installStatus = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "install-status"
-    );
+    this._installStatus = document.getAnonymousElementByAttribute(this, "anonid", "install-status");
     this._installStatus.mControl = this;
 
     this.setAttribute("contextmenu", "addonitem-popup");
@@ -323,23 +211,22 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
     gEventManager.registerAddonListener(this, this.mAddon.id);
 
-    this.addEventListener("click", event => {
+    this.addEventListener("click", (event) => {
       switch (event.detail) {
         case 1:
           // Prevent double-click where the UI changes on the first click
           this._lastClickTarget = event.originalTarget;
           break;
         case 2:
-          if (
-            event.originalTarget.localName != "button" &&
+          if (event.originalTarget.localName != "button" &&
             !event.originalTarget.classList.contains("text-link") &&
-            event.originalTarget == this._lastClickTarget
-          ) {
+            event.originalTarget == this._lastClickTarget) {
             this.showInDetailView();
           }
           break;
       }
     });
+
   }
   disconnectedCallback() {
     gEventManager.unregisterAddonListener(this, this.mAddon.id);
@@ -378,38 +265,34 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     this.setAttribute("name", aAddon.name);
 
     var iconURL = AddonManager.getPreferredIconURL(aAddon, 48, window);
-    if (iconURL) this._icon.src = iconURL;
-    else this._icon.src = "";
+    if (iconURL)
+      this._icon.src = iconURL;
+    else
+      this._icon.src = "";
 
     if (this.mAddon.description)
       this._description.value = this.mAddon.description;
-    else this._description.hidden = true;
+    else
+      this._description.hidden = true;
 
-    let legacyWarning =
-      legacyExtensionsEnabled &&
-      !this.mAddon.install &&
+    let legacyWarning = legacyExtensionsEnabled && !this.mAddon.install &&
       isLegacyExtension(this.mAddon);
     this.setAttribute("legacy", legacyWarning);
-    document.getAnonymousElementByAttribute(this, "anonid", "legacy").href =
-      SUPPORT_URL + "webextensions";
+    document.getAnonymousElementByAttribute(this, "anonid", "legacy").href = SUPPORT_URL + "webextensions";
 
-    if (
-      !("applyBackgroundUpdates" in this.mAddon) ||
+    if (!("applyBackgroundUpdates" in this.mAddon) ||
       (this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_DISABLE ||
-        (this.mAddon.applyBackgroundUpdates ==
-          AddonManager.AUTOUPDATE_DEFAULT &&
-          !AddonManager.autoUpdateDefault))
-    ) {
+        (this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_DEFAULT &&
+          !AddonManager.autoUpdateDefault))) {
       AddonManager.getAllInstalls(aInstallsList => {
         // This can return after the binding has been destroyed,
         // so try to detect that and return early
-        if (!("onNewInstall" in this)) return;
+        if (!("onNewInstall" in this))
+          return;
         for (let install of aInstallsList) {
-          if (
-            install.existingAddon &&
+          if (install.existingAddon &&
             install.existingAddon.id == this.mAddon.id &&
-            install.state == AddonManager.STATE_AVAILABLE
-          ) {
+            install.state == AddonManager.STATE_AVAILABLE) {
             this.onNewInstall(install);
             this.onIncludeUpdateChanged();
           }
@@ -418,52 +301,53 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     }
   }
   _showStatus(aType) {
-    this._controlContainer.hidden =
-      aType != "none" &&
+    this._controlContainer.hidden = aType != "none" &&
       !(aType == "update-available" && !this.hasAttribute("upgrade"));
 
     this._installStatus.hidden = aType != "progress";
-    if (aType == "progress") this._installStatus.refreshState();
+    if (aType == "progress")
+      this._installStatus.refreshState();
     this._checkingUpdate.hidden = aType != "checking-update";
     this._updateAvailable.hidden = aType != "update-available";
-    this._relNotesToggle.hidden = !(this.mManualUpdate
-      ? this.mManualUpdate.releaseNotesURI
-      : this.mAddon.releaseNotesURI);
+    this._relNotesToggle.hidden = !(this.mManualUpdate ?
+      this.mManualUpdate.releaseNotesURI :
+      this.mAddon.releaseNotesURI);
   }
   _updateDates() {
     function formatDate(aDate) {
-      const dtOptions = { year: "numeric", month: "long", day: "numeric" };
+      const dtOptions = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
       return aDate.toLocaleDateString(undefined, dtOptions);
     }
 
     if (this.mAddon.updateDate)
       this._dateUpdated.value = formatDate(this.mAddon.updateDate);
-    else this._dateUpdated.value = this._dateUpdated.getAttribute("unknown");
+    else
+      this._dateUpdated.value = this._dateUpdated.getAttribute("unknown");
   }
   _updateState() {
-    if (this.parentNode.selectedItem == this) gViewController.updateCommands();
+    if (this.parentNode.selectedItem == this)
+      gViewController.updateCommands();
 
     var pending = this.mAddon.pendingOperations;
     if (pending != AddonManager.PENDING_NONE) {
       this.removeAttribute("notification");
 
       pending = null;
-      const PENDING_OPERATIONS = [
-        "enable",
-        "disable",
-        "install",
-        "uninstall",
-        "upgrade"
+      const PENDING_OPERATIONS = ["enable", "disable", "install",
+        "uninstall", "upgrade"
       ];
       for (let op of PENDING_OPERATIONS) {
-        if (this.isPending(op)) pending = op;
+        if (this.isPending(op))
+          pending = op;
       }
 
       this.setAttribute("pending", pending);
       this._pending.textContent = gStrings.ext.formatStringFromName(
-        "notification." + pending,
-        [this.mAddon.name, gStrings.brandShortName],
-        2
+        "notification." + pending, [this.mAddon.name, gStrings.brandShortName], 2
       );
     } else {
       this.removeAttribute("pending");
@@ -474,234 +358,135 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       if (install && install.state == AddonManager.STATE_DOWNLOAD_FAILED) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.downloadError",
-          [this.mAddon.name],
-          1
+          "notification.downloadError", [this.mAddon.name], 1
         );
-        this._warningBtn.label = gStrings.ext.GetStringFromName(
-          "notification.downloadError.retry"
-        );
-        this._warningBtn.tooltipText = gStrings.ext.GetStringFromName(
-          "notification.downloadError.retry.tooltip"
-        );
-        this._warningBtn.setAttribute(
-          "oncommand",
-          "document.getBindingParent(this).retryInstall();"
-        );
+        this._warningBtn.label = gStrings.ext.GetStringFromName("notification.downloadError.retry");
+        this._warningBtn.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
+        this._warningBtn.setAttribute("oncommand", "document.getBindingParent(this).retryInstall();");
         this._warningBtn.hidden = false;
         this._warningLink.hidden = true;
-      } else if (
-        install &&
-        install.state == AddonManager.STATE_INSTALL_FAILED
-      ) {
+      } else if (install && install.state == AddonManager.STATE_INSTALL_FAILED) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.installError",
-          [this.mAddon.name],
-          1
+          "notification.installError", [this.mAddon.name], 1
         );
-        this._warningBtn.label = gStrings.ext.GetStringFromName(
-          "notification.installError.retry"
-        );
-        this._warningBtn.tooltipText = gStrings.ext.GetStringFromName(
-          "notification.downloadError.retry.tooltip"
-        );
-        this._warningBtn.setAttribute(
-          "oncommand",
-          "document.getBindingParent(this).retryInstall();"
-        );
+        this._warningBtn.label = gStrings.ext.GetStringFromName("notification.installError.retry");
+        this._warningBtn.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
+        this._warningBtn.setAttribute("oncommand", "document.getBindingParent(this).retryInstall();");
         this._warningBtn.hidden = false;
         this._warningLink.hidden = true;
-      } else if (
-        !isUpgrade &&
-        this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_BLOCKED
-      ) {
+      } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_BLOCKED) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.blocked",
-          [this.mAddon.name],
-          1
+          "notification.blocked", [this.mAddon.name], 1
         );
-        this._errorLink.value = gStrings.ext.GetStringFromName(
-          "notification.blocked.link"
-        );
+        this._errorLink.value = gStrings.ext.GetStringFromName("notification.blocked.link");
         this._errorLink.href = this.mAddon.blocklistURL;
         this._errorLink.hidden = false;
-      } else if (
-        !isUpgrade &&
-        !isCorrectlySigned(this.mAddon) &&
-        AddonSettings.REQUIRE_SIGNING
-      ) {
+      } else if (!isUpgrade && !isCorrectlySigned(this.mAddon) &&
+        AddonSettings.REQUIRE_SIGNING) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.unsignedAndDisabled",
-          [this.mAddon.name, gStrings.brandShortName],
-          2
+          "notification.unsignedAndDisabled", [this.mAddon.name, gStrings.brandShortName], 2
         );
-        this._errorLink.value = gStrings.ext.GetStringFromName(
-          "notification.unsigned.link"
-        );
+        this._errorLink.value = gStrings.ext.GetStringFromName("notification.unsigned.link");
         this._errorLink.href = SUPPORT_URL + "unsigned-addons";
         this._errorLink.hidden = false;
-      } else if (
-        !isUpgrade &&
-        !this.mAddon.isCompatible &&
-        (AddonManager.checkCompatibility ||
-          this.mAddon.blocklistState !=
-            Ci.nsIBlocklistService.STATE_SOFTBLOCKED)
-      ) {
+      } else if ((!isUpgrade && !this.mAddon.isCompatible) && (AddonManager.checkCompatibility ||
+          (this.mAddon.blocklistState != Ci.nsIBlocklistService.STATE_SOFTBLOCKED))) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.incompatible",
-          [this.mAddon.name, gStrings.brandShortName, gStrings.appVersion],
-          3
+          "notification.incompatible", [this.mAddon.name, gStrings.brandShortName, gStrings.appVersion], 3
         );
         this._warningLink.hidden = true;
         this._warningBtn.hidden = true;
-      } else if (
-        !isUpgrade &&
-        this.mAddon.appDisabled &&
+      } else if (!isUpgrade && this.mAddon.appDisabled &&
         this.mAddon.type == "extension" &&
         !this.mAddon.multiprocessCompatible &&
-        !Services.prefs.getBoolPref("extensions.allow-non-mpc-extensions", true)
-      ) {
+        !Services.prefs.getBoolPref("extensions.allow-non-mpc-extensions", true)) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.nonMpcDisabled",
-          [this.mAddon.name],
-          1
+          "notification.nonMpcDisabled", [this.mAddon.name], 1
         );
-        this._errorLink.value = gStrings.ext.GetStringFromName(
-          "notification.nonMpcDisabled.link"
-        );
+        this._errorLink.value = gStrings.ext.GetStringFromName("notification.nonMpcDisabled.link");
         this._errorLink.href = "https://wiki.mozilla.org/Add-ons/ShimsNightly";
         this._errorLink.hidden = false;
       } else if (!isUpgrade && !isCorrectlySigned(this.mAddon)) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.unsigned",
-          [this.mAddon.name, gStrings.brandShortName],
-          2
+          "notification.unsigned", [this.mAddon.name, gStrings.brandShortName], 2
         );
-        this._warningLink.value = gStrings.ext.GetStringFromName(
-          "notification.unsigned.link"
-        );
+        this._warningLink.value = gStrings.ext.GetStringFromName("notification.unsigned.link");
         this._warningLink.href = SUPPORT_URL + "unsigned-addons";
         this._warningLink.hidden = false;
-      } else if (
-        !isUpgrade &&
-        this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_SOFTBLOCKED
-      ) {
+      } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_SOFTBLOCKED) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.softblocked",
-          [this.mAddon.name],
-          1
+          "notification.softblocked", [this.mAddon.name], 1
         );
-        this._warningLink.value = gStrings.ext.GetStringFromName(
-          "notification.softblocked.link"
-        );
+        this._warningLink.value = gStrings.ext.GetStringFromName("notification.softblocked.link");
         this._warningLink.href = this.mAddon.blocklistURL;
         this._warningLink.hidden = false;
         this._warningBtn.hidden = true;
-      } else if (
-        !isUpgrade &&
-        this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_OUTDATED
-      ) {
+      } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_OUTDATED) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.outdated",
-          [this.mAddon.name],
-          1
+          "notification.outdated", [this.mAddon.name], 1
         );
-        this._warningLink.value = gStrings.ext.GetStringFromName(
-          "notification.outdated.link"
-        );
+        this._warningLink.value = gStrings.ext.GetStringFromName("notification.outdated.link");
         this._warningLink.href = this.mAddon.blocklistURL;
         this._warningLink.hidden = false;
         this._warningBtn.hidden = true;
-      } else if (
-        !isUpgrade &&
-        this.mAddon.blocklistState ==
-          Ci.nsIBlocklistService.STATE_VULNERABLE_UPDATE_AVAILABLE
-      ) {
+      } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_VULNERABLE_UPDATE_AVAILABLE) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.vulnerableUpdatable",
-          [this.mAddon.name],
-          1
+          "notification.vulnerableUpdatable", [this.mAddon.name], 1
         );
-        this._errorLink.value = gStrings.ext.GetStringFromName(
-          "notification.vulnerableUpdatable.link"
-        );
+        this._errorLink.value = gStrings.ext.GetStringFromName("notification.vulnerableUpdatable.link");
         this._errorLink.href = this.mAddon.blocklistURL;
         this._errorLink.hidden = false;
-      } else if (
-        !isUpgrade &&
-        this.mAddon.blocklistState ==
-          Ci.nsIBlocklistService.STATE_VULNERABLE_NO_UPDATE
-      ) {
+      } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_VULNERABLE_NO_UPDATE) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.vulnerableNoUpdate",
-          [this.mAddon.name],
-          1
+          "notification.vulnerableNoUpdate", [this.mAddon.name], 1
         );
-        this._errorLink.value = gStrings.ext.GetStringFromName(
-          "notification.vulnerableNoUpdate.link"
-        );
+        this._errorLink.value = gStrings.ext.GetStringFromName("notification.vulnerableNoUpdate.link");
         this._errorLink.href = this.mAddon.blocklistURL;
         this._errorLink.hidden = false;
-      } else if (
-        this.mAddon.isGMPlugin &&
-        !this.mAddon.isInstalled &&
-        this.mAddon.isActive
-      ) {
+      } else if (this.mAddon.isGMPlugin && !this.mAddon.isInstalled &&
+        this.mAddon.isActive) {
         this.setAttribute("notification", "warning");
-        this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.gmpPending",
-          [this.mAddon.name],
-          1
-        );
+        this._warning.textContent =
+          gStrings.ext.formatStringFromName("notification.gmpPending", [this.mAddon.name], 1);
       } else {
         this.removeAttribute("notification");
       }
     }
 
-    this._preferencesBtn.hidden =
-      !this.mAddon.optionsType && this.mAddon.type != "plugin";
+    this._preferencesBtn.hidden = !this.mAddon.optionsType && this.mAddon.type != "plugin";
 
     if (this.typeHasFlag("SUPPORTS_ASK_TO_ACTIVATE")) {
       this._enableBtn.disabled = true;
       this._disableBtn.disabled = true;
-      this._askToActivateMenuitem.disabled = !this.hasPermission(
-        "ask_to_activate"
-      );
+      this._askToActivateMenuitem.disabled = !this.hasPermission("ask_to_activate");
       this._alwaysActivateMenuitem.disabled = !this.hasPermission("enable");
       this._neverActivateMenuitem.disabled = !this.hasPermission("disable");
       if (!this.mAddon.isActive) {
         this._stateMenulist.selectedItem = this._neverActivateMenuitem;
-      } else if (
-        this.mAddon.userDisabled == AddonManager.STATE_ASK_TO_ACTIVATE
-      ) {
+      } else if (this.mAddon.userDisabled == AddonManager.STATE_ASK_TO_ACTIVATE) {
         this._stateMenulist.selectedItem = this._askToActivateMenuitem;
       } else {
         this._stateMenulist.selectedItem = this._alwaysActivateMenuitem;
       }
-      let hasActivatePermission = [
-        "ask_to_activate",
-        "enable",
-        "disable"
-      ].some(perm => this.hasPermission(perm));
+      let hasActivatePermission = ["ask_to_activate", "enable", "disable"].some(perm => this.hasPermission(perm));
       this._stateMenulist.disabled = !hasActivatePermission;
       this._stateMenulist.hidden = false;
       this._stateMenulist.classList.add("no-auto-hide");
     } else {
       this._stateMenulist.hidden = true;
 
-      let enableTooltip = gViewController.commands.cmd_enableItem.getTooltip(
-        this.mAddon
-      );
+      let enableTooltip = gViewController.commands.cmd_enableItem
+        .getTooltip(this.mAddon);
       this._enableBtn.setAttribute("tooltiptext", enableTooltip);
       if (this.hasPermission("enable")) {
         this._enableBtn.hidden = false;
@@ -709,9 +494,8 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
         this._enableBtn.hidden = true;
       }
 
-      let disableTooltip = gViewController.commands.cmd_disableItem.getTooltip(
-        this.mAddon
-      );
+      let disableTooltip = gViewController.commands.cmd_disableItem
+        .getTooltip(this.mAddon);
       this._disableBtn.setAttribute("tooltiptext", disableTooltip);
       if (this.hasPermission("disable")) {
         this._disableBtn.hidden = false;
@@ -720,9 +504,8 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       }
     }
 
-    let uninstallTooltip = gViewController.commands.cmd_uninstallItem.getTooltip(
-      this.mAddon
-    );
+    let uninstallTooltip = gViewController.commands.cmd_uninstallItem
+      .getTooltip(this.mAddon);
     this._removeBtn.setAttribute("tooltiptext", uninstallTooltip);
     if (this.hasPermission("uninstall")) {
       this._removeBtn.hidden = false;
@@ -732,10 +515,8 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
     this.setAttribute("active", this.mAddon.isActive);
 
-    var showProgress =
-      this.mAddon.purchaseURL ||
-      (this.mAddon.install &&
-        this.mAddon.install.state != AddonManager.STATE_INSTALLED);
+    var showProgress = this.mAddon.purchaseURL || (this.mAddon.install &&
+      this.mAddon.install.state != AddonManager.STATE_INSTALLED);
     this._showStatus(showProgress ? "progress" : "none");
 
     if (this.mAddon.type == "experiment") {
@@ -755,13 +536,14 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
         let timeMessage;
 
         if (days < 1) {
-          timeKey += active ? "endsToday" : "endedToday";
+          timeKey += (active ? "endsToday" : "endedToday");
           timeMessage = gStrings.ext.GetStringFromName(timeKey);
         } else {
-          timeKey += active ? "daysRemaining" : "daysPassed";
+          timeKey += (active ? "daysRemaining" : "daysPassed");
           days = Math.round(days);
           let timeString = gStrings.ext.GetStringFromName(timeKey);
-          timeMessage = PluralForm.get(days, timeString).replace("#1", days);
+          timeMessage = PluralForm.get(days, timeString)
+            .replace("#1", days);
         }
 
         this._experimentTime.value = timeMessage;
@@ -788,7 +570,8 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     };
 
     let showRelNotes = () => {
-      if (!relNotesData || !transformData) return;
+      if (!relNotesData || !transformData)
+        return;
 
       this._relNotesLoading.hidden = true;
 
@@ -817,31 +600,29 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     function handleResponse(aEvent) {
       var req = aEvent.target;
       var ct = req.getResponseHeader("content-type");
-      if (
-        (!ct || !ct.includes("text/html")) &&
+      if ((!ct || !ct.includes("text/html")) &&
         req.responseXML &&
-        req.responseXML.documentElement.namespaceURI != XMLURI_PARSE_ERROR
-      ) {
-        if (req == dataReq) relNotesData = req.responseXML;
-        else transformData = req.responseXML;
+        req.responseXML.documentElement.namespaceURI != XMLURI_PARSE_ERROR) {
+        if (req == dataReq)
+          relNotesData = req.responseXML;
+        else
+          transformData = req.responseXML;
         showRelNotes();
       } else {
         handleError();
       }
     }
 
-    var dataReq = Components.classes[
-      "@mozilla.org/xmlextras/xmlhttprequest;1"
-    ].createInstance(Components.interfaces.nsIXMLHttpRequest);
+    var dataReq = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
+      .createInstance(Components.interfaces.nsIXMLHttpRequest);
     dataReq.open("GET", aURI.spec, true);
     dataReq.responseType = "document";
     dataReq.addEventListener("load", handleResponse);
     dataReq.addEventListener("error", handleError);
     dataReq.send(null);
 
-    var styleReq = Components.classes[
-      "@mozilla.org/xmlextras/xmlhttprequest;1"
-    ].createInstance(Components.interfaces.nsIXMLHttpRequest);
+    var styleReq = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
+      .createInstance(Components.interfaces.nsIXMLHttpRequest);
     styleReq.open("GET", UPDATES_RELEASENOTES_TRANSFORMFILE, true);
     styleReq.responseType = "document";
     styleReq.addEventListener("load", handleResponse);
@@ -864,8 +645,8 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       event.initEvent("RelNotesToggle", true, true);
       this.dispatchEvent(event);
     } else {
-      this._relNotesContainer.style.height =
-        this._relNotesContainer.scrollHeight + "px";
+      this._relNotesContainer.style.height = this._relNotesContainer.scrollHeight +
+        "px";
       this.setAttribute("show-relnotes", true);
       this._relNotesToggle.setAttribute(
         "label",
@@ -875,9 +656,9 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
         "tooltiptext",
         this._relNotesToggle.getAttribute("hidetooltip")
       );
-      var uri = this.mManualUpdate
-        ? this.mManualUpdate.releaseNotesURI
-        : this.mAddon.releaseNotesURI;
+      var uri = this.mManualUpdate ?
+        this.mManualUpdate.releaseNotesURI :
+        this.mAddon.releaseNotesURI;
       this._fetchReleaseNotes(uri);
     }
   }
@@ -891,10 +672,8 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     // If uninstalling does not require a restart and the type doesn't
     // support undoing of restartless uninstalls, then we fake it by
     // just disabling it it, and doing the real uninstall later.
-    if (
-      !this.opRequiresRestart("uninstall") &&
-      !this.typeHasFlag("SUPPORTS_UNDO_RESTARTLESS_UNINSTALL")
-    ) {
+    if (!this.opRequiresRestart("uninstall") &&
+      !this.typeHasFlag("SUPPORTS_UNDO_RESTARTLESS_UNINSTALL")) {
       this.setAttribute("wasDisabled", this.mAddon.userDisabled);
 
       // We must set userDisabled to true first, this will call
@@ -917,23 +696,21 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
   }
   retryInstall() {
     var install = this._installStatus.mInstall;
-    if (!install) return;
-    if (
-      install.state != AddonManager.STATE_DOWNLOAD_FAILED &&
-      install.state != AddonManager.STATE_INSTALL_FAILED
-    )
+    if (!install)
+      return;
+    if (install.state != AddonManager.STATE_DOWNLOAD_FAILED &&
+      install.state != AddonManager.STATE_INSTALL_FAILED)
       return;
     install.install();
   }
   showInDetailView() {
-    gViewController.loadView(
-      "addons://detail/" + encodeURIComponent(this.mAddon.id)
-    );
+    gViewController.loadView("addons://detail/" +
+      encodeURIComponent(this.mAddon.id));
   }
   findReplacement() {
-    let url = this.mAddon.type == "theme"
-      ? SUPPORT_URL + "complete-themes"
-      : `https://addons.mozilla.org/find-replacement/?guid=${this.mAddon.id}`;
+    let url = (this.mAddon.type == "theme") ?
+      SUPPORT_URL + "complete-themes" :
+      `https://addons.mozilla.org/find-replacement/?guid=${this.mAddon.id}`;
     openURL(url);
   }
   onIncludeUpdateChanged() {
@@ -960,11 +737,9 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     this._updateState();
   }
   onPropertyChanged(aProperties) {
-    if (
-      aProperties.includes("appDisabled") ||
+    if (aProperties.includes("appDisabled") ||
       aProperties.includes("signedState") ||
-      aProperties.includes("userDisabled")
-    )
+      aProperties.includes("userDisabled"))
       this._updateState();
   }
   onNoUpdateAvailable() {
@@ -977,20 +752,21 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     this._updateState();
   }
   onExternalInstall(aAddon, aExistingAddon, aNeedsRestart) {
-    if (aExistingAddon.id != this.mAddon.id) return;
+    if (aExistingAddon.id != this.mAddon.id)
+      return;
 
     // If the install completed without needing a restart then switch to
     // using the new Addon
-    if (!aNeedsRestart) this._initWithAddon(aAddon);
-    else this._updateState();
+    if (!aNeedsRestart)
+      this._initWithAddon(aAddon);
+    else
+      this._updateState();
   }
   onNewInstall(aInstall) {
     if (this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_ENABLE)
       return;
-    if (
-      this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_DEFAULT &&
-      AddonManager.autoUpdateDefault
-    )
+    if (this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_DEFAULT &&
+      AddonManager.autoUpdateDefault)
       return;
 
     this.mManualUpdate = aInstall;
@@ -1011,7 +787,8 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     // using the new Addon
     if (!(aAddon.pendingOperations & AddonManager.PENDING_INSTALL))
       this._initWithAddon(aAddon);
-    else this._updateState();
+    else
+      this._updateState();
   }
   onDownloadFailed() {
     this._updateState();
@@ -1023,4 +800,3 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     this._updateState();
   }
 }
-customElements.define("firefox-addon-generic", FirefoxAddonGeneric);

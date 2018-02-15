@@ -1,10 +1,11 @@
 class FirefoxRadiogroup extends FirefoxBasecontrol {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._radioChildren = null;
 
-    if (this.getAttribute("disabled") == "true") this.disabled = true;
+    if (this.getAttribute("disabled") == "true")
+      this.disabled = true;
 
     var children = this._getRadioChildren();
     var length = children.length;
@@ -16,63 +17,61 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     }
 
     var value = this.value;
-    if (value) this.value = value;
-    else this.selectedIndex = 0;
+    if (value)
+      this.value = value;
+    else
+      this.selectedIndex = 0;
 
-    this.addEventListener("mousedown", event => {
-      if (this.disabled) event.preventDefault();
+    this.addEventListener("mousedown", (event) => {
+      if (this.disabled)
+        event.preventDefault();
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this.selectedItem = this.focusedItem;
       this.selectedItem.doCommand();
       // Prevent page from scrolling on the space key.
       event.preventDefault();
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this.checkAdjacentElement(false);
       event.stopPropagation();
       event.preventDefault();
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       // left arrow goes back when we are ltr, forward when we are rtl
-      this.checkAdjacentElement(
-        document.defaultView.getComputedStyle(this).direction == "rtl"
-      );
+      this.checkAdjacentElement(document.defaultView.getComputedStyle(
+        this).direction == "rtl");
       event.stopPropagation();
       event.preventDefault();
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this.checkAdjacentElement(true);
       event.stopPropagation();
       event.preventDefault();
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       // right arrow goes forward when we are ltr, back when we are rtl
-      this.checkAdjacentElement(
-        document.defaultView.getComputedStyle(this).direction == "ltr"
-      );
+      this.checkAdjacentElement(document.defaultView.getComputedStyle(
+        this).direction == "ltr");
       event.stopPropagation();
       event.preventDefault();
     });
 
-    this.addEventListener("focus", event => {
+    this.addEventListener("focus", (event) => {
       this.setAttribute("focused", "true");
-      if (this.focusedItem) return;
+      if (this.focusedItem)
+        return;
 
       var val = this.selectedItem;
       if (!val || val.disabled || val.hidden || val.collapsed) {
         var children = this._getRadioChildren();
         for (var i = 0; i < children.length; ++i) {
-          if (
-            !children[i].hidden &&
-            !children[i].collapsed &&
-            !children[i].disabled
-          ) {
+          if (!children[i].hidden && !children[i].collapsed && !children[i].disabled) {
             val = children[i];
             break;
           }
@@ -81,10 +80,11 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       this.focusedItem = val;
     });
 
-    this.addEventListener("blur", event => {
+    this.addEventListener("blur", (event) => {
       this.removeAttribute("focused");
       this.focusedItem = null;
     });
+
   }
 
   set value(val) {
@@ -100,12 +100,14 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
   }
 
   get value() {
-    return this.getAttribute("value");
+    return this.getAttribute('value');
   }
 
   set disabled(val) {
-    if (val) this.setAttribute("disabled", "true");
-    else this.removeAttribute("disabled");
+    if (val)
+      this.setAttribute("disabled", "true");
+    else
+      this.removeAttribute("disabled");
     var children = this._getRadioChildren();
     for (var i = 0; i < children.length; ++i) {
       children[i].disabled = val;
@@ -114,21 +116,18 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
   }
 
   get disabled() {
-    if (this.getAttribute("disabled") == "true") return true;
+    if (this.getAttribute("disabled") == "true")
+      return true;
     var children = this._getRadioChildren();
     for (var i = 0; i < children.length; ++i) {
-      if (
-        !children[i].hidden &&
-        !children[i].collapsed &&
-        !children[i].disabled
-      )
+      if (!children[i].hidden && !children[i].collapsed && !children[i].disabled)
         return false;
     }
     return true;
   }
 
   get itemCount() {
-    return this._getRadioChildren().length;
+    return this._getRadioChildren().length
   }
 
   set selectedIndex(val) {
@@ -139,7 +138,8 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
   get selectedIndex() {
     var children = this._getRadioChildren();
     for (var i = 0; i < children.length; ++i) {
-      if (children[i].selected) return i;
+      if (children[i].selected)
+        return i;
     }
     return -1;
   }
@@ -196,7 +196,8 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
   get selectedItem() {
     var children = this._getRadioChildren();
     for (var i = 0; i < children.length; ++i) {
-      if (children[i].selected) return children[i];
+      if (children[i].selected)
+        return children[i];
     }
     return null;
   }
@@ -207,7 +208,8 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     // unfocus all other group nodes
     var children = this._getRadioChildren();
     for (var i = 0; i < children.length; ++i) {
-      if (children[i] != val) children[i].removeAttribute("focused");
+      if (children[i] != val)
+        children[i].removeAttribute("focused");
     }
     return val;
   }
@@ -215,7 +217,8 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
   get focusedItem() {
     var children = this._getRadioChildren();
     for (var i = 0; i < children.length; ++i) {
-      if (children[i].getAttribute("focused") == "true") return children[i];
+      if (children[i].getAttribute("focused") == "true")
+        return children[i];
     }
     return null;
   }
@@ -224,28 +227,31 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     var i;
     var children = this._getRadioChildren();
     for (i = 0; i < children.length; ++i) {
-      if (children[i] == currentElement) break;
+      if (children[i] == currentElement)
+        break;
     }
     var index = i;
 
     if (aNextFlag) {
       do {
-        if (++i == children.length) i = 0;
-        if (i == index) break;
-      } while (
-        children[i].hidden || children[i].collapsed || children[i].disabled
-      );
+        if (++i == children.length)
+          i = 0;
+        if (i == index)
+          break;
+      }
+      while (children[i].hidden || children[i].collapsed || children[i].disabled);
       // XXX check for display/visibility props too
 
       this.selectedItem = children[i];
       children[i].doCommand();
     } else {
       do {
-        if (i == 0) i = children.length;
-        if (--i == index) break;
-      } while (
-        children[i].hidden || children[i].collapsed || children[i].disabled
-      );
+        if (i == 0)
+          i = children.length;
+        if (--i == index)
+          break;
+      }
+      while (children[i].hidden || children[i].collapsed || children[i].disabled);
       // XXX check for display/visibility props too
 
       this.selectedItem = children[i];
@@ -253,7 +259,8 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     }
   }
   _getRadioChildren() {
-    if (this._radioChildren) return this._radioChildren;
+    if (this._radioChildren)
+      return this._radioChildren;
 
     var radioChildren = [];
     var doc = this.ownerDocument;
@@ -263,25 +270,25 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       // collecting the child nodes could trigger constructors
       // which would blow away our list.
 
-      var iterator = doc.createTreeWalker(
-        this,
+      var iterator = doc.createTreeWalker(this,
         NodeFilter.SHOW_ELEMENT,
-        this._filterRadioGroup
-      );
-      while (iterator.nextNode()) radioChildren.push(iterator.currentNode);
-      return (this._radioChildren = radioChildren);
+        this._filterRadioGroup);
+      while (iterator.nextNode())
+        radioChildren.push(iterator.currentNode);
+      return this._radioChildren = radioChildren;
     }
 
     // We don't have child nodes.
-    const XUL_NS =
-      "http://www.mozilla.org/keymaster/" + "gatekeeper/there.is.only.xul";
+    const XUL_NS = "http://www.mozilla.org/keymaster/" +
+      "gatekeeper/there.is.only.xul";
     var elems = doc.getElementsByAttribute("group", this.id);
     for (var i = 0; i < elems.length; i++) {
-      if (elems[i].namespaceURI == XUL_NS && elems[i].localName == "radio") {
+      if ((elems[i].namespaceURI == XUL_NS) &&
+        (elems[i].localName == "radio")) {
         radioChildren.push(elems[i]);
       }
     }
-    return (this._radioChildren = radioChildren);
+    return this._radioChildren = radioChildren;
   }
   _filterRadioGroup(node) {
     switch (node.localName) {
@@ -299,7 +306,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
   }
   getItemAtIndex(index) {
     var children = this._getRadioChildren();
-    return index >= 0 && index < children.length ? children[index] : null;
+    return (index >= 0 && index < children.length) ? children[index] : null;
   }
   appendItem(label, value) {
     var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
@@ -316,8 +323,10 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     radio.setAttribute("label", label);
     radio.setAttribute("value", value);
     var before = this.getItemAtIndex(index);
-    if (before) before.parentNode.insertBefore(radio, before);
-    else this.appendChild(radio);
+    if (before)
+      before.parentNode.insertBefore(radio, before);
+    else
+      this.appendChild(radio);
     this._radioChildren = null;
     return radio;
   }
@@ -330,4 +339,3 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     return remove;
   }
 }
-customElements.define("firefox-radiogroup", FirefoxRadiogroup);

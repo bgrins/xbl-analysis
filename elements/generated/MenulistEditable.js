@@ -1,6 +1,6 @@
 class FirefoxMenulistEditable extends FirefoxMenulist {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="menulist-editable-box textbox-input-box" inherits="context,disabled,readonly,focused" flex="1">
         <html:input class="menulist-editable-input" anonid="input" allowevents="true" inherits="value=label,value,disabled,tabindex,readonly,placeholder"></html:input>
@@ -9,23 +9,15 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
       <children includes="menupopup"></children>
     `;
 
-    this.addEventListener(
-      "focus",
-      event => {
-        this.setAttribute("focused", "true");
-      },
-      true
-    );
+    this.addEventListener("focus", (event) => {
+      this.setAttribute("focused", "true");
+    }, true);
 
-    this.addEventListener(
-      "blur",
-      event => {
-        this.removeAttribute("focused");
-      },
-      true
-    );
+    this.addEventListener("blur", (event) => {
+      this.removeAttribute("focused");
+    }, true);
 
-    this.addEventListener("popupshowing", event => {
+    this.addEventListener("popupshowing", (event) => {
       // editable menulists elements aren't in the focus order,
       // so when the popup opens we need to force the focus to the inputField
       if (event.target.parentNode == this) {
@@ -40,28 +32,23 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
       }
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       // open popup if key is up arrow, down arrow, or F4
       if (!event.ctrlKey && !event.shiftKey) {
-        if (
-          event.keyCode == KeyEvent.DOM_VK_UP ||
+        if (event.keyCode == KeyEvent.DOM_VK_UP ||
           event.keyCode == KeyEvent.DOM_VK_DOWN ||
-          (event.keyCode == KeyEvent.DOM_VK_F4 && !event.altKey)
-        ) {
+          (event.keyCode == KeyEvent.DOM_VK_F4 && !event.altKey)) {
           event.preventDefault();
           this.open = true;
         }
       }
     });
+
   }
 
   get inputField() {
     if (!this.mInputField)
-      this.mInputField = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "input"
-      );
+      this.mInputField = document.getAnonymousElementByAttribute(this, "anonid", "input");
     return this.mInputField;
   }
 
@@ -90,9 +77,11 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
 
   set selectedItem(val) {
     var oldval = this.mSelectedInternal;
-    if (oldval == val) return val;
+    if (oldval == val)
+      return val;
 
-    if (val && !this.contains(val)) return val;
+    if (val && !this.contains(val))
+      return val;
 
     // This doesn't touch inputField.value or "value" and "label" attributes
     this.setSelectionInternal(val);
@@ -127,25 +116,24 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
   }
 
   set disableautoselect(val) {
-    if (val) this.setAttribute("disableautoselect", "true");
-    else this.removeAttribute("disableautoselect");
+    if (val) this.setAttribute('disableautoselect', 'true');
+    else this.removeAttribute('disableautoselect');
     return val;
   }
 
   get disableautoselect() {
-    return this.hasAttribute("disableautoselect");
+    return this.hasAttribute('disableautoselect');
   }
 
   get editor() {
-    const nsIDOMNSEditableElement =
-      Components.interfaces.nsIDOMNSEditableElement;
+    const nsIDOMNSEditableElement = Components.interfaces.nsIDOMNSEditableElement;
     return this.inputField.QueryInterface(nsIDOMNSEditableElement).editor;
   }
 
   set readOnly(val) {
     this.inputField.readOnly = val;
-    if (val) this.setAttribute("readonly", "true");
-    else this.removeAttribute("readonly");
+    if (val) this.setAttribute('readonly', 'true');
+    else this.removeAttribute('readonly');
     return val;
   }
 
@@ -153,7 +141,8 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
     return this.inputField.readOnly;
   }
   _selectInputFieldValueInList() {
-    if (this.hasAttribute("disableautoselect")) return;
+    if (this.hasAttribute("disableautoselect"))
+      return;
 
     // Find and select the menuitem that matches inputField's "value"
     var arr = null;
@@ -168,14 +157,16 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
     // This is called internally to set selected item
     //  without triggering infinite loop
     //  when using selectedItem's setter
-    if (this.mSelectedInternal == val) return val;
+    if (this.mSelectedInternal == val)
+      return val;
 
     if (this.mSelectedInternal)
       this.mSelectedInternal.removeAttribute("selected");
 
     this.mSelectedInternal = val;
 
-    if (val) val.setAttribute("selected", "true");
+    if (val)
+      val.setAttribute("selected", "true");
 
     // Do NOT change the "value", which is owned by inputField
     return val;
@@ -184,4 +175,3 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
     this.inputField.select();
   }
 }
-customElements.define("firefox-menulist-editable", FirefoxMenulistEditable);

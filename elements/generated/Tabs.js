@@ -1,6 +1,6 @@
 class FirefoxTabs extends FirefoxBasecontrol {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:spacer class="tabs-left"></xul:spacer>
       <children></children>
@@ -11,7 +11,8 @@ class FirefoxTabs extends FirefoxBasecontrol {
 
     this._tabbox = this.tabbox;
 
-    if (!this.hasAttribute("orient")) this.setAttribute("orient", "horizontal");
+    if (!this.hasAttribute("orient"))
+      this.setAttribute("orient", "horizontal");
 
     if (this.tabbox && this.tabbox.hasAttribute("selectedIndex")) {
       let selectedIndex = parseInt(this.tabbox.getAttribute("selectedIndex"));
@@ -29,12 +30,15 @@ class FirefoxTabs extends FirefoxBasecontrol {
     }
 
     var value = this.value;
-    if (value) this.value = value;
-    else this.selectedIndex = 0;
+    if (value)
+      this.value = value;
+    else
+      this.selectedIndex = 0;
+
   }
 
   get itemCount() {
-    return this.childNodes.length;
+    return this.childNodes.length
   }
 
   set value(val) {
@@ -50,7 +54,7 @@ class FirefoxTabs extends FirefoxBasecontrol {
   }
 
   get value() {
-    return this.getAttribute("value");
+    return this.getAttribute('value');
   }
 
   get tabbox() {
@@ -68,7 +72,7 @@ class FirefoxTabs extends FirefoxBasecontrol {
       parent = parent.parentNode;
     }
 
-    return (this._tabbox = parent);
+    return this._tabbox = parent;
   }
 
   set selectedIndex(val) {
@@ -77,7 +81,8 @@ class FirefoxTabs extends FirefoxBasecontrol {
       var alreadySelected = tab.selected;
 
       Array.forEach(this.childNodes, function(aTab) {
-        if (aTab.selected && aTab != tab) aTab._selected = false;
+        if (aTab.selected && aTab != tab)
+          aTab._selected = false;
       });
       tab._selected = true;
 
@@ -105,7 +110,8 @@ class FirefoxTabs extends FirefoxBasecontrol {
   get selectedIndex() {
     const tabs = this.childNodes;
     for (var i = 0; i < tabs.length; i++) {
-      if (tabs[i].selected) return i;
+      if (tabs[i].selected)
+        return i;
     }
     return -1;
   }
@@ -121,18 +127,22 @@ class FirefoxTabs extends FirefoxBasecontrol {
   get selectedItem() {
     const tabs = this.childNodes;
     for (var i = 0; i < tabs.length; i++) {
-      if (tabs[i].selected) return tabs[i];
+      if (tabs[i].selected)
+        return tabs[i];
     }
     return null;
   }
   getRelatedElement(aTabElm) {
-    if (!aTabElm) return null;
+    if (!aTabElm)
+      return null;
 
     let tabboxElm = this.tabbox;
-    if (!tabboxElm) return null;
+    if (!tabboxElm)
+      return null;
 
     let tabpanelsElm = tabboxElm.tabpanels;
-    if (!tabpanelsElm) return null;
+    if (!tabpanelsElm)
+      return null;
 
     // Get linked tab panel by 'linkedpanel' attribute on the given tab
     // element.
@@ -149,11 +159,9 @@ class FirefoxTabs extends FirefoxBasecontrol {
 
       let bindingParent = ownerDoc.getBindingParent(aTabElm);
       if (bindingParent)
-        return ownerDoc.getAnonymousElementByAttribute(
-          bindingParent,
+        return ownerDoc.getAnonymousElementByAttribute(bindingParent,
           "id",
-          linkedPanelId
-        );
+          linkedPanelId);
 
       return ownerDoc.getElementById(linkedPanelId);
     }
@@ -171,25 +179,19 @@ class FirefoxTabs extends FirefoxBasecontrol {
   }
   _selectNewTab(aNewTab, aFallbackDir, aWrap) {
     var requestedTab = aNewTab;
-    while (
-      aNewTab.hidden ||
-      aNewTab.disabled ||
-      !this._canAdvanceToTab(aNewTab)
-    ) {
-      aNewTab = aFallbackDir == -1
-        ? aNewTab.previousSibling
-        : aNewTab.nextSibling;
+    while (aNewTab.hidden || aNewTab.disabled || !this._canAdvanceToTab(aNewTab)) {
+      aNewTab = aFallbackDir == -1 ? aNewTab.previousSibling : aNewTab.nextSibling;
       if (!aNewTab && aWrap)
-        aNewTab = aFallbackDir == -1
-          ? this.childNodes[this.childNodes.length - 1]
-          : this.childNodes[0];
-      if (!aNewTab || aNewTab == requestedTab) return;
+        aNewTab = aFallbackDir == -1 ? this.childNodes[this.childNodes.length - 1] :
+        this.childNodes[0];
+      if (!aNewTab || aNewTab == requestedTab)
+        return;
     }
 
     var isTabFocused = false;
     try {
       isTabFocused =
-        document.commandDispatcher.focusedElement == this.selectedItem;
+        (document.commandDispatcher.focusedElement == this.selectedItem);
     } catch (e) {}
     this.selectedItem = aNewTab;
     if (isTabFocused) {
@@ -203,7 +205,8 @@ class FirefoxTabs extends FirefoxBasecontrol {
         try {
           let el = document.commandDispatcher.focusedElement;
           while (el && el != this.tabbox.tabpanels) {
-            if (el == this.tabbox || el == selectedPanel) return;
+            if (el == this.tabbox || el == selectedPanel)
+              return;
             el = el.parentNode;
           }
           aNewTab.focus();
@@ -218,9 +221,8 @@ class FirefoxTabs extends FirefoxBasecontrol {
     var startTab = this.selectedItem;
     var next = startTab[aDir == -1 ? "previousSibling" : "nextSibling"];
     if (!next && aWrap) {
-      next = aDir == -1
-        ? this.childNodes[this.childNodes.length - 1]
-        : this.childNodes[0];
+      next = aDir == -1 ? this.childNodes[this.childNodes.length - 1] :
+        this.childNodes[0];
     }
     if (next && next != startTab) {
       this._selectNewTab(next, aDir, aWrap);
@@ -240,14 +242,16 @@ class FirefoxTabs extends FirefoxBasecontrol {
     tab.setAttribute("label", label);
     tab.setAttribute("value", value);
     var before = this.getItemAtIndex(index);
-    if (before) this.insertBefore(tab, before);
-    else this.appendChild(tab);
+    if (before)
+      this.insertBefore(tab, before);
+    else
+      this.appendChild(tab);
     return tab;
   }
   removeItemAt(index) {
     var remove = this.getItemAtIndex(index);
-    if (remove) this.removeChild(remove);
+    if (remove)
+      this.removeChild(remove);
     return remove;
   }
 }
-customElements.define("firefox-tabs", FirefoxTabs);

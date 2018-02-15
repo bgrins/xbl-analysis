@@ -1,6 +1,6 @@
 class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
         <xul:box anonid="arrowbox" class="panel-arrowbox">
@@ -19,68 +19,54 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
 
     this.style.pointerEvents = "none";
 
-    this.addEventListener("popupshowing", event => {
+    this.addEventListener("popupshowing", (event) => {
       this.adjustArrowPosition();
       this.setAttribute("animate", "open");
     });
 
-    this.addEventListener("popupshown", event => {
+    this.addEventListener("popupshown", (event) => {
       this.setAttribute("panelopen", "true");
       let disablePointerEvents;
       if (!this.hasAttribute("disablepointereventsfortransition")) {
-        let container = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "container"
-        );
+        let container = document.getAnonymousElementByAttribute(this, "anonid", "container");
         let cs = getComputedStyle(container);
         let transitionProp = cs.transitionProperty;
         let transitionTime = parseFloat(cs.transitionDuration);
-        disablePointerEvents =
-          (transitionProp.includes("transform") || transitionProp == "all") &&
+        disablePointerEvents = (transitionProp.includes("transform") ||
+            transitionProp == "all") &&
           transitionTime > 0;
-        this.setAttribute(
-          "disablepointereventsfortransition",
-          disablePointerEvents
-        );
+        this.setAttribute("disablepointereventsfortransition", disablePointerEvents);
       } else {
-        disablePointerEvents =
-          this.getAttribute("disablepointereventsfortransition") == "true";
+        disablePointerEvents = this.getAttribute("disablepointereventsfortransition") == "true";
       }
       if (!disablePointerEvents) {
         this.style.removeProperty("pointer-events");
       }
     });
 
-    this.addEventListener("transitionend", event => {
-      if (
-        event.originalTarget.getAttribute("anonid") == "container" &&
-        (event.propertyName == "transform" ||
-          event.propertyName == "-moz-window-transform")
-      ) {
+    this.addEventListener("transitionend", (event) => {
+      if (event.originalTarget.getAttribute("anonid") == "container" &&
+        (event.propertyName == "transform" || event.propertyName == "-moz-window-transform")) {
         this.style.removeProperty("pointer-events");
       }
     });
 
-    this.addEventListener("popuphiding", event => {
+    this.addEventListener("popuphiding", (event) => {
       this.setAttribute("animate", "cancel");
     });
 
-    this.addEventListener("popuphidden", event => {
+    this.addEventListener("popuphidden", (event) => {
       this.removeAttribute("panelopen");
       if (this.getAttribute("disablepointereventsfortransition") == "true") {
         this.style.pointerEvents = "none";
       }
       this.removeAttribute("animate");
     });
+
   }
 
   adjustArrowPosition() {
-    var arrow = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "arrow"
-    );
+    var arrow = document.getAnonymousElementByAttribute(this, "anonid", "arrow");
 
     var anchor = this.anchorNode;
     if (!anchor) {
@@ -88,16 +74,8 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
       return;
     }
 
-    var container = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "container"
-    );
-    var arrowbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "arrowbox"
-    );
+    var container = document.getAnonymousElementByAttribute(this, "anonid", "container");
+    var arrowbox = document.getAnonymousElementByAttribute(this, "anonid", "arrowbox");
 
     var position = this.alignmentPosition;
     var offset = this.alignmentOffset;
@@ -117,7 +95,7 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
       arrowbox.style.transform = "translate(0, " + -offset + "px)";
 
       // The assigned side stays the same regardless of direction.
-      var isRTL = window.getComputedStyle(this).direction == "rtl";
+      var isRTL = (window.getComputedStyle(this).direction == "rtl");
 
       if (position.indexOf("start_") == 0) {
         container.dir = "reverse";
@@ -126,10 +104,7 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
         container.dir = "";
         this.setAttribute("side", isRTL ? "right" : "left");
       }
-    } else if (
-      position.indexOf("before_") == 0 ||
-      position.indexOf("after_") == 0
-    ) {
+    } else if (position.indexOf("before_") == 0 || position.indexOf("after_") == 0) {
       container.orient = "";
       arrowbox.orient = "";
       if (position.indexOf("_end") > 0) {
@@ -151,4 +126,3 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
     arrow.hidden = false;
   }
 }
-customElements.define("firefox-places-popup-arrow", FirefoxPlacesPopupArrow);

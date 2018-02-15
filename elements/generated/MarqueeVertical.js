@@ -1,6 +1,6 @@
 class FirefoxMarqueeVertical extends FirefoxMarquee {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <html:div style="overflow: hidden; width: -moz-available;">
         <html:div class="innerDiv">
@@ -8,6 +8,7 @@ class FirefoxMarqueeVertical extends FirefoxMarquee {
         </html:div>
       </html:div>
     `;
+
   }
+
 }
-customElements.define("firefox-marquee-vertical", FirefoxMarqueeVertical);

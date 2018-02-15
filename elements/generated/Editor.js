@@ -1,12 +1,11 @@
 class FirefoxEditor extends XULElement {
   connectedCallback() {
-    this._editorContentListener = {
+
+    this._editorContentListener = ({
       QueryInterface(iid) {
-        if (
-          iid.equals(Components.interfaces.nsIURIContentListener) ||
+        if (iid.equals(Components.interfaces.nsIURIContentListener) ||
           iid.equals(Components.interfaces.nsISupportsWeakReference) ||
-          iid.equals(Components.interfaces.nsISupports)
-        )
+          iid.equals(Components.interfaces.nsISupports))
           return this;
 
         throw Components.results.NS_ERROR_NO_INTERFACE;
@@ -25,7 +24,7 @@ class FirefoxEditor extends XULElement {
       },
       loadCookie: null,
       parentContentListener: null
-    };
+    });
 
     this._finder = null;
 
@@ -37,18 +36,20 @@ class FirefoxEditor extends XULElement {
     //   if the "editortype" attribute is supplied
     // This allows using same contentWindow for different editortypes,
     //   where the type is determined during the apps's window.onload handler.
-    if (this.editortype) this.makeEditable(this.editortype, true);
+    if (this.editortype)
+      this.makeEditable(this.editortype, true);
+
   }
   disconnectedCallback() {
-    undefined;
+    undefined
   }
 
   get finder() {
     if (!this._finder) {
-      if (!this.docShell) return null;
+      if (!this.docShell)
+        return null;
 
-      let Finder = ChromeUtils.import("resource://gre/modules/Finder.jsm", {})
-        .Finder;
+      let Finder = ChromeUtils.import("resource://gre/modules/Finder.jsm", {}).Finder;
       this._finder = new Finder(this.docShell);
     }
     return this._finder;
@@ -56,25 +57,26 @@ class FirefoxEditor extends XULElement {
 
   get fastFind() {
     if (!this._fastFind) {
-      if (!("@mozilla.org/typeaheadfind;1" in Components.classes)) return null;
+      if (!("@mozilla.org/typeaheadfind;1" in Components.classes))
+        return null;
 
-      if (!this.docShell) return null;
+      if (!this.docShell)
+        return null;
 
-      this._fastFind = Components.classes[
-        "@mozilla.org/typeaheadfind;1"
-      ].createInstance(Components.interfaces.nsITypeAheadFind);
+      this._fastFind = Components.classes["@mozilla.org/typeaheadfind;1"]
+        .createInstance(Components.interfaces.nsITypeAheadFind);
       this._fastFind.init(this.docShell);
     }
     return this._fastFind;
   }
 
   set editortype(val) {
-    this.setAttribute("editortype", val);
+    this.setAttribute('editortype', val);
     return val;
   }
 
   get editortype() {
-    return this.getAttribute("editortype");
+    return this.getAttribute('editortype');
   }
 
   get webNavigation() {
@@ -86,7 +88,9 @@ class FirefoxEditor extends XULElement {
   }
 
   get docShell() {
-    let { frameLoader } = this;
+    let {
+      frameLoader
+    } = this;
     return frameLoader ? frameLoader.docShell : null;
   }
 
@@ -95,9 +99,7 @@ class FirefoxEditor extends XULElement {
   }
 
   get contentWindow() {
-    return this.docShell
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIDOMWindow);
+    return this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
   }
 
   get contentWindowAsCPOW() {
@@ -105,9 +107,7 @@ class FirefoxEditor extends XULElement {
   }
 
   get webBrowserFind() {
-    return this.docShell
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIWebBrowserFind);
+    return this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebBrowserFind);
   }
 
   get markupDocumentViewer() {
@@ -115,15 +115,11 @@ class FirefoxEditor extends XULElement {
   }
 
   get editingSession() {
-    return this.webNavigation
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIEditingSession);
+    return this.webNavigation.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIEditingSession);
   }
 
   get commandManager() {
-    return this.webNavigation
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsICommandManager);
+    return this.webNavigation.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsICommandManager);
   }
 
   set fullZoom(val) {
@@ -156,23 +152,16 @@ class FirefoxEditor extends XULElement {
   get outerWindowID() {
     return this.contentWindow
       .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIDOMWindowUtils).outerWindowID;
+      .getInterface(Components.interfaces.nsIDOMWindowUtils)
+      .outerWindowID;
   }
   makeEditable(editortype, waitForUrlLoad) {
-    this.editingSession.makeWindowEditable(
-      this.contentWindow,
-      editortype,
-      waitForUrlLoad,
-      true,
-      false
-    );
+    this.editingSession.makeWindowEditable(this.contentWindow, editortype, waitForUrlLoad, true, false);
     this.setAttribute("editortype", editortype);
 
-    this.docShell
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(
-        Components.interfaces.nsIURIContentListener
-      ).parentContentListener = this._editorContentListener;
+    this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+      .getInterface(Components.interfaces.nsIURIContentListener)
+      .parentContentListener = this._editorContentListener;
   }
   getEditor(containingWindow) {
     return this.editingSession.getEditorForWindow(containingWindow);
@@ -182,4 +171,3 @@ class FirefoxEditor extends XULElement {
     return editor.QueryInterface(Components.interfaces.nsIHTMLEditor);
   }
 }
-customElements.define("firefox-editor", FirefoxEditor);

@@ -1,5 +1,6 @@
 class FirefoxDatetimeInputBase extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly" role="presentation">
         <html:span class="datetime-input-edit-wrapper" anonid="edit-wrapper"></html:span>
@@ -14,15 +15,14 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.mIsRTL = false;
     let intlUtils = window.intlUtils;
     if (intlUtils) {
-      this.mIsRTL = intlUtils.getLocaleInfo(this.mLocales).direction === "rtl";
+      this.mIsRTL =
+        intlUtils.getLocaleInfo(this.mLocales).direction === "rtl";
     }
 
     if (this.mIsRTL) {
-      let inputBoxWrapper = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "input-box-wrapper"
-      );
+      let inputBoxWrapper =
+        document.getAnonymousElementByAttribute(this, "anonid",
+          "input-box-wrapper");
       inputBoxWrapper.dir = "rtl";
     }
 
@@ -31,15 +31,14 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.mStep = this.mInputElement.step;
     this.mIsPickerOpen = false;
 
-    this.mResetButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "reset-button"
-    );
+    this.mResetButton =
+      document.getAnonymousElementByAttribute(this, "anonid", "reset-button");
     this.mResetButton.style.visibility = "hidden";
 
-    this.EVENTS.forEach(eventName => {
-      this.addEventListener(eventName, this, { mozSystemGroup: true });
+    this.EVENTS.forEach((eventName) => {
+      this.addEventListener(eventName, this, {
+        mozSystemGroup: true
+      });
     });
     // Handle keypress separately since we need to catch it on capturing.
     this.addEventListener("keypress", this, {
@@ -51,10 +50,13 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.mInputElement.addEventListener("click", this, {
       mozSystemGroup: true
     });
+
   }
   disconnectedCallback() {
-    this.EVENTS.forEach(eventName => {
-      this.removeEventListener(eventName, this, { mozSystemGroup: true });
+    this.EVENTS.forEach((eventName) => {
+      this.removeEventListener(eventName, this, {
+        mozSystemGroup: true
+      });
     });
     this.removeEventListener("keypress", this, {
       capture: true,
@@ -75,16 +77,7 @@ class FirefoxDatetimeInputBase extends XULElement {
       dump("[DateTimeBox] " + aMsg + "\n");
     }
   }
-  createEditField(
-    aPlaceHolder,
-    aLabel,
-    aIsNumeric,
-    aMinDigits,
-    aMaxLength,
-    aMinValue,
-    aMaxValue,
-    aPageUpDownInterval
-  ) {
+  createEditField(aPlaceHolder, aLabel, aIsNumeric, aMinDigits, aMaxLength, aMinValue, aMaxValue, aPageUpDownInterval) {
     const HTML_NS = "http://www.w3.org/1999/xhtml";
 
     let field = document.createElementNS(HTML_NS, "span");
@@ -147,17 +140,12 @@ class FirefoxDatetimeInputBase extends XULElement {
   focusInnerTextBox() {
     this.log("Focus inner editable field.");
 
-    let editRoot = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "edit-wrapper"
-    );
+    let editRoot =
+      document.getAnonymousElementByAttribute(this, "anonid", "edit-wrapper");
 
     for (let child = editRoot.firstChild; child; child = child.nextSibling) {
-      if (
-        child instanceof HTMLSpanElement &&
-        child.classList.contains("datetime-edit-field")
-      ) {
+      if ((child instanceof HTMLSpanElement) &&
+        child.classList.contains("datetime-edit-field")) {
         this.mLastFocusedField = child;
         child.focus();
         break;
@@ -173,16 +161,11 @@ class FirefoxDatetimeInputBase extends XULElement {
       // If .mLastFocusedField hasn't been set, blur all editable fields,
       // so that the bound element will actually be blurred. Note that
       // blurring on a element that has no focus won't have any effect.
-      let editRoot = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "edit-wrapper"
-      );
+      let editRoot =
+        document.getAnonymousElementByAttribute(this, "anonid", "edit-wrapper");
       for (let child = editRoot.firstChild; child; child = child.nextSibling) {
-        if (
-          child instanceof HTMLSpanElement &&
-          child.classList.contains("datetime-edit-field")
-        ) {
+        if ((child instanceof HTMLSpanElement) &&
+          child.classList.contains("datetime-edit-field")) {
           child.blur();
         }
       }
@@ -192,7 +175,9 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.log("inputElementValueChanged");
     this.setFieldsFromInputValue();
   }
-  notifyMinMaxStepAttrChanged() {}
+  notifyMinMaxStepAttrChanged() {
+
+  }
   setValueFromPicker(aValue) {
     this.setFieldsFromPicker(aValue);
   }
@@ -214,23 +199,21 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.log("advanceToNextField");
 
     let focusedInput = this.mLastFocusedField;
-    let next = aReverse
-      ? focusedInput.previousElementSibling
-      : focusedInput.nextElementSibling;
+    let next = aReverse ? focusedInput.previousElementSibling :
+      focusedInput.nextElementSibling;
     if (!next && !aReverse) {
       this.setInputValueFromFields();
       return;
     }
 
     while (next) {
-      if (
-        next instanceof HTMLSpanElement &&
-        next.classList.contains("datetime-edit-field")
-      ) {
+      if ((next instanceof HTMLSpanElement) &&
+        next.classList.contains("datetime-edit-field")) {
         next.focus();
         break;
       }
-      next = aReverse ? next.previousElementSibling : next.nextElementSibling;
+      next = aReverse ? next.previousElementSibling :
+        next.nextElementSibling;
     }
   }
   setPickerState(aIsOpen) {
@@ -240,37 +223,36 @@ class FirefoxDatetimeInputBase extends XULElement {
   setEditAttribute(aName, aValue) {
     this.log("setAttribute: " + aName + "=" + aValue);
 
-    if (aName != "tabindex" && aName != "disabled" && aName != "readonly") {
+    if (aName != "tabindex" && aName != "disabled" &&
+      aName != "readonly") {
       return;
     }
 
-    let editRoot = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "edit-wrapper"
-    );
+    let editRoot =
+      document.getAnonymousElementByAttribute(this, "anonid", "edit-wrapper");
 
     for (let child = editRoot.firstChild; child; child = child.nextSibling) {
-      if (
-        child instanceof HTMLSpanElement &&
-        child.classList.contains("datetime-edit-field")
-      ) {
+      if ((child instanceof HTMLSpanElement) &&
+        child.classList.contains("datetime-edit-field")) {
+
         switch (aName) {
           case "tabindex":
             child.setAttribute(aName, aValue);
             break;
-          case "disabled": {
-            let value = this.mInputElement.disabled;
-            child.setAttribute("disabled", value);
-            child.disabled = value;
-            break;
-          }
-          case "readonly": {
-            let value = this.mInputElement.readOnly;
-            child.setAttribute("readonly", value);
-            child.readOnly = value;
-            break;
-          }
+          case "disabled":
+            {
+              let value = this.mInputElement.disabled;
+              child.setAttribute("disabled", value);
+              child.disabled = value;
+              break;
+            }
+          case "readonly":
+            {
+              let value = this.mInputElement.readOnly;
+              child.setAttribute("readonly", value);
+              child.readOnly = value;
+              break;
+            }
         }
       }
     }
@@ -278,21 +260,17 @@ class FirefoxDatetimeInputBase extends XULElement {
   removeEditAttribute(aName) {
     this.log("removeAttribute: " + aName);
 
-    if (aName != "tabindex" && aName != "disabled" && aName != "readonly") {
+    if (aName != "tabindex" && aName != "disabled" &&
+      aName != "readonly") {
       return;
     }
 
-    let editRoot = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "edit-wrapper"
-    );
+    let editRoot =
+      document.getAnonymousElementByAttribute(this, "anonid", "edit-wrapper");
 
     for (let child = editRoot.firstChild; child; child = child.nextSibling) {
-      if (
-        child instanceof HTMLSpanElement &&
-        child.classList.contains("datetime-edit-field")
-      ) {
+      if ((child instanceof HTMLSpanElement) &&
+        child.classList.contains("datetime-edit-field")) {
         child.removeAttribute(aName);
         // Update property as well.
         if (aName == "readonly") {
@@ -304,7 +282,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     }
   }
   isEmpty(aValue) {
-    return aValue == undefined || 0 === aValue.length;
+    return (aValue == undefined || 0 === aValue.length);
   }
   getFieldValue(aField) {
     if (!aField || !aField.classList.contains("numeric")) {
@@ -313,7 +291,7 @@ class FirefoxDatetimeInputBase extends XULElement {
 
     let value = aField.getAttribute("rawValue");
     // Avoid returning 0 when field is empty.
-    return this.isEmpty(value) ? undefined : Number(value);
+    return (this.isEmpty(value) ? undefined : Number(value));
   }
   clearFieldValue(aField) {
     aField.textContent = aField.placeholder;
@@ -365,34 +343,40 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.log("handleEvent: " + aEvent.type);
 
     switch (aEvent.type) {
-      case "keypress": {
-        this.onKeyPress(aEvent);
-        break;
-      }
-      case "click": {
-        this.onClick(aEvent);
-        break;
-      }
-      case "focus": {
-        this.onFocus(aEvent);
-        break;
-      }
-      case "blur": {
-        this.onBlur(aEvent);
-        break;
-      }
-      case "mousedown": {
-        if (aEvent.originalTarget == this.mResetButton) {
-          aEvent.preventDefault();
+      case "keypress":
+        {
+          this.onKeyPress(aEvent);
+          break;
         }
-        break;
-      }
+      case "click":
+        {
+          this.onClick(aEvent);
+          break;
+        }
+      case "focus":
+        {
+          this.onFocus(aEvent);
+          break;
+        }
+      case "blur":
+        {
+          this.onBlur(aEvent);
+          break;
+        }
+      case "mousedown":
+        {
+          if (aEvent.originalTarget == this.mResetButton) {
+            aEvent.preventDefault();
+          }
+          break;
+        }
       case "copy":
       case "cut":
-      case "paste": {
-        aEvent.preventDefault();
-        break;
-      }
+      case "paste":
+        {
+          aEvent.preventDefault();
+          break;
+        }
       default:
         break;
     }
@@ -405,10 +389,8 @@ class FirefoxDatetimeInputBase extends XULElement {
     }
 
     let target = aEvent.originalTarget;
-    if (
-      target instanceof HTMLSpanElement &&
-      target.classList.contains("datetime-edit-field")
-    ) {
+    if ((target instanceof HTMLSpanElement) &&
+      target.classList.contains("datetime-edit-field")) {
       if (target.disabled) {
         return;
       }
@@ -417,12 +399,8 @@ class FirefoxDatetimeInputBase extends XULElement {
     }
   }
   onBlur(aEvent) {
-    this.log(
-      "onBlur originalTarget: " +
-        aEvent.originalTarget +
-        " target: " +
-        aEvent.target
-    );
+    this.log("onBlur originalTarget: " + aEvent.originalTarget +
+      " target: " + aEvent.target);
 
     let target = aEvent.originalTarget;
     target.setAttribute("typeBuffer", "");
@@ -436,56 +414,55 @@ class FirefoxDatetimeInputBase extends XULElement {
       // Close picker on Enter, Escape or Space key.
       case "Enter":
       case "Escape":
-      case " ": {
-        if (this.mIsPickerOpen) {
-          this.mInputElement.closeDateTimePicker();
-          aEvent.preventDefault();
+      case " ":
+        {
+          if (this.mIsPickerOpen) {
+            this.mInputElement.closeDateTimePicker();
+            aEvent.preventDefault();
+          }
+          break;
         }
-        break;
-      }
-      case "Backspace": {
-        let targetField = aEvent.originalTarget;
-        this.clearFieldValue(targetField);
-        this.setInputValueFromFields();
-        aEvent.preventDefault();
-        break;
-      }
+      case "Backspace":
+        {
+          let targetField = aEvent.originalTarget;
+          this.clearFieldValue(targetField);
+          this.setInputValueFromFields();
+          aEvent.preventDefault();
+          break;
+        }
       case "ArrowRight":
-      case "ArrowLeft": {
-        this.advanceToNextField(!(aEvent.key == "ArrowRight"));
-        aEvent.preventDefault();
-        break;
-      }
+      case "ArrowLeft":
+        {
+          this.advanceToNextField(!(aEvent.key == "ArrowRight"));
+          aEvent.preventDefault();
+          break;
+        }
       case "ArrowUp":
       case "ArrowDown":
       case "PageUp":
       case "PageDown":
       case "Home":
-      case "End": {
-        this.handleKeyboardNav(aEvent);
-        aEvent.preventDefault();
-        break;
-      }
-      default: {
-        // printable characters
-        if (
-          aEvent.keyCode == 0 &&
-          !(aEvent.ctrlKey || aEvent.altKey || aEvent.metaKey)
-        ) {
-          this.handleKeypress(aEvent);
+      case "End":
+        {
+          this.handleKeyboardNav(aEvent);
           aEvent.preventDefault();
+          break;
         }
-        break;
-      }
+      default:
+        {
+          // printable characters
+          if (aEvent.keyCode == 0 &&
+            !(aEvent.ctrlKey || aEvent.altKey || aEvent.metaKey)) {
+            this.handleKeypress(aEvent);
+            aEvent.preventDefault();
+          }
+          break;
+        }
     }
   }
   onClick(aEvent) {
-    this.log(
-      "onClick originalTarget: " +
-        aEvent.originalTarget +
-        " target: " +
-        aEvent.target
-    );
+    this.log("onClick originalTarget: " + aEvent.originalTarget +
+      " target: " + aEvent.target);
 
     if (aEvent.defaultPrevented || this.isDisabled() || this.isReadonly()) {
       return;
@@ -498,4 +475,3 @@ class FirefoxDatetimeInputBase extends XULElement {
     }
   }
 }
-customElements.define("firefox-datetime-input-base", FirefoxDatetimeInputBase);

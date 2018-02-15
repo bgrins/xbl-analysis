@@ -1,6 +1,6 @@
 class FirefoxMenuitemIconic extends FirefoxMenuitem {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="menu-iconic-left" align="center" pack="center" inherits="selected,_moz-menuactive,disabled,checked">
         <xul:image class="menu-iconic-icon" inherits="src=image,triggeringprincipal=iconloadingprincipal,validate,src"></xul:image>
@@ -12,6 +12,7 @@ class FirefoxMenuitemIconic extends FirefoxMenuitem {
         <xul:label class="menu-iconic-accel" inherits="value=acceltext"></xul:label>
       </xul:hbox>
     `;
+
   }
+
 }
-customElements.define("firefox-menuitem-iconic", FirefoxMenuitemIconic);

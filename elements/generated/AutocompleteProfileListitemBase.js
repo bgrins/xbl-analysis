@@ -1,16 +1,15 @@
 class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this.selectedByMouseOver = true;
+
   }
 
   get _stringBundle() {
     /* global Services */
     if (!this.__stringBundle) {
-      this.__stringBundle = Services.strings.createBundle(
-        "chrome://formautofill/locale/formautofill.properties"
-      );
+      this.__stringBundle = Services.strings.createBundle("chrome://formautofill/locale/formautofill.properties");
     }
     return this.__stringBundle;
   }
@@ -40,7 +39,3 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
     }
   }
 }
-customElements.define(
-  "firefox-autocomplete-profile-listitem-base",
-  FirefoxAutocompleteProfileListitemBase
-);

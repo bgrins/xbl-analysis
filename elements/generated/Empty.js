@@ -1,4 +1,6 @@
 class FirefoxEmpty extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-empty", FirefoxEmpty);

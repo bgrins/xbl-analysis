@@ -1,6 +1,6 @@
 class FirefoxDownloadSubviewToolbarbutton extends FirefoxMenuButtonBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <xul:image class="toolbarbutton-icon" inherits="validate,src=image,label,consumeanchor"></xul:image>
@@ -13,9 +13,7 @@ class FirefoxDownloadSubviewToolbarbutton extends FirefoxMenuButtonBase {
       </xul:vbox>
       <xul:toolbarbutton anonid="button" class="action-button"></xul:toolbarbutton>
     `;
+
   }
+
 }
-customElements.define(
-  "firefox-download-subview-toolbarbutton",
-  FirefoxDownloadSubviewToolbarbutton
-);

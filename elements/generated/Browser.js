@@ -1,5 +1,6 @@
 class FirefoxBrowser extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <children></children>
     `;
@@ -22,9 +23,8 @@ class FirefoxBrowser extends XULElement {
 
     this._contentWindow = null;
 
-    this.mPrefs = Components.classes[
-      "@mozilla.org/preferences-service;1"
-    ].getService(Components.interfaces.nsIPrefBranch);
+    this.mPrefs = Components.classes["@mozilla.org/preferences-service;1"]
+      .getService(Components.interfaces.nsIPrefBranch);
 
     this._mStrBundle = null;
 
@@ -40,7 +40,7 @@ class FirefoxBrowser extends XULElement {
 
     this._unselectedTabHoverMessageListenerCount = 0;
 
-    this.urlbarChangeTracker = {
+    this.urlbarChangeTracker = ({
       _startedLoadSinceLastUserTyping: false,
 
       startedLoad() {
@@ -51,8 +51,8 @@ class FirefoxBrowser extends XULElement {
       },
       userTyped() {
         this._startedLoadSinceLastUserTyping = false;
-      }
-    };
+      },
+    });
 
     this._userTypedValue = null;
 
@@ -89,23 +89,17 @@ class FirefoxBrowser extends XULElement {
       // loader when creating the docShell as long as this xul:browser
       // doesn't have the 'disablehistory' attribute set.
       if (this.docShell && this.webNavigation.sessionHistory) {
-        var os = Components.classes[
-          "@mozilla.org/observer-service;1"
-        ].getService(Components.interfaces.nsIObserverService);
+        var os = Components.classes["@mozilla.org/observer-service;1"]
+          .getService(Components.interfaces.nsIObserverService);
         os.addObserver(this, "browser:purge-session-history", true);
 
         // enable global history if we weren't told otherwise
-        if (
-          !this.hasAttribute("disableglobalhistory") &&
-          !this.isRemoteBrowser
-        ) {
+        if (!this.hasAttribute("disableglobalhistory") && !this.isRemoteBrowser) {
           try {
             this.docShell.useGlobalHistory = true;
           } catch (ex) {
             // This can occur if the Places database is locked
-            Components.utils.reportError(
-              "Error enabling browser global history: " + ex
-            );
+            Components.utils.reportError("Error enabling browser global history: " + ex);
           }
         }
       }
@@ -132,69 +126,52 @@ class FirefoxBrowser extends XULElement {
     }
 
     if (this.messageManager) {
-      this.messageManager.addMessageListener(
-        "PopupBlocking:UpdateBlockedPopups",
-        this
-      );
+      this.messageManager.addMessageListener("PopupBlocking:UpdateBlockedPopups", this);
       this.messageManager.addMessageListener("Autoscroll:Start", this);
       this.messageManager.addMessageListener("Autoscroll:Cancel", this);
       this.messageManager.addMessageListener("AudioPlayback:Start", this);
       this.messageManager.addMessageListener("AudioPlayback:Stop", this);
-      this.messageManager.addMessageListener(
-        "AudioPlayback:ActiveMediaBlockStart",
-        this
-      );
-      this.messageManager.addMessageListener(
-        "AudioPlayback:ActiveMediaBlockStop",
-        this
-      );
-      this.messageManager.addMessageListener(
-        "AudioPlayback:MediaBlockStop",
-        this
-      );
+      this.messageManager.addMessageListener("AudioPlayback:ActiveMediaBlockStart", this);
+      this.messageManager.addMessageListener("AudioPlayback:ActiveMediaBlockStop", this);
+      this.messageManager.addMessageListener("AudioPlayback:MediaBlockStop", this);
       this.messageManager.addMessageListener("UnselectedTabHover:Toggle", this);
 
       if (this.hasAttribute("selectmenulist")) {
         this.messageManager.addMessageListener("Forms:ShowDropDown", this);
         this.messageManager.addMessageListener("Forms:HideDropDown", this);
       }
+
     }
 
-    this.addEventListener("keypress", event => {
-      if (event.defaultPrevented || !event.isTrusted) return;
+    this.addEventListener("keypress", (event) => {
+      if (event.defaultPrevented || !event.isTrusted)
+        return;
 
-      const kPrefShortcutEnabled =
-        "accessibility.browsewithcaret_shortcut.enabled";
+      const kPrefShortcutEnabled = "accessibility.browsewithcaret_shortcut.enabled";
       const kPrefWarnOnEnable = "accessibility.warn_on_browsewithcaret";
       const kPrefCaretBrowsingOn = "accessibility.browsewithcaret";
 
       var isEnabled = this.mPrefs.getBoolPref(kPrefShortcutEnabled);
-      if (!isEnabled) return;
+      if (!isEnabled)
+        return;
 
       // Toggle browse with caret mode
-      var browseWithCaretOn = this.mPrefs.getBoolPref(
-        kPrefCaretBrowsingOn,
-        false
-      );
+      var browseWithCaretOn = this.mPrefs.getBoolPref(kPrefCaretBrowsingOn, false);
       var warn = this.mPrefs.getBoolPref(kPrefWarnOnEnable, true);
       if (warn && !browseWithCaretOn) {
-        var checkValue = { value: false };
-        var promptService = Components.classes[
-          "@mozilla.org/embedcomp/prompt-service;1"
-        ].getService(Components.interfaces.nsIPromptService);
+        var checkValue = {
+          value: false
+        };
+        var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+          .getService(Components.interfaces.nsIPromptService);
 
-        var buttonPressed = promptService.confirmEx(
-          window,
+        var buttonPressed = promptService.confirmEx(window,
           this.mStrBundle.GetStringFromName("browsewithcaret.checkWindowTitle"),
           this.mStrBundle.GetStringFromName("browsewithcaret.checkLabel"),
           // Make "No" the default:
           promptService.STD_YES_NO_BUTTONS | promptService.BUTTON_POS_1_DEFAULT,
-          null,
-          null,
-          null,
-          this.mStrBundle.GetStringFromName("browsewithcaret.checkMsg"),
-          checkValue
-        );
+          null, null, null, this.mStrBundle.GetStringFromName("browsewithcaret.checkMsg"),
+          checkValue);
         if (buttonPressed != 0) {
           if (checkValue.value) {
             try {
@@ -216,17 +193,15 @@ class FirefoxBrowser extends XULElement {
       } catch (ex) {}
     });
 
-    this.addEventListener("dragover", event => {
-      if (!this.droppedLinkHandler || event.defaultPrevented) return;
+    this.addEventListener("dragover", (event) => {
+      if (!this.droppedLinkHandler || event.defaultPrevented)
+        return;
 
       // For drags that appear to be internal text (for example, tab drags),
       // set the dropEffect to 'none'. This prevents the drop even if some
       // other listener cancelled the event.
       var types = event.dataTransfer.types;
-      if (
-        types.includes("text/x-moz-text-internal") &&
-        !types.includes("text/plain")
-      ) {
+      if (types.includes("text/x-moz-text-internal") && !types.includes("text/plain")) {
         event.dataTransfer.dropEffect = "none";
         event.stopPropagation();
         event.preventDefault();
@@ -234,27 +209,23 @@ class FirefoxBrowser extends XULElement {
 
       // No need to handle "dragover" in e10s, since nsDocShellTreeOwner.cpp in the child process
       // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
-      if (this.isRemoteBrowser) return;
-
-      let linkHandler = Components.classes[
-        "@mozilla.org/content/dropped-link-handler;1"
-      ].getService(Components.interfaces.nsIDroppedLinkHandler);
-      if (linkHandler.canDropLink(event, false)) event.preventDefault();
-    });
-
-    this.addEventListener("drop", event => {
-      // No need to handle "drop" in e10s, since nsDocShellTreeOwner.cpp in the child process
-      // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
-      if (
-        !this.droppedLinkHandler ||
-        event.defaultPrevented ||
-        this.isRemoteBrowser
-      )
+      if (this.isRemoteBrowser)
         return;
 
-      let linkHandler = Components.classes[
-        "@mozilla.org/content/dropped-link-handler;1"
-      ].getService(Components.interfaces.nsIDroppedLinkHandler);
+      let linkHandler = Components.classes["@mozilla.org/content/dropped-link-handler;1"].
+      getService(Components.interfaces.nsIDroppedLinkHandler);
+      if (linkHandler.canDropLink(event, false))
+        event.preventDefault();
+    });
+
+    this.addEventListener("drop", (event) => {
+      // No need to handle "drop" in e10s, since nsDocShellTreeOwner.cpp in the child process
+      // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
+      if (!this.droppedLinkHandler || event.defaultPrevented || this.isRemoteBrowser)
+        return;
+
+      let linkHandler = Components.classes["@mozilla.org/content/dropped-link-handler;1"].
+      getService(Components.interfaces.nsIDroppedLinkHandler);
       try {
         // Pass true to prevent the dropping of javascript:/data: URIs
         var links = linkHandler.dropLinks(event, true);
@@ -267,13 +238,15 @@ class FirefoxBrowser extends XULElement {
         this.droppedLinkHandler(event, links, triggeringPrincipal);
       }
     });
+
   }
   disconnectedCallback() {
     this.destroy();
   }
 
   get autoscrollEnabled() {
-    if (this.getAttribute("autoscroll") == "false") return false;
+    if (this.getAttribute("autoscroll") == "false")
+      return false;
 
     return this.mPrefs.getBoolPref("general.autoScroll", true);
   }
@@ -294,8 +267,10 @@ class FirefoxBrowser extends XULElement {
   get homePage() {
     var uri;
 
-    if (this.hasAttribute("homepage")) uri = this.getAttribute("homepage");
-    else uri = "http://www.mozilla.org/"; // widget pride
+    if (this.hasAttribute("homepage"))
+      uri = this.getAttribute("homepage");
+    else
+      uri = "http://www.mozilla.org/"; // widget pride
 
     return uri;
   }
@@ -324,39 +299,46 @@ class FirefoxBrowser extends XULElement {
   }
 
   get sameProcessAsFrameLoader() {
-    return (
-      this._sameProcessAsFrameLoader && this._sameProcessAsFrameLoader.get()
-    );
+    return this._sameProcessAsFrameLoader && this._sameProcessAsFrameLoader.get();
   }
 
   get docShell() {
-    if (this._docShell) return this._docShell;
+    if (this._docShell)
+      return this._docShell;
 
-    let { frameLoader } = this;
-    if (!frameLoader) return null;
+    let {
+      frameLoader
+    } = this;
+    if (!frameLoader)
+      return null;
     this._docShell = frameLoader.docShell;
     return this._docShell;
   }
 
   get loadContext() {
-    if (this._loadContext) return this._loadContext;
+    if (this._loadContext)
+      return this._loadContext;
 
-    let { frameLoader } = this;
-    if (!frameLoader) return null;
+    let {
+      frameLoader
+    } = this;
+    if (!frameLoader)
+      return null;
     this._loadContext = frameLoader.loadContext;
     return this._loadContext;
   }
 
   get autoCompletePopup() {
-    return document.getElementById(this.getAttribute("autocompletepopup"));
+    return document.getElementById(this.getAttribute('autocompletepopup'))
   }
 
   get dateTimePicker() {
-    return document.getElementById(this.getAttribute("datetimepicker"));
+    return document.getElementById(this.getAttribute('datetimepicker'))
   }
 
   set docShellIsActive(val) {
-    if (this.docShell) return (this.docShell.isActive = val);
+    if (this.docShell)
+      return this.docShell.isActive = val;
     return false;
   }
 
@@ -365,7 +347,7 @@ class FirefoxBrowser extends XULElement {
   }
 
   set renderLayers(val) {
-    return (this.docShellIsActive = val);
+    return this.docShellIsActive = val;
   }
 
   get renderLayers() {
@@ -378,10 +360,7 @@ class FirefoxBrowser extends XULElement {
 
   get imageDocument() {
     var document = this.contentDocument;
-    if (
-      !document ||
-      !(document instanceof Components.interfaces.nsIImageDocument)
-    )
+    if (!document || !(document instanceof Components.interfaces.nsIImageDocument))
       return null;
 
     try {
@@ -394,7 +373,7 @@ class FirefoxBrowser extends XULElement {
   }
 
   get isRemoteBrowser() {
-    return this.getAttribute("remote") == "true";
+    return (this.getAttribute('remote') == 'true');
   }
 
   get remoteType() {
@@ -407,10 +386,7 @@ class FirefoxBrowser extends XULElement {
       return remoteType;
     }
 
-    let E10SUtils = ChromeUtils.import(
-      "resource://gre/modules/E10SUtils.jsm",
-      {}
-    ).E10SUtils;
+    let E10SUtils = ChromeUtils.import("resource://gre/modules/E10SUtils.jsm", {}).E10SUtils;
     return E10SUtils.DEFAULT_REMOTE_TYPE;
   }
 
@@ -426,27 +402,23 @@ class FirefoxBrowser extends XULElement {
       if (!this.docShell) {
         return null;
       }
-      this._webNavigation = this.docShell.QueryInterface(
-        Components.interfaces.nsIWebNavigation
-      );
+      this._webNavigation = this.docShell.QueryInterface(Components.interfaces.nsIWebNavigation);
     }
     return this._webNavigation;
   }
 
   get webBrowserFind() {
     if (!this._webBrowserFind)
-      this._webBrowserFind = this.docShell
-        .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-        .getInterface(Components.interfaces.nsIWebBrowserFind);
+      this._webBrowserFind = this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebBrowserFind);
     return this._webBrowserFind;
   }
 
   get finder() {
     if (!this._finder) {
-      if (!this.docShell) return null;
+      if (!this.docShell)
+        return null;
 
-      let Finder = ChromeUtils.import("resource://gre/modules/Finder.jsm", {})
-        .Finder;
+      let Finder = ChromeUtils.import("resource://gre/modules/Finder.jsm", {}).Finder;
       this._finder = new Finder(this.docShell);
     }
     return this._finder;
@@ -454,17 +426,18 @@ class FirefoxBrowser extends XULElement {
 
   get fastFind() {
     if (!this._fastFind) {
-      if (!("@mozilla.org/typeaheadfind;1" in Components.classes)) return null;
+      if (!("@mozilla.org/typeaheadfind;1" in Components.classes))
+        return null;
 
       var tabBrowser = this.getTabBrowser();
       if (tabBrowser && "fastFind" in tabBrowser)
-        return (this._fastFind = tabBrowser.fastFind);
+        return this._fastFind = tabBrowser.fastFind;
 
-      if (!this.docShell) return null;
+      if (!this.docShell)
+        return null;
 
-      this._fastFind = Components.classes[
-        "@mozilla.org/typeaheadfind;1"
-      ].createInstance(Components.interfaces.nsITypeAheadFind);
+      this._fastFind = Components.classes["@mozilla.org/typeaheadfind;1"]
+        .createInstance(Components.interfaces.nsITypeAheadFind);
       this._fastFind.init(this.docShell);
     }
     return this._fastFind;
@@ -473,7 +446,8 @@ class FirefoxBrowser extends XULElement {
   get outerWindowID() {
     return this.contentWindow
       .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIDOMWindowUtils).outerWindowID;
+      .getInterface(Components.interfaces.nsIDOMWindowUtils)
+      .outerWindowID;
   }
 
   get innerWindowID() {
@@ -491,18 +465,11 @@ class FirefoxBrowser extends XULElement {
   }
 
   get webProgress() {
-    return this.docShell
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIWebProgress);
+    return this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebProgress);
   }
 
   get contentWindow() {
-    return (
-      this._contentWindow ||
-      (this._contentWindow = this.docShell
-        .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-        .getInterface(Components.interfaces.nsIDOMWindow))
-    );
+    return this._contentWindow || (this._contentWindow = this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow));
   }
 
   get contentWindowAsCPOW() {
@@ -548,27 +515,26 @@ class FirefoxBrowser extends XULElement {
 
   get contentRequestContextID() {
     try {
-      return this.contentDocument.documentLoadGroup.requestContextID;
+      return this.contentDocument.documentLoadGroup
+        .requestContextID;
     } catch (e) {
       return null;
     }
   }
 
   set showWindowResizer(val) {
-    if (val) this.setAttribute("showresizer", "true");
-    else this.removeAttribute("showresizer");
+    if (val) this.setAttribute('showresizer', 'true');
+    else this.removeAttribute('showresizer');
     return val;
   }
 
   get showWindowResizer() {
-    return this.getAttribute("showresizer") == "true";
+    return this.getAttribute('showresizer') == 'true';
   }
 
   get manifestURI() {
-    return (
-      this.contentDocument.documentElement &&
-      this.contentDocument.documentElement.getAttribute("manifest")
-    );
+    return this.contentDocument.documentElement &&
+      this.contentDocument.documentElement.getAttribute("manifest");
   }
 
   set fullZoom(val) {
@@ -623,13 +589,8 @@ class FirefoxBrowser extends XULElement {
   }
 
   get mediaBlocked() {
-    if (
-      this.mPrefs.getBoolPref(
-        "media.block-autoplay-until-in-foreground",
-        true
-      ) &&
-      this.mPrefs.getBoolPref("media.autoplay.enabled", true)
-    ) {
+    if (this.mPrefs.getBoolPref("media.block-autoplay-until-in-foreground", true) &&
+      this.mPrefs.getBoolPref("media.autoplay.enabled", true)) {
       return this._mediaBlocked;
     }
     return false;
@@ -646,13 +607,10 @@ class FirefoxBrowser extends XULElement {
   get securityUI() {
     if (!this.docShell.securityUI) {
       const SECUREBROWSERUI_CONTRACTID = "@mozilla.org/secure_browser_ui;1";
-      if (
-        !this.hasAttribute("disablesecurity") &&
-        SECUREBROWSERUI_CONTRACTID in Components.classes
-      ) {
-        var securityUI = Components.classes[
-          SECUREBROWSERUI_CONTRACTID
-        ].createInstance(Components.interfaces.nsISecureBrowserUI);
+      if (!this.hasAttribute("disablesecurity") &&
+        SECUREBROWSERUI_CONTRACTID in Components.classes) {
+        var securityUI = Components.classes[SECUREBROWSERUI_CONTRACTID]
+          .createInstance(Components.interfaces.nsISecureBrowserUI);
         securityUI.init(this.contentWindow);
       }
     }
@@ -716,19 +674,18 @@ class FirefoxBrowser extends XULElement {
     const nsIWebNavigation = Components.interfaces.nsIWebNavigation;
     const flags = nsIWebNavigation.LOAD_FLAGS_NONE;
     this._wrapURIChangeCall(() =>
-      this.loadURIWithFlags(aURI, flags, aReferrerURI, aCharset)
-    );
+      this.loadURIWithFlags(aURI, flags, aReferrerURI, aCharset));
   }
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {
-    if (!aURI) aURI = "about:blank";
+    if (!aURI)
+      aURI = "about:blank";
 
-    var aReferrerPolicy =
-      Components.interfaces.nsIHttpChannel.REFERRER_POLICY_UNSET;
+    var aReferrerPolicy = Components.interfaces.nsIHttpChannel.REFERRER_POLICY_UNSET;
     var aTriggeringPrincipal;
 
     // Check for loadURIWithFlags(uri, { ... });
     var params = arguments[1];
-    if (params && typeof params == "object") {
+    if (params && typeof(params) == "object") {
       aFlags = params.flags;
       aReferrerURI = params.referrerURI;
       if ("referrerPolicy" in params) {
@@ -743,16 +700,8 @@ class FirefoxBrowser extends XULElement {
 
     this._wrapURIChangeCall(() =>
       this.webNavigation.loadURIWithOptions(
-        aURI,
-        aFlags,
-        aReferrerURI,
-        aReferrerPolicy,
-        aPostData,
-        null,
-        null,
-        aTriggeringPrincipal
-      )
-    );
+        aURI, aFlags, aReferrerURI, aReferrerPolicy,
+        aPostData, null, null, aTriggeringPrincipal));
   }
   goHome() {
     try {
@@ -769,12 +718,9 @@ class FirefoxBrowser extends XULElement {
     // Only useful for remote browsers.
   }
   getTabBrowser() {
-    for (
-      let node = this.parentNode;
-      node instanceof Element;
-      node = node.parentNode
-    ) {
-      if (node.localName == "tabbrowser") return node;
+    for (let node = this.parentNode; node instanceof Element; node = node.parentNode) {
+      if (node.localName == "tabbrowser")
+        return node;
     }
     return null;
   }
@@ -788,32 +734,29 @@ class FirefoxBrowser extends XULElement {
     this.webProgress.removeProgressListener(aListener);
   }
   findChildShell(aDocShell, aSoughtURI) {
-    if (
-      aDocShell.QueryInterface(Components.interfaces.nsIWebNavigation)
-        .currentURI.spec == aSoughtURI.spec
-    )
+    if (aDocShell.QueryInterface(Components.interfaces.nsIWebNavigation)
+      .currentURI.spec == aSoughtURI.spec)
       return aDocShell;
     var node = aDocShell.QueryInterface(
-      Components.interfaces.nsIDocShellTreeItem
-    );
+      Components.interfaces.nsIDocShellTreeItem);
     for (var i = 0; i < node.childCount; ++i) {
       var docShell = node.getChildAt(i);
       docShell = this.findChildShell(docShell, aSoughtURI);
-      if (docShell) return docShell;
+      if (docShell)
+        return docShell;
     }
     return null;
   }
   onPageHide(aEvent) {
     // Delete the feeds cache if we're hiding the topmost page
     // (as opposed to one of its iframes).
-    if (this.feeds && aEvent.target == this.contentDocument) this.feeds = null;
-    if (!this.docShell || !this.fastFind) return;
+    if (this.feeds && aEvent.target == this.contentDocument)
+      this.feeds = null;
+    if (!this.docShell || !this.fastFind)
+      return;
     var tabBrowser = this.getTabBrowser();
-    if (
-      !tabBrowser ||
-      !("fastFind" in tabBrowser) ||
-      tabBrowser.selectedBrowser == this
-    )
+    if (!tabBrowser || !("fastFind" in tabBrowser) ||
+      tabBrowser.selectedBrowser == this)
       this.fastFind.setDocShell(this.docShell);
   }
   updateBlockedPopups() {
@@ -822,19 +765,13 @@ class FirefoxBrowser extends XULElement {
     this.dispatchEvent(event);
   }
   retrieveListOfBlockedPopups() {
-    this.messageManager.sendAsyncMessage(
-      "PopupBlocking:GetBlockedPopupList",
-      null
-    );
+    this.messageManager.sendAsyncMessage("PopupBlocking:GetBlockedPopupList", null);
     return new Promise(resolve => {
       let self = this;
-      this.messageManager.addMessageListener(
-        "PopupBlocking:ReplyGetBlockedPopupList",
+      this.messageManager.addMessageListener("PopupBlocking:ReplyGetBlockedPopupList",
         function replyReceived(msg) {
-          self.messageManager.removeMessageListener(
-            "PopupBlocking:ReplyGetBlockedPopupList",
-            replyReceived
-          );
+          self.messageManager.removeMessageListener("PopupBlocking:ReplyGetBlockedPopupList",
+            replyReceived);
           resolve(msg.data.popupData);
         }
       );
@@ -880,11 +817,15 @@ class FirefoxBrowser extends XULElement {
     if (!transientState) {
       this._audioMuted = true;
     }
-    this.messageManager.sendAsyncMessage("AudioPlayback", { type: "mute" });
+    this.messageManager.sendAsyncMessage("AudioPlayback", {
+      type: "mute"
+    });
   }
   unmute() {
     this._audioMuted = false;
-    this.messageManager.sendAsyncMessage("AudioPlayback", { type: "unmute" });
+    this.messageManager.sendAsyncMessage("AudioPlayback", {
+      type: "unmute"
+    });
   }
   pauseMedia(disposable) {
     let suspendedReason;
@@ -924,26 +865,22 @@ class FirefoxBrowser extends XULElement {
     });
   }
   didStartLoadSinceLastUserTyping() {
-    return (
-      !this.inLoadURI &&
-      this.urlbarChangeTracker._startedLoadSinceLastUserTyping
-    );
+    return !this.inLoadURI &&
+      this.urlbarChangeTracker._startedLoadSinceLastUserTyping;
   }
   destroy() {
     // Make sure that any open select is closed.
     if (this._selectParentHelper) {
-      let menulist = document.getElementById(
-        this.getAttribute("selectmenulist")
-      );
+      let menulist = document.getElementById(this.getAttribute("selectmenulist"));
       this._selectParentHelper.hide(menulist, this);
     }
-    if (this.mDestroyed) return;
+    if (this.mDestroyed)
+      return;
     this.mDestroyed = true;
 
     if (this.docShell && this.webNavigation.sessionHistory) {
-      var os = Components.classes["@mozilla.org/observer-service;1"].getService(
-        Components.interfaces.nsIObserverService
-      );
+      var os = Components.classes["@mozilla.org/observer-service;1"]
+        .getService(Components.interfaces.nsIObserverService);
       try {
         os.removeObserver(this, "browser:purge-session-history");
       } catch (ex) {
@@ -971,49 +908,52 @@ class FirefoxBrowser extends XULElement {
   _receiveMessage(aMessage) {
     let data = aMessage.data;
     switch (aMessage.name) {
-      case "PopupBlocking:UpdateBlockedPopups": {
-        this.blockedPopups = {
-          length: data.count,
-          reported: !data.freshPopup
-        };
+      case "PopupBlocking:UpdateBlockedPopups":
+        {
+          this.blockedPopups = {
+            length: data.count,
+            reported: !data.freshPopup,
+          };
 
-        this.updateBlockedPopups();
-        break;
-      }
-      case "Autoscroll:Start": {
-        if (!this.autoscrollEnabled) {
-          return { autoscrollEnabled: false, usingApz: false };
+          this.updateBlockedPopups();
+          break;
         }
-        this.startScroll(data.scrolldir, data.screenX, data.screenY);
-        let usingApz = false;
-        if (
-          this.isRemoteBrowser &&
-          data.scrollId != null &&
-          this.mPrefs.getBoolPref("apz.autoscroll.enabled", false)
-        ) {
-          let { tabParent } = this.frameLoader;
-          if (tabParent) {
-            // If APZ is handling the autoscroll, it may decide to cancel
-            // it of its own accord, so register an observer to allow it
-            // to notify us of that.
-            var os = Components.classes[
-              "@mozilla.org/observer-service;1"
-            ].getService(Components.interfaces.nsIObserverService);
-            os.addObserver(this, "apz:cancel-autoscroll", true);
-
-            usingApz = tabParent.startApzAutoscroll(
-              data.screenX,
-              data.screenY,
-              data.scrollId,
-              data.presShellId
-            );
+      case "Autoscroll:Start":
+        {
+          if (!this.autoscrollEnabled) {
+            return {
+              autoscrollEnabled: false,
+              usingApz: false
+            };
           }
-          // Save the IDs for later
-          this._autoScrollScrollId = data.scrollId;
-          this._autoScrollPresShellId = data.presShellId;
+          this.startScroll(data.scrolldir, data.screenX, data.screenY);
+          let usingApz = false;
+          if (this.isRemoteBrowser && data.scrollId != null &&
+            this.mPrefs.getBoolPref("apz.autoscroll.enabled", false)) {
+            let {
+              tabParent
+            } = this.frameLoader;
+            if (tabParent) {
+              // If APZ is handling the autoscroll, it may decide to cancel
+              // it of its own accord, so register an observer to allow it
+              // to notify us of that.
+              var os = Components.classes["@mozilla.org/observer-service;1"]
+                .getService(Components.interfaces.nsIObserverService);
+              os.addObserver(this, "apz:cancel-autoscroll", true);
+
+              usingApz = tabParent.startApzAutoscroll(
+                data.screenX, data.screenY,
+                data.scrollId, data.presShellId);
+            }
+            // Save the IDs for later
+            this._autoScrollScrollId = data.scrollId;
+            this._autoScrollPresShellId = data.presShellId;
+          }
+          return {
+            autoscrollEnabled: true,
+            usingApz
+          };
         }
-        return { autoscrollEnabled: true, usingApz };
-      }
       case "Autoscroll:Cancel":
         this._autoScrollPopup.hidePopup();
         break;
@@ -1033,53 +973,36 @@ class FirefoxBrowser extends XULElement {
         this.mediaBlockStopped();
         break;
       case "UnselectedTabHover:Toggle":
-        this._shouldSendUnselectedTabHover = data.enable
-          ? ++this._unselectedTabHoverMessageListenerCount > 0
-          : --this._unselectedTabHoverMessageListenerCount == 0;
+        this._shouldSendUnselectedTabHover = data.enable ?
+          ++this._unselectedTabHoverMessageListenerCount > 0 :
+          --this._unselectedTabHoverMessageListenerCount == 0;
         break;
-      case "Forms:ShowDropDown": {
-        if (!this._selectParentHelper) {
-          this._selectParentHelper = ChromeUtils.import(
-            "resource://gre/modules/SelectParentHelper.jsm",
-            {}
-          ).SelectParentHelper;
+      case "Forms:ShowDropDown":
+        {
+          if (!this._selectParentHelper) {
+            this._selectParentHelper =
+              ChromeUtils.import("resource://gre/modules/SelectParentHelper.jsm", {}).SelectParentHelper;
+          }
+
+          let menulist = document.getElementById(this.getAttribute("selectmenulist"));
+          menulist.menupopup.style.direction = data.direction;
+          this._selectParentHelper.populate(menulist, data.options, data.selectedIndex, this._fullZoom,
+            data.uaBackgroundColor, data.uaColor,
+            data.uaSelectBackgroundColor, data.uaSelectColor,
+            data.selectBackgroundColor, data.selectColor, data.selectTextShadow);
+          this._selectParentHelper.open(this, menulist, data.rect, data.isOpenedViaTouch);
+          break;
         }
 
-        let menulist = document.getElementById(
-          this.getAttribute("selectmenulist")
-        );
-        menulist.menupopup.style.direction = data.direction;
-        this._selectParentHelper.populate(
-          menulist,
-          data.options,
-          data.selectedIndex,
-          this._fullZoom,
-          data.uaBackgroundColor,
-          data.uaColor,
-          data.uaSelectBackgroundColor,
-          data.uaSelectColor,
-          data.selectBackgroundColor,
-          data.selectColor,
-          data.selectTextShadow
-        );
-        this._selectParentHelper.open(
-          this,
-          menulist,
-          data.rect,
-          data.isOpenedViaTouch
-        );
-        break;
-      }
-
-      case "Forms:HideDropDown": {
-        if (this._selectParentHelper) {
-          let menulist = document.getElementById(
-            this.getAttribute("selectmenulist")
-          );
-          this._selectParentHelper.hide(menulist, this);
+      case "Forms:HideDropDown":
+        {
+          if (this._selectParentHelper) {
+            let menulist = document.getElementById(this.getAttribute("selectmenulist"));
+            this._selectParentHelper.hide(menulist, this);
+          }
+          break;
         }
-        break;
-      }
+
     }
     return undefined;
   }
@@ -1105,10 +1028,7 @@ class FirefoxBrowser extends XULElement {
     this.messageManager.sendAsyncMessage("Browser:PurgeSessionHistory");
   }
   createAboutBlankContentViewer(aPrincipal) {
-    let principal = BrowserUtils.principalWithMatchingOA(
-      aPrincipal,
-      this.contentPrincipal
-    );
+    let principal = BrowserUtils.principalWithMatchingOA(aPrincipal, this.contentPrincipal);
     this.docShell.createAboutBlankContentViewer(principal);
   }
   stopScroll() {
@@ -1124,9 +1044,8 @@ class FirefoxBrowser extends XULElement {
       window.removeEventListener("keyup", this, true);
       this.messageManager.sendAsyncMessage("Autoscroll:Stop");
 
-      var os = Components.classes["@mozilla.org/observer-service;1"].getService(
-        Components.interfaces.nsIObserverService
-      );
+      var os = Components.classes["@mozilla.org/observer-service;1"]
+        .getService(Components.interfaces.nsIObserverService);
       try {
         os.removeObserver(this, "apz:cancel-autoscroll");
       } catch (ex) {
@@ -1134,12 +1053,12 @@ class FirefoxBrowser extends XULElement {
       }
 
       if (this.isRemoteBrowser && this._autoScrollScrollId != null) {
-        let { tabParent } = this.frameLoader;
+        let {
+          tabParent
+        } = this.frameLoader;
         if (tabParent) {
-          tabParent.stopApzAutoscroll(
-            this._autoScrollScrollId,
-            this._autoScrollPresShellId
-          );
+          tabParent.stopApzAutoscroll(this._autoScrollScrollId,
+            this._autoScrollPresShellId);
         }
         this._autoScrollScrollId = null;
         this._autoScrollPresShellId = null;
@@ -1147,8 +1066,7 @@ class FirefoxBrowser extends XULElement {
     }
   }
   _createAutoScrollPopup() {
-    const XUL_NS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var popup = document.createElementNS(XUL_NS, "panel");
     popup.className = "autoscroller";
     // We set this attribute on the element so that mousemove
@@ -1163,9 +1081,7 @@ class FirefoxBrowser extends XULElement {
     if (!this._autoScrollPopup) {
       if (this.hasAttribute("autoscrollpopup")) {
         // our creator provided a popup to share
-        this._autoScrollPopup = document.getElementById(
-          this.getAttribute("autoscrollpopup")
-        );
+        this._autoScrollPopup = document.getElementById(this.getAttribute("autoscrollpopup"));
       } else {
         // we weren't provided a popup; we have to use the global scope
         this._autoScrollPopup = this._createAutoScrollPopup();
@@ -1179,24 +1095,16 @@ class FirefoxBrowser extends XULElement {
       this._autoScrollPopup.style.margin = -POPUP_SIZE / 2 + "px";
     }
 
-    let screenManager = Components.classes[
-      "@mozilla.org/gfx/screenmanager;1"
-    ].getService(Components.interfaces.nsIScreenManager);
+    let screenManager = Components.classes["@mozilla.org/gfx/screenmanager;1"]
+      .getService(Components.interfaces.nsIScreenManager);
     let screen = screenManager.screenForRect(screenX, screenY, 1, 1);
 
     // we need these attributes so themers don't need to create per-platform packages
-    if (screen.colorDepth > 8) {
-      // need high color for transparency
+    if (screen.colorDepth > 8) { // need high color for transparency
       // Exclude second-rate platforms
-      this._autoScrollPopup.setAttribute(
-        "transparent",
-        !/BeOS|OS\/2/.test(navigator.appVersion)
-      );
+      this._autoScrollPopup.setAttribute("transparent", !/BeOS|OS\/2/.test(navigator.appVersion));
       // Enable translucency on Windows and Mac
-      this._autoScrollPopup.setAttribute(
-        "translucent",
-        /Win|Mac/.test(navigator.platform)
-      );
+      this._autoScrollPopup.setAttribute("translucent", /Win|Mac/.test(navigator.platform));
     }
 
     this._autoScrollPopup.setAttribute("scrolldir", scrolldir);
@@ -1226,14 +1134,10 @@ class FirefoxBrowser extends XULElement {
     let maxY = (top.value + height.value) / scaleFactor - 0.5 * POPUP_SIZE;
     let popupX = Math.max(minX, Math.min(maxX, screenX));
     let popupY = Math.max(minY, Math.min(maxY, screenY));
-    this._autoScrollPopup.showPopup(
-      document.documentElement,
+    this._autoScrollPopup.showPopup(document.documentElement,
       popupX,
       popupY,
-      "popup",
-      null,
-      null
-    );
+      "popup", null, null);
     this._ignoreMouseEvents = true;
     this._scrolling = true;
     this._startX = screenX;
@@ -1251,56 +1155,59 @@ class FirefoxBrowser extends XULElement {
   handleEvent(aEvent) {
     if (this._scrolling) {
       switch (aEvent.type) {
-        case "mousemove": {
-          var x = aEvent.screenX - this._startX;
-          var y = aEvent.screenY - this._startY;
+        case "mousemove":
+          {
+            var x = aEvent.screenX - this._startX;
+            var y = aEvent.screenY - this._startY;
 
-          if (
-            x > this._AUTOSCROLL_SNAP ||
-            x < -this._AUTOSCROLL_SNAP ||
-            (y > this._AUTOSCROLL_SNAP || y < -this._AUTOSCROLL_SNAP)
-          )
-            this._ignoreMouseEvents = false;
-          break;
-        }
-        case "mouseup":
-        case "mousedown":
-        case "contextmenu": {
-          if (!this._ignoreMouseEvents) {
-            // Use a timeout to prevent the mousedown from opening the popup again.
-            // Ideally, we could use preventDefault here, but contenteditable
-            // and middlemouse paste don't interact well. See bug 1188536.
-            setTimeout(() => this._autoScrollPopup.hidePopup(), 0);
-          }
-          this._ignoreMouseEvents = false;
-          break;
-        }
-        case "DOMMouseScroll": {
-          this._autoScrollPopup.hidePopup();
-          aEvent.preventDefault();
-          break;
-        }
-        case "popuphidden": {
-          this._autoScrollPopup.removeEventListener("popuphidden", this, true);
-          this.stopScroll();
-          break;
-        }
-        case "keydown": {
-          if (aEvent.keyCode == aEvent.DOM_VK_ESCAPE) {
-            // the escape key will be processed by
-            // nsXULPopupManager::KeyDown and the panel will be closed.
-            // So, don't consume the key event here.
+            if ((x > this._AUTOSCROLL_SNAP || x < -this._AUTOSCROLL_SNAP) ||
+              (y > this._AUTOSCROLL_SNAP || y < -this._AUTOSCROLL_SNAP))
+              this._ignoreMouseEvents = false;
             break;
           }
-          // don't break here. we need to eat keydown events.
-        }
+        case "mouseup":
+        case "mousedown":
+        case "contextmenu":
+          {
+            if (!this._ignoreMouseEvents) {
+              // Use a timeout to prevent the mousedown from opening the popup again.
+              // Ideally, we could use preventDefault here, but contenteditable
+              // and middlemouse paste don't interact well. See bug 1188536.
+              setTimeout(() => this._autoScrollPopup.hidePopup(), 0);
+            }
+            this._ignoreMouseEvents = false;
+            break;
+          }
+        case "DOMMouseScroll":
+          {
+            this._autoScrollPopup.hidePopup();
+            aEvent.preventDefault();
+            break;
+          }
+        case "popuphidden":
+          {
+            this._autoScrollPopup.removeEventListener("popuphidden", this, true);
+            this.stopScroll();
+            break;
+          }
+        case "keydown":
+          {
+            if (aEvent.keyCode == aEvent.DOM_VK_ESCAPE) {
+              // the escape key will be processed by
+              // nsXULPopupManager::KeyDown and the panel will be closed.
+              // So, don't consume the key event here.
+              break;
+            }
+            // don't break here. we need to eat keydown events.
+          }
         case "keypress":
-        case "keyup": {
-          // All keyevents should be eaten here during autoscrolling.
-          aEvent.stopPropagation();
-          aEvent.preventDefault();
-          break;
-        }
+        case "keyup":
+          {
+            // All keyevents should be eaten here during autoscrolling.
+            aEvent.stopPropagation();
+            aEvent.preventDefault();
+            break;
+          }
       }
     }
   }
@@ -1316,9 +1223,7 @@ class FirefoxBrowser extends XULElement {
       }
     }
 
-    throw new Error(
-      "Closing a browser which was not attached to a tabbrowser is unsupported."
-    );
+    throw new Error("Closing a browser which was not attached to a tabbrowser is unsupported.");
   }
   swapBrowsers(aOtherBrowser, aFlags) {
     // The request comes from a XPCOM component, we'd want to redirect
@@ -1338,9 +1243,7 @@ class FirefoxBrowser extends XULElement {
   }
   swapDocShells(aOtherBrowser) {
     if (this.isRemoteBrowser != aOtherBrowser.isRemoteBrowser)
-      throw new Error(
-        "Can only swap docshells between browsers in the same process."
-      );
+      throw new Error("Can only swap docshells between browsers in the same process.");
 
     // Give others a chance to swap state.
     // IMPORTANT: Since a swapDocShells call does not swap the messageManager
@@ -1357,9 +1260,13 @@ class FirefoxBrowser extends XULElement {
     //             which is quite common after a swpDocShells call, its
     //             frame loader is destroyed, and that destroys the relevant
     //             message manager, which will remove the listeners.
-    let event = new CustomEvent("SwapDocShells", { detail: aOtherBrowser });
+    let event = new CustomEvent("SwapDocShells", {
+      "detail": aOtherBrowser
+    });
     this.dispatchEvent(event);
-    event = new CustomEvent("SwapDocShells", { detail: this });
+    event = new CustomEvent("SwapDocShells", {
+      "detail": this
+    });
     aOtherBrowser.dispatchEvent(event);
 
     // We need to swap fields that are tied to our docshell or related to
@@ -1376,28 +1283,26 @@ class FirefoxBrowser extends XULElement {
     ];
 
     if (this.isRemoteBrowser) {
-      fieldsToSwap.push(
-        ...[
-          "_remoteWebNavigation",
-          "_remoteWebNavigationImpl",
-          "_remoteWebProgressManager",
-          "_remoteWebProgress",
-          "_remoteFinder",
-          "_securityUI",
-          "_documentURI",
-          "_documentContentType",
-          "_contentTitle",
-          "_characterSet",
-          "_mayEnableCharacterEncodingMenu",
-          "_contentPrincipal",
-          "_imageDocument",
-          "_fullZoom",
-          "_textZoom",
-          "_isSyntheticDocument",
-          "_innerWindowID",
-          "_manifestURI"
-        ]
-      );
+      fieldsToSwap.push(...[
+        "_remoteWebNavigation",
+        "_remoteWebNavigationImpl",
+        "_remoteWebProgressManager",
+        "_remoteWebProgress",
+        "_remoteFinder",
+        "_securityUI",
+        "_documentURI",
+        "_documentContentType",
+        "_contentTitle",
+        "_characterSet",
+        "_mayEnableCharacterEncodingMenu",
+        "_contentPrincipal",
+        "_imageDocument",
+        "_fullZoom",
+        "_textZoom",
+        "_isSyntheticDocument",
+        "_innerWindowID",
+        "_manifestURI",
+      ]);
     }
 
     var ourFieldValues = {};
@@ -1432,22 +1337,24 @@ class FirefoxBrowser extends XULElement {
       this._remoteWebNavigationImpl.swapBrowser(this);
       aOtherBrowser._remoteWebNavigationImpl.swapBrowser(aOtherBrowser);
 
-      if (
-        this._remoteWebProgressManager &&
-        aOtherBrowser._remoteWebProgressManager
-      ) {
+      if (this._remoteWebProgressManager && aOtherBrowser._remoteWebProgressManager) {
         this._remoteWebProgressManager.swapBrowser(this);
         aOtherBrowser._remoteWebProgressManager.swapBrowser(aOtherBrowser);
       }
 
-      if (this._remoteFinder) this._remoteFinder.swapBrowser(this);
+      if (this._remoteFinder)
+        this._remoteFinder.swapBrowser(this);
       if (aOtherBrowser._remoteFinder)
         aOtherBrowser._remoteFinder.swapBrowser(aOtherBrowser);
     }
 
-    event = new CustomEvent("EndSwapDocShells", { detail: aOtherBrowser });
+    event = new CustomEvent("EndSwapDocShells", {
+      "detail": aOtherBrowser
+    });
     this.dispatchEvent(event);
-    event = new CustomEvent("EndSwapDocShells", { detail: this });
+    event = new CustomEvent("EndSwapDocShells", {
+      "detail": this
+    });
     aOtherBrowser.dispatchEvent(event);
   }
   getInPermitUnload(aCallback) {
@@ -1459,28 +1366,24 @@ class FirefoxBrowser extends XULElement {
   }
   permitUnload(aPermitUnloadFlags) {
     if (!this.docShell || !this.docShell.contentViewer) {
-      return { permitUnload: true, timedOut: false };
+      return {
+        permitUnload: true,
+        timedOut: false
+      };
     }
     return {
-      permitUnload: this.docShell.contentViewer.permitUnload(
-        aPermitUnloadFlags
-      ),
+      permitUnload: this.docShell.contentViewer.permitUnload(aPermitUnloadFlags),
       timedOut: false
     };
   }
   print(aOuterWindowID, aPrintSettings, aPrintProgressListener) {
     if (!this.frameLoader) {
-      throw Components.Exception(
-        "No frame loader.",
-        Components.results.NS_ERROR_FAILURE
-      );
+      throw Components.Exception("No frame loader.",
+        Components.results.NS_ERROR_FAILURE);
     }
 
-    this.frameLoader.print(
-      aOuterWindowID,
-      aPrintSettings,
-      aPrintProgressListener
-    );
+    this.frameLoader.print(aOuterWindowID, aPrintSettings,
+      aPrintProgressListener);
   }
   dropLinks(aLinksCount, aLinks, aTriggeringPrincipal) {
     if (!this.droppedLinkHandler) {
@@ -1491,11 +1394,10 @@ class FirefoxBrowser extends XULElement {
       links.push({
         url: aLinks[i],
         name: aLinks[i + 1],
-        type: aLinks[i + 2]
+        type: aLinks[i + 2],
       });
     }
     this.droppedLinkHandler(null, links, aTriggeringPrincipal);
     return true;
   }
 }
-customElements.define("firefox-browser", FirefoxBrowser);

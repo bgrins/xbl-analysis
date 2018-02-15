@@ -1,4 +1,6 @@
 class FirefoxToolbarBase extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-toolbar-base", FirefoxToolbarBase);

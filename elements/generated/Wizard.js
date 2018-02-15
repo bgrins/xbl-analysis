@@ -1,5 +1,6 @@
 class FirefoxWizard extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:hbox class="wizard-header" anonid="Header"></xul:hbox>
       <xul:deck class="wizard-page-box" flex="1" anonid="Deck">
@@ -33,33 +34,34 @@ class FirefoxWizard extends XULElement {
 
     this._cancelButton = "";
 
-    this._backFunc = function() {
+    this._backFunc = (function() {
       document.documentElement.rewind();
-    };
+    });
 
-    this._nextFunc = function() {
+    this._nextFunc = (function() {
       document.documentElement.advance();
-    };
+    });
 
-    this._finishFunc = function() {
+    this._finishFunc = (function() {
       document.documentElement.advance();
-    };
+    });
 
-    this._cancelFunc = function() {
+    this._cancelFunc = (function() {
       document.documentElement.cancel();
-    };
+    });
 
-    this._extra1Func = function() {
+    this._extra1Func = (function() {
       document.documentElement.extra1();
-    };
+    });
 
-    this._extra2Func = function() {
+    this._extra2Func = (function() {
       document.documentElement.extra2();
-    };
+    });
 
-    this._closeHandler = function(event) {
-      if (document.documentElement.cancel()) event.preventDefault();
-    };
+    this._closeHandler = (function(event) {
+      if (document.documentElement.cancel())
+        event.preventDefault();
+    });
 
     this._canAdvance = true;
     this._canRewind = false;
@@ -79,21 +81,9 @@ class FirefoxWizard extends XULElement {
     }
 
     // get anonymous content references
-    this._wizardHeader = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "Header"
-    );
-    this._wizardButtons = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "Buttons"
-    );
-    this._deck = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "Deck"
-    );
+    this._wizardHeader = document.getAnonymousElementByAttribute(this, "anonid", "Header");
+    this._wizardButtons = document.getAnonymousElementByAttribute(this, "anonid", "Buttons");
+    this._deck = document.getAnonymousElementByAttribute(this, "anonid", "Deck");
 
     this._initWizardButton("back");
     this._initWizardButton("next");
@@ -113,17 +103,19 @@ class FirefoxWizard extends XULElement {
     // give focus to the first focusable element in the dialog
     window.addEventListener("load", this._setInitialFocus);
 
-    this.addEventListener("keypress", event => {
-      this._hitEnter(event);
+    this.addEventListener("keypress", (event) => {
+      this._hitEnter(event)
     });
 
-    this.addEventListener("keypress", event => {
-      if (!event.defaultPrevented) this.cancel();
+    this.addEventListener("keypress", (event) => {
+      if (!event.defaultPrevented)
+        this.cancel();
     });
+
   }
 
   set title(val) {
-    return (document.title = val);
+    return document.title = val;
   }
 
   get title() {
@@ -132,7 +124,7 @@ class FirefoxWizard extends XULElement {
 
   set canAdvance(val) {
     this._nextButton.disabled = !val;
-    return (this._canAdvance = val);
+    return this._canAdvance = val;
   }
 
   get canAdvance() {
@@ -141,7 +133,7 @@ class FirefoxWizard extends XULElement {
 
   set canRewind(val) {
     this._backButton.disabled = !val;
-    return (this._canRewind = val);
+    return this._canRewind = val;
   }
 
   get canRewind() {
@@ -149,7 +141,7 @@ class FirefoxWizard extends XULElement {
   }
 
   get pageStep() {
-    return this._pageStack.length;
+    return this._pageStack.length
   }
 
   get wizardPages() {
@@ -158,7 +150,8 @@ class FirefoxWizard extends XULElement {
   }
 
   set currentPage(val) {
-    if (!val) return val;
+    if (!val)
+      return val;
 
     this._currentPage = val;
 
@@ -169,13 +162,13 @@ class FirefoxWizard extends XULElement {
       this.canRewind = false;
       this.setAttribute("firstpage", "true");
       if (/Linux/.test(navigator.platform)) {
-        this._backButton.setAttribute("hidden", "true");
+        this._backButton.setAttribute('hidden', 'true');
       }
     } else {
       this.canRewind = true;
       this.setAttribute("firstpage", "false");
       if (/Linux/.test(navigator.platform)) {
-        this._backButton.setAttribute("hidden", "false");
+        this._backButton.setAttribute('hidden', 'false');
       }
     }
 
@@ -198,11 +191,12 @@ class FirefoxWizard extends XULElement {
   }
 
   get currentPage() {
-    return this._currentPage;
+    return this._currentPage
   }
 
   set pageIndex(val) {
-    if (val < 0 || val >= this.pageCount) return val;
+    if (val < 0 || val >= this.pageCount)
+      return val;
 
     var page = this.wizardPages[val];
     this._pageStack[this._pageStack.length - 1] = page;
@@ -221,35 +215,28 @@ class FirefoxWizard extends XULElement {
 
   get onLastPage() {
     var cp = this.currentPage;
-    return (
-      cp &&
-      ((this._accessMethod == "sequential" &&
-        cp.pageIndex == this.pageCount - 1) ||
-        (this._accessMethod == "random" && cp.next == ""))
-    );
+    return cp && ((this._accessMethod == "sequential" && cp.pageIndex == this.pageCount - 1) ||
+      (this._accessMethod == "random" && cp.next == ""));
   }
   getButton(aDlgType) {
     var btns = this.getElementsByAttribute("dlgtype", aDlgType);
-    return btns.item(0)
-      ? btns[0]
-      : document.getAnonymousElementByAttribute(
-          this._wizardButtons,
-          "dlgtype",
-          aDlgType
-        );
+    return btns.item(0) ? btns[0] : document.getAnonymousElementByAttribute(this._wizardButtons, "dlgtype", aDlgType);
   }
   getPageById(aPageId) {
     var els = this.getElementsByAttribute("pageid", aPageId);
     return els.item(0);
   }
   extra1() {
-    if (this.currentPage) this._fireEvent(this.currentPage, "extra1");
+    if (this.currentPage)
+      this._fireEvent(this.currentPage, "extra1");
   }
   extra2() {
-    if (this.currentPage) this._fireEvent(this.currentPage, "extra2");
+    if (this.currentPage)
+      this._fireEvent(this.currentPage, "extra2");
   }
   rewind() {
-    if (!this.canRewind) return;
+    if (!this.canRewind)
+      return;
 
     if (this.currentPage && !this._fireEvent(this.currentPage, "pagehide"))
       return;
@@ -257,14 +244,16 @@ class FirefoxWizard extends XULElement {
     if (this.currentPage && !this._fireEvent(this.currentPage, "pagerewound"))
       return;
 
-    if (!this._fireEvent(this, "wizardback")) return;
+    if (!this._fireEvent(this, "wizardback"))
+      return;
 
     this._pageStack.pop();
     this.currentPage = this._pageStack[this._pageStack.length - 1];
     this.setAttribute("pagestep", this._pageStack.length);
   }
   advance(aPageId) {
-    if (!this.canAdvance) return;
+    if (!this.canAdvance)
+      return;
 
     if (this.currentPage && !this._fireEvent(this.currentPage, "pagehide"))
       return;
@@ -278,16 +267,20 @@ class FirefoxWizard extends XULElement {
           window.close();
         }, 1);
     } else {
-      if (!this._fireEvent(this, "wizardnext")) return;
+      if (!this._fireEvent(this, "wizardnext"))
+        return;
 
       var page;
-      if (aPageId) page = this.getPageById(aPageId);
+      if (aPageId)
+        page = this.getPageById(aPageId);
       else {
         if (this.currentPage) {
           if (this._accessMethod == "random")
             page = this.getPageById(this.currentPage.next);
-          else page = this.wizardPages[this.currentPage.pageIndex + 1];
-        } else page = this.wizardPages[0];
+          else
+            page = this.wizardPages[this.currentPage.pageIndex + 1];
+        } else
+          page = this.wizardPages[0];
       }
 
       if (page) {
@@ -306,7 +299,8 @@ class FirefoxWizard extends XULElement {
     }
   }
   cancel() {
-    if (!this._fireEvent(this, "wizardcancel")) return true;
+    if (!this._fireEvent(this, "wizardcancel"))
+      return true;
 
     window.close();
     window.setTimeout(function() {
@@ -316,31 +310,34 @@ class FirefoxWizard extends XULElement {
   }
   _setInitialFocus(aEvent) {
     document.documentElement._hasLoaded = true;
-    var focusInit = function() {
-      // give focus to the first focusable element in the dialog
-      if (!document.commandDispatcher.focusedElement)
-        document.commandDispatcher.advanceFocusIntoSubtree(
-          document.documentElement
-        );
+    var focusInit =
+      function() {
+        // give focus to the first focusable element in the dialog
+        if (!document.commandDispatcher.focusedElement)
+          document.commandDispatcher.advanceFocusIntoSubtree(document.documentElement);
 
-      try {
-        var button = document.documentElement._wizardButtons.defaultButton;
-        if (button) window.notifyDefaultButtonLoaded(button);
-      } catch (e) {}
-    };
+        try {
+          var button =
+            document.documentElement._wizardButtons.defaultButton;
+          if (button)
+            window.notifyDefaultButtonLoaded(button);
+        } catch (e) {}
+      };
 
     // Give focus after onload completes, see bug 103197.
     setTimeout(focusInit, 0);
   }
   _advanceFocusToPage(aPage) {
-    if (!this._hasLoaded) return;
+    if (!this._hasLoaded)
+      return;
 
     document.commandDispatcher.advanceFocusIntoSubtree(aPage);
 
     // if advanceFocusIntoSubtree tries to focus one of our
     // dialog buttons, then remove it and put it on the root
     var focused = document.commandDispatcher.focusedElement;
-    if (focused && focused.hasAttribute("dlgtype")) this.focus();
+    if (focused && focused.hasAttribute("dlgtype"))
+      this.focus();
   }
   _initPages() {
     var meth = "sequential";
@@ -348,16 +345,13 @@ class FirefoxWizard extends XULElement {
     for (var i = 0; i < pages.length; ++i) {
       var page = pages[i];
       page.pageIndex = i;
-      if (page.next != "") meth = "random";
+      if (page.next != "")
+        meth = "random";
     }
     this._accessMethod = meth;
   }
   _initWizardButton(aName) {
-    var btn = document.getAnonymousElementByAttribute(
-      this._wizardButtons,
-      "dlgtype",
-      aName
-    );
+    var btn = document.getAnonymousElementByAttribute(this._wizardButtons, "dlgtype", aName);
     if (btn) {
       btn.addEventListener("command", this["_" + aName + "Func"]);
       this["_" + aName + "Button"] = btn;
@@ -370,31 +364,21 @@ class FirefoxWizard extends XULElement {
       if (/Mac/.test(navigator.platform)) {
         label = this._bundle.GetStringFromName("default-first-title-mac");
       } else {
-        label = this._bundle.formatStringFromName(
-          "default-first-title",
-          [this.title],
-          1
-        );
+        label = this._bundle.formatStringFromName("default-first-title", [this.title], 1);
       }
     } else if (!label && this.onLastPage && this._bundle) {
       if (/Mac/.test(navigator.platform)) {
         label = this._bundle.GetStringFromName("default-last-title-mac");
       } else {
-        label = this._bundle.formatStringFromName(
-          "default-last-title",
-          [this.title],
-          1
-        );
+        label = this._bundle.formatStringFromName("default-last-title", [this.title], 1);
       }
     }
     this._wizardHeader.setAttribute("label", label);
-    this._wizardHeader.setAttribute(
-      "description",
-      this.currentPage.getAttribute("description")
-    );
+    this._wizardHeader.setAttribute("description", this.currentPage.getAttribute("description"));
   }
   _hitEnter(evt) {
-    if (!evt.defaultPrevented) this.advance();
+    if (!evt.defaultPrevented)
+      this.advance();
   }
   _fireEvent(aTarget, aType) {
     var event = document.createEvent("Events");
@@ -408,10 +392,10 @@ class FirefoxWizard extends XULElement {
     if (handler != "") {
       var fn = new Function("event", handler);
       var returned = fn.apply(aTarget, [event]);
-      if (returned == false) noCancel = false;
+      if (returned == false)
+        noCancel = false;
     }
 
     return noCancel;
   }
 }
-customElements.define("firefox-wizard", FirefoxWizard);

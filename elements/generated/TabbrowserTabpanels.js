@@ -1,12 +1,14 @@
 class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._selectedIndex = 0;
+
   }
 
   set selectedIndex(val) {
-    if (val < 0 || val >= this.childNodes.length) return val;
+    if (val < 0 || val >= this.childNodes.length)
+      return val;
 
     let toTab = this.getRelatedElement(this.childNodes[val]);
 
@@ -30,7 +32,3 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
     return this._selectedIndex;
   }
 }
-customElements.define(
-  "firefox-tabbrowser-tabpanels",
-  FirefoxTabbrowserTabpanels
-);

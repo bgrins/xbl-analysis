@@ -1,5 +1,6 @@
 class FirefoxVideocontrols extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <div anonid="controlsContainer" class="controlsContainer" role="none">
         <div anonid="statusOverlay" class="statusOverlay stackItem" hidden="true">
@@ -68,28 +69,12 @@ class FirefoxVideocontrols extends XULElement {
 
       textTracksCount: 0,
       randomID: 0,
-      videoEvents: [
-        "play",
-        "pause",
-        "ended",
-        "volumechange",
-        "loadeddata",
-        "loadstart",
-        "timeupdate",
-        "progress",
-        "playing",
-        "waiting",
-        "canplay",
-        "canplaythrough",
-        "seeking",
-        "seeked",
-        "emptied",
-        "loadedmetadata",
-        "error",
-        "suspend",
-        "stalled",
-        "mozvideoonlyseekbegin",
-        "mozvideoonlyseekcompleted"
+      videoEvents: ["play", "pause", "ended", "volumechange", "loadeddata",
+        "loadstart", "timeupdate", "progress",
+        "playing", "waiting", "canplay", "canplaythrough",
+        "seeking", "seeked", "emptied", "loadedmetadata",
+        "error", "suspend", "stalled",
+        "mozvideoonlyseekbegin", "mozvideoonlyseekcompleted"
       ],
 
       showHours: false,
@@ -119,11 +104,9 @@ class FirefoxVideocontrols extends XULElement {
       },
 
       get isControlBarHidden() {
-        return (
-          this.controlBar.hidden ||
+        return this.controlBar.hidden ||
           this.controlBar.hideByAdjustment ||
-          this.controlBar.getAttribute("fadeout") === "true"
-        );
+          this.controlBar.getAttribute("fadeout") === "true";
       },
 
       suppressError: false,
@@ -138,19 +121,16 @@ class FirefoxVideocontrols extends XULElement {
         }
 
         var show = false;
-        if (
-          this.video.seeking ||
+        if (this.video.seeking ||
           (this.video.error && !this.suppressError) ||
           this.video.networkState == this.video.NETWORK_NO_SOURCE ||
           (this.video.networkState == this.video.NETWORK_LOADING &&
-            (this.video.paused || this.video.ended
-              ? this.video.readyState < this.video.HAVE_CURRENT_DATA
-              : this.video.readyState < this.video.HAVE_FUTURE_DATA)) ||
-          (this.timeUpdateCount <= 1 &&
-            !this.video.ended &&
+            (this.video.paused || this.video.ended ?
+              this.video.readyState < this.video.HAVE_CURRENT_DATA :
+              this.video.readyState < this.video.HAVE_FUTURE_DATA)) ||
+          (this.timeUpdateCount <= 1 && !this.video.ended &&
             this.video.readyState < this.video.HAVE_FUTURE_DATA &&
-            this.video.networkState == this.video.NETWORK_LOADING)
-        ) {
+            this.video.networkState == this.video.NETWORK_LOADING)) {
           show = true;
         }
 
@@ -164,35 +144,22 @@ class FirefoxVideocontrols extends XULElement {
           show = true;
         }
 
-        this.log(
-          "Status overlay: seeking=" +
-            this.video.seeking +
-            " error=" +
-            this.video.error +
-            " readyState=" +
-            this.video.readyState +
-            " paused=" +
-            this.video.paused +
-            " ended=" +
-            this.video.ended +
-            " networkState=" +
-            this.video.networkState +
-            " timeUpdateCount=" +
-            this.timeUpdateCount +
-            " _showThrobberTimer=" +
-            this._showThrobberTimer +
-            " --> " +
-            (show ? "SHOW" : "HIDE")
-        );
+        this.log("Status overlay: seeking=" + this.video.seeking +
+          " error=" + this.video.error + " readyState=" + this.video.readyState +
+          " paused=" + this.video.paused + " ended=" + this.video.ended +
+          " networkState=" + this.video.networkState +
+          " timeUpdateCount=" + this.timeUpdateCount +
+          " _showThrobberTimer=" + this._showThrobberTimer +
+          " --> " + (show ? "SHOW" : "HIDE"));
         this.startFade(this.statusOverlay, show, immediate);
       },
 
       /*
-      * Set the initial state of the controls. The binding is normally created along
-      * with video element, but could be attached at any point (eg, if the video is
-      * removed from the document and then reinserted). Thus, some one-time events may
-      * have already fired, and so we'll need to explicitly check the initial state.
-      */
+       * Set the initial state of the controls. The binding is normally created along
+       * with video element, but could be attached at any point (eg, if the video is
+       * removed from the document and then reinserted). Thus, some one-time events may
+       * have already fired, and so we'll need to explicitly check the initial state.
+       */
       setupInitialState() {
         this.randomID = Math.random();
         this.videocontrols.randomID = this.randomID;
@@ -203,9 +170,7 @@ class FirefoxVideocontrols extends XULElement {
 
         var duration = Math.round(this.video.duration * 1000); // in ms
         var currentTime = Math.round(this.video.currentTime * 1000); // in ms
-        this.log(
-          "Initial playback position is at " + currentTime + " of " + duration
-        );
+        this.log("Initial playback position is at " + currentTime + " of " + duration);
         // It would be nice to retain maxCurrentTimeSeen, but it would be difficult
         // to determine if the media source changed while we were detached.
         this.initPositionDurationBox();
@@ -215,10 +180,8 @@ class FirefoxVideocontrols extends XULElement {
         // If we have metadata, check if this is a <video> without
         // video data, or a video with no audio track.
         if (this.video.readyState >= this.video.HAVE_METADATA) {
-          if (
-            this.video instanceof HTMLVideoElement &&
-            (this.video.videoWidth == 0 || this.video.videoHeight == 0)
-          ) {
+          if (this.video instanceof HTMLVideoElement &&
+            (this.video.videoWidth == 0 || this.video.videoHeight == 0)) {
             this.isAudioOnly = true;
           }
 
@@ -280,9 +243,7 @@ class FirefoxVideocontrols extends XULElement {
                 if (control.modifier) {
                   propertyName += "-" + control.modifier;
                 }
-                let preDefinedSize = this.controlBarComputedStyles.getPropertyValue(
-                  propertyName
-                );
+                let preDefinedSize = this.controlBarComputedStyles.getPropertyValue(propertyName);
 
                 return parseInt(preDefinedSize, 10);
               }
@@ -299,7 +260,7 @@ class FirefoxVideocontrols extends XULElement {
               writable: true
             },
             hideByAdjustment: {
-              set: v => {
+              set: (v) => {
                 if (v) {
                   control.setAttribute("hidden", "true");
                 } else {
@@ -335,14 +296,12 @@ class FirefoxVideocontrols extends XULElement {
         // go ahead and reveal the controls now, so they're an obvious user cue.
         //
         // (Note: the |controls| attribute is already handled via layout/style/html.css)
-        var shouldShow =
-          !this.dynamicControls || (this.video.paused && !this.video.autoplay);
+        var shouldShow = !this.dynamicControls ||
+          (this.video.paused &&
+            !this.video.autoplay);
         // Hide the overlay if the video time is non-zero or if an error occurred to workaround bug 718107.
-        let shouldClickToPlayShow =
-          shouldShow &&
-          !this.isAudioOnly &&
-          this.video.currentTime == 0 &&
-          !this.hasError();
+        let shouldClickToPlayShow = shouldShow && !this.isAudioOnly &&
+          this.video.currentTime == 0 && !this.hasError();
         this.startFade(this.clickToPlay, shouldClickToPlayShow, true);
         this.startFade(this.controlsSpacer, shouldClickToPlayShow, true);
         this.startFade(this.controlBar, shouldShow, true);
@@ -426,11 +385,7 @@ class FirefoxVideocontrols extends XULElement {
           case "play":
             this.setPlayButtonState(false);
             this.setupStatusFader();
-            if (
-              !this._triggeredByControls &&
-              this.dynamicControls &&
-              this.videocontrols.isTouchControls
-            ) {
+            if (!this._triggeredByControls && this.dynamicControls && this.videocontrols.isTouchControls) {
               this.startFadeOut(this.controlBar);
             }
             if (!this._triggeredByControls) {
@@ -451,10 +406,8 @@ class FirefoxVideocontrols extends XULElement {
             this.setPlayButtonState(true);
             // We throttle timechange events, so the thumb might not be
             // exactly at the end when the video finishes.
-            this.showPosition(
-              Math.round(this.video.currentTime * 1000),
-              Math.round(this.video.duration * 1000)
-            );
+            this.showPosition(Math.round(this.video.currentTime * 1000),
+              Math.round(this.video.duration * 1000));
             this.startFadeIn(this.controlBar);
             this.setupStatusFader();
             break;
@@ -466,28 +419,20 @@ class FirefoxVideocontrols extends XULElement {
             if (this.clickToPlay.hidden && !this.isAudioOnly) {
               this.startFadeIn(this.controlBar);
               clearTimeout(this._hideControlsTimeout);
-              this._hideControlsTimeout = setTimeout(
-                this._hideControlsFn,
-                this.HIDE_CONTROLS_TIMEOUT_MS
-              );
+              this._hideControlsTimeout = setTimeout(this._hideControlsFn, this.HIDE_CONTROLS_TIMEOUT_MS);
             }
             break;
           case "loadedmetadata":
             // If a <video> doesn't have any video data, treat it as <audio>
             // and show the controls (they won't fade back out)
-            if (
-              this.video instanceof HTMLVideoElement &&
-              (this.video.videoWidth == 0 || this.video.videoHeight == 0)
-            ) {
+            if (this.video instanceof HTMLVideoElement &&
+              (this.video.videoWidth == 0 || this.video.videoHeight == 0)) {
               this.isAudioOnly = true;
               this.clickToPlay.hidden = true;
               this.startFadeIn(this.controlBar);
               this.setFullscreenButtonState();
             }
-            this.showPosition(
-              Math.round(this.video.currentTime * 1000),
-              Math.round(this.video.duration * 1000)
-            );
+            this.showPosition(Math.round(this.video.currentTime * 1000), Math.round(this.video.duration * 1000));
             if (!this.isAudioOnly && !this.video.mozHasAudio) {
               this.muteButton.setAttribute("noAudio", "true");
               this.muteButton.setAttribute("disabled", "true");
@@ -503,7 +448,7 @@ class FirefoxVideocontrols extends XULElement {
             this.controlsSpacer.removeAttribute("aria-label");
             this.statusOverlay.removeAttribute("error");
             this.statusIcon.setAttribute("type", "throbber");
-            this.isAudioOnly = this.video instanceof HTMLAudioElement;
+            this.isAudioOnly = (this.video instanceof HTMLAudioElement);
             this.setPlayButtonState(true);
             this.setupNewLoadState();
             this.setupStatusFader();
@@ -641,25 +586,17 @@ class FirefoxVideocontrols extends XULElement {
         // do this intentionally to work around requires-user-interaction to
         // play restrictions, and we don't want to display a debug message
         // if that's the case.
-        return (
-          this.video.error != null ||
+        return this.video.error != null ||
           (this.video.networkState == this.video.NETWORK_NO_SOURCE &&
-            this.hasSources())
-        );
+            this.hasSources());
       },
 
       hasSources() {
-        if (
-          this.video.hasAttribute("src") &&
-          this.video.getAttribute("src") !== ""
-        ) {
+        if (this.video.hasAttribute("src") &&
+          this.video.getAttribute("src") !== "") {
           return true;
         }
-        for (
-          var child = this.video.firstChild;
-          child !== null;
-          child = child.nextElementSibling
-        ) {
+        for (var child = this.video.firstChild; child !== null; child = child.nextElementSibling) {
           if (child instanceof HTMLSourceElement) {
             return true;
           }
@@ -685,9 +622,9 @@ class FirefoxVideocontrols extends XULElement {
               error = "errorDecode";
               break;
             case v.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-              error = v.networkState == v.NETWORK_NO_SOURCE
-                ? "errorNoSource"
-                : "errorSrcNotSupported";
+              error = v.networkState == v.NETWORK_NO_SOURCE ?
+                "errorNoSource" :
+                "errorSrcNotSupported";
               break;
             default:
               error = "errorGeneric";
@@ -699,11 +636,7 @@ class FirefoxVideocontrols extends XULElement {
           return; // No error found.
         }
 
-        let label = document.getAnonymousElementByAttribute(
-          this.videocontrols,
-          "anonid",
-          error
-        );
+        let label = document.getAnonymousElementByAttribute(this.videocontrols, "anonid", error);
         this.controlsSpacer.setAttribute("aria-label", label.textContent);
         this.statusOverlay.setAttribute("error", error);
       },
@@ -712,7 +645,7 @@ class FirefoxVideocontrols extends XULElement {
         // Format the duration as "h:mm:ss" or "m:ss"
         aTime = Math.round(aTime / 1000);
         let hours = Math.floor(aTime / 3600);
-        let mins = Math.floor(aTime % 3600 / 60);
+        let mins = Math.floor((aTime % 3600) / 60);
         let secs = Math.floor(aTime % 60);
         let timeString;
         if (secs < 10) {
@@ -735,9 +668,7 @@ class FirefoxVideocontrols extends XULElement {
         }
 
         const positionTextNode = Array.prototype.find.call(
-          this.positionDurationBox.childNodes,
-          n => !!~n.textContent.search("#1")
-        );
+          this.positionDurationBox.childNodes, (n) => !!~n.textContent.search("#1"));
         const durationSpan = this.durationSpan;
         const durationFormat = durationSpan.textContent;
         const positionFormat = positionTextNode.textContent;
@@ -751,22 +682,20 @@ class FirefoxVideocontrols extends XULElement {
             value: durationSpan
           },
           position: {
-            set: v => {
+            set: (v) => {
               positionTextNode.textContent = positionFormat.replace("#1", v);
             }
           },
           duration: {
-            set: v => {
-              durationSpan.textContent = v
-                ? durationFormat.replace("#2", v)
-                : "";
+            set: (v) => {
+              durationSpan.textContent = v ? durationFormat.replace("#2", v) : "";
             }
           }
         });
       },
 
       showDuration(duration) {
-        let isInfinite = duration == Infinity;
+        let isInfinite = (duration == Infinity);
         this.log("Duration is " + duration + "ms.\n");
 
         if (isNaN(duration) || isInfinite) {
@@ -774,7 +703,7 @@ class FirefoxVideocontrols extends XULElement {
         }
 
         // If the duration is over an hour, thumb should show h:mm:ss instead of mm:ss
-        this.showHours = duration >= 3600000;
+        this.showHours = (duration >= 3600000);
 
         // Format the duration as "h:mm:ss" or "m:ss"
         let timeString = isInfinite ? "" : this.formatTime(duration);
@@ -801,11 +730,9 @@ class FirefoxVideocontrols extends XULElement {
       },
 
       pauseVideoDuringDragging() {
-        if (
-          !this.video.paused &&
+        if (!this.video.paused &&
           !this.isPausedByDragging &&
-          this.scrubber.isDragging
-        ) {
+          this.scrubber.isDragging) {
           this.isPausedByDragging = true;
           this.video.pause();
         }
@@ -957,30 +884,23 @@ class FirefoxVideocontrols extends XULElement {
         // Suppress fading out the controls until the video has rendered
         // its first frame. But since autoplay videos start off with no
         // controls, let them fade-out so the controls don't get stuck on.
-        if (!this.firstFrameShown && !this.video.autoplay) {
+        if (!this.firstFrameShown &&
+          !this.video.autoplay) {
           return;
         }
 
         if (this._controlsHiddenByTimeout) {
-          this._showControlsTimeout = setTimeout(
-            this._showControlsFn,
-            this.SHOW_CONTROLS_TIMEOUT_MS
-          );
+          this._showControlsTimeout = setTimeout(this._showControlsFn, this.SHOW_CONTROLS_TIMEOUT_MS);
         } else {
           this.startFade(this.controlBar, true);
         }
 
         // Hide the controls if the mouse cursor is left on top of the video
         // but above the control bar and if the click-to-play overlay is hidden.
-        if (
-          (this._controlsHiddenByTimeout ||
+        if ((this._controlsHiddenByTimeout ||
             event.clientY < this.controlBar.getBoundingClientRect().top) &&
-          this.clickToPlay.hidden
-        ) {
-          this._hideControlsTimeout = setTimeout(
-            this._hideControlsFn,
-            this.HIDE_CONTROLS_TIMEOUT_MS
-          );
+          this.clickToPlay.hidden) {
+          this._hideControlsTimeout = setTimeout(this._hideControlsFn, this.HIDE_CONTROLS_TIMEOUT_MS);
         }
       },
 
@@ -1001,11 +921,10 @@ class FirefoxVideocontrols extends XULElement {
           return;
         }
 
-        var isMouseOver = event.type == "mouseover";
+        var isMouseOver = (event.type == "mouseover");
 
         var controlRect = this.controlBar.getBoundingClientRect();
-        var isMouseInControls =
-          event.clientY > controlRect.top &&
+        var isMouseInControls = event.clientY > controlRect.top &&
           event.clientY < controlRect.bottom &&
           event.clientX > controlRect.left &&
           event.clientX < controlRect.right;
@@ -1013,7 +932,8 @@ class FirefoxVideocontrols extends XULElement {
         // Suppress fading out the controls until the video has rendered
         // its first frame. But since autoplay videos start off with no
         // controls, let them fade-out so the controls don't get stuck on.
-        if (!this.firstFrameShown && !isMouseOver && !this.video.autoplay) {
+        if (!this.firstFrameShown && !isMouseOver &&
+          !this.video.autoplay) {
           return;
         }
 
@@ -1047,11 +967,7 @@ class FirefoxVideocontrols extends XULElement {
           // As a workaround, update it manually when it first becomes unhidden.
           if (element.hidden) {
             if (this.videocontrols.isTouchControls) {
-              this.scrubber.valueChanged(
-                "curpos",
-                this.video.currentTime * 1000,
-                false
-              );
+              this.scrubber.valueChanged("curpos", this.video.currentTime * 1000, false);
             } else {
               this.scrubber.value = this.video.currentTime * 1000;
             }
@@ -1078,11 +994,8 @@ class FirefoxVideocontrols extends XULElement {
           }
         } else {
           element.setAttribute("fadeout", true);
-          if (
-            element.classList.contains("controlBar") &&
-            !this.hasError() &&
-            document.mozFullScreenElement == this.video
-          ) {
+          if (element.classList.contains("controlBar") && !this.hasError() &&
+            document.mozFullScreenElement == this.video) {
             this.controlsSpacer.setAttribute("hideCursor", true);
           }
         }
@@ -1128,11 +1041,9 @@ class FirefoxVideocontrols extends XULElement {
       },
 
       isVideoWithoutAudioTrack() {
-        return (
-          this.video.readyState >= this.video.HAVE_METADATA &&
+        return this.video.readyState >= this.video.HAVE_METADATA &&
           !this.isAudioOnly &&
-          !this.video.mozHasAudio
-        );
+          !this.video.mozHasAudio;
       },
 
       toggleMute() {
@@ -1154,9 +1065,9 @@ class FirefoxVideocontrols extends XULElement {
       },
 
       toggleFullscreen() {
-        this.isVideoInFullScreen()
-          ? document.mozCancelFullScreen()
-          : this.video.mozRequestFullScreen();
+        this.isVideoInFullScreen() ?
+          document.mozCancelFullScreen() :
+          this.video.mozRequestFullScreen();
       },
 
       setFullscreenButtonState() {
@@ -1168,9 +1079,7 @@ class FirefoxVideocontrols extends XULElement {
         this.controlBar.removeAttribute("fullscreen-unavailable");
         this.adjustControlSize();
 
-        var attrName = this.isVideoInFullScreen()
-          ? "exitfullscreenlabel"
-          : "enterfullscreenlabel";
+        var attrName = this.isVideoInFullScreen() ? "exitfullscreenlabel" : "enterfullscreenlabel";
         var value = this.fullscreenButton.getAttribute(attrName);
         this.fullscreenButton.setAttribute("aria-label", value);
 
@@ -1184,10 +1093,7 @@ class FirefoxVideocontrols extends XULElement {
       onFullscreenChange() {
         this.updateOrientationState(this.isVideoInFullScreen());
         if (this.isVideoInFullScreen()) {
-          Utils._hideControlsTimeout = setTimeout(
-            this._hideControlsFn,
-            this.HIDE_CONTROLS_TIMEOUT_MS
-          );
+          Utils._hideControlsTimeout = setTimeout(this._hideControlsFn, this.HIDE_CONTROLS_TIMEOUT_MS);
         }
         this.setFullscreenButtonState();
       },
@@ -1202,17 +1108,11 @@ class FirefoxVideocontrols extends XULElement {
           }
           let dimenDiff = this.video.videoWidth - this.video.videoHeight;
           if (dimenDiff > 0) {
-            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation(
-              "landscape"
-            );
+            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation("landscape");
           } else if (dimenDiff < 0) {
-            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation(
-              "portrait"
-            );
+            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation("portrait");
           } else {
-            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation(
-              window.screen.orientation
-            );
+            this.video.mozIsOrientationLocked = window.screen.mozLockOrientation(window.screen.orientation);
           }
         } else {
           if (!this.video.mozIsOrientationLocked) {
@@ -1255,10 +1155,8 @@ class FirefoxVideocontrols extends XULElement {
         let animationScale = 2;
         let animationMinSize = this.clickToPlay.minWidth * animationScale;
 
-        if (
-          animationMinSize > videoWidth ||
-          animationMinSize > videoHeight - this.controlBarMinHeight
-        ) {
+        if (animationMinSize > videoWidth ||
+          animationMinSize > (videoHeight - this.controlBarMinHeight)) {
           this.clickToPlay.setAttribute("immediate", "true");
           this.clickToPlay.hidden = true;
         } else {
@@ -1361,7 +1259,8 @@ class FirefoxVideocontrols extends XULElement {
 
         try {
           switch (keystroke) {
-            case "space" /* Play */:
+            case "space":
+              /* Play */
               let target = event.originalTarget;
               if (target.localName === "button" && !target.disabled) {
                 break;
@@ -1369,87 +1268,84 @@ class FirefoxVideocontrols extends XULElement {
 
               this.togglePause();
               break;
-            case "downArrow" /* Volume decrease */:
+            case "downArrow":
+              /* Volume decrease */
               oldval = this.video.volume;
-              this.video.volume = oldval < 0.1 ? 0 : oldval - 0.1;
+              this.video.volume = (oldval < 0.1 ? 0 : oldval - 0.1);
               this.video.muted = false;
               break;
-            case "upArrow" /* Volume increase */:
+            case "upArrow":
+              /* Volume increase */
               oldval = this.video.volume;
-              this.video.volume = oldval > 0.9 ? 1 : oldval + 0.1;
+              this.video.volume = (oldval > 0.9 ? 1 : oldval + 0.1);
               this.video.muted = false;
               break;
-            case "accel-downArrow" /* Mute */:
+            case "accel-downArrow":
+              /* Mute */
               this.video.muted = true;
               break;
-            case "accel-upArrow" /* Unmute */:
+            case "accel-upArrow":
+              /* Unmute */
               this.video.muted = false;
               break;
-            case "leftArrow": /* Seek back 15 seconds */
-            case "accel-leftArrow" /* Seek back 10% */:
+            case "leftArrow":
+              /* Seek back 15 seconds */
+            case "accel-leftArrow":
+              /* Seek back 10% */
               oldval = this.video.currentTime;
               if (keystroke == "leftArrow") {
                 newval = oldval - 15;
               } else {
-                newval =
-                  oldval -
-                  (this.video.duration || this.maxCurrentTimeSeen / 1000) / 10;
+                newval = oldval - (this.video.duration || this.maxCurrentTimeSeen / 1000) / 10;
               }
-              this.video.currentTime = newval >= 0 ? newval : 0;
+              this.video.currentTime = (newval >= 0 ? newval : 0);
               break;
-            case "rightArrow": /* Seek forward 15 seconds */
-            case "accel-rightArrow" /* Seek forward 10% */:
+            case "rightArrow":
+              /* Seek forward 15 seconds */
+            case "accel-rightArrow":
+              /* Seek forward 10% */
               oldval = this.video.currentTime;
-              var maxtime =
-                this.video.duration || this.maxCurrentTimeSeen / 1000;
+              var maxtime = (this.video.duration || this.maxCurrentTimeSeen / 1000);
               if (keystroke == "rightArrow") {
                 newval = oldval + 15;
               } else {
                 newval = oldval + maxtime / 10;
               }
-              this.video.currentTime = newval <= maxtime ? newval : maxtime;
+              this.video.currentTime = (newval <= maxtime ? newval : maxtime);
               break;
-            case "home" /* Seek to beginning */:
+            case "home":
+              /* Seek to beginning */
               this.video.currentTime = 0;
               break;
-            case "end" /* Seek to end */:
+            case "end":
+              /* Seek to end */
               if (this.video.currentTime != this.video.duration) {
-                this.video.currentTime =
-                  this.video.duration || this.maxCurrentTimeSeen / 1000;
+                this.video.currentTime = (this.video.duration || this.maxCurrentTimeSeen / 1000);
               }
               break;
             default:
               return;
           }
-        } catch (e) {
-          /* ignore any exception from setting .currentTime */
-        }
+        } catch (e) { /* ignore any exception from setting .currentTime */ }
 
         event.preventDefault(); // Prevent page scrolling
       },
 
       isSupportedTextTrack(textTrack) {
-        return textTrack.kind == "subtitles" || textTrack.kind == "captions";
+        return textTrack.kind == "subtitles" ||
+          textTrack.kind == "captions";
       },
 
       get isClosedCaptionAvailable() {
-        return (
-          this.overlayableTextTracks.length &&
-          !this.videocontrols.isTouchControls
-        );
+        return this.overlayableTextTracks.length && !this.videocontrols.isTouchControls;
       },
 
       get overlayableTextTracks() {
-        return Array.prototype.filter.call(
-          this.video.textTracks,
-          this.isSupportedTextTrack
-        );
+        return Array.prototype.filter.call(this.video.textTracks, this.isSupportedTextTrack);
       },
 
       get currentTextTrackIndex() {
-        const showingTT = this.overlayableTextTracks.find(
-          tt => tt.mode == "showing"
-        );
+        const showingTT = this.overlayableTextTracks.find(tt => tt.mode == "showing");
 
         // fallback to off button if there's no showing track.
         return showingTT ? showingTT.index : 0;
@@ -1629,31 +1525,23 @@ class FirefoxVideocontrols extends XULElement {
 
         const minControlBarPaddingWidth = 18;
 
-        this.fullscreenButton.isWanted = !this.controlBar.hasAttribute(
-          "fullscreen-unavailable"
-        );
+        this.fullscreenButton.isWanted = !this.controlBar.hasAttribute("fullscreen-unavailable");
         this.closedCaptionButton.isWanted = this.isClosedCaptionAvailable;
         this.volumeStack.isWanted = !this.muteButton.hasAttribute("noAudio");
 
         let minRequiredWidth = this.prioritizedControls
           .filter(control => control && control.isWanted)
-          .reduce(
-            (accWidth, cc) => accWidth + cc.minWidth,
-            minControlBarPaddingWidth
-          );
+          .reduce((accWidth, cc) => accWidth + cc.minWidth, minControlBarPaddingWidth);
         // Skip the adjustment in case the stylesheets haven't been loaded yet.
         if (!minRequiredWidth) {
           return;
         }
 
         let givenHeight = this.video.clientHeight;
-        let videoWidth =
-          (this.isAudioOnly
-            ? this.videocontrols.clientWidth
-            : this.video.clientWidth) || minRequiredWidth;
-        let videoHeight = this.isAudioOnly
-          ? this.controlBarMinHeight
-          : givenHeight;
+        let videoWidth = (this.isAudioOnly ?
+          this.videocontrols.clientWidth :
+          this.video.clientWidth) || minRequiredWidth;
+        let videoHeight = this.isAudioOnly ? this.controlBarMinHeight : givenHeight;
         let videocontrolsWidth = this.videocontrols.clientWidth;
 
         let widthUsed = minControlBarPaddingWidth;
@@ -1665,8 +1553,8 @@ class FirefoxVideocontrols extends XULElement {
             continue;
           }
 
-          control.hideByAdjustment =
-            preventAppendControl || widthUsed + control.minWidth > videoWidth;
+          control.hideByAdjustment = preventAppendControl ||
+            widthUsed + control.minWidth > videoWidth;
 
           if (control.hideByAdjustment) {
             preventAppendControl = true;
@@ -1678,8 +1566,7 @@ class FirefoxVideocontrols extends XULElement {
         // Use flexible spacer to separate controls when scrubber is hidden.
         // As long as muteButton hidden, which means only play button presents,
         // hide spacer and make playButton centered.
-        this.controlBarSpacer.hidden =
-          !this.scrubberStack.hidden || this.muteButton.hidden;
+        this.controlBarSpacer.hidden = !this.scrubberStack.hidden || this.muteButton.hidden;
 
         // Since the size of videocontrols is expanded with controlBar in <audio>, we
         // should fix the dimensions in order not to recursively trigger reflow afterwards.
@@ -1687,10 +1574,7 @@ class FirefoxVideocontrols extends XULElement {
           if (givenHeight) {
             // The height of controlBar should be capped with the bounds between controlBarMinHeight
             // and controlBarMinVisibleHeight.
-            let controlBarHeight = Math.max(
-              Math.min(givenHeight, this.controlBarMinHeight),
-              this.controlBarMinVisibleHeight
-            );
+            let controlBarHeight = Math.max(Math.min(givenHeight, this.controlBarMinHeight), this.controlBarMinVisibleHeight);
             this.controlBar.style.height = `${controlBarHeight}px`;
           }
           // Bug 1367875: Set minimum required width to controlBar if the given size is smaller than padding.
@@ -1704,10 +1588,8 @@ class FirefoxVideocontrols extends XULElement {
           return;
         }
 
-        if (
-          videoHeight < this.controlBarMinHeight ||
-          widthUsed === minControlBarPaddingWidth
-        ) {
+        if (videoHeight < this.controlBarMinHeight ||
+          widthUsed === minControlBarPaddingWidth) {
           this.controlBar.setAttribute("size", "hidden");
           this.controlBar.hideByAdjustment = true;
         } else {
@@ -1719,22 +1601,13 @@ class FirefoxVideocontrols extends XULElement {
         const minVideoSideLength = Math.min(videoWidth, videoHeight);
         const clickToPlayViewRatio = 0.15;
         const clickToPlayScaledSize = Math.max(
-          this.clickToPlay.minWidth,
-          minVideoSideLength * clickToPlayViewRatio
-        );
+          this.clickToPlay.minWidth, minVideoSideLength * clickToPlayViewRatio);
 
-        if (
-          clickToPlayScaledSize >= videoWidth ||
-          clickToPlayScaledSize + this.controlBarMinHeight / 2 >=
-            videoHeight / 2
-        ) {
+        if (clickToPlayScaledSize >= videoWidth ||
+          (clickToPlayScaledSize + this.controlBarMinHeight / 2 >= videoHeight / 2)) {
           this.clickToPlay.hideByAdjustment = true;
         } else {
-          if (
-            this.clickToPlay.hidden &&
-            !this.video.played.length &&
-            this.video.paused
-          ) {
+          if (this.clickToPlay.hidden && !this.video.played.length && this.video.paused) {
             this.clickToPlay.hideByAdjustment = false;
           }
           this.clickToPlay.style.width = `${clickToPlayScaledSize}px`;
@@ -1746,121 +1619,31 @@ class FirefoxVideocontrols extends XULElement {
         this.video = binding.parentNode;
         this.videocontrols = binding;
 
-        this.controlsContainer = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "controlsContainer"
-        );
-        this.statusIcon = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "statusIcon"
-        );
-        this.controlBar = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "controlBar"
-        );
-        this.playButton = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "playButton"
-        );
-        this.controlBarSpacer = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "controlBarSpacer"
-        );
-        this.muteButton = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "muteButton"
-        );
-        this.volumeStack = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "volumeStack"
-        );
-        this.volumeControl = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "volumeControl"
-        );
-        this.progressBar = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "progressBar"
-        );
-        this.bufferBar = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "bufferBar"
-        );
-        this.scrubberStack = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "scrubberStack"
-        );
-        this.scrubber = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "scrubber"
-        );
-        this.durationLabel = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "durationLabel"
-        );
-        this.positionLabel = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "positionLabel"
-        );
-        this.positionDurationBox = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "positionDurationBox"
-        );
-        this.statusOverlay = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "statusOverlay"
-        );
-        this.controlsOverlay = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "controlsOverlay"
-        );
-        this.controlsSpacer = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "controlsSpacer"
-        );
-        this.clickToPlay = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "clickToPlay"
-        );
-        this.fullscreenButton = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "fullscreenButton"
-        );
-        this.closedCaptionButton = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "closedCaptionButton"
-        );
-        this.textTrackList = document.getAnonymousElementByAttribute(
-          binding,
-          "anonid",
-          "textTrackList"
-        );
+        this.controlsContainer = document.getAnonymousElementByAttribute(binding, "anonid", "controlsContainer");
+        this.statusIcon = document.getAnonymousElementByAttribute(binding, "anonid", "statusIcon");
+        this.controlBar = document.getAnonymousElementByAttribute(binding, "anonid", "controlBar");
+        this.playButton = document.getAnonymousElementByAttribute(binding, "anonid", "playButton");
+        this.controlBarSpacer = document.getAnonymousElementByAttribute(binding, "anonid", "controlBarSpacer");
+        this.muteButton = document.getAnonymousElementByAttribute(binding, "anonid", "muteButton");
+        this.volumeStack = document.getAnonymousElementByAttribute(binding, "anonid", "volumeStack");
+        this.volumeControl = document.getAnonymousElementByAttribute(binding, "anonid", "volumeControl");
+        this.progressBar = document.getAnonymousElementByAttribute(binding, "anonid", "progressBar");
+        this.bufferBar = document.getAnonymousElementByAttribute(binding, "anonid", "bufferBar");
+        this.scrubberStack = document.getAnonymousElementByAttribute(binding, "anonid", "scrubberStack");
+        this.scrubber = document.getAnonymousElementByAttribute(binding, "anonid", "scrubber");
+        this.durationLabel = document.getAnonymousElementByAttribute(binding, "anonid", "durationLabel");
+        this.positionLabel = document.getAnonymousElementByAttribute(binding, "anonid", "positionLabel");
+        this.positionDurationBox = document.getAnonymousElementByAttribute(binding, "anonid", "positionDurationBox");
+        this.statusOverlay = document.getAnonymousElementByAttribute(binding, "anonid", "statusOverlay");
+        this.controlsOverlay = document.getAnonymousElementByAttribute(binding, "anonid", "controlsOverlay");
+        this.controlsSpacer = document.getAnonymousElementByAttribute(binding, "anonid", "controlsSpacer");
+        this.clickToPlay = document.getAnonymousElementByAttribute(binding, "anonid", "clickToPlay");
+        this.fullscreenButton = document.getAnonymousElementByAttribute(binding, "anonid", "fullscreenButton");
+        this.closedCaptionButton = document.getAnonymousElementByAttribute(binding, "anonid", "closedCaptionButton");
+        this.textTrackList = document.getAnonymousElementByAttribute(binding, "anonid", "textTrackList");
 
         if (this.positionDurationBox) {
-          this.durationSpan = this.positionDurationBox.getElementsByTagName(
-            "span"
-          )[0];
+          this.durationSpan = this.positionDurationBox.getElementsByTagName("span")[0];
         }
 
         this.controlBarComputedStyles = getComputedStyle(this.controlBar);
@@ -1881,7 +1664,7 @@ class FirefoxVideocontrols extends XULElement {
         // isTouchControls or not during the whole initialization process, get
         // this state overridden here.
         this.videocontrols.isTouchControls = !this.controlsContainer;
-        this.isAudioOnly = this.video instanceof HTMLAudioElement;
+        this.isAudioOnly = (this.video instanceof HTMLAudioElement);
         this.setupInitialState();
         this.setupNewLoadState();
         this.initTextTracks();
@@ -1904,19 +1687,17 @@ class FirefoxVideocontrols extends XULElement {
         // Due to this helper function, "Utils" is made available to the event
         // listener functions. Hence declare it as a global for ESLint.
         /* global Utils */
-        function addListener(
-          elem,
-          eventName,
-          func,
-          { capture = false, mozSystemGroup = true } = {}
-        ) {
+        function addListener(elem, eventName, func, {
+          capture = false,
+          mozSystemGroup = true
+        } = {}) {
           let boundFunc = func.bind(self);
           self.controlListeners.push({
             item: elem,
             event: eventName,
             func: boundFunc,
             capture,
-            mozSystemGroup
+            mozSystemGroup,
           });
           elem.addEventListener(eventName, boundFunc, {
             mozSystemGroup,
@@ -1925,48 +1706,27 @@ class FirefoxVideocontrols extends XULElement {
         }
 
         addListener(this.muteButton, "click", this.toggleMute);
-        addListener(
-          this.closedCaptionButton,
-          "click",
-          this.toggleClosedCaption
-        );
+        addListener(this.closedCaptionButton, "click", this.toggleClosedCaption);
         addListener(this.fullscreenButton, "click", this.toggleFullscreen);
         addListener(this.playButton, "click", this.clickToPlayClickHandler);
         addListener(this.clickToPlay, "click", this.clickToPlayClickHandler);
         addListener(this.controlsSpacer, "click", this.clickToPlayClickHandler);
         addListener(this.controlsSpacer, "dblclick", this.toggleFullscreen);
 
-        addListener(
-          this.videocontrols,
-          "resizevideocontrols",
-          this.adjustControlSize
-        );
+        addListener(this.videocontrols, "resizevideocontrols", this.adjustControlSize);
         addListener(this.videocontrols, "transitionend", this.onTransitionEnd);
-        addListener(
-          this.video.ownerDocument,
-          "mozfullscreenchange",
-          this.onFullscreenChange
-        );
-        addListener(
-          this.controlBar,
-          "transitionend",
-          this.onControlBarTransitioned
-        );
-        addListener(
-          this.video.ownerDocument,
-          "fullscreenchange",
-          this.onFullscreenChange
-        );
-        addListener(this.video, "keypress", this.keyHandler, { capture: true });
+        addListener(this.video.ownerDocument, "mozfullscreenchange", this.onFullscreenChange);
+        addListener(this.controlBar, "transitionend", this.onControlBarTransitioned);
+        addListener(this.video.ownerDocument, "fullscreenchange", this.onFullscreenChange);
+        addListener(this.video, "keypress", this.keyHandler, {
+          capture: true
+        });
         // Prevent any click event within media controls from dispatching through to video.
-        addListener(
-          this.videocontrols,
-          "click",
-          function(event) {
-            event.stopPropagation();
-          },
-          { mozSystemGroup: false }
-        );
+        addListener(this.videocontrols, "click", function(event) {
+          event.stopPropagation();
+        }, {
+          mozSystemGroup: false
+        });
         addListener(this.videocontrols, "dragstart", function(event) {
           event.preventDefault(); // prevent dragging of controls image (bug 517114)
         });
@@ -1979,16 +1739,8 @@ class FirefoxVideocontrols extends XULElement {
           addListener(this.scrubber, "mouseup", this.onScrubberChange);
           addListener(this.volumeControl, "input", this.updateVolume);
           addListener(this.video.textTracks, "addtrack", this.onTextTrackAdd);
-          addListener(
-            this.video.textTracks,
-            "removetrack",
-            this.onTextTrackRemove
-          );
-          addListener(
-            this.video.textTracks,
-            "change",
-            this.setClosedCaptionButtonState
-          );
+          addListener(this.video.textTracks, "removetrack", this.onTextTrackRemove);
+          addListener(this.video.textTracks, "change", this.setClosedCaptionButtonState);
         }
 
         this.log("--- videocontrols initialized ---");
@@ -1997,23 +1749,24 @@ class FirefoxVideocontrols extends XULElement {
 
     this.Utils.init(this);
 
-    this.addEventListener("mouseover", event => {
+    this.addEventListener("mouseover", (event) => {
       if (!this.isTouchControls) {
         this.Utils.onMouseInOut(event);
       }
     });
 
-    this.addEventListener("mouseout", event => {
+    this.addEventListener("mouseout", (event) => {
       if (!this.isTouchControls) {
         this.Utils.onMouseInOut(event);
       }
     });
 
-    this.addEventListener("mousemove", event => {
+    this.addEventListener("mousemove", (event) => {
       if (!this.isTouchControls) {
         this.Utils.onMouseMove(event);
       }
     });
+
   }
   disconnectedCallback() {
     this.Utils.terminateEventListeners();
@@ -2025,4 +1778,3 @@ class FirefoxVideocontrols extends XULElement {
     delete this.randomID;
   }
 }
-customElements.define("firefox-videocontrols", FirefoxVideocontrols);

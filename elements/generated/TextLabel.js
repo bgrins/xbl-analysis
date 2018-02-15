@@ -1,6 +1,7 @@
 class FirefoxTextLabel extends FirefoxTextBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
+
   }
 
   set accessKey(val) {
@@ -20,7 +21,6 @@ class FirefoxTextLabel extends FirefoxTextBase {
   }
 
   get control() {
-    return getAttribute("control");
+    return getAttribute('control');
   }
 }
-customElements.define("firefox-text-label", FirefoxTextLabel);

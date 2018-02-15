@@ -1,5 +1,6 @@
 class FirefoxSearchOneOffs extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:deck anonid="search-panel-one-offs-header" selectedIndex="0" class="search-panel-header search-panel-current-input">
         <xul:label anonid="searchbar-oneoffheader-search" value="FROM-DTD-searchWithHeader-label"></xul:label>
@@ -37,35 +38,15 @@ class FirefoxSearchOneOffs extends XULElement {
 
     this._selectedButton = null;
 
-    this.buttons = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-panel-one-offs"
-    );
+    this.buttons = document.getAnonymousElementByAttribute(this, "anonid", "search-panel-one-offs");
 
-    this.header = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-panel-one-offs-header"
-    );
+    this.header = document.getAnonymousElementByAttribute(this, "anonid", "search-panel-one-offs-header");
 
-    this.addEngines = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "add-engines"
-    );
+    this.addEngines = document.getAnonymousElementByAttribute(this, "anonid", "add-engines");
 
-    this.settingsButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-settings"
-    );
+    this.settingsButton = document.getAnonymousElementByAttribute(this, "anonid", "search-settings");
 
-    this.settingsButtonCompact = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-settings-compact"
-    );
+    this.settingsButtonCompact = document.getAnonymousElementByAttribute(this, "anonid", "search-settings-compact");
 
     this._bundle = null;
 
@@ -83,11 +64,7 @@ class FirefoxSearchOneOffs extends XULElement {
 
     // Prevent popup events from the context menu from reaching the autocomplete
     // binding (or other listeners).
-    let menu = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-one-offs-context-menu"
-    );
+    let menu = document.getAnonymousElementByAttribute(this, "anonid", "search-one-offs-context-menu");
     let listener = aEvent => aEvent.stopPropagation();
     menu.addEventListener("popupshowing", listener);
     menu.addEventListener("popuphiding", listener);
@@ -109,7 +86,7 @@ class FirefoxSearchOneOffs extends XULElement {
     // of buttons to disappear.
     Services.obs.addObserver(this, "lightweight-theme-changed", true);
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       let target = event.originalTarget;
       if (target.getAttribute("anonid") == "addengine-menu-button") {
         return;
@@ -118,19 +95,15 @@ class FirefoxSearchOneOffs extends XULElement {
       event.preventDefault();
     });
 
-    this.addEventListener("mousemove", event => {
+    this.addEventListener("mousemove", (event) => {
       let target = event.originalTarget;
 
       // Handle mouseover on the add-engine menu button and its popup items.
-      if (
-        target.getAttribute("anonid") == "addengine-menu-button" ||
+      if (target.getAttribute("anonid") == "addengine-menu-button" ||
         (target.localName == "menuitem" &&
-          target.classList.contains("addengine-item"))
-      ) {
+          target.classList.contains("addengine-item"))) {
         let menuButton = document.getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "addengine-menu-button"
+          this, "anonid", "addengine-menu-button"
         );
         this._updateStateForButton(menuButton);
         this._addEngineMenuShouldBeOpen = true;
@@ -138,32 +111,31 @@ class FirefoxSearchOneOffs extends XULElement {
         return;
       }
 
-      if (target.localName != "button") return;
+      if (target.localName != "button")
+        return;
 
       // Ignore mouse events when the context menu is open.
-      if (this._ignoreMouseEvents) return;
+      if (this._ignoreMouseEvents)
+        return;
 
       let isOneOff =
         target.classList.contains("searchbar-engine-one-off-item") &&
         !target.classList.contains("dummy");
-      if (
-        isOneOff ||
+      if (isOneOff ||
         target.classList.contains("addengine-item") ||
-        target.classList.contains("search-setting-button")
-      ) {
+        target.classList.contains("search-setting-button")) {
         this._updateStateForButton(target);
       }
     });
 
-    this.addEventListener("mouseout", event => {
+    this.addEventListener("mouseout", (event) => {
+
       let target = event.originalTarget;
 
       // Handle mouseout on the add-engine menu button and its popup items.
-      if (
-        target.getAttribute("anonid") == "addengine-menu-button" ||
+      if (target.getAttribute("anonid") == "addengine-menu-button" ||
         (target.localName == "menuitem" &&
-          target.classList.contains("addengine-item"))
-      ) {
+          target.classList.contains("addengine-item"))) {
         this._updateStateForButton(null);
         this._addEngineMenuShouldBeOpen = false;
         this._resetAddEngineMenuTimeout();
@@ -175,18 +147,21 @@ class FirefoxSearchOneOffs extends XULElement {
       }
 
       // Don't update the mouseover state if the context menu is open.
-      if (this._ignoreMouseEvents) return;
+      if (this._ignoreMouseEvents)
+        return;
 
       this._updateStateForButton(null);
     });
 
-    this.addEventListener("click", event => {
-      if (event.button == 2) return; // ignore right clicks.
+    this.addEventListener("click", (event) => {
+      if (event.button == 2)
+        return; // ignore right clicks.
 
       let button = event.originalTarget;
       let engine = button.engine;
 
-      if (!engine) return;
+      if (!engine)
+        return;
 
       // Select the clicked button so that consumers can easily tell which
       // button was acted on.
@@ -194,7 +169,7 @@ class FirefoxSearchOneOffs extends XULElement {
       this.handleSearchCommand(event, engine);
     });
 
-    this.addEventListener("command", event => {
+    this.addEventListener("command", (event) => {
       let target = event.originalTarget;
       if (target.classList.contains("addengine-item")) {
         // On success, hide the panel and tell event listeners to reshow it to
@@ -204,42 +179,26 @@ class FirefoxSearchOneOffs extends XULElement {
             this._rebuild();
           },
           onError(errorCode) {
-            if (
-              errorCode != Ci.nsISearchInstallCallback.ERROR_DUPLICATE_ENGINE
-            ) {
+            if (errorCode != Ci.nsISearchInstallCallback.ERROR_DUPLICATE_ENGINE) {
               // Download error is shown by the search service
               return;
             }
-            const kSearchBundleURI =
-              "chrome://global/locale/search/search.properties";
+            const kSearchBundleURI = "chrome://global/locale/search/search.properties";
             let searchBundle = Services.strings.createBundle(kSearchBundleURI);
             let brandBundle = document.getElementById("bundle_brand");
             let brandName = brandBundle.getString("brandShortName");
-            let title = searchBundle.GetStringFromName(
-              "error_invalid_engine_title"
-            );
-            let text = searchBundle.formatStringFromName(
-              "error_duplicate_engine_msg",
-              [brandName, target.getAttribute("uri")],
-              2
-            );
+            let title = searchBundle.GetStringFromName("error_invalid_engine_title");
+            let text = searchBundle.formatStringFromName("error_duplicate_engine_msg", [brandName, target.getAttribute("uri")], 2);
             Services.prompt.QueryInterface(Ci.nsIPromptFactory);
-            let prompt = Services.prompt.getPrompt(
-              gBrowser.contentWindow,
-              Ci.nsIPrompt
-            );
+            let prompt = Services.prompt.getPrompt(gBrowser.contentWindow, Ci.nsIPrompt);
             prompt.QueryInterface(Ci.nsIWritablePropertyBag2);
             prompt.setPropertyAsBool("allowTabModal", true);
             prompt.alert(title, text);
           }
         };
-        Services.search.addEngine(
-          target.getAttribute("uri"),
-          null,
-          target.getAttribute("image"),
-          false,
-          installCallback
-        );
+        Services.search.addEngine(target.getAttribute("uri"), null,
+          target.getAttribute("image"), false,
+          installCallback);
       }
       let anonid = target.getAttribute("anonid");
       if (anonid == "search-one-offs-context-open-in-new-tab") {
@@ -258,7 +217,8 @@ class FirefoxSearchOneOffs extends XULElement {
           let button = this._buttonForEngine(this._contextEngine);
           button.id = this._buttonIDForEngine(currentEngine);
           let uri = "chrome://browser/skin/search-engine-placeholder.png";
-          if (currentEngine.iconURI) uri = currentEngine.iconURI.spec;
+          if (currentEngine.iconURI)
+            uri = currentEngine.iconURI.spec;
           button.setAttribute("image", uri);
           button.setAttribute("tooltiptext", currentEngine.name);
           button.engine = currentEngine;
@@ -268,29 +228,20 @@ class FirefoxSearchOneOffs extends XULElement {
       }
     });
 
-    this.addEventListener("contextmenu", event => {
+    this.addEventListener("contextmenu", (event) => {
       let target = event.originalTarget;
       // Prevent the context menu from appearing except on the one off buttons.
-      if (
-        !target.classList.contains("searchbar-engine-one-off-item") ||
-        target.classList.contains("dummy")
-      ) {
+      if (!target.classList.contains("searchbar-engine-one-off-item") ||
+        target.classList.contains("dummy")) {
         event.preventDefault();
         return;
       }
-      document
-        .getAnonymousElementByAttribute(
-          this,
-          "anonid",
-          "search-one-offs-context-set-default"
-        )
-        .setAttribute(
-          "disabled",
-          target.engine == Services.search.currentEngine
-        );
+      document.getAnonymousElementByAttribute(this, "anonid", "search-one-offs-context-set-default")
+        .setAttribute("disabled", target.engine == Services.search.currentEngine);
 
       this._contextEngine = target.engine;
     });
+
   }
 
   get buttonWidth() {
@@ -298,7 +249,10 @@ class FirefoxSearchOneOffs extends XULElement {
   }
 
   set popup(val) {
-    let events = ["popupshowing", "popuphidden"];
+    let events = [
+      "popupshowing",
+      "popuphidden",
+    ];
     if (this._popup) {
       for (let event of events) {
         this._popup.removeEventListener(event, this);
@@ -331,7 +285,7 @@ class FirefoxSearchOneOffs extends XULElement {
     if (val) {
       val.addEventListener("input", this);
     }
-    return (this._textbox = val);
+    return this._textbox = val;
   }
 
   get textbox() {
@@ -408,7 +362,8 @@ class FirefoxSearchOneOffs extends XULElement {
   }
 
   get engines() {
-    if (this._engines) return this._engines;
+    if (this._engines)
+      return this._engines;
     let currentEngineNameToIgnore;
     if (!this.getAttribute("includecurrentengine"))
       currentEngineNameToIgnore = Services.search.currentEngine.name;
@@ -418,10 +373,9 @@ class FirefoxSearchOneOffs extends XULElement {
 
     this._engines = Services.search.getVisibleEngines().filter(e => {
       let name = e.name;
-      return (
-        (!currentEngineNameToIgnore || name != currentEngineNameToIgnore) &&
-        !hiddenList.includes(name)
-      );
+      return (!currentEngineNameToIgnore ||
+          name != currentEngineNameToIgnore) &&
+        !hiddenList.includes(name);
     });
 
     return this._engines;
@@ -453,18 +407,18 @@ class FirefoxSearchOneOffs extends XULElement {
   showSettings() {
     BrowserUITelemetry.countSearchSettingsEvent(this.telemetryOrigin);
 
-    openPreferences("paneSearch", { origin: "contentSearch" });
+    openPreferences("paneSearch", {
+      origin: "contentSearch"
+    });
 
     // If the preference tab was already selected, the panel doesn't
     // close itself automatically.
     this.popup.hidePopup();
   }
   _updateAfterQueryChanged() {
-    let headerSearchText = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "searchbar-oneoffheader-searchtext"
-    );
+    let headerSearchText =
+      document.getAnonymousElementByAttribute(this, "anonid",
+        "searchbar-oneoffheader-searchtext");
     headerSearchText.setAttribute("value", this.query);
     let groupText;
     let isOneOffSelected =
@@ -472,23 +426,21 @@ class FirefoxSearchOneOffs extends XULElement {
       this.selectedButton.classList.contains("searchbar-engine-one-off-item");
     // Typing de-selects the settings or opensearch buttons at the bottom
     // of the search panel, as typing shows the user intends to search.
-    if (this.selectedButton && !isOneOffSelected) this.selectedButton = null;
+    if (this.selectedButton && !isOneOffSelected)
+      this.selectedButton = null;
     if (this.query) {
-      groupText =
-        headerSearchText.previousSibling.value +
-        '"' +
-        headerSearchText.value +
-        '"' +
+      groupText = headerSearchText.previousSibling.value +
+        '"' + headerSearchText.value + '"' +
         headerSearchText.nextSibling.value;
-      if (!isOneOffSelected) this.header.selectedIndex = 1;
+      if (!isOneOffSelected)
+        this.header.selectedIndex = 1;
     } else {
-      let noSearchHeader = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "searchbar-oneoffheader-search"
-      );
+      let noSearchHeader =
+        document.getAnonymousElementByAttribute(this, "anonid",
+          "searchbar-oneoffheader-search");
       groupText = noSearchHeader.value;
-      if (!isOneOffSelected) this.header.selectedIndex = 0;
+      if (!isOneOffSelected)
+        this.header.selectedIndex = 0;
     }
     this.buttons.setAttribute("aria-label", groupText);
   }
@@ -500,16 +452,17 @@ class FirefoxSearchOneOffs extends XULElement {
     // list of one off providers, as that code will return early if all the
     // alternative engines are hidden.
     // Skip this in compact mode, ie. for the urlbar.
-    if (!this.compact) this._rebuildAddEngineList();
+    if (!this.compact)
+      this._rebuildAddEngineList();
 
     // Check if the one-off buttons really need to be rebuilt.
     if (this._textbox) {
       // We can't get a reliable value for the popup width without flushing,
       // but the popup width won't change if the textbox width doesn't.
-      let DOMUtils = window
-        .QueryInterface(Ci.nsIInterfaceRequestor)
+      let DOMUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
         .getInterface(Ci.nsIDOMWindowUtils);
-      let textboxWidth = DOMUtils.getBoundsWithoutFlushing(this._textbox).width;
+      let textboxWidth =
+        DOMUtils.getBoundsWithoutFlushing(this._textbox).width;
       // We can return early if neither the list of engines nor the panel
       // width has changed.
       if (this._engines && this._textboxWidth == textboxWidth) {
@@ -528,15 +481,14 @@ class FirefoxSearchOneOffs extends XULElement {
 
     let engines = this.engines;
     let oneOffCount = engines.length;
-    let collapsed =
-      !oneOffCount ||
-      (oneOffCount == 1 &&
-        engines[0].name == Services.search.currentEngine.name);
+    let collapsed = !oneOffCount ||
+      (oneOffCount == 1 && engines[0].name == Services.search.currentEngine.name);
 
     // header is a xul:deck so collapsed doesn't work on it, see bug 589569.
     this.header.hidden = this.buttons.collapsed = collapsed;
 
-    if (collapsed) return;
+    if (collapsed)
+      return;
 
     let panelWidth = parseInt(this.popup.clientWidth);
 
@@ -547,9 +499,9 @@ class FirefoxSearchOneOffs extends XULElement {
     // This is likely because the clientWidth getter rounds the value, but
     // the panel's border width is not an integer.
     // As a workaround, decrement the width if the scale is not an integer.
-    let scale = window
-      .QueryInterface(Ci.nsIInterfaceRequestor)
-      .getInterface(Ci.nsIDOMWindowUtils).screenPixelsPerCSSPixel;
+    let scale = window.QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIDOMWindowUtils)
+      .screenPixelsPerCSSPixel;
     if (Math.floor(scale) != scale) {
       --panelWidth;
     }
@@ -564,7 +516,8 @@ class FirefoxSearchOneOffs extends XULElement {
     // If the <description> tag with the list of search engines doesn't have
     // a fixed height, the panel will be sized incorrectly, causing the bottom
     // of the suggestion <tree> to be hidden.
-    if (this.compact) ++oneOffCount;
+    if (this.compact)
+      ++oneOffCount;
     let rowCount = Math.ceil(oneOffCount / enginesPerRow);
     let height = rowCount * 33; // 32px per row, 1px border.
     this.buttons.setAttribute("height", height + "px");
@@ -577,8 +530,7 @@ class FirefoxSearchOneOffs extends XULElement {
     const kXULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
-    let dummyItems =
-      enginesPerRow - (oneOffCount % enginesPerRow || enginesPerRow);
+    let dummyItems = enginesPerRow - (oneOffCount % enginesPerRow || enginesPerRow);
     for (let i = 0; i < engines.length; ++i) {
       let engine = engines[i];
       let button = document.createElementNS(kXULNS, "button");
@@ -593,9 +545,11 @@ class FirefoxSearchOneOffs extends XULElement {
       button.setAttribute("width", buttonWidth);
       button.engine = engine;
 
-      if ((i + 1) % enginesPerRow == 0) button.classList.add("last-of-row");
+      if ((i + 1) % enginesPerRow == 0)
+        button.classList.add("last-of-row");
 
-      if (i + 1 == engines.length) button.classList.add("last-engine");
+      if (i + 1 == engines.length)
+        button.classList.add("last-engine");
 
       if (i >= oneOffCount + dummyItems - enginesPerRow)
         button.classList.add("last-row");
@@ -606,13 +560,11 @@ class FirefoxSearchOneOffs extends XULElement {
     let hasDummyItems = !!dummyItems;
     while (dummyItems) {
       let button = document.createElementNS(kXULNS, "button");
-      button.setAttribute(
-        "class",
-        "searchbar-engine-one-off-item dummy last-row"
-      );
+      button.setAttribute("class", "searchbar-engine-one-off-item dummy last-row");
       button.setAttribute("width", buttonWidth);
 
-      if (!--dummyItems) button.classList.add("last-of-row");
+      if (!--dummyItems)
+        button.classList.add("last-of-row");
 
       this.buttons.insertBefore(button, this.settingsButtonCompact);
     }
@@ -625,7 +577,7 @@ class FirefoxSearchOneOffs extends XULElement {
         // width not being an integral multiple of the button width.  (See
         // the "There will be an emtpy area" comment above.)  Increase the
         // width of the last dummy item by the remainder.
-        let remainder = panelWidth - enginesPerRow * buttonWidth;
+        let remainder = panelWidth - (enginesPerRow * buttonWidth);
         let width = remainder + buttonWidth;
         let lastDummyItem = this.settingsButtonCompact.previousSibling;
         lastDummyItem.setAttribute("width", width);
@@ -661,10 +613,8 @@ class FirefoxSearchOneOffs extends XULElement {
       button.classList.add("addengine-item", "badged-button");
       button.setAttribute("anonid", "addengine-menu-button");
       button.setAttribute("type", "menu");
-      button.setAttribute(
-        "label",
-        this.bundle.GetStringFromName("cmd_addFoundEngineMenu")
-      );
+      button.setAttribute("label",
+        this.bundle.GetStringFromName("cmd_addFoundEngineMenu"));
       button.setAttribute("crop", "end");
       button.setAttribute("pack", "start");
 
@@ -688,7 +638,7 @@ class FirefoxSearchOneOffs extends XULElement {
         "popupshowing",
         "popuphiding",
         "popupshown",
-        "popuphidden"
+        "popuphidden",
       ];
       for (let type of suppressEventTypes) {
         list.addEventListener(type, event => {
@@ -709,15 +659,9 @@ class FirefoxSearchOneOffs extends XULElement {
       if (!tooManyEngines) {
         button.classList.add("badged-button");
       }
-      button.id =
-        this.telemetryOrigin +
-        "-add-engine-" +
+      button.id = this.telemetryOrigin + "-add-engine-" +
         this._fixUpEngineNameForID(engine.title);
-      let label = this.bundle.formatStringFromName(
-        "cmd_addFoundEngine",
-        [engine.title],
-        1
-      );
+      let label = this.bundle.formatStringFromName("cmd_addFoundEngine", [engine.title], 1);
       button.setAttribute("label", label);
       button.setAttribute("crop", "end");
       button.setAttribute("tooltiptext", engine.title + "\n" + engine.uri);
@@ -735,11 +679,8 @@ class FirefoxSearchOneOffs extends XULElement {
     }
   }
   _buttonIDForEngine(engine) {
-    return (
-      this.telemetryOrigin +
-      "-engine-one-off-item-" +
-      this._fixUpEngineNameForID(engine.name)
-    );
+    return this.telemetryOrigin + "-engine-one-off-item-" +
+      this._fixUpEngineNameForID(engine.name);
   }
   _fixUpEngineNameForID(name) {
     return name.replace(/ /g, "-");
@@ -767,15 +708,11 @@ class FirefoxSearchOneOffs extends XULElement {
       return;
     }
 
-    if (
-      button.classList.contains("searchbar-engine-one-off-item") &&
-      button.engine
-    ) {
-      let headerEngineText = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "searchbar-oneoffheader-engine"
-      );
+    if (button.classList.contains("searchbar-engine-one-off-item") &&
+      button.engine) {
+      let headerEngineText =
+        document.getAnonymousElementByAttribute(this, "anonid",
+          "searchbar-oneoffheader-engine");
       this.header.selectedIndex = 2;
       headerEngineText.value = button.engine.name;
     } else {
@@ -787,36 +724,24 @@ class FirefoxSearchOneOffs extends XULElement {
   }
   getSelectableButtons(aIncludeNonEngineButtons) {
     let buttons = [];
-    for (
-      let oneOff = this.buttons.firstChild;
-      oneOff;
-      oneOff = oneOff.nextSibling
-    ) {
+    for (let oneOff = this.buttons.firstChild; oneOff; oneOff = oneOff.nextSibling) {
       // oneOff may be a text node since the list xul:description contains
       // whitespace and the compact settings button.  See the markup
       // above.  _rebuild removes text nodes, but it may not have been
       // called yet (because e.g. the popup hasn't been opened yet).
       if (oneOff.nodeType == Node.ELEMENT_NODE) {
-        if (
-          oneOff.classList.contains("dummy") ||
-          oneOff.classList.contains("search-setting-button-compact")
-        )
+        if (oneOff.classList.contains("dummy") ||
+          oneOff.classList.contains("search-setting-button-compact"))
           break;
         buttons.push(oneOff);
       }
     }
 
     if (aIncludeNonEngineButtons) {
-      for (
-        let addEngine = this.addEngines.firstChild;
-        addEngine;
-        addEngine = addEngine.nextSibling
-      ) {
+      for (let addEngine = this.addEngines.firstChild; addEngine; addEngine = addEngine.nextSibling) {
         buttons.push(addEngine);
       }
-      buttons.push(
-        this.compact ? this.settingsButtonCompact : this.settingsButton
-      );
+      buttons.push(this.compact ? this.settingsButtonCompact : this.settingsButton);
     }
 
     return buttons;
@@ -830,20 +755,18 @@ class FirefoxSearchOneOffs extends XULElement {
       where = "tab";
       if (Services.prefs.getBoolPref("browser.tabs.loadInBackground")) {
         params = {
-          inBackground: true
+          inBackground: true,
         };
       }
     } else {
       var newTabPref = Services.prefs.getBoolPref("browser.search.openintab");
-      if ((aEvent instanceof KeyboardEvent && aEvent.altKey) ^ newTabPref)
+      if (((aEvent instanceof KeyboardEvent) && aEvent.altKey) ^ newTabPref)
         where = "tab";
-      if (
-        aEvent instanceof MouseEvent &&
-        (aEvent.button == 1 || aEvent.getModifierState("Accel"))
-      ) {
+      if ((aEvent instanceof MouseEvent) &&
+        (aEvent.button == 1 || aEvent.getModifierState("Accel"))) {
         where = "tab";
         params = {
-          inBackground: true
+          inBackground: true,
         };
       }
     }
@@ -856,11 +779,10 @@ class FirefoxSearchOneOffs extends XULElement {
     if (this.selectedButton) {
       let inc = aForward ? 1 : -1;
       let oldIndex = buttons.indexOf(this.selectedButton);
-      index = (oldIndex + inc + buttons.length) % buttons.length;
-      if (
-        !aWrapAround &&
-        ((aForward && index <= oldIndex) || (!aForward && oldIndex <= index))
-      ) {
+      index = ((oldIndex + inc) + buttons.length) % buttons.length;
+      if (!aWrapAround &&
+        ((aForward && index <= oldIndex) ||
+          (!aForward && oldIndex <= index))) {
         // The index has wrapped around, but wrapping around isn't
         // allowed.
         index = -1;
@@ -874,24 +796,21 @@ class FirefoxSearchOneOffs extends XULElement {
     if (!this.popup) {
       return;
     }
-    let handled = this._handleKeyPress(
-      event,
-      numListItems,
+    let handled = this._handleKeyPress(event, numListItems,
       allowEmptySelection,
-      textboxUserValue
-    );
+      textboxUserValue);
     if (handled) {
       event.preventDefault();
       event.stopPropagation();
     }
   }
   _handleKeyPress(event, numListItems, allowEmptySelection, textboxUserValue) {
-    if (this.compact && this.buttons.collapsed) return false;
-    if (
-      event.keyCode == KeyEvent.DOM_VK_RIGHT &&
+    if (this.compact && this.buttons.collapsed)
+      return false;
+    if (event.keyCode == KeyEvent.DOM_VK_RIGHT &&
       this.selectedButton &&
-      this.selectedButton.getAttribute("anonid") == "addengine-menu-button"
-    ) {
+      this.selectedButton.getAttribute("anonid") ==
+      "addengine-menu-button") {
       // If the add-engine overflow menu item is selected and the user
       // presses the right arrow key, open the submenu.  Unfortunately
       // handling the left arrow key -- to close the popup -- isn't
@@ -911,20 +830,17 @@ class FirefoxSearchOneOffs extends XULElement {
     // checks for "AltGraph" is that when you press Shift-Alt-Tab,
     // event.altKey is actually false for some reason, at least on macOS.
     // getModifierState("Alt") is also false, but "AltGraph" is true.
-    if (
-      event.keyCode == KeyEvent.DOM_VK_TAB &&
+    if (event.keyCode == KeyEvent.DOM_VK_TAB &&
       !event.getModifierState("Alt") &&
       !event.getModifierState("AltGraph") &&
       !event.getModifierState("Control") &&
-      !event.getModifierState("Meta")
-    ) {
-      if (
-        this.getAttribute("disabletab") == "true" ||
-        (event.shiftKey && this.selectedButtonIndex <= 0) ||
+      !event.getModifierState("Meta")) {
+      if (this.getAttribute("disabletab") == "true" ||
+        (event.shiftKey &&
+          this.selectedButtonIndex <= 0) ||
         (!event.shiftKey &&
           this.selectedButtonIndex ==
-            this.getSelectableButtons(true).length - 1)
-      ) {
+          this.getSelectableButtons(true).length - 1)) {
         this.selectedButton = null;
         return false;
       }
@@ -959,7 +875,7 @@ class FirefoxSearchOneOffs extends XULElement {
           return false;
         }
         // Wrap selection around to the last button.
-        if (this.textbox && typeof textboxUserValue == "string") {
+        if (this.textbox && typeof(textboxUserValue) == "string") {
           this.textbox.value = textboxUserValue;
         }
         this.advanceSelection(false, true, true);
@@ -993,10 +909,8 @@ class FirefoxSearchOneOffs extends XULElement {
         this.advanceSelection(true, true, false);
         return true;
       }
-      if (
-        this.popup.selectedIndex >= 0 &&
-        this.popup.selectedIndex < numListItems - 1
-      ) {
+      if (this.popup.selectedIndex >= 0 &&
+        this.popup.selectedIndex < numListItems - 1) {
         // Moving down within the list.  The autocomplete controller
         // should handle this case.  A button may be selected, so null it.
         this.selectedButton = null;
@@ -1010,7 +924,7 @@ class FirefoxSearchOneOffs extends XULElement {
           // and revert the typed text in the textbox.
           return false;
         }
-        if (this.textbox && typeof textboxUserValue == "string") {
+        if (this.textbox && typeof(textboxUserValue) == "string") {
           this.textbox.value = textboxUserValue;
         }
         this.popup.selectedIndex = -1;
@@ -1038,7 +952,8 @@ class FirefoxSearchOneOffs extends XULElement {
     }
 
     if (event.keyCode == KeyboardEvent.DOM_VK_LEFT) {
-      if (this.selectedButton && (this.compact || this.selectedButton.engine)) {
+      if (this.selectedButton &&
+        (this.compact || this.selectedButton.engine)) {
         // Moving left within the buttons.
         this.advanceSelection(false, this.compact, true);
         return true;
@@ -1047,7 +962,8 @@ class FirefoxSearchOneOffs extends XULElement {
     }
 
     if (event.keyCode == KeyboardEvent.DOM_VK_RIGHT) {
-      if (this.selectedButton && (this.compact || this.selectedButton.engine)) {
+      if (this.selectedButton &&
+        (this.compact || this.selectedButton.engine)) {
         // Moving right within the buttons.
         this.advanceSelection(true, this.compact, true);
         return true;
@@ -1079,10 +995,9 @@ class FirefoxSearchOneOffs extends XULElement {
         source = "oneoff";
         engine = target.engine;
       }
-    } else if (
-      aEvent instanceof XULCommandEvent &&
-      target.getAttribute("anonid") == "search-one-offs-context-open-in-new-tab"
-    ) {
+    } else if ((aEvent instanceof XULCommandEvent) &&
+      target.getAttribute("anonid") ==
+      "search-one-offs-context-open-in-new-tab") {
       source = "oneoff-context";
       engine = this._contextEngine;
     }
@@ -1095,12 +1010,12 @@ class FirefoxSearchOneOffs extends XULElement {
       source += "-" + this.telemetryOrigin;
     }
 
-    let tabBackground =
-      aOpenUILinkWhere == "tab" &&
+    let tabBackground = aOpenUILinkWhere == "tab" &&
       aOpenUILinkParams &&
       aOpenUILinkParams.inBackground;
     let where = tabBackground ? "tab-background" : aOpenUILinkWhere;
-    BrowserSearch.recordOneoffSearchInTelemetry(engine, source, type, where);
+    BrowserSearch.recordOneoffSearchInTelemetry(engine, source, type,
+      where);
     return true;
   }
   _resetAddEngineMenuTimeout() {
@@ -1110,12 +1025,9 @@ class FirefoxSearchOneOffs extends XULElement {
     this._addEngineMenuTimeout = setTimeout(() => {
       delete this._addEngineMenuTimeout;
       let button = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "addengine-menu-button"
+        this, "anonid", "addengine-menu-button"
       );
       button.open = this._addEngineMenuShouldBeOpen;
     }, this._addEngineMenuTimeoutMs);
   }
 }
-customElements.define("firefox-search-one-offs", FirefoxSearchOneOffs);

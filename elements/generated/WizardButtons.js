@@ -1,6 +1,6 @@
 class FirefoxWizardButtons extends FirefoxWizardBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:vbox class="wizard-buttons-box-1" flex="1">
         <xul:separator class="wizard-buttons-separator groove"></xul:separator>
@@ -22,26 +22,18 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
       </xul:vbox>
     `;
 
-    this._wizardButtonDeck = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "WizardButtonDeck"
-    );
+    this._wizardButtonDeck = document.getAnonymousElementByAttribute(this, "anonid", "WizardButtonDeck");
+
   }
 
   get defaultButton() {
     const kXULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var buttons = this._wizardButtonDeck.selectedPanel.getElementsByTagNameNS(
-      kXULNS,
-      "button"
-    );
+    var buttons = this._wizardButtonDeck.selectedPanel
+      .getElementsByTagNameNS(kXULNS, "button");
     for (var i = 0; i < buttons.length; i++) {
-      if (
-        buttons[i].getAttribute("default") == "true" &&
-        !buttons[i].hidden &&
-        !buttons[i].disabled
-      )
+      if (buttons[i].getAttribute("default") == "true" &&
+        !buttons[i].hidden && !buttons[i].disabled)
         return buttons[i];
     }
     return null;
@@ -54,4 +46,3 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
     }
   }
 }
-customElements.define("firefox-wizard-buttons", FirefoxWizardButtons);

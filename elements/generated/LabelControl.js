@@ -1,6 +1,6 @@
 class FirefoxLabelControl extends FirefoxTextLabel {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children></children>
       <html:span anonid="accessKeyParens"></html:span>
@@ -14,11 +14,13 @@ class FirefoxLabelControl extends FirefoxTextLabel {
 
     this.formatAccessKey(true);
 
-    this.addEventListener("click", event => {
+    this.addEventListener("click", (event) => {
       if (this.disabled) return;
       var controlElement = this.labeledControlElement;
-      if (controlElement) controlElement.focus();
+      if (controlElement)
+        controlElement.focus();
     });
+
   }
 
   set accessKey(val) {
@@ -62,16 +64,13 @@ class FirefoxLabelControl extends FirefoxTextLabel {
   }
 
   get control() {
-    return this.getAttribute("control");
+    return this.getAttribute('control');
   }
   formatAccessKey(firstTime) {
     var control = this.labeledControlElement;
     if (!control) {
       var bindingParent = document.getBindingParent(this);
-      if (
-        bindingParent instanceof
-        Components.interfaces.nsIDOMXULLabeledControlElement
-      ) {
+      if (bindingParent instanceof Components.interfaces.nsIDOMXULLabeledControlElement) {
         control = bindingParent; // For controls that make the <label> an anon child
       }
     }
@@ -81,15 +80,14 @@ class FirefoxLabelControl extends FirefoxTextLabel {
 
     var accessKey = this.accessKey;
     // No need to remove existing formatting the first time.
-    if (firstTime && !accessKey) return;
+    if (firstTime && !accessKey)
+      return;
 
     if (this.mInsertSeparator === undefined) {
       try {
-        var prefs = Components.classes[
-          "@mozilla.org/preferences-service;1"
-        ].getService(Components.interfaces.nsIPrefBranch);
-        this.mUnderlineAccesskey =
-          prefs.getIntPref("ui.key.menuAccessKey") != 0;
+        var prefs = Components.classes["@mozilla.org/preferences-service;1"].
+        getService(Components.interfaces.nsIPrefBranch);
+        this.mUnderlineAccesskey = (prefs.getIntPref("ui.key.menuAccessKey") != 0);
 
         const nsIPrefLocalizedString =
           Components.interfaces.nsIPrefLocalizedString;
@@ -99,43 +97,31 @@ class FirefoxLabelControl extends FirefoxTextLabel {
         const prefNameAlwaysAppendAccessKey =
           "intl.menuitems.alwaysappendaccesskeys";
 
-        var val = prefs.getComplexValue(
-          prefNameInsertSeparator,
-          nsIPrefLocalizedString
-        ).data;
-        this.mInsertSeparator = val == "true";
+        var val = prefs.getComplexValue(prefNameInsertSeparator,
+          nsIPrefLocalizedString).data;
+        this.mInsertSeparator = (val == "true");
 
-        val = prefs.getComplexValue(
-          prefNameAlwaysAppendAccessKey,
-          nsIPrefLocalizedString
-        ).data;
-        this.mAlwaysAppendAccessKey = val == "true";
+        val = prefs.getComplexValue(prefNameAlwaysAppendAccessKey,
+          nsIPrefLocalizedString).data;
+        this.mAlwaysAppendAccessKey = (val == "true");
       } catch (e) {
         this.mInsertSeparator = true;
       }
     }
 
-    if (!this.mUnderlineAccesskey) return;
+    if (!this.mUnderlineAccesskey)
+      return;
 
-    var afterLabel = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "accessKeyParens"
-    );
+    var afterLabel = document.getAnonymousElementByAttribute(this, "anonid", "accessKeyParens");
     afterLabel.textContent = "";
 
-    var oldAccessKey = this.getElementsByAttribute("class", "accesskey").item(
-      0
-    );
-    if (oldAccessKey) {
-      // Clear old accesskey
+    var oldAccessKey = this.getElementsByAttribute("class", "accesskey").item(0);
+    if (oldAccessKey) { // Clear old accesskey
       this.mergeElement(oldAccessKey);
     }
 
-    var oldHiddenSpan = this.getElementsByAttribute(
-      "class",
-      "hiddenColon"
-    ).item(0);
+    var oldHiddenSpan =
+      this.getElementsByAttribute("class", "hiddenColon").item(0);
     if (oldHiddenSpan) {
       this.mergeElement(oldHiddenSpan);
     }
@@ -147,11 +133,9 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     var accessKeyIndex = -1;
     if (!this.mAlwaysAppendAccessKey) {
       accessKeyIndex = labelText.indexOf(accessKey);
-      if (accessKeyIndex < 0) {
-        // Try again in upper case
-        accessKeyIndex = labelText
-          .toUpperCase()
-          .indexOf(accessKey.toUpperCase());
+      if (accessKeyIndex < 0) { // Try again in upper case
+        accessKeyIndex =
+          labelText.toUpperCase().indexOf(accessKey.toUpperCase());
       }
     }
 
@@ -183,22 +167,24 @@ class FirefoxLabelControl extends FirefoxTextLabel {
       if (/ $/.test(labelText)) {
         endIsSpace = true;
       }
-      if (this.mInsertSeparator && !endIsSpace) afterLabel.textContent = " (";
-      else afterLabel.textContent = "(";
+      if (this.mInsertSeparator && !endIsSpace)
+        afterLabel.textContent = " (";
+      else
+        afterLabel.textContent = "(";
       span.textContent = accessKey.toUpperCase();
       afterLabel.appendChild(span);
-      if (!colonHidden) afterLabel.appendChild(document.createTextNode(")"));
-      else afterLabel.appendChild(document.createTextNode("):"));
+      if (!colonHidden)
+        afterLabel.appendChild(document.createTextNode(")"));
+      else
+        afterLabel.appendChild(document.createTextNode("):"));
       return;
     }
     this.wrapChar(span, accessKeyIndex);
   }
   wrapChar(element, index) {
-    var treeWalker = document.createTreeWalker(
-      this,
+    var treeWalker = document.createTreeWalker(this,
       NodeFilter.SHOW_TEXT,
-      null
-    );
+      null);
     var node = treeWalker.nextNode();
     while (index >= node.length) {
       index -= node.length;
@@ -222,4 +208,3 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     element.remove();
   }
 }
-customElements.define("firefox-label-control", FirefoxLabelControl);

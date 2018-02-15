@@ -1,10 +1,11 @@
 class FirefoxTabpanels extends FirefoxTabBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._tabbox = null;
 
     this._selectedPanel = this.childNodes.item(this.selectedIndex);
+
   }
 
   get tabbox() {
@@ -22,11 +23,12 @@ class FirefoxTabpanels extends FirefoxTabBase {
       parent = parent.parentNode;
     }
 
-    return (this._tabbox = parent);
+    return this._tabbox = parent;
   }
 
   set selectedIndex(val) {
-    if (val < 0 || val >= this.childNodes.length) return val;
+    if (val < 0 || val >= this.childNodes.length)
+      return val;
     var panel = this._selectedPanel;
     this._selectedPanel = this.childNodes[val];
     this.setAttribute("selectedIndex", val);
@@ -55,18 +57,22 @@ class FirefoxTabpanels extends FirefoxTabBase {
     return this._selectedPanel;
   }
   getRelatedElement(aTabPanelElm) {
-    if (!aTabPanelElm) return null;
+    if (!aTabPanelElm)
+      return null;
 
     let tabboxElm = this.tabbox;
-    if (!tabboxElm) return null;
+    if (!tabboxElm)
+      return null;
 
     let tabsElm = tabboxElm.tabs;
-    if (!tabsElm) return null;
+    if (!tabsElm)
+      return null;
 
     // Return tab element having 'linkedpanel' attribute equal to the id
     // of the tab panel or the same index as the tab panel element.
     let tabpanelIdx = Array.indexOf(this.childNodes, aTabPanelElm);
-    if (tabpanelIdx == -1) return null;
+    if (tabpanelIdx == -1)
+      return null;
 
     let tabElms = tabsElm.childNodes;
     let tabElmFromIndex = tabElms[tabpanelIdx];
@@ -75,11 +81,11 @@ class FirefoxTabpanels extends FirefoxTabBase {
     if (tabpanelId) {
       for (let idx = 0; idx < tabElms.length; idx++) {
         var tabElm = tabElms[idx];
-        if (tabElm.linkedPanel == tabpanelId) return tabElm;
+        if (tabElm.linkedPanel == tabpanelId)
+          return tabElm;
       }
     }
 
     return tabElmFromIndex;
   }
 }
-customElements.define("firefox-tabpanels", FirefoxTabpanels);

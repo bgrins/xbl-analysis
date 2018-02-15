@@ -1,6 +1,6 @@
 class FirefoxAddonUninstalled extends FirefoxAddonBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="pending">
         <xul:image class="pending-icon"></xul:image>
@@ -11,28 +11,18 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
       </xul:hbox>
     `;
 
-    this._notice = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "notice"
-    );
+    this._notice = document.getAnonymousElementByAttribute(this, "anonid", "notice");
 
-    this._restartBtn = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "restart-btn"
-    );
+    this._restartBtn = document.getAnonymousElementByAttribute(this, "anonid", "restart-btn");
 
-    this._notice.textContent = gStrings.ext.formatStringFromName(
-      "uninstallNotice",
-      [this.mAddon.name],
-      1
-    );
+    this._notice.textContent = gStrings.ext.formatStringFromName("uninstallNotice", [this.mAddon.name],
+      1);
 
     if (!this.opRequiresRestart("uninstall"))
       this._restartBtn.setAttribute("hidden", true);
 
     gEventManager.registerAddonListener(this, this.mAddon.id);
+
   }
   disconnectedCallback() {
     gEventManager.unregisterAddonListener(this, this.mAddon.id);
@@ -42,17 +32,20 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
     // uninstalling doesn't. Things will still work if not, the add-on
     // will just still be active until finally getting uninstalled.
 
-    if (this.isPending("uninstall")) this.mAddon.cancelUninstall();
+    if (this.isPending("uninstall"))
+      this.mAddon.cancelUninstall();
     else if (this.getAttribute("wasDisabled") != "true")
       this.mAddon.userDisabled = false;
 
     this.removeAttribute("pending");
   }
   onOperationCancelled() {
-    if (!this.isPending("uninstall")) this.removeAttribute("pending");
+    if (!this.isPending("uninstall"))
+      this.removeAttribute("pending");
   }
   onExternalInstall(aAddon, aExistingAddon, aNeedsRestart) {
-    if (aExistingAddon.id != this.mAddon.id) return;
+    if (aExistingAddon.id != this.mAddon.id)
+      return;
 
     // Make sure any newly installed add-on has the correct disabled state
     if (this.hasAttribute("wasDisabled"))
@@ -60,7 +53,8 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
 
     // If the install completed without needing a restart then switch to
     // using the new Addon
-    if (!aNeedsRestart) this.mAddon = aAddon;
+    if (!aNeedsRestart)
+      this.mAddon = aAddon;
 
     this.removeAttribute("pending");
   }
@@ -78,4 +72,3 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
     this.removeAttribute("pending");
   }
 }
-customElements.define("firefox-addon-uninstalled", FirefoxAddonUninstalled);

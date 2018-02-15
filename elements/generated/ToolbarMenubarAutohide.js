@@ -1,10 +1,10 @@
 class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._inactiveTimeout = null;
 
-    this._contextMenuListener = {
+    this._contextMenuListener = ({
       toolbar: this,
       contextMenu: null,
 
@@ -15,15 +15,18 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
       init(event) {
         var node = event.target;
         while (node != this.toolbar) {
-          if (node.localName == "menupopup") return;
+          if (node.localName == "menupopup")
+            return;
           node = node.parentNode;
         }
 
         var contextMenuId = this.toolbar.getAttribute("context");
-        if (!contextMenuId) return;
+        if (!contextMenuId)
+          return;
 
         this.contextMenu = document.getElementById(contextMenuId);
-        if (!this.contextMenu) return;
+        if (!this.contextMenu)
+          return;
 
         this.contextMenu.addEventListener("popupshown", this);
         this.contextMenu.addEventListener("popuphiding", this);
@@ -44,25 +47,27 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
             break;
         }
       }
-    };
+    });
 
     this._setInactive();
 
-    this.addEventListener("DOMMenuBarActive", event => {
+    this.addEventListener("DOMMenuBarActive", (event) => {
       this._setActive();
     });
 
-    this.addEventListener("popupshowing", event => {
+    this.addEventListener("popupshowing", (event) => {
       this._setActive();
     });
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       this._contextMenuListener.init(event);
     });
 
-    this.addEventListener("DOMMenuBarInactive", event => {
-      if (!this._contextMenuListener.active) this._setInactiveAsync();
+    this.addEventListener("DOMMenuBarInactive", (event) => {
+      if (!this._contextMenuListener.active)
+        this._setInactiveAsync();
     });
+
   }
   disconnectedCallback() {
     this._setActive();
@@ -71,16 +76,12 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
     this.setAttribute("inactive", "true");
   }
   _setInactiveAsync() {
-    this._inactiveTimeout = setTimeout(
-      function(self) {
-        if (self.getAttribute("autohide") == "true") {
-          self._inactiveTimeout = null;
-          self._setInactive();
-        }
-      },
-      0,
-      this
-    );
+    this._inactiveTimeout = setTimeout(function(self) {
+      if (self.getAttribute("autohide") == "true") {
+        self._inactiveTimeout = null;
+        self._setInactive();
+      }
+    }, 0, this);
   }
   _setActive() {
     if (this._inactiveTimeout) {
@@ -90,7 +91,3 @@ class FirefoxToolbarMenubarAutohide extends FirefoxToolbar {
     this.removeAttribute("inactive");
   }
 }
-customElements.define(
-  "firefox-toolbar-menubar-autohide",
-  FirefoxToolbarMenubarAutohide
-);

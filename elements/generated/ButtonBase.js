@@ -1,57 +1,49 @@
 class FirefoxButtonBase extends FirefoxBasetext {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
-    this.addEventListener("click", event => {
+    this.addEventListener("click", (event) => {
       this._handleClick();
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._handleClick();
       // Prevent page from scrolling on the space key.
       event.preventDefault();
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       if (this.boxObject instanceof MenuBoxObject) {
-        if (this.open) return;
+        if (this.open)
+          return;
       } else {
-        if (
-          event.keyCode == KeyEvent.DOM_VK_UP ||
+        if (event.keyCode == KeyEvent.DOM_VK_UP ||
           (event.keyCode == KeyEvent.DOM_VK_LEFT &&
-            document.defaultView.getComputedStyle(this.parentNode).direction ==
-              "ltr") ||
+            document.defaultView.getComputedStyle(this.parentNode)
+            .direction == "ltr") ||
           (event.keyCode == KeyEvent.DOM_VK_RIGHT &&
-            document.defaultView.getComputedStyle(this.parentNode).direction ==
-              "rtl")
-        ) {
+            document.defaultView.getComputedStyle(this.parentNode)
+            .direction == "rtl")) {
           event.preventDefault();
           window.document.commandDispatcher.rewindFocus();
           return;
         }
 
-        if (
-          event.keyCode == KeyEvent.DOM_VK_DOWN ||
+        if (event.keyCode == KeyEvent.DOM_VK_DOWN ||
           (event.keyCode == KeyEvent.DOM_VK_RIGHT &&
-            document.defaultView.getComputedStyle(this.parentNode).direction ==
-              "ltr") ||
+            document.defaultView.getComputedStyle(this.parentNode)
+            .direction == "ltr") ||
           (event.keyCode == KeyEvent.DOM_VK_LEFT &&
-            document.defaultView.getComputedStyle(this.parentNode).direction ==
-              "rtl")
-        ) {
+            document.defaultView.getComputedStyle(this.parentNode)
+            .direction == "rtl")) {
           event.preventDefault();
           window.document.commandDispatcher.advanceFocus();
           return;
         }
       }
 
-      if (
-        event.keyCode ||
-        event.charCode <= 32 ||
-        event.altKey ||
-        event.ctrlKey ||
-        event.metaKey
-      )
+      if (event.keyCode || event.charCode <= 32 || event.altKey ||
+        event.ctrlKey || event.metaKey)
         return; // No printable char pressed, not a potential accesskey
 
       // Possible accesskey pressed
@@ -65,54 +57,48 @@ class FirefoxButtonBase extends FirefoxBasetext {
 
       // Search for accesskey in the list of buttons for this doc and each subdoc
       // Get the buttons for the main document and all sub-frames
-      for (
-        var frameCount = -1;
-        frameCount < window.top.frames.length;
-        frameCount++
-      ) {
-        var doc = frameCount == -1
-          ? window.top.document
-          : window.top.frames[frameCount].document;
+      for (var frameCount = -1; frameCount < window.top.frames.length; frameCount++) {
+        var doc = (frameCount == -1) ? window.top.document :
+          window.top.frames[frameCount].document;
         if (this.fireAccessKeyButton(doc.documentElement, charPressedLower))
           return;
       }
 
       // Test anonymous buttons
       var dlg = window.top.document;
-      var buttonBox = dlg.getAnonymousElementByAttribute(
-        dlg.documentElement,
-        "anonid",
-        "buttons"
-      );
-      if (buttonBox) this.fireAccessKeyButton(buttonBox, charPressedLower);
+      var buttonBox = dlg.getAnonymousElementByAttribute(dlg.documentElement,
+        "anonid", "buttons");
+      if (buttonBox)
+        this.fireAccessKeyButton(buttonBox, charPressedLower);
     });
+
   }
 
   set type(val) {
-    this.setAttribute("type", val);
+    this.setAttribute('type', val);
     return val;
   }
 
   get type() {
-    return this.getAttribute("type");
+    return this.getAttribute('type');
   }
 
   set dlgType(val) {
-    this.setAttribute("dlgtype", val);
+    this.setAttribute('dlgtype', val);
     return val;
   }
 
   get dlgType() {
-    return this.getAttribute("dlgtype");
+    return this.getAttribute('dlgtype');
   }
 
   set group(val) {
-    this.setAttribute("group", val);
+    this.setAttribute('group', val);
     return val;
   }
 
   get group() {
-    return this.getAttribute("group");
+    return this.getAttribute('group');
   }
 
   set open(val) {
@@ -128,7 +114,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
   }
 
   get open() {
-    return this.hasAttribute("open");
+    return this.hasAttribute('open');
   }
 
   set checked(val) {
@@ -136,17 +122,20 @@ class FirefoxButtonBase extends FirefoxBasetext {
       this.checkState = val ? 1 : 0;
     } else if (this.type == "radio" && val) {
       var sibs = this.parentNode.getElementsByAttribute("group", this.group);
-      for (var i = 0; i < sibs.length; ++i) sibs[i].removeAttribute("checked");
+      for (var i = 0; i < sibs.length; ++i)
+        sibs[i].removeAttribute("checked");
     }
 
-    if (val) this.setAttribute("checked", "true");
-    else this.removeAttribute("checked");
+    if (val)
+      this.setAttribute("checked", "true");
+    else
+      this.removeAttribute("checked");
 
     return val;
   }
 
   get checked() {
-    return this.hasAttribute("checked");
+    return this.hasAttribute('checked');
   }
 
   set checkState(val) {
@@ -156,19 +145,22 @@ class FirefoxButtonBase extends FirefoxBasetext {
 
   get checkState() {
     var state = this.getAttribute("checkState");
-    if (state == "") return this.checked ? 1 : 0;
-    if (state == "0") return 0;
-    if (state == "2") return 2;
+    if (state == "")
+      return this.checked ? 1 : 0;
+    if (state == "0")
+      return 0;
+    if (state == "2")
+      return 2;
     return 1;
   }
 
   set autoCheck(val) {
-    this.setAttribute("autoCheck", val);
+    this.setAttribute('autoCheck', val);
     return val;
   }
 
   get autoCheck() {
-    return this.getAttribute("autoCheck") == "true";
+    return this.getAttribute('autoCheck') == 'true';
   }
   filterButtons(node) {
     // if the node isn't visible, don't descend into it.
@@ -186,19 +178,13 @@ class FirefoxButtonBase extends FirefoxBasetext {
     return NodeFilter.FILTER_SKIP;
   }
   fireAccessKeyButton(aSubtree, aAccessKeyLower) {
-    var iterator = aSubtree.ownerDocument.createTreeWalker(
-      aSubtree,
+    var iterator = aSubtree.ownerDocument.createTreeWalker(aSubtree,
       NodeFilter.SHOW_ELEMENT,
-      this.filterButtons
-    );
+      this.filterButtons);
     while (iterator.nextNode()) {
       var test = iterator.currentNode;
-      if (
-        test.accessKey.toLowerCase() == aAccessKeyLower &&
-        !test.disabled &&
-        !test.collapsed &&
-        !test.hidden
-      ) {
+      if (test.accessKey.toLowerCase() == aAccessKeyLower &&
+        !test.disabled && !test.collapsed && !test.hidden) {
         test.focus();
         test.click();
         return true;
@@ -207,7 +193,9 @@ class FirefoxButtonBase extends FirefoxBasetext {
     return false;
   }
   _handleClick() {
-    if (!this.disabled && (this.autoCheck || !this.hasAttribute("autoCheck"))) {
+    if (!this.disabled &&
+      (this.autoCheck || !this.hasAttribute("autoCheck"))) {
+
       if (this.type == "checkbox") {
         this.checked = !this.checked;
       } else if (this.type == "radio") {
@@ -216,4 +204,3 @@ class FirefoxButtonBase extends FirefoxBasetext {
     }
   }
 }
-customElements.define("firefox-button-base", FirefoxButtonBase);

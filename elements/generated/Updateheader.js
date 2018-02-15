@@ -1,6 +1,6 @@
 class FirefoxUpdateheader extends FirefoxWizardHeader {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="wizard-header update-header" flex="1">
         <xul:vbox class="wizard-header-box-1">
@@ -10,6 +10,7 @@ class FirefoxUpdateheader extends FirefoxWizardHeader {
         </xul:vbox>
       </xul:hbox>
     `;
+
   }
+
 }
-customElements.define("firefox-updateheader", FirefoxUpdateheader);

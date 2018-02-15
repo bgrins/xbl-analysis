@@ -1,21 +1,18 @@
 class FirefoxListitem extends FirefoxBasetext {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children>
         <xul:listcell inherits="label,crop,disabled,flexlabel"></xul:listcell>
       </children>
     `;
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       var control = this.control;
-      if (!control || control.disabled) return;
-      if (
-        (!event.ctrlKey ||
-          (/Mac/.test(navigator.platform) && event.button == 2)) &&
-        !event.shiftKey &&
-        !event.metaKey
-      ) {
+      if (!control || control.disabled)
+        return;
+      if ((!event.ctrlKey || (/Mac/.test(navigator.platform) && event.button == 2)) &&
+        !event.shiftKey && !event.metaKey) {
         if (!this.selected) {
           control.selectItem(this);
         }
@@ -23,9 +20,10 @@ class FirefoxListitem extends FirefoxBasetext {
       }
     });
 
-    this.addEventListener("click", event => {
+    this.addEventListener("click", (event) => {
       var control = this.control;
-      if (!control || control.disabled) return;
+      if (!control || control.disabled)
+        return;
       control._userSelecting = true;
       if (control.selType != "multiple") {
         control.selectItem(this);
@@ -37,9 +35,9 @@ class FirefoxListitem extends FirefoxBasetext {
         control.currentItem = this;
       } else {
         /* We want to deselect all the selected items except what was
-            clicked, UNLESS it was a right-click.  We have to do this
-            in click rather than mousedown so that you can drag a
-            selected group of items */
+          clicked, UNLESS it was a right-click.  We have to do this
+          in click rather than mousedown so that you can drag a
+          selected group of items */
 
         // use selectItemRange instead of selectItem, because this
         // doesn't de- and reselect this item if it is selected
@@ -47,11 +45,14 @@ class FirefoxListitem extends FirefoxBasetext {
       }
       control._userSelecting = false;
     });
+
   }
 
   set current(val) {
-    if (val) this.setAttribute("current", "true");
-    else this.removeAttribute("current");
+    if (val)
+      this.setAttribute("current", "true");
+    else
+      this.removeAttribute("current");
 
     let control = this.control;
     if (!control || !control.suppressMenuItemEvent) {
@@ -62,36 +63,38 @@ class FirefoxListitem extends FirefoxBasetext {
   }
 
   get current() {
-    return this.getAttribute("current") == "true";
+    return this.getAttribute('current') == 'true';
   }
 
   set value(val) {
-    this.setAttribute("value", val);
+    this.setAttribute('value', val);
     return val;
   }
 
   get value() {
-    return this.getAttribute("value");
+    return this.getAttribute('value');
   }
 
   set label(val) {
-    this.setAttribute("label", val);
+    this.setAttribute('label', val);
     return val;
   }
 
   get label() {
-    return this.getAttribute("label");
+    return this.getAttribute('label');
   }
 
   set selected(val) {
-    if (val) this.setAttribute("selected", "true");
-    else this.removeAttribute("selected");
+    if (val)
+      this.setAttribute("selected", "true");
+    else
+      this.removeAttribute("selected");
 
     return val;
   }
 
   get selected() {
-    return this.getAttribute("selected") == "true";
+    return this.getAttribute('selected') == 'true';
   }
 
   get control() {
@@ -109,4 +112,3 @@ class FirefoxListitem extends FirefoxBasetext {
     this.dispatchEvent(event);
   }
 }
-customElements.define("firefox-listitem", FirefoxListitem);

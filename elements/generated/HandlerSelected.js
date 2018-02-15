@@ -1,6 +1,6 @@
 class FirefoxHandlerSelected extends FirefoxHandlerBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox flex="1" equalsize="always">
         <xul:hbox flex="1" align="center" inherits="tooltiptext=typeDescription">
@@ -16,6 +16,7 @@ class FirefoxHandlerSelected extends FirefoxHandlerBase {
     `;
 
     gMainPane.rebuildActionsMenu();
+
   }
+
 }
-customElements.define("firefox-handler-selected", FirefoxHandlerSelected);

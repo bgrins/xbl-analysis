@@ -1,6 +1,6 @@
 class FirefoxRichlistbox extends FirefoxListboxBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children includes="listheader"></children>
       <xul:scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
@@ -8,30 +8,28 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       </xul:scrollbox>
     `;
 
-    this._scrollbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "main-box"
-    );
+    this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "main-box");
 
     this.scrollBoxObject = this._scrollbox.boxObject;
 
-    this._builderListener = {
+    this._builderListener = ({
       mOuter: this,
       item: null,
       willRebuild(builder) {},
       didRebuild(builder) {
         this.mOuter._refreshSelection();
       }
-    };
+    });
 
     this._currentIndex = null;
 
     // add a template build listener
-    if (this.builder) this.builder.addListener(this._builderListener);
-    else this._refreshSelection();
+    if (this.builder)
+      this.builder.addListener(this._builderListener);
+    else
+      this._refreshSelection();
 
-    this.addEventListener("click", event => {
+    this.addEventListener("click", (event) => {
       // clicking into nothing should unselect
       if (event.originalTarget == this._scrollbox) {
         this.clearSelection();
@@ -39,7 +37,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       }
     });
 
-    this.addEventListener("MozSwipeGesture", event => {
+    this.addEventListener("MozSwipeGesture", (event) => {
       // Only handle swipe gestures up and down
       switch (event.direction) {
         case event.DIRECTION_DOWN:
@@ -50,21 +48,22 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
           break;
       }
     });
+
   }
   disconnectedCallback() {
     // remove the template build listener
-    if (this.builder) this.builder.removeListener(this._builderListener);
+    if (this.builder)
+      this.builder.removeListener(this._builderListener);
   }
 
   get itemCount() {
-    return this.children.length;
+    return this.children.length
   }
 
   get children() {
     let iface = Components.interfaces.nsIDOMXULSelectControlItemElement;
-    let children = Array.from(this.childNodes).filter(
-      node => node instanceof iface
-    );
+    let children = Array.from(this.childNodes)
+      .filter(node => node instanceof iface);
     if (this.dir == "reverse" && this._mayReverse) {
       children.reverse();
     }
@@ -73,7 +72,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   _fireOnSelect() {
     // make sure not to modify last-selected when suppressing select events
     // (otherwise we'll lose the selection when a template gets rebuilt)
-    if (this._suppressOnSelect || this.suppressOnSelect) return;
+    if (this._suppressOnSelect || this.suppressOnSelect)
+      return;
 
     // remember the current item and all selected items with IDs
     var state = this.currentItem ? this.currentItem.id : "";
@@ -83,11 +83,14 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       };
       state += " " + [...this.selectedItems].filter(getId).map(getId).join(" ");
     }
-    if (state) this.setAttribute("last-selected", state);
-    else this.removeAttribute("last-selected");
+    if (state)
+      this.setAttribute("last-selected", state);
+    else
+      this.removeAttribute("last-selected");
 
     // preserve the index just in case no IDs are available
-    if (this.currentIndex > -1) this._currentIndex = this.currentIndex + 1;
+    if (this.currentIndex > -1)
+      this._currentIndex = this.currentIndex + 1;
 
     var event = document.createEvent("Events");
     event.initEvent("select", true, true);
@@ -97,37 +100,31 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     document.commandDispatcher.updateCommands("richlistbox-select");
   }
   getNextItem(aStartItem, aDelta) {
-    var prop = this.dir == "reverse" && this._mayReverse
-      ? "previousSibling"
-      : "nextSibling";
+    var prop = this.dir == "reverse" && this._mayReverse ?
+      "previousSibling" :
+      "nextSibling";
     while (aStartItem) {
       aStartItem = aStartItem[prop];
-      if (
-        aStartItem &&
-        aStartItem instanceof
-          Components.interfaces.nsIDOMXULSelectControlItemElement &&
-        (!this._userSelecting || this._canUserSelect(aStartItem))
-      ) {
+      if (aStartItem && aStartItem instanceof Components.interfaces.nsIDOMXULSelectControlItemElement &&
+        (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
-        if (aDelta == 0) return aStartItem;
+        if (aDelta == 0)
+          return aStartItem;
       }
     }
     return null;
   }
   getPreviousItem(aStartItem, aDelta) {
-    var prop = this.dir == "reverse" && this._mayReverse
-      ? "nextSibling"
-      : "previousSibling";
+    var prop = this.dir == "reverse" && this._mayReverse ?
+      "nextSibling" :
+      "previousSibling";
     while (aStartItem) {
       aStartItem = aStartItem[prop];
-      if (
-        aStartItem &&
-        aStartItem instanceof
-          Components.interfaces.nsIDOMXULSelectControlItemElement &&
-        (!this._userSelecting || this._canUserSelect(aStartItem))
-      ) {
+      if (aStartItem && aStartItem instanceof Components.interfaces.nsIDOMXULSelectControlItemElement &&
+        (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
-        if (aDelta == 0) return aStartItem;
+        if (aDelta == 0)
+          return aStartItem;
       }
     }
     return null;
@@ -139,7 +136,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     const XULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
-    var item = this.ownerDocument.createElementNS(XULNS, "richlistitem");
+    var item =
+      this.ownerDocument.createElementNS(XULNS, "richlistitem");
     item.setAttribute("value", aValue);
 
     var label = this.ownerDocument.createElementNS(XULNS, "label");
@@ -149,14 +147,17 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     item.appendChild(label);
 
     var before = this.getItemAtIndex(aIndex);
-    if (!before) this.appendChild(item);
-    else this.insertBefore(item, before);
+    if (!before)
+      this.appendChild(item);
+    else
+      this.insertBefore(item, before);
 
     return item;
   }
   getIndexOfItem(aItem) {
     // don't search the children, if we're looking for none of them
-    if (aItem == null) return -1;
+    if (aItem == null)
+      return -1;
     if (this._selecting && this._selecting.item == aItem)
       return this._selecting.index;
     return this.children.indexOf(aItem);
@@ -171,7 +172,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     return this.ensureElementIsVisible(this.getItemAtIndex(aIndex));
   }
   ensureElementIsVisible(aElement) {
-    if (!aElement) return;
+    if (!aElement)
+      return;
     var targetRect = aElement.getBoundingClientRect();
     var scrollRect = this._scrollbox.getBoundingClientRect();
     var offset = targetRect.top - scrollRect.top;
@@ -179,27 +181,21 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       // scrollRect.bottom wouldn't take a horizontal scroll bar into account
       let scrollRectBottom = scrollRect.top + this._scrollbox.clientHeight;
       offset = targetRect.bottom - scrollRectBottom;
-      if (offset <= 0) return;
+      if (offset <= 0)
+        return;
     }
     this._scrollbox.scrollTop += offset;
   }
   scrollToIndex(aIndex) {
     var item = this.getItemAtIndex(aIndex);
-    if (item) this.scrollBoxObject.scrollToElement(item);
+    if (item)
+      this.scrollBoxObject.scrollToElement(item);
   }
   getNumberOfVisibleRows() {
     var children = this.children;
 
-    for (
-      var top = 0;
-      top < children.length && !this._isItemVisible(children[top]);
-      top++
-    );
-    for (
-      var ix = top;
-      ix < children.length && this._isItemVisible(children[ix]);
-      ix++
-    );
+    for (var top = 0; top < children.length && !this._isItemVisible(children[top]); top++);
+    for (var ix = top; ix < children.length && this._isItemVisible(children[ix]); ix++);
 
     return ix - top;
   }
@@ -207,7 +203,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     var children = this.children;
 
     for (var ix = 0; ix < children.length; ix++)
-      if (this._isItemVisible(children[ix])) return ix;
+      if (this._isItemVisible(children[ix]))
+        return ix;
 
     return -1;
   }
@@ -217,34 +214,36 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   scrollOnePage(aDirection) {
     var children = this.children;
 
-    if (children.length == 0) return 0;
+    if (children.length == 0)
+      return 0;
 
     // If nothing is selected, we just select the first element
     // at the extreme we're moving away from
-    if (!this.currentItem) return aDirection == -1 ? children.length : 0;
+    if (!this.currentItem)
+      return aDirection == -1 ? children.length : 0;
 
     // If the current item is visible, scroll by one page so that
     // the new current item is at approximately the same position as
     // the existing current item.
     if (this._isItemVisible(this.currentItem))
-      this.scrollBoxObject.scrollBy(
-        0,
-        this.scrollBoxObject.height * aDirection
-      );
+      this.scrollBoxObject.scrollBy(0, this.scrollBoxObject.height * aDirection);
 
     // Figure out, how many items fully fit into the view port
     // (including the currently selected one), and determine
     // the index of the first one lying (partially) outside
     var height = this.scrollBoxObject.height;
     var startBorder = this.currentItem.boxObject.y;
-    if (aDirection == -1) startBorder += this.currentItem.boxObject.height;
+    if (aDirection == -1)
+      startBorder += this.currentItem.boxObject.height;
 
     var index = this.currentIndex;
     for (var ix = index; 0 <= ix && ix < children.length; ix += aDirection) {
       var boxObject = children[ix].boxObject;
-      if (boxObject.height == 0) continue; // hidden children have a y of 0
+      if (boxObject.height == 0)
+        continue; // hidden children have a y of 0
       var endBorder = boxObject.y + (aDirection == -1 ? boxObject.height : 0);
-      if ((endBorder - startBorder) * aDirection > height) break; // we've reached the desired distance
+      if ((endBorder - startBorder) * aDirection > height)
+        break; // we've reached the desired distance
       index = ix;
     }
 
@@ -265,14 +264,14 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       this.clearSelection();
       for (let i = 1; i < ids.length; i++) {
         var selectedItem = document.getElementById(ids[i]);
-        if (selectedItem) this.addItemToSelection(selectedItem);
+        if (selectedItem)
+          this.addItemToSelection(selectedItem);
       }
 
       var currentItem = document.getElementById(ids[0]);
       if (!currentItem && this._currentIndex)
-        currentItem = this.getItemAtIndex(
-          Math.min(this._currentIndex - 1, this.getRowCount())
-        );
+        currentItem = this.getItemAtIndex(Math.min(
+          this._currentIndex - 1, this.getRowCount()));
       if (currentItem) {
         this.currentItem = currentItem;
         if (this.selType != "multiple" && this.selectedCount == 0)
@@ -283,9 +282,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
         } else {
           // XXX hack around a bug in ensureElementIsVisible as it will
           // scroll beyond the last element, bug 493645.
-          var previousElement = this.dir == "reverse"
-            ? currentItem.nextSibling
-            : currentItem.previousSibling;
+          var previousElement = this.dir == "reverse" ? currentItem.nextSibling :
+            currentItem.previousSibling;
           this.ensureElementIsVisible(previousElement);
         }
       }
@@ -314,7 +312,8 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     }
     if (this.currentItem && this.currentItem.id)
       this.currentItem = document.getElementById(this.currentItem.id);
-    else this.currentItem = null;
+    else
+      this.currentItem = null;
 
     // if we have no previously current item or if the above check fails to
     // find the previous nodes (which causes it to clear selection)
@@ -334,15 +333,14 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       this.selectedItem = this.currentItem;
   }
   _isItemVisible(aItem) {
-    if (!aItem) return false;
+    if (!aItem)
+      return false;
 
     var y = this.scrollBoxObject.positionY + this.scrollBoxObject.y;
 
     // Partially visible items are also considered visible
-    return (
-      aItem.boxObject.y + aItem.boxObject.height > y &&
-      aItem.boxObject.y < y + this.scrollBoxObject.height
-    );
+    return (aItem.boxObject.y + aItem.boxObject.height > y) &&
+      (aItem.boxObject.y < y + this.scrollBoxObject.height);
   }
   getIndexOf(aElement) {
     return this.getIndexOfItem(aElement);
@@ -362,4 +360,3 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   }
   fireActiveItemEvent() {}
 }
-customElements.define("firefox-richlistbox", FirefoxRichlistbox);

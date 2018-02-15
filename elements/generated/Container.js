@@ -1,5 +1,6 @@
 class FirefoxContainer extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:hbox flex="1" equalsize="always">
         <xul:hbox flex="1" align="center">
@@ -12,6 +13,7 @@ class FirefoxContainer extends XULElement {
         </xul:hbox>
       </xul:hbox>
     `;
+
   }
+
 }
-customElements.define("firefox-container", FirefoxContainer);

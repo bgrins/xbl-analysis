@@ -1,4 +1,6 @@
 class FirefoxColorpickertile extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-colorpickertile", FirefoxColorpickertile);

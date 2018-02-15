@@ -1,13 +1,12 @@
 class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
-    this.searchbarController = {
+    this.searchbarController = ({
       _self: this,
       supportsCommand(aCommand) {
-        return (
-          aCommand == "cmd_clearhistory" || aCommand == "cmd_togglesuggest"
-        );
+        return aCommand == "cmd_clearhistory" ||
+          aCommand == "cmd_togglesuggest";
       },
 
       isCommandEnabled(aCommand) {
@@ -19,120 +18,87 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
           case "cmd_clearhistory":
             var param = this._self.getAttribute("autocompletesearchparam");
 
-            BrowserSearch.searchBar.FormHistory.update(
-              { op: "remove", fieldname: param },
-              null
-            );
+            BrowserSearch.searchBar.FormHistory.update({
+              op: "remove",
+              fieldname: param
+            }, null);
             this._self.value = "";
             break;
           case "cmd_togglesuggest":
-            let enabled = Services.prefs.getBoolPref(
-              "browser.search.suggest.enabled"
-            );
-            Services.prefs.setBoolPref(
-              "browser.search.suggest.enabled",
-              !enabled
-            );
+            let enabled =
+              Services.prefs.getBoolPref("browser.search.suggest.enabled");
+            Services.prefs.setBoolPref("browser.search.suggest.enabled", !enabled);
             break;
           default:
-          // do nothing with unrecognized command
+            // do nothing with unrecognized command
         }
       }
-    };
+    });
 
-    if (
-      document.getBindingParent(this).parentNode.parentNode.localName ==
-      "toolbarpaletteitem"
-    )
+    if (document.getBindingParent(this).parentNode.parentNode.localName ==
+      "toolbarpaletteitem")
       return;
 
     if (Services.prefs.getBoolPref("browser.urlbar.clickSelectsAll"))
       this.setAttribute("clickSelectsAll", true);
 
-    var textBox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "textbox-input-box"
-    );
-    var cxmenu = document.getAnonymousElementByAttribute(
-      textBox,
-      "anonid",
-      "input-box-contextmenu"
-    );
-    cxmenu.addEventListener(
-      "popupshowing",
+    var textBox = document.getAnonymousElementByAttribute(this,
+      "anonid", "textbox-input-box");
+    var cxmenu = document.getAnonymousElementByAttribute(textBox,
+      "anonid", "input-box-contextmenu");
+    cxmenu.addEventListener("popupshowing",
       () => {
         this.initContextMenu(cxmenu);
-      },
-      { capturing: true, once: true }
-    );
+      }, {
+        capturing: true,
+        once: true
+      });
 
     this.setAttribute("aria-owns", this.popup.id);
     document.getBindingParent(this)._textboxInitialized = true;
 
-    this.addEventListener("input", event => {
+    this.addEventListener("input", (event) => {
       this.popup.removeAttribute("showonlysettings");
     });
 
-    this.addEventListener(
-      "keypress",
-      event => {
-        return this.handleKeyboardNavigation(event);
-      },
-      true
-    );
+    this.addEventListener("keypress", (event) => {
+      return this.handleKeyboardNavigation(event);
+    }, true);
 
-    this.addEventListener(
-      "keypress",
-      event => {
-        document.getBindingParent(this).selectEngine(event, false);
-      },
-      true
-    );
+    this.addEventListener("keypress", (event) => {
+      document.getBindingParent(this).selectEngine(event, false);
+    }, true);
 
-    this.addEventListener(
-      "keypress",
-      event => {
-        document.getBindingParent(this).selectEngine(event, true);
-      },
-      true
-    );
+    this.addEventListener("keypress", (event) => {
+      document.getBindingParent(this).selectEngine(event, true);
+    }, true);
 
-    this.addEventListener(
-      "keypress",
-      event => {
-        return this.openSearch();
-      },
-      true
-    );
+    this.addEventListener("keypress", (event) => {
+      return this.openSearch();
+    }, true);
 
-    this.addEventListener(
-      "keypress",
-      event => {
-        return this.openSearch();
-      },
-      true
-    );
+    this.addEventListener("keypress", (event) => {
+      return this.openSearch();
+    }, true);
 
-    this.addEventListener("dragover", event => {
+    this.addEventListener("dragover", (event) => {
       var types = event.dataTransfer.types;
-      if (
-        types.includes("text/plain") ||
-        types.includes("text/x-moz-text-internal")
-      )
+      if (types.includes("text/plain") || types.includes("text/x-moz-text-internal"))
         event.preventDefault();
     });
 
-    this.addEventListener("drop", event => {
+    this.addEventListener("drop", (event) => {
       var dataTransfer = event.dataTransfer;
       var data = dataTransfer.getData("text/plain");
-      if (!data) data = dataTransfer.getData("text/x-moz-text-internal");
+      if (!data)
+        data = dataTransfer.getData("text/x-moz-text-internal");
       if (data) {
         event.preventDefault();
         this.value = data;
         document.getBindingParent(this).openSuggestionsPanel();
       }
     });
+
   }
   disconnectedCallback() {
     // If the context menu has never been opened, there won't be anything
@@ -144,19 +110,17 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
   }
 
   set searchParam(val) {
-    this.setAttribute("autocompletesearchparam", val);
+    this.setAttribute('autocompletesearchparam', val);
     return val;
   }
 
   get searchParam() {
-    return (
-      this.getAttribute("autocompletesearchparam") +
-      (PrivateBrowsingUtils.isWindowPrivate(window) ? "|private" : "")
-    );
+    return this.getAttribute('autocompletesearchparam') +
+      (PrivateBrowsingUtils.isWindowPrivate(window) ? '|private' : '');
   }
 
   set selectedButton(val) {
-    return (this.popup.oneOffButtons.selectedButton = val);
+    return this.popup.oneOffButtons.selectedButton = val;
   }
 
   get selectedButton() {
@@ -174,10 +138,8 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     aMenu.appendChild(element);
 
     let insertLocation = aMenu.firstChild;
-    while (
-      insertLocation.nextSibling &&
-      insertLocation.getAttribute("cmd") != "cmd_paste"
-    )
+    while (insertLocation.nextSibling &&
+      insertLocation.getAttribute("cmd") != "cmd_paste")
       insertLocation = insertLocation.nextSibling;
     if (insertLocation) {
       element = document.createElementNS(kXULNS, "menuitem");
@@ -210,13 +172,10 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     aMenu.appendChild(element);
 
     if (AppConstants.platform == "macosx") {
-      this.addEventListener(
-        "keypress",
-        aEvent => {
-          if (aEvent.keyCode == KeyEvent.DOM_VK_F4) this.openSearch();
-        },
-        true
-      );
+      this.addEventListener("keypress", aEvent => {
+        if (aEvent.keyCode == KeyEvent.DOM_VK_F4)
+          this.openSearch();
+      }, true);
     }
 
     this.controllers.appendController(this.searchbarController);
@@ -224,19 +183,19 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     let onpopupshowing = function() {
       BrowserSearch.searchBar._textbox.closePopup();
       if (suggestMenuItem) {
-        let enabled = Services.prefs.getBoolPref(
-          "browser.search.suggest.enabled"
-        );
+        let enabled =
+          Services.prefs.getBoolPref("browser.search.suggest.enabled");
         suggestMenuItem.setAttribute("checked", enabled);
       }
 
-      if (!pasteAndSearch) return;
-      let controller = document.commandDispatcher.getControllerForCommand(
-        "cmd_paste"
-      );
+      if (!pasteAndSearch)
+        return;
+      let controller = document.commandDispatcher.getControllerForCommand("cmd_paste");
       let enabled = controller.isCommandEnabled("cmd_paste");
-      if (enabled) pasteAndSearch.removeAttribute("disabled");
-      else pasteAndSearch.setAttribute("disabled", "true");
+      if (enabled)
+        pasteAndSearch.removeAttribute("disabled");
+      else
+        pasteAndSearch.setAttribute("disabled", "true");
     };
     aMenu.addEventListener("popupshowing", onpopupshowing);
     onpopupshowing();
@@ -279,9 +238,9 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
 
       var outerRect = this.getBoundingClientRect();
       var innerRect = this.inputField.getBoundingClientRect();
-      let width = isRTL
-        ? innerRect.right - outerRect.left
-        : outerRect.right - innerRect.left;
+      let width = isRTL ?
+        innerRect.right - outerRect.left :
+        outerRect.right - innerRect.left;
       popup.setAttribute("width", width > 100 ? width : 100);
 
       // invalidate() depends on the width attribute
@@ -302,10 +261,9 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     // Toggle the open state of the add-engine menu button if it's
     // selected.  We're using handleEnter for this instead of listening
     // for the command event because a command event isn't fired.
-    if (
-      this.selectedButton &&
-      this.selectedButton.getAttribute("anonid") == "addengine-menu-button"
-    ) {
+    if (this.selectedButton &&
+      this.selectedButton.getAttribute("anonid") ==
+      "addengine-menu-button") {
       this.selectedButton.open = !this.selectedButton.open;
       return true;
     }
@@ -331,11 +289,13 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
   }
   handleKeyboardNavigation(aEvent) {
     let popup = this.popup;
-    if (!popup.popupOpen) return;
+    if (!popup.popupOpen)
+      return;
 
     // accel + up/down changes the default engine and shouldn't affect
     // the selection on the one-off buttons.
-    if (aEvent.getModifierState("Accel")) return;
+    if (aEvent.getModifierState("Accel"))
+      return;
 
     let suggestionsHidden =
       popup.richlistbox.getAttribute("collapsed") == "true";
@@ -343,4 +303,3 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.popup.oneOffButtons.handleKeyPress(aEvent, numItems, true);
   }
 }
-customElements.define("firefox-searchbar-textbox", FirefoxSearchbarTextbox);

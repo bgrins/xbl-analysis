@@ -1,6 +1,6 @@
 class FirefoxCustomizableuiToolbarDrag extends FirefoxToolbar {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._dragBindingAlive = true;
 
@@ -8,19 +8,14 @@ class FirefoxCustomizableuiToolbarDrag extends FirefoxToolbar {
       this._draggableStarted = true;
       try {
         let tmp = {};
-        ChromeUtils.import(
-          "resource://gre/modules/WindowDraggingUtils.jsm",
-          tmp
-        );
+        ChromeUtils.import("resource://gre/modules/WindowDraggingUtils.jsm", tmp);
         let draggableThis = new tmp.WindowDraggingElement(this);
         draggableThis.mouseDownCheck = function(e) {
           return this._dragBindingAlive;
         };
       } catch (e) {}
     }
+
   }
+
 }
-customElements.define(
-  "firefox-customizableui-toolbar-drag",
-  FirefoxCustomizableuiToolbarDrag
-);

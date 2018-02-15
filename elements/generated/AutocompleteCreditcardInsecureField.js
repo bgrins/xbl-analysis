@@ -1,17 +1,16 @@
 class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProfileListitemBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <div anonid="autofill-item-box" class="autofill-insecure-item"></div>
     `;
 
     this._itemBox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "autofill-item-box"
+      this, "anonid", "autofill-item-box"
     );
 
     this._adjustAcItem();
+
   }
 
   set selected(val) {
@@ -20,7 +19,7 @@ class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProf
   }
 
   get selected() {
-    return this.getAttribute("selected") == "true";
+    return this.getAttribute('selected') == 'true';
   }
   _adjustAcItem() {
     this._adjustAutofillItemLayout();
@@ -30,7 +29,3 @@ class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProf
     this._itemBox.textContent = value;
   }
 }
-customElements.define(
-  "firefox-autocomplete-creditcard-insecure-field",
-  FirefoxAutocompleteCreditcardInsecureField
-);

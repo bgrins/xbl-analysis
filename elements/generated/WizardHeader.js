@@ -1,6 +1,6 @@
 class FirefoxWizardHeader extends FirefoxWizardBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="wizard-header-box-1" flex="1">
         <xul:vbox class="wizard-header-box-text" flex="1">
@@ -10,6 +10,7 @@ class FirefoxWizardHeader extends FirefoxWizardBase {
         <xul:image class="wizard-header-icon" inherits="src=iconsrc"></xul:image>
       </xul:hbox>
     `;
+
   }
+
 }
-customElements.define("firefox-wizard-header", FirefoxWizardHeader);

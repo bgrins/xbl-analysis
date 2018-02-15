@@ -1,6 +1,6 @@
 class FirefoxToolbarbuttonBadgedMenu extends FirefoxToolbarbutton {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <xul:stack class="toolbarbutton-badge-stack">
@@ -11,9 +11,7 @@ class FirefoxToolbarbuttonBadgedMenu extends FirefoxToolbarbutton {
       <xul:label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap"></xul:label>
       <xul:dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label"></xul:dropmarker>
     `;
+
   }
+
 }
-customElements.define(
-  "firefox-toolbarbutton-badged-menu",
-  FirefoxToolbarbuttonBadgedMenu
-);

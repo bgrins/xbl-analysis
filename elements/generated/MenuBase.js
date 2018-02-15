@@ -1,6 +1,7 @@
 class FirefoxMenuBase extends FirefoxMenuitemBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
+
   }
 
   set open(val) {
@@ -9,7 +10,7 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
   }
 
   get open() {
-    return this.hasAttribute("open");
+    return this.hasAttribute('open');
   }
 
   get openedWithKey() {
@@ -49,14 +50,16 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
     menuitem.setAttribute("value", aValue);
 
     var before = this.getItemAtIndex(aIndex);
-    if (before) return menupopup.insertBefore(menuitem, before);
+    if (before)
+      return menupopup.insertBefore(menuitem, before);
     return menupopup.appendChild(menuitem);
   }
   removeItemAt(aIndex) {
     var menupopup = this.menupopup;
     if (menupopup) {
       var item = this.getItemAtIndex(aIndex);
-      if (item) return menupopup.removeChild(item);
+      if (item)
+        return menupopup.removeChild(item);
     }
     return null;
   }
@@ -66,7 +69,8 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
       var items = menupopup.childNodes;
       var length = items.length;
       for (var index = 0; index < length; ++index) {
-        if (items[index] == aItem) return index;
+        if (items[index] == aItem)
+          return index;
       }
     }
     return -1;
@@ -79,4 +83,3 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
     return menupopup.childNodes[aIndex];
   }
 }
-customElements.define("firefox-menu-base", FirefoxMenuBase);

@@ -1,8 +1,11 @@
 class FirefoxCustomizableuiToolbarMenubarStub extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
 
   get toolbox() {
-    if (this._toolbox) return this._toolbox;
+    if (this._toolbox)
+      return this._toolbox;
 
     if (this.parentNode && this.parentNode.localName == "toolbox") {
       this._toolbox = this.parentNode;
@@ -18,7 +21,3 @@ class FirefoxCustomizableuiToolbarMenubarStub extends XULElement {
     return null;
   }
 }
-customElements.define(
-  "firefox-customizableui-toolbar-menubar-stub",
-  FirefoxCustomizableuiToolbarMenubarStub
-);

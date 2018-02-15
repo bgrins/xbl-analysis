@@ -1,4 +1,6 @@
 class FirefoxSplitter extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-splitter", FirefoxSplitter);

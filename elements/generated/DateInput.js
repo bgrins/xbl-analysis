@@ -1,6 +1,8 @@
 class FirefoxDateInput extends FirefoxDatetimeInputBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
+
+    ;
     /* eslint-enable no-multi-spaces */
 
     this.mMinMonth = 1;
@@ -21,47 +23,24 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     if (this.mInputElement.value) {
       this.setFieldsFromInputValue();
     }
+
   }
 
   buildEditFields() {
     const HTML_NS = "http://www.w3.org/1999/xhtml";
-    let root = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "edit-wrapper"
-    );
+    let root =
+      document.getAnonymousElementByAttribute(this, "anonid", "edit-wrapper");
 
     let yearMaxLength = this.mMaxYear.toString().length;
-    this.mYearField = this.createEditField(
-      this.mYearPlaceHolder,
-      this.mYearLabel,
-      true,
-      this.mYearLength,
-      yearMaxLength,
-      this.mMinYear,
-      this.mMaxYear,
-      this.mYearPageUpDownInterval
-    );
-    this.mMonthField = this.createEditField(
-      this.mMonthPlaceHolder,
-      this.mMonthLabel,
-      true,
-      this.mMonthDayLength,
-      this.mMonthDayLength,
-      this.mMinMonth,
-      this.mMaxMonth,
-      this.mMonthPageUpDownInterval
-    );
-    this.mDayField = this.createEditField(
-      this.mDayPlaceHolder,
-      this.mDayLabel,
-      true,
-      this.mMonthDayLength,
-      this.mMonthDayLength,
-      this.mMinDay,
-      this.mMaxDay,
-      this.mDayPageUpDownInterval
-    );
+    this.mYearField = this.createEditField(this.mYearPlaceHolder,
+      this.mYearLabel, true, this.mYearLength, yearMaxLength,
+      this.mMinYear, this.mMaxYear, this.mYearPageUpDownInterval);
+    this.mMonthField = this.createEditField(this.mMonthPlaceHolder,
+      this.mMonthLabel, true, this.mMonthDayLength, this.mMonthDayLength,
+      this.mMinMonth, this.mMaxMonth, this.mMonthPageUpDownInterval);
+    this.mDayField = this.createEditField(this.mDayPlaceHolder,
+      this.mDayLabel, true, this.mMonthDayLength, this.mMonthDayLength,
+      this.mMinDay, this.mMaxDay, this.mDayPageUpDownInterval);
 
     let fragment = document.createDocumentFragment();
     let formatter = Intl.DateTimeFormat(this.mLocales, {
@@ -97,27 +76,18 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       return;
     }
 
-    if (
-      this.mMonthField &&
-      !this.mMonthField.disabled &&
-      !this.mMonthField.readOnly
-    ) {
+    if (this.mMonthField && !this.mMonthField.disabled &&
+      !this.mMonthField.readOnly) {
       this.clearFieldValue(this.mMonthField);
     }
 
-    if (
-      this.mDayField &&
-      !this.mDayField.disabled &&
-      !this.mDayField.readOnly
-    ) {
+    if (this.mDayField && !this.mDayField.disabled &&
+      !this.mDayField.readOnly) {
       this.clearFieldValue(this.mDayField);
     }
 
-    if (
-      this.mYearField &&
-      !this.mYearField.disabled &&
-      !this.mYearField.readOnly
-    ) {
+    if (this.mYearField && !this.mYearField.disabled &&
+      !this.mYearField.readOnly) {
       this.clearFieldValue(this.mYearField);
     }
 
@@ -161,13 +131,17 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       return;
     }
 
-    let { year, month, day } = this.getCurrentValue();
+    let {
+      year,
+      month,
+      day
+    } = this.getCurrentValue();
 
     // Convert to a valid date string according to:
     // https://html.spec.whatwg.org/multipage/infrastructure.html#valid-date-string
     year = year.toString().padStart(this.mYearLength, "0");
-    month = month < 10 ? "0" + month : month;
-    day = day < 10 ? "0" + day : day;
+    month = (month < 10) ? ("0" + month) : month;
+    day = (day < 10) ? ("0" + day) : day;
 
     let date = [year, month, day].join("-");
 
@@ -247,9 +221,9 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
 
     value += Number(aTimes);
     if (value > max) {
-      value -= max - min + 1;
+      value -= (max - min + 1);
     } else if (value < min) {
-      value += max - min + 1;
+      value += (max - min + 1);
     }
 
     this.setFieldValue(aTargetField, value);
@@ -263,7 +237,8 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     let key = aEvent.key;
 
     // Home/End key does nothing on year field.
-    if (targetField == this.mYearField && (key == "Home" || key == "End")) {
+    if (targetField == this.mYearField && (key == "Home" ||
+        key == "End")) {
       return;
     }
 
@@ -274,16 +249,18 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       case "ArrowDown":
         this.incrementFieldValue(targetField, -1);
         break;
-      case "PageUp": {
-        let interval = targetField.getAttribute("pginterval");
-        this.incrementFieldValue(targetField, interval);
-        break;
-      }
-      case "PageDown": {
-        let interval = targetField.getAttribute("pginterval");
-        this.incrementFieldValue(targetField, 0 - interval);
-        break;
-      }
+      case "PageUp":
+        {
+          let interval = targetField.getAttribute("pginterval");
+          this.incrementFieldValue(targetField, interval);
+          break;
+        }
+      case "PageDown":
+        {
+          let interval = targetField.getAttribute("pginterval");
+          this.incrementFieldValue(targetField, 0 - interval);
+          break;
+        }
       case "Home":
         let min = targetField.getAttribute("min");
         this.setFieldValue(targetField, min);
@@ -300,7 +277,11 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     let month = this.getFieldValue(this.mMonthField);
     let day = this.getFieldValue(this.mDayField);
 
-    let date = { year, month, day };
+    let date = {
+      year,
+      month,
+      day
+    };
 
     this.log("getCurrentValue: " + JSON.stringify(date));
     return date;
@@ -342,14 +323,23 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     this.updateResetButtonVisibility();
   }
   isAnyFieldAvailable(aForPicker) {
-    let { year, month, day } = this.getCurrentValue();
+    let {
+      year,
+      month,
+      day
+    } = this.getCurrentValue();
 
-    return !this.isEmpty(year) || !this.isEmpty(month) || !this.isEmpty(day);
+    return !this.isEmpty(year) || !this.isEmpty(month) ||
+      !this.isEmpty(day);
   }
   isAnyFieldEmpty() {
-    let { year, month, day } = this.getCurrentValue();
+    let {
+      year,
+      month,
+      day
+    } = this.getCurrentValue();
 
-    return this.isEmpty(year) || this.isEmpty(month) || this.isEmpty(day);
+    return (this.isEmpty(year) || this.isEmpty(month) ||
+      this.isEmpty(day));
   }
 }
-customElements.define("firefox-date-input", FirefoxDateInput);

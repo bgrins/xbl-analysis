@@ -1,6 +1,6 @@
 class FirefoxSearchTextbox extends FirefoxTextbox {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children></children>
       <xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck" align="center">
@@ -15,54 +15,47 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
 
     this._timer = null;
 
-    this._searchIcons = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-icons"
-    );
+    this._searchIcons = document.getAnonymousElementByAttribute(this, "anonid", "search-icons");
 
-    this._searchButtonIcon = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "searchbutton-icon"
-    );
+    this._searchButtonIcon = document.getAnonymousElementByAttribute(this, "anonid", "searchbutton-icon");
 
     // Ensure the button state is up to date:
     this.searchButton = this.searchButton;
-    this._searchButtonIcon.addEventListener("click", e => this._iconClick(e));
+    this._searchButtonIcon.addEventListener("click", (e) => this._iconClick(e));
 
-    this.addEventListener("input", event => {
+    this.addEventListener("input", (event) => {
       if (this.searchButton) {
         this._searchIcons.selectedIndex = 0;
         return;
       }
-      if (this._timer) clearTimeout(this._timer);
-      this._timer =
-        this.timeout && setTimeout(this._fireCommand, this.timeout, this);
+      if (this._timer)
+        clearTimeout(this._timer);
+      this._timer = this.timeout && setTimeout(this._fireCommand, this.timeout, this);
       this._searchIcons.selectedIndex = this.value ? 1 : 0;
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       if (this._clearSearch()) {
         event.preventDefault();
         event.stopPropagation();
       }
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._enterSearch();
       event.preventDefault();
       event.stopPropagation();
     });
+
   }
 
   set timeout(val) {
-    this.setAttribute("timeout", val);
+    this.setAttribute('timeout', val);
     return val;
   }
 
   get timeout() {
-    return parseInt(this.getAttribute("timeout")) || 500;
+    return parseInt(this.getAttribute('timeout')) || 500;
   }
 
   set searchButton(val) {
@@ -80,16 +73,19 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
   }
 
   get searchButton() {
-    return this.getAttribute("searchbutton") == "true";
+    return this.getAttribute('searchbutton') == 'true';
   }
 
   set value(val) {
     this.inputField.value = val;
 
-    if (val) this._searchIcons.selectedIndex = this.searchButton ? 0 : 1;
-    else this._searchIcons.selectedIndex = 0;
+    if (val)
+      this._searchIcons.selectedIndex = this.searchButton ? 0 : 1;
+    else
+      this._searchIcons.selectedIndex = 0;
 
-    if (this._timer) clearTimeout(this._timer);
+    if (this._timer)
+      clearTimeout(this._timer);
 
     return val;
   }
@@ -98,16 +94,20 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
     return this.inputField.value;
   }
   _fireCommand(me) {
-    if (me._timer) clearTimeout(me._timer);
+    if (me._timer)
+      clearTimeout(me._timer);
     me._timer = null;
     me.doCommand();
   }
   _iconClick() {
-    if (this.searchButton) this._enterSearch();
-    else this.focus();
+    if (this.searchButton)
+      this._enterSearch();
+    else
+      this.focus();
   }
   _enterSearch() {
-    if (this.disabled) return;
+    if (this.disabled)
+      return;
     if (this.searchButton && this.value && !this.readOnly)
       this._searchIcons.selectedIndex = 1;
     this._fireCommand(this);
@@ -122,4 +122,3 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
     return false;
   }
 }
-customElements.define("firefox-search-textbox", FirefoxSearchTextbox);

@@ -1,5 +1,6 @@
 class FirefoxNocontrols extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <vbox flex="1" class="statusOverlay" hidden="true">
         <box flex="1">
@@ -11,7 +12,9 @@ class FirefoxNocontrols extends XULElement {
     this.randomID = 0;
     this.Utils = {
       randomID: 0,
-      videoEvents: ["play", "playing"],
+      videoEvents: ["play",
+        "playing"
+      ],
       controlListeners: [],
       terminateEventListeners() {
         for (let event of this.videoEvents) {
@@ -34,10 +37,7 @@ class FirefoxNocontrols extends XULElement {
       },
 
       hasError() {
-        return (
-          this.video.error != null ||
-          this.video.networkState == this.video.NETWORK_NO_SOURCE
-        );
+        return (this.video.error != null || this.video.networkState == this.video.NETWORK_NO_SOURCE);
       },
 
       handleEvent(aEvent) {
@@ -86,18 +86,11 @@ class FirefoxNocontrols extends XULElement {
         this.randomID = Math.random();
         this.binding.randomID = this.randomID;
         this.video = binding.parentNode;
-        this.clickToPlay = document.getAnonymousElementByAttribute(
-          binding,
-          "class",
-          "clickToPlay"
-        );
-        this.noControlsOverlay = document.getAnonymousElementByAttribute(
-          binding,
-          "class",
-          "statusOverlay"
-        );
+        this.clickToPlay = document.getAnonymousElementByAttribute(binding, "class", "clickToPlay");
+        this.noControlsOverlay = document.getAnonymousElementByAttribute(binding, "class", "statusOverlay");
 
         let self = this;
+
         function addListener(elem, eventName, func) {
           let boundFunc = func.bind(self);
           self.controlListeners.push({
@@ -105,24 +98,23 @@ class FirefoxNocontrols extends XULElement {
             event: eventName,
             func: boundFunc
           });
-          elem.addEventListener(eventName, boundFunc, { mozSystemGroup: true });
+          elem.addEventListener(eventName, boundFunc, {
+            mozSystemGroup: true
+          });
         }
         addListener(this.clickToPlay, "click", this.clickToPlayClickHandler);
-        addListener(
-          this.video,
-          "MozNoControlsBlockedVideo",
-          this.blockedVideoHandler
-        );
+        addListener(this.video, "MozNoControlsBlockedVideo", this.blockedVideoHandler);
 
         for (let event of this.videoEvents) {
-          this.video.addEventListener(event, this, { mozSystemGroup: true });
+          this.video.addEventListener(event, this, {
+            mozSystemGroup: true
+          });
         }
       }
     };
     this.Utils.init(this);
-    this.Utils.video.dispatchEvent(
-      new CustomEvent("MozNoControlsVideoBindingAttached")
-    );
+    this.Utils.video.dispatchEvent(new CustomEvent("MozNoControlsVideoBindingAttached"));
+
   }
   disconnectedCallback() {
     this.Utils.terminateEventListeners();
@@ -133,4 +125,3 @@ class FirefoxNocontrols extends XULElement {
     delete this.randomID;
   }
 }
-customElements.define("firefox-nocontrols", FirefoxNocontrols);

@@ -1,5 +1,6 @@
 class FirefoxTabbrowser extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:tabbox anonid="tabbox" class="tabbrowser-tabbox" flex="1" eventnode="document" inherits="tabcontainer" onselect="if (event.target.localName == 'tabpanels') this.parentNode.updateCurrentBrowser();">
         <xul:tabpanels flex="1" class="plain" selectedIndex="0" anonid="panelcontainer">
@@ -17,35 +18,27 @@ class FirefoxTabbrowser extends XULElement {
       <children></children>
     `;
 
-    this.tabContainer = document.getElementById(
-      this.getAttribute("tabcontainer")
-    );
+    this.tabContainer = document.getElementById(this.getAttribute("tabcontainer"));
 
     this.tabs = this.tabContainer.childNodes;
 
-    this.closingTabsEnum = { ALL: 0, OTHER: 1, TO_END: 2 };
+    this.closingTabsEnum = ({
+      ALL: 0,
+      OTHER: 1,
+      TO_END: 2
+    });
 
     this._visibleTabs = null;
 
-    this.mURIFixup = Components.classes[
-      "@mozilla.org/docshell/urifixup;1"
-    ].getService(Components.interfaces.nsIURIFixup);
+    this.mURIFixup = Components.classes["@mozilla.org/docshell/urifixup;1"]
+      .getService(Components.interfaces.nsIURIFixup);
 
-    this._unifiedComplete = Components.classes[
-      "@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
-    ].getService(Components.interfaces.mozIPlacesAutoComplete);
+    this._unifiedComplete = Components.classes["@mozilla.org/autocomplete/search;1?name=unifiedcomplete"]
+      .getService(Components.interfaces.mozIPlacesAutoComplete);
 
-    this.tabbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "tabbox"
-    );
+    this.tabbox = document.getAnonymousElementByAttribute(this, "anonid", "tabbox");
 
-    this.mPanelContainer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "panelcontainer"
-    );
+    this.mPanelContainer = document.getAnonymousElementByAttribute(this, "anonid", "panelcontainer");
 
     this.mCurrentTab = null;
 
@@ -79,60 +72,25 @@ class FirefoxTabbrowser extends XULElement {
 
     this._tabForBrowser = new WeakMap();
 
-    this.serializationHelper = Cc[
-      "@mozilla.org/network/serialization-helper;1"
-    ].getService(Ci.nsISerializationHelper);
+    this.serializationHelper = Cc["@mozilla.org/network/serialization-helper;1"]
+      .getService(Ci.nsISerializationHelper);
 
     this._tabSwitchID = null;
 
     this._preloadedBrowser = null;
 
     this._browserBindingProperties = [
-      "canGoBack",
-      "canGoForward",
-      "goBack",
-      "goForward",
-      "permitUnload",
-      "reload",
-      "reloadWithFlags",
-      "stop",
-      "loadURI",
-      "loadURIWithFlags",
-      "goHome",
-      "homePage",
-      "gotoIndex",
-      "currentURI",
-      "documentURI",
-      "preferences",
-      "imageDocument",
-      "isRemoteBrowser",
-      "messageManager",
-      "getTabBrowser",
-      "finder",
-      "fastFind",
-      "sessionHistory",
-      "contentTitle",
-      "characterSet",
-      "fullZoom",
-      "textZoom",
-      "webProgress",
-      "addProgressListener",
-      "removeProgressListener",
-      "audioPlaybackStarted",
-      "audioPlaybackStopped",
-      "pauseMedia",
-      "stopMedia",
-      "resumeMedia",
-      "mute",
-      "unmute",
-      "blockedPopups",
-      "lastURI",
-      "purgeSessionHistory",
-      "stopScroll",
-      "startScroll",
-      "userTypedValue",
-      "userTypedClear",
-      "mediaBlocked",
+      "canGoBack", "canGoForward", "goBack", "goForward", "permitUnload",
+      "reload", "reloadWithFlags", "stop", "loadURI", "loadURIWithFlags",
+      "goHome", "homePage", "gotoIndex", "currentURI", "documentURI",
+      "preferences", "imageDocument", "isRemoteBrowser", "messageManager",
+      "getTabBrowser", "finder", "fastFind", "sessionHistory", "contentTitle",
+      "characterSet", "fullZoom", "textZoom", "webProgress",
+      "addProgressListener", "removeProgressListener", "audioPlaybackStarted",
+      "audioPlaybackStopped", "pauseMedia", "stopMedia",
+      "resumeMedia", "mute", "unmute", "blockedPopups", "lastURI",
+      "purgeSessionHistory", "stopScroll", "startScroll",
+      "userTypedValue", "userTypedClear", "mediaBlocked",
       "didStartLoadSinceLastUserTyping"
     ];
 
@@ -145,7 +103,7 @@ class FirefoxTabbrowser extends XULElement {
     this.browsers = new Proxy([], {
       has: (target, name) => {
         if (typeof name == "string" && Number.isInteger(parseInt(name))) {
-          return name in this.tabs;
+          return (name in this.tabs);
         }
         return false;
       },
@@ -173,11 +131,7 @@ class FirefoxTabbrowser extends XULElement {
 
     this._hoverTabTimer = null;
 
-    this.mCurrentBrowser = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "initialBrowser"
-    );
+    this.mCurrentBrowser = document.getAnonymousElementByAttribute(this, "anonid", "initialBrowser");
     this.mCurrentBrowser.permanentKey = {};
 
     CustomizableUI.addListener(this);
@@ -188,9 +142,8 @@ class FirefoxTabbrowser extends XULElement {
     this.mCurrentTab = this.tabContainer.firstChild;
     const nsIEventListenerService =
       Components.interfaces.nsIEventListenerService;
-    let els = Components.classes[
-      "@mozilla.org/eventlistenerservice;1"
-    ].getService(nsIEventListenerService);
+    let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+      .getService(nsIEventListenerService);
     els.addSystemEventListener(document, "keydown", this, false);
     if (AppConstants.platform == "macosx") {
       els.addSystemEventListener(document, "keypress", this, false);
@@ -211,23 +164,14 @@ class FirefoxTabbrowser extends XULElement {
     this._autoScrollPopup = this.mCurrentBrowser._createAutoScrollPopup();
     this._autoScrollPopup.id = "autoscroller";
     this.appendChild(this._autoScrollPopup);
-    this.mCurrentBrowser.setAttribute(
-      "autoscrollpopup",
-      this._autoScrollPopup.id
-    );
+    this.mCurrentBrowser.setAttribute("autoscrollpopup", this._autoScrollPopup.id);
     this.mCurrentBrowser.droppedLinkHandler = handleDroppedLink;
 
     // Hook up the event listeners to the first browser
-    var tabListener = this.mTabProgressListener(
-      this.mCurrentTab,
-      this.mCurrentBrowser,
-      true,
-      false
-    );
+    var tabListener = this.mTabProgressListener(this.mCurrentTab, this.mCurrentBrowser, true, false);
     const nsIWebProgress = Components.interfaces.nsIWebProgress;
-    const filter = Components.classes[
-      "@mozilla.org/appshell/component/browser-status-filter;1"
-    ].createInstance(nsIWebProgress);
+    const filter = Components.classes["@mozilla.org/appshell/component/browser-status-filter;1"]
+      .createInstance(nsIWebProgress);
     filter.addProgressListener(tabListener, nsIWebProgress.NOTIFY_ALL);
     this._tabListeners.set(this.mCurrentTab, tabListener);
     this._tabFilters.set(this.mCurrentTab, filter);
@@ -235,19 +179,15 @@ class FirefoxTabbrowser extends XULElement {
 
     if (Services.prefs.getBoolPref("browser.display.use_system_colors"))
       this.style.backgroundColor = "-moz-default-background-color";
-    else if (
-      Services.prefs.getIntPref("browser.display.document_color_use") == 2
-    )
-      this.style.backgroundColor = Services.prefs.getCharPref(
-        "browser.display.background_color"
-      );
+    else if (Services.prefs.getIntPref("browser.display.document_color_use") == 2)
+      this.style.backgroundColor = Services.prefs.getCharPref("browser.display.background_color");
 
     let messageManager = window.getGroupMessageManager("browsers");
 
-    let remote = window
-      .QueryInterface(Ci.nsIInterfaceRequestor)
+    let remote = window.QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIWebNavigation)
-      .QueryInterface(Ci.nsILoadContext).useRemoteTabs;
+      .QueryInterface(Ci.nsILoadContext)
+      .useRemoteTabs;
     if (remote) {
       messageManager.addMessageListener("DOMTitleChanged", this);
       messageManager.addMessageListener("DOMWindowClose", this);
@@ -258,10 +198,8 @@ class FirefoxTabbrowser extends XULElement {
       // which does asynchronous tab switching.
       this.mPanelContainer.classList.add("tabbrowser-tabpanels");
     } else {
-      this._outerWindowIDBrowserMap.set(
-        this.mCurrentBrowser.outerWindowID,
-        this.mCurrentBrowser
-      );
+      this._outerWindowIDBrowserMap.set(this.mCurrentBrowser.outerWindowID,
+        this.mCurrentBrowser);
     }
     messageManager.addMessageListener("DOMWindowFocus", this);
     messageManager.addMessageListener("RefreshBlocker:Blocked", this);
@@ -269,172 +207,134 @@ class FirefoxTabbrowser extends XULElement {
 
     // To correctly handle keypresses for potential FindAsYouType, while
     // the tab's find bar is not yet initialized.
-    this._findAsYouType = Services.prefs.getBoolPref(
-      "accessibility.typeaheadfind"
-    );
+    this._findAsYouType = Services.prefs.getBoolPref("accessibility.typeaheadfind");
     Services.prefs.addObserver("accessibility.typeaheadfind", this);
     messageManager.addMessageListener("Findbar:Keypress", this);
 
-    XPCOMUtils.defineLazyPreferenceGetter(
-      this,
-      "animationsEnabled",
-      "toolkit.cosmeticAnimations.enabled",
-      true
-    );
-    XPCOMUtils.defineLazyPreferenceGetter(
-      this,
-      "schedulePressureDefaultCount",
-      "browser.schedulePressure.defaultCount",
-      3
-    );
-    XPCOMUtils.defineLazyPreferenceGetter(
-      this,
-      "tabWarmingEnabled",
-      "browser.tabs.remote.warmup.enabled",
-      false
-    );
-    XPCOMUtils.defineLazyPreferenceGetter(
-      this,
-      "tabWarmingMax",
-      "browser.tabs.remote.warmup.maxTabs",
-      3
-    );
-    XPCOMUtils.defineLazyPreferenceGetter(
-      this,
-      "tabWarmingUnloadDelay" /* ms */,
-      "browser.tabs.remote.warmup.unloadDelayMs",
-      2000
-    );
-    XPCOMUtils.defineLazyPreferenceGetter(
-      this,
-      "tabMinWidthPref",
-      "browser.tabs.tabMinWidth",
-      this._tabMinWidthLimit,
-      (pref, prevValue, newValue) => (this.tabMinWidth = newValue),
-      newValue => Math.max(newValue, this._tabMinWidthLimit)
+    XPCOMUtils.defineLazyPreferenceGetter(this, "animationsEnabled",
+      "toolkit.cosmeticAnimations.enabled", true);
+    XPCOMUtils.defineLazyPreferenceGetter(this, "schedulePressureDefaultCount",
+      "browser.schedulePressure.defaultCount", 3);
+    XPCOMUtils.defineLazyPreferenceGetter(this, "tabWarmingEnabled",
+      "browser.tabs.remote.warmup.enabled", false);
+    XPCOMUtils.defineLazyPreferenceGetter(this, "tabWarmingMax",
+      "browser.tabs.remote.warmup.maxTabs", 3);
+    XPCOMUtils.defineLazyPreferenceGetter(this, "tabWarmingUnloadDelay" /* ms */ ,
+      "browser.tabs.remote.warmup.unloadDelayMs", 2000);
+    XPCOMUtils.defineLazyPreferenceGetter(this, "tabMinWidthPref",
+      "browser.tabs.tabMinWidth", this._tabMinWidthLimit,
+      (pref, prevValue, newValue) => this.tabMinWidth = newValue,
+      newValue => Math.max(newValue, this._tabMinWidthLimit),
     );
 
     this.tabMinWidth = this.tabMinWidthPref;
 
-    this.addEventListener(
-      "DOMWindowClose",
-      event => {
-        if (!event.isTrusted) return;
+    this.addEventListener("DOMWindowClose", (event) => {
+      if (!event.isTrusted)
+        return;
 
-        if (this.tabs.length == 1) {
-          // We already did PermitUnload in nsGlobalWindow::Close
-          // for this tab. There are no other tabs we need to do
-          // PermitUnload for.
-          window.skipNextCanClose = true;
+      if (this.tabs.length == 1) {
+        // We already did PermitUnload in nsGlobalWindow::Close
+        // for this tab. There are no other tabs we need to do
+        // PermitUnload for.
+        window.skipNextCanClose = true;
+        return;
+      }
+
+      var tab = this._getTabForContentWindow(event.target);
+      if (tab) {
+        // Skip running PermitUnload since it already happened.
+        this.removeTab(tab, {
+          skipPermitUnload: true
+        });
+        event.preventDefault();
+      }
+    }, true);
+
+    this.addEventListener("DOMWillOpenModalDialog", (event) => {
+      if (!event.isTrusted)
+        return;
+
+      let targetIsWindow = event.target instanceof Window;
+
+      // We're about to open a modal dialog, so figure out for which tab:
+      // If this is a same-process modal dialog, then we're given its DOM
+      // window as the event's target. For remote dialogs, we're given the
+      // browser, but that's in the originalTarget and not the target,
+      // because it's across the tabbrowser's XBL boundary.
+      let tabForEvent = targetIsWindow ?
+        this._getTabForContentWindow(event.target.top) :
+        this.getTabForBrowser(event.originalTarget);
+
+      // Focus window for beforeunload dialog so it is seen but don't
+      // steal focus from other applications.
+      if (event.detail &&
+        event.detail.tabPrompt &&
+        event.detail.inPermitUnload &&
+        Services.focus.activeWindow)
+        window.focus();
+
+      // Don't need to act if the tab is already selected or if there isn't
+      // a tab for the event (e.g. for the webextensions options_ui remote
+      // browsers embedded in the "about:addons" page):
+      if (!tabForEvent || tabForEvent.selected)
+        return;
+
+      // We always switch tabs for beforeunload tab-modal prompts.
+      if (event.detail &&
+        event.detail.tabPrompt &&
+        !event.detail.inPermitUnload) {
+        let docPrincipal = targetIsWindow ? event.target.document.nodePrincipal : null;
+        // At least one of these should/will be non-null:
+        let promptPrincipal = event.detail.promptPrincipal || docPrincipal ||
+          tabForEvent.linkedBrowser.contentPrincipal;
+        // For null principals, we bail immediately and don't show the checkbox:
+        if (!promptPrincipal || promptPrincipal.isNullPrincipal) {
+          tabForEvent.setAttribute("attention", "true");
           return;
         }
 
-        var tab = this._getTabForContentWindow(event.target);
-        if (tab) {
-          // Skip running PermitUnload since it already happened.
-          this.removeTab(tab, { skipPermitUnload: true });
-          event.preventDefault();
-        }
-      },
-      true
-    );
-
-    this.addEventListener(
-      "DOMWillOpenModalDialog",
-      event => {
-        if (!event.isTrusted) return;
-
-        let targetIsWindow = event.target instanceof Window;
-
-        // We're about to open a modal dialog, so figure out for which tab:
-        // If this is a same-process modal dialog, then we're given its DOM
-        // window as the event's target. For remote dialogs, we're given the
-        // browser, but that's in the originalTarget and not the target,
-        // because it's across the tabbrowser's XBL boundary.
-        let tabForEvent = targetIsWindow
-          ? this._getTabForContentWindow(event.target.top)
-          : this.getTabForBrowser(event.originalTarget);
-
-        // Focus window for beforeunload dialog so it is seen but don't
-        // steal focus from other applications.
-        if (
-          event.detail &&
-          event.detail.tabPrompt &&
-          event.detail.inPermitUnload &&
-          Services.focus.activeWindow
-        )
-          window.focus();
-
-        // Don't need to act if the tab is already selected or if there isn't
-        // a tab for the event (e.g. for the webextensions options_ui remote
-        // browsers embedded in the "about:addons" page):
-        if (!tabForEvent || tabForEvent.selected) return;
-
-        // We always switch tabs for beforeunload tab-modal prompts.
-        if (
-          event.detail &&
-          event.detail.tabPrompt &&
-          !event.detail.inPermitUnload
-        ) {
-          let docPrincipal = targetIsWindow
-            ? event.target.document.nodePrincipal
-            : null;
-          // At least one of these should/will be non-null:
-          let promptPrincipal =
-            event.detail.promptPrincipal ||
-            docPrincipal ||
-            tabForEvent.linkedBrowser.contentPrincipal;
-          // For null principals, we bail immediately and don't show the checkbox:
-          if (!promptPrincipal || promptPrincipal.isNullPrincipal) {
+        // For non-system/expanded principals, we bail and show the checkbox
+        if (promptPrincipal.URI &&
+          !Services.scriptSecurityManager.isSystemPrincipal(promptPrincipal)) {
+          let permission = Services.perms.testPermissionFromPrincipal(promptPrincipal,
+            "focus-tab-by-prompt");
+          if (permission != Services.perms.ALLOW_ACTION) {
+            // Tell the prompt box we want to show the user a checkbox:
+            let tabPrompt = this.getTabModalPromptBox(tabForEvent.linkedBrowser);
+            tabPrompt.onNextPromptShowAllowFocusCheckboxFor(promptPrincipal);
             tabForEvent.setAttribute("attention", "true");
             return;
           }
-
-          // For non-system/expanded principals, we bail and show the checkbox
-          if (
-            promptPrincipal.URI &&
-            !Services.scriptSecurityManager.isSystemPrincipal(promptPrincipal)
-          ) {
-            let permission = Services.perms.testPermissionFromPrincipal(
-              promptPrincipal,
-              "focus-tab-by-prompt"
-            );
-            if (permission != Services.perms.ALLOW_ACTION) {
-              // Tell the prompt box we want to show the user a checkbox:
-              let tabPrompt = this.getTabModalPromptBox(
-                tabForEvent.linkedBrowser
-              );
-              tabPrompt.onNextPromptShowAllowFocusCheckboxFor(promptPrincipal);
-              tabForEvent.setAttribute("attention", "true");
-              return;
-            }
-          }
-          // ... so system and expanded principals, as well as permitted "normal"
-          // URI-based principals, always get to steal focus for the tab when prompting.
         }
+        // ... so system and expanded principals, as well as permitted "normal"
+        // URI-based principals, always get to steal focus for the tab when prompting.
+      }
 
-        // If permissions/origins dictate so, bring tab to the front.
-        this.selectedTab = tabForEvent;
-      },
-      true
-    );
+      // If permissions/origins dictate so, bring tab to the front.
+      this.selectedTab = tabForEvent;
+    }, true);
 
-    this.addEventListener("DOMTitleChanged", event => {
-      if (!event.isTrusted) return;
+    this.addEventListener("DOMTitleChanged", (event) => {
+      if (!event.isTrusted)
+        return;
 
       var contentWin = event.target.defaultView;
-      if (contentWin != contentWin.top) return;
+      if (contentWin != contentWin.top)
+        return;
 
       var tab = this._getTabForContentWindow(contentWin);
-      if (!tab || tab.hasAttribute("pending")) return;
+      if (!tab || tab.hasAttribute("pending"))
+        return;
 
       var titleChanged = this.setTabTitle(tab);
       if (titleChanged && !tab.selected && !tab.hasAttribute("busy"))
         tab.setAttribute("titlechanged", "true");
     });
 
-    this.addEventListener("oop-browser-crashed", event => {
-      if (!event.isTrusted) return;
+    this.addEventListener("oop-browser-crashed", (event) => {
+      if (!event.isTrusted)
+        return;
 
       let browser = event.originalTarget;
 
@@ -456,15 +356,10 @@ class FirefoxTabbrowser extends XULElement {
       }
 
       tab.removeAttribute("soundplaying");
-      this.setIcon(
-        tab,
-        icon,
-        browser.contentPrincipal,
-        browser.contentRequestContextID
-      );
+      this.setIcon(tab, icon, browser.contentPrincipal, browser.contentRequestContextID);
     });
 
-    this.addEventListener("DOMAudioPlaybackStarted", event => {
+    this.addEventListener("DOMAudioPlaybackStarted", (event) => {
       var tab = this.getTabFromAudioEvent(event);
       if (!tab) {
         return;
@@ -493,36 +388,28 @@ class FirefoxTabbrowser extends XULElement {
       this._tabAttrModified(tab, modifiedAttrs);
     });
 
-    this.addEventListener("DOMAudioPlaybackStopped", event => {
+    this.addEventListener("DOMAudioPlaybackStopped", (event) => {
       var tab = this.getTabFromAudioEvent(event);
       if (!tab) {
         return;
       }
 
       if (tab.hasAttribute("soundplaying")) {
-        let removalDelay = Services.prefs.getIntPref(
-          "browser.tabs.delayHidingAudioPlayingIconMS"
-        );
+        let removalDelay = Services.prefs.getIntPref("browser.tabs.delayHidingAudioPlayingIconMS");
 
-        tab.style.setProperty(
-          "--soundplaying-removal-delay",
-          `${removalDelay - 300}ms`
-        );
+        tab.style.setProperty("--soundplaying-removal-delay", `${removalDelay - 300}ms`);
         tab.setAttribute("soundplaying-scheduledremoval", "true");
         this._tabAttrModified(tab, ["soundplaying-scheduledremoval"]);
 
         tab._soundPlayingAttrRemovalTimer = setTimeout(() => {
           tab.removeAttribute("soundplaying-scheduledremoval");
           tab.removeAttribute("soundplaying");
-          this._tabAttrModified(tab, [
-            "soundplaying",
-            "soundplaying-scheduledremoval"
-          ]);
+          this._tabAttrModified(tab, ["soundplaying", "soundplaying-scheduledremoval"]);
         }, removalDelay);
       }
     });
 
-    this.addEventListener("DOMAudioPlaybackBlockStarted", event => {
+    this.addEventListener("DOMAudioPlaybackBlockStarted", (event) => {
       var tab = this.getTabFromAudioEvent(event);
       if (!tab) {
         return;
@@ -535,7 +422,7 @@ class FirefoxTabbrowser extends XULElement {
       }
     });
 
-    this.addEventListener("DOMAudioPlaybackBlockStopped", event => {
+    this.addEventListener("DOMAudioPlaybackBlockStopped", (event) => {
       var tab = this.getTabFromAudioEvent(event);
       if (!tab) {
         return;
@@ -544,13 +431,12 @@ class FirefoxTabbrowser extends XULElement {
       if (tab.hasAttribute("activemedia-blocked")) {
         tab.removeAttribute("activemedia-blocked");
         this._tabAttrModified(tab, ["activemedia-blocked"]);
-        let hist = Services.telemetry.getHistogramById(
-          "TAB_AUDIO_INDICATOR_USED"
-        );
-        hist.add(2 /* unblockByVisitingTab */);
+        let hist = Services.telemetry.getHistogramById("TAB_AUDIO_INDICATOR_USED");
+        hist.add(2 /* unblockByVisitingTab */ );
         tab.finishMediaBlockTimer();
       }
     });
+
   }
   disconnectedCallback() {
     Services.obs.removeObserver(this, "contextual-identity-updated");
@@ -560,10 +446,8 @@ class FirefoxTabbrowser extends XULElement {
     for (let tab of this.tabs) {
       let browser = tab.linkedBrowser;
       if (browser.registeredOpenURI) {
-        this._unifiedComplete.unregisterOpenPage(
-          browser.registeredOpenURI,
-          browser.getAttribute("usercontextid") || 0
-        );
+        this._unifiedComplete.unregisterOpenPage(browser.registeredOpenURI,
+          browser.getAttribute("usercontextid") || 0);
         delete browser.registeredOpenURI;
       }
 
@@ -583,9 +467,8 @@ class FirefoxTabbrowser extends XULElement {
     }
     const nsIEventListenerService =
       Components.interfaces.nsIEventListenerService;
-    let els = Components.classes[
-      "@mozilla.org/eventlistenerservice;1"
-    ].getService(nsIEventListenerService);
+    let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+      .getService(nsIEventListenerService);
     els.removeSystemEventListener(document, "keydown", this, false);
     if (AppConstants.platform == "macosx") {
       els.removeSystemEventListener(document, "keypress", this, false);
@@ -612,16 +495,15 @@ class FirefoxTabbrowser extends XULElement {
 
   get visibleTabs() {
     if (!this._visibleTabs)
-      this._visibleTabs = Array.filter(
-        this.tabs,
-        tab => !tab.hidden && !tab.closing
-      );
+      this._visibleTabs = Array.filter(this.tabs,
+        tab => !tab.hidden && !tab.closing);
     return this._visibleTabs;
   }
 
   get _numPinnedTabs() {
     for (var i = 0; i < this.tabs.length; i++) {
-      if (!this.tabs[i].pinned) break;
+      if (!this.tabs[i].pinned)
+        break;
     }
     return i;
   }
@@ -632,13 +514,12 @@ class FirefoxTabbrowser extends XULElement {
     }
     let stack = this.mCurrentBrowser.parentNode;
     // Create an anchor for the popup
-    const NS_XUL =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    const NS_XUL = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     let popupAnchor = document.createElementNS(NS_XUL, "hbox");
     popupAnchor.className = "popup-anchor";
     popupAnchor.hidden = true;
     stack.appendChild(popupAnchor);
-    return (this.mCurrentTab._popupAnchor = popupAnchor);
+    return this.mCurrentTab._popupAnchor = popupAnchor;
   }
 
   set selectedTab(val) {
@@ -680,31 +561,31 @@ class FirefoxTabbrowser extends XULElement {
   }
 
   get finder() {
-    return this.mCurrentBrowser.finder;
+    return this.mCurrentBrowser.finder
   }
 
   get docShell() {
-    return this.mCurrentBrowser.docShell;
+    return this.mCurrentBrowser.docShell
   }
 
   get webNavigation() {
-    return this.mCurrentBrowser.webNavigation;
+    return this.mCurrentBrowser.webNavigation
   }
 
   get webBrowserFind() {
-    return this.mCurrentBrowser.webBrowserFind;
+    return this.mCurrentBrowser.webBrowserFind
   }
 
   get webProgress() {
-    return this.mCurrentBrowser.webProgress;
+    return this.mCurrentBrowser.webProgress
   }
 
   get contentWindow() {
-    return this.mCurrentBrowser.contentWindow;
+    return this.mCurrentBrowser.contentWindow
   }
 
   get contentWindowAsCPOW() {
-    return this.mCurrentBrowser.contentWindowAsCPOW;
+    return this.mCurrentBrowser.contentWindowAsCPOW
   }
 
   get sessionHistory() {
@@ -756,7 +637,7 @@ class FirefoxTabbrowser extends XULElement {
   }
 
   set userTypedValue(val) {
-    return (this.mCurrentBrowser.userTypedValue = val);
+    return this.mCurrentBrowser.userTypedValue = val;
   }
 
   get userTypedValue() {
@@ -771,9 +652,11 @@ class FirefoxTabbrowser extends XULElement {
     return (aTab || this.selectedTab)._findBar != undefined;
   }
   getFindBar(aTab) {
-    if (!aTab) aTab = this.selectedTab;
+    if (!aTab)
+      aTab = this.selectedTab;
 
-    if (aTab._findBar) return aTab._findBar;
+    if (aTab._findBar)
+      return aTab._findBar;
 
     let findBar = document.createElementNS(this.namespaceURI, "findbar");
     let browser = this.getBrowserForTab(aTab);
@@ -796,10 +679,7 @@ class FirefoxTabbrowser extends XULElement {
   }
   getStatusPanel() {
     if (!this._statusPanel) {
-      this._statusPanel = document.createElementNS(
-        this.namespaceURI,
-        "statuspanel"
-      );
+      this._statusPanel = document.createElementNS(this.namespaceURI, "statuspanel");
       this._statusPanel.setAttribute("inactive", "true");
       this._statusPanel.setAttribute("layer", "true");
       this._appendStatusPanel();
@@ -810,16 +690,15 @@ class FirefoxTabbrowser extends XULElement {
     if (this._statusPanel) {
       let browser = this.selectedBrowser;
       let browserContainer = this.getBrowserContainer(browser);
-      browserContainer.insertBefore(
-        this._statusPanel,
-        browser.parentNode.nextSibling
-      );
+      browserContainer.insertBefore(this._statusPanel, browser.parentNode.nextSibling);
     }
   }
   pinTab(aTab) {
-    if (aTab.pinned) return;
+    if (aTab.pinned)
+      return;
 
-    if (aTab.hidden) this.showTab(aTab);
+    if (aTab.hidden)
+      this.showTab(aTab);
 
     this.moveTabTo(aTab, this._numPinnedTabs);
     aTab.setAttribute("pinned", "true");
@@ -827,16 +706,17 @@ class FirefoxTabbrowser extends XULElement {
     this.tabContainer._positionPinnedTabs();
     this.tabContainer._updateCloseButtons();
 
-    this.getBrowserForTab(
-      aTab
-    ).messageManager.sendAsyncMessage("Browser:AppTab", { isAppTab: true });
+    this.getBrowserForTab(aTab).messageManager.sendAsyncMessage("Browser:AppTab", {
+      isAppTab: true
+    });
 
     let event = document.createEvent("Events");
     event.initEvent("TabPinned", true, false);
     aTab.dispatchEvent(event);
   }
   unpinTab(aTab) {
-    if (!aTab.pinned) return;
+    if (!aTab.pinned)
+      return;
 
     this.moveTabTo(aTab, this._numPinnedTabs - 1);
     aTab.removeAttribute("pinned");
@@ -845,9 +725,9 @@ class FirefoxTabbrowser extends XULElement {
     this.tabContainer._positionPinnedTabs();
     this.tabContainer._updateCloseButtons();
 
-    this.getBrowserForTab(
-      aTab
-    ).messageManager.sendAsyncMessage("Browser:AppTab", { isAppTab: false });
+    this.getBrowserForTab(aTab).messageManager.sendAsyncMessage("Browser:AppTab", {
+      isAppTab: false
+    });
 
     let event = document.createEvent("Events");
     event.initEvent("TabUnpinned", true, false);
@@ -871,29 +751,25 @@ class FirefoxTabbrowser extends XULElement {
         return;
       }
 
-      const animations = Array.from(aTab.parentNode.getElementsByTagName("tab"))
+      const animations =
+        Array.from(aTab.parentNode.getElementsByTagName("tab"))
         .map(tab => {
-          const throbber = document.getAnonymousElementByAttribute(
-            tab,
-            "anonid",
-            "tab-throbber"
-          );
-          return throbber ? throbber.getAnimations({ subtree: true }) : [];
+          const throbber =
+            document.getAnonymousElementByAttribute(tab, "anonid", "tab-throbber");
+          return throbber ? throbber.getAnimations({
+            subtree: true
+          }) : [];
         })
         .reduce((a, b) => a.concat(b))
-        .filter(
-          anim =>
-            anim instanceof CSSAnimation &&
-            (anim.animationName === "tab-throbber-animation" ||
-              anim.animationName === "tab-throbber-animation-rtl") &&
-            (anim.playState === "running" || anim.playState === "pending")
-        );
+        .filter(anim =>
+          anim instanceof CSSAnimation &&
+          (anim.animationName === "tab-throbber-animation" ||
+            anim.animationName === "tab-throbber-animation-rtl") &&
+          (anim.playState === "running" || anim.playState === "pending"));
 
       // Synchronize with the oldest running animation, if any.
       const firstStartTime = Math.min(
-        ...animations.map(
-          anim => (anim.startTime === null ? Infinity : anim.startTime)
-        )
+        ...animations.map(anim => anim.startTime === null ? Infinity : anim.startTime)
       );
       if (firstStartTime === Infinity) {
         return;
@@ -936,17 +812,18 @@ class FirefoxTabbrowser extends XULElement {
     // directly from the content window to the browser without looping
     // over all browsers.
     if (!gMultiProcessBrowser) {
-      let browser = aWindow
-        .QueryInterface(Ci.nsIInterfaceRequestor)
+      let browser = aWindow.QueryInterface(Ci.nsIInterfaceRequestor)
         .getInterface(Ci.nsIWebNavigation)
-        .QueryInterface(Ci.nsIDocShell).chromeEventHandler;
+        .QueryInterface(Ci.nsIDocShell)
+        .chromeEventHandler;
       return this.getTabForBrowser(browser);
     }
 
     for (let i = 0; i < this.browsers.length; i++) {
       // NB: We use contentWindowAsCPOW so that this code works both
       // for remote browsers as well. aWindow may be a CPOW.
-      if (this.browsers[i].contentWindowAsCPOW == aWindow) return this.tabs[i];
+      if (this.browsers[i].contentWindowAsCPOW == aWindow)
+        return this.tabs[i];
     }
     return null;
   }
@@ -963,17 +840,15 @@ class FirefoxTabbrowser extends XULElement {
     return (aBrowser || this.mCurrentBrowser).parentNode.parentNode;
   }
   getTabModalPromptBox(aBrowser) {
-    let browser = aBrowser || this.mCurrentBrowser;
+    let browser = (aBrowser || this.mCurrentBrowser);
     if (!browser.tabModalPromptBox) {
       browser.tabModalPromptBox = new TabModalPromptBox(browser);
     }
     return browser.tabModalPromptBox;
   }
   getTabFromAudioEvent(aEvent) {
-    if (
-      !Services.prefs.getBoolPref("browser.tabs.showAudioPlayingIcon") ||
-      !aEvent.isTrusted
-    ) {
+    if (!Services.prefs.getBoolPref("browser.tabs.showAudioPlayingIcon") ||
+      !aEvent.isTrusted) {
       return null;
     }
 
@@ -981,20 +856,15 @@ class FirefoxTabbrowser extends XULElement {
     var tab = this.getTabForBrowser(browser);
     return tab;
   }
-  _callProgressListeners(
-    aBrowser,
-    aMethod,
-    aArguments,
-    aCallGlobalListeners,
-    aCallTabsListeners
-  ) {
+  _callProgressListeners(aBrowser, aMethod, aArguments, aCallGlobalListeners, aCallTabsListeners) {
     var rv = true;
 
     function callListeners(listeners, args) {
       for (let p of listeners) {
         if (aMethod in p) {
           try {
-            if (!p[aMethod].apply(p, args)) rv = false;
+            if (!p[aMethod].apply(p, args))
+              rv = false;
           } catch (e) {
             // don't inhibit other listeners
             Components.utils.reportError(e);
@@ -1003,9 +873,11 @@ class FirefoxTabbrowser extends XULElement {
       }
     }
 
-    if (!aBrowser) aBrowser = this.mCurrentBrowser;
+    if (!aBrowser)
+      aBrowser = this.mCurrentBrowser;
 
-    if (aCallGlobalListeners != false && aBrowser == this.mCurrentBrowser) {
+    if (aCallGlobalListeners != false &&
+      aBrowser == this.mCurrentBrowser) {
       callListeners(this.mProgressListeners, aArguments);
     }
 
@@ -1029,29 +901,21 @@ class FirefoxTabbrowser extends XULElement {
 
     try {
       // Use the passed in resolvedURI if we have one
-      const resolvedURI =
-        aResolvedURI ||
-        Services.io.newChannelFromURI2(
-          aURI,
-          null, // loadingNode
-          Services.scriptSecurityManager.getSystemPrincipal(), // loadingPrincipal
-          null, // triggeringPrincipal
-          Ci.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_DATA_IS_NULL, // securityFlags
-          Ci.nsIContentPolicy.TYPE_OTHER // contentPolicyType
-        ).URI;
+      const resolvedURI = aResolvedURI || Services.io.newChannelFromURI2(
+        aURI,
+        null, // loadingNode
+        Services.scriptSecurityManager.getSystemPrincipal(), // loadingPrincipal
+        null, // triggeringPrincipal
+        Ci.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_DATA_IS_NULL, // securityFlags
+        Ci.nsIContentPolicy.TYPE_OTHER // contentPolicyType
+      ).URI;
       return resolvedURI.schemeIs("jar") || resolvedURI.schemeIs("file");
     } catch (ex) {
       // aURI might be invalid.
       return false;
     }
   }
-  mTabProgressListener(
-    aTab,
-    aBrowser,
-    aStartsBlank,
-    aWasPreloadedBrowser,
-    aOrigStateFlags
-  ) {
+  mTabProgressListener(aTab, aBrowser, aStartsBlank, aWasPreloadedBrowser, aOrigStateFlags) {
     let stateFlags = aOrigStateFlags || 0;
     // Initialize mStateFlags to non-zero e.g. when creating a progress
     // listener for preloaded browsers as there was no progress listener
@@ -1059,12 +923,11 @@ class FirefoxTabbrowser extends XULElement {
     // quite finish loading yet, mStateFlags will very soon be overridden
     // with the correct value and end up at STATE_STOP again.
     if (aWasPreloadedBrowser) {
-      stateFlags =
-        Ci.nsIWebProgressListener.STATE_STOP |
+      stateFlags = Ci.nsIWebProgressListener.STATE_STOP |
         Ci.nsIWebProgressListener.STATE_IS_REQUEST;
     }
 
-    return {
+    return ({
       mTabBrowser: this,
       mTab: aTab,
       mBrowser: aBrowser,
@@ -1087,21 +950,17 @@ class FirefoxTabbrowser extends XULElement {
 
       _callProgressListeners() {
         Array.unshift(arguments, this.mBrowser);
-        return this.mTabBrowser._callProgressListeners.apply(
-          this.mTabBrowser,
-          arguments
-        );
+        return this.mTabBrowser._callProgressListeners.apply(this.mTabBrowser, arguments);
       },
 
       _shouldShowProgress(aRequest) {
-        if (this.mBlank) return false;
+        if (this.mBlank)
+          return false;
 
         // Don't show progress indicators in tabs for about: URIs
         // pointing to local resources.
-        if (
-          aRequest instanceof Ci.nsIChannel &&
-          this.mTabBrowser._isLocalAboutURI(aRequest.originalURI, aRequest.URI)
-        ) {
+        if ((aRequest instanceof Ci.nsIChannel) &&
+          this.mTabBrowser._isLocalAboutURI(aRequest.originalURI, aRequest.URI)) {
           return false;
         }
 
@@ -1115,13 +974,10 @@ class FirefoxTabbrowser extends XULElement {
 
         // If the state has STATE_STOP, and no requests were in flight, then this
         // must be the initial "stop" for the initial about:blank document.
-        const nsIWebProgressListener =
-          Components.interfaces.nsIWebProgressListener;
-        if (
-          aStateFlags & nsIWebProgressListener.STATE_STOP &&
+        const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
+        if (aStateFlags & nsIWebProgressListener.STATE_STOP &&
           this.mRequestCount == 0 &&
-          !aLocation
-        ) {
+          !aLocation) {
           return true;
         }
 
@@ -1129,57 +985,37 @@ class FirefoxTabbrowser extends XULElement {
         return location == "about:blank";
       },
 
-      onProgressChange(
-        aWebProgress,
-        aRequest,
-        aCurSelfProgress,
-        aMaxSelfProgress,
-        aCurTotalProgress,
-        aMaxTotalProgress
-      ) {
-        this.mTotalProgress = aMaxTotalProgress
-          ? aCurTotalProgress / aMaxTotalProgress
-          : 0;
+      onProgressChange(aWebProgress, aRequest,
+        aCurSelfProgress, aMaxSelfProgress,
+        aCurTotalProgress, aMaxTotalProgress) {
+        this.mTotalProgress = aMaxTotalProgress ? aCurTotalProgress / aMaxTotalProgress : 0;
 
-        if (!this._shouldShowProgress(aRequest)) return;
+        if (!this._shouldShowProgress(aRequest))
+          return;
 
         if (this.mTotalProgress && this.mTab.hasAttribute("busy"))
           this.mTab.setAttribute("progress", "true");
 
-        this._callProgressListeners("onProgressChange", [
-          aWebProgress,
-          aRequest,
-          aCurSelfProgress,
-          aMaxSelfProgress,
-          aCurTotalProgress,
-          aMaxTotalProgress
+        this._callProgressListeners("onProgressChange", [aWebProgress, aRequest,
+          aCurSelfProgress, aMaxSelfProgress,
+          aCurTotalProgress, aMaxTotalProgress
         ]);
       },
 
-      onProgressChange64(
-        aWebProgress,
-        aRequest,
-        aCurSelfProgress,
-        aMaxSelfProgress,
-        aCurTotalProgress,
-        aMaxTotalProgress
-      ) {
-        return this.onProgressChange(
-          aWebProgress,
-          aRequest,
-          aCurSelfProgress,
-          aMaxSelfProgress,
-          aCurTotalProgress,
-          aMaxTotalProgress
-        );
+      onProgressChange64(aWebProgress, aRequest,
+        aCurSelfProgress, aMaxSelfProgress,
+        aCurTotalProgress, aMaxTotalProgress) {
+        return this.onProgressChange(aWebProgress, aRequest,
+          aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress,
+          aMaxTotalProgress);
       },
 
       /* eslint-disable complexity */
       onStateChange(aWebProgress, aRequest, aStateFlags, aStatus) {
-        if (!aRequest) return;
+        if (!aRequest)
+          return;
 
-        const nsIWebProgressListener =
-          Components.interfaces.nsIWebProgressListener;
+        const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
         const nsIChannel = Components.interfaces.nsIChannel;
         let location, originalLocation;
         try {
@@ -1188,22 +1024,17 @@ class FirefoxTabbrowser extends XULElement {
           originalLocation = aRequest.originalURI;
         } catch (ex) {}
 
-        let ignoreBlank = this._isForInitialAboutBlank(
-          aWebProgress,
-          aStateFlags,
-          location
-        );
+        let ignoreBlank = this._isForInitialAboutBlank(aWebProgress, aStateFlags,
+          location);
 
         // If we were ignoring some messages about the initial about:blank, and we
         // got the STATE_STOP for it, we'll want to pay attention to those messages
         // from here forward. Similarly, if we conclude that this state change
         // is one that we shouldn't be ignoring, then stop ignoring.
-        if (
-          (ignoreBlank &&
+        if ((ignoreBlank &&
             aStateFlags & nsIWebProgressListener.STATE_STOP &&
             aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK) ||
-          (!ignoreBlank && this.mBlank)
-        ) {
+          !ignoreBlank && this.mBlank) {
           this.mBlank = false;
         }
 
@@ -1221,25 +1052,16 @@ class FirefoxTabbrowser extends XULElement {
           this.mRequestCount = 0;
         }
 
-        if (
-          aStateFlags & nsIWebProgressListener.STATE_START &&
-          aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
-        ) {
+        if (aStateFlags & nsIWebProgressListener.STATE_START &&
+          aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK) {
           if (aWebProgress.isTopLevel) {
             // Need to use originalLocation rather than location because things
             // like about:home and about:privatebrowsing arrive with nsIRequest
             // pointing to their resolved jar: or file: URIs.
-            if (
-              !(
-                originalLocation &&
-                gInitialPages.includes(originalLocation.spec) &&
+            if (!(originalLocation && gInitialPages.includes(originalLocation.spec) &&
                 originalLocation != "about:blank" &&
-                this.mBrowser.initialPageLoadedFromURLBar !=
-                  originalLocation.spec &&
-                this.mBrowser.currentURI &&
-                this.mBrowser.currentURI.spec == "about:blank"
-              )
-            ) {
+                this.mBrowser.initialPageLoadedFromURLBar != originalLocation.spec &&
+                this.mBrowser.currentURI && this.mBrowser.currentURI.spec == "about:blank")) {
               // Indicating that we started a load will allow the location
               // bar to be cleared when the load finishes.
               // In order to not overwrite user-typed content, we avoid it
@@ -1259,11 +1081,8 @@ class FirefoxTabbrowser extends XULElement {
           }
 
           if (this._shouldShowProgress(aRequest)) {
-            if (
-              !(aStateFlags & nsIWebProgressListener.STATE_RESTORING) &&
-              aWebProgress &&
-              aWebProgress.isTopLevel
-            ) {
+            if (!(aStateFlags & nsIWebProgressListener.STATE_RESTORING) &&
+              aWebProgress && aWebProgress.isTopLevel) {
               this.mTab.setAttribute("busy", "true");
               this.mTab._notselectedsinceload = !this.mTab.selected;
               SchedulePressure.startMonitoring(window, {
@@ -1271,18 +1090,12 @@ class FirefoxTabbrowser extends XULElement {
                   // Only switch back to the SVG loading indicator after getting
                   // three consecutive low pressure callbacks. Used to prevent
                   // switching quickly between the SVG and APNG loading indicators.
-                  gBrowser.tabContainer._schedulePressureCount =
-                    gBrowser.schedulePressureDefaultCount;
-                  gBrowser.tabContainer.setAttribute(
-                    "schedulepressure",
-                    "true"
-                  );
+                  gBrowser.tabContainer._schedulePressureCount = gBrowser.schedulePressureDefaultCount;
+                  gBrowser.tabContainer.setAttribute("schedulepressure", "true");
                 },
                 lowPressureFn() {
-                  if (
-                    !gBrowser.tabContainer._schedulePressureCount ||
-                    --gBrowser.tabContainer._schedulePressureCount <= 0
-                  ) {
+                  if (!gBrowser.tabContainer._schedulePressureCount ||
+                    --gBrowser.tabContainer._schedulePressureCount <= 0) {
                     gBrowser.tabContainer.removeAttribute("schedulepressure");
                   }
 
@@ -1295,8 +1108,10 @@ class FirefoxTabbrowser extends XULElement {
                     SchedulePressure.stopMonitoring(window);
                     continueMonitoring = false;
                   }
-                  return { continueMonitoring };
-                }
+                  return {
+                    continueMonitoring
+                  };
+                },
               });
               this.mTabBrowser.syncThrobberAnimations(this.mTab);
             }
@@ -1305,10 +1120,9 @@ class FirefoxTabbrowser extends XULElement {
               this.mTabBrowser.mIsBusy = true;
             }
           }
-        } else if (
-          aStateFlags & nsIWebProgressListener.STATE_STOP &&
-          aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
-        ) {
+        } else if (aStateFlags & nsIWebProgressListener.STATE_STOP &&
+          aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK) {
+
           if (this.mTab.hasAttribute("busy")) {
             this.mTab.removeAttribute("busy");
             if (!document.querySelector(".tabbrowser-tab[busy]")) {
@@ -1318,13 +1132,10 @@ class FirefoxTabbrowser extends XULElement {
 
             // Only animate the "burst" indicating the page has loaded if
             // the top-level page is the one that finished loading.
-            if (
-              aWebProgress.isTopLevel &&
-              !aWebProgress.isLoadingDocument &&
+            if (aWebProgress.isTopLevel && !aWebProgress.isLoadingDocument &&
               Components.isSuccessCode(aStatus) &&
               !this.mTabBrowser.tabAnimationsInProgress &&
-              Services.prefs.getBoolPref("toolkit.cosmeticAnimations.enabled")
-            ) {
+              Services.prefs.getBoolPref("toolkit.cosmeticAnimations.enabled")) {
               if (this.mTab._notselectedsinceload) {
                 this.mTab.setAttribute("notselectedsinceload", "true");
               } else {
@@ -1335,7 +1146,8 @@ class FirefoxTabbrowser extends XULElement {
             }
 
             this.mTabBrowser._tabAttrModified(this.mTab, ["busy"]);
-            if (!this.mTab.selected) this.mTab.setAttribute("unread", "true");
+            if (!this.mTab.selected)
+              this.mTab.setAttribute("unread", "true");
           }
           this.mTab.removeAttribute("progress");
 
@@ -1361,8 +1173,7 @@ class FirefoxTabbrowser extends XULElement {
               // Don't switch to the default icon on about:home or about:newtab,
               // since these pages get their favicon set in browser code to
               // improve perceived performance.
-              let isNewTab =
-                originalLocation &&
+              let isNewTab = originalLocation &&
                 (originalLocation.spec == "about:newtab" ||
                   originalLocation.spec == "about:privatebrowsing" ||
                   originalLocation.spec == "about:home");
@@ -1373,38 +1184,26 @@ class FirefoxTabbrowser extends XULElement {
           }
 
           // For keyword URIs clear the user typed value since they will be changed into real URIs
-          if (location.scheme == "keyword") this.mBrowser.userTypedValue = null;
+          if (location.scheme == "keyword")
+            this.mBrowser.userTypedValue = null;
 
-          if (this.mTab.selected) this.mTabBrowser.mIsBusy = false;
+          if (this.mTab.selected)
+            this.mTabBrowser.mIsBusy = false;
         }
 
         if (ignoreBlank) {
-          this._callProgressListeners(
-            "onUpdateCurrentBrowser",
-            [aStateFlags, aStatus, "", 0],
-            true,
-            false
-          );
+          this._callProgressListeners("onUpdateCurrentBrowser", [aStateFlags, aStatus, "", 0],
+            true, false);
         } else {
-          this._callProgressListeners(
-            "onStateChange",
-            [aWebProgress, aRequest, aStateFlags, aStatus],
-            true,
-            false
-          );
+          this._callProgressListeners("onStateChange", [aWebProgress, aRequest, aStateFlags, aStatus],
+            true, false);
         }
 
-        this._callProgressListeners(
-          "onStateChange",
-          [aWebProgress, aRequest, aStateFlags, aStatus],
-          false
-        );
+        this._callProgressListeners("onStateChange", [aWebProgress, aRequest, aStateFlags, aStatus],
+          false);
 
-        if (
-          aStateFlags &
-          (nsIWebProgressListener.STATE_START |
-            nsIWebProgressListener.STATE_STOP)
-        ) {
+        if (aStateFlags & (nsIWebProgressListener.STATE_START |
+            nsIWebProgressListener.STATE_STOP)) {
           // reset cached temporary values at beginning and end
           this.mMessage = "";
           this.mTotalProgress = 0;
@@ -1414,15 +1213,14 @@ class FirefoxTabbrowser extends XULElement {
       },
       /* eslint-enable complexity */
 
-      onLocationChange(aWebProgress, aRequest, aLocation, aFlags) {
+      onLocationChange(aWebProgress, aRequest, aLocation,
+        aFlags) {
         // OnLocationChange is called for both the top-level content
         // and the subframes.
         let topLevel = aWebProgress.isTopLevel;
 
         if (topLevel) {
-          let isSameDocument = !!(
-            aFlags & Ci.nsIWebProgressListener.LOCATION_CHANGE_SAME_DOCUMENT
-          );
+          let isSameDocument = !!(aFlags & Ci.nsIWebProgressListener.LOCATION_CHANGE_SAME_DOCUMENT);
           // We need to clear the typed value
           // if the document failed to load, to make sure the urlbar reflects the
           // failed URI (particularly for SSL errors). However, don't clear the value
@@ -1430,12 +1228,10 @@ class FirefoxTabbrowser extends XULElement {
           // loss of urlbar contents for invalid URI errors (see bug 867957).
           // Another reason to clear the userTypedValue is if this was an anchor
           // navigation initiated by the user.
-          if (
-            this.mBrowser.didStartLoadSinceLastUserTyping() ||
-            (aFlags & Ci.nsIWebProgressListener.LOCATION_CHANGE_ERROR_PAGE &&
+          if (this.mBrowser.didStartLoadSinceLastUserTyping() ||
+            ((aFlags & Ci.nsIWebProgressListener.LOCATION_CHANGE_ERROR_PAGE) &&
               aLocation.spec != "about:blank") ||
-            (isSameDocument && this.mBrowser.inLoadURI)
-          ) {
+            (isSameDocument && this.mBrowser.inLoadURI)) {
             this.mBrowser.userTypedValue = null;
           }
 
@@ -1445,10 +1241,8 @@ class FirefoxTabbrowser extends XULElement {
           // isn't any (STATE_IS_NETWORK & STATE_STOP) state to cause busy
           // attribute being removed. In this case we should remove the
           // attribute here.
-          if (
-            aFlags & Ci.nsIWebProgressListener.LOCATION_CHANGE_ERROR_PAGE &&
-            this.mTab.hasAttribute("busy")
-          ) {
+          if ((aFlags & Ci.nsIWebProgressListener.LOCATION_CHANGE_ERROR_PAGE) &&
+            this.mTab.hasAttribute("busy")) {
             this.mTab.removeAttribute("busy");
             this.mTabBrowser._tabAttrModified(this.mTab, ["busy"]);
           }
@@ -1482,42 +1276,32 @@ class FirefoxTabbrowser extends XULElement {
           // though we're pointed at an about:blank. Also don't clear it
           // if onLocationChange was triggered by a pushState or a
           // replaceState (bug 550565) or a hash change (bug 408415).
-          if (
-            !this.mTab.hasAttribute("pending") &&
+          if (!this.mTab.hasAttribute("pending") &&
             aWebProgress.isLoadingDocument &&
-            !isSameDocument
-          ) {
+            !isSameDocument) {
             this.mBrowser.mIconURL = null;
           }
 
           let userContextId = this.mBrowser.getAttribute("usercontextid") || 0;
           if (this.mBrowser.registeredOpenURI) {
-            this.mTabBrowser._unifiedComplete.unregisterOpenPage(
-              this.mBrowser.registeredOpenURI,
-              userContextId
-            );
+            this.mTabBrowser._unifiedComplete
+              .unregisterOpenPage(this.mBrowser.registeredOpenURI,
+                userContextId);
             delete this.mBrowser.registeredOpenURI;
           }
           // Tabs in private windows aren't registered as "Open" so
           // that they don't appear as switch-to-tab candidates.
-          if (
-            !isBlankPageURL(aLocation.spec) &&
+          if (!isBlankPageURL(aLocation.spec) &&
             (!PrivateBrowsingUtils.isWindowPrivate(window) ||
-              PrivateBrowsingUtils.permanentPrivateBrowsing)
-          ) {
-            this.mTabBrowser._unifiedComplete.registerOpenPage(
-              aLocation,
-              userContextId
-            );
+              PrivateBrowsingUtils.permanentPrivateBrowsing)) {
+            this.mTabBrowser._unifiedComplete
+              .registerOpenPage(aLocation, userContextId);
             this.mBrowser.registeredOpenURI = aLocation;
           }
         }
 
         if (!this.mBlank) {
-          this._callProgressListeners("onLocationChange", [
-            aWebProgress,
-            aRequest,
-            aLocation,
+          this._callProgressListeners("onLocationChange", [aWebProgress, aRequest, aLocation,
             aFlags
           ]);
         }
@@ -1529,58 +1313,38 @@ class FirefoxTabbrowser extends XULElement {
       },
 
       onStatusChange(aWebProgress, aRequest, aStatus, aMessage) {
-        if (this.mBlank) return;
+        if (this.mBlank)
+          return;
 
-        this._callProgressListeners("onStatusChange", [
-          aWebProgress,
-          aRequest,
-          aStatus,
-          aMessage
-        ]);
+        this._callProgressListeners("onStatusChange", [aWebProgress, aRequest, aStatus, aMessage]);
 
         this.mMessage = aMessage;
       },
 
       onSecurityChange(aWebProgress, aRequest, aState) {
-        this._callProgressListeners("onSecurityChange", [
-          aWebProgress,
-          aRequest,
-          aState
-        ]);
+        this._callProgressListeners("onSecurityChange", [aWebProgress, aRequest, aState]);
       },
 
       onRefreshAttempted(aWebProgress, aURI, aDelay, aSameURI) {
-        return this._callProgressListeners("onRefreshAttempted", [
-          aWebProgress,
-          aURI,
-          aDelay,
-          aSameURI
-        ]);
+        return this._callProgressListeners("onRefreshAttempted", [aWebProgress, aURI, aDelay, aSameURI]);
       },
 
       QueryInterface(aIID) {
-        if (
-          aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+        if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
           aIID.equals(Components.interfaces.nsIWebProgressListener2) ||
           aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-          aIID.equals(Components.interfaces.nsISupports)
-        )
+          aIID.equals(Components.interfaces.nsISupports))
           return this;
         throw Components.results.NS_NOINTERFACE;
       }
-    };
+    });
   }
   storeIcon(aBrowser, aURI, aLoadingPrincipal, aRequestContextID) {
     try {
       if (!(aURI instanceof Ci.nsIURI)) {
         aURI = makeURI(aURI);
       }
-      PlacesUIUtils.loadFavicon(
-        aBrowser,
-        aLoadingPrincipal,
-        aURI,
-        aRequestContextID
-      );
+      PlacesUIUtils.loadFavicon(aBrowser, aLoadingPrincipal, aURI, aRequestContextID);
     } catch (ex) {
       Components.utils.reportError(ex);
     }
@@ -1588,20 +1352,16 @@ class FirefoxTabbrowser extends XULElement {
   setIcon(aTab, aURI, aLoadingPrincipal, aRequestContextID) {
     let browser = this.getBrowserForTab(aTab);
     browser.mIconURL = aURI instanceof Ci.nsIURI ? aURI.spec : aURI;
-    let loadingPrincipal =
-      aLoadingPrincipal || Services.scriptSecurityManager.getSystemPrincipal();
+    let loadingPrincipal = aLoadingPrincipal ||
+      Services.scriptSecurityManager.getSystemPrincipal();
     let requestContextID = aRequestContextID || 0;
     let sizedIconUrl = browser.mIconURL || "";
     if (sizedIconUrl != aTab.getAttribute("image")) {
       if (sizedIconUrl) {
-        if (
-          !browser.mIconLoadingPrincipal ||
-          !browser.mIconLoadingPrincipal.equals(loadingPrincipal)
-        ) {
-          aTab.setAttribute(
-            "iconloadingprincipal",
-            this.serializationHelper.serializeToString(loadingPrincipal)
-          );
+        if (!browser.mIconLoadingPrincipal ||
+          !browser.mIconLoadingPrincipal.equals(loadingPrincipal)) {
+          aTab.setAttribute("iconloadingprincipal",
+            this.serializationHelper.serializeToString(loadingPrincipal));
           aTab.setAttribute("requestcontextid", requestContextID);
           browser.mIconLoadingPrincipal = loadingPrincipal;
         }
@@ -1614,9 +1374,7 @@ class FirefoxTabbrowser extends XULElement {
       this._tabAttrModified(aTab, ["image"]);
     }
 
-    this._callProgressListeners(browser, "onLinkIconAvailable", [
-      browser.mIconURL
-    ]);
+    this._callProgressListeners(browser, "onLinkIconAvailable", [browser.mIconURL]);
   }
   getIcon(aTab) {
     let browser = aTab ? this.getBrowserForTab(aTab) : this.selectedBrowser;
@@ -1633,13 +1391,10 @@ class FirefoxTabbrowser extends XULElement {
     }
   }
   shouldLoadFavIcon(aURI) {
-    return (
-      aURI &&
+    return (aURI &&
       Services.prefs.getBoolPref("browser.chrome.site_icons") &&
       Services.prefs.getBoolPref("browser.chrome.favicons") &&
-      "schemeIs" in aURI &&
-      (aURI.schemeIs("http") || aURI.schemeIs("https"))
-    );
+      ("schemeIs" in aURI) && (aURI.schemeIs("http") || aURI.schemeIs("https")));
   }
   useDefaultIcon(aTab) {
     let browser = this.getBrowserForTab(aTab);
@@ -1650,13 +1405,9 @@ class FirefoxTabbrowser extends XULElement {
 
     if (browser.imageDocument) {
       if (Services.prefs.getBoolPref("browser.chrome.site_icons")) {
-        let sz = Services.prefs.getIntPref(
-          "browser.chrome.image_icons.max_size"
-        );
-        if (
-          browser.imageDocument.width <= sz &&
-          browser.imageDocument.height <= sz
-        ) {
+        let sz = Services.prefs.getIntPref("browser.chrome.image_icons.max_size");
+        if (browser.imageDocument.width <= sz &&
+          browser.imageDocument.height <= sz) {
           // Don't try to store the icon in Places, regardless it would
           // be skipped (see Bug 403651).
           icon = browser.currentURI;
@@ -1677,7 +1428,8 @@ class FirefoxTabbrowser extends XULElement {
     this.setIcon(aTab, icon, loadingPrincipal, requestContextID);
   }
   isFailedIcon(aURI) {
-    if (!(aURI instanceof Ci.nsIURI)) aURI = makeURI(aURI);
+    if (!(aURI instanceof Ci.nsIURI))
+      aURI = makeURI(aURI);
     return PlacesUtils.favicons.isFailedFavicon(aURI);
   }
   getWindowTitleForBrowser(aBrowser) {
@@ -1694,13 +1446,15 @@ class FirefoxTabbrowser extends XULElement {
       docTitle = tab.getAttribute("label").replace(/\0/g, "");
     }
 
-    if (!docTitle) docTitle = docElement.getAttribute("titledefault");
+    if (!docTitle)
+      docTitle = docElement.getAttribute("titledefault");
 
     var modifier = docElement.getAttribute("titlemodifier");
     if (docTitle) {
       newTitle += docElement.getAttribute("titlepreface");
       newTitle += docTitle;
-      if (modifier) newTitle += sep;
+      if (modifier)
+        newTitle += sep;
     }
     newTitle += modifier;
 
@@ -1709,22 +1463,24 @@ class FirefoxTabbrowser extends XULElement {
     // XXX https://bugzilla.mozilla.org/show_bug.cgi?id=22183#c239
     try {
       if (docElement.getAttribute("chromehidden").includes("location")) {
-        var uri = this.mURIFixup.createExposableURI(aBrowser.currentURI);
-        if (uri.scheme == "about") newTitle = uri.spec + sep + newTitle;
-        else newTitle = uri.prePath + sep + newTitle;
+        var uri = this.mURIFixup.createExposableURI(
+          aBrowser.currentURI);
+        if (uri.scheme == "about")
+          newTitle = uri.spec + sep + newTitle;
+        else
+          newTitle = uri.prePath + sep + newTitle;
       }
     } catch (e) {}
 
     return newTitle;
   }
   updateTitlebar() {
-    this.ownerDocument.title = this.getWindowTitleForBrowser(
-      this.mCurrentBrowser
-    );
+    this.ownerDocument.title = this.getWindowTitleForBrowser(this.mCurrentBrowser);
   }
   updateCurrentBrowser(aForceUpdate) {
     var newBrowser = this.getBrowserAtIndex(this.tabContainer.selectedIndex);
-    if (this.mCurrentBrowser == newBrowser && !aForceUpdate) return;
+    if (this.mCurrentBrowser == newBrowser && !aForceUpdate)
+      return;
 
     if (!aForceUpdate) {
       document.commandDispatcher.lock();
@@ -1758,11 +1514,13 @@ class FirefoxTabbrowser extends XULElement {
     var oldTab = this.mCurrentTab;
 
     // Preview mode should not reset the owner
-    if (!this._previewMode && !oldTab.selected) oldTab.owner = null;
+    if (!this._previewMode && !oldTab.selected)
+      oldTab.owner = null;
 
     let lastRelatedTab = this._lastRelatedTabMap.get(oldTab);
     if (lastRelatedTab) {
-      if (!lastRelatedTab.selected) lastRelatedTab.owner = null;
+      if (!lastRelatedTab.selected)
+        lastRelatedTab.owner = null;
     }
     this._lastRelatedTabMap = new WeakMap();
 
@@ -1773,14 +1531,13 @@ class FirefoxTabbrowser extends XULElement {
       oldBrowser.docShellIsActive = false;
       newBrowser.setAttribute("primary", "true");
       newBrowser.docShellIsActive =
-        window.windowState != window.STATE_MINIMIZED && !window.isFullyOccluded;
+        (window.windowState != window.STATE_MINIMIZED &&
+          !window.isFullyOccluded);
     }
 
     var updateBlockedPopups = false;
-    if (
-      (oldBrowser.blockedPopups && !newBrowser.blockedPopups) ||
-      (!oldBrowser.blockedPopups && newBrowser.blockedPopups)
-    )
+    if ((oldBrowser.blockedPopups && !newBrowser.blockedPopups) ||
+      (!oldBrowser.blockedPopups && newBrowser.blockedPopups))
       updateBlockedPopups = true;
 
     this.mCurrentBrowser = newBrowser;
@@ -1788,17 +1545,16 @@ class FirefoxTabbrowser extends XULElement {
     this.showTab(this.mCurrentTab);
 
     gURLBar.setAttribute("switchingtabs", "true");
-    window.addEventListener(
-      "MozAfterPaint",
-      function() {
-        gURLBar.removeAttribute("switchingtabs");
-      },
-      { once: true }
-    );
+    window.addEventListener("MozAfterPaint", function() {
+      gURLBar.removeAttribute("switchingtabs");
+    }, {
+      once: true
+    });
 
     this._appendStatusPanel();
 
-    if (updateBlockedPopups) this.mCurrentBrowser.updateBlockedPopups();
+    if (updateBlockedPopups)
+      this.mCurrentBrowser.updateBlockedPopups();
 
     // Update the URL bar.
     var loc = this.mCurrentBrowser.currentURI;
@@ -1806,40 +1562,22 @@ class FirefoxTabbrowser extends XULElement {
     var webProgress = this.mCurrentBrowser.webProgress;
     var securityUI = this.mCurrentBrowser.securityUI;
 
-    this._callProgressListeners(
-      null,
-      "onLocationChange",
-      [webProgress, null, loc, 0],
-      true,
-      false
-    );
+    this._callProgressListeners(null, "onLocationChange", [webProgress, null, loc, 0], true,
+      false);
 
     if (securityUI) {
       // Include the true final argument to indicate that this event is
       // simulated (instead of being observed by the webProgressListener).
-      this._callProgressListeners(
-        null,
-        "onSecurityChange",
-        [webProgress, null, securityUI.state, true],
-        true,
-        false
-      );
+      this._callProgressListeners(null, "onSecurityChange", [webProgress, null, securityUI.state, true],
+        true, false);
     }
 
     var listener = this._tabListeners.get(this.mCurrentTab);
     if (listener && listener.mStateFlags) {
-      this._callProgressListeners(
-        null,
-        "onUpdateCurrentBrowser",
-        [
-          listener.mStateFlags,
-          listener.mStatus,
-          listener.mMessage,
-          listener.mTotalProgress
+      this._callProgressListeners(null, "onUpdateCurrentBrowser", [listener.mStateFlags, listener.mStatus,
+          listener.mMessage, listener.mTotalProgress
         ],
-        true,
-        false
-      );
+        true, false);
     }
 
     if (!this._previewMode) {
@@ -1848,11 +1586,9 @@ class FirefoxTabbrowser extends XULElement {
       oldTab.updateLastAccessed();
 
       let oldFindBar = oldTab._findBar;
-      if (
-        oldFindBar &&
+      if (oldFindBar &&
         oldFindBar.findMode == oldFindBar.FIND_NORMAL &&
-        !oldFindBar.hidden
-      )
+        !oldFindBar.hidden)
         this._lastFindValue = oldFindBar._findField.value;
 
       this.updateTitlebar();
@@ -1874,38 +1610,22 @@ class FirefoxTabbrowser extends XULElement {
     const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
     if (this.mCurrentTab.hasAttribute("busy") && !this.mIsBusy) {
       this.mIsBusy = true;
-      this._callProgressListeners(
-        null,
-        "onStateChange",
-        [
-          webProgress,
-          null,
+      this._callProgressListeners(null, "onStateChange", [webProgress, null,
           nsIWebProgressListener.STATE_START |
-            nsIWebProgressListener.STATE_IS_NETWORK,
-          0
+          nsIWebProgressListener.STATE_IS_NETWORK, 0
         ],
-        true,
-        false
-      );
+        true, false);
     }
 
     // If the new tab is not busy, and our current state is busy, then
     // we need to fire a stop to all progress listeners.
     if (!this.mCurrentTab.hasAttribute("busy") && this.mIsBusy) {
       this.mIsBusy = false;
-      this._callProgressListeners(
-        null,
-        "onStateChange",
-        [
-          webProgress,
-          null,
+      this._callProgressListeners(null, "onStateChange", [webProgress, null,
           nsIWebProgressListener.STATE_STOP |
-            nsIWebProgressListener.STATE_IS_NETWORK,
-          0
+          nsIWebProgressListener.STATE_IS_NETWORK, 0
         ],
-        true,
-        false
-      );
+        true, false);
     }
 
     // TabSelect events are suppressed during preview mode to avoid confusing extensions and other bits of code
@@ -1925,7 +1645,8 @@ class FirefoxTabbrowser extends XULElement {
       this._tabAttrModified(oldTab, ["selected"]);
       this._tabAttrModified(this.mCurrentTab, ["selected"]);
 
-      if (oldBrowser != newBrowser && oldBrowser.getInPermitUnload) {
+      if (oldBrowser != newBrowser &&
+        oldBrowser.getInPermitUnload) {
         oldBrowser.getInPermitUnload(inPermitUnload => {
           if (!inPermitUnload) {
             return;
@@ -1977,7 +1698,8 @@ class FirefoxTabbrowser extends XULElement {
       this.dispatchEvent(event);
     }
 
-    if (!aForceUpdate) TelemetryStopwatch.finish("FX_TAB_SWITCH_UPDATE_MS");
+    if (!aForceUpdate)
+      TelemetryStopwatch.finish("FX_TAB_SWITCH_UPDATE_MS");
   }
   _adjustFocusBeforeTabSwitch(oldTab, newTab) {
     if (this._previewMode) {
@@ -1987,28 +1709,26 @@ class FirefoxTabbrowser extends XULElement {
     let oldBrowser = oldTab.linkedBrowser;
     let newBrowser = newTab.linkedBrowser;
 
-    oldBrowser._urlbarFocused = gURLBar && gURLBar.focused;
+    oldBrowser._urlbarFocused = (gURLBar && gURLBar.focused);
 
     if (this.isFindBarInitialized(oldTab)) {
       let findBar = this.getFindBar(oldTab);
-      oldTab._findBarFocused =
-        !findBar.hidden && findBar._findField.getAttribute("focused") == "true";
+      oldTab._findBarFocused = (!findBar.hidden &&
+        findBar._findField.getAttribute("focused") == "true");
     }
 
     let activeEl = document.activeElement;
     // If focus is on the old tab, move it to the new tab.
     if (activeEl == oldTab) {
       newTab.focus();
-    } else if (
-      gMultiProcessBrowser &&
-      activeEl != newBrowser &&
-      activeEl != newTab
-    ) {
+    } else if (gMultiProcessBrowser && activeEl != newBrowser && activeEl != newTab) {
       // In e10s, if focus isn't already in the tabstrip or on the new browser,
       // and the new browser's previous focus wasn't in the url bar but focus is
       // there now, we need to adjust focus further.
-      let keepFocusOnUrlBar =
-        newBrowser && newBrowser._urlbarFocused && gURLBar && gURLBar.focused;
+      let keepFocusOnUrlBar = newBrowser &&
+        newBrowser._urlbarFocused &&
+        gURLBar &&
+        gURLBar.focused;
       if (!keepFocusOnUrlBar) {
         // Clear focus so that _adjustFocusAfterTabSwitch can detect if
         // some element has been focused and respect that.
@@ -2018,18 +1738,15 @@ class FirefoxTabbrowser extends XULElement {
   }
   _adjustFocusAfterTabSwitch(newTab) {
     // Don't steal focus from the tab bar.
-    if (document.activeElement == newTab) return;
+    if (document.activeElement == newTab)
+      return;
 
     let newBrowser = this.getBrowserForTab(newTab);
 
     // If there's a tabmodal prompt showing, focus it.
     if (newBrowser.hasAttribute("tabmodalPromptShowing")) {
-      let XUL_NS =
-        "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-      let prompts = newBrowser.parentNode.getElementsByTagNameNS(
-        XUL_NS,
-        "tabmodalprompt"
-      );
+      let XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+      let prompts = newBrowser.parentNode.getElementsByTagNameNS(XUL_NS, "tabmodalprompt");
       let prompt = prompts[prompts.length - 1];
       prompt.Dialog.setDefaultFocus();
       return;
@@ -2057,21 +1774,16 @@ class FirefoxTabbrowser extends XULElement {
     }
 
     // Focus the find bar if it was previously focused for that tab.
-    if (
-      gFindBarInitialized &&
-      !gFindBar.hidden &&
-      this.selectedTab._findBarFocused
-    ) {
+    if (gFindBarInitialized && !gFindBar.hidden &&
+      this.selectedTab._findBarFocused) {
       gFindBar._findField.focus();
       return;
     }
 
     // Don't focus the content area if something has been focused after the
     // tab switch was initiated.
-    if (
-      gMultiProcessBrowser &&
-      document.activeElement != document.documentElement
-    )
+    if (gMultiProcessBrowser &&
+      document.activeElement != document.documentElement)
       return;
 
     // We're now committed to focusing the content area.
@@ -2079,42 +1791,35 @@ class FirefoxTabbrowser extends XULElement {
     let focusFlags = fm.FLAG_NOSCROLL;
 
     if (!gMultiProcessBrowser) {
-      let newFocusedElement = fm.getFocusedElementForWindow(
-        window.content,
-        true,
-        {}
-      );
+      let newFocusedElement = fm.getFocusedElementForWindow(window.content, true, {});
 
       // for anchors, use FLAG_SHOWRING so that it is clear what link was
       // last clicked when switching back to that tab
-      if (
-        newFocusedElement &&
+      if (newFocusedElement &&
         (newFocusedElement instanceof HTMLAnchorElement ||
-          newFocusedElement.getAttributeNS(
-            "http://www.w3.org/1999/xlink",
-            "type"
-          ) == "simple")
-      )
+          newFocusedElement.getAttributeNS("http://www.w3.org/1999/xlink", "type") == "simple"))
         focusFlags |= fm.FLAG_SHOWRING;
     }
 
     fm.setFocus(newBrowser, focusFlags);
   }
   _tabAttrModified(aTab, aChanged) {
-    if (aTab.closing) return;
+    if (aTab.closing)
+      return;
 
     let event = new CustomEvent("TabAttrModified", {
       bubbles: true,
       cancelable: false,
       detail: {
-        changed: aChanged
+        changed: aChanged,
       }
     });
     aTab.dispatchEvent(event);
   }
   setBrowserSharing(aBrowser, aState) {
     let tab = this.getTabForBrowser(aBrowser);
-    if (!tab) return;
+    if (!tab)
+      return;
 
     let sharing;
     if (aState.screen) {
@@ -2174,15 +1879,12 @@ class FirefoxTabbrowser extends XULElement {
     } else if (aTab.hasAttribute("customizemode")) {
       let brandBundle = document.getElementById("bundle_brand");
       let brandShortName = brandBundle.getString("brandShortName");
-      title = gNavigatorBundle.getFormattedString("customizeMode.tabTitle", [
-        brandShortName
-      ]);
+      title = gNavigatorBundle.getFormattedString("customizeMode.tabTitle", [brandShortName]);
       isContentTitle = true;
     } else {
       if (browser.currentURI.displaySpec) {
         try {
-          title = this.mURIFixup.createExposableURI(browser.currentURI)
-            .displaySpec;
+          title = this.mURIFixup.createExposableURI(browser.currentURI).displaySpec;
         } catch (ex) {
           title = browser.currentURI.displaySpec;
         }
@@ -2203,21 +1905,18 @@ class FirefoxTabbrowser extends XULElement {
             title = title.substring(0, 500) + "\u2026";
           } else {
             var characterSet = browser.characterSet;
-            title = Services.textToSubURI.unEscapeNonAsciiURI(
-              characterSet,
-              title
-            );
+            title = Services.textToSubURI.unEscapeNonAsciiURI(characterSet, title);
           }
-        } catch (ex) {
-          /* Do nothing. */
-        }
+        } catch (ex) { /* Do nothing. */ }
       } else {
         // Still no title? Fall back to our untitled string.
         title = gTabBrowserBundle.GetStringFromName("tabs.emptyTabTitle");
       }
     }
 
-    return this._setTabLabel(aTab, title, { isContentTitle });
+    return this._setTabLabel(aTab, title, {
+      isContentTitle
+    });
   }
   _setTabLabel(aTab, aLabel, aOptions) {
     if (!aLabel) {
@@ -2241,11 +1940,9 @@ class FirefoxTabbrowser extends XULElement {
       return false;
     }
 
-    let dwu = window
-      .QueryInterface(Ci.nsIInterfaceRequestor)
+    let dwu = window.QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIDOMWindowUtils);
-    let isRTL =
-      dwu.getDirectionFromText(aLabel) == Ci.nsIDOMWindowUtils.DIRECTION_RTL;
+    let isRTL = dwu.getDirectionFromText(aLabel) == Ci.nsIDOMWindowUtils.DIRECTION_RTL;
 
     aTab.setAttribute("label", aLabel);
     aTab.setAttribute("labeldirection", isRTL ? "rtl" : "ltr");
@@ -2262,14 +1959,7 @@ class FirefoxTabbrowser extends XULElement {
 
     return true;
   }
-  loadOneTab(
-    aURI,
-    aReferrerURI,
-    aCharset,
-    aPostData,
-    aLoadInBackground,
-    aAllowThirdPartyFixup
-  ) {
+  loadOneTab(aURI, aReferrerURI, aCharset, aPostData, aLoadInBackground, aAllowThirdPartyFixup) {
     var aTriggeringPrincipal;
     var aReferrerPolicy;
     var aFromExternal;
@@ -2288,11 +1978,9 @@ class FirefoxTabbrowser extends XULElement {
     var aNextTabParentId;
     var aFocusUrlBar;
     var aName;
-    if (
-      arguments.length == 2 &&
+    if (arguments.length == 2 &&
       typeof arguments[1] == "object" &&
-      !(arguments[1] instanceof Ci.nsIURI)
-    ) {
+      !(arguments[1] instanceof Ci.nsIURI)) {
       let params = arguments[1];
       aTriggeringPrincipal = params.triggeringPrincipal;
       aReferrerURI = params.referrerURI;
@@ -2319,9 +2007,8 @@ class FirefoxTabbrowser extends XULElement {
       aName = params.name;
     }
 
-    var bgLoad = aLoadInBackground != null
-      ? aLoadInBackground
-      : Services.prefs.getBoolPref("browser.tabs.loadInBackground");
+    var bgLoad = (aLoadInBackground != null) ? aLoadInBackground :
+      Services.prefs.getBoolPref("browser.tabs.loadInBackground");
     var owner = bgLoad ? null : this.selectedTab;
 
     var tab = this.addTab(aURI, {
@@ -2349,7 +2036,8 @@ class FirefoxTabbrowser extends XULElement {
       focusUrlBar: aFocusUrlBar,
       name: aName
     });
-    if (!bgLoad) this.selectedTab = tab;
+    if (!bgLoad)
+      this.selectedTab = tab;
 
     return tab;
   }
@@ -2360,21 +2048,22 @@ class FirefoxTabbrowser extends XULElement {
     let aNewIndex = -1;
     let aPostDatas = [];
     let aUserContextId;
-    if (arguments.length == 2 && typeof arguments[1] == "object") {
+    if (arguments.length == 2 &&
+      typeof arguments[1] == "object") {
       let params = arguments[1];
       aLoadInBackground = params.inBackground;
       aReplace = params.replace;
       aAllowThirdPartyFixup = params.allowThirdPartyFixup;
       aTargetTab = params.targetTab;
-      aNewIndex = typeof params.newIndex === "number"
-        ? params.newIndex
-        : aNewIndex;
+      aNewIndex = typeof params.newIndex === "number" ?
+        params.newIndex : aNewIndex;
       aPostDatas = params.postDatas || aPostDatas;
       aUserContextId = params.userContextId;
       aTriggeringPrincipal = params.triggeringPrincipal;
     }
 
-    if (!aURIs.length) return;
+    if (!aURIs.length)
+      return;
 
     // The tab selected after this new tab is closed (i.e. the new tab's
     // "owner") is the next adjacent tab (i.e. not the previously viewed tab)
@@ -2403,15 +2092,14 @@ class FirefoxTabbrowser extends XULElement {
       }
       let flags = Ci.nsIWebNavigation.LOAD_FLAGS_NONE;
       if (aAllowThirdPartyFixup) {
-        flags |=
-          Ci.nsIWebNavigation.LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP |
+        flags |= Ci.nsIWebNavigation.LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP |
           Ci.nsIWebNavigation.LOAD_FLAGS_FIXUP_SCHEME_TYPOS;
       }
       try {
         browser.loadURIWithFlags(aURIs[0], {
           flags,
           postData: aPostDatas[0],
-          triggeringPrincipal: aTriggeringPrincipal
+          triggeringPrincipal: aTriggeringPrincipal,
         });
       } catch (e) {
         // Ignore failure in case a URI is wrong, so we can continue
@@ -2424,7 +2112,7 @@ class FirefoxTabbrowser extends XULElement {
         allowThirdPartyFixup: aAllowThirdPartyFixup,
         postData: aPostDatas[0],
         userContextId: aUserContextId,
-        triggeringPrincipal: aTriggeringPrincipal
+        triggeringPrincipal: aTriggeringPrincipal,
       });
       if (aNewIndex !== -1) {
         this.moveTabTo(firstTabAdded, aNewIndex);
@@ -2439,9 +2127,10 @@ class FirefoxTabbrowser extends XULElement {
         allowThirdPartyFixup: aAllowThirdPartyFixup,
         postData: aPostDatas[i],
         userContextId: aUserContextId,
-        triggeringPrincipal: aTriggeringPrincipal
+        triggeringPrincipal: aTriggeringPrincipal,
       });
-      if (targetTabIndex !== -1) this.moveTabTo(tab, ++tabNum);
+      if (targetTabIndex !== -1)
+        this.moveTabTo(tab, ++tabNum);
     }
 
     if (firstTabAdded && !aLoadInBackground) {
@@ -2453,17 +2142,13 @@ class FirefoxTabbrowser extends XULElement {
     let isRemote = aBrowser.getAttribute("remote") == "true";
 
     if (!gMultiProcessBrowser && aShouldBeRemote) {
-      throw new Error(
-        "Cannot switch to remote browser in a window " +
-          "without the remote tabs load context."
-      );
+      throw new Error("Cannot switch to remote browser in a window " +
+        "without the remote tabs load context.");
     }
 
     // Default values for remoteType
     if (!aOptions.remoteType) {
-      aOptions.remoteType = aShouldBeRemote
-        ? E10SUtils.DEFAULT_REMOTE_TYPE
-        : E10SUtils.NOT_REMOTE;
+      aOptions.remoteType = aShouldBeRemote ? E10SUtils.DEFAULT_REMOTE_TYPE : E10SUtils.NOT_REMOTE;
     }
 
     // If we are passed an opener, we must be making the browser non-remote, and
@@ -2471,24 +2156,17 @@ class FirefoxTabbrowser extends XULElement {
     // because it is already too late to change it.
     if (aOptions.opener) {
       if (aShouldBeRemote) {
-        throw new Error(
-          "Cannot set an opener on a browser which should be remote!"
-        );
+        throw new Error("Cannot set an opener on a browser which should be remote!");
       }
       if (!isRemote && aBrowser.contentWindow.opener != aOptions.opener) {
-        throw new Error(
-          "Cannot change opener on an already non-remote browser!"
-        );
+        throw new Error("Cannot change opener on an already non-remote browser!");
       }
     }
 
     // Abort if we're not going to change anything
     let currentRemoteType = aBrowser.getAttribute("remoteType");
-    if (
-      isRemote == aShouldBeRemote &&
-      !aOptions.newFrameloader &&
-      (!isRemote || currentRemoteType == aOptions.remoteType)
-    ) {
+    if (isRemote == aShouldBeRemote && !aOptions.newFrameloader &&
+      (!isRemote || currentRemoteType == aOptions.remoteType)) {
       return false;
     }
 
@@ -2576,25 +2254,16 @@ class FirefoxTabbrowser extends XULElement {
     filter.addProgressListener(listener, Ci.nsIWebProgress.NOTIFY_ALL);
 
     // Restore the progress listener.
-    aBrowser.webProgress.addProgressListener(
-      filter,
-      Ci.nsIWebProgress.NOTIFY_ALL
-    );
+    aBrowser.webProgress.addProgressListener(filter, Ci.nsIWebProgress.NOTIFY_ALL);
 
     // Restore the securityUI state.
     let securityUI = aBrowser.securityUI;
-    let state = securityUI
-      ? securityUI.state
-      : Ci.nsIWebProgressListener.STATE_IS_INSECURE;
+    let state = securityUI ? securityUI.state :
+      Ci.nsIWebProgressListener.STATE_IS_INSECURE;
     // Include the true final argument to indicate that this event is
     // simulated (instead of being observed by the webProgressListener).
-    this._callProgressListeners(
-      aBrowser,
-      "onSecurityChange",
-      [aBrowser.webProgress, null, state, true],
-      true,
-      false
-    );
+    this._callProgressListeners(aBrowser, "onSecurityChange", [aBrowser.webProgress, null, state, true],
+      true, false);
 
     if (aShouldBeRemote) {
       // Switching the browser to be remote will connect to a new child
@@ -2610,7 +2279,8 @@ class FirefoxTabbrowser extends XULElement {
       this._outerWindowIDBrowserMap.set(aBrowser.outerWindowID, aBrowser);
     }
 
-    if (wasActive) aBrowser.focus();
+    if (wasActive)
+      aBrowser.focus();
 
     // If the findbar has been initialised, reset its browser reference.
     if (this.isFindBarInitialized(tab)) {
@@ -2631,16 +2301,16 @@ class FirefoxTabbrowser extends XULElement {
 
     let currentRemoteType = aBrowser.getAttribute("remoteType") || null;
 
-    aOptions.remoteType = E10SUtils.getRemoteTypeForURI(
-      aURL,
-      gMultiProcessBrowser,
-      currentRemoteType,
-      aBrowser.currentURI
-    );
+    aOptions.remoteType =
+      E10SUtils.getRemoteTypeForURI(aURL,
+        gMultiProcessBrowser,
+        currentRemoteType,
+        aBrowser.currentURI);
 
     // If this URL can't load in the current browser then flip it to the
     // correct type.
-    if (currentRemoteType != aOptions.remoteType || aOptions.newFrameloader) {
+    if (currentRemoteType != aOptions.remoteType ||
+      aOptions.newFrameloader) {
       let remote = aOptions.remoteType != E10SUtils.NOT_REMOTE;
       return this.updateBrowserRemoteness(aBrowser, remote, aOptions);
     }
@@ -2678,10 +2348,7 @@ class FirefoxTabbrowser extends XULElement {
     if (browser) {
       browser.setAttribute("preloadedState", "consumed");
       if (this.hasAttribute("autocompletepopup")) {
-        browser.setAttribute(
-          "autocompletepopup",
-          this.getAttribute("autocompletepopup")
-        );
+        browser.setAttribute("autocompletepopup", this.getAttribute("autocompletepopup"));
       }
     }
 
@@ -2691,10 +2358,8 @@ class FirefoxTabbrowser extends XULElement {
     // Preloading for the newtab page is enabled when the pref is true
     // and the URL is "about:newtab". We do not support preloading for
     // custom newtab URLs.
-    return (
-      Services.prefs.getBoolPref("browser.newtab.preload") &&
-      !aboutNewTabService.overridden
-    );
+    return Services.prefs.getBoolPref("browser.newtab.preload") &&
+      !aboutNewTabService.overridden;
   }
   _createPreloadBrowser() {
     // Do nothing if we have a preloaded browser already
@@ -2703,11 +2368,13 @@ class FirefoxTabbrowser extends XULElement {
       return;
     }
 
-    let remoteType = E10SUtils.getRemoteTypeForURI(
-      BROWSER_NEW_TAB_URL,
-      gMultiProcessBrowser
-    );
-    let browser = this._createBrowser({ isPreloadBrowser: true, remoteType });
+    let remoteType =
+      E10SUtils.getRemoteTypeForURI(BROWSER_NEW_TAB_URL,
+        gMultiProcessBrowser);
+    let browser = this._createBrowser({
+      isPreloadBrowser: true,
+      remoteType
+    });
     this._preloadedBrowser = browser;
 
     let notificationbox = this.getNotificationBox(browser);
@@ -2732,8 +2399,7 @@ class FirefoxTabbrowser extends XULElement {
     // userContextId, remote, remoteType, isPreloadBrowser,
     // uriIsAboutBlank, sameProcessAsFrameLoader
 
-    const NS_XUL =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    const NS_XUL = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
     let b = document.createElementNS(NS_XUL, "browser");
     b.permanentKey = {};
@@ -2765,27 +2431,24 @@ class FirefoxTabbrowser extends XULElement {
     }
 
     if (!aParams.isPreloadBrowser && this.hasAttribute("autocompletepopup")) {
-      b.setAttribute(
-        "autocompletepopup",
-        this.getAttribute("autocompletepopup")
-      );
+      b.setAttribute("autocompletepopup", this.getAttribute("autocompletepopup"));
     }
 
     /*
-             * This attribute is meant to describe if the browser is the
-             * preloaded browser. There are 2 defined states: "preloaded" or
-             * "consumed". The order of events goes as follows:
-             *   1. The preloaded browser is created and the 'preloadedState'
-             *      attribute for that browser is set to "preloaded".
-             *   2. When a new tab is opened and it is time to show that
-             *      preloaded browser, the 'preloadedState' attribute for that
-             *      browser is set to "consumed"
-             *   3. When we then navigate away from about:newtab, the "consumed"
-             *      browsers will attempt to switch to a new content process,
-             *      therefore the 'preloadedState' attribute is removed from
-             *      that browser altogether
-             * See more details on Bug 1420285.
-             */
+     * This attribute is meant to describe if the browser is the
+     * preloaded browser. There are 2 defined states: "preloaded" or
+     * "consumed". The order of events goes as follows:
+     *   1. The preloaded browser is created and the 'preloadedState'
+     *      attribute for that browser is set to "preloaded".
+     *   2. When a new tab is opened and it is time to show that
+     *      preloaded browser, the 'preloadedState' attribute for that
+     *      browser is set to "consumed"
+     *   3. When we then navigate away from about:newtab, the "consumed"
+     *      browsers will attempt to switch to a new content process,
+     *      therefore the 'preloadedState' attribute is removed from
+     *      that browser altogether
+     * See more details on Bug 1420285.
+     */
     if (aParams.isPreloadBrowser) {
       b.setAttribute("preloadedState", "preloaded");
     }
@@ -2832,13 +2495,15 @@ class FirefoxTabbrowser extends XULElement {
     browserContainer.setAttribute("flex", "1");
 
     // Create the sidebar container
-    var browserSidebarContainer = document.createElementNS(NS_XUL, "hbox");
+    var browserSidebarContainer = document.createElementNS(NS_XUL,
+      "hbox");
     browserSidebarContainer.className = "browserSidebarContainer";
     browserSidebarContainer.appendChild(browserContainer);
     browserSidebarContainer.setAttribute("flex", "1");
 
     // Add the Message and the Browser to the box
-    var notificationbox = document.createElementNS(NS_XUL, "notificationbox");
+    var notificationbox = document.createElementNS(NS_XUL,
+      "notificationbox");
     notificationbox.setAttribute("flex", "1");
     notificationbox.setAttribute("notificationside", "top");
     notificationbox.appendChild(browserSidebarContainer);
@@ -2887,35 +2552,36 @@ class FirefoxTabbrowser extends XULElement {
           getter = () => browser.getAttribute("remote") == "true";
           break;
         case "permitUnload":
-          getter = () => () => ({ permitUnload: true, timedOut: false });
+          getter = () => () => ({
+            permitUnload: true,
+            timedOut: false
+          });
           break;
         case "reload":
         case "reloadWithFlags":
-          getter = () => params => {
-            // Wait for load handler to be instantiated before
-            // initializing the reload.
-            aTab.addEventListener(
-              "SSTabRestoring",
-              () => {
+          getter = () =>
+            params => {
+              // Wait for load handler to be instantiated before
+              // initializing the reload.
+              aTab.addEventListener("SSTabRestoring", () => {
                 browser[name](params);
-              },
-              { once: true }
-            );
-            gBrowser._insertBrowser(aTab);
-          };
+              }, {
+                once: true
+              });
+              gBrowser._insertBrowser(aTab);
+            };
           break;
         case "resumeMedia":
-          getter = () => () => {
-            // No need to insert a browser, so we just call the browser's
-            // method.
-            aTab.addEventListener(
-              "SSTabRestoring",
-              () => {
+          getter = () =>
+            () => {
+              // No need to insert a browser, so we just call the browser's
+              // method.
+              aTab.addEventListener("SSTabRestoring", () => {
                 browser[name]();
-              },
-              { once: true }
-            );
-          };
+              }, {
+                once: true
+              });
+            };
           break;
         case "userTypedValue":
         case "userTypedClear":
@@ -2925,7 +2591,8 @@ class FirefoxTabbrowser extends XULElement {
         default:
           getter = () => {
             if (AppConstants.NIGHTLY_BUILD) {
-              let message = `[bug 1345098] Lazy browser prematurely inserted via '${name}' property access:\n`;
+              let message =
+                `[bug 1345098] Lazy browser prematurely inserted via '${name}' property access:\n`;
               console.log(message + new Error().stack);
             }
             this._insertBrowser(aTab);
@@ -2933,11 +2600,12 @@ class FirefoxTabbrowser extends XULElement {
           };
           setter = value => {
             if (AppConstants.NIGHTLY_BUILD) {
-              let message = `[bug 1345098] Lazy browser prematurely inserted via '${name}' property access:\n`;
+              let message =
+                `[bug 1345098] Lazy browser prematurely inserted via '${name}' property access:\n`;
               console.log(message + new Error().stack);
             }
             this._insertBrowser(aTab);
-            return (browser[name] = value);
+            return browser[name] = value;
           };
       }
       Object.defineProperty(browser, name, {
@@ -2950,6 +2618,7 @@ class FirefoxTabbrowser extends XULElement {
   }
   _insertBrowser(aTab, aInsertedOnTabCreation) {
     "use strict";
+
     // If browser is already inserted or window is closed don't do anything.
     if (aTab.linkedPanel || window.closed) {
       return;
@@ -2968,7 +2637,8 @@ class FirefoxTabbrowser extends XULElement {
       uriIsAboutBlank,
       remoteType,
       usingPreloadedContent
-    } = aTab._browserParams;
+    } =
+    aTab._browserParams;
     delete aTab._browserParams;
 
     let notificationbox = this.getNotificationBox(browser);
@@ -2987,20 +2657,11 @@ class FirefoxTabbrowser extends XULElement {
     }
 
     // wire up a progress listener for the new browser object.
-    let tabListener = this.mTabProgressListener(
-      aTab,
-      browser,
-      uriIsAboutBlank,
-      usingPreloadedContent
-    );
-    const filter = Cc[
-      "@mozilla.org/appshell/component/browser-status-filter;1"
-    ].createInstance(Ci.nsIWebProgress);
+    let tabListener = this.mTabProgressListener(aTab, browser, uriIsAboutBlank, usingPreloadedContent);
+    const filter = Cc["@mozilla.org/appshell/component/browser-status-filter;1"]
+      .createInstance(Ci.nsIWebProgress);
     filter.addProgressListener(tabListener, Ci.nsIWebProgress.NOTIFY_ALL);
-    browser.webProgress.addProgressListener(
-      filter,
-      Ci.nsIWebProgress.NOTIFY_ALL
-    );
+    browser.webProgress.addProgressListener(filter, Ci.nsIWebProgress.NOTIFY_ALL);
     this._tabListeners.set(aTab, tabListener);
     this._tabFilters.set(aTab, filter);
 
@@ -3021,27 +2682,26 @@ class FirefoxTabbrowser extends XULElement {
 
     var evt = new CustomEvent("TabBrowserInserted", {
       bubbles: true,
-      detail: { insertedOnTabCreation: aInsertedOnTabCreation }
+      detail: {
+        insertedOnTabCreation: aInsertedOnTabCreation
+      }
     });
     aTab.dispatchEvent(evt);
   }
   discardBrowser(aBrowser, aForceDiscard) {
     "use strict";
+
     let tab = this.getTabForBrowser(aBrowser);
 
-    let permitUnloadFlags = aForceDiscard
-      ? aBrowser.dontPromptAndUnload
-      : aBrowser.dontPromptAndDontUnload;
+    let permitUnloadFlags = aForceDiscard ? aBrowser.dontPromptAndUnload : aBrowser.dontPromptAndDontUnload;
 
-    if (
-      !tab ||
+    if (!tab ||
       tab.selected ||
       tab.closing ||
       this._windowIsClosing ||
       !aBrowser.isConnected ||
       !aBrowser.isRemoteBrowser ||
-      !aBrowser.permitUnload(permitUnloadFlags).permitUnload
-    ) {
+      !aBrowser.permitUnload(permitUnloadFlags).permitUnload) {
       return;
     }
 
@@ -3083,20 +2743,15 @@ class FirefoxTabbrowser extends XULElement {
 
     this._createLazyBrowser(tab);
 
-    let evt = new CustomEvent("TabBrowserDiscarded", { bubbles: true });
+    let evt = new CustomEvent("TabBrowserDiscarded", {
+      bubbles: true
+    });
     tab.dispatchEvent(evt);
   }
-  addTab(
-    aURI,
-    aReferrerURI,
-    aCharset,
-    aPostData,
-    aOwner,
-    aAllowThirdPartyFixup
-  ) {
+  addTab(aURI, aReferrerURI, aCharset, aPostData, aOwner, aAllowThirdPartyFixup) {
     "use strict";
-    const NS_XUL =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+    const NS_XUL = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var aTriggeringPrincipal;
     var aReferrerPolicy;
     var aFromExternal;
@@ -3119,11 +2774,9 @@ class FirefoxTabbrowser extends XULElement {
     var aNoInitialLabel;
     var aFocusUrlBar;
     var aName;
-    if (
-      arguments.length == 2 &&
+    if (arguments.length == 2 &&
       typeof arguments[1] == "object" &&
-      !(arguments[1] instanceof Ci.nsIURI)
-    ) {
+      !(arguments[1] instanceof Ci.nsIURI)) {
       let params = arguments[1];
       aTriggeringPrincipal = params.triggeringPrincipal;
       aReferrerURI = params.referrerURI;
@@ -3155,7 +2808,8 @@ class FirefoxTabbrowser extends XULElement {
     }
 
     // if we're adding tabs, we're past interrupt mode, ditch the owner
-    if (this.mCurrentTab.owner) this.mCurrentTab.owner = null;
+    if (this.mCurrentTab.owner)
+      this.mCurrentTab.owner = null;
 
     // Find the tab that opened this one, if any. This is used for
     // determining positioning, and inherited attributes such as the
@@ -3171,12 +2825,9 @@ class FirefoxTabbrowser extends XULElement {
     // related to the current tab, since aReferrerURI is null or
     // undefined if the tab is opened from an external application or
     // bookmark (i.e. somewhere other than an existing tab).
-    let relatedToCurrent = aRelatedToCurrent == null
-      ? !!aReferrerURI
-      : aRelatedToCurrent;
-    let openerTab =
-      (aOpenerBrowser && this.getTabForBrowser(aOpenerBrowser)) ||
-      (relatedToCurrent && this.selectedTab);
+    let relatedToCurrent = aRelatedToCurrent == null ? !!aReferrerURI : aRelatedToCurrent;
+    let openerTab = ((aOpenerBrowser && this.getTabForBrowser(aOpenerBrowser)) ||
+      (relatedToCurrent && this.selectedTab));
 
     var t = document.createElementNS(NS_XUL, "tab");
 
@@ -3186,9 +2837,7 @@ class FirefoxTabbrowser extends XULElement {
     let aURIObject = null;
     try {
       aURIObject = Services.io.newURI(aURI);
-    } catch (ex) {
-      /* we'll try to fix up this URL later */
-    }
+    } catch (ex) { /* we'll try to fix up this URL later */ }
 
     let lazyBrowserURI;
     if (aCreateLazyBrowser && aURI != "about:blank") {
@@ -3200,13 +2849,12 @@ class FirefoxTabbrowser extends XULElement {
 
     if (!aNoInitialLabel) {
       if (isBlankPageURL(aURI)) {
-        t.setAttribute(
-          "label",
-          gTabBrowserBundle.GetStringFromName("tabs.emptyTabTitle")
-        );
+        t.setAttribute("label", gTabBrowserBundle.GetStringFromName("tabs.emptyTabTitle"));
       } else {
         // Set URL as label so that the tab isn't empty initially.
-        this.setInitialTabTitle(t, aURI, { beforeTabOpen: true });
+        this.setInitialTabTitle(t, aURI, {
+          beforeTabOpen: true
+        });
       }
     }
 
@@ -3234,8 +2882,7 @@ class FirefoxTabbrowser extends XULElement {
     // When overflowing, new tabs are scrolled into view smoothly, which
     // doesn't go well together with the width transition. So we skip the
     // transition in that case.
-    let animate =
-      !aSkipAnimation &&
+    let animate = !aSkipAnimation &&
       this.tabContainer.getAttribute("overflow") != "true" &&
       this.animationsEnabled;
     if (!animate) {
@@ -3243,13 +2890,9 @@ class FirefoxTabbrowser extends XULElement {
 
       // Call _handleNewTab asynchronously as it needs to know if the
       // new tab is selected.
-      setTimeout(
-        function(tabContainer) {
-          tabContainer._handleNewTab(t);
-        },
-        0,
-        this.tabContainer
-      );
+      setTimeout(function(tabContainer) {
+        tabContainer._handleNewTab(t);
+      }, 0, this.tabContainer);
     }
 
     // invalidate cache
@@ -3262,7 +2905,8 @@ class FirefoxTabbrowser extends XULElement {
 
     try {
       // If this new tab is owned by another, assert that relationship
-      if (aOwner) t.owner = aOwner;
+      if (aOwner)
+        t.owner = aOwner;
 
       var position = this.tabs.length - 1;
       t._tPos = position;
@@ -3280,29 +2924,23 @@ class FirefoxTabbrowser extends XULElement {
       // then we need to use the referrer, if we have one, to get the
       // correct remote type for the new tab.
       if (uriIsAboutBlank && !aPreferredRemoteType && aReferrerURI) {
-        aPreferredRemoteType = E10SUtils.getRemoteTypeForURI(
-          aReferrerURI.spec,
-          gMultiProcessBrowser
-        );
+        aPreferredRemoteType =
+          E10SUtils.getRemoteTypeForURI(aReferrerURI.spec,
+            gMultiProcessBrowser);
       }
 
-      let remoteType = aForceNotRemote
-        ? E10SUtils.NOT_REMOTE
-        : E10SUtils.getRemoteTypeForURI(
-            aURI,
-            gMultiProcessBrowser,
-            aPreferredRemoteType
-          );
+      let remoteType =
+        aForceNotRemote ? E10SUtils.NOT_REMOTE :
+        E10SUtils.getRemoteTypeForURI(aURI, gMultiProcessBrowser,
+          aPreferredRemoteType);
 
       // If we open a new tab with the newtab URL in the default
       // userContext, check if there is a preloaded browser ready.
       // Private windows are not included because both the label and the
       // icon for the tab would be set incorrectly (see bug 1195981).
-      if (
-        aURI == BROWSER_NEW_TAB_URL &&
+      if (aURI == BROWSER_NEW_TAB_URL &&
         !aUserContextId &&
-        !PrivateBrowsingUtils.isWindowPrivate(window)
-      ) {
+        !PrivateBrowsingUtils.isWindowPrivate(window)) {
         b = this._getPreloadedBrowser();
         if (b) {
           usingPreloadedContent = true;
@@ -3343,10 +2981,7 @@ class FirefoxTabbrowser extends XULElement {
         if (lazyBrowserURI) {
           // Lazy browser must be explicitly registered so tab will appear as
           // a switch-to-tab candidate in autocomplete.
-          this._unifiedComplete.registerOpenPage(
-            lazyBrowserURI,
-            aUserContextId
-          );
+          this._unifiedComplete.registerOpenPage(lazyBrowserURI, aUserContextId);
           b.registeredOpenURI = lazyBrowserURI;
         }
       } else {
@@ -3377,37 +3012,39 @@ class FirefoxTabbrowser extends XULElement {
     // entirely done, so that things are in a consistent state
     // even if the event listener opens or closes tabs.
     var detail = aEventDetail || {};
-    var evt = new CustomEvent("TabOpen", { bubbles: true, detail });
+    var evt = new CustomEvent("TabOpen", {
+      bubbles: true,
+      detail
+    });
     t.dispatchEvent(evt);
 
     if (!usingPreloadedContent && aOriginPrincipal && aURI) {
-      let { URI_INHERITS_SECURITY_CONTEXT } = Ci.nsIProtocolHandler;
+      let {
+        URI_INHERITS_SECURITY_CONTEXT
+      } = Ci.nsIProtocolHandler;
       // Unless we know for sure we're not inheriting principals,
       // force the about:blank viewer to have the right principal:
-      if (
-        !aURIObject ||
-        doGetProtocolFlags(aURIObject) & URI_INHERITS_SECURITY_CONTEXT
-      ) {
+      if (!aURIObject ||
+        (doGetProtocolFlags(aURIObject) & URI_INHERITS_SECURITY_CONTEXT)) {
         b.createAboutBlankContentViewer(aOriginPrincipal);
       }
     }
 
     // If we didn't swap docShells with a preloaded browser
     // then let's just continue loading the page normally.
-    if (
-      !usingPreloadedContent &&
-      (!uriIsAboutBlank || aDisallowInheritPrincipal)
-    ) {
+    if (!usingPreloadedContent && (!uriIsAboutBlank || aDisallowInheritPrincipal)) {
       // pretend the user typed this so it'll be available till
       // the document successfully loads
-      if (aURI && !gInitialPages.includes(aURI)) b.userTypedValue = aURI;
+      if (aURI && !gInitialPages.includes(aURI))
+        b.userTypedValue = aURI;
 
       let flags = Ci.nsIWebNavigation.LOAD_FLAGS_NONE;
       if (aAllowThirdPartyFixup) {
         flags |= Ci.nsIWebNavigation.LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP;
         flags |= Ci.nsIWebNavigation.LOAD_FLAGS_FIXUP_SCHEME_TYPOS;
       }
-      if (aFromExternal) flags |= Ci.nsIWebNavigation.LOAD_FLAGS_FROM_EXTERNAL;
+      if (aFromExternal)
+        flags |= Ci.nsIWebNavigation.LOAD_FLAGS_FROM_EXTERNAL;
       if (aAllowMixedContent)
         flags |= Ci.nsIWebNavigation.LOAD_FLAGS_ALLOW_MIXED_CONTENT;
       if (aDisallowInheritPrincipal)
@@ -3419,7 +3056,7 @@ class FirefoxTabbrowser extends XULElement {
           referrerURI: aNoReferrer ? null : aReferrerURI,
           referrerPolicy: aReferrerPolicy,
           charset: aCharset,
-          postData: aPostData
+          postData: aPostData,
         });
       } catch (ex) {
         Cu.reportError(ex);
@@ -3428,14 +3065,15 @@ class FirefoxTabbrowser extends XULElement {
 
     // If we're opening a tab related to the an existing tab, move it
     // to a position after that tab.
-    if (
-      openerTab &&
-      Services.prefs.getBoolPref("browser.tabs.insertRelatedAfterCurrent")
-    ) {
+    if (openerTab &&
+      Services.prefs.getBoolPref("browser.tabs.insertRelatedAfterCurrent")) {
+
       let lastRelatedTab = this._lastRelatedTabMap.get(openerTab);
       let newTabPos = (lastRelatedTab || openerTab)._tPos + 1;
-      if (lastRelatedTab) lastRelatedTab.owner = null;
-      else t.owner = openerTab;
+      if (lastRelatedTab)
+        lastRelatedTab.owner = null;
+      else
+        t.owner = openerTab;
       this.moveTabTo(t, newTabPos, true);
       this._lastRelatedTabMap.set(openerTab, t);
     }
@@ -3457,16 +3095,15 @@ class FirefoxTabbrowser extends XULElement {
     var tabsToClose;
     switch (aCloseTabs) {
       case this.closingTabsEnum.ALL:
-        tabsToClose =
-          this.tabs.length -
-          this._removingTabs.length -
+        tabsToClose = this.tabs.length - this._removingTabs.length -
           gBrowser._numPinnedTabs;
         break;
       case this.closingTabsEnum.OTHER:
         tabsToClose = this.visibleTabs.length - 1 - gBrowser._numPinnedTabs;
         break;
       case this.closingTabsEnum.TO_END:
-        if (!aTab) throw new Error("Required argument missing: aTab");
+        if (!aTab)
+          throw new Error("Required argument missing: aTab");
 
         tabsToClose = this.getTabsToTheEndFrom(aTab).length;
         break;
@@ -3474,18 +3111,21 @@ class FirefoxTabbrowser extends XULElement {
         throw new Error("Invalid argument: " + aCloseTabs);
     }
 
-    if (tabsToClose <= 1) return true;
+    if (tabsToClose <= 1)
+      return true;
 
-    const pref = aCloseTabs == this.closingTabsEnum.ALL
-      ? "browser.tabs.warnOnClose"
-      : "browser.tabs.warnOnCloseOtherTabs";
+    const pref = aCloseTabs == this.closingTabsEnum.ALL ?
+      "browser.tabs.warnOnClose" : "browser.tabs.warnOnCloseOtherTabs";
     var shouldPrompt = Services.prefs.getBoolPref(pref);
-    if (!shouldPrompt) return true;
+    if (!shouldPrompt)
+      return true;
 
     var ps = Services.prompt;
 
     // default to true: if it were false, we wouldn't get this far
-    var warnOnClose = { value: true };
+    var warnOnClose = {
+      value: true
+    };
 
     // focus the window before prompting.
     // this will raise any minimized window, which will
@@ -3493,32 +3133,24 @@ class FirefoxTabbrowser extends XULElement {
     // solve the problem of windows "obscuring" the prompt.
     // see bug #350299 for more details
     window.focus();
-    var warningMessage = PluralForm.get(
-      tabsToClose,
-      gTabBrowserBundle.GetStringFromName("tabs.closeWarningMultiple")
-    ).replace("#1", tabsToClose);
-    var buttonPressed = ps.confirmEx(
-      window,
-      gTabBrowserBundle.GetStringFromName("tabs.closeWarningTitle"),
-      warningMessage,
-      ps.BUTTON_TITLE_IS_STRING * ps.BUTTON_POS_0 +
-        ps.BUTTON_TITLE_CANCEL * ps.BUTTON_POS_1,
-      gTabBrowserBundle.GetStringFromName("tabs.closeButtonMultiple"),
-      null,
-      null,
-      aCloseTabs == this.closingTabsEnum.ALL
-        ? gTabBrowserBundle.GetStringFromName("tabs.closeWarningPromptMe")
-        : null,
-      warnOnClose
-    );
-    var reallyClose = buttonPressed == 0;
+    var warningMessage =
+      PluralForm.get(tabsToClose, gTabBrowserBundle.GetStringFromName("tabs.closeWarningMultiple"))
+      .replace("#1", tabsToClose);
+    var buttonPressed =
+      ps.confirmEx(window,
+        gTabBrowserBundle.GetStringFromName("tabs.closeWarningTitle"),
+        warningMessage,
+        (ps.BUTTON_TITLE_IS_STRING * ps.BUTTON_POS_0) +
+        (ps.BUTTON_TITLE_CANCEL * ps.BUTTON_POS_1),
+        gTabBrowserBundle.GetStringFromName("tabs.closeButtonMultiple"),
+        null, null,
+        aCloseTabs == this.closingTabsEnum.ALL ?
+        gTabBrowserBundle.GetStringFromName("tabs.closeWarningPromptMe") : null,
+        warnOnClose);
+    var reallyClose = (buttonPressed == 0);
 
     // don't set the pref unless they press OK and it's false
-    if (
-      aCloseTabs == this.closingTabsEnum.ALL &&
-      reallyClose &&
-      !warnOnClose.value
-    )
+    if (aCloseTabs == this.closingTabsEnum.ALL && reallyClose && !warnOnClose.value)
       Services.prefs.setBoolPref(pref, false);
 
     return reallyClose;
@@ -3535,11 +3167,13 @@ class FirefoxTabbrowser extends XULElement {
     return tabsToEnd;
   }
   removeTabsToTheEndFrom(aTab, aParams) {
-    if (!this.warnAboutClosingTabs(this.closingTabsEnum.TO_END, aTab)) return;
+    if (!this.warnAboutClosingTabs(this.closingTabsEnum.TO_END, aTab))
+      return;
 
     let removeTab = tab => {
       // Avoid changing the selected browser several times.
-      if (tab.selected) this.selectedTab = aTab;
+      if (tab.selected)
+        this.selectedTab = aTab;
 
       this.removeTab(tab, aParams);
     };
@@ -3548,8 +3182,10 @@ class FirefoxTabbrowser extends XULElement {
     let tabsWithBeforeUnload = [];
     for (let i = tabs.length - 1; i >= 0; --i) {
       let tab = tabs[i];
-      if (this._hasBeforeUnload(tab)) tabsWithBeforeUnload.push(tab);
-      else removeTab(tab);
+      if (this._hasBeforeUnload(tab))
+        tabsWithBeforeUnload.push(tab);
+      else
+        removeTab(tab);
     }
     tabsWithBeforeUnload.forEach(removeTab);
   }
@@ -3565,12 +3201,18 @@ class FirefoxTabbrowser extends XULElement {
     for (let i = tabs.length - 1; i >= 0; --i) {
       let tab = tabs[i];
       if (tab != aTab && !tab.pinned) {
-        if (this._hasBeforeUnload(tab)) tabsWithBeforeUnload.push(tab);
-        else this.removeTab(tab, { animate: true });
+        if (this._hasBeforeUnload(tab))
+          tabsWithBeforeUnload.push(tab);
+        else
+          this.removeTab(tab, {
+            animate: true
+          });
       }
     }
     for (let tab of tabsWithBeforeUnload) {
-      this.removeTab(tab, { animate: true });
+      this.removeTab(tab, {
+        animate: true
+      });
     }
   }
   removeCurrentTab(aParams) {
@@ -3585,10 +3227,8 @@ class FirefoxTabbrowser extends XULElement {
 
     // Telemetry stopwatches may already be running if removeTab gets
     // called again for an already closing tab.
-    if (
-      !TelemetryStopwatch.running("FX_TAB_CLOSE_TIME_ANIM_MS", aTab) &&
-      !TelemetryStopwatch.running("FX_TAB_CLOSE_TIME_NO_ANIM_MS", aTab)
-    ) {
+    if (!TelemetryStopwatch.running("FX_TAB_CLOSE_TIME_ANIM_MS", aTab) &&
+      !TelemetryStopwatch.running("FX_TAB_CLOSE_TIME_NO_ANIM_MS", aTab)) {
       // Speculatevely start both stopwatches now. We'll cancel one of
       // the two later depending on whether we're animating.
       TelemetryStopwatch.start("FX_TAB_CLOSE_TIME_ANIM_MS", aTab);
@@ -3598,12 +3238,13 @@ class FirefoxTabbrowser extends XULElement {
 
     // Handle requests for synchronously removing an already
     // asynchronously closing tab.
-    if (!animate && aTab.closing) {
+    if (!animate &&
+      aTab.closing) {
       this._endRemoveTab(aTab);
       return;
     }
 
-    var isLastTab = this.tabs.length - this._removingTabs.length == 1;
+    var isLastTab = (this.tabs.length - this._removingTabs.length == 1);
 
     if (!this._beginRemoveTab(aTab, null, null, true, skipPermitUnload)) {
       TelemetryStopwatch.cancel("FX_TAB_CLOSE_TIME_ANIM_MS", aTab);
@@ -3613,21 +3254,17 @@ class FirefoxTabbrowser extends XULElement {
 
     if (!aTab.pinned && !aTab.hidden && aTab._fullyOpen && byMouse)
       this.tabContainer._lockTabSizing(aTab);
-    else this.tabContainer._unlockTabSizing();
+    else
+      this.tabContainer._unlockTabSizing();
 
-    if (
-      !animate /* the caller didn't opt in */ ||
+    if (!animate /* the caller didn't opt in */ ||
       isLastTab ||
       aTab.pinned ||
       aTab.hidden ||
-      this._removingTabs.length >
-        3 /* don't want lots of concurrent animations */ ||
-      aTab.getAttribute("fadein") !=
-        "true" /* fade-in transition hasn't been triggered yet */ ||
-      window.getComputedStyle(aTab).maxWidth ==
-        "0.1px" /* fade-in transition hasn't moved yet */ ||
-      !this.animationsEnabled
-    ) {
+      this._removingTabs.length > 3 /* don't want lots of concurrent animations */ ||
+      aTab.getAttribute("fadein") != "true" /* fade-in transition hasn't been triggered yet */ ||
+      window.getComputedStyle(aTab).maxWidth == "0.1px" /* fade-in transition hasn't moved yet */ ||
+      !this.animationsEnabled) {
       // We're not animating, so we can cancel the animation stopwatch.
       TelemetryStopwatch.cancel("FX_TAB_CLOSE_TIME_ANIM_MS", aTab);
       this._endRemoveTab(aTab);
@@ -3641,57 +3278,39 @@ class FirefoxTabbrowser extends XULElement {
     aTab.removeAttribute("fadein");
     aTab.removeAttribute("bursting");
 
-    setTimeout(
-      function(tab, tabbrowser) {
-        if (
-          tab.parentNode &&
-          window.getComputedStyle(tab).maxWidth == "0.1px"
-        ) {
-          NS_ASSERT(
-            false,
-            "Giving up waiting for the tab closing animation to finish (bug 608589)"
-          );
-          tabbrowser._endRemoveTab(tab);
-        }
-      },
-      3000,
-      aTab,
-      this
-    );
+    setTimeout(function(tab, tabbrowser) {
+      if (tab.parentNode &&
+        window.getComputedStyle(tab).maxWidth == "0.1px") {
+        NS_ASSERT(false, "Giving up waiting for the tab closing animation to finish (bug 608589)");
+        tabbrowser._endRemoveTab(tab);
+      }
+    }, 3000, aTab, this);
   }
   _hasBeforeUnload(aTab) {
     let browser = aTab.linkedBrowser;
-    return (
-      browser.isRemoteBrowser &&
-      browser.frameLoader &&
+    return browser.isRemoteBrowser && browser.frameLoader &&
       browser.frameLoader.tabParent &&
-      browser.frameLoader.tabParent.hasBeforeUnload
-    );
+      browser.frameLoader.tabParent.hasBeforeUnload;
   }
-  _beginRemoveTab(
-    aTab,
-    aAdoptedByTab,
-    aCloseWindowWithLastTab,
-    aCloseWindowFastpath,
-    aSkipPermitUnload
-  ) {
-    if (aTab.closing || this._windowIsClosing) return false;
+  _beginRemoveTab(aTab, aAdoptedByTab, aCloseWindowWithLastTab, aCloseWindowFastpath, aSkipPermitUnload) {
+    if (aTab.closing ||
+      this._windowIsClosing)
+      return false;
 
     var browser = this.getBrowserForTab(aTab);
-    if (
-      !aSkipPermitUnload &&
-      !aAdoptedByTab &&
-      aTab.linkedPanel &&
-      !aTab._pendingPermitUnload &&
-      (!browser.isRemoteBrowser || this._hasBeforeUnload(aTab))
-    ) {
+    if (!aSkipPermitUnload && !aAdoptedByTab &&
+      aTab.linkedPanel && !aTab._pendingPermitUnload &&
+      (!browser.isRemoteBrowser || this._hasBeforeUnload(aTab))) {
       TelemetryStopwatch.start("FX_TAB_CLOSE_PERMIT_UNLOAD_TIME_MS", aTab);
 
       // We need to block while calling permitUnload() because it
       // processes the event queue and may lead to another removeTab()
       // call before permitUnload() returns.
       aTab._pendingPermitUnload = true;
-      let { permitUnload, timedOut } = browser.permitUnload();
+      let {
+        permitUnload,
+        timedOut
+      } = browser.permitUnload();
       delete aTab._pendingPermitUnload;
 
       TelemetryStopwatch.finish("FX_TAB_CLOSE_PERMIT_UNLOAD_TIME_MS", aTab);
@@ -3709,10 +3328,9 @@ class FirefoxTabbrowser extends XULElement {
     var closeWindow = false;
     var newTab = false;
     if (this.tabs.length - this._removingTabs.length == 1) {
-      closeWindow = aCloseWindowWithLastTab != null
-        ? aCloseWindowWithLastTab
-        : !window.toolbar.visible ||
-            Services.prefs.getBoolPref("browser.tabs.closeWindowWithLastTab");
+      closeWindow = aCloseWindowWithLastTab != null ? aCloseWindowWithLastTab :
+        !window.toolbar.visible ||
+        Services.prefs.getBoolPref("browser.tabs.closeWindowWithLastTab");
 
       if (closeWindow) {
         // We've already called beforeunload on all the relevant tabs if we get here,
@@ -3723,17 +3341,12 @@ class FirefoxTabbrowser extends XULElement {
       // Closing the tab and replacing it with a blank one is notably slower
       // than closing the window right away. If the caller opts in, take
       // the fast path.
-      if (
-        closeWindow &&
+      if (closeWindow &&
         aCloseWindowFastpath &&
-        this._removingTabs.length == 0
-      ) {
+        this._removingTabs.length == 0) {
         // This call actually closes the window, unless the user
         // cancels the operation.  We are finished here in both cases.
-        this._windowIsClosing = window.closeWindow(
-          true,
-          window.warnAboutClosingWindow
-        );
+        this._windowIsClosing = window.closeWindow(true, window.warnAboutClosingWindow);
         return false;
       }
 
@@ -3770,10 +3383,15 @@ class FirefoxTabbrowser extends XULElement {
     this._visibleTabs = null; // invalidate cache
 
     // Invalidate hovered tab state tracking for this closing tab.
-    if (this.tabContainer._hoveredTab == aTab) aTab._mouseleave();
+    if (this.tabContainer._hoveredTab == aTab)
+      aTab._mouseleave();
 
-    if (newTab) this.addTab(BROWSER_NEW_TAB_URL, { skipAnimation: true });
-    else this.tabContainer.updateVisibility();
+    if (newTab)
+      this.addTab(BROWSER_NEW_TAB_URL, {
+        skipAnimation: true
+      });
+    else
+      this.tabContainer.updateVisibility();
 
     // We're committed to closing the tab now.
     // Dispatch a notification.
@@ -3781,16 +3399,17 @@ class FirefoxTabbrowser extends XULElement {
     // inspect the tab that's about to close.
     var evt = new CustomEvent("TabClose", {
       bubbles: true,
-      detail: { adoptedBy: aAdoptedByTab }
+      detail: {
+        adoptedBy: aAdoptedByTab
+      }
     });
     aTab.dispatchEvent(evt);
 
     if (aTab.linkedPanel) {
       if (!aAdoptedByTab && !gMultiProcessBrowser) {
         // Prevent this tab from showing further dialogs, since we're closing it
-        var windowUtils = browser.contentWindow
-          .QueryInterface(Ci.nsIInterfaceRequestor)
-          .getInterface(Ci.nsIDOMWindowUtils);
+        var windowUtils = browser.contentWindow.QueryInterface(Ci.nsIInterfaceRequestor).
+        getInterface(Ci.nsIDOMWindowUtils);
         windowUtils.disableDialogs();
       }
 
@@ -3805,10 +3424,8 @@ class FirefoxTabbrowser extends XULElement {
     }
 
     if (browser.registeredOpenURI && !aAdoptedByTab) {
-      this._unifiedComplete.unregisterOpenPage(
-        browser.registeredOpenURI,
-        browser.getAttribute("usercontextid") || 0
-      );
+      this._unifiedComplete.unregisterOpenPage(browser.registeredOpenURI,
+        browser.getAttribute("usercontextid") || 0);
       delete browser.registeredOpenURI;
     }
 
@@ -3825,7 +3442,8 @@ class FirefoxTabbrowser extends XULElement {
     return true;
   }
   _endRemoveTab(aTab) {
-    if (!aTab || !aTab._endRemoveArgs) return;
+    if (!aTab || !aTab._endRemoveArgs)
+      return;
 
     var [aCloseWindow, aNewTab] = aTab._endRemoveArgs;
     aTab._endRemoveArgs = null;
@@ -3850,7 +3468,8 @@ class FirefoxTabbrowser extends XULElement {
       while (this._removingTabs.length)
         this._endRemoveTab(this._removingTabs[0]);
     } else if (!this._windowIsClosing) {
-      if (aNewTab) focusAndSelectUrlBar();
+      if (aNewTab)
+        focusAndSelectUrlBar();
 
       // workaround for bug 345399
       this.tabContainer.arrowScrollbox._updateScrollButtonsDisabledState();
@@ -3882,21 +3501,19 @@ class FirefoxTabbrowser extends XULElement {
     this.tabContainer.removeChild(aTab);
 
     // ... and fix up the _tPos properties immediately.
-    for (let i = aTab._tPos; i < this.tabs.length; i++) this.tabs[i]._tPos = i;
+    for (let i = aTab._tPos; i < this.tabs.length; i++)
+      this.tabs[i]._tPos = i;
 
     if (!this._windowIsClosing) {
-      if (wasPinned) this.tabContainer._positionPinnedTabs();
+      if (wasPinned)
+        this.tabContainer._positionPinnedTabs();
 
       // update tab close buttons state
       this.tabContainer._updateCloseButtons();
 
-      setTimeout(
-        function(tabs) {
-          tabs._lastTabClosedByMouse = false;
-        },
-        0,
-        this.tabContainer
-      );
+      setTimeout(function(tabs) {
+        tabs._lastTabClosedByMouse = false;
+      }, 0, this.tabContainer);
     }
 
     // update tab positional properties and attributes
@@ -3935,16 +3552,10 @@ class FirefoxTabbrowser extends XULElement {
     // closeWindow might wait an arbitrary length of time if we're supposed
     // to warn about closing the window, so we'll just stop the tab close
     // stopwatches here instead.
-    TelemetryStopwatch.finish(
-      "FX_TAB_CLOSE_TIME_ANIM_MS",
-      aTab,
-      true /* aCanceledOkay */
-    );
-    TelemetryStopwatch.finish(
-      "FX_TAB_CLOSE_TIME_NO_ANIM_MS",
-      aTab,
-      true /* aCanceledOkay */
-    );
+    TelemetryStopwatch.finish("FX_TAB_CLOSE_TIME_ANIM_MS", aTab,
+      true /* aCanceledOkay */ );
+    TelemetryStopwatch.finish("FX_TAB_CLOSE_TIME_NO_ANIM_MS", aTab,
+      true /* aCanceledOkay */ );
 
     if (aCloseWindow)
       this._windowIsClosing = closeWindow(true, window.warnAboutClosingWindow);
@@ -3954,26 +3565,20 @@ class FirefoxTabbrowser extends XULElement {
       return null;
     }
 
-    if (
-      aTab.owner &&
+    if (aTab.owner &&
       !aTab.owner.hidden &&
       !aTab.owner.closing &&
-      Services.prefs.getBoolPref("browser.tabs.selectOwnerOnClose")
-    ) {
+      Services.prefs.getBoolPref("browser.tabs.selectOwnerOnClose")) {
       return aTab.owner;
     }
 
     // Switch to a visible tab unless there aren't any others remaining
     let remainingTabs = this.visibleTabs;
     let numTabs = remainingTabs.length;
-    if (numTabs == 0 || (numTabs == 1 && remainingTabs[0] == aTab)) {
-      remainingTabs = Array.filter(
-        this.tabs,
-        function(tab) {
-          return !tab.closing;
-        },
-        this
-      );
+    if (numTabs == 0 || numTabs == 1 && remainingTabs[0] == aTab) {
+      remainingTabs = Array.filter(this.tabs, function(tab) {
+        return !tab.closing;
+      }, this);
     }
 
     // Try to find a remaining tab that comes after the given tab
@@ -3998,24 +3603,20 @@ class FirefoxTabbrowser extends XULElement {
   swapBrowsersAndCloseOther(aOurTab, aOtherTab) {
     // Do not allow transfering a private tab to a non-private window
     // and vice versa.
-    if (
-      PrivateBrowsingUtils.isWindowPrivate(window) !=
-      PrivateBrowsingUtils.isWindowPrivate(aOtherTab.ownerGlobal)
-    )
+    if (PrivateBrowsingUtils.isWindowPrivate(window) !=
+      PrivateBrowsingUtils.isWindowPrivate(aOtherTab.ownerGlobal))
       return;
 
     let ourBrowser = this.getBrowserForTab(aOurTab);
     let otherBrowser = aOtherTab.linkedBrowser;
 
     // Can't swap between chrome and content processes.
-    if (ourBrowser.isRemoteBrowser != otherBrowser.isRemoteBrowser) return;
+    if (ourBrowser.isRemoteBrowser != otherBrowser.isRemoteBrowser)
+      return;
 
     // Keep the userContextId if set on other browser
     if (otherBrowser.hasAttribute("usercontextid")) {
-      ourBrowser.setAttribute(
-        "usercontextid",
-        otherBrowser.getAttribute("usercontextid")
-      );
+      ourBrowser.setAttribute("usercontextid", otherBrowser.getAttribute("usercontextid"));
     }
 
     // That's gBrowser for the other window, not the tab's browser!
@@ -4036,7 +3637,8 @@ class FirefoxTabbrowser extends XULElement {
     // First, start teardown of the other browser.  Make sure to not
     // fire the beforeunload event in the process.  Close the other
     // window if this was its last tab.
-    if (!remoteBrowser._beginRemoveTab(aOtherTab, aOurTab, true)) return;
+    if (!remoteBrowser._beginRemoveTab(aOtherTab, aOurTab, true))
+      return;
 
     // If this is the last tab of the window, hide the window
     // immediately without animation before the docshell swap, to avoid
@@ -4044,17 +3646,16 @@ class FirefoxTabbrowser extends XULElement {
     let [closeWindow] = aOtherTab._endRemoveArgs;
     if (closeWindow) {
       let win = aOtherTab.ownerGlobal;
-      let dwu = win
-        .QueryInterface(Ci.nsIInterfaceRequestor)
+      let dwu = win.QueryInterface(Ci.nsIInterfaceRequestor)
         .getInterface(Ci.nsIDOMWindowUtils);
       dwu.suppressAnimation(true);
       // Only suppressing window animations isn't enough to avoid
       // an empty content area being painted.
-      let baseWin = win
-        .QueryInterface(Ci.nsIInterfaceRequestor)
+      let baseWin = win.QueryInterface(Ci.nsIInterfaceRequestor)
         .getInterface(Ci.nsIDocShell)
         .QueryInterface(Ci.nsIDocShellTreeItem)
-        .treeOwner.QueryInterface(Ci.nsIBaseWindow);
+        .treeOwner
+        .QueryInterface(Ci.nsIBaseWindow);
       baseWin.visibility = false;
     }
 
@@ -4094,42 +3695,33 @@ class FirefoxTabbrowser extends XULElement {
       // Workarounds for bug 458697
       // Icon might have been set on DOMLinkAdded, don't override that.
       if (!ourBrowser.mIconURL && otherBrowser.mIconURL)
-        this.setIcon(
-          aOurTab,
-          otherBrowser.mIconURL,
-          otherBrowser.contentPrincipal,
-          otherBrowser.contentRequestContextID
-        );
+        this.setIcon(aOurTab, otherBrowser.mIconURL, otherBrowser.contentPrincipal, otherBrowser.contentRequestContextID);
       var isBusy = aOtherTab.hasAttribute("busy");
       if (isBusy) {
         aOurTab.setAttribute("busy", "true");
         modifiedAttrs.push("busy");
-        if (aOurTab.selected) this.mIsBusy = true;
+        if (aOurTab.selected)
+          this.mIsBusy = true;
       }
 
-      this._swapBrowserDocShells(
-        aOurTab,
-        otherBrowser,
-        Ci.nsIBrowser.SWAP_DEFAULT,
-        stateFlags
-      );
+      this._swapBrowserDocShells(aOurTab, otherBrowser, Ci.nsIBrowser.SWAP_DEFAULT, stateFlags);
     }
 
     // Unregister the previously opened URI
     if (otherBrowser.registeredOpenURI) {
-      this._unifiedComplete.unregisterOpenPage(
-        otherBrowser.registeredOpenURI,
-        otherBrowser.getAttribute("usercontextid") || 0
-      );
+      this._unifiedComplete.unregisterOpenPage(otherBrowser.registeredOpenURI,
+        otherBrowser.getAttribute("usercontextid") || 0);
       delete otherBrowser.registeredOpenURI;
     }
 
     // Handle findbar data (if any)
     let otherFindBar = aOtherTab._findBar;
-    if (otherFindBar && otherFindBar.findMode == otherFindBar.FIND_NORMAL) {
+    if (otherFindBar &&
+      otherFindBar.findMode == otherFindBar.FIND_NORMAL) {
       let ourFindBar = this.getFindBar(aOurTab);
       ourFindBar._findField.value = otherFindBar._findField.value;
-      if (!otherFindBar.hidden) ourFindBar.onFindCommand();
+      if (!otherFindBar.hidden)
+        ourFindBar.onFindCommand();
     }
 
     // Finish tearing down the tab that's going away.
@@ -4143,7 +3735,8 @@ class FirefoxTabbrowser extends XULElement {
 
     // If the tab was already selected (this happpens in the scenario
     // of replaceTabWithWindow), notify onLocationChange, etc.
-    if (aOurTab.selected) this.updateCurrentBrowser(true);
+    if (aOurTab.selected)
+      this.updateCurrentBrowser(true);
 
     if (modifiedAttrs.length) {
       this._tabAttrModified(aOurTab, modifiedAttrs);
@@ -4163,12 +3756,7 @@ class FirefoxTabbrowser extends XULElement {
     this._swapBrowserDocShells(aOurTab, otherBrowser, aFlags);
 
     // Restore the listeners for the swapped in tab.
-    tabListener = otherTabBrowser.mTabProgressListener(
-      aOtherTab,
-      otherBrowser,
-      false,
-      false
-    );
+    tabListener = otherTabBrowser.mTabProgressListener(aOtherTab, otherBrowser, false, false);
     otherTabBrowser._tabListeners.set(aOtherTab, tabListener);
 
     const notifyAll = Ci.nsIWebProgress.NOTIFY_ALL;
@@ -4193,9 +3781,7 @@ class FirefoxTabbrowser extends XULElement {
     this._outerWindowIDBrowserMap.delete(ourBrowser.outerWindowID);
     let remoteBrowser = aOtherBrowser.ownerGlobal.gBrowser;
     if (remoteBrowser) {
-      remoteBrowser._outerWindowIDBrowserMap.delete(
-        aOtherBrowser.outerWindowID
-      );
+      remoteBrowser._outerWindowIDBrowserMap.delete(aOtherBrowser.outerWindowID);
     }
 
     // If switcher is active, it will intercept swap events and
@@ -4217,10 +3803,7 @@ class FirefoxTabbrowser extends XULElement {
     // Register new outerWindowIDs.
     this._outerWindowIDBrowserMap.set(ourBrowser.outerWindowID, ourBrowser);
     if (remoteBrowser) {
-      remoteBrowser._outerWindowIDBrowserMap.set(
-        aOtherBrowser.outerWindowID,
-        aOtherBrowser
-      );
+      remoteBrowser._outerWindowIDBrowserMap.set(aOtherBrowser.outerWindowID, aOtherBrowser);
     }
 
     if (!(aFlags & Ci.nsIBrowser.SWAP_KEEP_PERMANENT_KEY)) {
@@ -4238,13 +3821,8 @@ class FirefoxTabbrowser extends XULElement {
     }
 
     // Restore the progress listener
-    tabListener = this.mTabProgressListener(
-      aOurTab,
-      ourBrowser,
-      false,
-      false,
-      aStateFlags
-    );
+    tabListener = this.mTabProgressListener(aOurTab, ourBrowser, false, false,
+      aStateFlags);
     this._tabListeners.set(aOurTab, tabListener);
 
     const notifyAll = Ci.nsIWebProgress.NOTIFY_ALL;
@@ -4283,37 +3861,34 @@ class FirefoxTabbrowser extends XULElement {
   }
   addProgressListener(aListener) {
     if (arguments.length != 1) {
-      Components.utils.reportError(
-        "gBrowser.addProgressListener was " +
-          "called with a second argument, " +
-          "which is not supported. See bug " +
-          "608628. Call stack: " +
-          new Error().stack
-      );
+      Components.utils.reportError("gBrowser.addProgressListener was " +
+        "called with a second argument, " +
+        "which is not supported. See bug " +
+        "608628. Call stack: " + new Error().stack);
     }
 
     this.mProgressListeners.push(aListener);
   }
   removeProgressListener(aListener) {
-    this.mProgressListeners = this.mProgressListeners.filter(
-      l => l != aListener
-    );
+    this.mProgressListeners =
+      this.mProgressListeners.filter(l => l != aListener);
   }
   addTabsProgressListener(aListener) {
     this.mTabsProgressListeners.push(aListener);
   }
   removeTabsProgressListener(aListener) {
-    this.mTabsProgressListeners = this.mTabsProgressListeners.filter(
-      l => l != aListener
-    );
+    this.mTabsProgressListeners =
+      this.mTabsProgressListeners.filter(l => l != aListener);
   }
   getBrowserForTab(aTab) {
     return aTab.linkedBrowser;
   }
   showOnlyTheseTabs(aTabs) {
     for (let tab of this.tabs) {
-      if (!aTabs.includes(tab)) this.hideTab(tab);
-      else this.showTab(tab);
+      if (!aTabs.includes(tab))
+        this.hideTab(tab);
+      else
+        this.showTab(tab);
     }
 
     this.tabContainer._handleTabSelect(true);
@@ -4334,13 +3909,8 @@ class FirefoxTabbrowser extends XULElement {
     }
   }
   hideTab(aTab, aSource) {
-    if (
-      !aTab.hidden &&
-      !aTab.pinned &&
-      !aTab.selected &&
-      !aTab.closing &&
-      !aTab._sharingState
-    ) {
+    if (!aTab.hidden && !aTab.pinned && !aTab.selected &&
+      !aTab.closing && !aTab._sharingState) {
       aTab.setAttribute("hidden", "true");
       this._visibleTabs = null; // invalidate cache
 
@@ -4363,7 +3933,8 @@ class FirefoxTabbrowser extends XULElement {
     if (aIndex < 0) {
       aIndex += tabs.length;
       // clamp at index 0 if still negative.
-      if (aIndex < 0) aIndex = 0;
+      if (aIndex < 0)
+        aIndex = 0;
     } else if (aIndex >= tabs.length) {
       // clamp at right-most tab if out of range.
       aIndex = tabs.length - 1;
@@ -4377,10 +3948,12 @@ class FirefoxTabbrowser extends XULElement {
     }
   }
   replaceTabWithWindow(aTab, aOptions) {
-    if (this.tabs.length == 1) return null;
+    if (this.tabs.length == 1)
+      return null;
 
     var options = "chrome,dialog=no,all";
-    for (var name in aOptions) options += "," + name + "=" + aOptions[name];
+    for (var name in aOptions)
+      options += "," + name + "=" + aOptions[name];
 
     // Play the tab closing animation to give immediate feedback while
     // waiting for the new window to appear.
@@ -4395,18 +3968,22 @@ class FirefoxTabbrowser extends XULElement {
   }
   moveTabTo(aTab, aIndex, aKeepRelatedTabs) {
     var oldPosition = aTab._tPos;
-    if (oldPosition == aIndex) return;
+    if (oldPosition == aIndex)
+      return;
 
     // Don't allow mixing pinned and unpinned tabs.
-    if (aTab.pinned) aIndex = Math.min(aIndex, this._numPinnedTabs - 1);
-    else aIndex = Math.max(aIndex, this._numPinnedTabs);
-    if (oldPosition == aIndex) return;
+    if (aTab.pinned)
+      aIndex = Math.min(aIndex, this._numPinnedTabs - 1);
+    else
+      aIndex = Math.max(aIndex, this._numPinnedTabs);
+    if (oldPosition == aIndex)
+      return;
 
     if (!aKeepRelatedTabs) {
       this._lastRelatedTabMap = new WeakMap();
     }
 
-    let wasFocused = document.activeElement == this.mCurrentTab;
+    let wasFocused = (document.activeElement == this.mCurrentTab);
 
     aIndex = aIndex < aTab._tPos ? aIndex : aIndex + 1;
 
@@ -4439,11 +4016,13 @@ class FirefoxTabbrowser extends XULElement {
     // has completed.
     this.mCurrentTab._selected = true;
 
-    if (wasFocused) this.mCurrentTab.focus();
+    if (wasFocused)
+      this.mCurrentTab.focus();
 
     this.tabContainer._handleTabSelect(true);
 
-    if (aTab.pinned) this.tabContainer._positionPinnedTabs();
+    if (aTab.pinned)
+      this.tabContainer._positionPinnedTabs();
 
     this.tabContainer._setPositionalAttributes();
 
@@ -4453,10 +4032,13 @@ class FirefoxTabbrowser extends XULElement {
   }
   moveTabForward() {
     let nextTab = this.mCurrentTab.nextSibling;
-    while (nextTab && nextTab.hidden) nextTab = nextTab.nextSibling;
+    while (nextTab && nextTab.hidden)
+      nextTab = nextTab.nextSibling;
 
-    if (nextTab) this.moveTabTo(this.mCurrentTab, nextTab._tPos);
-    else if (this.arrowKeysShouldWrap) this.moveTabToStart();
+    if (nextTab)
+      this.moveTabTo(this.mCurrentTab, nextTab._tPos);
+    else if (this.arrowKeysShouldWrap)
+      this.moveTabToStart();
   }
   adoptTab(aTab, aIndex, aSelectTab) {
     // Swap the dropped tab with a new one we create and then close
@@ -4466,7 +4048,9 @@ class FirefoxTabbrowser extends XULElement {
     // This makes sure we don't get a short-lived process for the new tab.
     let linkedBrowser = aTab.linkedBrowser;
     let params = {
-      eventDetail: { adoptedTab: aTab },
+      eventDetail: {
+        adoptedTab: aTab
+      },
       preferredRemoteType: linkedBrowser.remoteType,
       sameProcessAsFrameLoader: linkedBrowser.frameLoader,
       skipAnimation: true
@@ -4515,12 +4099,15 @@ class FirefoxTabbrowser extends XULElement {
     while (previousTab && previousTab.hidden)
       previousTab = previousTab.previousSibling;
 
-    if (previousTab) this.moveTabTo(this.mCurrentTab, previousTab._tPos);
-    else if (this.arrowKeysShouldWrap) this.moveTabToEnd();
+    if (previousTab)
+      this.moveTabTo(this.mCurrentTab, previousTab._tPos);
+    else if (this.arrowKeysShouldWrap)
+      this.moveTabToEnd();
   }
   moveTabToStart() {
     var tabPos = this.mCurrentTab._tPos;
-    if (tabPos > 0) this.moveTabTo(this.mCurrentTab, 0);
+    if (tabPos > 0)
+      this.moveTabTo(this.mCurrentTab, 0);
   }
   moveTabToEnd() {
     var tabPos = this.mCurrentTab._tPos;
@@ -4529,12 +4116,11 @@ class FirefoxTabbrowser extends XULElement {
   }
   moveTabOver(aEvent) {
     var direction = window.getComputedStyle(this.parentNode).direction;
-    if (
-      (direction == "ltr" && aEvent.keyCode == KeyEvent.DOM_VK_RIGHT) ||
-      (direction == "rtl" && aEvent.keyCode == KeyEvent.DOM_VK_LEFT)
-    )
+    if ((direction == "ltr" && aEvent.keyCode == KeyEvent.DOM_VK_RIGHT) ||
+      (direction == "rtl" && aEvent.keyCode == KeyEvent.DOM_VK_LEFT))
       this.moveTabForward();
-    else this.moveTabBackward();
+    else
+      this.moveTabBackward();
   }
   duplicateTab(aTab, aRestoreTabImmediately) {
     return SessionStore.duplicateTab(window, aTab, 0, aRestoreTabImmediately);
@@ -4557,12 +4143,10 @@ class FirefoxTabbrowser extends XULElement {
     if (this._switcher) {
       return this._switcher.shouldActivateDocShell(aBrowser);
     }
-    return (
-      (aBrowser == this.selectedBrowser &&
+    return (aBrowser == this.selectedBrowser &&
         window.windowState != window.STATE_MINIMIZED &&
         !window.isFullyOccluded) ||
-      this._printPreviewBrowsers.has(aBrowser)
-    );
+      this._printPreviewBrowsers.has(aBrowser);
   }
   _getSwitcher() {
     if (this._switcher) {
@@ -4573,11 +4157,11 @@ class FirefoxTabbrowser extends XULElement {
       // How long to wait for a tab's layers to load. After this
       // time elapses, we're free to put up the spinner and start
       // trying to load a different tab.
-      TAB_SWITCH_TIMEOUT: 400 /* ms */,
+      TAB_SWITCH_TIMEOUT: 400 /* ms */ ,
 
       // When the user hasn't switched tabs for this long, we unload
       // layers for all tabs that aren't in use.
-      UNLOAD_DELAY: 300 /* ms */,
+      UNLOAD_DELAY: 300 /* ms */ ,
 
       // The next three tabs form the principal state variables.
       // See the assertions in postActions for their invariants.
@@ -4642,9 +4226,8 @@ class FirefoxTabbrowser extends XULElement {
           notify: callback
         };
 
-        var timer = Cc["@mozilla.org/timer;1"].createInstance(
-          Components.interfaces.nsITimer
-        );
+        var timer = Cc["@mozilla.org/timer;1"]
+          .createInstance(Components.interfaces.nsITimer);
         timer.initWithCallback(event, timeout, Ci.nsITimer.TYPE_ONE_SHOT);
         return timer;
       },
@@ -4685,7 +4268,9 @@ class FirefoxTabbrowser extends XULElement {
         this.setTabStateNoAction(tab, state);
 
         let browser = tab.linkedBrowser;
-        let { tabParent } = browser.frameLoader;
+        let {
+          tabParent
+        } = browser.frameLoader;
         if (state == this.STATE_LOADING) {
           this.assert(!this.minimizedOrFullyOccluded);
 
@@ -4719,17 +4304,14 @@ class FirefoxTabbrowser extends XULElement {
           // exits, a non-remote tab must be in STATE_LOADED or
           // STATE_UNLOADED, since the painting and the layer
           // upload happen synchronously.
-          this.assert(
-            nonRemoteState == this.STATE_UNLOADED ||
-              nonRemoteState == this.STATE_LOADED
-          );
+          this.assert(nonRemoteState == this.STATE_UNLOADED ||
+            nonRemoteState == this.STATE_LOADED);
         }
       },
 
       get minimizedOrFullyOccluded() {
-        return (
-          window.windowState == window.STATE_MINIMIZED || window.isFullyOccluded
-        );
+        return window.windowState == window.STATE_MINIMIZED ||
+          window.isFullyOccluded;
       },
 
       init() {
@@ -4747,8 +4329,7 @@ class FirefoxTabbrowser extends XULElement {
         let initialTab = this.requestedTab;
         let initialBrowser = initialTab.linkedBrowser;
 
-        let tabIsLoaded =
-          !initialBrowser.isRemoteBrowser ||
+        let tabIsLoaded = !initialBrowser.isRemoteBrowser ||
           initialBrowser.frameLoader.tabParent.hasLayers;
 
         // If we minimized the window before the switcher was activated,
@@ -4758,17 +4339,14 @@ class FirefoxTabbrowser extends XULElement {
 
         if (!this.minimizedOrFullyOccluded) {
           this.log("Initial tab is loaded?: " + tabIsLoaded);
-          this.setTabState(
-            initialTab,
-            tabIsLoaded ? this.STATE_LOADED : this.STATE_LOADING
-          );
+          this.setTabState(initialTab, tabIsLoaded ? this.STATE_LOADED :
+            this.STATE_LOADING);
         }
 
         for (let ppBrowser of this.tabbrowser._printPreviewBrowsers) {
           let ppTab = this.tabbrowser.getTabForBrowser(ppBrowser);
-          let state = ppBrowser.hasLayers
-            ? this.STATE_LOADED
-            : this.STATE_LOADING;
+          let state = ppBrowser.hasLayers ? this.STATE_LOADED :
+            this.STATE_LOADING;
           this.setTabState(ppTab, state);
         }
       },
@@ -4810,10 +4388,8 @@ class FirefoxTabbrowser extends XULElement {
         this.assert(!this.loadTimer);
         this.assert(!this.loadingTab);
         this.assert(this.lastVisibleTab === this.requestedTab);
-        this.assert(
-          this.minimizedOrFullyOccluded ||
-            this.getTabState(this.requestedTab) == this.STATE_LOADED
-        );
+        this.assert(this.minimizedOrFullyOccluded ||
+          this.getTabState(this.requestedTab) == this.STATE_LOADED);
 
         this.destroy();
 
@@ -4851,30 +4427,22 @@ class FirefoxTabbrowser extends XULElement {
           // For (2), "finished loading a non-local-about: page" is
           // determined by the busy state on the tab element and checking
           // if the loaded URI is local.
-          let hasSufficientlyLoaded =
-            !this.requestedTab.hasAttribute("busy") &&
+          let hasSufficientlyLoaded = !this.requestedTab.hasAttribute("busy") &&
             !this.tabbrowser._isLocalAboutURI(requestedBrowser.currentURI);
 
           let fl = requestedBrowser.frameLoader;
-          shouldBeBlank =
-            !this.minimizedOrFullyOccluded &&
+          shouldBeBlank = !this.minimizedOrFullyOccluded &&
             (!fl.tabParent ||
               (!hasSufficientlyLoaded && !fl.tabParent.hasPresented));
         }
 
         this.log("Tab should be blank: " + shouldBeBlank);
-        this.log(
-          "Requested tab is remote?: " + requestedBrowser.isRemoteBrowser
-        );
+        this.log("Requested tab is remote?: " + requestedBrowser.isRemoteBrowser);
 
         // Figure out which tab we actually want visible right now.
         let showTab = null;
-        if (
-          requestedTabState != this.STATE_LOADED &&
-          this.lastVisibleTab &&
-          this.loadTimer &&
-          !shouldBeBlank
-        ) {
+        if (requestedTabState != this.STATE_LOADED &&
+          this.lastVisibleTab && this.loadTimer && !shouldBeBlank) {
           // If we can't show the requestedTab, and lastVisibleTab is
           // available, show it.
           showTab = this.lastVisibleTab;
@@ -4898,8 +4466,7 @@ class FirefoxTabbrowser extends XULElement {
         }
 
         // Show or hide the spinner as needed.
-        let needSpinner =
-          this.getTabState(showTab) != this.STATE_LOADED &&
+        let needSpinner = this.getTabState(showTab) != this.STATE_LOADED &&
           !this.minimizedOrFullyOccluded &&
           !shouldBeBlank;
 
@@ -4936,19 +4503,17 @@ class FirefoxTabbrowser extends XULElement {
             if (showTab === this.requestedTab) {
               if (this._requestingTab) {
                 /*
-                       * If _requestingTab is set, that means that we're switching the
-                       * visibility of the tab synchronously, and we need to wait for
-                       * the "select" event before shifting focus so that
-                       * _adjustFocusAfterTabSwitch runs with the right information for
-                       * the tab switch.
-                       */
-                this.tabbrowser.addEventListener(
-                  "select",
-                  () => {
-                    this.tabbrowser._adjustFocusAfterTabSwitch(showTab);
-                  },
-                  { once: true }
-                );
+                 * If _requestingTab is set, that means that we're switching the
+                 * visibility of the tab synchronously, and we need to wait for
+                 * the "select" event before shifting focus so that
+                 * _adjustFocusAfterTabSwitch runs with the right information for
+                 * the tab switch.
+                 */
+                this.tabbrowser.addEventListener("select", () => {
+                  this.tabbrowser._adjustFocusAfterTabSwitch(showTab);
+                }, {
+                  once: true
+                });
               } else {
                 this.tabbrowser._adjustFocusAfterTabSwitch(showTab);
               }
@@ -4988,10 +4553,7 @@ class FirefoxTabbrowser extends XULElement {
         this.loadingTab = this.requestedTab;
         this.log("Loading tab " + this.tinfo(this.loadingTab));
 
-        this.loadTimer = this.setTimer(
-          () => this.onLoadTimeout(),
-          this.TAB_SWITCH_TIMEOUT
-        );
+        this.loadTimer = this.setTimer(() => this.onLoadTimeout(), this.TAB_SWITCH_TIMEOUT);
         this.setTabState(this.requestedTab, this.STATE_LOADING);
       },
 
@@ -5001,20 +4563,16 @@ class FirefoxTabbrowser extends XULElement {
         // should activate it.
         let browser = tab.linkedBrowser;
         let state = this.getTabState(tab);
-        let canCheckDocShellState =
-          !browser.mDestroyed &&
-          (browser.docShell || browser.frameLoader.tabParent);
-        if (
-          tab == this.requestedTab &&
+        let canCheckDocShellState = !browser.mDestroyed &&
+          (browser.docShell ||
+            browser.frameLoader.tabParent);
+        if (tab == this.requestedTab &&
           canCheckDocShellState &&
           state == this.STATE_LOADED &&
           !browser.docShellIsActive &&
-          !this.minimizedOrFullyOccluded
-        ) {
+          !this.minimizedOrFullyOccluded) {
           browser.docShellIsActive = true;
-          this.logState(
-            "Set requested tab docshell to active and preserveLayers to false"
-          );
+          this.logState("Set requested tab docshell to active and preserveLayers to false");
           // If we minimized the window before the switcher was activated,
           // we might have set the preserveLayers flag for the current
           // browser. Let's clear it.
@@ -5028,7 +4586,7 @@ class FirefoxTabbrowser extends XULElement {
         this.assert(this.tabbrowser._switcher);
         this.assert(this.tabbrowser._switcher === this);
 
-        for (let [tab] of this.tabState) {
+        for (let [tab, ] of this.tabState) {
           if (!tab.linkedBrowser) {
             this.tabState.delete(tab);
             this.unwarmTab(tab);
@@ -5062,10 +4620,8 @@ class FirefoxTabbrowser extends XULElement {
       postActions() {
         // Once we finish loading loadingTab, we null it out. So the state should
         // always be LOADING.
-        this.assert(
-          !this.loadingTab ||
-            this.getTabState(this.loadingTab) == this.STATE_LOADING
-        );
+        this.assert(!this.loadingTab ||
+          this.getTabState(this.loadingTab) == this.STATE_LOADING);
 
         // We guarantee that loadingTab is non-null iff loadTimer is non-null. So
         // the timer is set only when we're loading something.
@@ -5086,12 +4642,9 @@ class FirefoxTabbrowser extends XULElement {
 
         // If we're not loading anything, try loading the requested tab.
         let requestedState = this.getTabState(this.requestedTab);
-        if (
-          !this.loadTimer &&
-          !this.minimizedOrFullyOccluded &&
+        if (!this.loadTimer && !this.minimizedOrFullyOccluded &&
           (requestedState == this.STATE_UNLOADED ||
-            requestedState == this.STATE_UNLOADING)
-        ) {
+            requestedState == this.STATE_UNLOADING)) {
           this.loadRequestedTab();
         }
 
@@ -5167,13 +4720,11 @@ class FirefoxTabbrowser extends XULElement {
             continue;
           }
 
-          if (
-            state == this.STATE_LOADED &&
+          if (state == this.STATE_LOADED &&
             !this.maybeVisibleTabs.has(tab) &&
             tab !== this.lastVisibleTab &&
             tab !== this.loadingTab &&
-            tab !== this.requestedTab
-          ) {
+            tab !== this.requestedTab) {
             this.setTabState(tab, this.STATE_UNLOADING);
           }
 
@@ -5184,10 +4735,7 @@ class FirefoxTabbrowser extends XULElement {
 
         if (numPending) {
           // Keep the timer going since there may be more tabs to unload.
-          this.unloadTimer = this.setTimer(
-            () => this.onUnloadTimeout(),
-            this.UNLOAD_DELAY
-          );
+          this.unloadTimer = this.setTimer(() => this.onUnloadTimeout(), this.UNLOAD_DELAY);
         }
       },
 
@@ -5210,14 +4758,10 @@ class FirefoxTabbrowser extends XULElement {
           return;
         }
 
-        this.logState(
-          `onLayersReady(${tab._tPos}, ${browser.isRemoteBrowser})`
-        );
+        this.logState(`onLayersReady(${tab._tPos}, ${browser.isRemoteBrowser})`);
 
-        this.assert(
-          this.getTabState(tab) == this.STATE_LOADING ||
-            this.getTabState(tab) == this.STATE_LOADED
-        );
+        this.assert(this.getTabState(tab) == this.STATE_LOADING ||
+          this.getTabState(tab) == this.STATE_LOADED);
         this.setTabState(tab, this.STATE_LOADED);
 
         if (this.loadingTab === tab) {
@@ -5239,10 +4783,8 @@ class FirefoxTabbrowser extends XULElement {
         let tab = this.tabbrowser.getTabForBrowser(browser);
         if (tab) {
           this.logState(`onLayersCleared(${tab._tPos})`);
-          this.assert(
-            this.getTabState(tab) == this.STATE_UNLOADING ||
-              this.getTabState(tab) == this.STATE_UNLOADED
-          );
+          this.assert(this.getTabState(tab) == this.STATE_UNLOADING ||
+            this.getTabState(tab) == this.STATE_UNLOADED);
           this.setTabState(tab, this.STATE_UNLOADED);
         }
       },
@@ -5251,10 +4793,7 @@ class FirefoxTabbrowser extends XULElement {
       // a MozLayerTreeReady notification that we requested may never fire,
       // so we need to simulate it.
       onRemotenessChange(tab) {
-        this.logState(
-          `onRemotenessChange(${tab._tPos}, ${tab.linkedBrowser
-            .isRemoteBrowser})`
-        );
+        this.logState(`onRemotenessChange(${tab._tPos}, ${tab.linkedBrowser.isRemoteBrowser})`);
         if (!tab.linkedBrowser.isRemoteBrowser) {
           if (this.getTabState(tab) == this.STATE_LOADING) {
             this.onLayersReady(tab.linkedBrowser);
@@ -5318,16 +4857,16 @@ class FirefoxTabbrowser extends XULElement {
           let otherSwitcher = otherTabbrowser._switcher;
           otherState = otherSwitcher.getTabState(otherTab);
         } else {
-          otherState = otherBrowser.docShellIsActive
-            ? this.STATE_LOADED
-            : this.STATE_UNLOADED;
+          otherState = (otherBrowser.docShellIsActive ?
+            this.STATE_LOADED :
+            this.STATE_UNLOADED);
         }
 
         if (!this.swapMap) {
           this.swapMap = new WeakMap();
         }
         this.swapMap.set(otherBrowser, {
-          state: otherState
+          state: otherState,
         });
       },
 
@@ -5347,7 +4886,9 @@ class FirefoxTabbrowser extends XULElement {
         }
         this.loadingTab = null;
 
-        let { state: otherState } = this.swapMap.get(otherBrowser);
+        let {
+          state: otherState
+        } = this.swapMap.get(otherBrowser);
 
         this.swapMap.delete(otherBrowser);
 
@@ -5366,11 +4907,10 @@ class FirefoxTabbrowser extends XULElement {
       activateBrowserForPrintPreview(browser) {
         let tab = this.tabbrowser.getTabForBrowser(browser);
         let state = this.getTabState(tab);
-        if (state != this.STATE_LOADING && state != this.STATE_LOADED) {
+        if (state != this.STATE_LOADING &&
+          state != this.STATE_LOADED) {
           this.setTabState(tab, this.STATE_LOADING);
-          this.logState(
-            "Activated browser " + this.tinfo(tab) + " for print preview"
-          );
+          this.logState("Activated browser " + this.tinfo(tab) + " for print preview");
         }
       },
 
@@ -5386,13 +4926,11 @@ class FirefoxTabbrowser extends XULElement {
         // If the tab is not yet inserted, closing, not remote,
         // crashed, already visible, or already requested, warming
         // up the tab makes no sense.
-        if (
-          this.minimizedOrFullyOccluded ||
+        if (this.minimizedOrFullyOccluded ||
           !tab.linkedPanel ||
           tab.closing ||
           !tab.linkedBrowser.isRemoteBrowser ||
-          !tab.linkedBrowser.frameLoader.tabParent
-        ) {
+          !tab.linkedBrowser.frameLoader.tabParent) {
           return false;
         }
 
@@ -5400,7 +4938,8 @@ class FirefoxTabbrowser extends XULElement {
         // STATE_LOADED somehow, there's no point in trying to
         // warm it up.
         let state = this.getTabState(tab);
-        if (state === this.STATE_LOADING || state === this.STATE_LOADED) {
+        if (state === this.STATE_LOADING ||
+          state === this.STATE_LOADED) {
           return false;
         }
 
@@ -5420,10 +4959,8 @@ class FirefoxTabbrowser extends XULElement {
 
         this.warmingTabs.add(tab);
         this.setTabState(tab, this.STATE_LOADING);
-        this.suppressDisplayPortAndQueueUnload(
-          tab,
-          this.tabbrowser.tabWarmingUnloadDelay
-        );
+        this.suppressDisplayPortAndQueueUnload(tab,
+          this.tabbrowser.tabWarmingUnloadDelay);
       },
 
       // Called when the user asks to switch to a given tab.
@@ -5465,10 +5002,7 @@ class FirefoxTabbrowser extends XULElement {
         }
         this.lastPrimaryTab = tab;
 
-        this.suppressDisplayPortAndQueueUnload(
-          this.requestedTab,
-          this.UNLOAD_DELAY
-        );
+        this.suppressDisplayPortAndQueueUnload(this.requestedTab, this.UNLOAD_DELAY);
         this._requestingTab = false;
       },
 
@@ -5476,11 +5010,7 @@ class FirefoxTabbrowser extends XULElement {
         let browser = tab.linkedBrowser;
         let fl = browser.frameLoader;
 
-        if (
-          fl &&
-          fl.tabParent &&
-          !this.activeSuppressDisplayport.has(fl.tabParent)
-        ) {
+        if (fl && fl.tabParent && !this.activeSuppressDisplayport.has(fl.tabParent)) {
           fl.tabParent.suppressDisplayport(true);
           this.activeSuppressDisplayport.add(fl.tabParent);
         }
@@ -5490,10 +5020,7 @@ class FirefoxTabbrowser extends XULElement {
         if (this.unloadTimer) {
           this.clearTimer(this.unloadTimer);
         }
-        this.unloadTimer = this.setTimer(
-          () => this.onUnloadTimeout(),
-          unloadTimeout
-        );
+        this.unloadTimer = this.setTimer(() => this.onUnloadTimeout(), unloadTimeout);
 
         this.postActions();
       },
@@ -5520,10 +5047,8 @@ class FirefoxTabbrowser extends XULElement {
           this.onLayersCleared(event.originalTarget);
         } else if (event.type == "TabRemotenessChange") {
           this.onRemotenessChange(event.target);
-        } else if (
-          event.type == "sizemodechange" ||
-          event.type == "occlusionstatechange"
-        ) {
+        } else if (event.type == "sizemodechange" ||
+          event.type == "occlusionstatechange") {
           this.onSizeModeOrOcclusionStateChange();
         } else if (event.type == "SwapDocShells") {
           this.onSwapDocShells(event.originalTarget, event.detail);
@@ -5536,9 +5061,9 @@ class FirefoxTabbrowser extends XULElement {
       },
 
       /*
-             * Telemetry and Profiler related helpers for recording tab switch
-             * timing.
-             */
+       * Telemetry and Profiler related helpers for recording tab switch
+       * timing.
+       */
 
       startTabSwitch() {
         TelemetryStopwatch.cancel("FX_TAB_SWITCH_TOTAL_E10S_MS", window);
@@ -5548,24 +5073,18 @@ class FirefoxTabbrowser extends XULElement {
       },
 
       /**
-             * Something has occurred that might mean that we've completed
-             * the tab switch (layers are ready, paints are done, spinners
-             * are hidden). This checks to make sure all conditions are
-             * satisfied, and then records the tab switch as finished.
-             */
+       * Something has occurred that might mean that we've completed
+       * the tab switch (layers are ready, paints are done, spinners
+       * are hidden). This checks to make sure all conditions are
+       * satisfied, and then records the tab switch as finished.
+       */
       maybeFinishTabSwitch() {
-        if (
-          this.switchInProgress &&
-          this.requestedTab &&
+        if (this.switchInProgress && this.requestedTab &&
           (this.getTabState(this.requestedTab) == this.STATE_LOADED ||
-            this.requestedTab === this.blankTab)
-        ) {
+            this.requestedTab === this.blankTab)) {
           // After this point the tab has switched from the content thread's point of view.
           // The changes will be visible after the next refresh driver tick + composite.
-          let time = TelemetryStopwatch.timeElapsed(
-            "FX_TAB_SWITCH_TOTAL_E10S_MS",
-            window
-          );
+          let time = TelemetryStopwatch.timeElapsed("FX_TAB_SWITCH_TOTAL_E10S_MS", window);
           if (time != -1) {
             TelemetryStopwatch.finish("FX_TAB_SWITCH_TOTAL_E10S_MS", window);
             this.log("DEBUG: tab switch time = " + time);
@@ -5582,27 +5101,16 @@ class FirefoxTabbrowser extends XULElement {
         TelemetryStopwatch.start("FX_TAB_SWITCH_SPINNER_VISIBLE_MS", window);
         // We have a second, similar probe for capturing recordings of
         // when the spinner is displayed for very long periods.
-        TelemetryStopwatch.start(
-          "FX_TAB_SWITCH_SPINNER_VISIBLE_LONG_MS",
-          window
-        );
+        TelemetryStopwatch.start("FX_TAB_SWITCH_SPINNER_VISIBLE_LONG_MS", window);
         this.addMarker("AsyncTabSwitch:SpinnerShown");
       },
 
       spinnerHidden() {
         this.assert(this.spinnerTab);
-        this.log(
-          "DEBUG: spinner time = " +
-            TelemetryStopwatch.timeElapsed(
-              "FX_TAB_SWITCH_SPINNER_VISIBLE_MS",
-              window
-            )
-        );
+        this.log("DEBUG: spinner time = " +
+          TelemetryStopwatch.timeElapsed("FX_TAB_SWITCH_SPINNER_VISIBLE_MS", window));
         TelemetryStopwatch.finish("FX_TAB_SWITCH_SPINNER_VISIBLE_MS", window);
-        TelemetryStopwatch.finish(
-          "FX_TAB_SWITCH_SPINNER_VISIBLE_LONG_MS",
-          window
-        );
+        TelemetryStopwatch.finish("FX_TAB_SWITCH_SPINNER_VISIBLE_LONG_MS", window);
         this.addMarker("AsyncTabSwitch:SpinnerHidden");
         // we do not get a onPaint after displaying the spinner
       },
@@ -5614,19 +5122,18 @@ class FirefoxTabbrowser extends XULElement {
       },
 
       /*
-             * Debug related logging for switcher.
-             */
+       * Debug related logging for switcher.
+       */
 
       _useDumpForLogging: false,
       _logInit: false,
 
       logging() {
-        if (this._useDumpForLogging) return true;
-        if (this._logInit) return this._shouldLog;
-        let result = Services.prefs.getBoolPref(
-          "browser.tabs.remote.logSwitchTiming",
-          false
-        );
+        if (this._useDumpForLogging)
+          return true;
+        if (this._logInit)
+          return this._shouldLog;
+        let result = Services.prefs.getBoolPref("browser.tabs.remote.logSwitchTiming", false);
         this._shouldLog = result;
         this._logInit = true;
         return this._shouldLog;
@@ -5640,7 +5147,8 @@ class FirefoxTabbrowser extends XULElement {
       },
 
       log(s) {
-        if (!this.logging()) return;
+        if (!this.logging())
+          return;
         if (this._useDumpForLogging) {
           dump(s + "\n");
         } else {
@@ -5649,7 +5157,8 @@ class FirefoxTabbrowser extends XULElement {
       },
 
       logState(prefix) {
-        if (!this.logging()) return;
+        if (!this.logging())
+          return;
 
         let accum = prefix + " ";
         for (let i = 0; i < this.tabbrowser.tabs.length; i++) {
@@ -5674,7 +5183,7 @@ class FirefoxTabbrowser extends XULElement {
         } else {
           Services.console.logStringMessage(accum);
         }
-      }
+      },
     };
     this._switcher = switcher;
     switcher.init();
@@ -5709,13 +5218,7 @@ class FirefoxTabbrowser extends XULElement {
     // (b) loadURIWithFlags(aURI, { flags: aFlags, ... })
     // Forwarding it as (a) here actually supports both (a) and (b),
     // so you can call us either way too.
-    return this.mCurrentBrowser.loadURIWithFlags(
-      aURI,
-      aFlags,
-      aReferrerURI,
-      aCharset,
-      aPostData
-    );
+    return this.mCurrentBrowser.loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData);
   }
   goHome() {
     return this.mCurrentBrowser.goHome();
@@ -5729,7 +5232,8 @@ class FirefoxTabbrowser extends XULElement {
       return;
     }
 
-    if (aEvent.altKey) return;
+    if (aEvent.altKey)
+      return;
 
     // Don't check if the event was already consumed because tab
     // navigation should always work for better user experience.
@@ -5748,14 +5252,12 @@ class FirefoxTabbrowser extends XULElement {
     }
 
     if (AppConstants.platform != "macosx") {
-      if (
-        aEvent.ctrlKey &&
-        !aEvent.shiftKey &&
-        !aEvent.metaKey &&
+      if (aEvent.ctrlKey && !aEvent.shiftKey && !aEvent.metaKey &&
         aEvent.keyCode == KeyEvent.DOM_VK_F4 &&
-        !this.mCurrentTab.pinned
-      ) {
-        this.removeCurrentTab({ animate: true });
+        !this.mCurrentTab.pinned) {
+        this.removeCurrentTab({
+          animate: true
+        });
         aEvent.preventDefault();
       }
     }
@@ -5766,17 +5268,20 @@ class FirefoxTabbrowser extends XULElement {
       return;
     }
 
-    if (aEvent.altKey) return;
+    if (aEvent.altKey)
+      return;
 
     if (AppConstants.platform == "macosx") {
-      if (!aEvent.metaKey) return;
+      if (!aEvent.metaKey)
+        return;
 
       var offset = 1;
       switch (aEvent.charCode) {
         case "}".charCodeAt(0):
           offset = -1;
         case "{".charCodeAt(0):
-          if (window.getComputedStyle(this).direction == "ltr") offset *= -1;
+          if (window.getComputedStyle(this).direction == "ltr")
+            offset *= -1;
           this.tabContainer.advanceSelectedTab(offset, true);
           aEvent.preventDefault();
       }
@@ -5798,46 +5303,37 @@ class FirefoxTabbrowser extends XULElement {
 
     var label;
     if (tab.mOverCloseButton) {
-      label = tab.selected
-        ? stringWithShortcut("tabs.closeSelectedTab.tooltip", "key_close")
-        : gTabBrowserBundle.GetStringFromName("tabs.closeTab.tooltip");
+      label = tab.selected ?
+        stringWithShortcut("tabs.closeSelectedTab.tooltip", "key_close") :
+        gTabBrowserBundle.GetStringFromName("tabs.closeTab.tooltip");
     } else if (tab._overPlayingIcon) {
       let stringID;
       if (tab.selected) {
-        stringID = tab.linkedBrowser.audioMuted
-          ? "tabs.unmuteAudio.tooltip"
-          : "tabs.muteAudio.tooltip";
+        stringID = tab.linkedBrowser.audioMuted ?
+          "tabs.unmuteAudio.tooltip" :
+          "tabs.muteAudio.tooltip";
         label = stringWithShortcut(stringID, "key_toggleMute");
       } else {
         if (tab.hasAttribute("activemedia-blocked")) {
           stringID = "tabs.unblockAudio.tooltip";
         } else {
-          stringID = tab.linkedBrowser.audioMuted
-            ? "tabs.unmuteAudio.background.tooltip"
-            : "tabs.muteAudio.background.tooltip";
+          stringID = tab.linkedBrowser.audioMuted ?
+            "tabs.unmuteAudio.background.tooltip" :
+            "tabs.muteAudio.background.tooltip";
         }
 
         label = gTabBrowserBundle.GetStringFromName(stringID);
       }
     } else {
       label = tab._fullLabel || tab.getAttribute("label");
-      if (
-        AppConstants.NIGHTLY_BUILD &&
+      if (AppConstants.NIGHTLY_BUILD &&
         tab.linkedBrowser &&
         tab.linkedBrowser.isRemoteBrowser &&
-        tab.linkedBrowser.frameLoader
-      ) {
+        tab.linkedBrowser.frameLoader) {
         label += " (pid " + tab.linkedBrowser.frameLoader.tabParent.osPid + ")";
       }
       if (tab.userContextId) {
-        label = gTabBrowserBundle.formatStringFromName(
-          "tabs.containers.tooltip",
-          [
-            label,
-            ContextualIdentityService.getUserContextLabel(tab.userContextId)
-          ],
-          2
-        );
+        label = gTabBrowserBundle.formatStringFromName("tabs.containers.tooltip", [label, ContextualIdentityService.getUserContextLabel(tab.userContextId)], 2);
       }
     }
 
@@ -5855,12 +5351,8 @@ class FirefoxTabbrowser extends XULElement {
       case "occlusionstatechange":
         if (aEvent.target == window && !this._switcher) {
           this.mCurrentBrowser.preserveLayers(
-            window.windowState == window.STATE_MINIMIZED ||
-              window.isFullyOccluded
-          );
-          this.mCurrentBrowser.docShellIsActive = this.shouldActivateDocShell(
-            this.mCurrentBrowser
-          );
+            window.windowState == window.STATE_MINIMIZED || window.isFullyOccluded);
+          this.mCurrentBrowser.docShellIsActive = this.shouldActivateDocShell(this.mCurrentBrowser);
         }
         break;
     }
@@ -5870,178 +5362,178 @@ class FirefoxTabbrowser extends XULElement {
     let browser = aMessage.target;
 
     switch (aMessage.name) {
-      case "DOMTitleChanged": {
-        let tab = this.getTabForBrowser(browser);
-        if (!tab || tab.hasAttribute("pending")) return undefined;
-        let titleChanged = this.setTabTitle(tab);
-        if (titleChanged && !tab.selected && !tab.hasAttribute("busy"))
-          tab.setAttribute("titlechanged", "true");
-        break;
-      }
-      case "DOMWindowClose": {
-        if (this.tabs.length == 1) {
-          // We already did PermitUnload in the content process
-          // for this tab (the only one in the window). So we don't
-          // need to do it again for any tabs.
-          window.skipNextCanClose = true;
-          window.close();
-          return undefined;
+      case "DOMTitleChanged":
+        {
+          let tab = this.getTabForBrowser(browser);
+          if (!tab || tab.hasAttribute("pending"))
+            return undefined;
+          let titleChanged = this.setTabTitle(tab);
+          if (titleChanged && !tab.selected && !tab.hasAttribute("busy"))
+            tab.setAttribute("titlechanged", "true");
+          break;
         }
-
-        let tab = this.getTabForBrowser(browser);
-        if (tab) {
-          // Skip running PermitUnload since it already happened in
-          // the content process.
-          this.removeTab(tab, { skipPermitUnload: true });
-        }
-        break;
-      }
-      case "contextmenu": {
-        openContextMenu(aMessage);
-        break;
-      }
-      case "DOMWindowFocus": {
-        let tab = this.getTabForBrowser(browser);
-        if (!tab) return undefined;
-        this.selectedTab = tab;
-        window.focus();
-        break;
-      }
-      case "Browser:Init": {
-        let tab = this.getTabForBrowser(browser);
-        if (!tab) return undefined;
-
-        this._outerWindowIDBrowserMap.set(browser.outerWindowID, browser);
-        browser.messageManager.sendAsyncMessage("Browser:AppTab", {
-          isAppTab: tab.pinned
-        });
-        break;
-      }
-      case "Browser:WindowCreated": {
-        let tab = this.getTabForBrowser(browser);
-        if (tab && data.userContextId) {
-          ContextualIdentityService.telemetry(data.userContextId);
-          tab.setUserContextId(data.userContextId);
-        }
-
-        // We don't want to update the container icon and identifier if
-        // this is not the selected browser.
-        if (browser == gBrowser.selectedBrowser) {
-          updateUserContextUIIndicator();
-        }
-
-        break;
-      }
-      case "Findbar:Keypress": {
-        let tab = this.getTabForBrowser(browser);
-        // If the find bar for this tab is not yet alive, only initialize
-        // it if there's a possibility FindAsYouType will be used.
-        // There's no point in doing it for most random keypresses.
-        if (!this.isFindBarInitialized(tab) && data.shouldFastFind) {
-          let shouldFastFind = this._findAsYouType;
-          if (!shouldFastFind) {
-            // Please keep in sync with toolkit/content/widgets/findbar.xml
-            const FAYT_LINKS_KEY = "'";
-            const FAYT_TEXT_KEY = "/";
-            let charCode = data.fakeEvent.charCode;
-            let key = charCode ? String.fromCharCode(charCode) : null;
-            shouldFastFind = key == FAYT_LINKS_KEY || key == FAYT_TEXT_KEY;
+      case "DOMWindowClose":
+        {
+          if (this.tabs.length == 1) {
+            // We already did PermitUnload in the content process
+            // for this tab (the only one in the window). So we don't
+            // need to do it again for any tabs.
+            window.skipNextCanClose = true;
+            window.close();
+            return undefined;
           }
-          if (shouldFastFind) {
-            // Make sure we return the result.
-            return this.getFindBar(tab).receiveMessage(aMessage);
+
+          let tab = this.getTabForBrowser(browser);
+          if (tab) {
+            // Skip running PermitUnload since it already happened in
+            // the content process.
+            this.removeTab(tab, {
+              skipPermitUnload: true
+            });
           }
+          break;
         }
-        break;
-      }
-      case "RefreshBlocker:Blocked": {
-        // The data object is expected to contain the following properties:
-        //  - URI (string)
-        //     The URI that a page is attempting to refresh or redirect to.
-        //  - delay (int)
-        //     The delay (in milliseconds) before the page was going to
-        //     reload or redirect.
-        //  - sameURI (bool)
-        //     true if we're refreshing the page. false if we're redirecting.
-        //  - outerWindowID (int)
-        //     The outerWindowID of the frame that requested the refresh or
-        //     redirect.
+      case "contextmenu":
+        {
+          openContextMenu(aMessage);
+          break;
+        }
+      case "DOMWindowFocus":
+        {
+          let tab = this.getTabForBrowser(browser);
+          if (!tab)
+            return undefined;
+          this.selectedTab = tab;
+          window.focus();
+          break;
+        }
+      case "Browser:Init":
+        {
+          let tab = this.getTabForBrowser(browser);
+          if (!tab)
+            return undefined;
 
-        let brandBundle = document.getElementById("bundle_brand");
-        let brandShortName = brandBundle.getString("brandShortName");
-        let message = gNavigatorBundle.getFormattedString(
-          "refreshBlocked." + (data.sameURI ? "refreshLabel" : "redirectLabel"),
-          [brandShortName]
-        );
+          this._outerWindowIDBrowserMap.set(browser.outerWindowID, browser);
+          browser.messageManager.sendAsyncMessage("Browser:AppTab", {
+            isAppTab: tab.pinned
+          });
+          break;
+        }
+      case "Browser:WindowCreated":
+        {
+          let tab = this.getTabForBrowser(browser);
+          if (tab && data.userContextId) {
+            ContextualIdentityService.telemetry(data.userContextId);
+            tab.setUserContextId(data.userContextId);
+          }
 
-        let notificationBox = this.getNotificationBox(browser);
-        let notification = notificationBox.getNotificationWithValue(
-          "refresh-blocked"
-        );
+          // We don't want to update the container icon and identifier if
+          // this is not the selected browser.
+          if (browser == gBrowser.selectedBrowser) {
+            updateUserContextUIIndicator();
+          }
 
-        if (notification) {
-          notification.label = message;
-        } else {
-          let refreshButtonText = gNavigatorBundle.getString(
-            "refreshBlocked.goButton"
-          );
-          let refreshButtonAccesskey = gNavigatorBundle.getString(
-            "refreshBlocked.goButton.accesskey"
-          );
+          break;
+        }
+      case "Findbar:Keypress":
+        {
+          let tab = this.getTabForBrowser(browser);
+          // If the find bar for this tab is not yet alive, only initialize
+          // it if there's a possibility FindAsYouType will be used.
+          // There's no point in doing it for most random keypresses.
+          if (!this.isFindBarInitialized(tab) &&
+            data.shouldFastFind) {
+            let shouldFastFind = this._findAsYouType;
+            if (!shouldFastFind) {
+              // Please keep in sync with toolkit/content/widgets/findbar.xml
+              const FAYT_LINKS_KEY = "'";
+              const FAYT_TEXT_KEY = "/";
+              let charCode = data.fakeEvent.charCode;
+              let key = charCode ? String.fromCharCode(charCode) : null;
+              shouldFastFind = key == FAYT_LINKS_KEY || key == FAYT_TEXT_KEY;
+            }
+            if (shouldFastFind) {
+              // Make sure we return the result.
+              return this.getFindBar(tab).receiveMessage(aMessage);
+            }
+          }
+          break;
+        }
+      case "RefreshBlocker:Blocked":
+        {
+          // The data object is expected to contain the following properties:
+          //  - URI (string)
+          //     The URI that a page is attempting to refresh or redirect to.
+          //  - delay (int)
+          //     The delay (in milliseconds) before the page was going to
+          //     reload or redirect.
+          //  - sameURI (bool)
+          //     true if we're refreshing the page. false if we're redirecting.
+          //  - outerWindowID (int)
+          //     The outerWindowID of the frame that requested the refresh or
+          //     redirect.
 
-          let buttons = [
-            {
+          let brandBundle = document.getElementById("bundle_brand");
+          let brandShortName = brandBundle.getString("brandShortName");
+          let message =
+            gNavigatorBundle.getFormattedString("refreshBlocked." +
+              (data.sameURI ? "refreshLabel" :
+                "redirectLabel"), [brandShortName]);
+
+          let notificationBox = this.getNotificationBox(browser);
+          let notification = notificationBox.getNotificationWithValue("refresh-blocked");
+
+          if (notification) {
+            notification.label = message;
+          } else {
+            let refreshButtonText =
+              gNavigatorBundle.getString("refreshBlocked.goButton");
+            let refreshButtonAccesskey =
+              gNavigatorBundle.getString("refreshBlocked.goButton.accesskey");
+
+            let buttons = [{
               label: refreshButtonText,
               accessKey: refreshButtonAccesskey,
               callback() {
                 if (browser.messageManager) {
-                  browser.messageManager.sendAsyncMessage(
-                    "RefreshBlocker:Refresh",
-                    data
-                  );
+                  browser.messageManager.sendAsyncMessage("RefreshBlocker:Refresh", data);
                 }
               }
-            }
-          ];
+            }];
 
-          notificationBox.appendNotification(
-            message,
-            "refresh-blocked",
-            "chrome://browser/skin/notification-icons/popup.svg",
-            notificationBox.PRIORITY_INFO_MEDIUM,
-            buttons
-          );
+            notificationBox.appendNotification(message, "refresh-blocked",
+              "chrome://browser/skin/notification-icons/popup.svg",
+              notificationBox.PRIORITY_INFO_MEDIUM,
+              buttons);
+          }
+          break;
         }
-        break;
-      }
     }
     return undefined;
   }
   observe(aSubject, aTopic, aData) {
     switch (aTopic) {
-      case "contextual-identity-updated": {
-        for (let tab of this.tabs) {
-          if (tab.getAttribute("usercontextid") == aData) {
-            ContextualIdentityService.setTabStyle(tab);
+      case "contextual-identity-updated":
+        {
+          for (let tab of this.tabs) {
+            if (tab.getAttribute("usercontextid") == aData) {
+              ContextualIdentityService.setTabStyle(tab);
+            }
           }
+          break;
         }
-        break;
-      }
-      case "nsPref:changed": {
-        // This is the only pref observed.
-        this._findAsYouType = Services.prefs.getBoolPref(
-          "accessibility.typeaheadfind"
-        );
-        break;
-      }
+      case "nsPref:changed":
+        {
+          // This is the only pref observed.
+          this._findAsYouType = Services.prefs.getBoolPref("accessibility.typeaheadfind");
+          break;
+        }
     }
   }
   _updateNewTabVisibility() {
     // Helper functions to help deal with customize mode wrapping some items
-    let wrap = n =>
-      n.parentNode.localName == "toolbarpaletteitem" ? n.parentNode : n;
-    let unwrap = n =>
-      n && n.localName == "toolbarpaletteitem" ? n.firstElementChild : n;
+    let wrap = n => n.parentNode.localName == "toolbarpaletteitem" ? n.parentNode : n;
+    let unwrap = n => n && n.localName == "toolbarpaletteitem" ? n.firstElementChild : n;
 
     let sib = this.tabContainer;
     do {
@@ -6056,15 +5548,14 @@ class FirefoxTabbrowser extends XULElement {
     }
   }
   onWidgetAfterDOMChange(aNode, aNextNode, aContainer) {
-    if (
-      aContainer.ownerDocument == document &&
-      aContainer.id == "TabsToolbar"
-    ) {
+    if (aContainer.ownerDocument == document &&
+      aContainer.id == "TabsToolbar") {
       this._updateNewTabVisibility();
     }
   }
   onAreaNodeRegistered(aArea, aContainer) {
-    if (aContainer.ownerDocument == document && aArea == "TabsToolbar") {
+    if (aContainer.ownerDocument == document &&
+      aArea == "TabsToolbar") {
       this._updateNewTabVisibility();
     }
   }
@@ -6076,14 +5567,13 @@ class FirefoxTabbrowser extends XULElement {
       this._uniquePanelIDCounter = 0;
     }
 
-    let outerID = window
-      .QueryInterface(Ci.nsIInterfaceRequestor)
-      .getInterface(Ci.nsIDOMWindowUtils).outerWindowID;
+    let outerID = window.QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIDOMWindowUtils)
+      .outerWindowID;
 
     // We want panel IDs to be globally unique, that's why we include the
     // window ID. We switched to a monotonic counter as Date.now() lead
     // to random failures because of colliding IDs.
-    return "panel-" + outerID + "-" + ++this._uniquePanelIDCounter;
+    return "panel-" + outerID + "-" + (++this._uniquePanelIDCounter);
   }
 }
-customElements.define("firefox-tabbrowser", FirefoxTabbrowser);

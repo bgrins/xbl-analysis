@@ -1,6 +1,6 @@
 class FirefoxTabbrowserTab extends FirefoxTab {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:stack class="tab-stack" flex="1">
         <xul:vbox inherits="selected=visuallyselected,fadein" class="tab-background">
@@ -34,7 +34,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this.updateLastAccessed();
     }
 
-    this.addEventListener("mouseover", event => {
+    this.addEventListener("mouseover", (event) => {
       if (event.originalTarget.getAttribute("anonid") == "close-button") {
         this.mOverCloseButton = true;
       }
@@ -42,7 +42,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this._mouseenter();
     });
 
-    this.addEventListener("mouseout", event => {
+    this.addEventListener("mouseout", (event) => {
       if (event.originalTarget.getAttribute("anonid") == "close-button") {
         this.mOverCloseButton = false;
       }
@@ -50,38 +50,31 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this._mouseleave();
     });
 
-    this.addEventListener(
-      "dragstart",
-      event => {
-        this.style.MozUserFocus = "";
-      },
-      true
-    );
+    this.addEventListener("dragstart", (event) => {
+      this.style.MozUserFocus = "";
+    }, true);
 
-    this.addEventListener("dragstart", event => {
+    this.addEventListener("dragstart", (event) => {
       if (this.mOverCloseButton) {
         event.stopPropagation();
       }
     });
 
-    this.addEventListener(
-      "mousedown",
-      event => {
-        if (this.selected) {
-          this.style.MozUserFocus = "ignore";
-        } else if (this.mOverCloseButton || this._overPlayingIcon) {
-          // Prevent tabbox.xml from selecting the tab.
-          event.stopPropagation();
-        }
-      },
-      true
-    );
+    this.addEventListener("mousedown", (event) => {
+      if (this.selected) {
+        this.style.MozUserFocus = "ignore";
+      } else if (this.mOverCloseButton ||
+        this._overPlayingIcon) {
+        // Prevent tabbox.xml from selecting the tab.
+        event.stopPropagation();
+      }
+    }, true);
 
-    this.addEventListener("mouseup", event => {
+    this.addEventListener("mouseup", (event) => {
       this.style.MozUserFocus = "";
     });
 
-    this.addEventListener("click", event => {
+    this.addEventListener("click", (event) => {
       if (this._overPlayingIcon) {
         this.toggleMuteAudio();
         return;
@@ -99,27 +92,26 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       }
     });
 
-    this.addEventListener(
-      "dblclick",
-      event => {
-        // for the one-close-button case
-        if (event.originalTarget.getAttribute("anonid") == "close-button") {
-          event.stopPropagation();
-        }
-      },
-      true
-    );
+    this.addEventListener("dblclick", (event) => {
+      // for the one-close-button case
+      if (event.originalTarget.getAttribute("anonid") == "close-button") {
+        event.stopPropagation();
+      }
+    }, true);
 
-    this.addEventListener("animationend", event => {
+    this.addEventListener("animationend", (event) => {
       if (event.originalTarget.getAttribute("anonid") == "tab-loading-burst") {
         this.removeAttribute("bursting");
       }
     });
+
   }
 
   set _visuallySelected(val) {
-    if (val) this.setAttribute("visuallyselected", "true");
-    else this.removeAttribute("visuallyselected");
+    if (val)
+      this.setAttribute("visuallyselected", "true");
+    else
+      this.removeAttribute("visuallyselected");
     this.parentNode.tabbrowser._tabAttrModified(this, ["visuallyselected"]);
 
     return val;
@@ -129,17 +121,16 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     // in e10s we want to only pseudo-select a tab before its rendering is done, so that
     // the rest of the system knows that the tab is selected, but we don't want to update its
     // visual status to selected until after we receive confirmation that its content has painted.
-    if (val) this.setAttribute("selected", "true");
-    else this.removeAttribute("selected");
+    if (val)
+      this.setAttribute("selected", "true");
+    else
+      this.removeAttribute("selected");
 
     // If we're non-e10s we should update the visual selection as well at the same time,
     // *or* if we're e10s and the visually selected tab isn't changing, in which case the
     // tab switcher code won't run and update anything else (like the before- and after-
     // selected attributes).
-    if (
-      !gMultiProcessBrowser ||
-      (val && this.hasAttribute("visuallyselected"))
-    ) {
+    if (!gMultiProcessBrowser || (val && this.hasAttribute("visuallyselected"))) {
       this._visuallySelected = val;
     }
 
@@ -159,9 +150,9 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   }
 
   get userContextId() {
-    return this.hasAttribute("usercontextid")
-      ? parseInt(this.getAttribute("usercontextid"))
-      : 0;
+    return this.hasAttribute("usercontextid") ?
+      parseInt(this.getAttribute("usercontextid")) :
+      0;
   }
 
   get soundPlaying() {
@@ -177,37 +168,30 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   }
 
   get _overPlayingIcon() {
-    let iconVisible =
-      this.hasAttribute("soundplaying") ||
+    let iconVisible = this.hasAttribute("soundplaying") ||
       this.hasAttribute("muted") ||
       this.hasAttribute("activemedia-blocked");
-    let soundPlayingIcon = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "soundplaying-icon"
-    );
-    let overlayIcon = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "overlay-icon"
-    );
+    let soundPlayingIcon =
+      document.getAnonymousElementByAttribute(this, "anonid", "soundplaying-icon");
+    let overlayIcon =
+      document.getAnonymousElementByAttribute(this, "anonid", "overlay-icon");
 
-    return (
-      (soundPlayingIcon && soundPlayingIcon.matches(":hover")) ||
-      (overlayIcon && overlayIcon.matches(":hover") && iconVisible)
-    );
+    return soundPlayingIcon && soundPlayingIcon.matches(":hover") ||
+      (overlayIcon && overlayIcon.matches(":hover") && iconVisible);
   }
   updateLastAccessed(aDate) {
-    this._lastAccessed = this.selected ? Infinity : aDate || Date.now();
+    this._lastAccessed = this.selected ? Infinity : (aDate || Date.now());
   }
   _mouseenter() {
-    if (this.hidden || this.closing) return;
+    if (this.hidden || this.closing)
+      return;
 
     let tabContainer = this.parentNode;
     let visibleTabs = tabContainer.tabbrowser.visibleTabs;
     let tabIndex = visibleTabs.indexOf(this);
 
-    if (this.selected) tabContainer._handleTabSelect();
+    if (this.selected)
+      tabContainer._handleTabSelect();
 
     if (tabIndex == 0) {
       tabContainer._beforeHoveredTab = null;
@@ -215,8 +199,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       let candidate = visibleTabs[tabIndex - 1];
       let separatedByScrollButton =
         tabContainer.getAttribute("overflow") == "true" &&
-        candidate.pinned &&
-        !this.pinned;
+        candidate.pinned && !this.pinned;
       if (!candidate.selected && !separatedByScrollButton) {
         tabContainer._beforeHoveredTab = candidate;
         candidate.setAttribute("beforehovered", "true");
@@ -271,9 +254,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       return;
     }
 
-    if (
-      !TelemetryStopwatch.running("HOVER_UNTIL_UNSELECTED_TAB_OPENED", this)
-    ) {
+    if (!TelemetryStopwatch.running("HOVER_UNTIL_UNSELECTED_TAB_OPENED", this)) {
       TelemetryStopwatch.start("HOVER_UNTIL_UNSELECTED_TAB_OPENED", this);
     }
 
@@ -292,9 +273,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     // In order to avoid this situation, we could delay cancellation and
     // remove it if we get "mouseover" within very short period.
     this._hoverTabTimer = setTimeout(() => {
-      if (
-        TelemetryStopwatch.running("HOVER_UNTIL_UNSELECTED_TAB_OPENED", this)
-      ) {
+      if (TelemetryStopwatch.running("HOVER_UNTIL_UNSELECTED_TAB_OPENED", this)) {
         TelemetryStopwatch.cancel("HOVER_UNTIL_UNSELECTED_TAB_OPENED", this);
       }
     }, 100);
@@ -327,19 +306,19 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       modifiedAttrs.push("activemedia-blocked");
 
       browser.resumeMedia();
-      hist.add(3 /* unblockByClickingIcon */);
+      hist.add(3 /* unblockByClickingIcon */ );
       this.finishMediaBlockTimer();
     } else {
       if (browser.audioMuted) {
         browser.unmute();
         this.removeAttribute("muted");
         BrowserUITelemetry.countTabMutingEvent("unmute", aMuteReason);
-        hist.add(1 /* unmute */);
+        hist.add(1 /* unmute */ );
       } else {
         browser.mute();
         this.setAttribute("muted", "true");
         BrowserUITelemetry.countTabMutingEvent("mute", aMuteReason);
-        hist.add(0 /* mute */);
+        hist.add(0 /* mute */ );
       }
       this.muteReason = aMuteReason || null;
       modifiedAttrs.push("muted");
@@ -362,4 +341,3 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     ContextualIdentityService.setTabStyle(this);
   }
 }
-customElements.define("firefox-tabbrowser-tab", FirefoxTabbrowserTab);

@@ -1,32 +1,25 @@
 class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
-    this.addEventListener("popupshowing", event => {
+    this.addEventListener("popupshowing", (event) => {
       if (event.target.getAttribute("id") == "alltabs_containersMenuTab") {
-        createUserContextMenu(event, { useAccessKeys: false });
+        createUserContextMenu(event, {
+          useAccessKeys: false
+        });
         return;
       }
 
-      let containersEnabled = Services.prefs.getBoolPref(
-        "privacy.userContext.enabled"
-      );
+      let containersEnabled = Services.prefs.getBoolPref("privacy.userContext.enabled");
 
-      if (
-        event.target.getAttribute("anonid") == "newtab-popup" ||
-        event.target.id == "newtab-popup"
-      ) {
+      if (event.target.getAttribute("anonid") == "newtab-popup" ||
+        event.target.id == "newtab-popup") {
         createUserContextMenu(event, {
           useAccessKeys: false,
-          showDefaultTab:
-            Services.prefs.getIntPref(
-              "privacy.userContext.longPressBehavior"
-            ) == 1
+          showDefaultTab: Services.prefs.getIntPref("privacy.userContext.longPressBehavior") == 1
         });
       } else {
-        document.getElementById(
-          "alltabs-popup-separator-1"
-        ).hidden = !containersEnabled;
+        document.getElementById("alltabs-popup-separator-1").hidden = !containersEnabled;
         let containersTab = document.getElementById("alltabs_containersTab");
 
         containersTab.hidden = !containersEnabled;
@@ -45,13 +38,14 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
 
         let tabs = gBrowser.visibleTabs;
         for (var i = 0; i < tabs.length; i++) {
-          if (!tabs[i].pinned) this._createTabMenuItem(tabs[i]);
+          if (!tabs[i].pinned)
+            this._createTabMenuItem(tabs[i]);
         }
         this._updateTabsVisibilityStatus();
       }
     });
 
-    this.addEventListener("popuphidden", event => {
+    this.addEventListener("popuphidden", (event) => {
       if (event.target.getAttribute("id") == "alltabs_containersMenuTab") {
         return;
       }
@@ -72,20 +66,21 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       tabcontainer.removeEventListener("TabClose", this);
     });
 
-    this.addEventListener("DOMMenuItemActive", event => {
+    this.addEventListener("DOMMenuItemActive", (event) => {
       var tab = event.target.tab;
       if (tab) {
         let overLink = tab.linkedBrowser.currentURI.displaySpec;
-        if (overLink == "about:blank") overLink = "";
+        if (overLink == "about:blank")
+          overLink = "";
         XULBrowserWindow.setOverLink(overLink, null);
       }
     });
 
-    this.addEventListener("DOMMenuItemInactive", event => {
+    this.addEventListener("DOMMenuItemInactive", (event) => {
       XULBrowserWindow.setOverLink("", null);
     });
 
-    this.addEventListener("command", event => {
+    this.addEventListener("command", (event) => {
       if (event.target.tab) {
         if (gBrowser.selectedTab != event.target.tab) {
           gBrowser.selectedTab = event.target.tab;
@@ -94,6 +89,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
         }
       }
     });
+
   }
 
   _tabOnAttrModified(aEvent) {
@@ -123,12 +119,9 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       return;
     }
 
-    let windowUtils = window
-      .QueryInterface(Ci.nsIInterfaceRequestor)
+    let windowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIDOMWindowUtils);
-    let arrowScrollboxRect = windowUtils.getBoundsWithoutFlushing(
-      tabContainer.arrowScrollbox
-    );
+    let arrowScrollboxRect = windowUtils.getBoundsWithoutFlushing(tabContainer.arrowScrollbox);
     for (let menuitem of this.childNodes) {
       let curTab = menuitem.tab;
       if (!curTab) {
@@ -136,10 +129,8 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
         continue;
       }
       let curTabRect = windowUtils.getBoundsWithoutFlushing(curTab);
-      if (
-        curTabRect.left >= arrowScrollboxRect.left &&
-        curTabRect.right <= arrowScrollboxRect.right
-      ) {
+      if (curTabRect.left >= arrowScrollboxRect.left &&
+        curTabRect.right <= arrowScrollboxRect.right) {
         menuitem.setAttribute("tabIsVisible", "true");
       } else {
         menuitem.removeAttribute("tabIsVisible");
@@ -149,13 +140,9 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
   _createTabMenuItem(aTab) {
     var menuItem = document.createElementNS(
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
-      "menuitem"
-    );
+      "menuitem");
 
-    menuItem.setAttribute(
-      "class",
-      "menuitem-iconic alltabs-item menuitem-with-favicon"
-    );
+    menuItem.setAttribute("class", "menuitem-iconic alltabs-item menuitem-with-favicon");
 
     this._setMenuitemAttributes(menuItem, aTab);
 
@@ -173,20 +160,20 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       aMenuitem.removeAttribute("iconloadingprincipal");
       aMenuitem.removeAttribute("image");
     } else {
-      aMenuitem.setAttribute(
-        "iconloadingprincipal",
-        aTab.getAttribute("iconloadingprincipal")
-      );
+      aMenuitem.setAttribute("iconloadingprincipal", aTab.getAttribute("iconloadingprincipal"));
       aMenuitem.setAttribute("image", aTab.getAttribute("image"));
       aMenuitem.removeAttribute("busy");
     }
 
     if (aTab.hasAttribute("pending"))
       aMenuitem.setAttribute("pending", aTab.getAttribute("pending"));
-    else aMenuitem.removeAttribute("pending");
+    else
+      aMenuitem.removeAttribute("pending");
 
-    if (aTab.selected) aMenuitem.setAttribute("selected", "true");
-    else aMenuitem.removeAttribute("selected");
+    if (aTab.selected)
+      aMenuitem.setAttribute("selected", "true");
+    else
+      aMenuitem.removeAttribute("selected");
 
     function addEndImage() {
       let endImage = document.createElement("image");
@@ -199,13 +186,11 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       return endImage;
     }
 
-    if (aMenuitem.firstChild) aMenuitem.firstChild.remove();
-    if (aTab.hasAttribute("muted")) addEndImage().setAttribute("muted", "true");
+    if (aMenuitem.firstChild)
+      aMenuitem.firstChild.remove();
+    if (aTab.hasAttribute("muted"))
+      addEndImage().setAttribute("muted", "true");
     else if (aTab.hasAttribute("soundplaying"))
       addEndImage().setAttribute("soundplaying", "true");
   }
 }
-customElements.define(
-  "firefox-tabbrowser-alltabs-popup",
-  FirefoxTabbrowserAlltabsPopup
-);

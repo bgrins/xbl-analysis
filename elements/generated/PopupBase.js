@@ -1,22 +1,24 @@
 class FirefoxPopupBase extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
 
   set label(val) {
-    this.setAttribute("label", val);
+    this.setAttribute('label', val);
     return val;
   }
 
   get label() {
-    return this.getAttribute("label");
+    return this.getAttribute('label');
   }
 
   set position(val) {
-    this.setAttribute("position", val);
+    this.setAttribute('position', val);
     return val;
   }
 
   get position() {
-    return this.getAttribute("position");
+    return this.getAttribute('position');
   }
 
   get popupBoxObject() {
@@ -24,19 +26,19 @@ class FirefoxPopupBase extends XULElement {
   }
 
   get state() {
-    return this.popupBoxObject.popupState;
+    return this.popupBoxObject.popupState
   }
 
   get triggerNode() {
-    return this.popupBoxObject.triggerNode;
+    return this.popupBoxObject.triggerNode
   }
 
   get anchorNode() {
-    return this.popupBoxObject.anchorNode;
+    return this.popupBoxObject.anchorNode
   }
 
   set autoPosition(val) {
-    return (this.popupBoxObject.autoPosition = val);
+    return this.popupBoxObject.autoPosition = val;
   }
 
   get autoPosition() {
@@ -50,21 +52,11 @@ class FirefoxPopupBase extends XULElement {
   get alignmentOffset() {
     return this.popupBoxObject.alignmentOffset;
   }
-  openPopup(
-    aAnchorElement,
-    aPosition,
-    aX,
-    aY,
-    aIsContextMenu,
-    aAttributesOverride,
-    aTriggerEvent
-  ) {
+  openPopup(aAnchorElement, aPosition, aX, aY, aIsContextMenu, aAttributesOverride, aTriggerEvent) {
     // Allow for passing an options object as the second argument.
-    if (
-      arguments.length == 2 &&
+    if (arguments.length == 2 &&
       arguments[1] != null &&
-      typeof arguments[1] == "object"
-    ) {
+      typeof arguments[1] == "object") {
       let params = arguments[1];
       aPosition = params.position;
       aX = params.x;
@@ -77,15 +69,8 @@ class FirefoxPopupBase extends XULElement {
     try {
       var popupBox = this.popupBoxObject;
       if (popupBox)
-        popupBox.openPopup(
-          aAnchorElement,
-          aPosition,
-          aX,
-          aY,
-          aIsContextMenu,
-          aAttributesOverride,
-          aTriggerEvent
-        );
+        popupBox.openPopup(aAnchorElement, aPosition, aX, aY,
+          aIsContextMenu, aAttributesOverride, aTriggerEvent);
     } catch (e) {}
   }
   openPopupAtScreen(aX, aY, aIsContextMenu, aTriggerEvent) {
@@ -95,29 +80,12 @@ class FirefoxPopupBase extends XULElement {
         popupBox.openPopupAtScreen(aX, aY, aIsContextMenu, aTriggerEvent);
     } catch (e) {}
   }
-  openPopupAtScreenRect(
-    aPosition,
-    aX,
-    aY,
-    aWidth,
-    aHeight,
-    aIsContextMenu,
-    aAttributesOverride,
-    aTriggerEvent
-  ) {
+  openPopupAtScreenRect(aPosition, aX, aY, aWidth, aHeight, aIsContextMenu, aAttributesOverride, aTriggerEvent) {
     try {
       var popupBox = this.popupBoxObject;
       if (popupBox)
-        popupBox.openPopupAtScreenRect(
-          aPosition,
-          aX,
-          aY,
-          aWidth,
-          aHeight,
-          aIsContextMenu,
-          aAttributesOverride,
-          aTriggerEvent
-        );
+        popupBox.openPopupAtScreenRect(aPosition, aX, aY, aWidth, aHeight,
+          aIsContextMenu, aAttributesOverride, aTriggerEvent);
     } catch (e) {}
   }
   showPopup(element, xpos, ypos, popuptype, anchoralignment, popupalignment) {
@@ -129,17 +97,10 @@ class FirefoxPopupBase extends XULElement {
     try {
       menuBox = this.parentNode.boxObject;
     } catch (e) {}
-    if (menuBox instanceof MenuBoxObject) menuBox.openMenu(true);
+    if (menuBox instanceof MenuBoxObject)
+      menuBox.openMenu(true);
     else if (popupBox)
-      popupBox.showPopup(
-        element,
-        this,
-        xpos,
-        ypos,
-        popuptype,
-        anchoralignment,
-        popupalignment
-      );
+      popupBox.showPopup(element, this, xpos, ypos, popuptype, anchoralignment, popupalignment);
   }
   hidePopup(cancel) {
     var popupBox = null;
@@ -150,8 +111,10 @@ class FirefoxPopupBase extends XULElement {
     try {
       menuBox = this.parentNode.boxObject;
     } catch (e) {}
-    if (menuBox instanceof MenuBoxObject) menuBox.openMenu(false);
-    else if (popupBox instanceof PopupBoxObject) popupBox.hidePopup(cancel);
+    if (menuBox instanceof MenuBoxObject)
+      menuBox.openMenu(false);
+    else if (popupBox instanceof PopupBoxObject)
+      popupBox.hidePopup(cancel);
   }
   enableKeyboardNavigator(aEnableKeyboardNavigator) {
     this.popupBoxObject.enableKeyboardNavigator(aEnableKeyboardNavigator);
@@ -166,13 +129,7 @@ class FirefoxPopupBase extends XULElement {
     this.popupBoxObject.moveTo(aLeft, aTop);
   }
   moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride) {
-    this.popupBoxObject.moveToAnchor(
-      aAnchorElement,
-      aPosition,
-      aX,
-      aY,
-      aAttributesOverride
-    );
+    this.popupBoxObject.moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride);
   }
   getOuterScreenRect() {
     return this.popupBoxObject.getOuterScreenRect();
@@ -181,4 +138,3 @@ class FirefoxPopupBase extends XULElement {
     this.popupBoxObject.setConstraintRect(aRect);
   }
 }
-customElements.define("firefox-popup-base", FirefoxPopupBase);

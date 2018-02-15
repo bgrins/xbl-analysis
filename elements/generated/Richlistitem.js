@@ -1,15 +1,17 @@
 class FirefoxRichlistitem extends FirefoxListitem {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children></children>
     `;
 
     this.selectedByMouseOver = false;
+
   }
   disconnectedCallback() {
     var control = this.control;
-    if (!control) return;
+    if (!control)
+      return;
     // When we are destructed and we are current or selected, unselect ourselves
     // so that richlistbox's selection doesn't point to something not in the DOM.
     // We don't want to reset last-selected, so we set _suppressOnSelect.
@@ -19,20 +21,21 @@ class FirefoxRichlistitem extends FirefoxListitem {
       control.removeItemFromSelection(this);
       control._suppressOnSelect = suppressSelect;
     }
-    if (this.current) control.currentItem = null;
+    if (this.current)
+      control.currentItem = null;
   }
 
   get label() {
     const XULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    return Array.map(
-      this.getElementsByTagNameNS(XULNS, "label"),
-      label => label.value
-    ).join(" ");
+    return Array.map(this.getElementsByTagNameNS(XULNS, "label"),
+        label => label.value)
+      .join(" ");
   }
 
   set searchLabel(val) {
-    if (val !== null) this.setAttribute("searchlabel", val);
+    if (val !== null)
+      this.setAttribute("searchlabel", val);
     else
       // fall back to the label property (default value)
       this.removeAttribute("searchlabel");
@@ -40,9 +43,7 @@ class FirefoxRichlistitem extends FirefoxListitem {
   }
 
   get searchLabel() {
-    return this.hasAttribute("searchlabel")
-      ? this.getAttribute("searchlabel")
-      : this.label;
+    return this.hasAttribute("searchlabel") ?
+      this.getAttribute("searchlabel") : this.label;
   }
 }
-customElements.define("firefox-richlistitem", FirefoxRichlistitem);

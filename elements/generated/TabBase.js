@@ -1,4 +1,6 @@
 class FirefoxTabBase extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-tab-base", FirefoxTabBase);

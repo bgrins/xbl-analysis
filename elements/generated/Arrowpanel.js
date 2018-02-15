@@ -1,6 +1,6 @@
 class FirefoxArrowpanel extends FirefoxPanel {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
         <xul:box anonid="arrowbox" class="panel-arrowbox">
@@ -14,15 +14,10 @@ class FirefoxArrowpanel extends FirefoxPanel {
 
     this._fadeTimer = null;
 
-    this.addEventListener("popupshowing", event => {
-      var arrow = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        "arrow"
-      );
+    this.addEventListener("popupshowing", (event) => {
+      var arrow = document.getAnonymousElementByAttribute(this, "anonid", "arrow");
       arrow.hidden = this.anchorNode == null;
-      document
-        .getAnonymousElementByAttribute(this, "anonid", "arrowbox")
+      document.getAnonymousElementByAttribute(this, "anonid", "arrowbox")
         .style.removeProperty("transform");
 
       if (this.getAttribute("animate") != "false") {
@@ -46,8 +41,8 @@ class FirefoxArrowpanel extends FirefoxPanel {
       this._fadeTimer = setTimeout(() => this.hidePopup(true), fadeDelay, this);
     });
 
-    this.addEventListener("popuphiding", event => {
-      let animate = this.getAttribute("animate") != "false";
+    this.addEventListener("popuphiding", (event) => {
+      let animate = (this.getAttribute("animate") != "false");
 
       if (this._fadeTimer) {
         clearTimeout(this._fadeTimer);
@@ -59,21 +54,22 @@ class FirefoxArrowpanel extends FirefoxPanel {
       }
     });
 
-    this.addEventListener("popupshown", event => {
+    this.addEventListener("popupshown", (event) => {
       this.removeAttribute("animating");
       this.setAttribute("panelopen", "true");
     });
 
-    this.addEventListener("popuphidden", event => {
+    this.addEventListener("popuphidden", (event) => {
       this.removeAttribute("panelopen");
       if (this.getAttribute("animate") != "false") {
         this.removeAttribute("animate");
       }
     });
 
-    this.addEventListener("popuppositioned", event => {
+    this.addEventListener("popuppositioned", (event) => {
       this.adjustArrowPosition();
     });
+
   }
 
   sizeTo(aWidth, aHeight) {
@@ -83,13 +79,7 @@ class FirefoxArrowpanel extends FirefoxPanel {
     }
   }
   moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride) {
-    this.popupBoxObject.moveToAnchor(
-      aAnchorElement,
-      aPosition,
-      aX,
-      aY,
-      aAttributesOverride
-    );
+    this.popupBoxObject.moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride);
   }
   adjustArrowPosition() {
     var anchor = this.anchorNode;
@@ -97,16 +87,8 @@ class FirefoxArrowpanel extends FirefoxPanel {
       return;
     }
 
-    var container = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "container"
-    );
-    var arrowbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "arrowbox"
-    );
+    var container = document.getAnonymousElementByAttribute(this, "anonid", "container");
+    var arrowbox = document.getAnonymousElementByAttribute(this, "anonid", "arrowbox");
 
     var position = this.alignmentPosition;
     var offset = this.alignmentOffset;
@@ -124,7 +106,7 @@ class FirefoxArrowpanel extends FirefoxPanel {
       arrowbox.style.transform = "translate(0, " + -offset + "px)";
 
       // The assigned side stays the same regardless of direction.
-      var isRTL = window.getComputedStyle(this).direction == "rtl";
+      var isRTL = (window.getComputedStyle(this).direction == "rtl");
 
       if (position.indexOf("start_") == 0) {
         container.dir = "reverse";
@@ -133,10 +115,7 @@ class FirefoxArrowpanel extends FirefoxPanel {
         container.dir = "";
         this.setAttribute("side", isRTL ? "right" : "left");
       }
-    } else if (
-      position.indexOf("before_") == 0 ||
-      position.indexOf("after_") == 0
-    ) {
+    } else if (position.indexOf("before_") == 0 || position.indexOf("after_") == 0) {
       container.orient = "";
       arrowbox.orient = "";
       if (position.indexOf("_end") > 0) {
@@ -156,4 +135,3 @@ class FirefoxArrowpanel extends FirefoxPanel {
     }
   }
 }
-customElements.define("firefox-arrowpanel", FirefoxArrowpanel);

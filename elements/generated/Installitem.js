@@ -1,5 +1,6 @@
 class FirefoxInstallitem extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:hbox flex="1">
         <xul:vbox align="center" pack="center" class="xpinstallIconContainer">
@@ -15,60 +16,60 @@ class FirefoxInstallitem extends XULElement {
         </xul:vbox>
       </xul:hbox>
     `;
+
   }
 
   set name(val) {
-    this.setAttribute("name", val);
+    this.setAttribute('name', val);
     return val;
   }
 
   get name() {
-    return this.getAttribute("name");
+    return this.getAttribute('name');
   }
 
   set cert(val) {
-    this.setAttribute("cert", val);
+    this.setAttribute('cert', val);
     return val;
   }
 
   get cert() {
-    return this.getAttribute("cert");
+    return this.getAttribute('cert');
   }
 
   set signed(val) {
-    this.setAttribute("signed", val);
+    this.setAttribute('signed', val);
     return val;
   }
 
   get signed() {
-    return this.getAttribute("signed");
+    return this.getAttribute('signed');
   }
 
   set url(val) {
-    this.setAttribute("url", val);
+    this.setAttribute('url', val);
     return val;
   }
 
   get url() {
-    return this.getAttribute("url");
+    return this.getAttribute('url');
   }
 
   set icon(val) {
-    this.setAttribute("icon", val);
+    this.setAttribute('icon', val);
     return val;
   }
 
   get icon() {
-    return this.getAttribute("icon");
+    return this.getAttribute('icon');
   }
 
   set type(val) {
-    this.setAttribute("type", val);
+    this.setAttribute('type', val);
     return val;
   }
 
   get type() {
-    return this.getAttribute("type");
+    return this.getAttribute('type');
   }
 }
-customElements.define("firefox-installitem", FirefoxInstallitem);

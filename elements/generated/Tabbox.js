@@ -1,6 +1,6 @@
 class FirefoxTabbox extends FirefoxTabBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._handleMetaAltArrows = /Mac/.test(navigator.platform);
 
@@ -19,17 +19,16 @@ class FirefoxTabbox extends FirefoxTabBase {
     }
     const nsIEventListenerService =
       Components.interfaces.nsIEventListenerService;
-    let els = Components.classes[
-      "@mozilla.org/eventlistenerservice;1"
-    ].getService(nsIEventListenerService);
+    let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+      .getService(nsIEventListenerService);
     els.addSystemEventListener(this._eventNode, "keydown", this, false);
+
   }
   disconnectedCallback() {
     const nsIEventListenerService =
       Components.interfaces.nsIEventListenerService;
-    let els = Components.classes[
-      "@mozilla.org/eventlistenerservice;1"
-    ].getService(nsIEventListenerService);
+    let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+      .getService(nsIEventListenerService);
     els.removeSystemEventListener(this._eventNode, "keydown", this, false);
   }
 
@@ -39,7 +38,7 @@ class FirefoxTabbox extends FirefoxTabBase {
   }
 
   get handleCtrlTab() {
-    return this.getAttribute("handleCtrlTab") != "false";
+    return (this.getAttribute("handleCtrlTab") != "false");
   }
 
   get _tabs() {
@@ -56,20 +55,19 @@ class FirefoxTabbox extends FirefoxTabBase {
     }
     return this.getElementsByTagNameNS(
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
-      "tabs"
-    ).item(0);
+      "tabs").item(0);
   }
 
   get tabpanels() {
     return this.getElementsByTagNameNS(
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
-      "tabpanels"
-    ).item(0);
+      "tabpanels").item(0);
   }
 
   set selectedIndex(val) {
     var tabs = this.tabs;
-    if (tabs) tabs.selectedIndex = val;
+    if (tabs)
+      tabs.selectedIndex = val;
     this.setAttribute("selectedIndex", val);
     return val;
   }
@@ -82,7 +80,8 @@ class FirefoxTabbox extends FirefoxTabBase {
   set selectedTab(val) {
     if (val) {
       var tabs = this.tabs;
-      if (tabs) tabs.selectedItem = val;
+      if (tabs)
+        tabs.selectedItem = val;
     }
     return val;
   }
@@ -95,7 +94,8 @@ class FirefoxTabbox extends FirefoxTabBase {
   set selectedPanel(val) {
     if (val) {
       var tabpanels = this.tabpanels;
-      if (tabpanels) tabpanels.selectedPanel = val;
+      if (tabpanels)
+        tabpanels.selectedPanel = val;
     }
     return val;
   }
@@ -109,9 +109,8 @@ class FirefoxTabbox extends FirefoxTabBase {
     if (val != this._eventNode) {
       const nsIEventListenerService =
         Components.interfaces.nsIEventListenerService;
-      let els = Components.classes[
-        "@mozilla.org/eventlistenerservice;1"
-      ].getService(nsIEventListenerService);
+      let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+        .getService(nsIEventListenerService);
       els.addSystemEventListener(val, "keydown", this, false);
       els.removeSystemEventListener(this._eventNode, "keydown", this, false);
       this._eventNode = val;
@@ -140,25 +139,15 @@ class FirefoxTabbox extends FirefoxTabBase {
           }
         break;
       case event.DOM_VK_PAGE_UP:
-        if (
-          event.ctrlKey &&
-          !event.shiftKey &&
-          !event.altKey &&
-          !event.metaKey &&
-          this.tabs
-        ) {
+        if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey &&
+          this.tabs) {
           this.tabs.advanceSelectedTab(-1, true);
           event.preventDefault();
         }
         break;
       case event.DOM_VK_PAGE_DOWN:
-        if (
-          event.ctrlKey &&
-          !event.shiftKey &&
-          !event.altKey &&
-          !event.metaKey &&
-          this.tabs
-        ) {
+        if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey &&
+          this.tabs) {
           this.tabs.advanceSelectedTab(1, true);
           event.preventDefault();
         }
@@ -166,9 +155,8 @@ class FirefoxTabbox extends FirefoxTabBase {
       case event.DOM_VK_LEFT:
         if (event.metaKey && event.altKey && !event.shiftKey && !event.ctrlKey)
           if (this.tabs && this._handleMetaAltArrows) {
-            var offset = window.getComputedStyle(this).direction == "ltr"
-              ? -1
-              : 1;
+            var offset = window.getComputedStyle(this)
+              .direction == "ltr" ? -1 : 1;
             this.tabs.advanceSelectedTab(offset, true);
             event.preventDefault();
           }
@@ -176,7 +164,8 @@ class FirefoxTabbox extends FirefoxTabBase {
       case event.DOM_VK_RIGHT:
         if (event.metaKey && event.altKey && !event.shiftKey && !event.ctrlKey)
           if (this.tabs && this._handleMetaAltArrows) {
-            offset = window.getComputedStyle(this).direction == "ltr" ? 1 : -1;
+            offset = window.getComputedStyle(this)
+              .direction == "ltr" ? 1 : -1;
             this.tabs.advanceSelectedTab(offset, true);
             event.preventDefault();
           }
@@ -184,4 +173,3 @@ class FirefoxTabbox extends FirefoxTabBase {
     }
   }
 }
-customElements.define("firefox-tabbox", FirefoxTabbox);

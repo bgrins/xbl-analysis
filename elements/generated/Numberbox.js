@@ -1,6 +1,6 @@
 class FirefoxNumberbox extends FirefoxTextbox {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="textbox-input-box numberbox-input-box" flex="1" inherits="context,disabled,focused">
         <html:input class="numberbox-input textbox-input" type="number" anonid="input" inherits="value,min,max,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"></html:input>
@@ -11,40 +11,40 @@ class FirefoxNumberbox extends FirefoxTextbox {
 
     this._value = 0;
 
-    if (this.max < this.min) this.max = this.min;
+    if (this.max < this.min)
+      this.max = this.min;
 
     var value = this.inputField.value || 0;
     this._validateValue(value);
 
-    this.addEventListener(
-      "input",
-      event => {
-        this._valueEntered = true;
-      },
-      true
-    );
+    this.addEventListener("input", (event) => {
+      this._valueEntered = true;
+    }, true);
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       if (!event.ctrlKey && !event.metaKey && !event.altKey && event.charCode) {
-        if (event.charCode == 45 && this.min < 0) return;
+        if (event.charCode == 45 && this.min < 0)
+          return;
 
-        if (event.charCode < 48 || event.charCode > 57) event.preventDefault();
+        if (event.charCode < 48 || event.charCode > 57)
+          event.preventDefault();
       }
     });
 
-    this.addEventListener("change", event => {
+    this.addEventListener("change", (event) => {
       if (event.originalTarget == this.inputField) {
         this._validateValue(this.inputField.value);
       }
     });
+
   }
 
   set value(val) {
-    return (this.valueNumber = val);
+    return this.valueNumber = val;
   }
 
   get value() {
-    return String(this.valueNumber);
+    return String(this.valueNumber)
   }
 
   set valueNumber(val) {
@@ -63,7 +63,8 @@ class FirefoxNumberbox extends FirefoxTextbox {
   set min(val) {
     if (typeof val == "number") {
       this.setAttribute("min", val);
-      if (this.valueNumber < val) this._validateValue(val);
+      if (this.valueNumber < val)
+        this._validateValue(val);
     }
     return val;
   }
@@ -74,11 +75,14 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
 
   set max(val) {
-    if (typeof val != "number") return val;
+    if (typeof val != "number")
+      return val;
     var min = this.min;
-    if (val < min) val = min;
+    if (val < min)
+      val = min;
     this.setAttribute("max", val);
-    if (this.valueNumber > val) this._validateValue(val);
+    if (this.valueNumber > val)
+      this._validateValue(val);
     return val;
   }
 
@@ -92,8 +96,10 @@ class FirefoxNumberbox extends FirefoxTextbox {
 
     var min = this.min;
     var max = this.max;
-    if (aValue < min) aValue = min;
-    else if (aValue > max) aValue = max;
+    if (aValue < min)
+      aValue = min;
+    else if (aValue > max)
+      aValue = max;
 
     this._valueEntered = false;
     this._value = Number(aValue);
@@ -107,4 +113,3 @@ class FirefoxNumberbox extends FirefoxTextbox {
     this.dispatchEvent(evt);
   }
 }
-customElements.define("firefox-numberbox", FirefoxNumberbox);

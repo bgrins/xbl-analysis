@@ -1,5 +1,6 @@
 class FirefoxRating extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:image class="star" onmouseover="document.getBindingParent(this)._hover(1);" onclick="document.getBindingParent(this).userRating = 1;"></xul:image>
       <xul:image class="star" onmouseover="document.getBindingParent(this)._hover(2);" onclick="document.getBindingParent(this).userRating = 2;"></xul:image>
@@ -10,9 +11,10 @@ class FirefoxRating extends XULElement {
 
     this._updateStars();
 
-    this.addEventListener("mouseout", event => {
+    this.addEventListener("mouseout", (event) => {
       this._updateStars();
     });
+
   }
 
   get stars() {
@@ -21,7 +23,8 @@ class FirefoxRating extends XULElement {
 
   set averageRating(val) {
     this.setAttribute("averagerating", val);
-    if (this.showRating == "average") this._updateStars();
+    if (this.showRating == "average")
+      this._updateStars();
   }
 
   get averageRating() {
@@ -31,28 +34,29 @@ class FirefoxRating extends XULElement {
   }
 
   set userRating(val) {
-    if (this.showRating != "user") return;
+    if (this.showRating != "user")
+      return;
     this.setAttribute("userrating", val);
-    if (this.showRating == "user") this._updateStars();
+    if (this.showRating == "user")
+      this._updateStars();
   }
 
   get userRating() {
-    if (this.hasAttribute("userrating")) return this.getAttribute("userrating");
+    if (this.hasAttribute("userrating"))
+      return this.getAttribute("userrating");
     return -1;
   }
 
   set showRating(val) {
     if (val != "average" || val != "user")
-      throw Components.Exception(
-        "Invalid value",
-        Components.results.NS_ERROR_ILLEGAL_VALUE
-      );
+      throw Components.Exception("Invalid value", Components.results.NS_ERROR_ILLEGAL_VALUE);
     this.setAttribute("showrating", val);
     this._updateStars();
   }
 
   get showRating() {
-    if (this.hasAttribute("showrating")) return this.getAttribute("showrating");
+    if (this.hasAttribute("showrating"))
+      return this.getAttribute("showrating");
     return "average";
   }
   _updateStars() {
@@ -65,10 +69,10 @@ class FirefoxRating extends XULElement {
       stars[i].setAttribute("on", rating > i);
   }
   _hover(aScore) {
-    if (this.showRating != "user") return;
+    if (this.showRating != "user")
+      return;
     var stars = this.stars;
     for (let i = 0; i < stars.length; i++)
-      stars[i].setAttribute("on", i <= aScore - 1);
+      stars[i].setAttribute("on", i <= (aScore - 1));
   }
 }
-customElements.define("firefox-rating", FirefoxRating);

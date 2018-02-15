@@ -1,6 +1,6 @@
 class FirefoxToolbarbutton extends FirefoxButtonBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <xul:image class="toolbarbutton-icon" inherits="validate,src=image,label,consumeanchor"></xul:image>
@@ -8,6 +8,7 @@ class FirefoxToolbarbutton extends FirefoxButtonBase {
       <xul:label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap"></xul:label>
       <children includes="box"></children>
     `;
+
   }
+
 }
-customElements.define("firefox-toolbarbutton", FirefoxToolbarbutton);

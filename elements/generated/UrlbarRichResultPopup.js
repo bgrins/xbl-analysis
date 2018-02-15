@@ -1,6 +1,6 @@
 class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
         <xul:hbox flex="1" align="center" anonid="search-suggestions-opt-out">
@@ -24,33 +24,23 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       </xul:hbox>
     `;
 
-    this.DOMWindowUtils = window
-      .QueryInterface(Ci.nsIInterfaceRequestor)
+    this.DOMWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIDOMWindowUtils);
 
     this._maxResults = 0;
 
-    this._bundle = Cc["@mozilla.org/intl/stringbundle;1"]
-      .getService(Ci.nsIStringBundleService)
-      .createBundle("chrome://browser/locale/places/places.properties");
+    this._bundle = Cc["@mozilla.org/intl/stringbundle;1"].
+    getService(Ci.nsIStringBundleService).
+    createBundle("chrome://browser/locale/places/places.properties");
 
     this.searchSuggestionsNotification = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-suggestions-notification"
+      this, "anonid", "search-suggestions-notification"
     );
 
-    this.footer = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "footer"
-    );
+    this.footer = document.getAnonymousElementByAttribute(this, "anonid", "footer");
 
-    this.oneOffSearchButtons = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "one-off-search-buttons"
-    );
+    this.oneOffSearchButtons = document.getAnonymousElementByAttribute(this, "anonid",
+      "one-off-search-buttons");
 
     this._oneOffSearchesEnabled = false;
 
@@ -62,21 +52,23 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
 
     this._addonIframeOverriddenFunctionsByName = {};
 
-    this._addonIframeOverrideFunctionNames = ["_invalidate"];
+    this._addonIframeOverrideFunctionNames = [
+      "_invalidate",
+    ];
 
     this._addonIframeHiddenAnonids = [
       "search-suggestions-notification",
       "richlistbox",
-      "one-off-search-buttons"
+      "one-off-search-buttons",
     ];
 
     this._addonIframeHiddenDisplaysByAnonid = {};
 
-    this.addEventListener("SelectedOneOffButtonChanged", event => {
+    this.addEventListener("SelectedOneOffButtonChanged", (event) => {
       this._selectedOneOffChanged();
     });
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       // Required to make the xul:label.text-link elements in the search
       // suggestions notification work correctly when clicked on Linux.
       // This is copied from the mousedown handler in
@@ -106,9 +98,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         return;
       }
 
-      let url = this.input.controller.getFinalCompleteValueAt(
-        this.selectedIndex
-      );
+      let url = this.input.controller.getFinalCompleteValueAt(this.selectedIndex);
 
       // Whitelist the cases that we want to speculative connect, and ignore
       // other moz-action uris or fancy protocols.
@@ -122,14 +112,17 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         // URL is in the format moz-action:ACTION,PARAMS
         // Where PARAMS is a JSON encoded object.
         const MOZ_ACTION_REGEX = /^moz-action:([^,]+),(.*)$/;
-        if (!MOZ_ACTION_REGEX.test(url)) return;
+        if (!MOZ_ACTION_REGEX.test(url))
+          return;
 
         let params = JSON.parse(url.match(MOZ_ACTION_REGEX)[2]);
         if (params.url) {
           this.maybeSetupSpeculativeConnect(decodeURIComponent(params.url));
         }
       }
+
     });
+
   }
 
   set overrideValue(val) {
@@ -145,21 +138,19 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // The popup usually has a special "heuristic" first result (added
     // by UnifiedComplete.js) that is automatically selected when the
     // popup opens.
-    return (
-      this.input.mController.matchCount > 0 &&
-      this.input.mController.getStyleAt(0).split(/\s+/).indexOf("heuristic") > 0
-    );
+    return this.input.mController.matchCount > 0 &&
+      this.input.mController
+      .getStyleAt(0)
+      .split(/\s+/).indexOf("heuristic") > 0;
   }
 
   set maxResults(val) {
-    return (this._maxResults = parseInt(val));
+    return this._maxResults = parseInt(val);
   }
 
   get maxResults() {
     if (!this._maxResults) {
-      this._maxResults = Services.prefs.getIntPref(
-        "browser.urlbar.maxRichResults"
-      );
+      this._maxResults = Services.prefs.getIntPref("browser.urlbar.maxRichResults");
     }
     return this._maxResults;
   }
@@ -170,9 +161,12 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     if (val) {
       /* eslint-disable no-multi-spaces */
       let paddingInCSS =
-        3 + // .autocomplete-richlistbox padding-left/right
-        6 + // .ac-site-icon margin-inline-start
-        16 + // .ac-site-icon width
+        3 // .autocomplete-richlistbox padding-left/right
+        +
+        6 // .ac-site-icon margin-inline-start
+        +
+        16 // .ac-site-icon width
+        +
         6; // .ac-site-icon margin-inline-end
       /* eslint-enable no-multi-spaces */
       let actualVal = Math.round(val.start) - paddingInCSS;
@@ -201,9 +195,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       return;
     }
     // Otherwise "call super" -- do what autocomplete-base-popup does.
-    let controller = this.view.QueryInterface(
-      Components.interfaces.nsIAutoCompleteController
-    );
+    let controller = this.view.QueryInterface(Components.interfaces.nsIAutoCompleteController);
     controller.handleEnter(true, aEvent);
   }
   enableOneOffSearches(enable) {
@@ -223,7 +215,8 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     }
   }
   getNextIndex(reverse, amount, index, maxRow) {
-    if (maxRow < 0) return -1;
+    if (maxRow < 0)
+      return -1;
 
     let newIndex = index + (reverse ? -1 : 1) * amount;
 
@@ -235,15 +228,12 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // Allow the selection to be removed if the first result is not a
     // heuristic result.
     if (!this._isFirstResultHeuristic) {
-      if ((reverse && index == -1) || (newIndex > maxRow && index != maxRow))
+      if (reverse && index == -1 || newIndex > maxRow && index != maxRow)
         newIndex = maxRow;
-      else if ((!reverse && index == -1) || (newIndex < 0 && index != 0))
+      else if (!reverse && index == -1 || newIndex < 0 && index != 0)
         newIndex = 0;
 
-      if (
-        (newIndex < 0 && index == 0) ||
-        (newIndex > maxRow && index == maxRow)
-      )
+      if (newIndex < 0 && index == 0 || newIndex > maxRow && index == maxRow)
         newIndex = -1;
 
       return newIndex;
@@ -273,22 +263,22 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // getComputedStyle causes a layout flush, so avoid calling it if a
     // direction has already been set.
     if (!this.style.direction) {
-      this.style.direction = aElement.ownerGlobal.getComputedStyle(
-        aElement
-      ).direction;
+      this.style.direction =
+        aElement.ownerGlobal.getComputedStyle(aElement).direction;
     }
     let popupDirection = this.style.direction;
 
     // Make the popup span the width of the window.  First, set its width.
-    let documentRect = this.DOMWindowUtils.getBoundsWithoutFlushing(
-      window.document.documentElement
-    );
+    let documentRect =
+      this.DOMWindowUtils
+      .getBoundsWithoutFlushing(window.document.documentElement);
     let width = documentRect.right - documentRect.left;
     this.setAttribute("width", width);
 
     // Now make its starting margin negative so that its leading edge
     // aligns with the window border.
-    let elementRect = this.DOMWindowUtils.getBoundsWithoutFlushing(aElement);
+    let elementRect =
+      this.DOMWindowUtils.getBoundsWithoutFlushing(aElement);
     if (popupDirection == "rtl") {
       let offset = elementRect.right - documentRect.right;
       this.style.marginRight = offset + "px";
@@ -306,16 +296,13 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     let needsHandleOverUnderflow = false;
     let boundToCheck = popupDirection == "rtl" ? "right" : "left";
     let inputRect = this.DOMWindowUtils.getBoundsWithoutFlushing(aInput);
-    let startOffset = Math.abs(
-      inputRect[boundToCheck] - documentRect[boundToCheck]
-    );
+    let startOffset = Math.abs(inputRect[boundToCheck] - documentRect[boundToCheck]);
     let alignSiteIcons = startOffset / width <= 0.3 || startOffset <= 250;
     if (alignSiteIcons) {
       // Calculate the end margin if we have a start margin.
       let boundToCheckEnd = popupDirection == "rtl" ? "left" : "right";
-      let endOffset = Math.abs(
-        inputRect[boundToCheckEnd] - documentRect[boundToCheckEnd]
-      );
+      let endOffset = Math.abs(inputRect[boundToCheckEnd] -
+        documentRect[boundToCheckEnd]);
       if (endOffset > startOffset * 2) {
         // Provide more space when aligning would result in an unbalanced
         // margin. This allows the location bar to be moved to the start
@@ -323,19 +310,19 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         endOffset = startOffset;
       }
       let identityIcon = document.getElementById("identity-icon");
-      let identityRect = this.DOMWindowUtils.getBoundsWithoutFlushing(
-        identityIcon
-      );
-      let start = popupDirection == "rtl"
-        ? documentRect.right - identityRect.right
-        : identityRect.left;
-      if (
-        !this.margins ||
-        start != this.margins.start ||
+      let identityRect =
+        this.DOMWindowUtils.getBoundsWithoutFlushing(identityIcon);
+      let start = popupDirection == "rtl" ?
+        documentRect.right - identityRect.right :
+        identityRect.left;
+      if (!this.margins || start != this.margins.start ||
         endOffset != this.margins.end ||
-        width != this.margins.width
-      ) {
-        this.margins = { start, end: endOffset, width };
+        width != this.margins.width) {
+        this.margins = {
+          start,
+          end: endOffset,
+          width
+        };
         needsHandleOverUnderflow = true;
       }
     } else if (this.margins) {
@@ -348,12 +335,8 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // Now that the margins have been set, start adding items (via
     // _invalidate).
     this.mInput = aInput;
-    aInput.controller.setInitiallySelectedIndex(
-      this._isFirstResultHeuristic ? 0 : -1
-    );
-    this.view = aInput.controller.QueryInterface(
-      Components.interfaces.nsITreeView
-    );
+    aInput.controller.setInitiallySelectedIndex(this._isFirstResultHeuristic ? 0 : -1);
+    this.view = aInput.controller.QueryInterface(Components.interfaces.nsITreeView);
     this._invalidate();
 
     try {
@@ -362,21 +345,14 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         // Update the impressions count on real popupshown, since there's
         // no guarantee openPopup will be respected by the platform.
         // Though, we must ensure the handled event is the expected one.
-        let impressionId = (this._searchSuggestionsImpressionId = {});
-        this.addEventListener(
-          "popupshown",
-          () => {
-            if (this._searchSuggestionsImpressionId == impressionId)
-              aInput.updateSearchSuggestionsNotificationImpressions(
-                whichNotification
-              );
-          },
-          { once: true }
-        );
-        this._showSearchSuggestionsNotification(
-          whichNotification,
-          popupDirection
-        );
+        let impressionId = this._searchSuggestionsImpressionId = {};
+        this.addEventListener("popupshown", () => {
+          if (this._searchSuggestionsImpressionId == impressionId)
+            aInput.updateSearchSuggestionsNotificationImpressions(whichNotification);
+        }, {
+          once: true
+        });
+        this._showSearchSuggestionsNotification(whichNotification, popupDirection);
       } else if (this.classList.contains("showSearchSuggestionsNotification")) {
         this._hideSearchSuggestionsNotification();
       }
@@ -389,10 +365,8 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // which is an offset from the bottom of the input, subtract the
     // bottom of the navbar from the buttom of the input.
     let yOffset = Math.round(
-      this.DOMWindowUtils.getBoundsWithoutFlushing(
-        document.getElementById("nav-bar")
-      ).bottom - this.DOMWindowUtils.getBoundsWithoutFlushing(aInput).bottom
-    );
+      this.DOMWindowUtils.getBoundsWithoutFlushing(document.getElementById("nav-bar")).bottom -
+      this.DOMWindowUtils.getBoundsWithoutFlushing(aInput).bottom);
 
     this.openPopup(aElement, "after_start", 0, yOffset, false, false);
 
@@ -410,9 +384,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         this.searchSuggestionsNotification.style.paddingInlineStart =
           this.margins.start + "px";
       } else {
-        this.searchSuggestionsNotification.style.removeProperty(
-          "padding-inline-start"
-        );
+        this.searchSuggestionsNotification.style.removeProperty("padding-inline-start");
       }
 
       // We want to animate the opt-out hint only once.
@@ -422,10 +394,8 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       }
     }
 
-    this.searchSuggestionsNotification.setAttribute(
-      "aria-describedby",
-      "search-suggestions-hint"
-    );
+    this.searchSuggestionsNotification.setAttribute("aria-describedby",
+      "search-suggestions-hint");
 
     // With the notification shown, the listbox's height can sometimes be
     // too small when it's flexed, as it normally is.  Also, it can start
@@ -481,12 +451,8 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     }
   }
   handleKeyPress(aEvent) {
-    this.oneOffSearchButtons.handleKeyPress(
-      aEvent,
-      this.matchCount,
-      !this._isFirstResultHeuristic,
-      gBrowser.userTypedValue
-    );
+    this.oneOffSearchButtons.handleKeyPress(aEvent, this.matchCount, !this._isFirstResultHeuristic,
+      gBrowser.userTypedValue);
     return aEvent.defaultPrevented && !aEvent.urlbarDeferred;
   }
   handleOneOffSearch(event, engine, where, params) {
@@ -501,12 +467,15 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         case "searchengine":
           parts = [
             action.params.searchSuggestion || action.params.searchQuery,
-            action.params.engineName
+            action.params.engineName,
           ];
           break;
         case "switchtab":
         case "remotetab":
-          parts = [item.getAttribute("title"), item.getAttribute("displayurl")];
+          parts = [
+            item.getAttribute("title"),
+            item.getAttribute("displayurl"),
+          ];
           break;
       }
     }
@@ -543,12 +512,10 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // If this is the first time we get the result from the current
     // search and we are not in the private context, we can speculatively
     // connect to the intended site as a performance optimization.
-    if (
-      !this.input.gotResultForCurrentQuery &&
+    if (!this.input.gotResultForCurrentQuery &&
       this.input.speculativeConnectEnabled &&
       !this.input.inPrivateContext &&
-      this.input.mController.matchCount > 0
-    ) {
+      this.input.mController.matchCount > 0) {
       let firstStyle = this.input.mController.getStyleAt(0);
       if (firstStyle.includes("autofill")) {
         let uri = this.input.mController.getFinalCompleteValueAt(0);
@@ -557,11 +524,9 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
           uri = "http://" + uri;
         }
         this.maybeSetupSpeculativeConnect(uri);
-      } else if (
-        firstStyle.includes("searchengine") &&
+      } else if (firstStyle.includes("searchengine") &&
         this.input.browserSearchSuggestEnabled &&
-        this.input.urlbarSearchSuggestEnabled
-      ) {
+        this.input.urlbarSearchSuggestEnabled) {
         // Preconnect to the current search engine only if the search
         // suggestions are enabled.
         let engine = Services.search.currentEngine;
@@ -609,8 +574,10 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     }
     // Make sure all overrides are provided before doing anything.
     for (let name of this._addonIframeOverrideFunctionNames) {
-      if (typeof overrides[name] != "function") {
-        throw new Error("Override for method '" + name + "' must be given");
+      if (typeof(overrides[name]) != "function") {
+        throw new Error(
+          "Override for method '" + name + "' must be given"
+        );
       }
     }
     // OK, insert the iframe.
@@ -632,11 +599,10 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     this._addonIframe = null;
     for (let anonid of this._addonIframeHiddenAnonids) {
       let child = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        anonid
+        this, "anonid", anonid
       );
-      child.style.display = this._addonIframeHiddenDisplaysByAnonid[anonid];
+      child.style.display =
+        this._addonIframeHiddenDisplaysByAnonid[anonid];
     }
     for (let name in this._addonIframeOverriddenFunctionsByName) {
       this[name] = this._addonIframeOverriddenFunctionsByName[name];
@@ -647,11 +613,10 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     this._addonIframeHiddenDisplaysByAnonid = {};
     for (let anonid of this._addonIframeHiddenAnonids) {
       let child = document.getAnonymousElementByAttribute(
-        this,
-        "anonid",
-        anonid
+        this, "anonid", anonid
       );
-      this._addonIframeHiddenDisplaysByAnonid[anonid] = child.style.display;
+      this._addonIframeHiddenDisplaysByAnonid[anonid] =
+        child.style.display;
       child.style.display = "none";
     }
     let XUL_NS =
@@ -664,7 +629,3 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     return iframe;
   }
 }
-customElements.define(
-  "firefox-urlbar-rich-result-popup",
-  FirefoxUrlbarRichResultPopup
-);

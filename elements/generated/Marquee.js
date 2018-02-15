@@ -1,5 +1,6 @@
 class FirefoxMarquee extends XULElement {
   connectedCallback() {
+
     // Set up state.
     this._scrollAmount = 6;
     this._scrollDelay = 85;
@@ -18,13 +19,13 @@ class FirefoxMarquee extends XULElement {
     var myThis = this;
     var lambda = function myScopeFunction() {
       if (myThis.init) myThis.init();
-    };
+    }
 
-    this._set_direction(this.getAttribute("direction"));
-    this._set_behavior(this.getAttribute("behavior"));
-    this._set_scrollDelay(this.getAttribute("scrolldelay"));
-    this._set_scrollAmount(this.getAttribute("scrollamount"));
-    this._set_loop(this.getAttribute("loop"));
+    this._set_direction(this.getAttribute('direction'));
+    this._set_behavior(this.getAttribute('behavior'));
+    this._set_scrollDelay(this.getAttribute('scrolldelay'));
+    this._set_scrollAmount(this.getAttribute('scrollamount'));
+    this._set_loop(this.getAttribute('loop'));
     this._setEventListener("start", this.getAttribute("onstart"));
     this._setEventListener("finish", this.getAttribute("onfinish"));
     this._setEventListener("bounce", this.getAttribute("onbounce"));
@@ -34,19 +35,8 @@ class FirefoxMarquee extends XULElement {
     this._mutationObserver.observe(this, {
       attributes: true,
       attributeOldValue: true,
-      attributeFilter: [
-        "loop",
-        "scrollamount",
-        "scrolldelay",
-        "",
-        "truespeed",
-        "behavior",
-        "direction",
-        "width",
-        "height",
-        "onstart",
-        "onfinish",
-        "onbounce"
+      attributeFilter: ['loop', 'scrollamount', 'scrolldelay', '', 'truespeed', 'behavior',
+        'direction', 'width', 'height', 'onstart', 'onfinish', 'onbounce'
       ]
     });
 
@@ -57,6 +47,7 @@ class FirefoxMarquee extends XULElement {
     } else {
       window.addEventListener("load", lambda);
     }
+
   }
 
   set scrollAmount(val) {
@@ -97,7 +88,7 @@ class FirefoxMarquee extends XULElement {
     if (val) {
       this.setAttribute("truespeed", "");
     } else {
-      this.removeAttribute("truespeed");
+      this.removeAttribute('truespeed');
     }
   }
 
@@ -110,13 +101,13 @@ class FirefoxMarquee extends XULElement {
   }
 
   set direction(val) {
-    if (typeof val == "string") {
+    if (typeof val == 'string') {
       val = val.toLowerCase();
     } else {
       return;
     }
-    if (val != "left" && val != "right" && val != "up" && val != "down") {
-      val = "left";
+    if (val != 'left' && val != 'right' && val != 'up' && val != 'down') {
+      val = 'left';
     }
 
     this.setAttribute("direction", val);
@@ -128,10 +119,10 @@ class FirefoxMarquee extends XULElement {
   }
 
   set behavior(val) {
-    if (typeof val == "string") {
+    if (typeof val == 'string') {
       val = val.toLowerCase();
     }
-    if (val == "alternate" || val == "slide" || val == "scroll") {
+    if (val == "alternate" || val == "slide" || val == 'scroll') {
       this.setAttribute("behavior", val);
     }
   }
@@ -181,27 +172,27 @@ class FirefoxMarquee extends XULElement {
   }
 
   get outerDiv() {
-    return document.getAnonymousNodes(this)[0];
+    return document.getAnonymousNodes(this)[0]
   }
 
   get innerDiv() {
-    return document.getAnonymousElementByAttribute(this, "class", "innerDiv");
+    return document.getAnonymousElementByAttribute(this, 'class', 'innerDiv');
   }
 
   set height(val) {
-    this.setAttribute("height", val);
+    this.setAttribute('height', val);
   }
 
   get height() {
-    return this.getAttribute("height");
+    return this.getAttribute('height');
   }
 
   set width(val) {
-    this.setAttribute("width", val);
+    this.setAttribute('width', val);
   }
 
   get width() {
-    return this.getAttribute("width");
+    return this.getAttribute('width');
   }
   _set_scrollDelay(aValue) {
     aValue = parseInt(aValue);
@@ -230,26 +221,21 @@ class FirefoxMarquee extends XULElement {
     }
   }
   _set_behavior(aValue) {
-    if (typeof aValue == "string") {
+    if (typeof aValue == 'string') {
       aValue = aValue.toLowerCase();
     }
-    if (aValue != "alternate" && aValue != "slide" && aValue != "scroll") {
-      this._behavior = "scroll";
+    if (aValue != 'alternate' && aValue != 'slide' && aValue != 'scroll') {
+      this._behavior = 'scroll';
     } else {
       this._behavior = aValue;
     }
   }
   _set_direction(aValue) {
-    if (typeof aValue == "string") {
+    if (typeof aValue == 'string') {
       aValue = aValue.toLowerCase();
     }
-    if (
-      aValue != "left" &&
-      aValue != "right" &&
-      aValue != "up" &&
-      aValue != "down"
-    ) {
-      aValue = "left";
+    if (aValue != 'left' && aValue != 'right' && aValue != 'up' && aValue != 'down') {
+      aValue = 'left';
     }
 
     if (aValue != this._direction) {
@@ -282,14 +268,14 @@ class FirefoxMarquee extends XULElement {
     }
 
     if (this._ignoreNextCall) {
-      return (this._ignoreNextCall = false);
+      return this._ignoreNextCall = false;
     }
 
     if (aIgnoreNextCall) {
       this._ignoreNextCall = true;
     }
 
-    if (typeof this["_on" + aName] == "function") {
+    if (typeof this["_on" + aName] == 'function') {
       this.removeEventListener(aName, this["_on" + aName]);
     }
 
@@ -333,11 +319,8 @@ class FirefoxMarquee extends XULElement {
       var myThis = this;
       var lambda = function myTimeOutFunction() {
         myThis._doMove(false);
-      };
-      this.runId = window.setTimeout(
-        lambda,
-        this._scrollDelay - this._deltaStartStop
-      );
+      }
+      this.runId = window.setTimeout(lambda, this._scrollDelay - this._deltaStartStop);
       this._deltaStartStop = 0;
     }
   }
@@ -367,13 +350,9 @@ class FirefoxMarquee extends XULElement {
           }
           this.innerDiv.style.padding = height + " 0";
           this.dirsign = 1;
-          this.startAt = this._behavior == "alternate"
-            ? this.originalHeight - corrvalue
-            : 0;
-          this.stopAt = this._behavior == "alternate" ||
-            this._behavior == "slide"
-            ? parseInt(height) + corrvalue
-            : this.originalHeight + parseInt(height);
+          this.startAt = (this._behavior == 'alternate') ? (this.originalHeight - corrvalue) : 0;
+          this.stopAt = (this._behavior == 'alternate' || this._behavior == 'slide') ?
+            (parseInt(height) + corrvalue) : (this.originalHeight + parseInt(height));
           break;
 
         case "down":
@@ -384,13 +363,10 @@ class FirefoxMarquee extends XULElement {
           }
           this.innerDiv.style.padding = height + " 0";
           this.dirsign = -1;
-          this.startAt = this._behavior == "alternate"
-            ? parseInt(height) + corrvalue
-            : this.originalHeight + parseInt(height);
-          this.stopAt = this._behavior == "alternate" ||
-            this._behavior == "slide"
-            ? this.originalHeight - corrvalue
-            : 0;
+          this.startAt = (this._behavior == 'alternate') ?
+            (parseInt(height) + corrvalue) : (this.originalHeight + parseInt(height));
+          this.stopAt = (this._behavior == 'alternate' || this._behavior == 'slide') ?
+            (this.originalHeight - corrvalue) : 0;
           break;
 
         case "right":
@@ -398,15 +374,10 @@ class FirefoxMarquee extends XULElement {
             corrvalue = this.innerDiv.offsetWidth - this.outerDiv.offsetWidth;
           }
           this.dirsign = -1;
-          this.stopAt = this._behavior == "alternate" ||
-            this._behavior == "slide"
-            ? this.innerDiv.offsetWidth - corrvalue
-            : 0;
-          this.startAt =
-            this.outerDiv.offsetWidth +
-            (this._behavior == "alternate"
-              ? corrvalue
-              : this.innerDiv.offsetWidth + this.stopAt);
+          this.stopAt = (this._behavior == 'alternate' || this._behavior == 'slide') ?
+            (this.innerDiv.offsetWidth - corrvalue) : 0;
+          this.startAt = this.outerDiv.offsetWidth + ((this._behavior == 'alternate') ?
+            corrvalue : (this.innerDiv.offsetWidth + this.stopAt));
           break;
 
         case "left":
@@ -415,14 +386,10 @@ class FirefoxMarquee extends XULElement {
             corrvalue = this.innerDiv.offsetWidth - this.outerDiv.offsetWidth;
           }
           this.dirsign = 1;
-          this.startAt = this._behavior == "alternate"
-            ? this.innerDiv.offsetWidth - corrvalue
-            : 0;
-          this.stopAt =
-            this.outerDiv.offsetWidth +
-            (this._behavior == "alternate" || this._behavior == "slide"
-              ? corrvalue
-              : this.innerDiv.offsetWidth + this.startAt);
+          this.startAt = (this._behavior == 'alternate') ? (this.innerDiv.offsetWidth - corrvalue) : 0;
+          this.stopAt = this.outerDiv.offsetWidth +
+            ((this._behavior == 'alternate' || this._behavior == 'slide') ?
+              corrvalue : (this.innerDiv.offsetWidth + this.startAt));
       }
 
       if (aResetPosition) {
@@ -431,23 +398,26 @@ class FirefoxMarquee extends XULElement {
       }
     } //end if
 
-    this.newPosition = this.newPosition + this.dirsign * this._scrollAmount;
+    this.newPosition = this.newPosition + (this.dirsign * this._scrollAmount);
 
-    if (
-      (this.dirsign == 1 && this.newPosition > this.stopAt) ||
-      (this.dirsign == -1 && this.newPosition < this.stopAt)
-    ) {
+    if ((this.dirsign == 1 && this.newPosition > this.stopAt) ||
+      (this.dirsign == -1 && this.newPosition < this.stopAt)) {
       switch (this._behavior) {
-        case "alternate":
+        case 'alternate':
           // lets start afresh
           this.startNewDirection = true;
 
           // swap direction
-          const swap = { left: "right", down: "up", up: "down", right: "left" };
+          const swap = {
+            left: "right",
+            down: "up",
+            up: "down",
+            right: "left"
+          };
           this._direction = swap[this._direction];
           this.newPosition = this.stopAt;
 
-          if (this._direction == "up" || this._direction == "down") {
+          if ((this._direction == "up") || (this._direction == "down")) {
             this.outerDiv.scrollTop = this.newPosition;
           } else {
             this.outerDiv.scrollLeft = this.newPosition;
@@ -458,7 +428,7 @@ class FirefoxMarquee extends XULElement {
           }
           break;
 
-        case "slide":
+        case 'slide':
           if (this._loop > 1) {
             this.newPosition = this.startAt;
           }
@@ -467,7 +437,7 @@ class FirefoxMarquee extends XULElement {
         default:
           this.newPosition = this.startAt;
 
-          if (this._direction == "up" || this._direction == "down") {
+          if ((this._direction == "up") || (this._direction == "down")) {
             this.outerDiv.scrollTop = this.newPosition;
           } else {
             this.outerDiv.scrollLeft = this.newPosition;
@@ -480,7 +450,7 @@ class FirefoxMarquee extends XULElement {
       if (this._loop > 1) {
         this._loop--;
       } else if (this._loop == 1) {
-        if (this._direction == "up" || this._direction == "down") {
+        if ((this._direction == "up") || (this._direction == "down")) {
           this.outerDiv.scrollTop = this.stopAt;
         } else {
           this.outerDiv.scrollLeft = this.stopAt;
@@ -490,7 +460,7 @@ class FirefoxMarquee extends XULElement {
         return;
       }
     } else {
-      if (this._direction == "up" || this._direction == "down") {
+      if ((this._direction == "up") || (this._direction == "down")) {
         this.outerDiv.scrollTop = this.newPosition;
       } else {
         this.outerDiv.scrollLeft = this.newPosition;
@@ -500,24 +470,24 @@ class FirefoxMarquee extends XULElement {
     var myThis = this;
     var lambda = function myTimeOutFunction() {
       myThis._doMove(false);
-    };
+    }
     this.runId = window.setTimeout(lambda, this._scrollDelay);
   }
   init() {
     this.stop();
 
-    if (this._direction != "up" && this._direction != "down") {
+    if ((this._direction != "up") && (this._direction != "down")) {
       var width = window.getComputedStyle(this).width;
-      this.innerDiv.parentNode.style.margin = "0 " + width;
+      this.innerDiv.parentNode.style.margin = '0 ' + width;
 
-      //XXX Adding the margin sometimes causes the marquee to widen,
-      // see testcase from bug bug 364434:
+      //XXX Adding the margin sometimes causes the marquee to widen, 
+      // see testcase from bug bug 364434: 
       // https://bugzilla.mozilla.org/attachment.cgi?id=249233
       // Just add a fixed width with current marquee's width for now
       if (width != window.getComputedStyle(this).width) {
         var width = window.getComputedStyle(this).width;
         this.outerDiv.style.width = width;
-        this.innerDiv.parentNode.style.margin = "0 " + width;
+        this.innerDiv.parentNode.style.margin = '0 ' + width;
       }
     } else {
       // store the original height before we add padding
@@ -555,18 +525,15 @@ class FirefoxMarquee extends XULElement {
             //needed to update target._scrollDelay
             var myThis = target;
             var lambda = function() {
-              myThis._set_scrollDelay(myThis.getAttribute("scrolldelay"));
-            };
+              myThis._set_scrollDelay(myThis.getAttribute('scrolldelay'));
+            }
             window.setTimeout(lambda, 0);
             break;
           case "behavior":
             target._set_behavior(newValue);
             target.startNewDirection = true;
-            if (
-              (oldValue == "slide" && target.newPosition == target.stopAt) ||
-              newValue == "alternate" ||
-              newValue == "slide"
-            ) {
+            if ((oldValue == "slide" && target.newPosition == target.stopAt) ||
+              newValue == "alternate" || newValue == "slide") {
               target.stop();
               target._doMove(true);
             }
@@ -595,4 +562,3 @@ class FirefoxMarquee extends XULElement {
     }
   }
 }
-customElements.define("firefox-marquee", FirefoxMarquee);

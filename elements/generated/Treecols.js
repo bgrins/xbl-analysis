@@ -1,5 +1,6 @@
 class FirefoxTreecols extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:hbox class="tree-scrollable-columns" flex="1">
         <children includes="treecol|splitter"></children>
@@ -13,6 +14,7 @@ class FirefoxTreecols extends XULElement {
       if (!splitter.hasAttribute("resizeafter"))
         splitter.setAttribute("resizeafter", "farthest");
     });
+
   }
+
 }
-customElements.define("firefox-treecols", FirefoxTreecols);

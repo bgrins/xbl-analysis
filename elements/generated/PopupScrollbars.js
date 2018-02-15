@@ -1,6 +1,6 @@
 class FirefoxPopupScrollbars extends FirefoxPopup {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
         <children></children>
@@ -19,35 +19,33 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
 
     this._scrollTimer = 0;
 
-    this.addEventListener("popupshown", event => {
+    this.addEventListener("popupshown", (event) => {
       // Enable drag scrolling even when the mouse wasn't used. The mousemove
       // handler will remove it if the mouse isn't down.
       this.enableDragScrolling(false);
     });
 
-    this.addEventListener("popuphidden", event => {
+    this.addEventListener("popuphidden", (event) => {
       this._draggingState = this.NOT_DRAGGING;
       this._clearScrollTimer();
       this.releaseCapture();
     });
 
-    this.addEventListener("mousedown", event => {
-      if (
-        this.state == "open" &&
+    this.addEventListener("mousedown", (event) => {
+      if (this.state == "open" &&
         (event.target.localName == "menuitem" ||
           event.target.localName == "menu" ||
-          event.target.localName == "menucaption")
-      ) {
+          event.target.localName == "menucaption")) {
         this.enableDragScrolling(true);
       }
     });
 
-    this.addEventListener("mouseup", event => {
+    this.addEventListener("mouseup", (event) => {
       this._draggingState = this.NOT_DRAGGING;
       this._clearScrollTimer();
     });
 
-    this.addEventListener("mousemove", event => {
+    this.addEventListener("mousemove", (event) => {
       if (!this._draggingState) {
         return;
       }
@@ -72,18 +70,13 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       let popupRect = this.getOuterScreenRect();
       if (event.screenX >= popupRect.left && event.screenX <= popupRect.right) {
         if (this._draggingState == this.DRAG_OVER_BUTTON) {
-          if (
-            event.screenY > popupRect.top &&
-            event.screenY < popupRect.bottom
-          ) {
+          if (event.screenY > popupRect.top && event.screenY < popupRect.bottom) {
             this._draggingState = this.DRAG_OVER_POPUP;
           }
         }
 
-        if (
-          this._draggingState == this.DRAG_OVER_POPUP &&
-          (event.screenY <= popupRect.top || event.screenY >= popupRect.bottom)
-        ) {
+        if (this._draggingState == this.DRAG_OVER_POPUP &&
+          (event.screenY <= popupRect.top || event.screenY >= popupRect.bottom)) {
           let scrollAmount = event.screenY <= popupRect.top ? -1 : 1;
           this.scrollBox.scrollByIndex(scrollAmount);
 
@@ -94,14 +87,13 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
         }
       }
     });
+
   }
 
   enableDragScrolling(overItem) {
     if (!this._draggingState) {
       this.setCaptureAlways();
-      this._draggingState = overItem
-        ? this.DRAG_OVER_POPUP
-        : this.DRAG_OVER_BUTTON;
+      this._draggingState = overItem ? this.DRAG_OVER_POPUP : this.DRAG_OVER_BUTTON;
     }
   }
   _clearScrollTimer() {
@@ -111,4 +103,3 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
     }
   }
 }
-customElements.define("firefox-popup-scrollbars", FirefoxPopupScrollbars);

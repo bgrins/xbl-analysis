@@ -1,5 +1,6 @@
 class FirefoxSearchbar extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:stringbundle src="chrome://browser/locale/search.properties" anonid="searchbar-stringbundle"></xul:stringbundle>
       <xul:textbox class="searchbar-textbox" anonid="searchbar-textbox" type="autocomplete" inputtype="search" placeholder="FROM-DTD-searchInput-placeholder" flex="1" autocompletepopup="PopupSearchAutoComplete" autocompletesearch="search-autocomplete" autocompletesearchparam="searchbar-history" maxrows="10" completeselectedindex="true" minresultsforpopup="0" inherits="disabled,disableautocomplete,searchengine,src,newlines">
@@ -19,28 +20,20 @@ class FirefoxSearchbar extends XULElement {
 
     this._clickClosedPopup = false;
 
-    this._stringBundle = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "searchbar-stringbundle"
-    );
+    this._stringBundle = document.getAnonymousElementByAttribute(this,
+      "anonid", "searchbar-stringbundle");
 
     this._textboxInitialized = false;
 
-    this._textbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "searchbar-textbox"
-    );
+    this._textbox = document.getAnonymousElementByAttribute(this,
+      "anonid", "searchbar-textbox");
 
     this._engines = null;
 
-    this.FormHistory = ChromeUtils.import(
-      "resource://gre/modules/FormHistory.jsm",
-      {}
-    ).FormHistory;
+    this.FormHistory = (ChromeUtils.import("resource://gre/modules/FormHistory.jsm", {})).FormHistory;
 
-    if (this.parentNode.parentNode.localName == "toolbarpaletteitem") return;
+    if (this.parentNode.parentNode.localName == "toolbarpaletteitem")
+      return;
 
     Services.obs.addObserver(this, "browser-search-engine-modified");
 
@@ -50,16 +43,15 @@ class FirefoxSearchbar extends XULElement {
       window.requestIdleCallback(() => {
         Services.search.init(aStatus => {
           // Bail out if the binding's been destroyed
-          if (!this._initialized) return;
+          if (!this._initialized)
+            return;
 
           if (Components.isSuccessCode(aStatus)) {
             // Refresh the display (updating icon, etc)
             this.updateDisplay();
             BrowserSearch.updateOpenSearchBadge();
           } else {
-            Components.utils.reportError(
-              "Cannot initialize search service, bailing out: " + aStatus
-            );
+            Components.utils.reportError("Cannot initialize search service, bailing out: " + aStatus);
           }
         });
       });
@@ -67,73 +59,66 @@ class FirefoxSearchbar extends XULElement {
 
     // Wait until the popupshowing event to avoid forcing immediate
     // attachment of the search-one-offs binding.
-    this.textbox.popup.addEventListener(
-      "popupshowing",
-      () => {
-        let oneOffButtons = this.textbox.popup.oneOffButtons;
-        // Some accessibility tests create their own <searchbar> that doesn't
-        // use the popup binding below, so null-check oneOffButtons.
-        if (oneOffButtons) {
-          oneOffButtons.telemetryOrigin = "searchbar";
-          // Set .textbox first, since the popup setter will cause
-          // a _rebuild call that uses it.
-          oneOffButtons.textbox = this.textbox;
-          oneOffButtons.popup = this.textbox.popup;
-        }
-      },
-      { capturing: true, once: true }
-    );
+    this.textbox.popup.addEventListener("popupshowing", () => {
+      let oneOffButtons = this.textbox.popup.oneOffButtons;
+      // Some accessibility tests create their own <searchbar> that doesn't
+      // use the popup binding below, so null-check oneOffButtons.
+      if (oneOffButtons) {
+        oneOffButtons.telemetryOrigin = "searchbar";
+        // Set .textbox first, since the popup setter will cause
+        // a _rebuild call that uses it.
+        oneOffButtons.textbox = this.textbox;
+        oneOffButtons.popup = this.textbox.popup;
+      }
+    }, {
+      capturing: true,
+      once: true
+    });
 
-    this.addEventListener("command", event => {
+    this.addEventListener("command", (event) => {
       const target = event.originalTarget;
       if (target.engine) {
         this.currentEngine = target.engine;
       } else if (target.classList.contains("addengine-item")) {
         // Select the installed engine if the installation succeeds
         var installCallback = {
-          onSuccess: engine => (this.currentEngine = engine)
+          onSuccess: engine => this.currentEngine = engine
         };
-        Services.search.addEngine(
-          target.getAttribute("uri"),
-          null,
-          target.getAttribute("src"),
-          false,
-          installCallback
-        );
-      } else return;
+        Services.search.addEngine(target.getAttribute("uri"), null,
+          target.getAttribute("src"), false,
+          installCallback);
+      } else
+        return;
 
       this.focus();
       this.select();
     });
 
-    this.addEventListener(
-      "DOMMouseScroll",
-      event => {
-        this.selectEngine(event, event.detail > 0);
-      },
-      true
-    );
+    this.addEventListener("DOMMouseScroll", (event) => {
+      this.selectEngine(event, (event.detail > 0));
+    }, true);
 
-    this.addEventListener("input", event => {
+    this.addEventListener("input", (event) => {
       this.updateGoButtonVisibility();
     });
 
-    this.addEventListener("drop", event => {
+    this.addEventListener("drop", (event) => {
       this.updateGoButtonVisibility();
     });
 
-    this.addEventListener("blur", event => {
+    this.addEventListener("blur", (event) => {
       // If the input field is still focused then a different window has
       // received focus, ignore the next focus event.
-      this._ignoreFocus = document.activeElement == this._textbox.inputField;
+      this._ignoreFocus = (document.activeElement == this._textbox.inputField);
     });
 
-    this.addEventListener("focus", event => {
+    this.addEventListener("focus", (event) => {
       // Speculatively connect to the current engine's search URI (and
       // suggest URI, if different) to reduce request latency
       this.currentEngine.speculativeConnect({
         window,
-        originAttributes: gBrowser.contentPrincipal.originAttributes
+        originAttributes: gBrowser.contentPrincipal
+          .originAttributes
       });
 
       if (this._ignoreFocus) {
@@ -143,40 +128,30 @@ class FirefoxSearchbar extends XULElement {
       }
 
       // Don't open the suggestions if there is no text in the textbox.
-      if (!this._textbox.value) return;
+      if (!this._textbox.value)
+        return;
 
       // Don't open the suggestions if the mouse was used to focus the
       // textbox, that will be taken care of in the click handler.
-      if (
-        Services.focus.getLastFocusMethod(window) & Services.focus.FLAG_BYMOUSE
-      )
+      if (Services.focus.getLastFocusMethod(window) & Services.focus.FLAG_BYMOUSE)
         return;
 
       this.openSuggestionsPanel();
     });
 
-    this.addEventListener(
-      "mousedown",
-      event => {
-        if (
-          event.originalTarget.getAttribute("anonid") ==
-          "searchbar-search-button"
-        ) {
-          this._clickClosedPopup = this._textbox.popup._isHiding;
-        }
-      },
-      true
-    );
+    this.addEventListener("mousedown", (event) => {
+      if (event.originalTarget.getAttribute("anonid") == "searchbar-search-button") {
+        this._clickClosedPopup = this._textbox.popup._isHiding;
+      }
+    }, true);
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       // Ignore clicks on the search go button.
       if (event.originalTarget.getAttribute("anonid") == "search-go-button") {
         return;
       }
 
-      let isIconClick =
-        event.originalTarget.getAttribute("anonid") ==
-        "searchbar-search-button";
+      let isIconClick = event.originalTarget.getAttribute("anonid") == "searchbar-search-button";
 
       // Ignore clicks on the icon if they were made to close the popup
       if (isIconClick && this._clickClosedPopup) {
@@ -189,13 +164,15 @@ class FirefoxSearchbar extends XULElement {
         this.openSuggestionsPanel(true);
       }
     });
+
   }
   disconnectedCallback() {
     this.destroy();
   }
 
   get engines() {
-    if (!this._engines) this._engines = Services.search.getVisibleEngines();
+    if (!this._engines)
+      this._engines = Services.search.getVisibleEngines();
     return this._engines;
   }
 
@@ -207,7 +184,10 @@ class FirefoxSearchbar extends XULElement {
   get currentEngine() {
     var currentEngine = Services.search.currentEngine;
     // Return a dummy engine if there is no currentEngine
-    return currentEngine || { name: "", uri: null };
+    return currentEngine || {
+      name: "",
+      uri: null
+    };
   }
 
   get textbox() {
@@ -215,7 +195,7 @@ class FirefoxSearchbar extends XULElement {
   }
 
   set value(val) {
-    return (this._textbox.value = val);
+    return this._textbox.value = val;
   }
 
   get value() {
@@ -252,8 +232,8 @@ class FirefoxSearchbar extends XULElement {
           this.hideNewEngine(aEngine);
           break;
         case "engine-changed":
-        // An engine was removed (or hidden) or added, or an icon was
-        // changed.  Do nothing special.
+          // An engine was removed (or hidden) or added, or an icon was
+          // changed.  Do nothing special.
       }
 
       // Make sure the engine list is refetched next time it's needed
@@ -272,7 +252,8 @@ class FirefoxSearchbar extends XULElement {
         var removeTitle = aEngine.wrappedJSObject.name;
         for (var i = 0; i < browser.hiddenEngines.length; i++) {
           if (browser.hiddenEngines[i].title == removeTitle) {
-            if (!browser.engines) browser.engines = [];
+            if (!browser.engines)
+              browser.engines = [];
             browser.engines.push(browser.hiddenEngines[i]);
             browser.hiddenEngines.splice(i, 1);
             break;
@@ -290,7 +271,8 @@ class FirefoxSearchbar extends XULElement {
         var removeTitle = aEngine.wrappedJSObject.name;
         for (var i = 0; i < browser.engines.length; i++) {
           if (browser.engines[i].title == removeTitle) {
-            if (!browser.hiddenEngines) browser.hiddenEngines = [];
+            if (!browser.hiddenEngines)
+              browser.hiddenEngines = [];
             browser.hiddenEngines.push(browser.engines[i]);
             browser.engines.splice(i, 1);
             break;
@@ -313,14 +295,13 @@ class FirefoxSearchbar extends XULElement {
     this._textbox.tooltipText = text;
   }
   updateGoButtonVisibility() {
-    document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "search-go-button"
-    ).hidden = !this._textbox.value;
+    document.getAnonymousElementByAttribute(this, "anonid",
+        "search-go-button")
+      .hidden = !this._textbox.value;
   }
   openSuggestionsPanel(aShowOnlySettingsIfEmpty) {
-    if (this._textbox.open) return;
+    if (this._textbox.open)
+      return;
 
     this._textbox.showHistoryPopup();
 
@@ -351,11 +332,9 @@ class FirefoxSearchbar extends XULElement {
     let params;
 
     // Open ctrl/cmd clicks on one-off buttons in a new background tab.
-    if (
-      aEvent &&
-      aEvent.originalTarget.getAttribute("anonid") == "search-go-button"
-    ) {
-      if (aEvent.button == 2) return;
+    if (aEvent && aEvent.originalTarget.getAttribute("anonid") == "search-go-button") {
+      if (aEvent.button == 2)
+        return;
       where = whereToOpenLink(aEvent, false, true);
     } else if (aForceNewTab) {
       where = "tab";
@@ -363,15 +342,13 @@ class FirefoxSearchbar extends XULElement {
         where += "-background";
     } else {
       var newTabPref = Services.prefs.getBoolPref("browser.search.openintab");
-      if ((aEvent instanceof KeyboardEvent && aEvent.altKey) ^ newTabPref)
+      if (((aEvent instanceof KeyboardEvent) && aEvent.altKey) ^ newTabPref)
         where = "tab";
-      if (
-        aEvent instanceof MouseEvent &&
-        (aEvent.button == 1 || aEvent.getModifierState("Accel"))
-      ) {
+      if ((aEvent instanceof MouseEvent) &&
+        (aEvent.button == 1 || aEvent.getModifierState("Accel"))) {
         where = "tab";
         params = {
-          inBackground: true
+          inBackground: true,
         };
       }
     }
@@ -390,12 +367,9 @@ class FirefoxSearchbar extends XULElement {
       selection ? selection.index : -1
     );
 
-    if (!selection || selection.index == -1) {
-      oneOffRecorded = this.textbox.popup.oneOffButtons.maybeRecordTelemetry(
-        aEvent,
-        aWhere,
-        aParams
-      );
+    if (!selection || (selection.index == -1)) {
+      oneOffRecorded = this.textbox.popup.oneOffButtons
+        .maybeRecordTelemetry(aEvent, aWhere, aParams);
       if (!oneOffRecorded) {
         let source = "unknown";
         let type = "unknown";
@@ -404,10 +378,8 @@ class FirefoxSearchbar extends XULElement {
           type = "key";
         } else if (aEvent instanceof MouseEvent) {
           type = "mouse";
-          if (
-            target.classList.contains("search-panel-header") ||
-            target.parentNode.classList.contains("search-panel-header")
-          ) {
+          if (target.classList.contains("search-panel-header") ||
+            target.parentNode.classList.contains("search-panel-header")) {
             source = "header";
           }
         } else if (aEvent instanceof XULCommandEvent) {
@@ -418,43 +390,31 @@ class FirefoxSearchbar extends XULElement {
         if (!aEngine) {
           aEngine = this.currentEngine;
         }
-        BrowserSearch.recordOneoffSearchInTelemetry(
-          aEngine,
-          source,
-          type,
-          aWhere
-        );
+        BrowserSearch.recordOneoffSearchInTelemetry(aEngine, source, type,
+          aWhere);
       }
     }
 
     // This is a one-off search only if oneOffRecorded is true.
     this.doSearch(textValue, aWhere, aEngine, aParams, oneOffRecorded);
 
-    if (aWhere == "tab" && aParams && aParams.inBackground) this.focus();
+    if (aWhere == "tab" && aParams && aParams.inBackground)
+      this.focus();
   }
   doSearch(aData, aWhere, aEngine, aParams, aOneOff) {
     var textBox = this._textbox;
 
     // Save the current value in the form history
-    if (
-      aData &&
-      !PrivateBrowsingUtils.isWindowPrivate(window) &&
-      this.FormHistory.enabled
-    ) {
-      this.FormHistory.update(
-        {
-          op: "bump",
-          fieldname: textBox.getAttribute("autocompletesearchparam"),
-          value: aData
-        },
-        {
-          handleError(aError) {
-            Components.utils.reportError(
-              "Saving search to form history failed: " + aError.message
-            );
-          }
+    if (aData && !PrivateBrowsingUtils.isWindowPrivate(window) && this.FormHistory.enabled) {
+      this.FormHistory.update({
+        op: "bump",
+        fieldname: textBox.getAttribute("autocompletesearchparam"),
+        value: aData
+      }, {
+        handleError(aError) {
+          Components.utils.reportError("Saving search to form history failed: " + aError.message);
         }
-      );
+      });
     }
 
     let engine = aEngine || this.currentEngine;
@@ -467,13 +427,13 @@ class FirefoxSearchbar extends XULElement {
     // If we hit here, we come either from a one-off, a plain search or a suggestion.
     const details = {
       isOneOff: aOneOff,
-      isSuggestion: !aOneOff && telemetrySearchDetails,
+      isSuggestion: (!aOneOff && telemetrySearchDetails),
       selection: telemetrySearchDetails
     };
     BrowserSearch.recordSearchInTelemetry(engine, "searchbar", details);
     // null parameter below specifies HTML response for search
     let params = {
-      postData: submission.postData
+      postData: submission.postData,
     };
     if (aParams) {
       for (let key in aParams) {
@@ -483,4 +443,3 @@ class FirefoxSearchbar extends XULElement {
     openUILinkIn(submission.uri.spec, aWhere, params);
   }
 }
-customElements.define("firefox-searchbar", FirefoxSearchbar);

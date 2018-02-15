@@ -1,5 +1,6 @@
 class FirefoxDownloadProgress extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:stack flex="1">
         <xul:hbox flex="1">
@@ -16,34 +17,25 @@ class FirefoxDownloadProgress extends XULElement {
       </xul:stack>
     `;
 
-    this._progress = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "progress"
-    );
+    this._progress = document.getAnonymousElementByAttribute(this, "anonid", "progress");
 
-    this._cancel = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "cancel-btn"
-    );
+    this._cancel = document.getAnonymousElementByAttribute(this, "anonid", "cancel-btn");
 
-    this._status = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "status"
-    );
+    this._status = document.getAnonymousElementByAttribute(this, "anonid", "status");
 
     var progress = 0;
     if (this.hasAttribute("progress"))
       progress = parseInt(this.getAttribute("progress"));
     this.progress = progress;
+
   }
 
   set progress(val) {
     this._progress.value = val;
-    if (val == this._progress.max) this.setAttribute("complete", true);
-    else this.removeAttribute("complete");
+    if (val == this._progress.max)
+      this.setAttribute("complete", true);
+    else
+      this.removeAttribute("complete");
   }
 
   get progress() {
@@ -75,4 +67,3 @@ class FirefoxDownloadProgress extends XULElement {
     this.mInstall.cancel();
   }
 }
-customElements.define("firefox-download-progress", FirefoxDownloadProgress);

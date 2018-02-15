@@ -1,6 +1,6 @@
 class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type"></xul:image>
       <xul:image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type"></xul:image>
@@ -34,48 +34,32 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     this._inOverflow = false;
 
     this._typeIcon = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "type-icon"
+      this, "anonid", "type-icon"
     );
     this._siteIcon = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "site-icon"
+      this, "anonid", "site-icon"
     );
     this._titleText = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "title-text"
+      this, "anonid", "title-text"
     );
     this._tags = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "tags"
+      this, "anonid", "tags"
     );
     this._tagsText = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "tags-text"
+      this, "anonid", "tags-text"
     );
     this._separator = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "separator"
+      this, "anonid", "separator"
     );
     this._urlText = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "url-text"
+      this, "anonid", "url-text"
     );
     this._actionText = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "action-text"
+      this, "anonid", "action-text"
     );
     this._adjustAcItem();
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       // Call this.control only once since it's not a simple getter.
       let control = this.control;
       if (!control || control.disabled) {
@@ -87,7 +71,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       control.currentItem = this;
     });
 
-    this.addEventListener("mouseover", event => {
+    this.addEventListener("mouseover", (event) => {
       // The point of implementing this handler is to allow drags to change
       // the selected item.  If the user mouses down on an item, it becomes
       // selected.  If they then drag the mouse to another item, select it.
@@ -107,13 +91,17 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       }
       control.currentItem = this;
     });
+
   }
 
   get label() {
     // This property is a string that is read aloud by screen readers,
     // so it must not contain anything that should not be user-facing.
 
-    let parts = [this.getAttribute("title"), this.getAttribute("displayurl")];
+    let parts = [
+      this.getAttribute("title"),
+      this.getAttribute("displayurl"),
+    ];
     let label = parts.filter(str => str).join(" ");
 
     // allow consumers that have extended popups to override
@@ -128,20 +116,17 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
 
   get _stringBundle() {
     if (!this.__stringBundle) {
-      this.__stringBundle = Services.strings.createBundle(
-        "chrome://global/locale/autocomplete.properties"
-      );
+      this.__stringBundle = Services.strings.createBundle("chrome://global/locale/autocomplete.properties");
     }
     return this.__stringBundle;
   }
 
   get boundaryCutoff() {
     if (!this._boundaryCutoff) {
-      this._boundaryCutoff = Components.classes[
-        "@mozilla.org/preferences-service;1"
-      ]
-        .getService(Components.interfaces.nsIPrefBranch)
-        .getIntPref("toolkit.autocomplete.richBoundaryCutoff");
+      this._boundaryCutoff =
+        Components.classes["@mozilla.org/preferences-service;1"].
+      getService(Components.interfaces.nsIPrefBranch).
+      getIntPref("toolkit.autocomplete.richBoundaryCutoff");
     }
     return this._boundaryCutoff;
   }
@@ -162,7 +147,8 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
   }
   _getBoundaryIndices(aText, aSearchTokens) {
     // Short circuit for empty search ([""] == "")
-    if (aSearchTokens == "") return [0, aText.length];
+    if (aSearchTokens == "")
+      return [0, aText.length];
 
     // Find which regions of text match the search terms
     let regions = [];
@@ -180,7 +166,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     // Sort the regions by start position then end position
     regions = regions.sort((a, b) => {
       let start = a[0] - b[0];
-      return start == 0 ? a[1] - b[1] : start;
+      return (start == 0) ? a[1] - b[1] : start;
     });
 
     // Generate the boundary indices from each region
@@ -210,7 +196,8 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     boundaries.push(end);
 
     // Put on the end boundary if necessary
-    if (end < aText.length) boundaries.push(aText.length);
+    if (end < aText.length)
+      boundaries.push(aText.length);
 
     // Skip the first item because it's always 0
     return boundaries.slice(1);
@@ -238,19 +225,10 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     let tokens = this._getSearchTokens(search);
     let indices = this._getBoundaryIndices(aText, tokens);
 
-    this._appendDescriptionSpans(
-      indices,
-      aText,
-      aDescriptionElement,
-      aDescriptionElement
-    );
+    this._appendDescriptionSpans(indices, aText, aDescriptionElement,
+      aDescriptionElement);
   }
-  _appendDescriptionSpans(
-    indices,
-    text,
-    spansParentElement,
-    descriptionElement
-  ) {
+  _appendDescriptionSpans(indices, text, spansParentElement, descriptionElement) {
     let next;
     let start = 0;
     let len = indices.length;
@@ -263,8 +241,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       if (i % 2 == 0) {
         // Emphasize the text for even indices
         let span = spansParentElement.appendChild(
-          document.createElementNS("http://www.w3.org/1999/xhtml", "span")
-        );
+          document.createElementNS("http://www.w3.org/1999/xhtml", "span"));
         this._setUpEmphasisSpan(span, descriptionElement);
         span.textContent = spanText;
       } else {
@@ -287,17 +264,17 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       let tokens = this._getSearchTokens(search);
       let indices = this._getBoundaryIndices(tag, tokens);
 
-      if (indices.length == 2 && indices[0] == 0 && indices[1] == tag.length) {
+      if (indices.length == 2 &&
+        indices[0] == 0 &&
+        indices[1] == tag.length) {
         // The tag doesn't match the search string, so don't include it.
         continue;
       }
 
       anyTagsMatch = true;
 
-      let tagSpan = document.createElementNS(
-        "http://www.w3.org/1999/xhtml",
-        "span"
-      );
+      let tagSpan =
+        document.createElementNS("http://www.w3.org/1999/xhtml", "span");
       tagSpan.classList.add("ac-tag");
       this._tagsText.appendChild(tagSpan);
 
@@ -337,7 +314,8 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       // The above regex will actually give us an empty string at the
       // end - we don't want that, as we don't want to later generate an
       // empty text node for it.
-      if (part.length === 0) continue;
+      if (part.length === 0)
+        continue;
 
       // Determine if this token is a replacement token or a normal text
       // token. If it is a replacement token, we want to extract the
@@ -368,8 +346,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     for (let [text, emphasise] of aTextPairs) {
       if (emphasise) {
         let span = aDescriptionElement.appendChild(
-          document.createElementNS("http://www.w3.org/1999/xhtml", "span")
-        );
+          document.createElementNS("http://www.w3.org/1999/xhtml", "span"));
         span.textContent = text;
         switch (emphasise) {
           case "match":
@@ -391,12 +368,11 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     // If the item is a searchengine action, then it should
     // only be reused if the engine name is the same as the
     // popup's override engine name, if any.
-    if (
-      !action ||
+    if (!action ||
       action.type != "searchengine" ||
       !popup.overrideSearchEngineName ||
-      action.params.engineName == popup.overrideSearchEngineName
-    ) {
+      action.params.engineName == popup.overrideSearchEngineName) {
+
       this.collapsed = false;
 
       // The popup may have changed size between now and the last
@@ -442,8 +418,8 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       action = {
         type: "visiturl",
         params: {
-          url: this.getAttribute("title")
-        }
+          url: this.getAttribute("title"),
+        },
       };
     }
 
@@ -472,22 +448,24 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
         // properly generate emphasis pairs. That said, no localization
         // changed the order while it was possible, so doesn't look like
         // there's a strong need for that.
-        let { engineName, searchSuggestion, searchQuery } = action.params;
+        let {
+          engineName,
+          searchSuggestion,
+          searchQuery
+        } = action.params;
 
         // Override the engine name if the popup defines an override.
         let override = popup.overrideSearchEngineName;
         if (override && override != engineName) {
           engineName = override;
           action.params.engineName = override;
-          let newURL = PlacesUtils.mozActionURI(action.type, action.params);
+          let newURL =
+            PlacesUtils.mozActionURI(action.type, action.params);
           this.setAttribute("url", newURL);
         }
 
-        let engineStr = this._stringBundle.formatStringFromName(
-          "searchWithEngine",
-          [engineName],
-          1
-        );
+        let engineStr =
+          this._stringBundle.formatStringFromName("searchWithEngine", [engineName], 1);
         this._setUpDescription(this._actionText, engineStr, true);
 
         // Make the title by generating an array of pairs and its
@@ -503,13 +481,17 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
             pairs = [
               [searchSuggestion.substring(0, idx), ""],
               [searchQuery, "match"],
-              [searchSuggestion.substring(idx + searchQuery.length), ""]
+              [searchSuggestion.substring(idx + searchQuery.length), ""],
             ];
           } else {
-            pairs = [[searchSuggestion, ""]];
+            pairs = [
+              [searchSuggestion, ""],
+            ];
           }
         } else {
-          pairs = [[searchQuery, ""]];
+          pairs = [
+            [searchQuery, ""],
+          ];
         }
         let interpStr = pairs.map((pair, i) => `%${i + 1}$S`).join("");
         title = this._generateEmphasisPairs(interpStr, pairs);
@@ -539,9 +521,9 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
 
     if (!displayUrl) {
       let input = popup.input;
-      let url = typeof input.trimValue == "function"
-        ? input.trimValue(originalUrl)
-        : originalUrl;
+      let url = typeof(input.trimValue) == "function" ?
+        input.trimValue(originalUrl) :
+        originalUrl;
       displayUrl = this._unescapeUrl(url);
     }
     // For performance reasons we may want to limit the displayUrl size.
@@ -557,7 +539,8 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       try {
         let uri = Services.io.newURI(originalUrl);
         // Not all valid URLs have a domain.
-        if (uri.host) title = uri.host;
+        if (uri.host)
+          title = uri.host;
       } catch (e) {}
     }
 
@@ -591,10 +574,12 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
         let visitStr = this._stringBundle.GetStringFromName("visit");
         this._setUpDescription(this._actionText, visitStr, true);
       } else {
-        let pairs = [[title, ""], [keywordArg, "match"]];
-        let interpStr = this._stringBundle.GetStringFromName(
-          "bookmarkKeywordSearch"
-        );
+        let pairs = [
+          [title, ""],
+          [keywordArg, "match"]
+        ];
+        let interpStr =
+          this._stringBundle.GetStringFromName("bookmarkKeywordSearch");
         title = this._generateEmphasisPairs(interpStr, pairs);
         // The action box will be visible since this is a moz-action, but
         // we want it to appear as if it were not visible, so set its text
@@ -662,15 +647,11 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     // This extra padding amount is basically arbitrary but keeps the text
     // from getting too close to the popup's edge.
     let dir = this.getAttribute("dir");
-    let titleStart = dir == "rtl"
-      ? itemRect.right - titleRect.right
-      : titleRect.left - itemRect.left;
+    let titleStart = dir == "rtl" ? itemRect.right - titleRect.right :
+      titleRect.left - itemRect.left;
 
     let popup = this.parentNode.parentNode;
-    let itemWidth =
-      itemRect.width -
-      titleStart -
-      popup.overflowPadding -
+    let itemWidth = itemRect.width - titleStart - popup.overflowPadding -
       (popup.margins ? popup.margins.end : 0);
 
     if (this._tags.hasAttribute("empty")) {
@@ -725,14 +706,15 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     this._handleOverflow();
   }
   _parseActionUrl(aUrl) {
-    if (!aUrl.startsWith("moz-action:")) return null;
+    if (!aUrl.startsWith("moz-action:"))
+      return null;
 
     // URL is in the format moz-action:ACTION,PARAMS
     // Where PARAMS is a JSON encoded object.
     let [, type, params] = aUrl.match(/^moz-action:([^,]+),(.*)$/);
 
     let action = {
-      type
+      type,
     };
 
     try {
@@ -745,14 +727,10 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       // is instead just a flat string. This may happen for legacy
       // search components.
       action.params = {
-        url: params
+        url: params,
       };
     }
 
     return action;
   }
 }
-customElements.define(
-  "firefox-autocomplete-richlistitem",
-  FirefoxAutocompleteRichlistitem
-);

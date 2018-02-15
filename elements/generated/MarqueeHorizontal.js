@@ -1,6 +1,6 @@
 class FirefoxMarqueeHorizontal extends FirefoxMarquee {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <html:div style="display: -moz-box; overflow: hidden; width: -moz-available;">
         <html:div style="display: -moz-box;">
@@ -12,6 +12,7 @@ class FirefoxMarqueeHorizontal extends FirefoxMarquee {
         </html:div>
       </html:div>
     `;
+
   }
+
 }
-customElements.define("firefox-marquee-horizontal", FirefoxMarqueeHorizontal);

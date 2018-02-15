@@ -1,13 +1,12 @@
 class FirefoxTreecolBase extends FirefoxTreeBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this.parentNode.parentNode._columnsDirty = true;
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       if (this.parentNode.parentNode.enableColumnDrag) {
-        var xulns =
-          "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+        var xulns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
         var cols = this.parentNode.getElementsByTagNameNS(xulns, "treecol");
 
         // only start column drag operation if there are at least 2 visible columns
@@ -26,18 +25,21 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
       }
     });
 
-    this.addEventListener("click", event => {
-      if (event.target != event.originalTarget) return;
+    this.addEventListener("click", (event) => {
+      if (event.target != event.originalTarget)
+        return;
 
       // On Windows multiple clicking on tree columns only cycles one time
       // every 2 clicks.
-      if (/Win/.test(navigator.platform) && event.detail % 2 == 0) return;
+      if (/Win/.test(navigator.platform) && event.detail % 2 == 0)
+        return;
 
       var tree = this.parentNode.parentNode;
       if (tree.columns) {
         tree.view.cycleHeader(tree.columns.getColumnFor(this));
       }
     });
+
   }
 
   set ordinal(val) {
@@ -47,7 +49,8 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
 
   get ordinal() {
     var val = this.getAttribute("ordinal");
-    if (val == "") return "1";
+    if (val == "")
+      return "1";
 
     return "" + (val == "0" ? 0 : parseInt(val));
   }
@@ -55,11 +58,7 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
   get _previousVisibleColumn() {
     var sib = this.boxObject.previousSibling;
     while (sib) {
-      if (
-        sib.localName == "treecol" &&
-        sib.boxObject.width > 0 &&
-        sib.parentNode == this.parentNode
-      )
+      if (sib.localName == "treecol" && sib.boxObject.width > 0 && sib.parentNode == this.parentNode)
         return sib;
       sib = sib.boxObject.previousSibling;
     }
@@ -72,10 +71,8 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
     // determine if we have moved the mouse far enough
     // to initiate a drag
     if (col.mDragGesturing) {
-      if (
-        Math.abs(aEvent.clientX - col.mStartDragX) < 5 &&
-        Math.abs(aEvent.clientY - col.mStartDragY) < 5
-      ) {
+      if (Math.abs(aEvent.clientX - col.mStartDragX) < 5 &&
+        Math.abs(aEvent.clientY - col.mStartDragY) < 5) {
         return;
       }
       col.mDragGesturing = false;
@@ -84,14 +81,11 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
     }
 
     var pos = {};
-    var targetCol = col.parentNode.parentNode._getColumnAtX(
-      aEvent.clientX,
-      0.5,
-      pos
-    );
+    var targetCol = col.parentNode.parentNode._getColumnAtX(aEvent.clientX, 0.5, pos);
 
     // bail if we haven't mousemoved to a different column
-    if (col.mTargetCol == targetCol && col.mTargetDir == pos.value) return;
+    if (col.mTargetCol == targetCol && col.mTargetDir == pos.value)
+      return;
 
     var tree = col.parentNode.parentNode;
     var sib;
@@ -169,7 +163,8 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
 
         col.mTargetCol = null;
       }
-    } else col.mDragGesturing = false;
+    } else
+      col.mDragGesturing = false;
 
     document.treecolDragging = null;
     col.removeAttribute("dragging");
@@ -189,4 +184,3 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
     aEvent.preventDefault();
   }
 }
-customElements.define("firefox-treecol-base", FirefoxTreecolBase);

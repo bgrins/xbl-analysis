@@ -1,6 +1,6 @@
 class FirefoxUrlbar extends FirefoxAutocomplete {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox flex="1" class="urlbar-textbox-container">
         <children includes="image|deck|stack|box"></children>
@@ -16,16 +16,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       <children includes="toolbarbutton"></children>
     `;
 
-    this.ExtensionSearchHandler = ChromeUtils.import(
-      "resource://gre/modules/ExtensionSearchHandler.jsm",
-      {}
-    ).ExtensionSearchHandler;
+    this.ExtensionSearchHandler = (ChromeUtils.import("resource://gre/modules/ExtensionSearchHandler.jsm", {})).ExtensionSearchHandler;
 
-    this.goButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "urlbar-go-button"
-    );
+    this.goButton = document.getAnonymousElementByAttribute(this, "anonid", "urlbar-go-button");
 
     this._value = "";
 
@@ -39,7 +32,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     this._keyCodesToDefer = new Set([
       KeyboardEvent.DOM_VK_DOWN,
-      KeyboardEvent.DOM_VK_TAB
+      KeyboardEvent.DOM_VK_TAB,
     ]);
 
     this._deferredKeyEventQueue = [];
@@ -54,18 +47,18 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     this._formattingEnabled = true;
 
-    this._copyCutController = {
+    this._copyCutController = ({
       urlbar: this,
       doCommand(aCommand) {
         var urlbar = this.urlbar;
         var val = urlbar._getSelectedValueForClipboard();
-        if (!val) return;
+        if (!val)
+          return;
 
         if (aCommand == "cmd_cut" && this.isCommandEnabled(aCommand)) {
           let start = urlbar.selectionStart;
           let end = urlbar.selectionEnd;
-          urlbar.inputField.value =
-            urlbar.inputField.value.substring(0, start) +
+          urlbar.inputField.value = urlbar.inputField.value.substring(0, start) +
             urlbar.inputField.value.substring(end);
           urlbar.selectionStart = urlbar.selectionEnd = start;
 
@@ -89,14 +82,12 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         return false;
       },
       isCommandEnabled(aCommand) {
-        return (
-          this.supportsCommand(aCommand) &&
+        return this.supportsCommand(aCommand) &&
           (aCommand != "cmd_cut" || !this.urlbar.readOnly) &&
-          this.urlbar.selectionStart < this.urlbar.selectionEnd
-        );
+          this.urlbar.selectionStart < this.urlbar.selectionEnd;
       },
       onEvent(aEventName) {}
-    };
+    });
 
     this._pressedNoActionKeys = new Set();
 
@@ -105,35 +96,23 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       .getBranch("browser.urlbar.");
     this._prefs.addObserver("", this);
 
-    this._defaultPrefs = Components.classes[
-      "@mozilla.org/preferences-service;1"
-    ]
+    this._defaultPrefs = Components.classes["@mozilla.org/preferences-service;1"]
       .getService(Components.interfaces.nsIPrefService)
       .getDefaultBranch("browser.urlbar.");
 
     Services.prefs.addObserver("browser.search.suggest.enabled", this);
-    this.browserSearchSuggestEnabled = Services.prefs.getBoolPref(
-      "browser.search.suggest.enabled"
-    );
+    this.browserSearchSuggestEnabled = Services.prefs.getBoolPref("browser.search.suggest.enabled");
 
     this.openInTab = this._prefs.getBoolPref("openintab");
     this.clickSelectsAll = this._prefs.getBoolPref("clickSelectsAll");
-    this.doubleClickSelectsAll = this._prefs.getBoolPref(
-      "doubleClickSelectsAll"
-    );
+    this.doubleClickSelectsAll = this._prefs.getBoolPref("doubleClickSelectsAll");
     this.completeDefaultIndex = this._prefs.getBoolPref("autoFill");
-    this.speculativeConnectEnabled = this._prefs.getBoolPref(
-      "speculativeConnect.enabled"
-    );
-    this.urlbarSearchSuggestEnabled = this._prefs.getBoolPref(
-      "suggest.searches"
-    );
+    this.speculativeConnectEnabled = this._prefs.getBoolPref("speculativeConnect.enabled");
+    this.urlbarSearchSuggestEnabled = this._prefs.getBoolPref("suggest.searches");
     this.timeout = this._prefs.getIntPref("delay");
     this._formattingEnabled = this._prefs.getBoolPref("formatting.enabled");
     this._mayTrimURLs = this._prefs.getBoolPref("trimURLs");
-    this._adoptIntoActiveWindow = this._prefs.getBoolPref(
-      "switchTabs.adoptIntoActiveWindow"
-    );
+    this._adoptIntoActiveWindow = this._prefs.getBoolPref("switchTabs.adoptIntoActiveWindow");
     this.inputField.controllers.insertControllerAt(0, this._copyCutController);
     this.inputField.addEventListener("paste", this);
     this.inputField.addEventListener("mousedown", this);
@@ -142,54 +121,43 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this.inputField.addEventListener("overflow", this);
     this.inputField.addEventListener("underflow", this);
 
-    var textBox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "textbox-input-box"
-    );
-    var cxmenu = document.getAnonymousElementByAttribute(
-      textBox,
-      "anonid",
-      "input-box-contextmenu"
-    );
+    var textBox = document.getAnonymousElementByAttribute(this,
+      "anonid", "textbox-input-box");
+    var cxmenu = document.getAnonymousElementByAttribute(textBox,
+      "anonid", "input-box-contextmenu");
     var pasteAndGo;
     cxmenu.addEventListener("popupshowing", function() {
-      if (!pasteAndGo) return;
-      var controller = document.commandDispatcher.getControllerForCommand(
-        "cmd_paste"
-      );
+      if (!pasteAndGo)
+        return;
+      var controller = document.commandDispatcher.getControllerForCommand("cmd_paste");
       var enabled = controller.isCommandEnabled("cmd_paste");
-      if (enabled) pasteAndGo.removeAttribute("disabled");
-      else pasteAndGo.setAttribute("disabled", "true");
+      if (enabled)
+        pasteAndGo.removeAttribute("disabled");
+      else
+        pasteAndGo.setAttribute("disabled", "true");
     });
 
     var insertLocation = cxmenu.firstChild;
-    while (
-      insertLocation.nextSibling &&
-      insertLocation.getAttribute("cmd") != "cmd_paste"
-    )
+    while (insertLocation.nextSibling &&
+      insertLocation.getAttribute("cmd") != "cmd_paste")
       insertLocation = insertLocation.nextSibling;
     if (insertLocation) {
       pasteAndGo = document.createElement("menuitem");
-      let label = Services.strings
-        .createBundle("chrome://browser/locale/browser.properties")
-        .GetStringFromName("pasteAndGo.label");
+      let label = Services.strings.createBundle("chrome://browser/locale/browser.properties").
+      GetStringFromName("pasteAndGo.label");
       pasteAndGo.setAttribute("label", label);
       pasteAndGo.setAttribute("anonid", "paste-and-go");
-      pasteAndGo.setAttribute(
-        "oncommand",
-        "gURLBar.select(); goDoCommand('cmd_paste'); gURLBar.handleCommand();"
-      );
+      pasteAndGo.setAttribute("oncommand",
+        "gURLBar.select(); goDoCommand('cmd_paste'); gURLBar.handleCommand();");
       cxmenu.insertBefore(pasteAndGo, insertLocation.nextSibling);
     }
 
-    this.popup.addEventListener(
-      "popupshowing",
-      () => {
-        this._enableOrDisableOneOffSearches();
-      },
-      { capturing: true, once: true }
-    );
+    this.popup.addEventListener("popupshowing", () => {
+      this._enableOrDisableOneOffSearches();
+    }, {
+      capturing: true,
+      once: true
+    });
 
     // history dropmarker open state
     this.popup.addEventListener("popupshowing", () => {
@@ -206,12 +174,10 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // Ensure to clear those internal caches when switching tabs.
     gBrowser.tabContainer.addEventListener("TabSelect", this);
 
-    this.addEventListener("keydown", event => {
-      if (
-        this._noActionKeys.has(event.keyCode) &&
+    this.addEventListener("keydown", (event) => {
+      if (this._noActionKeys.has(event.keyCode) &&
         this.popup.selectedIndex >= 0 &&
-        !this._pressedNoActionKeys.has(event.keyCode)
-      ) {
+        !this._pressedNoActionKeys.has(event.keyCode)) {
         if (this._pressedNoActionKeys.size == 0) {
           this.popup.setAttribute("noactions", "true");
           this.removeAttribute("actiontype");
@@ -220,21 +186,18 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       }
     });
 
-    this.addEventListener("keyup", event => {
-      if (
-        this._noActionKeys.has(event.keyCode) &&
-        this._pressedNoActionKeys.has(event.keyCode)
-      ) {
+    this.addEventListener("keyup", (event) => {
+      if (this._noActionKeys.has(event.keyCode) &&
+        this._pressedNoActionKeys.has(event.keyCode)) {
         this._pressedNoActionKeys.delete(event.keyCode);
-        if (this._pressedNoActionKeys.size == 0) this._clearNoActions();
+        if (this._pressedNoActionKeys.size == 0)
+          this._clearNoActions();
       }
     });
 
-    this.addEventListener("mousedown", event => {
+    this.addEventListener("mousedown", (event) => {
       if (event.button == 0) {
-        if (
-          event.originalTarget.getAttribute("anonid") == "historydropmarker"
-        ) {
+        if (event.originalTarget.getAttribute("anonid") == "historydropmarker") {
           this.toggleHistoryPopup();
         }
 
@@ -246,7 +209,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       }
     });
 
-    this.addEventListener("focus", event => {
+    this.addEventListener("focus", (event) => {
       if (event.originalTarget == this.inputField) {
         this._hideURLTooltip();
         this.formatValue();
@@ -258,10 +221,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         // urlbar, but in any case we want to enforce at least one
         // notification when the user focuses it with the mouse.
         let whichNotification = this.whichSearchSuggestionsNotification;
-        if (
-          whichNotification == "opt-out" &&
-          this._showSearchSuggestionNotificationOnMouseFocus === undefined
-        ) {
+        if (whichNotification == "opt-out" &&
+          this._showSearchSuggestionNotificationOnMouseFocus === undefined) {
           this._showSearchSuggestionNotificationOnMouseFocus = true;
         }
 
@@ -278,7 +239,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       }
     });
 
-    this.addEventListener("blur", event => {
+    this.addEventListener("blur", (event) => {
       if (event.originalTarget == this.inputField) {
         this._clearNoActions();
         this.formatValue();
@@ -296,78 +257,61 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       this._deferredKeyEventQueue = [];
     });
 
-    this.addEventListener(
-      "dragstart",
-      event => {
-        // Drag only if the gesture starts from the input field.
-        if (
-          this.inputField != event.originalTarget &&
-          !(
-            this.inputField.compareDocumentPosition(event.originalTarget) &
-            Node.DOCUMENT_POSITION_CONTAINED_BY
-          )
-        )
-          return;
-
-        // Drag only if the entire value is selected and it's a valid URI.
-        var isFullSelection =
-          this.selectionStart == 0 && this.selectionEnd == this.textLength;
-        if (!isFullSelection || this.getAttribute("pageproxystate") != "valid")
-          return;
-
-        var urlString = gBrowser.selectedBrowser.currentURI.displaySpec;
-        var title = gBrowser.selectedBrowser.contentTitle || urlString;
-        var htmlString = '<a href="' + urlString + '">' + urlString + "</a>";
-
-        var dt = event.dataTransfer;
-        dt.setData("text/x-moz-url", urlString + "\n" + title);
-        dt.setData("text/unicode", urlString);
-        dt.setData("text/html", htmlString);
-
-        dt.effectAllowed = "copyLink";
-        event.stopPropagation();
-      },
-      true
-    );
-
-    this.addEventListener(
-      "dragover",
-      event => {
-        this.onDragOver(event, this);
-      },
-      true
-    );
-
-    this.addEventListener(
-      "drop",
-      event => {
-        this.onDrop(event, this);
-      },
-      true
-    );
-
-    this.addEventListener("select", event => {
-      if (
-        !Cc["@mozilla.org/widget/clipboard;1"]
-          .getService(Ci.nsIClipboard)
-          .supportsSelectionClipboard()
-      )
+    this.addEventListener("dragstart", (event) => {
+      // Drag only if the gesture starts from the input field.
+      if (this.inputField != event.originalTarget &&
+        !(this.inputField.compareDocumentPosition(event.originalTarget) &
+          Node.DOCUMENT_POSITION_CONTAINED_BY))
         return;
 
-      if (
-        !window
-          .QueryInterface(Ci.nsIInterfaceRequestor)
-          .getInterface(Ci.nsIDOMWindowUtils).isHandlingUserInput
-      )
+      // Drag only if the entire value is selected and it's a valid URI.
+      var isFullSelection = this.selectionStart == 0 &&
+        this.selectionEnd == this.textLength;
+      if (!isFullSelection ||
+        this.getAttribute("pageproxystate") != "valid")
+        return;
+
+      var urlString = gBrowser.selectedBrowser.currentURI.displaySpec;
+      var title = gBrowser.selectedBrowser.contentTitle || urlString;
+      var htmlString = "<a href=\"" + urlString + "\">" + urlString + "</a>";
+
+      var dt = event.dataTransfer;
+      dt.setData("text/x-moz-url", urlString + "\n" + title);
+      dt.setData("text/unicode", urlString);
+      dt.setData("text/html", htmlString);
+
+      dt.effectAllowed = "copyLink";
+      event.stopPropagation();
+    }, true);
+
+    this.addEventListener("dragover", (event) => {
+      this.onDragOver(event, this);
+    }, true);
+
+    this.addEventListener("drop", (event) => {
+      this.onDrop(event, this);
+    }, true);
+
+    this.addEventListener("select", (event) => {
+      if (!Cc["@mozilla.org/widget/clipboard;1"]
+        .getService(Ci.nsIClipboard)
+        .supportsSelectionClipboard())
+        return;
+
+      if (!window.QueryInterface(Ci.nsIInterfaceRequestor)
+        .getInterface(Ci.nsIDOMWindowUtils)
+        .isHandlingUserInput)
         return;
 
       var val = this._getSelectedValueForClipboard();
-      if (!val) return;
+      if (!val)
+        return;
 
       Cc["@mozilla.org/widget/clipboardhelper;1"]
         .getService(Ci.nsIClipboardHelper)
         .copyStringToClipboard(val, Ci.nsIClipboard.kSelectionClipboard);
     });
+
   }
   disconnectedCallback() {
     // Somehow, it's possible for the XBL destructor to fire without the
@@ -413,33 +357,28 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // this.textValue may be an autofilled string.  Search only with the
     // portion that the user typed, if any, by preferring the autocomplete
     // controller's searchString (including handleEnterInstance.searchString).
-    return (
-      this.handleEnterSearchString ||
+    return this.handleEnterSearchString ||
       this.mController.searchString ||
-      this.textValue
-    );
+      this.textValue;
   }
 
   get _noActionKeys() {
     if (!this.__noActionKeys) {
       this.__noActionKeys = new Set([
         KeyEvent.DOM_VK_ALT,
-        KeyEvent.DOM_VK_SHIFT
+        KeyEvent.DOM_VK_SHIFT,
       ]);
-      let modifier = AppConstants.platform == "macosx"
-        ? KeyEvent.DOM_VK_META
-        : KeyEvent.DOM_VK_CONTROL;
+      let modifier = AppConstants.platform == "macosx" ?
+        KeyEvent.DOM_VK_META :
+        KeyEvent.DOM_VK_CONTROL;
       this.__noActionKeys.add(modifier);
     }
     return this.__noActionKeys;
   }
 
   get _userMadeSearchSuggestionsChoice() {
-    return (
-      this._prefs.getBoolPref("userMadeSearchSuggestionsChoice") ||
-      this._defaultPrefs.getBoolPref("suggest.searches") !=
-        this._prefs.getBoolPref("suggest.searches")
-    );
+    return this._prefs.getBoolPref("userMadeSearchSuggestionsChoice") ||
+      this._defaultPrefs.getBoolPref("suggest.searches") != this._prefs.getBoolPref("suggest.searches");
   }
 
   get whichSearchSuggestionsNotification() {
@@ -450,24 +389,21 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       return this._whichSearchSuggestionsNotification;
     }
 
-    if (
-      this.browserSearchSuggestEnabled &&
-      !this.inPrivateContext &&
+    if (this.browserSearchSuggestEnabled && !this.inPrivateContext &&
       // In any case, if the user made a choice we should not nag him.
-      !this._userMadeSearchSuggestionsChoice
-    ) {
-      if (
-        this._defaultPrefs.getBoolPref("suggest.searches") &&
+      !this._userMadeSearchSuggestionsChoice) {
+      if (this._defaultPrefs.getBoolPref("suggest.searches") &&
         this.urlbarSearchSuggestEnabled && // Has not been switched off.
-        this._prefs.getIntPref("timesBeforeHidingSuggestionsHint")
-      ) {
+        this._prefs.getIntPref("timesBeforeHidingSuggestionsHint")) {
         return "opt-out";
       }
     }
-    return (this._whichSearchSuggestionsNotification = "none");
+    return this._whichSearchSuggestionsNotification = "none";
   }
   onBeforeValueGet() {
-    return { value: this._value };
+    return {
+      value: this._value
+    };
   }
   onBeforeValueSet(aValue) {
     this._value = aValue;
@@ -478,19 +414,22 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       switch (action.type) {
         case "switchtab": // Fall through.
         case "remotetab": // Fall through.
-        case "visiturl": {
-          returnValue = action.params.displayUrl;
-          break;
-        }
+        case "visiturl":
+          {
+            returnValue = action.params.displayUrl;
+            break;
+          }
         case "keyword": // Fall through.
-        case "searchengine": {
-          returnValue = action.params.input;
-          break;
-        }
-        case "extension": {
-          returnValue = action.params.content;
-          break;
-        }
+        case "searchengine":
+          {
+            returnValue = action.params.input;
+            break;
+          }
+        case "extension":
+          {
+            returnValue = action.params.content;
+            break;
+          }
       }
     } else {
       let originalUrl = ReaderMode.getOriginalUrlObjectForDisplay(aValue);
@@ -518,10 +457,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         break;
     }
     if (!this.popup.disableKeyNavigation) {
-      if (
-        this._keyCodesToDefer.has(aEvent.keyCode) &&
-        this._shouldDeferKeyEvent(aEvent)
-      ) {
+      if (this._keyCodesToDefer.has(aEvent.keyCode) &&
+        this._shouldDeferKeyEvent(aEvent)) {
         this._deferKeyEvent(aEvent, "onKeyPress");
         return false;
       }
@@ -545,7 +482,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     if (!this.gotResultForCurrentQuery || !this.popupOpen) {
       return true;
     }
-    let maxResultsRemaining = this.popup.maxResults - this.popup.matchCount;
+    let maxResultsRemaining =
+      this.popup.maxResults - this.popup.matchCount;
     let lastResultSelected =
       this.popup.selectedIndex + 1 == this.popup.matchCount;
     return maxResultsRemaining > 0 && lastResultSelected;
@@ -562,7 +500,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this._deferredKeyEventQueue.push({
       methodName,
       event,
-      searchString: this.mController.searchString
+      searchString: this.mController.searchString,
     });
 
     if (!this._deferredKeyEventTimeout) {
@@ -573,7 +511,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
   }
   maybeReplayDeferredKeyEvents() {
-    if (!this._deferredKeyEventQueue.length || this._shouldDeferKeyEvent()) {
+    if (!this._deferredKeyEventQueue.length ||
+      this._shouldDeferKeyEvent()) {
       return;
     }
     if (this._deferredKeyEventTimeout) {
@@ -595,7 +534,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     return this._mayTrimURLs ? trimURL(aURL) : aURL;
   }
   formatValue() {
-    if (!this._formattingEnabled || !this.editor) return;
+    if (!this._formattingEnabled || !this.editor)
+      return;
 
     let controller = this.editor.selectionController;
     let strikeOut = controller.getSelection(controller.SELECTION_URLSTRIKEOUT);
@@ -604,15 +544,16 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     let selection = controller.getSelection(controller.SELECTION_URLSECONDARY);
     selection.removeAllRanges();
 
-    if (this.focused) return;
+    if (this.focused)
+      return;
 
     let textNode = this.editor.rootElement.firstChild;
     let value = textNode.textContent;
-    if (!value) return;
+    if (!value)
+      return;
 
     // Get the URL from the fixup service:
-    let flags =
-      Services.uriFixup.FIXUP_FLAG_FIX_SCHEME_TYPOS |
+    let flags = Services.uriFixup.FIXUP_FLAG_FIX_SCHEME_TYPOS |
       Services.uriFixup.FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP;
     let uriInfo;
     try {
@@ -620,12 +561,10 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     } catch (ex) {}
     // Ignore if we couldn't make a URI out of this, the URI resulted in a search,
     // or the URI has a non-http(s)/ftp protocol.
-    if (
-      !uriInfo ||
+    if (!uriInfo ||
       !uriInfo.fixedURI ||
       uriInfo.keywordProviderName ||
-      !["http", "https", "ftp"].includes(uriInfo.fixedURI.scheme)
-    ) {
+      !["http", "https", "ftp"].includes(uriInfo.fixedURI.scheme)) {
       return;
     }
 
@@ -640,18 +579,15 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       trimmedLength = "http://".length;
     }
 
-    let matchedURL = value.match(
-      /^((?:[a-z]+:\/\/)(?:[^\/#?]+@)?)(\S+?)(?::\d+)?\s*(?:[\/#?]|$)/
-    );
-    if (!matchedURL) return;
+    let matchedURL = value.match(/^((?:[a-z]+:\/\/)(?:[^\/#?]+@)?)(\S+?)(?::\d+)?\s*(?:[\/#?]|$)/);
+    if (!matchedURL)
+      return;
 
     // Strike out the "https" part if mixed active content is loaded.
-    if (
-      this.getAttribute("pageproxystate") == "valid" &&
+    if (this.getAttribute("pageproxystate") == "valid" &&
       value.startsWith("https:") &&
       gBrowser.securityUI.state &
-        Ci.nsIWebProgressListener.STATE_LOADED_MIXED_ACTIVE_CONTENT
-    ) {
+      Ci.nsIWebProgressListener.STATE_LOADED_MIXED_ACTIVE_CONTENT) {
       let range = document.createRange();
       range.setStart(textNode, 0);
       range.setEnd(textNode, 5);
@@ -665,9 +601,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       baseDomain = Services.eTLD.getBaseDomainFromHost(uriInfo.fixedURI.host);
       if (!domain.endsWith(baseDomain)) {
         // getBaseDomainFromHost converts its resultant to ACE.
-        let IDNService = Cc["@mozilla.org/network/idn-service;1"].getService(
-          Ci.nsIIDNService
-        );
+        let IDNService = Cc["@mozilla.org/network/idn-service;1"]
+          .getService(Ci.nsIIDNService);
         baseDomain = IDNService.convertACEtoUTF8(baseDomain);
       }
     } catch (e) {}
@@ -702,7 +637,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       URLBarSetURI();
 
       // If the value isn't empty and the urlbar has focus, select the value.
-      if (this.value && this.hasAttribute("focused")) this.select();
+      if (this.value && this.hasAttribute("focused"))
+        this.select();
     }
 
     // tell widget to revert to last typed text only if the user
@@ -747,11 +683,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // the triggering event is not a mouse click -- i.e., it's a Return
     // key -- or if the one-off was mouse-clicked.
     let selectedOneOff = this.popup.oneOffSearchButtons.selectedButton;
-    if (
-      selectedOneOff &&
+    if (selectedOneOff &&
       isMouseEvent &&
-      event.originalTarget != selectedOneOff
-    ) {
+      event.originalTarget != selectedOneOff) {
       selectedOneOff = null;
     }
 
@@ -776,13 +710,11 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     if (selectedOneOff && selectedOneOff.engine) {
       // If there's a selected one-off button then load a search using
       // the one-off's engine.
-      [url, postData] = this._parseAndRecordSearchEngineLoad(
-        selectedOneOff.engine,
+      [url, postData] =
+      this._parseAndRecordSearchEngineLoad(selectedOneOff.engine,
         this.oneOffSearchQuery,
-        event,
-        where,
-        openUILinkParams
-      );
+        event, where,
+        openUILinkParams);
     } else if (action) {
       switch (action.type) {
         case "visiturl":
@@ -818,13 +750,11 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
             this.handleRevert();
             let prevTab = gBrowser.selectedTab;
             let loadOpts = {
-              adoptIntoActiveWindow: this._adoptIntoActiveWindow
+              adoptIntoActiveWindow: this._adoptIntoActiveWindow,
             };
 
-            if (
-              switchToTabHavingURI(url, false, loadOpts) &&
-              isTabEmpty(prevTab)
-            ) {
+            if (switchToTabHavingURI(url, false, loadOpts) &&
+              isTabEmpty(prevTab)) {
               gBrowser.removeTab(prevTab);
             }
             return;
@@ -853,11 +783,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           // Give the extension control of handling the command.
           let searchString = action.params.content;
           let keyword = action.params.keyword;
-          this.ExtensionSearchHandler.handleInputEntered(
-            keyword,
-            searchString,
-            where
-          );
+          this.ExtensionSearchHandler.handleInputEntered(keyword, searchString, where);
           return;
       }
     } else {
@@ -869,41 +795,20 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       } catch (ex) {
         let lastLocationChange = browser.lastLocationChange;
         getShortcutOrURIAndPostData(url).then(data => {
-          if (
-            where != "current" ||
-            browser.lastLocationChange == lastLocationChange
-          ) {
-            this._loadURL(
-              data.url,
-              browser,
-              data.postData,
-              where,
-              openUILinkParams,
-              data.mayInheritPrincipal
-            );
+          if (where != "current" ||
+            browser.lastLocationChange == lastLocationChange) {
+            this._loadURL(data.url, browser, data.postData, where,
+              openUILinkParams, data.mayInheritPrincipal);
           }
         });
         return;
       }
     }
 
-    this._loadURL(
-      url,
-      browser,
-      postData,
-      where,
-      openUILinkParams,
-      mayInheritPrincipal
-    );
+    this._loadURL(url, browser, postData, where, openUILinkParams,
+      mayInheritPrincipal);
   }
-  _loadURL(
-    url,
-    browser,
-    postData,
-    openUILinkWhere,
-    openUILinkParams,
-    mayInheritPrincipal
-  ) {
+  _loadURL(url, browser, postData, openUILinkWhere, openUILinkParams, mayInheritPrincipal) {
     this.value = url;
     browser.userTypedValue = url;
     if (gInitialPages.includes(url)) {
@@ -919,7 +824,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     let params = {
       postData,
-      allowThirdPartyFixup: true
+      allowThirdPartyFixup: true,
     };
     if (openUILinkWhere == "current") {
       params.targetBrowser = browser;
@@ -961,22 +866,13 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       this.selectionStart = this.selectionEnd = 0;
     }
   }
-  _parseAndRecordSearchEngineLoad(
-    engineOrEngineName,
-    query,
-    event,
-    openUILinkWhere,
-    openUILinkParams,
-    searchActionDetails
-  ) {
-    let engine = typeof engineOrEngineName == "string"
-      ? Services.search.getEngineByName(engineOrEngineName)
-      : engineOrEngineName;
-    let isOneOff = this.popup.oneOffSearchButtons.maybeRecordTelemetry(
-      event,
-      openUILinkWhere,
-      openUILinkParams
-    );
+  _parseAndRecordSearchEngineLoad(engineOrEngineName, query, event, openUILinkWhere, openUILinkParams, searchActionDetails) {
+    let engine =
+      typeof(engineOrEngineName) == "string" ?
+      Services.search.getEngineByName(engineOrEngineName) :
+      engineOrEngineName;
+    let isOneOff = this.popup.oneOffSearchButtons
+      .maybeRecordTelemetry(event, openUILinkWhere, openUILinkParams);
     // Infer the type of the event which triggered the search.
     let eventType = "unknown";
     if (event instanceof KeyboardEvent) {
@@ -996,38 +892,38 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   maybeCanonizeURL(aTriggeringEvent, aUrl) {
     // Only add the suffix when the URL bar value isn't already "URL-like",
     // and only if we get a keyboard event, to match user expectations.
-    if (
-      !/^\s*[^.:\/\s]+(?:\/.*|\s*)$/i.test(aUrl) ||
-      !(aTriggeringEvent instanceof KeyboardEvent)
-    ) {
+    if (!/^\s*[^.:\/\s]+(?:\/.*|\s*)$/i.test(aUrl) ||
+      !(aTriggeringEvent instanceof KeyboardEvent)) {
       return;
     }
 
     let url = aUrl;
-    let accel = AppConstants.platform == "macosx"
-      ? aTriggeringEvent.metaKey
-      : aTriggeringEvent.ctrlKey;
+    let accel = AppConstants.platform == "macosx" ?
+      aTriggeringEvent.metaKey :
+      aTriggeringEvent.ctrlKey;
     let shift = aTriggeringEvent.shiftKey;
     let suffix = "";
 
     switch (true) {
-      case accel && shift:
+      case (accel && shift):
         suffix = ".org/";
         break;
-      case shift:
+      case (shift):
         suffix = ".net/";
         break;
-      case accel:
+      case (accel):
         try {
           suffix = Services.prefs.getCharPref("browser.fixup.alternate.suffix");
-          if (suffix.charAt(suffix.length - 1) != "/") suffix += "/";
+          if (suffix.charAt(suffix.length - 1) != "/")
+            suffix += "/";
         } catch (e) {
           suffix = ".com/";
         }
         break;
     }
 
-    if (!suffix) return;
+    if (!suffix)
+      return;
 
     // trim leading/trailing spaces (bug 233205)
     url = url.trim();
@@ -1036,8 +932,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // suffix before them (bug 279035).  Be careful not to get two slashes.
     let firstSlash = url.indexOf("/");
     if (firstSlash >= 0) {
-      url =
-        url.substring(0, firstSlash) + suffix + url.substring(firstSlash + 1);
+      url = url.substring(0, firstSlash) + suffix +
+        url.substring(firstSlash + 1);
     } else {
       url = url + suffix;
     }
@@ -1045,7 +941,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this.popup.overrideValue = "http://www." + url;
   }
   _initURLTooltip() {
-    if (this.focused || !this.hasAttribute("textoverflow")) return;
+    if (this.focused || !this.hasAttribute("textoverflow"))
+      return;
     this.inputField.setAttribute("tooltiptext", this.value);
   }
   _hideURLTooltip() {
@@ -1081,11 +978,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         // If we succeed, try to pass security checks. If this works, return the
         // URL object. If the *security checks* fail, return null.
         try {
-          urlSecurityCheck(
-            url,
+          urlSecurityCheck(url,
             gBrowser.contentPrincipal,
-            Ci.nsIScriptSecurityManager.DISALLOW_INHERIT_PRINCIPAL
-          );
+            Ci.nsIScriptSecurityManager.DISALLOW_INHERIT_PRINCIPAL);
           return urlObj;
         } catch (ex) {
           return null;
@@ -1116,9 +1011,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   makeURIReadable(aURI) {
     // Avoid copying 'about:reader?url=', and always provide the original URI:
     // Reader mode ensures we call createExposableURI itself.
-    let readerStrippedURI = ReaderMode.getOriginalUrlObjectForDisplay(
-      aURI.displaySpec
-    );
+    let readerStrippedURI = ReaderMode.getOriginalUrlObjectForDisplay(aURI.displaySpec);
     if (readerStrippedURI) {
       aURI = readerStrippedURI;
     } else {
@@ -1134,11 +1027,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // include "moz-action:".
     var inputVal = this.inputField.value;
     let selection = this.editor.selection;
-    const flags =
-      Ci.nsIDocumentEncoder.OutputPreformatted |
+    const flags = Ci.nsIDocumentEncoder.OutputPreformatted |
       Ci.nsIDocumentEncoder.OutputRaw;
-    let selectedVal = selection
-      .QueryInterface(Ci.nsISelectionPrivate)
+    let selectedVal = selection.QueryInterface(Ci.nsISelectionPrivate)
       .toStringWithFormat("text/plain", flags, 0);
 
     // Handle multiple-range selection as a string for simplicity.
@@ -1155,16 +1046,16 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // followed by some character other than a slash.
     if (!selectedVal.includes("/")) {
       let remainder = inputVal.replace(selectedVal, "");
-      if (remainder != "" && remainder[0] != "/") return selectedVal;
+      if (remainder != "" && remainder[0] != "/")
+        return selectedVal;
     }
 
     // If the value was filled by a search suggestion, just return it.
     let action = this._parseActionUrl(this.value);
-    if (action && action.type == "searchengine") return selectedVal;
+    if (action && action.type == "searchengine")
+      return selectedVal;
 
-    let uriFixup = Cc["@mozilla.org/docshell/urifixup;1"].getService(
-      Ci.nsIURIFixup
-    );
+    let uriFixup = Cc["@mozilla.org/docshell/urifixup;1"].getService(Ci.nsIURIFixup);
 
     let uri;
     if (this.getAttribute("pageproxystate") == "valid") {
@@ -1174,7 +1065,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       try {
         uri = uriFixup.createFixupURI(inputVal, Ci.nsIURIFixup.FIXUP_FLAG_NONE);
       } catch (e) {}
-      if (!uri) return selectedVal;
+      if (!uri)
+        return selectedVal;
     }
 
     uri = this.makeURIReadable(uri);
@@ -1182,12 +1074,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // If the entire URL is selected, just use the actual loaded URI,
     // unless we want a decoded URI, or it's a data: or javascript: URI,
     // since those are hard to read when encoded.
-    if (
-      inputVal == selectedVal &&
-      !uri.schemeIs("javascript") &&
-      !uri.schemeIs("data") &&
-      !Services.prefs.getBoolPref("browser.urlbar.decodeURLsOnCopy")
-    ) {
+    if (inputVal == selectedVal &&
+      !uri.schemeIs("javascript") && !uri.schemeIs("data") &&
+      !Services.prefs.getBoolPref("browser.urlbar.decodeURLsOnCopy")) {
       return uri.displaySpec;
     }
 
@@ -1235,10 +1124,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         case "userMadeSearchSuggestionsChoice":
           // Mirror the value for future use, see the comment in the
           // binding's constructor.
-          this._prefs.setBoolPref(
-            "searchSuggestionsChoice",
-            this.urlbarSearchSuggestEnabled
-          );
+          this._prefs.setBoolPref("searchSuggestionsChoice",
+            this.urlbarSearchSuggestEnabled);
           // Clear the cached value to allow changing conditions in tests.
           delete this._whichSearchSuggestionsNotification;
           break;
@@ -1252,9 +1139,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           this.popup.maxResults = this._prefs.getIntPref(aData);
           break;
         case "switchTabs.adoptIntoActiveWindow":
-          this._adoptIntoActiveWindow = this._prefs.getBoolPref(
-            "switchTabs.adoptIntoActiveWindow"
-          );
+          this._adoptIntoActiveWindow =
+            this._prefs.getBoolPref("switchTabs.adoptIntoActiveWindow");
           break;
       }
     }
@@ -1296,11 +1182,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         }
         break;
       case "mousedown":
-        if (
-          this.doubleClickSelectsAll &&
-          aEvent.button == 0 &&
-          aEvent.detail == 2
-        ) {
+        if (this.doubleClickSelectsAll &&
+          aEvent.button == 0 && aEvent.detail == 2) {
           this.editor.selectAll();
           aEvent.preventDefault();
         }
@@ -1329,7 +1212,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
   }
   onBeforeTextValueGet() {
-    return { value: this.inputField.value };
+    return {
+      value: this.inputField.value
+    };
   }
   onBeforeTextValueSet(aValue) {
     let val = aValue;
@@ -1351,14 +1236,15 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   }
   _parseActionUrl(aUrl) {
     const MOZ_ACTION_REGEX = /^moz-action:([^,]+),(.*)$/;
-    if (!MOZ_ACTION_REGEX.test(aUrl)) return null;
+    if (!MOZ_ACTION_REGEX.test(aUrl))
+      return null;
 
     // URL is in the format moz-action:ACTION,PARAMS
     // Where PARAMS is a JSON encoded object.
     let [, type, params] = aUrl.match(MOZ_ACTION_REGEX);
 
     let action = {
-      type
+      type,
     };
 
     action.params = JSON.parse(params);
@@ -1382,7 +1268,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this._pressedNoActionKeys.clear();
     this.popup.removeAttribute("noactions");
     let action = this._parseActionUrl(this._value);
-    if (action) this.setAttribute("actiontype", action.type);
+    if (action)
+      this.setAttribute("actiontype", action.type);
   }
   onInput(aEvent) {
     if (!this.mIgnoreInput && this.mController.input == this) {
@@ -1428,22 +1315,17 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // which will be called as a result of mController.handleEnter().
     this.handleEnterSearchString = this.mController.searchString;
 
-    if (
-      !this._deferredKeyEventQueue.length &&
-      (this.popup.selectedIndex != 0 || this.gotResultForCurrentQuery)
-    ) {
+    if (!this._deferredKeyEventQueue.length &&
+      (this.popup.selectedIndex != 0 || this.gotResultForCurrentQuery)) {
       let canonizeValue = this.value;
-      if (
-        event.shiftKey ||
-        (AppConstants.platform === "macosx" ? event.metaKey : event.ctrlKey)
-      ) {
+      if (event.shiftKey || (AppConstants.platform === "macosx" ?
+          event.metaKey :
+          event.ctrlKey)) {
         let action = this._parseActionUrl(canonizeValue);
         if (action && "searchSuggestion" in action.params) {
           canonizeValue = action.params.searchSuggestion;
-        } else if (
-          this.popup.selectedIndex === 0 &&
-          this.mController.getStyleAt(0).includes("autofill")
-        ) {
+        } else if (this.popup.selectedIndex === 0 &&
+          this.mController.getStyleAt(0).includes("autofill")) {
           canonizeValue = this.handleEnterSearchString;
         }
       }
@@ -1463,7 +1345,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // controller's handleDelete implementation will remove it, which is
     // not what we want.  So in that case, call handleText so it acts as
     // a backspace on the text value instead of removing the result.
-    if (this.popup.selectedIndex == 0 && this.popup._isFirstResultHeuristic) {
+    if (this.popup.selectedIndex == 0 &&
+      this.popup._isFirstResultHeuristic) {
       this.mController.handleText();
       return false;
     }
@@ -1481,7 +1364,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   }
   maybeShowSearchSuggestionsNotificationOnFocus(mouseFocused) {
     let whichNotification = this.whichSearchSuggestionsNotification;
-    if (this._showSearchSuggestionNotificationOnMouseFocus && mouseFocused) {
+    if (this._showSearchSuggestionNotificationOnMouseFocus &&
+      mouseFocused) {
       // Force showing the opt-out notification.
       this._whichSearchSuggestionsNotification = whichNotification = "opt-out";
     }
@@ -1497,4 +1381,3 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
   }
 }
-customElements.define("firefox-urlbar", FirefoxUrlbar);

@@ -1,21 +1,19 @@
 class FirefoxTreebody extends FirefoxTreeBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._lastSelectedRow = -1;
 
     if ("_ensureColumnOrder" in this.parentNode)
       this.parentNode._ensureColumnOrder();
 
-    this.addEventListener("mousedown", event => {
-      if (this.parentNode.disabled) return;
-      if (
-        ((!this._isAccelPressed(event) ||
-          !this.parentNode.pageUpOrDownMovesSelection) &&
-          !event.shiftKey &&
-          !event.metaKey) ||
-        this.parentNode.view.selection.single
-      ) {
+    this.addEventListener("mousedown", (event) => {
+      if (this.parentNode.disabled)
+        return;
+      if (((!this._isAccelPressed(event) ||
+            !this.parentNode.pageUpOrDownMovesSelection) &&
+          !event.shiftKey && !event.metaKey) ||
+        this.parentNode.view.selection.single) {
         var b = this.parentNode.treeBoxObject;
         var cell = b.getCellAt(event.clientX, event.clientY);
         var view = this.parentNode.view;
@@ -23,22 +21,19 @@ class FirefoxTreebody extends FirefoxTreeBase {
         // save off the last selected row
         this._lastSelectedRow = cell.row;
 
-        if (cell.row == -1) return;
+        if (cell.row == -1)
+          return;
 
-        if (cell.childElt == "twisty") return;
+        if (cell.childElt == "twisty")
+          return;
 
         if (cell.col && event.button == 0) {
           if (cell.col.cycler) {
             view.cycleCell(cell.row, cell.col);
             return;
-          } else if (
-            cell.col.type == Components.interfaces.nsITreeColumn.TYPE_CHECKBOX
-          ) {
-            if (
-              this.parentNode.editable &&
-              cell.col.editable &&
-              view.isEditable(cell.row, cell.col)
-            ) {
+          } else if (cell.col.type == Components.interfaces.nsITreeColumn.TYPE_CHECKBOX) {
+            if (this.parentNode.editable && cell.col.editable &&
+              view.isEditable(cell.row, cell.col)) {
               var value = view.getCellValue(cell.row, cell.col);
               value = value == "true" ? "false" : "true";
               view.setCellValue(cell.row, cell.col, value);
@@ -48,15 +43,12 @@ class FirefoxTreebody extends FirefoxTreeBase {
         }
 
         var cellSelType = this.parentNode._cellSelType;
-        if (
-          cellSelType == "text" &&
-          cell.childElt != "text" &&
-          cell.childElt != "image"
-        )
+        if (cellSelType == "text" && cell.childElt != "text" && cell.childElt != "image")
           return;
 
         if (cellSelType) {
-          if (!cell.col.selectable || !view.isSelectable(cell.row, cell.col)) {
+          if (!cell.col.selectable ||
+            !view.isSelectable(cell.row, cell.col)) {
             return;
           }
         }
@@ -72,19 +64,19 @@ class FirefoxTreebody extends FirefoxTreeBase {
       }
     });
 
-    this.addEventListener("click", event => {
-      if (this.parentNode.disabled) return;
+    this.addEventListener("click", (event) => {
+      if (this.parentNode.disabled)
+        return;
       var b = this.parentNode.treeBoxObject;
       var cell = b.getCellAt(event.clientX, event.clientY);
       var view = this.parentNode.view;
 
-      if (cell.row == -1) return;
+      if (cell.row == -1)
+        return;
 
       if (cell.childElt == "twisty") {
-        if (
-          view.selection.currentIndex >= 0 &&
-          view.isContainerOpen(cell.row)
-        ) {
+        if (view.selection.currentIndex >= 0 &&
+          view.isContainerOpen(cell.row)) {
           var parentIndex = view.getParentIndex(view.selection.currentIndex);
           while (parentIndex >= 0 && parentIndex != cell.row)
             parentIndex = view.getParentIndex(parentIndex);
@@ -95,7 +87,8 @@ class FirefoxTreebody extends FirefoxTreeBase {
               if (!view.isSelectable(parentIndex, currentColumn))
                 parentSelectable = false;
             }
-            if (parentSelectable) view.selection.select(parentIndex);
+            if (parentSelectable)
+              view.selection.select(parentIndex);
           }
         }
         this.parentNode.changeOpenState(cell.row);
@@ -118,30 +111,25 @@ class FirefoxTreebody extends FirefoxTreeBase {
       }
 
       /* We want to deselect all the selected items except what was
-          clicked, UNLESS it was a right-click.  We have to do this
-          in click rather than mousedown so that you can drag a
-          selected group of items */
+        clicked, UNLESS it was a right-click.  We have to do this
+        in click rather than mousedown so that you can drag a
+        selected group of items */
 
       if (!cell.col) return;
 
       // if the last row has changed in between the time we
       // mousedown and the time we click, don't fire the select handler.
       // see bug #92366
-      if (
-        !cell.col.cycler &&
-        this._lastSelectedRow == cell.row &&
-        cell.col.type != Components.interfaces.nsITreeColumn.TYPE_CHECKBOX
-      ) {
+      if (!cell.col.cycler && this._lastSelectedRow == cell.row &&
+        cell.col.type != Components.interfaces.nsITreeColumn.TYPE_CHECKBOX) {
+
         var cellSelType = this.parentNode._cellSelType;
-        if (
-          cellSelType == "text" &&
-          cell.childElt != "text" &&
-          cell.childElt != "image"
-        )
+        if (cellSelType == "text" && cell.childElt != "text" && cell.childElt != "image")
           return;
 
         if (cellSelType) {
-          if (!cell.col.selectable || !view.isSelectable(cell.row, cell.col)) {
+          if (!cell.col.selectable ||
+            !view.isSelectable(cell.row, cell.col)) {
             return;
           }
         }
@@ -155,13 +143,15 @@ class FirefoxTreebody extends FirefoxTreeBase {
       }
     });
 
-    this.addEventListener("click", event => {
-      if (this.parentNode.disabled) return;
+    this.addEventListener("click", (event) => {
+      if (this.parentNode.disabled)
+        return;
       var tbo = this.parentNode.treeBoxObject;
       var view = this.parentNode.view;
       var row = view.selection.currentIndex;
 
-      if (row == -1) return;
+      if (row == -1)
+        return;
 
       var cell = tbo.getCellAt(event.clientX, event.clientY);
 
@@ -170,12 +160,14 @@ class FirefoxTreebody extends FirefoxTreeBase {
         this.parentNode.startEditing(row, cell.col);
       }
 
-      if (this.parentNode._editingColumn || !view.isContainer(row)) return;
+      if (this.parentNode._editingColumn || !view.isContainer(row))
+        return;
 
       // Cyclers and twisties respond to single clicks, not double clicks
       if (cell.col && !cell.col.cycler && cell.childElt != "twisty")
         this.parentNode.changeOpenState(row);
     });
+
   }
+
 }
-customElements.define("firefox-treebody", FirefoxTreebody);

@@ -1,6 +1,6 @@
 class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></xul:richlistbox>
       <xul:hbox>
@@ -20,13 +20,9 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
 
     this._normalMaxRows = -1;
 
-    this.richlistbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "richlistbox"
-    );
+    this.richlistbox = document.getAnonymousElementByAttribute(this, "anonid", "richlistbox");
 
-    this.addEventListener("popupshowing", event => {
+    this.addEventListener("popupshowing", (event) => {
       // If normalMaxRows wasn't already set by the input, then set it here
       // so that we restore the correct number when the popup is hidden.
 
@@ -37,17 +33,12 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
 
       // Set an attribute for styling the popup based on the input.
       let inputID = "";
-      if (
-        this.mInput &&
-        this.mInput.ownerDocument &&
-        this.mInput.ownerDocument.documentURIObject.schemeIs("chrome")
-      ) {
+      if (this.mInput && this.mInput.ownerDocument &&
+        this.mInput.ownerDocument.documentURIObject.schemeIs("chrome")) {
         inputID = this.mInput.id;
         // Take care of elements with no id that are inside xbl bindings
         if (!inputID) {
-          let bindingParent = this.mInput.ownerDocument.getBindingParent(
-            this.mInput
-          );
+          let bindingParent = this.mInput.ownerDocument.getBindingParent(this.mInput);
           if (bindingParent) {
             inputID = bindingParent.id;
           }
@@ -58,19 +49,18 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       this.mPopupOpen = true;
     });
 
-    this.addEventListener("popupshown", event => {
+    this.addEventListener("popupshown", (event) => {
       if (this._adjustHeightOnPopupShown) {
         delete this._adjustHeightOnPopupShown;
         this.adjustHeight();
       }
     });
 
-    this.addEventListener("popuphiding", event => {
+    this.addEventListener("popuphiding", (event) => {
       var isListActive = true;
-      if (this.selectedIndex == -1) isListActive = false;
-      var controller = this.view.QueryInterface(
-        Components.interfaces.nsIAutoCompleteController
-      );
+      if (this.selectedIndex == -1)
+        isListActive = false;
+      var controller = this.view.QueryInterface(Components.interfaces.nsIAutoCompleteController);
       controller.stopSearch();
 
       this.removeAttribute("autocompleteinput");
@@ -95,10 +85,11 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
         this.mInput.mIgnoreFocus = false;
       }
     });
+
   }
 
   get input() {
-    return this.mInput;
+    return this.mInput
   }
 
   get overrideValue() {
@@ -124,8 +115,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       // when clearing the selection (val == -1, so selectedItem will be
       // null), we want to scroll back to the top.  see bug #406194
       this.richlistbox.ensureElementIsVisible(
-        this.richlistbox.selectedItem || this.richlistbox.firstChild
-      );
+        this.richlistbox.selectedItem || this.richlistbox.firstChild);
     }
     return val;
   }
@@ -151,7 +141,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
   }
 
   get overflowPadding() {
-    return Number(this.getAttribute("overflowpadding"));
+    return Number(this.getAttribute('overflowpadding'))
   }
 
   set view(val) {
@@ -168,24 +158,24 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
     }
   }
   getNextIndex(aReverse, aAmount, aIndex, aMaxRow) {
-    if (aMaxRow < 0) return -1;
+    if (aMaxRow < 0)
+      return -1;
 
     var newIdx = aIndex + (aReverse ? -1 : 1) * aAmount;
-    if ((aReverse && aIndex == -1) || (newIdx > aMaxRow && aIndex != aMaxRow))
+    if (aReverse && aIndex == -1 || newIdx > aMaxRow && aIndex != aMaxRow)
       newIdx = aMaxRow;
-    else if ((!aReverse && aIndex == -1) || (newIdx < 0 && aIndex != 0))
+    else if (!aReverse && aIndex == -1 || newIdx < 0 && aIndex != 0)
       newIdx = 0;
 
-    if ((newIdx < 0 && aIndex == 0) || (newIdx > aMaxRow && aIndex == aMaxRow))
+    if (newIdx < 0 && aIndex == 0 || newIdx > aMaxRow && aIndex == aMaxRow)
       aIndex = -1;
-    else aIndex = newIdx;
+    else
+      aIndex = newIdx;
 
     return aIndex;
   }
   onPopupClick(aEvent) {
-    var controller = this.view.QueryInterface(
-      Components.interfaces.nsIAutoCompleteController
-    );
+    var controller = this.view.QueryInterface(Components.interfaces.nsIAutoCompleteController);
     controller.handleEnter(true, aEvent);
   }
   onSearchBegin() {
@@ -221,13 +211,14 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
   }
   invalidate(reason) {
     // Don't bother doing work if we're not even showing
-    if (!this.mPopupOpen) return;
+    if (!this.mPopupOpen)
+      return;
 
     this._invalidate(reason);
   }
   _invalidate(reason) {
     // collapsed if no matches
-    this.richlistbox.collapsed = this.matchCount == 0;
+    this.richlistbox.collapsed = (this.matchCount == 0);
 
     // Update the richlistbox height.
     if (this._adjustHeightTimeout) {
@@ -302,11 +293,12 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
 
       let lastRowRect = rows[numRows - 1].getBoundingClientRect();
       // Calculate the height to have the first row to last row shown
-      height = lastRowRect.bottom - firstRowRect.top + this._rlbPadding;
+      height = lastRowRect.bottom - firstRowRect.top +
+        this._rlbPadding;
     }
 
-    let animate =
-      this._rlbAnimated && this.getAttribute("dontanimate") != "true";
+    let animate = this._rlbAnimated &&
+      this.getAttribute("dontanimate") != "true";
     let currentHeight = this.richlistbox.getBoundingClientRect().height;
     if (height > currentHeight) {
       // Grow immediately.
@@ -352,16 +344,13 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       let style = controller.getStyleAt(this._currentIndex);
       let image = controller.getImageAt(this._currentIndex);
       // trim the leading/trailing whitespace
-      let trimmedSearchString = controller.searchString
-        .replace(/^\s+/, "")
-        .replace(/\s+$/, "");
+      let trimmedSearchString = controller.searchString.replace(/^\s+/, "").replace(/\s+$/, "");
 
       if (itemExists) {
         item = this.richlistbox.childNodes[this._currentIndex];
 
         // Url may be a modified version of value, see _adjustACItem().
-        originalValue =
-          item.getAttribute("url") || item.getAttribute("ac-value");
+        originalValue = item.getAttribute("url") || item.getAttribute("ac-value");
         originalText = item.getAttribute("ac-text");
         originalType = item.getAttribute("originaltype");
 
@@ -371,22 +360,16 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
           "autofill-profile",
           "autofill-footer",
           "autofill-clear-button",
-          "autofill-insecureWarning"
+          "autofill-insecureWarning",
         ];
         // Reuse the item when its style is exactly equal to the previous style or
         // neither of their style are in the UNREUSEABLE_STYLES.
-        reusable =
-          originalType === style ||
-          !(
-            UNREUSEABLE_STYLES.includes(style) ||
-            UNREUSEABLE_STYLES.includes(originalType)
-          );
+        reusable = originalType === style ||
+          !(UNREUSEABLE_STYLES.includes(style) || UNREUSEABLE_STYLES.includes(originalType));
+
       } else {
         // need to create a new item
-        item = document.createElementNS(
-          "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
-          "richlistitem"
-        );
+        item = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "richlistitem");
       }
 
       item.setAttribute("dir", this.style.direction);
@@ -401,13 +384,12 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       // we are about to replace the currently moused-over item, to
       // avoid surprising the user.
       let iface = Components.interfaces.nsIAutoCompletePopup;
-      if (
-        reusable &&
+      if (reusable &&
         originalText == trimmedSearchString &&
         invalidateReason == iface.INVALIDATE_REASON_NEW_RESULT &&
         (originalValue == value ||
-          this.richlistbox.mousedOverIndex === this._currentIndex)
-      ) {
+          this.richlistbox.mousedOverIndex === this._currentIndex)) {
+
         // try to re-use the existing item
         let reused = item._reuseAcItem();
         if (reused) {
@@ -441,15 +423,13 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       this._currentIndex++;
     }
 
-    if (typeof this.onResultsAdded == "function") this.onResultsAdded();
+    if (typeof this.onResultsAdded == "function")
+      this.onResultsAdded();
 
     if (this._currentIndex < matchCount) {
       // yield after each batch of items so that typing the url bar is
       // responsive
-      this._appendResultTimeout = setTimeout(
-        () => this._appendCurrentResult(),
-        0
-      );
+      this._appendResultTimeout = setTimeout(() => this._appendCurrentResult(), 0);
     }
   }
   selectBy(aReverse, aPage) {
@@ -457,12 +437,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       var amount = aPage ? 5 : 1;
 
       // because we collapsed unused items, we can't use this.richlistbox.getRowCount(), we need to use the matchCount
-      this.selectedIndex = this.getNextIndex(
-        aReverse,
-        amount,
-        this.selectedIndex,
-        this.matchCount - 1
-      );
+      this.selectedIndex = this.getNextIndex(aReverse, amount, this.selectedIndex, this.matchCount - 1);
       if (this.selectedIndex == -1) {
         this.input._focus();
       }
@@ -473,7 +448,3 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
     }
   }
 }
-customElements.define(
-  "firefox-autocomplete-rich-result-popup",
-  FirefoxAutocompleteRichResultPopup
-);

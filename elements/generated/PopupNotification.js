@@ -1,5 +1,6 @@
 class FirefoxPopupNotification extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:hbox align="start" class="popup-notification-body-container">
         <xul:image class="popup-notification-icon" inherits="popupid,src=icon,class=iconclass"></xul:image>
@@ -34,41 +35,18 @@ class FirefoxPopupNotification extends XULElement {
       </xul:hbox>
     `;
 
-    this.checkbox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "checkbox"
-    );
+    this.checkbox = document.getAnonymousElementByAttribute(this, "anonid", "checkbox");
 
-    this.closebutton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "closebutton"
-    );
+    this.closebutton = document.getAnonymousElementByAttribute(this, "anonid", "closebutton");
 
-    this.button = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "button"
-    );
+    this.button = document.getAnonymousElementByAttribute(this, "anonid", "button");
 
-    this.secondaryButton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "secondarybutton"
-    );
+    this.secondaryButton = document.getAnonymousElementByAttribute(this, "anonid", "secondarybutton");
 
-    this.menubutton = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "menubutton"
-    );
+    this.menubutton = document.getAnonymousElementByAttribute(this, "anonid", "menubutton");
 
-    this.menupopup = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "menupopup"
-    );
+    this.menupopup = document.getAnonymousElementByAttribute(this, "anonid", "menupopup");
+
   }
+
 }
-customElements.define("firefox-popup-notification", FirefoxPopupNotification);

@@ -1,6 +1,6 @@
 class FirefoxRemoteBrowser extends FirefoxBrowser {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._securityUI = null;
 
@@ -51,27 +51,22 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this._permitUnloadId = 0;
 
     /*
-           * Don't try to send messages from this function. The message manager for
-           * the <browser> element may not be initialized yet.
-           */
+     * Don't try to send messages from this function. The message manager for
+     * the <browser> element may not be initialized yet.
+     */
 
-    this._remoteWebNavigation = Components.classes[
-      "@mozilla.org/remote-web-navigation;1"
-    ].createInstance(Components.interfaces.nsIWebNavigation);
+    this._remoteWebNavigation = Components.classes["@mozilla.org/remote-web-navigation;1"]
+      .createInstance(Components.interfaces.nsIWebNavigation);
     this._remoteWebNavigationImpl = this._remoteWebNavigation.wrappedJSObject;
     this._remoteWebNavigationImpl.swapBrowser(this);
 
     // Initialize contentPrincipal to the about:blank principal for this loadcontext
-    let { Services } = ChromeUtils.import(
-      "resource://gre/modules/Services.jsm",
-      {}
-    );
+    let {
+      Services
+    } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
     let aboutBlank = Services.io.newURI("about:blank");
     let ssm = Services.scriptSecurityManager;
-    this._contentPrincipal = ssm.getLoadContextCodebasePrincipal(
-      aboutBlank,
-      this.loadContext
-    );
+    this._contentPrincipal = ssm.getLoadContextCodebasePrincipal(aboutBlank, this.loadContext);
 
     this.messageManager.addMessageListener("Browser:Init", this);
     this.messageManager.addMessageListener("DOMTitleChanged", this);
@@ -80,15 +75,9 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this.messageManager.addMessageListener("TextZoomChange", this);
     this.messageManager.addMessageListener("ZoomChangeUsingMouseWheel", this);
     this.messageManager.addMessageListener("DOMFullscreen:RequestExit", this);
-    this.messageManager.addMessageListener(
-      "DOMFullscreen:RequestRollback",
-      this
-    );
+    this.messageManager.addMessageListener("DOMFullscreen:RequestRollback", this);
     this.messageManager.addMessageListener("MozApplicationManifest", this);
-    this.messageManager.loadFrameScript(
-      "chrome://global/content/browser-child.js",
-      true
-    );
+    this.messageManager.loadFrameScript("chrome://global/content/browser-child.js", true);
 
     if (this.hasAttribute("selectmenulist")) {
       this.messageManager.addMessageListener("Forms:ShowDropDown", this);
@@ -106,12 +95,13 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this._controller = new RemoteController(this);
     this.controllers.appendController(this._controller);
 
-    this.addEventListener("dragstart", event => {
+    this.addEventListener("dragstart", (event) => {
       // If we're a remote browser dealing with a dragstart, stop it
       // from propagating up, since our content process should be dealing
       // with the mouse movement.
       event.stopPropagation();
     });
+
   }
   disconnectedCallback() {
     this.destroy();
@@ -121,7 +111,8 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     if (!this._securityUI) {
       // Don't attempt to create the remote web progress if the
       // messageManager has already gone away
-      if (!this.messageManager) return null;
+      if (!this.messageManager)
+        return null;
 
       let jsm = "resource://gre/modules/RemoteSecurityUI.jsm";
       let RemoteSecurityUI = ChromeUtils.import(jsm, {}).RemoteSecurityUI;
@@ -129,9 +120,8 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     }
 
     // We want to double-wrap the JS implemented interface, so that QI and instanceof works.
-    var ptr = Components.classes[
-      "@mozilla.org/supports-interface-pointer;1"
-    ].createInstance(Components.interfaces.nsISupportsInterfacePointer);
+    var ptr = Components.classes["@mozilla.org/supports-interface-pointer;1"]
+      .createInstance(Components.interfaces.nsISupportsInterfacePointer);
     ptr.data = this._securityUI;
     return ptr.data.QueryInterface(Components.interfaces.nsISecureBrowserUI);
   }
@@ -144,10 +134,13 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     if (!this._remoteWebProgress) {
       // Don't attempt to create the remote web progress if the
       // messageManager has already gone away
-      if (!this.messageManager) return null;
+      if (!this.messageManager)
+        return null;
 
       let jsm = "resource://gre/modules/RemoteWebProgress.jsm";
-      let { RemoteWebProgressManager } = ChromeUtils.import(jsm, {});
+      let {
+        RemoteWebProgressManager
+      } = ChromeUtils.import(jsm, {});
       this._remoteWebProgressManager = new RemoteWebProgressManager(this);
       this._remoteWebProgress = this._remoteWebProgressManager.topLevelWebProgress;
     }
@@ -158,10 +151,13 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     if (!this._remoteFinder) {
       // Don't attempt to create the remote finder if the
       // messageManager has already gone away
-      if (!this.messageManager) return null;
+      if (!this.messageManager)
+        return null;
 
       let jsm = "resource://gre/modules/RemoteFinder.jsm";
-      let { RemoteFinder } = ChromeUtils.import(jsm, {});
+      let {
+        RemoteFinder
+      } = ChromeUtils.import(jsm, {});
       this._remoteFinder = new RemoteFinder(this);
     }
     return this._remoteFinder;
@@ -176,16 +172,18 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   get contentTitle() {
-    return this._contentTitle;
+    return this._contentTitle
   }
 
   set characterSet(val) {
-    this.messageManager.sendAsyncMessage("UpdateCharacterSet", { value: val });
+    this.messageManager.sendAsyncMessage("UpdateCharacterSet", {
+      value: val
+    });
     this._characterSet = val;
   }
 
   get characterSet() {
-    return this._characterSet;
+    return this._characterSet
   }
 
   get mayEnableCharacterEncodingMenu() {
@@ -193,31 +191,31 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   get contentWindow() {
-    return null;
+    return null
   }
 
   get contentWindowAsCPOW() {
-    return this._contentWindow;
+    return this._contentWindow
   }
 
   get contentDocument() {
-    return null;
+    return null
   }
 
   get contentPrincipal() {
-    return this._contentPrincipal;
+    return this._contentPrincipal
   }
 
   get contentRequestContextID() {
-    return this._contentRequestContextID;
+    return this._contentRequestContextID
   }
 
   get contentDocumentAsCPOW() {
-    return this._contentDocument;
+    return this._contentDocument
   }
 
   get imageDocument() {
-    return this._imageDocument;
+    return this._imageDocument
   }
 
   set fullZoom(val) {
@@ -225,11 +223,15 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
     this._fullZoom = val;
     try {
-      this.messageManager.sendAsyncMessage("FullZoom", { value: val });
+      this.messageManager.sendAsyncMessage("FullZoom", {
+        value: val
+      });
     } catch (ex) {}
 
     if (changed) {
-      let event = new Event("FullZoomChange", { bubbles: true });
+      let event = new Event("FullZoomChange", {
+        bubbles: true
+      });
       this.dispatchEvent(event);
     }
   }
@@ -243,11 +245,15 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
     this._textZoom = val;
     try {
-      this.messageManager.sendAsyncMessage("TextZoom", { value: val });
+      this.messageManager.sendAsyncMessage("TextZoom", {
+        value: val
+      });
     } catch (ex) {}
 
     if (changed) {
-      let event = new Event("TextZoomChange", { bubbles: true });
+      let event = new Event("TextZoomChange", {
+        bubbles: true
+      });
       this.dispatchEvent(event);
     }
   }
@@ -265,7 +271,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   get outerWindowID() {
-    return this._outerWindowID;
+    return this._outerWindowID
   }
 
   get innerWindowID() {
@@ -282,15 +288,19 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   set renderLayers(val) {
-    let { frameLoader } = this;
+    let {
+      frameLoader
+    } = this;
     if (frameLoader && frameLoader.tabParent) {
-      return (frameLoader.tabParent.renderLayers = val);
+      return frameLoader.tabParent.renderLayers = val;
     }
     return false;
   }
 
   get renderLayers() {
-    let { frameLoader } = this;
+    let {
+      frameLoader
+    } = this;
     if (frameLoader && frameLoader.tabParent) {
       return frameLoader.tabParent.renderLayers;
     }
@@ -298,7 +308,9 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   get hasLayers() {
-    let { frameLoader } = this;
+    let {
+      frameLoader
+    } = this;
     if (frameLoader.tabParent) {
       return frameLoader.tabParent.hasLayers;
     }
@@ -306,13 +318,15 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   get manifestURI() {
-    return this._manifestURI;
+    return this._manifestURI
   }
   _setCurrentURI(aURI) {
     this._remoteWebProgressManager.setCurrentURI(aURI);
   }
   preserveLayers(preserve) {
-    let { frameLoader } = this;
+    let {
+      frameLoader
+    } = this;
     if (frameLoader.tabParent) {
       frameLoader.tabParent.preserveLayers(preserve);
     }
@@ -320,7 +334,9 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   getInPermitUnload(aCallback) {
     let id = this._permitUnloadId++;
     let mm = this.messageManager;
-    mm.sendAsyncMessage("InPermitUnload", { id });
+    mm.sendAsyncMessage("InPermitUnload", {
+      id
+    });
     mm.addMessageListener("InPermitUnload", function listener(msg) {
       if (msg.data.id != id) {
         return;
@@ -329,10 +345,15 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     });
   }
   permitUnload(aPermitUnloadFlags) {
-    let { tabParent } = this.frameLoader;
+    let {
+      tabParent
+    } = this.frameLoader;
 
     if (!tabParent.hasBeforeUnload) {
-      return { permitUnload: true, timedOut: false };
+      return {
+        permitUnload: true,
+        timedOut: false
+      };
     }
 
     const kTimeout = 1000;
@@ -342,8 +363,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     let permitUnload;
     let id = this._permitUnloadId++;
     let mm = this.messageManager;
-    let Services = ChromeUtils.import("resource://gre/modules/Services.jsm", {})
-      .Services;
+    let Services = ChromeUtils.import("resource://gre/modules/Services.jsm", {}).Services;
 
     let msgListener = msg => {
       if (msg.data.id != id) {
@@ -369,11 +389,15 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       Services.obs.removeObserver(observer, "message-manager-close");
     }
 
-    mm.sendAsyncMessage("PermitUnload", { id, aPermitUnloadFlags });
+    mm.sendAsyncMessage("PermitUnload", {
+      id,
+      aPermitUnloadFlags
+    });
     mm.addMessageListener("PermitUnload", msgListener);
     Services.obs.addObserver(observer, "message-manager-close");
 
     let timedOut = false;
+
     function timeout() {
       if (!responded) {
         timedOut = true;
@@ -383,27 +407,27 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       Services.tm.dispatchToMainThread(function() {});
     }
 
-    let timer = Components.classes["@mozilla.org/timer;1"].createInstance(
-      Components.interfaces.nsITimer
-    );
+    let timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
     timer.initWithCallback(timeout, kTimeout, timer.TYPE_ONE_SHOT);
 
     while (!finished && !timedOut) {
       Services.tm.currentThread.processNextEvent(true);
     }
 
-    return { permitUnload, timedOut };
+    return {
+      permitUnload,
+      timedOut
+    };
   }
   destroy() {
     // Make sure that any open select is closed.
     if (this._selectParentHelper) {
-      let menulist = document.getElementById(
-        this.getAttribute("selectmenulist")
-      );
+      let menulist = document.getElementById(this.getAttribute("selectmenulist"));
       this._selectParentHelper.hide(menulist, this);
     }
 
-    if (this.mDestroyed) return;
+    if (this.mDestroyed)
+      return;
     this.mDestroyed = true;
 
     try {
@@ -414,10 +438,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     }
 
     if (!this.hasAttribute("disablehistory")) {
-      let Services = ChromeUtils.import(
-        "resource://gre/modules/Services.jsm",
-        {}
-      ).Services;
+      let Services = ChromeUtils.import("resource://gre/modules/Services.jsm", {}).Services;
       try {
         Services.obs.removeObserver(this, "browser:purge-session-history");
       } catch (ex) {
@@ -441,83 +462,67 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
         };
         break;
 
-      case "Forms:ShowDropDown": {
-        if (!this._selectParentHelper) {
-          this._selectParentHelper = ChromeUtils.import(
-            "resource://gre/modules/SelectParentHelper.jsm",
-            {}
-          ).SelectParentHelper;
+      case "Forms:ShowDropDown":
+        {
+          if (!this._selectParentHelper) {
+            this._selectParentHelper =
+              ChromeUtils.import("resource://gre/modules/SelectParentHelper.jsm", {}).SelectParentHelper;
+          }
+
+          let menulist = document.getElementById(this.getAttribute("selectmenulist"));
+          menulist.menupopup.style.direction = data.direction;
+
+          let zoom = Services.prefs.getBoolPref("browser.zoom.full") ||
+            this.isSyntheticDocument ? this._fullZoom : this._textZoom;
+          this._selectParentHelper.populate(menulist, data.options, data.selectedIndex,
+            zoom, data.uaBackgroundColor, data.uaColor,
+            data.uaSelectBackgroundColor, data.uaSelectColor,
+            data.selectBackgroundColor, data.selectColor, data.selectTextShadow);
+          this._selectParentHelper.open(this, menulist, data.rect, data.isOpenedViaTouch);
+          break;
         }
 
-        let menulist = document.getElementById(
-          this.getAttribute("selectmenulist")
-        );
-        menulist.menupopup.style.direction = data.direction;
+      case "FullZoomChange":
+        {
+          this._fullZoom = data.value;
+          let event = document.createEvent("Events");
+          event.initEvent("FullZoomChange", true, false);
+          this.dispatchEvent(event);
+          break;
+        }
 
-        let zoom = Services.prefs.getBoolPref("browser.zoom.full") ||
-          this.isSyntheticDocument
-          ? this._fullZoom
-          : this._textZoom;
-        this._selectParentHelper.populate(
-          menulist,
-          data.options,
-          data.selectedIndex,
-          zoom,
-          data.uaBackgroundColor,
-          data.uaColor,
-          data.uaSelectBackgroundColor,
-          data.uaSelectColor,
-          data.selectBackgroundColor,
-          data.selectColor,
-          data.selectTextShadow
-        );
-        this._selectParentHelper.open(
-          this,
-          menulist,
-          data.rect,
-          data.isOpenedViaTouch
-        );
-        break;
-      }
+      case "TextZoomChange":
+        {
+          this._textZoom = data.value;
+          let event = document.createEvent("Events");
+          event.initEvent("TextZoomChange", true, false);
+          this.dispatchEvent(event);
+          break;
+        }
 
-      case "FullZoomChange": {
-        this._fullZoom = data.value;
-        let event = document.createEvent("Events");
-        event.initEvent("FullZoomChange", true, false);
-        this.dispatchEvent(event);
-        break;
-      }
+      case "ZoomChangeUsingMouseWheel":
+        {
+          let event = document.createEvent("Events");
+          event.initEvent("ZoomChangeUsingMouseWheel", true, false);
+          this.dispatchEvent(event);
+          break;
+        }
 
-      case "TextZoomChange": {
-        this._textZoom = data.value;
-        let event = document.createEvent("Events");
-        event.initEvent("TextZoomChange", true, false);
-        this.dispatchEvent(event);
-        break;
-      }
+      case "DOMFullscreen:RequestExit":
+        {
+          let windowUtils = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+            .getInterface(Components.interfaces.nsIDOMWindowUtils);
+          windowUtils.exitFullscreen();
+          break;
+        }
 
-      case "ZoomChangeUsingMouseWheel": {
-        let event = document.createEvent("Events");
-        event.initEvent("ZoomChangeUsingMouseWheel", true, false);
-        this.dispatchEvent(event);
-        break;
-      }
-
-      case "DOMFullscreen:RequestExit": {
-        let windowUtils = window
-          .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-          .getInterface(Components.interfaces.nsIDOMWindowUtils);
-        windowUtils.exitFullscreen();
-        break;
-      }
-
-      case "DOMFullscreen:RequestRollback": {
-        let windowUtils = window
-          .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-          .getInterface(Components.interfaces.nsIDOMWindowUtils);
-        windowUtils.remoteFrameFullscreenReverted();
-        break;
-      }
+      case "DOMFullscreen:RequestRollback":
+        {
+          let windowUtils = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+            .getInterface(Components.interfaces.nsIDOMWindowUtils);
+          windowUtils.remoteFrameFullscreenReverted();
+          break;
+        }
 
       case "MozApplicationManifest":
         this._manifestURI = aMessage.data.manifest;
@@ -529,21 +534,11 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     }
     return undefined;
   }
-  enableDisableCommands(
-    aAction,
-    aEnabledLength,
-    aEnabledCommands,
-    aDisabledLength,
-    aDisabledCommands
-  ) {
+  enableDisableCommands(aAction, aEnabledLength, aEnabledCommands, aDisabledLength, aDisabledCommands) {
     if (this._controller) {
-      this._controller.enableDisableCommands(
-        aAction,
-        aEnabledLength,
-        aEnabledCommands,
-        aDisabledLength,
-        aDisabledCommands
-      );
+      this._controller.enableDisableCommands(aAction,
+        aEnabledLength, aEnabledCommands,
+        aDisabledLength, aDisabledCommands);
     }
   }
   purgeSessionHistory() {
@@ -561,19 +556,11 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   createAboutBlankContentViewer(aPrincipal) {
     // Ensure that the content process has the permissions which are
     // needed to create a document with the given principal.
-    let permissionPrincipal = BrowserUtils.principalWithMatchingOA(
-      aPrincipal,
-      this.contentPrincipal
-    );
-    this.frameLoader.tabParent.transmitPermissionsForPrincipal(
-      permissionPrincipal
-    );
+    let permissionPrincipal =
+      BrowserUtils.principalWithMatchingOA(aPrincipal, this.contentPrincipal);
+    this.frameLoader.tabParent.transmitPermissionsForPrincipal(permissionPrincipal);
 
     // Create the about blank content viewer in the content process
-    this.messageManager.sendAsyncMessage(
-      "Browser:CreateAboutBlank",
-      aPrincipal
-    );
+    this.messageManager.sendAsyncMessage("Browser:CreateAboutBlank", aPrincipal);
   }
 }
-customElements.define("firefox-remote-browser", FirefoxRemoteBrowser);

@@ -1,5 +1,6 @@
 class FirefoxTabmodalprompt extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <spacer flex="1"></spacer>
       <hbox pack="center">
@@ -63,6 +64,7 @@ class FirefoxTabmodalprompt extends XULElement {
     this.minHeight = "";
 
     let self = this;
+
     function getElement(anonid) {
       return document.getAnonymousElementByAttribute(self, "anonid", anonid);
     }
@@ -83,78 +85,59 @@ class FirefoxTabmodalprompt extends XULElement {
       button3: getElement("button3"),
       button2: getElement("button2"),
       button1: getElement("button1"),
-      button0: getElement("button0")
+      button0: getElement("button0"),
       // focusTarget (for BUTTON_DELAY_ENABLE) not yet supported
     };
 
-    this.ui.button0.addEventListener(
-      "command",
-      this.onButtonClick.bind(this, 0)
-    );
-    this.ui.button1.addEventListener(
-      "command",
-      this.onButtonClick.bind(this, 1)
-    );
-    this.ui.button2.addEventListener(
-      "command",
-      this.onButtonClick.bind(this, 2)
-    );
-    this.ui.button3.addEventListener(
-      "command",
-      this.onButtonClick.bind(this, 3)
-    );
+    this.ui.button0.addEventListener("command", this.onButtonClick.bind(this, 0));
+    this.ui.button1.addEventListener("command", this.onButtonClick.bind(this, 1));
+    this.ui.button2.addEventListener("command", this.onButtonClick.bind(this, 2));
+    this.ui.button3.addEventListener("command", this.onButtonClick.bind(this, 3));
     // Anonymous wrapper used here because |Dialog| doesn't exist until init() is called!
     this.ui.checkbox.addEventListener("command", function() {
       self.Dialog.onCheckbox();
     });
     this.isLive = false;
 
-    this.addEventListener("keypress", event => {
-      this.onKeyAction("default", event);
+    this.addEventListener("keypress", (event) => {
+      this.onKeyAction('default', event);
     });
 
-    this.addEventListener("keypress", event => {
-      this.onKeyAction("cancel", event);
+    this.addEventListener("keypress", (event) => {
+      this.onKeyAction('cancel', event);
     });
 
-    this.addEventListener(
-      "focus",
-      event => {
-        let bnum = this.args.defaultButtonNum || 0;
-        let defaultButton = this.ui["button" + bnum];
+    this.addEventListener("focus", (event) => {
+      let bnum = this.args.defaultButtonNum || 0;
+      let defaultButton = this.ui["button" + bnum];
 
-        let { AppConstants } = ChromeUtils.import(
-          "resource://gre/modules/AppConstants.jsm",
-          {}
-        );
-        if (AppConstants.platform == "macosx") {
-          // On OS X, the default button always stays marked as such (until
-          // the entire prompt blurs).
-          defaultButton.setAttribute("default", true);
-        } else {
-          // On other platforms, the default button is only marked as such
-          // when no other button has focus. XUL buttons on not-OSX will
-          // react to pressing enter as a command, so you can't trigger the
-          // default without tabbing to it or something that isn't a button.
-          let focusedDefault = event.originalTarget == defaultButton;
-          let someButtonFocused =
-            event.originalTarget instanceof Ci.nsIDOMXULButtonElement;
-          defaultButton.setAttribute(
-            "default",
-            focusedDefault || !someButtonFocused
-          );
-        }
-      },
-      true
-    );
+      let {
+        AppConstants
+      } =
+      ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
+      if (AppConstants.platform == "macosx") {
+        // On OS X, the default button always stays marked as such (until
+        // the entire prompt blurs).
+        defaultButton.setAttribute("default", true);
+      } else {
+        // On other platforms, the default button is only marked as such
+        // when no other button has focus. XUL buttons on not-OSX will
+        // react to pressing enter as a command, so you can't trigger the
+        // default without tabbing to it or something that isn't a button.
+        let focusedDefault = (event.originalTarget == defaultButton);
+        let someButtonFocused = event.originalTarget instanceof Ci.nsIDOMXULButtonElement;
+        defaultButton.setAttribute("default", focusedDefault || !someButtonFocused);
+      }
+    }, true);
 
-    this.addEventListener("blur", event => {
+    this.addEventListener("blur", (event) => {
       // If focus shifted to somewhere else in the browser, don't make
       // the default button look active.
       let bnum = this.args.defaultButtonNum || 0;
       let button = this.ui["button" + bnum];
       button.setAttribute("default", false);
     });
+
   }
   disconnectedCallback() {
     if (this.isLive) {
@@ -190,7 +173,8 @@ class FirefoxTabmodalprompt extends XULElement {
 
     // Display the tabprompt title that shows the prompt origin when
     // the prompt origin is not the same as that of the top window.
-    if (!args.showAlertOrigin) this.ui.infoTitle.removeAttribute("hidden");
+    if (!args.showAlertOrigin)
+      this.ui.infoTitle.removeAttribute("hidden");
 
     // TODO: should unhide buttonSpacer on Windows when there are 4 buttons.
     //       Better yet, just drop support for 4-button dialogs. (bug 609510)
@@ -235,6 +219,7 @@ class FirefoxTabmodalprompt extends XULElement {
     this.availHeight = availHeight;
 
     let self = this;
+
     function getElement(anonid) {
       return document.getAnonymousElementByAttribute(self, "anonid", anonid);
     }
@@ -247,14 +232,10 @@ class FirefoxTabmodalprompt extends XULElement {
       this.minWidth = parseInt(window.getComputedStyle(main).minWidth);
     if (!this.minHeight)
       this.minHeight = parseInt(window.getComputedStyle(main).minHeight);
-    let maxWidth =
-      Math.max(Math.floor(availWidth * 0.6), this.minWidth) +
-      info.clientWidth -
-      main.clientWidth;
-    let maxHeight =
-      Math.max(Math.floor(availHeight * 0.6), this.minHeight) +
-      info.clientHeight -
-      main.clientHeight;
+    let maxWidth = Math.max(Math.floor(availWidth * 0.6), this.minWidth) +
+      info.clientWidth - main.clientWidth;
+    let maxHeight = Math.max(Math.floor(availHeight * 0.6), this.minHeight) +
+      info.clientHeight - main.clientHeight;
     body.style.maxWidth = maxWidth + "px";
     info.style.overflow = info.style.width = info.style.height = "";
 
@@ -285,16 +266,15 @@ class FirefoxTabmodalprompt extends XULElement {
     });
   }
   onKeyAction(action, event) {
-    if (event.defaultPrevented) return;
+    if (event.defaultPrevented)
+      return;
 
     event.stopPropagation();
     if (action == "default") {
       let bnum = this.args.defaultButtonNum || 0;
       this.onButtonClick(bnum);
-    } else {
-      // action == "cancel"
+    } else { // action == "cancel"
       this.onButtonClick(1); // Cancel button
     }
   }
 }
-customElements.define("firefox-tabmodalprompt", FirefoxTabmodalprompt);

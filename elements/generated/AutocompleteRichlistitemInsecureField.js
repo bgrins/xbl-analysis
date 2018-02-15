@@ -1,6 +1,6 @@
 class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRichlistitem {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type"></xul:image>
       <xul:image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type"></xul:image>
@@ -34,19 +34,20 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     // recalculate an item's height and width.
     this.classList.add("forceHandleUnderflow");
 
-    this.addEventListener("click", event => {
+    this.addEventListener("click", (event) => {
       let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
       window.openUILinkIn(baseURL + "insecure-password", "tab", {
-        relatedToCurrent: true
+        relatedToCurrent: true,
       });
     });
+
   }
 
   get _learnMoreString() {
     if (!this.__learnMoreString) {
-      this.__learnMoreString = Services.strings
-        .createBundle("chrome://passwordmgr/locale/passwordmgr.properties")
-        .GetStringFromName("insecureFieldWarningLearnMore");
+      this.__learnMoreString =
+        Services.strings.createBundle("chrome://passwordmgr/locale/passwordmgr.properties").
+      GetStringFromName("insecureFieldWarningLearnMore");
     }
     return this.__learnMoreString;
   }
@@ -54,7 +55,3 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     return [this._learnMoreString.toLowerCase()];
   }
 }
-customElements.define(
-  "firefox-autocomplete-richlistitem-insecure-field",
-  FirefoxAutocompleteRichlistitemInsecureField
-);

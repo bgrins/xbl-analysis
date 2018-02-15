@@ -1,6 +1,6 @@
 class FirefoxMenuIconic extends FirefoxMenuBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox class="menu-iconic-left" align="center" pack="center">
         <xul:image class="menu-iconic-icon" inherits="src=image"></xul:image>
@@ -15,6 +15,7 @@ class FirefoxMenuIconic extends FirefoxMenuBase {
       </xul:hbox>
       <children includes="menupopup|template"></children>
     `;
+
   }
+
 }
-customElements.define("firefox-menu-iconic", FirefoxMenuIconic);

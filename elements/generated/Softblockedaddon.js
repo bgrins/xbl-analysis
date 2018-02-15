@@ -1,5 +1,6 @@
 class FirefoxSoftblockedaddon extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <xul:image inherits="src=icon"></xul:image>
       <xul:vbox flex="1">
@@ -14,15 +15,11 @@ class FirefoxSoftblockedaddon extends XULElement {
       </xul:vbox>
     `;
 
-    this._checkbox = document.getAnonymousElementByAttribute(
-      this,
-      "class",
-      "disableCheckbox"
-    );
+    this._checkbox = document.getAnonymousElementByAttribute(this, "class", "disableCheckbox");
+
   }
 
   get checked() {
     return this._checkbox.checked;
   }
 }
-customElements.define("firefox-softblockedaddon", FirefoxSoftblockedaddon);

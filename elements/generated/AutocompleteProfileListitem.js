@@ -1,6 +1,6 @@
 class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListitemBase {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <div anonid="autofill-item-box" class="autofill-item-box" inherits="ac-image">
         <div class="profile-label-col profile-item-col">
@@ -14,27 +14,20 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
     `;
 
     this._itemBox = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "autofill-item-box"
+      this, "anonid", "autofill-item-box"
     );
     this._labelAffix = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "profile-label-affix"
+      this, "anonid", "profile-label-affix"
     );
     this._label = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "profile-label"
+      this, "anonid", "profile-label"
     );
     this._comment = document.getAnonymousElementByAttribute(
-      this,
-      "anonid",
-      "profile-comment"
+      this, "anonid", "profile-comment"
     );
 
     this._adjustAcItem();
+
   }
 
   set selected(val) {
@@ -45,10 +38,9 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
       this.removeAttribute("selected");
     }
 
-    let { AutoCompletePopup } = ChromeUtils.import(
-      "resource://gre/modules/AutoCompletePopup.jsm",
-      {}
-    );
+    let {
+      AutoCompletePopup
+    } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm", {});
 
     AutoCompletePopup.sendMessageToBrowser("FormAutofill:PreviewProfile");
 
@@ -56,26 +48,21 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
   }
 
   get selected() {
-    return this.getAttribute("selected") == "true";
+    return this.getAttribute('selected') == 'true';
   }
   _adjustAcItem() {
     this._adjustAutofillItemLayout();
     this.setAttribute("formautofillattached", "true");
-    this._itemBox.style.setProperty(
-      "--primary-icon",
-      `url(${this.getAttribute("ac-image")})`
-    );
+    this._itemBox.style.setProperty("--primary-icon", `url(${this.getAttribute("ac-image")})`);
 
-    let { primaryAffix, primary, secondary } = JSON.parse(
-      this.getAttribute("ac-value")
-    );
+    let {
+      primaryAffix,
+      primary,
+      secondary
+    } = JSON.parse(this.getAttribute("ac-value"));
 
     this._labelAffix.textContent = primaryAffix;
     this._label.textContent = primary;
     this._comment.textContent = secondary;
   }
 }
-customElements.define(
-  "firefox-autocomplete-profile-listitem",
-  FirefoxAutocompleteProfileListitem
-);

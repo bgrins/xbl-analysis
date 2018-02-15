@@ -1,4 +1,6 @@
 class FirefoxGroupboxBase extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-groupbox-base", FirefoxGroupboxBase);

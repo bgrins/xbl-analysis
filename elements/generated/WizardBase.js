@@ -1,4 +1,6 @@
 class FirefoxWizardBase extends XULElement {
-  connectedCallback() {}
+  connectedCallback() {
+
+  }
+
 }
-customElements.define("firefox-wizard-base", FirefoxWizardBase);

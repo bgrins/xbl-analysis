@@ -1,6 +1,6 @@
 class FirefoxListboxBase extends FirefoxBasecontrol {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this._lastKeyTime = 0;
 
@@ -20,47 +20,44 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
     this._selectionStart = null;
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._moveByOffsetFromUserEvent(-1, event);
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._moveByOffsetFromUserEvent(1, event);
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(-this.currentIndex, event);
       this._mayReverse = false;
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._mayReverse = true;
-      this._moveByOffsetFromUserEvent(
-        this.getRowCount() - this.currentIndex - 1,
-        event
-      );
+      this._moveByOffsetFromUserEvent(this.getRowCount() - this.currentIndex - 1, event);
       this._mayReverse = false;
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.scrollOnePage(-1), event);
       this._mayReverse = false;
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.scrollOnePage(1), event);
       this._mayReverse = false;
     });
 
-    this.addEventListener("keypress", event => {
+    this.addEventListener("keypress", (event) => {
       if (this.currentItem && this.selType == "multiple")
         this.toggleItemSelection(this.currentItem);
     });
 
-    this.addEventListener("focus", event => {
+    this.addEventListener("focus", (event) => {
       if (this.getRowCount() > 0) {
         if (this.currentIndex == -1) {
           this.currentIndex = this.getIndexOfFirstVisibleRow();
@@ -71,14 +68,9 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
       this._lastKeyTime = 0;
     });
 
-    this.addEventListener("keypress", event => {
-      if (
-        this.disableKeyNavigation ||
-        !event.charCode ||
-        event.altKey ||
-        event.ctrlKey ||
-        event.metaKey
-      )
+    this.addEventListener("keypress", (event) => {
+      if (this.disableKeyNavigation || !event.charCode ||
+        event.altKey || event.ctrlKey || event.metaKey)
         return;
 
       if (event.timeStamp - this._lastKeyTime > 1000)
@@ -90,9 +82,8 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
       // If all letters in the incremental string are the same, just
       // try to match the first one
-      var incrementalString = /^(.)\1+$/.test(this._incrementalString)
-        ? RegExp.$1
-        : this._incrementalString;
+      var incrementalString = /^(.)\1+$/.test(this._incrementalString) ?
+        RegExp.$1 : this._incrementalString;
       var length = incrementalString.length;
 
       var rowCount = this.getRowCount();
@@ -100,16 +91,17 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
       var start = l > 0 ? this.getIndexOfItem(this.selectedItems[l - 1]) : -1;
       // start from the first element if none was selected or from the one
       // following the selected one if it's a new or a repeated-letter search
-      if (start == -1 || length == 1) start++;
+      if (start == -1 || length == 1)
+        start++;
 
       for (var i = 0; i < rowCount; i++) {
         var k = (start + i) % rowCount;
         var listitem = this.getItemAtIndex(k);
-        if (!this._canUserSelect(listitem)) continue;
+        if (!this._canUserSelect(listitem))
+          continue;
         // allow richlistitems to specify the string being searched for
-        var searchText = "searchLabel" in listitem
-          ? listitem.searchLabel
-          : listitem.getAttribute("label"); // (see also bug 250123)
+        var searchText = "searchLabel" in listitem ? listitem.searchLabel :
+          listitem.getAttribute("label"); // (see also bug 250123)
         searchText = searchText.substring(0, length).toLowerCase();
         if (searchText == incrementalString) {
           this.ensureIndexIsVisible(k);
@@ -118,6 +110,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         }
       }
     });
+
   }
 
   set selectedItem(val) {
@@ -153,31 +146,36 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
   set value(val) {
     var kids = this.getElementsByAttribute("value", val);
-    if (kids && kids.item(0)) this.selectItem(kids[0]);
+    if (kids && kids.item(0))
+      this.selectItem(kids[0]);
     return val;
   }
 
   get value() {
-    if (this.selectedItems.length > 0) return this.selectedItem.value;
+    if (this.selectedItems.length > 0)
+      return this.selectedItem.value;
     return null;
   }
 
   set selType(val) {
-    this.setAttribute("seltype", val);
+    this.setAttribute('seltype', val);
     return val;
   }
 
   get selType() {
-    return this.getAttribute("seltype");
+    return this.getAttribute('seltype');
   }
 
   set currentItem(val) {
-    if (this._currentItem == val) return val;
+    if (this._currentItem == val)
+      return val;
 
-    if (this._currentItem) this._currentItem.current = false;
+    if (this._currentItem)
+      this._currentItem.current = false;
     this._currentItem = val;
 
-    if (val) val.current = true;
+    if (val)
+      val.current = true;
 
     return val;
   }
@@ -187,8 +185,10 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   }
 
   set currentIndex(val) {
-    if (val >= 0) this.currentItem = this.getItemAtIndex(val);
-    else this.currentItem = null;
+    if (val >= 0)
+      this.currentItem = this.getItemAtIndex(val);
+    else
+      this.currentItem = null;
   }
 
   get currentIndex() {
@@ -200,39 +200,44 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   }
 
   set disableKeyNavigation(val) {
-    if (val) this.setAttribute("disableKeyNavigation", "true");
-    else this.removeAttribute("disableKeyNavigation");
+    if (val)
+      this.setAttribute("disableKeyNavigation", "true");
+    else
+      this.removeAttribute("disableKeyNavigation");
     return val;
   }
 
   get disableKeyNavigation() {
-    return this.hasAttribute("disableKeyNavigation");
+    return this.hasAttribute('disableKeyNavigation');
   }
 
   set suppressOnSelect(val) {
-    this.setAttribute("suppressonselect", val);
+    this.setAttribute('suppressonselect', val);
   }
 
   get suppressOnSelect() {
-    return this.getAttribute("suppressonselect") == "true";
+    return this.getAttribute('suppressonselect') == 'true';
   }
 
   set _selectDelay(val) {
-    this.setAttribute("_selectDelay", val);
+    this.setAttribute('_selectDelay', val);
   }
 
   get _selectDelay() {
-    return this.getAttribute("_selectDelay") || 50;
+    return this.getAttribute('_selectDelay') || 50;
   }
   removeItemAt(index) {
     var remove = this.getItemAtIndex(index);
-    if (remove) this.removeChild(remove);
+    if (remove)
+      this.removeChild(remove);
     return remove;
   }
   addItemToSelection(aItem) {
-    if (this.selType != "multiple" && this.selectedCount) return;
+    if (this.selType != "multiple" && this.selectedCount)
+      return;
 
-    if (aItem.selected) return;
+    if (aItem.selected)
+      return;
 
     this.selectedItems.append(aItem);
     aItem.selected = true;
@@ -240,18 +245,22 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     this._fireOnSelect();
   }
   removeItemFromSelection(aItem) {
-    if (!aItem.selected) return;
+    if (!aItem.selected)
+      return;
 
     this.selectedItems.remove(aItem);
     aItem.selected = false;
     this._fireOnSelect();
   }
   toggleItemSelection(aItem) {
-    if (aItem.selected) this.removeItemFromSelection(aItem);
-    else this.addItemToSelection(aItem);
+    if (aItem.selected)
+      this.removeItemFromSelection(aItem);
+    else
+      this.addItemToSelection(aItem);
   }
   selectItem(aItem) {
-    if (!aItem) return;
+    if (!aItem)
+      return;
 
     if (this.selectedItems.length == 1 && this.selectedItems[0] == aItem)
       return;
@@ -269,14 +278,15 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     this._fireOnSelect();
   }
   selectItemRange(aStartItem, aEndItem) {
-    if (this.selType != "multiple") return;
+    if (this.selType != "multiple")
+      return;
 
     if (!aStartItem)
-      aStartItem = this._selectionStart
-        ? this._selectionStart
-        : this.currentItem;
+      aStartItem = this._selectionStart ?
+      this._selectionStart : this.currentItem;
 
-    if (!aStartItem) aStartItem = aEndItem;
+    if (!aStartItem)
+      aStartItem = aEndItem;
 
     var suppressSelect = this._suppressOnSelect;
     this._suppressOnSelect = true;
@@ -312,11 +322,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     for (; currentItem; currentItem = this.getNextItem(currentItem, 1))
       this.removeItemFromSelection(currentItem);
 
-    for (
-      currentItem = this.getItemAtIndex(0);
-      currentItem != aStartItem;
-      currentItem = this.getNextItem(currentItem, 1)
-    )
+    for (currentItem = this.getItemAtIndex(0); currentItem != aStartItem; currentItem = this.getNextItem(currentItem, 1))
       this.removeItemFromSelection(currentItem);
     this._userSelecting = userSelecting;
 
@@ -347,8 +353,10 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
     var item = this.getItemAtIndex(0);
     while (item) {
-      if (item.selected) this.removeItemFromSelection(item);
-      else this.addItemToSelection(item);
+      if (item.selected)
+        this.removeItemFromSelection(item);
+      else
+        this.addItemToSelection(item);
       item = this.getNextItem(item, 1);
     }
 
@@ -368,47 +376,50 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     this._fireOnSelect();
   }
   getSelectedItem(aIndex) {
-    return aIndex < this.selectedItems.length
-      ? this.selectedItems[aIndex]
-      : null;
+    return aIndex < this.selectedItems.length ?
+      this.selectedItems[aIndex] : null;
   }
   timedSelect(aItem, aTimeout) {
     var suppress = this._suppressOnSelect;
-    if (aTimeout != -1) this._suppressOnSelect = true;
+    if (aTimeout != -1)
+      this._suppressOnSelect = true;
 
     this.selectItem(aItem);
 
     this._suppressOnSelect = suppress;
 
     if (aTimeout != -1) {
-      if (this._selectTimeout) window.clearTimeout(this._selectTimeout);
-      this._selectTimeout = window.setTimeout(
-        this._selectTimeoutHandler,
-        aTimeout,
-        this
-      );
+      if (this._selectTimeout)
+        window.clearTimeout(this._selectTimeout);
+      this._selectTimeout =
+        window.setTimeout(this._selectTimeoutHandler, aTimeout, this);
     }
   }
   moveByOffset(aOffset, aIsSelecting, aIsSelectingRange) {
-    if ((aIsSelectingRange || !aIsSelecting) && this.selType != "multiple")
+    if ((aIsSelectingRange || !aIsSelecting) &&
+      this.selType != "multiple")
       return;
 
     var newIndex = this.currentIndex + aOffset;
-    if (newIndex < 0) newIndex = 0;
+    if (newIndex < 0)
+      newIndex = 0;
 
     var numItems = this.getRowCount();
-    if (newIndex > numItems - 1) newIndex = numItems - 1;
+    if (newIndex > numItems - 1)
+      newIndex = numItems - 1;
 
     var newItem = this.getItemAtIndex(newIndex);
     // make sure that the item is actually visible/selectable
     if (this._userSelecting && newItem && !this._canUserSelect(newItem))
-      newItem = aOffset > 0
-        ? this.getNextItem(newItem, 1) || this.getPreviousItem(newItem, 1)
-        : this.getPreviousItem(newItem, 1) || this.getNextItem(newItem, 1);
+      newItem =
+      aOffset > 0 ? this.getNextItem(newItem, 1) || this.getPreviousItem(newItem, 1) :
+      this.getPreviousItem(newItem, 1) || this.getNextItem(newItem, 1);
     if (newItem) {
       this.ensureIndexIsVisible(this.getIndexOfItem(newItem));
-      if (aIsSelectingRange) this.selectItemRange(null, newItem);
-      else if (aIsSelecting) this.selectItem(newItem);
+      if (aIsSelectingRange)
+        this.selectItemRange(null, newItem);
+      else if (aIsSelecting)
+        this.selectItem(newItem);
 
       this.currentItem = newItem;
     }
@@ -416,14 +427,11 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   getNextItem(aStartItem, aDelta) {
     while (aStartItem) {
       aStartItem = aStartItem.nextSibling;
-      if (
-        aStartItem &&
-        aStartItem instanceof
-          Components.interfaces.nsIDOMXULSelectControlItemElement &&
-        (!this._userSelecting || this._canUserSelect(aStartItem))
-      ) {
+      if (aStartItem && aStartItem instanceof Components.interfaces.nsIDOMXULSelectControlItemElement &&
+        (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
-        if (aDelta == 0) return aStartItem;
+        if (aDelta == 0)
+          return aStartItem;
       }
     }
     return null;
@@ -431,14 +439,11 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   getPreviousItem(aStartItem, aDelta) {
     while (aStartItem) {
       aStartItem = aStartItem.previousSibling;
-      if (
-        aStartItem &&
-        aStartItem instanceof
-          Components.interfaces.nsIDOMXULSelectControlItemElement &&
-        (!this._userSelecting || this._canUserSelect(aStartItem))
-      ) {
+      if (aStartItem && aStartItem instanceof Components.interfaces.nsIDOMXULSelectControlItemElement &&
+        (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
-        if (aDelta == 0) return aStartItem;
+        if (aDelta == 0)
+          return aStartItem;
       }
     }
     return null;
@@ -462,4 +467,3 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     aMe._selectTimeout = null;
   }
 }
-customElements.define("firefox-listbox-base", FirefoxListboxBase);

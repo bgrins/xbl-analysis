@@ -1,6 +1,6 @@
 class FirefoxFeed extends FirefoxRichlistitem {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:vbox flex="1">
         <xul:hbox flex="1">
@@ -20,6 +20,7 @@ class FirefoxFeed extends FirefoxRichlistitem {
         </xul:hbox>
       </xul:vbox>
     `;
+
   }
+
 }
-customElements.define("firefox-feed", FirefoxFeed);

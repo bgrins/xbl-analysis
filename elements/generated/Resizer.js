@@ -1,8 +1,10 @@
 class FirefoxResizer extends XULElement {
   connectedCallback() {
+
     // don't do this for viewport resizers; causes a crash related to
     // bugs 563665 and 581536 otherwise
-    if (this.parentNode == this.ownerDocument.documentElement) return;
+    if (this.parentNode == this.ownerDocument.documentElement)
+      return;
 
     // if the direction is rtl, set the rtl attribute so that the
     // stylesheet can use this to make the cursor appear properly
@@ -16,6 +18,7 @@ class FirefoxResizer extends XULElement {
       // as they will appear at the bottom left of the element
       this.setAttribute("rtl", "true");
     }
+
   }
+
 }
-customElements.define("firefox-resizer", FirefoxResizer);

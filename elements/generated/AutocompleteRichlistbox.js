@@ -1,24 +1,25 @@
 class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
 
     this.mLastMoveTime = Date.now();
 
     this.mousedOverIndex = -1;
 
-    this.addEventListener("mouseup", event => {
+    this.addEventListener("mouseup", (event) => {
       // don't call onPopupClick for the scrollbar buttons, thumb, slider, etc.
       let item = event.originalTarget;
       while (item && item.localName != "richlistitem") {
         item = item.parentNode;
       }
 
-      if (!item) return;
+      if (!item)
+        return;
 
       this.parentNode.onPopupClick(event);
     });
 
-    this.addEventListener("mousemove", event => {
+    this.addEventListener("mousemove", (event) => {
       if (Date.now() - this.mLastMoveTime <= 30) {
         return;
       }
@@ -42,9 +43,7 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
 
       this.mLastMoveTime = Date.now();
     });
+
   }
+
 }
-customElements.define(
-  "firefox-autocomplete-richlistbox",
-  FirefoxAutocompleteRichlistbox
-);

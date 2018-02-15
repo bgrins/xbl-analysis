@@ -1,6 +1,7 @@
 class FirefoxAddonBase extends FirefoxRichlistitem {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
+
   }
 
   get isLegacy() {
@@ -14,8 +15,7 @@ class FirefoxAddonBase extends FirefoxRichlistitem {
     return !!(this.mAddon.permissions & perm);
   }
   opRequiresRestart(aOperation) {
-    var operation =
-      AddonManager["OP_NEEDS_RESTART_" + aOperation.toUpperCase()];
+    var operation = AddonManager["OP_NEEDS_RESTART_" + aOperation.toUpperCase()];
     return !!(this.mAddon.operationsRequiringRestart & operation);
   }
   isPending(aAction) {
@@ -32,4 +32,3 @@ class FirefoxAddonBase extends FirefoxRichlistitem {
     this.remove();
   }
 }
-customElements.define("firefox-addon-base", FirefoxAddonBase);

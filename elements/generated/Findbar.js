@@ -1,6 +1,6 @@
 class FirefoxFindbar extends FirefoxToolbar {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox anonid="findbar-container" class="findbar-container" flex="1" align="center">
         <xul:hbox anonid="findbar-textbox-wrapper" align="stretch">
@@ -38,22 +38,21 @@ class FirefoxFindbar extends FirefoxToolbar {
 
     this.__prefsvc = null;
 
-    this._observer = {
+    this._observer = ({
       _self: this,
 
       QueryInterface(aIID) {
-        if (
-          aIID.equals(Components.interfaces.nsIObserver) ||
+        if (aIID.equals(Components.interfaces.nsIObserver) ||
           aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-          aIID.equals(Components.interfaces.nsISupports)
-        )
+          aIID.equals(Components.interfaces.nsISupports))
           return this;
 
         throw Components.results.NS_ERROR_NO_INTERFACE;
       },
 
       observe(aSubject, aTopic, aPrefName) {
-        if (aTopic != "nsPref:changed") return;
+        if (aTopic != "nsPref:changed")
+          return;
 
         let prefsvc = this._self._prefsvc;
 
@@ -77,13 +76,11 @@ class FirefoxFindbar extends FirefoxToolbar {
           case "findbar.modalHighlight":
             this._self._useModalHighlight = prefsvc.getBoolPref(aPrefName);
             if (this._self.browser.finder)
-              this._self.browser.finder.onModalHighlightChange(
-                this._self._useModalHighlight
-              );
+              this._self.browser.finder.onModalHighlightChange(this._self._useModalHighlight);
             break;
         }
       }
-    };
+    });
 
     this._destroyed = false;
 
@@ -103,34 +100,28 @@ class FirefoxFindbar extends FirefoxToolbar {
 
     let prefsvc = this._prefsvc;
 
-    this._quickFindTimeoutLength = prefsvc.getIntPref(
-      "accessibility.typeaheadfind.timeout"
-    );
-    this._flashFindBar = prefsvc.getIntPref(
-      "accessibility.typeaheadfind.flashBar"
-    );
+    this._quickFindTimeoutLength =
+      prefsvc.getIntPref("accessibility.typeaheadfind.timeout");
+    this._flashFindBar =
+      prefsvc.getIntPref("accessibility.typeaheadfind.flashBar");
     this._useModalHighlight = prefsvc.getBoolPref("findbar.modalHighlight");
 
-    prefsvc.addObserver("accessibility.typeaheadfind", this._observer);
-    prefsvc.addObserver(
-      "accessibility.typeaheadfind.linksonly",
-      this._observer
-    );
-    prefsvc.addObserver(
-      "accessibility.typeaheadfind.casesensitive",
-      this._observer
-    );
+    prefsvc.addObserver("accessibility.typeaheadfind",
+      this._observer);
+    prefsvc.addObserver("accessibility.typeaheadfind.linksonly",
+      this._observer);
+    prefsvc.addObserver("accessibility.typeaheadfind.casesensitive",
+      this._observer);
     prefsvc.addObserver("findbar.entireword", this._observer);
     prefsvc.addObserver("findbar.highlightAll", this._observer);
     prefsvc.addObserver("findbar.modalHighlight", this._observer);
 
-    this._findAsYouType = prefsvc.getBoolPref("accessibility.typeaheadfind");
-    this._typeAheadLinksOnly = prefsvc.getBoolPref(
-      "accessibility.typeaheadfind.linksonly"
-    );
-    this._typeAheadCaseSensitive = prefsvc.getIntPref(
-      "accessibility.typeaheadfind.casesensitive"
-    );
+    this._findAsYouType =
+      prefsvc.getBoolPref("accessibility.typeaheadfind");
+    this._typeAheadLinksOnly =
+      prefsvc.getBoolPref("accessibility.typeaheadfind.linksonly");
+    this._typeAheadCaseSensitive =
+      prefsvc.getIntPref("accessibility.typeaheadfind.casesensitive");
     this._entireWord = prefsvc.getBoolPref("findbar.entireword");
     this._highlightAll = prefsvc.getBoolPref("findbar.highlightAll");
 
@@ -144,21 +135,14 @@ class FirefoxFindbar extends FirefoxToolbar {
     // Make sure the FAYT keypress listener is attached by initializing the
     // browser property
     if (this.getAttribute("browserid"))
-      setTimeout(
-        function(aSelf) {
-          aSelf.browser = aSelf.browser;
-        },
-        0,
-        this
-      );
+      setTimeout(function(aSelf) {
+        aSelf.browser = aSelf.browser;
+      }, 0, this);
 
-    this.addEventListener(
-      "keypress",
-      event => {
-        if (this.close) this.close();
-      },
-      true
-    );
+    this.addEventListener("keypress", (event) => {
+      if (this.close) this.close();
+    }, true);
+
   }
   disconnectedCallback() {
     this.destroy();
@@ -175,12 +159,12 @@ class FirefoxFindbar extends FirefoxToolbar {
   }
 
   set prefillWithSelection(val) {
-    this.setAttribute("prefillwithselection", val);
+    this.setAttribute('prefillwithselection', val);
     return val;
   }
 
   get prefillWithSelection() {
-    return this.getAttribute("prefillwithselection") != "false";
+    return this.getAttribute('prefillwithselection') != 'false'
   }
 
   get findMode() {
@@ -188,7 +172,8 @@ class FirefoxFindbar extends FirefoxToolbar {
   }
 
   get hasTransactions() {
-    if (this._findField.value) return true;
+    if (this._findField.value)
+      return true;
 
     // Watch out for lazy editor init
     if (this._findField.editor) {
@@ -201,17 +186,12 @@ class FirefoxFindbar extends FirefoxToolbar {
   set browser(val) {
     if (this._browser) {
       if (this._browser.messageManager) {
-        this._browser.messageManager.removeMessageListener(
-          "Findbar:Keypress",
-          this
-        );
-        this._browser.messageManager.removeMessageListener(
-          "Findbar:Mouseup",
-          this
-        );
+        this._browser.messageManager.removeMessageListener("Findbar:Keypress", this);
+        this._browser.messageManager.removeMessageListener("Findbar:Mouseup", this);
       }
       let finder = this._browser.finder;
-      if (finder) finder.removeResultListener(this);
+      if (finder)
+        finder.removeResultListener(this);
     }
 
     this._browser = val;
@@ -229,16 +209,16 @@ class FirefoxFindbar extends FirefoxToolbar {
 
   get browser() {
     if (!this._browser) {
-      this._browser = document.getElementById(this.getAttribute("browserid"));
+      this._browser =
+        document.getElementById(this.getAttribute("browserid"));
     }
     return this._browser;
   }
 
   get _prefsvc() {
     if (!this.__prefsvc) {
-      this.__prefsvc = Components.classes[
-        "@mozilla.org/preferences-service;1"
-      ].getService(Components.interfaces.nsIPrefBranch);
+      this.__prefsvc = Components.classes["@mozilla.org/preferences-service;1"]
+        .getService(Components.interfaces.nsIPrefBranch);
     }
     return this.__prefsvc;
   }
@@ -246,46 +226,42 @@ class FirefoxFindbar extends FirefoxToolbar {
   get pluralForm() {
     if (!this._pluralForm) {
       this._pluralForm = ChromeUtils.import(
-        "resource://gre/modules/PluralForm.jsm",
-        {}
-      ).PluralForm;
+        "resource://gre/modules/PluralForm.jsm", {}).PluralForm;
     }
     return this._pluralForm;
   }
 
   get strBundle() {
     if (!this._strBundle) {
-      this._strBundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
+      this._strBundle =
+        Components.classes["@mozilla.org/intl/stringbundle;1"]
         .getService(Components.interfaces.nsIStringBundleService)
         .createBundle("chrome://global/locale/findbar.properties");
     }
     return this._strBundle;
   }
   getElement(aAnonymousID) {
-    return document.getAnonymousElementByAttribute(
-      this,
+    return document.getAnonymousElementByAttribute(this,
       "anonid",
-      aAnonymousID
-    );
+      aAnonymousID);
   }
   destroy() {
-    if (this._destroyed) return;
+    if (this._destroyed)
+      return;
     this._destroyed = true;
 
-    if (this.browser.finder) this.browser.finder.destroy();
+    if (this.browser.finder)
+      this.browser.finder.destroy();
 
     this.browser = null;
 
     let prefsvc = this._prefsvc;
-    prefsvc.removeObserver("accessibility.typeaheadfind", this._observer);
-    prefsvc.removeObserver(
-      "accessibility.typeaheadfind.linksonly",
-      this._observer
-    );
-    prefsvc.removeObserver(
-      "accessibility.typeaheadfind.casesensitive",
-      this._observer
-    );
+    prefsvc.removeObserver("accessibility.typeaheadfind",
+      this._observer);
+    prefsvc.removeObserver("accessibility.typeaheadfind.linksonly",
+      this._observer);
+    prefsvc.removeObserver("accessibility.typeaheadfind.casesensitive",
+      this._observer);
     prefsvc.removeObserver("findbar.entireword", this._observer);
     prefsvc.removeObserver("findbar.highlightAll", this._observer);
     prefsvc.removeObserver("findbar.modalHighlight", this._observer);
@@ -308,7 +284,8 @@ class FirefoxFindbar extends FirefoxToolbar {
     }
   }
   _setFindCloseTimeout() {
-    if (this._quickFindTimeout) clearTimeout(this._quickFindTimeout);
+    if (this._quickFindTimeout)
+      clearTimeout(this._quickFindTimeout);
 
     // Don't close the find toolbar while IME is composing OR when the
     // findbar is already hidden.
@@ -318,17 +295,17 @@ class FirefoxFindbar extends FirefoxToolbar {
     }
 
     this._quickFindTimeout = setTimeout(() => {
-      if (this._findMode != this.FIND_NORMAL) this.close();
+      if (this._findMode != this.FIND_NORMAL)
+        this.close();
       this._quickFindTimeout = null;
     }, this._quickFindTimeoutLength);
   }
   _updateMatchesCount() {
-    if (!this._dispatchFindEvent("matchescount")) return;
+    if (!this._dispatchFindEvent("matchescount"))
+      return;
 
-    this.browser.finder.requestMatchesCount(
-      this._findField.value,
-      this._findMode == this.FIND_LINKS
-    );
+    this.browser.finder.requestMatchesCount(this._findField.value,
+      this._findMode == this.FIND_LINKS);
   }
   toggleHighlight(aHighlight, aFromPrefObserver) {
     if (aHighlight === this._highlightAll) {
@@ -345,13 +322,11 @@ class FirefoxFindbar extends FirefoxToolbar {
 
     let word = this._findField.value;
     // Bug 429723. Don't attempt to highlight ""
-    if (aHighlight && !word) return;
+    if (aHighlight && !word)
+      return;
 
-    this.browser.finder.highlight(
-      aHighlight,
-      word,
-      this._findMode == this.FIND_LINKS
-    );
+    this.browser.finder.highlight(aHighlight, word,
+      this._findMode == this.FIND_LINKS);
 
     // Update the matches count
     this._updateMatchesCount(this.nsITypeAheadFind.FIND_FOUND);
@@ -379,9 +354,9 @@ class FirefoxFindbar extends FirefoxToolbar {
 
     // Show the checkbox on the full Find bar in non-auto mode.
     // Show the label in all other cases.
-    let hideCheckbox =
-      this._findMode != this.FIND_NORMAL ||
-      (this._typeAheadCaseSensitive != 0 && this._typeAheadCaseSensitive != 1);
+    let hideCheckbox = this._findMode != this.FIND_NORMAL ||
+      (this._typeAheadCaseSensitive != 0 &&
+        this._typeAheadCaseSensitive != 1);
     checkbox.hidden = hideCheckbox;
     statusLabel.hidden = !hideCheckbox;
 
@@ -422,20 +397,26 @@ class FirefoxFindbar extends FirefoxToolbar {
     this._find();
   }
   open(aMode) {
-    if (aMode != undefined) this._findMode = aMode;
+    if (aMode != undefined)
+      this._findMode = aMode;
 
     if (!this._notFoundStr) {
       var stringsBundle = this.strBundle;
       this._notFoundStr = stringsBundle.GetStringFromName("NotFound");
-      this._wrappedToTopStr = stringsBundle.GetStringFromName("WrappedToTop");
-      this._wrappedToBottomStr = stringsBundle.GetStringFromName(
-        "WrappedToBottom"
-      );
-      this._normalFindStr = stringsBundle.GetStringFromName("NormalFind");
-      this._fastFindStr = stringsBundle.GetStringFromName("FastFind");
-      this._fastFindLinksStr = stringsBundle.GetStringFromName("FastFindLinks");
-      this._caseSensitiveStr = stringsBundle.GetStringFromName("CaseSensitive");
-      this._entireWordStr = stringsBundle.GetStringFromName("EntireWord");
+      this._wrappedToTopStr =
+        stringsBundle.GetStringFromName("WrappedToTop");
+      this._wrappedToBottomStr =
+        stringsBundle.GetStringFromName("WrappedToBottom");
+      this._normalFindStr =
+        stringsBundle.GetStringFromName("NormalFind");
+      this._fastFindStr =
+        stringsBundle.GetStringFromName("FastFind");
+      this._fastFindLinksStr =
+        stringsBundle.GetStringFromName("FastFindLinks");
+      this._caseSensitiveStr =
+        stringsBundle.GetStringFromName("CaseSensitive");
+      this._entireWordStr =
+        stringsBundle.GetStringFromName("EntireWord");
     }
 
     this._findFailedString = null;
@@ -458,9 +439,11 @@ class FirefoxFindbar extends FirefoxToolbar {
     return false;
   }
   close(aNoAnim) {
-    if (this.hidden) return;
+    if (this.hidden)
+      return;
 
-    if (aNoAnim) this.setAttribute("noanim", true);
+    if (aNoAnim)
+      this.setAttribute("noanim", true);
     this.hidden = true;
 
     // 'focusContent()' iterates over all listeners in the chrome
@@ -480,34 +463,30 @@ class FirefoxFindbar extends FirefoxToolbar {
     this._enableFindButtons(false);
   }
   _dispatchKeypressEvent(aTarget, aEvent) {
-    if (!aTarget) return;
+    if (!aTarget)
+      return;
 
     let event = document.createEvent("KeyboardEvent");
-    event.initKeyEvent(
-      aEvent.type,
-      aEvent.bubbles,
-      aEvent.cancelable,
-      aEvent.view,
-      aEvent.ctrlKey,
-      aEvent.altKey,
-      aEvent.shiftKey,
-      aEvent.metaKey,
-      aEvent.keyCode,
-      aEvent.charCode
-    );
+    event.initKeyEvent(aEvent.type, aEvent.bubbles, aEvent.cancelable,
+      aEvent.view, aEvent.ctrlKey, aEvent.altKey,
+      aEvent.shiftKey, aEvent.metaKey, aEvent.keyCode,
+      aEvent.charCode);
     aTarget.dispatchEvent(event);
   }
   _updateStatusUIBar(aFoundURL) {
     if (!this._xulBrowserWindow) {
       try {
-        this._xulBrowserWindow = window
-          .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+        this._xulBrowserWindow =
+          window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
           .getInterface(Components.interfaces.nsIWebNavigation)
           .QueryInterface(Components.interfaces.nsIDocShellTreeItem)
-          .treeOwner.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-          .getInterface(Components.interfaces.nsIXULWindow).XULBrowserWindow;
+          .treeOwner
+          .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+          .getInterface(Components.interfaces.nsIXULWindow)
+          .XULBrowserWindow;
       } catch (ex) {}
-      if (!this._xulBrowserWindow) return false;
+      if (!this._xulBrowserWindow)
+        return false;
     }
 
     // Call this has the same effect like hovering over link,
@@ -518,7 +497,8 @@ class FirefoxFindbar extends FirefoxToolbar {
   _finishFAYT(aKeypressEvent) {
     this.browser.finder.focusContent();
 
-    if (aKeypressEvent) aKeypressEvent.preventDefault();
+    if (aKeypressEvent)
+      aKeypressEvent.preventDefault();
 
     this.browser.finder.keyPress(aKeypressEvent);
 
@@ -526,8 +506,10 @@ class FirefoxFindbar extends FirefoxToolbar {
     return true;
   }
   _shouldBeCaseSensitive(aString) {
-    if (this._typeAheadCaseSensitive == 0) return false;
-    if (this._typeAheadCaseSensitive == 1) return true;
+    if (this._typeAheadCaseSensitive == 0)
+      return false;
+    if (this._typeAheadCaseSensitive == 1)
+      return true;
 
     return aString != aString.toLowerCase();
   }
@@ -546,7 +528,8 @@ class FirefoxFindbar extends FirefoxToolbar {
     }
 
     if (this._findMode != this.FIND_NORMAL && this._quickFindTimeout) {
-      if (!aFakeEvent.charCode) return true;
+      if (!aFakeEvent.charCode)
+        return true;
 
       this._findField.select();
       this._findField.focus();
@@ -554,19 +537,17 @@ class FirefoxFindbar extends FirefoxToolbar {
       return false;
     }
 
-    if (!aShouldFastFind) return true;
+    if (!aShouldFastFind)
+      return true;
 
-    let key = aFakeEvent.charCode
-      ? String.fromCharCode(aFakeEvent.charCode)
-      : null;
-    let manualstartFAYT = key == FAYT_LINKS_KEY || key == FAYT_TEXT_KEY;
-    let autostartFAYT =
-      !manualstartFAYT && this._findAsYouType && key && key != " ";
+    let key = aFakeEvent.charCode ? String.fromCharCode(aFakeEvent.charCode) : null;
+    let manualstartFAYT = (key == FAYT_LINKS_KEY || key == FAYT_TEXT_KEY);
+    let autostartFAYT = !manualstartFAYT && this._findAsYouType &&
+      key && key != " ";
     if (manualstartFAYT || autostartFAYT) {
-      let mode = key == FAYT_LINKS_KEY ||
-        (autostartFAYT && this._typeAheadLinksOnly)
-        ? this.FIND_LINKS
-        : this.FIND_TYPEAHEAD;
+      let mode = (key == FAYT_LINKS_KEY ||
+          (autostartFAYT && this._typeAheadLinksOnly)) ?
+        this.FIND_LINKS : this.FIND_TYPEAHEAD;
 
       // Clear bar first, so that when openFindBar() calls setCaseSensitivity()
       // it doesn't get confused by a lingering value
@@ -579,7 +560,8 @@ class FirefoxFindbar extends FirefoxToolbar {
 
       if (autostartFAYT)
         this._dispatchKeypressEvent(this._findField.inputField, aFakeEvent);
-      else this._updateStatusUI(this.nsITypeAheadFind.FIND_FOUND);
+      else
+        this._updateStatusUI(this.nsITypeAheadFind.FIND_FOUND);
 
       return false;
     }
@@ -591,14 +573,13 @@ class FirefoxFindbar extends FirefoxToolbar {
     }
     switch (aMessage.name) {
       case "Findbar:Mouseup":
-        if (!this.hidden && this._findMode != this.FIND_NORMAL) this.close();
+        if (!this.hidden && this._findMode != this.FIND_NORMAL)
+          this.close();
         break;
 
       case "Findbar:Keypress":
-        return this._onBrowserKeypress(
-          aMessage.data.fakeEvent,
-          aMessage.data.shouldFastFind
-        );
+        return this._onBrowserKeypress(aMessage.data.fakeEvent,
+          aMessage.data.shouldFastFind);
     }
     return undefined;
   }
@@ -610,9 +591,8 @@ class FirefoxFindbar extends FirefoxToolbar {
     }
   }
   _enableFindButtons(aEnable) {
-    this.getElement("find-next").disabled = this.getElement(
-      "find-previous"
-    ).disabled = !aEnable;
+    this.getElement("find-next").disabled =
+      this.getElement("find-previous").disabled = !aEnable;
   }
   _updateFindUI() {
     let showMinimalUI = this._findMode != this.FIND_NORMAL;
@@ -621,28 +601,32 @@ class FirefoxFindbar extends FirefoxToolbar {
     let wrapper = this.getElement("findbar-textbox-wrapper");
     let foundMatches = this._foundMatches;
     for (let node of nodes) {
-      if (node == wrapper || node == foundMatches) continue;
+      if (node == wrapper || node == foundMatches)
+        continue;
       node.hidden = showMinimalUI;
     }
-    this.getElement("find-next").hidden = this.getElement(
-      "find-previous"
-    ).hidden = showMinimalUI;
+    this.getElement("find-next").hidden =
+      this.getElement("find-previous").hidden = showMinimalUI;
     foundMatches.hidden = showMinimalUI || !foundMatches.value;
     this._updateCaseSensitivity();
     this._setEntireWord();
     this._setHighlightAll();
 
-    if (showMinimalUI) this._findField.classList.add("minimal");
-    else this._findField.classList.remove("minimal");
+    if (showMinimalUI)
+      this._findField.classList.add("minimal");
+    else
+      this._findField.classList.remove("minimal");
 
     if (this._findMode == this.FIND_TYPEAHEAD)
       this._findField.placeholder = this._fastFindStr;
     else if (this._findMode == this.FIND_LINKS)
       this._findField.placeholder = this._fastFindLinksStr;
-    else this._findField.placeholder = this._normalFindStr;
+    else
+      this._findField.placeholder = this._normalFindStr;
   }
   _find(aValue) {
-    if (!this._dispatchFindEvent("")) return;
+    if (!this._dispatchFindEvent(""))
+      return;
 
     let val = aValue || this._findField.value;
 
@@ -657,11 +641,9 @@ class FirefoxFindbar extends FirefoxToolbar {
     // is not guaranteed, the first character typed may not be a word (no
     // match), but the with the second character it may well be a word,
     // thus a match.
-    if (
-      !this._findFailedString ||
+    if (!this._findFailedString ||
       !val.startsWith(this._findFailedString) ||
-      this._entireWord
-    ) {
+      this._entireWord) {
       // Getting here means the user commanded a find op. Make sure any
       // initial prefilling is ignored if it hasn't happened yet.
       if (this._startFindDeferred) {
@@ -673,16 +655,15 @@ class FirefoxFindbar extends FirefoxToolbar {
       this._updateCaseSensitivity(val);
       this._setEntireWord();
 
-      this.browser.finder.fastFind(
-        val,
-        this._findMode == this.FIND_LINKS,
-        this._findMode != this.FIND_NORMAL
-      );
+      this.browser.finder.fastFind(val, this._findMode == this.FIND_LINKS,
+        this._findMode != this.FIND_NORMAL);
     }
 
-    if (this._findMode != this.FIND_NORMAL) this._setFindCloseTimeout();
+    if (this._findMode != this.FIND_NORMAL)
+      this._setFindCloseTimeout();
 
-    if (this._findResetTimeout != -1) clearTimeout(this._findResetTimeout);
+    if (this._findResetTimeout != -1)
+      clearTimeout(this._findResetTimeout);
 
     // allow a search to happen on input again after a second has
     // expired since the previous input, to allow for dynamic
@@ -703,25 +684,21 @@ class FirefoxFindbar extends FirefoxToolbar {
       return;
     }
 
-    this.setAttribute(
-      "flash",
-      this._flashFindBarCount % 2 == 0 ? "false" : "true"
-    );
+    this.setAttribute("flash",
+      (this._flashFindBarCount % 2 == 0) ?
+      "false" : "true");
   }
   _findAgain(aFindPrevious) {
-    this.browser.finder.findAgain(
-      aFindPrevious,
+    this.browser.finder.findAgain(aFindPrevious,
       this._findMode == this.FIND_LINKS,
-      this._findMode != this.FIND_NORMAL
-    );
+      this._findMode != this.FIND_NORMAL);
   }
   _updateStatusUI(res, aFindPrevious) {
     switch (res) {
       case this.nsITypeAheadFind.FIND_WRAPPED:
         this._findStatusIcon.setAttribute("status", "wrapped");
-        this._findStatusDesc.textContent = aFindPrevious
-          ? this._wrappedToBottomStr
-          : this._wrappedToTopStr;
+        this._findStatusDesc.textContent =
+          aFindPrevious ? this._wrappedToBottomStr : this._wrappedToTopStr;
         this._findField.removeAttribute("status");
         break;
       case this.nsITypeAheadFind.FIND_NOTFOUND:
@@ -744,9 +721,8 @@ class FirefoxFindbar extends FirefoxToolbar {
   }
   updateControlState(aResult, aFindPrevious) {
     this._updateStatusUI(aResult, aFindPrevious);
-    this._enableFindButtons(
-      aResult !== this.nsITypeAheadFind.FIND_NOTFOUND && !!this._findField.value
-    );
+    this._enableFindButtons(aResult !== this.nsITypeAheadFind.FIND_NOTFOUND &&
+      !!this._findField.value);
   }
   _dispatchFindEvent(aType, aFindPrevious) {
     let event = document.createEvent("CustomEvent");
@@ -766,23 +742,20 @@ class FirefoxFindbar extends FirefoxToolbar {
 
     if (this._flashFindBar) {
       this._flashFindBarTimeout = setInterval(() => this._flash(), 500);
-      prefsvc.setIntPref(
-        "accessibility.typeaheadfind.flashBar",
-        --this._flashFindBar
-      );
+      prefsvc.setIntPref("accessibility.typeaheadfind.flashBar",
+        --this._flashFindBar);
     }
 
-    let { PromiseUtils } = ChromeUtils.import(
-      "resource://gre/modules/PromiseUtils.jsm",
-      {}
-    );
+    let {
+      PromiseUtils
+    } =
+    ChromeUtils.import("resource://gre/modules/PromiseUtils.jsm", {});
     this._startFindDeferred = PromiseUtils.defer();
     let startFindPromise = this._startFindDeferred.promise;
 
     if (this.prefillWithSelection)
-      userWantsPrefill = prefsvc.getBoolPref(
-        "accessibility.typeaheadfind.prefillwithselection"
-      );
+      userWantsPrefill =
+      prefsvc.getBoolPref("accessibility.typeaheadfind.prefillwithselection");
 
     if (this.prefillWithSelection && userWantsPrefill) {
       // NB: We have to focus this._findField here so tests that send
@@ -811,13 +784,15 @@ class FirefoxFindbar extends FirefoxToolbar {
   }
   onFindAgainCommand(aFindPrevious) {
     let findString = this._browser.finder.searchString || this._findField.value;
-    if (!findString) return this.startFind();
+    if (!findString)
+      return this.startFind();
 
     // We dispatch the findAgain event here instead of in _findAgain since
     // if there is a find event handler that prevents the default then
     // finder.searchString will never get updated which in turn means
     // there would never be findAgain events because of the logic below.
-    if (!this._dispatchFindEvent("again", aFindPrevious)) return undefined;
+    if (!this._dispatchFindEvent("again", aFindPrevious))
+      return undefined;
 
     // user explicitly requested another search, so do it even if we think it'll fail
     this._findFailedString = null;
@@ -850,21 +825,21 @@ class FirefoxFindbar extends FirefoxToolbar {
     this._updateStatusUI(aData.result, aData.findBackwards);
     this._updateStatusUIBar(aData.linkURL);
 
-    if (this._findMode != this.FIND_NORMAL) this._setFindCloseTimeout();
+    if (this._findMode != this.FIND_NORMAL)
+      this._setFindCloseTimeout();
   }
   onMatchesCountResult(aResult) {
     if (aResult.total !== 0) {
       if (aResult.total == -1) {
-        this._foundMatches.value = this.pluralForm
-          .get(
-            aResult.limit,
-            this.strBundle.GetStringFromName("FoundMatchesCountLimit")
-          )
-          .replace("#1", aResult.limit);
+        this._foundMatches.value = this.pluralForm.get(
+          aResult.limit,
+          this.strBundle.GetStringFromName("FoundMatchesCountLimit")
+        ).replace("#1", aResult.limit);
       } else {
-        this._foundMatches.value = this.pluralForm
-          .get(aResult.total, this.strBundle.GetStringFromName("FoundMatches"))
-          .replace("#1", aResult.current)
+        this._foundMatches.value = this.pluralForm.get(
+            aResult.total,
+            this.strBundle.GetStringFromName("FoundMatches")
+          ).replace("#1", aResult.current)
           .replace("#2", aResult.total);
       }
       this._foundMatches.hidden = false;
@@ -879,18 +854,17 @@ class FirefoxFindbar extends FirefoxToolbar {
   onCurrentSelection(aSelectionString, aIsInitialSelection) {
     // Ignore the prefill if the user has already typed in the findbar,
     // it would have been overwritten anyway. See bug 1198465.
-    if (aIsInitialSelection && !this._startFindDeferred) return;
+    if (aIsInitialSelection && !this._startFindDeferred)
+      return;
 
-    if (
-      /Mac/.test(navigator.platform) &&
-      aIsInitialSelection &&
-      !aSelectionString
-    ) {
+    if (/Mac/.test(navigator.platform) && aIsInitialSelection && !aSelectionString) {
       let clipboardSearchString = this.browser.finder.clipboardSearchString;
-      if (clipboardSearchString) aSelectionString = clipboardSearchString;
+      if (clipboardSearchString)
+        aSelectionString = clipboardSearchString;
     }
 
-    if (aSelectionString) this._findField.value = aSelectionString;
+    if (aSelectionString)
+      this._findField.value = aSelectionString;
 
     if (aIsInitialSelection) {
       this._enableFindButtons(!!this._findField.value);
@@ -902,18 +876,19 @@ class FirefoxFindbar extends FirefoxToolbar {
     }
   }
   shouldFocusContent() {
-    const fm = Components.classes["@mozilla.org/focus-manager;1"].getService(
-      Components.interfaces.nsIFocusManager
-    );
-    if (fm.focusedWindow != window) return false;
+    const fm = Components.classes["@mozilla.org/focus-manager;1"]
+      .getService(Components.interfaces.nsIFocusManager);
+    if (fm.focusedWindow != window)
+      return false;
 
     let focusedElement = fm.focusedElement;
-    if (!focusedElement) return false;
+    if (!focusedElement)
+      return false;
 
     let bindingParent = document.getBindingParent(focusedElement);
-    if (bindingParent != this && bindingParent != this._findField) return false;
+    if (bindingParent != this && bindingParent != this._findField)
+      return false;
 
     return true;
   }
 }
-customElements.define("firefox-findbar", FirefoxFindbar);

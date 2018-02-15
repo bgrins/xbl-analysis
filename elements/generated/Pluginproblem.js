@@ -1,5 +1,6 @@
 class FirefoxPluginproblem extends XULElement {
   connectedCallback() {
+
     this.innerHTML = `
       <html:div class="mainBox" anonid="main" chromedir="FROM-DTD-locale-dir">
         <html:div class="hoverBox">
@@ -55,6 +56,7 @@ class FirefoxPluginproblem extends XULElement {
     // this binding doesn't complete layout until the constructor
     // completes.
     this.dispatchEvent(new CustomEvent("PluginBindingAttached"));
+
   }
+
 }
-customElements.define("firefox-pluginproblem", FirefoxPluginproblem);

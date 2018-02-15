@@ -1,6 +1,6 @@
 class FirefoxTranslationbar extends FirefoxNotification {
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback()
     this.innerHTML = `
       <xul:hbox anonid="details" align="center" flex="1">
         <xul:image class="translate-infobar-element messageImage" anonid="messageImage"></xul:image>
@@ -73,13 +73,15 @@ class FirefoxTranslationbar extends FirefoxNotification {
       </xul:hbox>
       <xul:toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).closeCommand();"></xul:toolbarbutton>
     `;
+
   }
 
   set state(val) {
     let deck = this._getAnonElt("translationStates");
 
     let activeElt = document.activeElement;
-    if (activeElt && deck.contains(activeElt)) activeElt.blur();
+    if (activeElt && deck.contains(activeElt))
+      activeElt.blur();
 
     let stateName;
     for (let name of ["OFFER", "TRANSLATING", "TRANSLATED", "ERROR"]) {
@@ -90,31 +92,28 @@ class FirefoxTranslationbar extends FirefoxNotification {
     }
     this.setAttribute("state", stateName);
 
-    if (val == Translation.STATE_TRANSLATED) this._handleButtonHiding();
+    if (val == Translation.STATE_TRANSLATED)
+      this._handleButtonHiding();
 
     deck.selectedIndex = val;
   }
 
   get state() {
-    return this._getAnonElt("translationStates").selectedIndex;
+    return this._getAnonElt('translationStates').selectedIndex;
   }
   init(aTranslation) {
     this.translation = aTranslation;
-    let bundle = Services.strings.createBundle(
-      "chrome://global/locale/languageNames.properties"
-    );
+    let bundle = Services.strings.createBundle("chrome://global/locale/languageNames.properties");
     let sortByLocalizedName = function(aList) {
-      return aList
-        .map(code => [code, bundle.GetStringFromName(code)])
+      return aList.map(code => [code, bundle.GetStringFromName(code)])
         .sort((a, b) => a[1].localeCompare(b[1]));
     };
 
     // Fill the lists of supported source languages.
     let detectedLanguage = this._getAnonElt("detectedLanguage");
     let fromLanguage = this._getAnonElt("fromLanguage");
-    let sourceLanguages = sortByLocalizedName(
-      Translation.supportedSourceLanguages
-    );
+    let sourceLanguages =
+      sortByLocalizedName(Translation.supportedSourceLanguages);
     for (let [code, name] of sourceLanguages) {
       detectedLanguage.appendItem(name, code);
       fromLanguage.appendItem(name, code);
@@ -127,109 +126,97 @@ class FirefoxTranslationbar extends FirefoxNotification {
 
     // Fill the list of supported target languages.
     let toLanguage = this._getAnonElt("toLanguage");
-    let targetLanguages = sortByLocalizedName(
-      Translation.supportedTargetLanguages
-    );
-    for (let [code, name] of targetLanguages) toLanguage.appendItem(name, code);
+    let targetLanguages =
+      sortByLocalizedName(Translation.supportedTargetLanguages);
+    for (let [code, name] of targetLanguages)
+      toLanguage.appendItem(name, code);
 
-    if (aTranslation.translatedTo) toLanguage.value = aTranslation.translatedTo;
+    if (aTranslation.translatedTo)
+      toLanguage.value = aTranslation.translatedTo;
 
-    if (aTranslation.state) this.state = aTranslation.state;
+    if (aTranslation.state)
+      this.state = aTranslation.state;
 
     // Show attribution for the preferred translator.
-    let engineIndex = Object.keys(Translation.supportedEngines).indexOf(
-      Translation.translationEngine
-    );
+    let engineIndex = Object.keys(Translation.supportedEngines)
+      .indexOf(Translation.translationEngine);
     if (engineIndex != -1) {
       this._getAnonElt("translationEngine").selectedIndex = engineIndex;
     }
 
     const kWelcomePref = "browser.translation.ui.welcomeMessageShown";
-    if (
-      Services.prefs.prefHasUserValue(kWelcomePref) ||
-      this.translation.browser != gBrowser.selectedBrowser
-    )
+    if (Services.prefs.prefHasUserValue(kWelcomePref) ||
+      this.translation.browser != gBrowser.selectedBrowser)
       return;
 
-    this.addEventListener(
-      "transitionend",
-      function() {
-        // These strings are hardcoded because they need to reach beta
-        // without riding the trains.
-        let localizedStrings = {
-          en: [
-            "Hey look! It's something new!",
-            "Now the Web is even more accessible with our new in-page translation feature. Click the translate button to try it!",
-            "Learn more.",
-            "Thanks"
-          ],
-          "es-AR": [
-            "\xA1Mir\xE1! \xA1Hay algo nuevo!",
-            "Ahora la web es a\xFAn m\xE1s accesible con nuestra nueva funcionalidad de traducci\xF3n integrada. \xA1Hac\xE9 clic en el bot\xF3n traducir para probarla!",
-            "Conoc\xE9 m\xE1s.",
-            "Gracias"
-          ],
-          "es-ES": [
-            "\xA1Mira! \xA1Hay algo nuevo!",
-            "Con la nueva funcionalidad de traducci\xF3n integrada, ahora la Web es a\xFAn m\xE1s accesible. \xA1Pulsa el bot\xF3n Traducir y pru\xE9bala!",
-            "M\xE1s informaci\xF3n.",
-            "Gracias"
-          ],
-          pl: [
-            "Sp\xF3jrz tutaj! To co\u015B nowego!",
-            "Sie\u0107 sta\u0142a si\u0119 w\u0142a\u015Bnie jeszcze bardziej dost\u0119pna dzi\u0119ki opcji bezpo\u015Bredniego t\u0142umaczenia stron. Kliknij przycisk t\u0142umaczenia, aby spr\xF3bowa\u0107!",
-            "Dowiedz si\u0119 wi\u0119cej",
-            "Dzi\u0119kuj\u0119"
-          ],
-          tr: [
-            "Bak\u0131n, burada yeni bir \u015Fey var!",
-            "Yeni sayfa i\xE7i \xE7eviri \xF6zelli\u011Fimiz sayesinde Web art\u0131k \xE7ok daha anla\u015F\u0131l\u0131r olacak. Denemek i\xE7in \xC7evir d\xFC\u011Fmesine t\u0131klay\u0131n!",
-            "Daha fazla bilgi al\u0131n.",
-            "Te\u015Fekk\xFCrler"
-          ],
-          vi: [
-            "Nh\xECn n\xE0y! \u0110\u1ED3 m\u1EDBi!",
-            "Gi\u1EDD \u0111\xE2y ch\xFAng ta c\xF3 th\u1EC3 ti\u1EBFp c\u1EADn web d\u1EC5 d\xE0ng h\u01A1n n\u1EEFa v\u1EDBi t\xEDnh n\u0103ng d\u1ECBch ngay trong trang.  Hay nh\u1EA5n n\xFAt d\u1ECBch \u0111\u1EC3 th\u1EED!",
-            "T\xECm hi\u1EC3u th\xEAm.",
-            "C\u1EA3m \u01A1n"
-          ]
-        };
+    this.addEventListener("transitionend", function() {
+      // These strings are hardcoded because they need to reach beta
+      // without riding the trains.
+      let localizedStrings = {
+        en: ["Hey look! It's something new!",
+          "Now the Web is even more accessible with our new in-page translation feature. Click the translate button to try it!",
+          "Learn more.",
+          "Thanks"
+        ],
+        "es-AR": ["\xA1Mir\xE1! \xA1Hay algo nuevo!",
+          "Ahora la web es a\xFAn m\xE1s accesible con nuestra nueva funcionalidad de traducci\xF3n integrada. \xA1Hac\xE9 clic en el bot\xF3n traducir para probarla!",
+          "Conoc\xE9 m\xE1s.",
+          "Gracias"
+        ],
+        "es-ES": ["\xA1Mira! \xA1Hay algo nuevo!",
+          "Con la nueva funcionalidad de traducci\xF3n integrada, ahora la Web es a\xFAn m\xE1s accesible. \xA1Pulsa el bot\xF3n Traducir y pru\xE9bala!",
+          "M\xE1s informaci\xF3n.",
+          "Gracias"
+        ],
+        pl: ["Sp\xF3jrz tutaj! To co\u015B nowego!",
+          "Sie\u0107 sta\u0142a si\u0119 w\u0142a\u015Bnie jeszcze bardziej dost\u0119pna dzi\u0119ki opcji bezpo\u015Bredniego t\u0142umaczenia stron. Kliknij przycisk t\u0142umaczenia, aby spr\xF3bowa\u0107!",
+          "Dowiedz si\u0119 wi\u0119cej",
+          "Dzi\u0119kuj\u0119"
+        ],
+        tr: ["Bak\u0131n, burada yeni bir \u015Fey var!",
+          "Yeni sayfa i\xE7i \xE7eviri \xF6zelli\u011Fimiz sayesinde Web art\u0131k \xE7ok daha anla\u015F\u0131l\u0131r olacak. Denemek i\xE7in \xC7evir d\xFC\u011Fmesine t\u0131klay\u0131n!",
+          "Daha fazla bilgi al\u0131n.",
+          "Te\u015Fekk\xFCrler"
+        ],
+        vi: ["Nh\xECn n\xE0y! \u0110\u1ED3 m\u1EDBi!",
+          "Gi\u1EDD \u0111\xE2y ch\xFAng ta c\xF3 th\u1EC3 ti\u1EBFp c\u1EADn web d\u1EC5 d\xE0ng h\u01A1n n\u1EEFa v\u1EDBi t\xEDnh n\u0103ng d\u1ECBch ngay trong trang.  Hay nh\u1EA5n n\xFAt d\u1ECBch \u0111\u1EC3 th\u1EED!",
+          "T\xECm hi\u1EC3u th\xEAm.",
+          "C\u1EA3m \u01A1n"
+        ]
+      };
 
-        let locale = Services.locale.getAppLocaleAsLangTag();
-        if (!(locale in localizedStrings)) locale = "en";
-        let strings = localizedStrings[locale];
+      let locale = Services.locale.getAppLocaleAsLangTag();
+      if (!(locale in localizedStrings))
+        locale = "en";
+      let strings = localizedStrings[locale];
 
-        this._getAnonElt("welcomeHeadline").setAttribute("value", strings[0]);
-        this._getAnonElt("welcomeBody").textContent = strings[1];
-        this._getAnonElt("learnMore").setAttribute("value", strings[2]);
-        this._getAnonElt("thanksButton").setAttribute("label", strings[3]);
+      this._getAnonElt("welcomeHeadline").setAttribute("value", strings[0]);
+      this._getAnonElt("welcomeBody").textContent = strings[1];
+      this._getAnonElt("learnMore").setAttribute("value", strings[2]);
+      this._getAnonElt("thanksButton").setAttribute("label", strings[3]);
 
-        let panel = this._getAnonElt("welcomePanel");
-        panel.openPopup(
-          this._getAnonElt("messageImage"),
-          "bottomcenter topleft"
-        );
+      let panel = this._getAnonElt("welcomePanel");
+      panel.openPopup(this._getAnonElt("messageImage"),
+        "bottomcenter topleft");
 
-        Services.prefs.setBoolPref(kWelcomePref, true);
-      },
-      { once: true }
-    );
+      Services.prefs.setBoolPref(kWelcomePref, true);
+    }, {
+      once: true
+    });
   }
   _getAnonElt(aAnonId) {
     return document.getAnonymousElementByAttribute(this, "anonid", aAnonId);
   }
   translate() {
     if (this.state == Translation.STATE_OFFER) {
-      this._getAnonElt("fromLanguage").value = this._getAnonElt(
-        "detectedLanguage"
-      ).value;
-      this._getAnonElt("toLanguage").value = Translation.defaultTargetLanguage;
+      this._getAnonElt("fromLanguage").value =
+        this._getAnonElt("detectedLanguage").value;
+      this._getAnonElt("toLanguage").value =
+        Translation.defaultTargetLanguage;
     }
 
-    this.translation.translate(
-      this._getAnonElt("fromLanguage").value,
-      this._getAnonElt("toLanguage").value
-    );
+    this.translation.translate(this._getAnonElt("fromLanguage").value,
+      this._getAnonElt("toLanguage").value);
   }
   closeCommand() {
     this.close();
@@ -262,32 +249,25 @@ class FirefoxTranslationbar extends FirefoxNotification {
         lang = this.translation.detectedLanguage;
     }
 
-    let langBundle = Services.strings.createBundle(
-      "chrome://global/locale/languageNames.properties"
-    );
+    let langBundle =
+      Services.strings.createBundle("chrome://global/locale/languageNames.properties");
     let langName = langBundle.GetStringFromName(lang);
 
     // Set the label and accesskey on the menuitem.
-    let bundle = Services.strings.createBundle(
-      "chrome://browser/locale/translation.properties"
-    );
+    let bundle =
+      Services.strings.createBundle("chrome://browser/locale/translation.properties");
     let item = this._getAnonElt("neverForLanguage");
     const kStrId = "translation.options.neverForLanguage";
-    item.setAttribute(
-      "label",
-      bundle.formatStringFromName(kStrId + ".label", [langName], 1)
-    );
-    item.setAttribute(
-      "accesskey",
-      bundle.GetStringFromName(kStrId + ".accesskey")
-    );
+    item.setAttribute("label",
+      bundle.formatStringFromName(kStrId + ".label", [langName], 1));
+    item.setAttribute("accesskey",
+      bundle.GetStringFromName(kStrId + ".accesskey"));
     item.langCode = lang;
 
     // We may need to disable the menuitems if they have already been used.
     // Check if translation is already disabled for this language:
-    let neverForLangs = Services.prefs.getCharPref(
-      "browser.translation.neverForLanguages"
-    );
+    let neverForLangs =
+      Services.prefs.getCharPref("browser.translation.neverForLanguages");
     item.disabled = neverForLangs.split(",").includes(lang);
 
     // Check if translation is disabled for the domain:
@@ -301,7 +281,8 @@ class FirefoxTranslationbar extends FirefoxNotification {
     const kPrefName = "browser.translation.neverForLanguages";
 
     let val = Services.prefs.getCharPref(kPrefName);
-    if (val) val += ",";
+    if (val)
+      val += ",";
     val += this._getAnonElt("neverForLanguage").langCode;
 
     Services.prefs.setCharPref(kPrefName, val);
@@ -319,4 +300,3 @@ class FirefoxTranslationbar extends FirefoxNotification {
     Translation.openProviderAttribution();
   }
 }
-customElements.define("firefox-translationbar", FirefoxTranslationbar);
