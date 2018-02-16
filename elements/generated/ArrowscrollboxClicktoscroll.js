@@ -15,7 +15,7 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
 
     this._scrollDelay = 150;
 
-    this._arrowScrollAnim = ({
+    this._arrowScrollAnim = {
       scrollbox: this,
       requestHandle: 0,
       /* 0 indicates there is no pending request */
@@ -37,7 +37,7 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
         this.scrollbox.scrollByPixels(scrollDelta, true);
         this.requestHandle = window.requestAnimationFrame(this.sample.bind(this));
       }
-    });
+    };
 
     this._scrollDelay =
       this._prefBranch.getIntPref("toolkit.scrollbox.clickToScroll.scrollDelay",

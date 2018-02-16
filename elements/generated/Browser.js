@@ -40,7 +40,7 @@ class FirefoxBrowser extends XULElement {
 
     this._unselectedTabHoverMessageListenerCount = 0;
 
-    this.urlbarChangeTracker = ({
+    this.urlbarChangeTracker = {
       _startedLoadSinceLastUserTyping: false,
 
       startedLoad() {
@@ -52,7 +52,7 @@ class FirefoxBrowser extends XULElement {
       userTyped() {
         this._startedLoadSinceLastUserTyping = false;
       },
-    });
+    };
 
     this._userTypedValue = null;
 
@@ -620,9 +620,10 @@ class FirefoxBrowser extends XULElement {
     // Only useful for remote browsers.
   }
   getTabBrowser() {
-    for (let node = this.parentNode; node instanceof Element; node = node.parentNode) {
-      if (node.localName == "tabbrowser")
-        return node;
+    if (this.ownerGlobal.gBrowser &&
+      this.ownerGlobal.gBrowser.getTabForBrowser &&
+      this.ownerGlobal.gBrowser.getTabForBrowser(this)) {
+      return this.ownerGlobal.gBrowser;
     }
     return null;
   }

@@ -205,6 +205,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
       if (aTarget.hasAttribute("on" + aEventName)) {
         var fn = new Function("event", aTarget.getAttribute("on" + aEventName));
         var rv = fn.call(aTarget, event);
+        // eslint-disable-next-line mozilla/no-compare-against-boolean-literals
         if (rv == false)
           cancel = true;
       }

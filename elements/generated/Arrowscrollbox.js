@@ -419,9 +419,13 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     });
 
     this.addEventListener("underflow", (event) => {
-      // filter underflow events which were dispatched on nested scrollboxes
-      if (event.target != this)
+      // Ignore underflow events:
+      // - from nested scrollable elements
+      // - corresponding to an overflow event that we ignored
+      if (event.target != this ||
+        this.hasAttribute("notoverflowing")) {
         return;
+      }
 
       // Ignore events that doesn't match our orientation.
       // Scrollport event orientation:
@@ -441,9 +445,13 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     }, true);
 
     this.addEventListener("overflow", (event) => {
-      // filter underflow events which were dispatched on nested scrollboxes
-      if (event.target != this)
+      // Ignore overflow events:
+      // - from nested scrollable elements
+      // - when the window is tiny initially
+      if (event.target != this ||
+        window.outerWidth <= 1) {
         return;
+      }
 
       // Ignore events that doesn't match our orientation.
       // Scrollport event orientation:

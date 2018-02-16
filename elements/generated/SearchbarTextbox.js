@@ -2,7 +2,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
   connectedCallback() {
     super.connectedCallback()
 
-    this.searchbarController = ({
+    this.searchbarController = {
       _self: this,
       supportsCommand(aCommand) {
         return aCommand == "cmd_clearhistory" ||
@@ -33,7 +33,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
             // do nothing with unrecognized command
         }
       }
-    });
+    };
 
     if (document.getBindingParent(this).parentNode.parentNode.localName ==
       "toolbarpaletteitem")

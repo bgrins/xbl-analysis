@@ -22,11 +22,11 @@ class FirefoxTabbrowser extends XULElement {
 
     this.tabs = this.tabContainer.childNodes;
 
-    this.closingTabsEnum = ({
+    this.closingTabsEnum = {
       ALL: 0,
       OTHER: 1,
       TO_END: 2
-    });
+    };
 
     this._visibleTabs = null;
 
@@ -619,11 +619,13 @@ class FirefoxTabbrowser extends XULElement {
     if (!aBrowser)
       aBrowser = this.mCurrentBrowser;
 
+    // eslint-disable-next-line mozilla/no-compare-against-boolean-literals
     if (aCallGlobalListeners != false &&
       aBrowser == this.mCurrentBrowser) {
       callListeners(this.mProgressListeners, aArguments);
     }
 
+    // eslint-disable-next-line mozilla/no-compare-against-boolean-literals
     if (aCallTabsListeners != false) {
       aArguments.unshift(aBrowser);
 

@@ -3,7 +3,7 @@ class FirefoxToolbarMenubarAutohide extends XULElement {
 
     this._inactiveTimeout = null;
 
-    this._contextMenuListener = ({
+    this._contextMenuListener = {
       toolbar: this,
       contextMenu: null,
 
@@ -46,7 +46,7 @@ class FirefoxToolbarMenubarAutohide extends XULElement {
             break;
         }
       }
-    });
+    };
 
     this._setInactive();
 

@@ -22,7 +22,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
 
     this._rootView = PlacesUIUtils.getViewForNode(this);
 
-    this._overFolder = ({
+    this._overFolder = {
       _self: this,
       _folder: {
         elt: null,
@@ -149,7 +149,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
           this._folder.closeTimer = null;
         }
       }
-    });
+    };
 
     this.setupHandlers();
   }

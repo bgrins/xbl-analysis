@@ -12,14 +12,14 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
 
     this.scrollBoxObject = this._scrollbox.boxObject;
 
-    this._builderListener = ({
+    this._builderListener = {
       mOuter: this,
       item: null,
       willRebuild(builder) {},
       didRebuild(builder) {
         this.mOuter._refreshSelection();
       }
-    });
+    };
 
     this._currentIndex = null;
 

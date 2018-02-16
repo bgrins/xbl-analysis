@@ -38,7 +38,7 @@ class FirefoxFindbar extends XULElement {
 
     this.__prefsvc = null;
 
-    this._observer = ({
+    this._observer = {
       _self: this,
 
       QueryInterface(aIID) {
@@ -80,7 +80,7 @@ class FirefoxFindbar extends XULElement {
             break;
         }
       }
-    });
+    };
 
     this._destroyed = false;
 

@@ -4,7 +4,7 @@ class FirefoxCustomizableuiToolbarMenubarAutohide extends FirefoxToolbar {
 
     this._inactiveTimeout = null;
 
-    this._contextMenuListener = ({
+    this._contextMenuListener = {
       toolbar: this,
       contextMenu: null,
 
@@ -47,7 +47,7 @@ class FirefoxCustomizableuiToolbarMenubarAutohide extends FirefoxToolbar {
             break;
         }
       }
-    });
+    };
 
     this._setInactive();
 

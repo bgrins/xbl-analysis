@@ -34,34 +34,34 @@ class FirefoxWizard extends XULElement {
 
     this._cancelButton = "";
 
-    this._backFunc = (function() {
+    this._backFunc = function() {
       document.documentElement.rewind();
-    });
+    };
 
-    this._nextFunc = (function() {
+    this._nextFunc = function() {
       document.documentElement.advance();
-    });
+    };
 
-    this._finishFunc = (function() {
+    this._finishFunc = function() {
       document.documentElement.advance();
-    });
+    };
 
-    this._cancelFunc = (function() {
+    this._cancelFunc = function() {
       document.documentElement.cancel();
-    });
+    };
 
-    this._extra1Func = (function() {
+    this._extra1Func = function() {
       document.documentElement.extra1();
-    });
+    };
 
-    this._extra2Func = (function() {
+    this._extra2Func = function() {
       document.documentElement.extra2();
-    });
+    };
 
-    this._closeHandler = (function(event) {
+    this._closeHandler = function(event) {
       if (document.documentElement.cancel())
         event.preventDefault();
-    });
+    };
 
     this._canAdvance = true;
     this._canRewind = false;

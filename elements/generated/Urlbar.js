@@ -47,7 +47,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     this._formattingEnabled = true;
 
-    this._copyCutController = ({
+    this._copyCutController = {
       urlbar: this,
       doCommand(aCommand) {
         var urlbar = this.urlbar;
@@ -87,7 +87,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           this.urlbar.selectionStart < this.urlbar.selectionEnd;
       },
       onEvent(aEventName) {}
-    });
+    };
 
     this._pressedNoActionKeys = new Set();
 

@@ -21,10 +21,10 @@ class FirefoxDialog extends XULElement {
 
     this._mStrBundle = null;
 
-    this._closeHandler = (function(event) {
+    this._closeHandler = function(event) {
       if (!document.documentElement.cancelDialog())
         event.preventDefault();
-    });
+    };
 
     this._configureButtons(this.buttons);
 
@@ -321,6 +321,7 @@ class FirefoxDialog extends XULElement {
     if (handler != "") {
       var fn = new Function("event", handler);
       var returned = fn(event);
+      // eslint-disable-next-line mozilla/no-compare-against-boolean-literals
       if (returned == false)
         noCancel = false;
     }

@@ -1,7 +1,7 @@
 class FirefoxEditor extends XULElement {
   connectedCallback() {
 
-    this._editorContentListener = ({
+    this._editorContentListener = {
       QueryInterface(iid) {
         if (iid.equals(Components.interfaces.nsIURIContentListener) ||
           iid.equals(Components.interfaces.nsISupportsWeakReference) ||
@@ -24,7 +24,7 @@ class FirefoxEditor extends XULElement {
       },
       loadCookie: null,
       parentContentListener: null
-    });
+    };
 
     this._finder = null;
 

@@ -106,6 +106,11 @@ function getJSForBinding(binding) {
     if (expr[expr.length - 1] !== ";") {
       expr += ";";
     }
+    // Strip away parens that were only needed for XBL
+    if (expr[0] === "(" && expr[expr.length - 2] === ")") {
+      expr = expr.substring(1, expr.length - 2) + ";";
+    }
+
     fields.push(`
       ${comments.join("\n")}
       this.${field.attrs.name} = ${expr}

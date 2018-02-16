@@ -16,7 +16,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       </xul:arrowscrollbox>
     `;
 
-    this.tabbrowser = document.getElementById(this.getAttribute("tabbrowser"));
+    this.tabbrowser = gBrowser;
 
     this.tabbox = this.tabbrowser.tabbox;
 
