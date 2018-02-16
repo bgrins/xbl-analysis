@@ -17,6 +17,10 @@ class FirefoxToolbarDrag extends XULElement {
       } catch (e) {}
     }
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

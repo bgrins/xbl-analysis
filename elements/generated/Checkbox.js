@@ -9,16 +9,7 @@ class FirefoxCheckbox extends FirefoxBasetext {
       </xul:hbox>
     `;
 
-    this.addEventListener("click", (event) => {
-      if (!this.disabled) this.checked = !this.checked;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this.checked = !this.checked;
-      // Prevent page from scrolling on the space key.
-      event.preventDefault();
-    });
-
+    this.setupHandlers();
   }
 
   set checked(val) {
@@ -40,5 +31,19 @@ class FirefoxCheckbox extends FirefoxBasetext {
       this.dispatchEvent(event);
     }
     return aValue;
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("click", (event) => {
+      if (!this.disabled) this.checked = !this.checked;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this.checked = !this.checked;
+      // Prevent page from scrolling on the space key.
+      event.preventDefault();
+    });
+
   }
 }

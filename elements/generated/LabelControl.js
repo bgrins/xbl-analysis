@@ -14,13 +14,7 @@ class FirefoxLabelControl extends FirefoxTextLabel {
 
     this.formatAccessKey(true);
 
-    this.addEventListener("click", (event) => {
-      if (this.disabled) return;
-      var controlElement = this.labeledControlElement;
-      if (controlElement)
-        controlElement.focus();
-    });
-
+    this.setupHandlers();
   }
 
   set accessKey(val) {
@@ -206,5 +200,16 @@ class FirefoxLabelControl extends FirefoxTextLabel {
       element.parentNode.insertBefore(element.firstChild, element);
     }
     element.remove();
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("click", (event) => {
+      if (this.disabled) return;
+      var controlElement = this.labeledControlElement;
+      if (controlElement)
+        controlElement.focus();
+    });
+
   }
 }

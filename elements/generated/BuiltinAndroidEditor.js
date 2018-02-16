@@ -1,6 +1,11 @@
 class FirefoxBuiltinAndroidEditor extends XULElement {
   connectedCallback() {
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("keypress", (event) => {
       undefined
     });
@@ -126,5 +131,4 @@ class FirefoxBuiltinAndroidEditor extends XULElement {
     });
 
   }
-
 }

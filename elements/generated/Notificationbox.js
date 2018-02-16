@@ -37,12 +37,7 @@ class FirefoxNotificationbox extends XULElement {
 
     this._animating = false;
 
-    this.addEventListener("transitionend", (event) => {
-      if (event.target.localName == "notification" &&
-        event.propertyName == "margin-top")
-        this._finishAnimation();
-    });
-
+    this.setupHandlers();
   }
 
   get _allowAnimation() {
@@ -313,5 +308,15 @@ class FirefoxNotificationbox extends XULElement {
       if (content)
         content.collapsed = false;
     }
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("transitionend", (event) => {
+      if (event.target.localName == "notification" &&
+        event.propertyName == "margin-top")
+        this._finishAnimation();
+    });
+
   }
 }

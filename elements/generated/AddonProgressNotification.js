@@ -21,9 +21,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     this.setProgress(0, -1);
     this._updateProgressTimeout = setTimeout(this.updateProgress.bind(this), 0);
 
-  }
-  disconnectedCallback() {
-    this.destroy();
+    this.setupHandlers();
   }
 
   get DownloadUtils() {
@@ -137,5 +135,12 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
   }
   onDownloadEnded() {
     this.updateProgress();
+  }
+  disconnectedCallback() {
+    this.destroy();
+  }
+
+  setupHandlers() {
+
   }
 }

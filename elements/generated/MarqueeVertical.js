@@ -9,6 +9,10 @@ class FirefoxMarqueeVertical extends FirefoxMarquee {
       </html:div>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

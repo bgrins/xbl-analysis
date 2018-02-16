@@ -50,26 +50,7 @@ class FirefoxToolbarMenubarAutohide extends XULElement {
 
     this._setInactive();
 
-    this.addEventListener("DOMMenuBarActive", (event) => {
-      this._setActive();
-    });
-
-    this.addEventListener("popupshowing", (event) => {
-      this._setActive();
-    });
-
-    this.addEventListener("mousedown", (event) => {
-      this._contextMenuListener.init(event);
-    });
-
-    this.addEventListener("DOMMenuBarInactive", (event) => {
-      if (!this._contextMenuListener.active)
-        this._setInactiveAsync();
-    });
-
-  }
-  disconnectedCallback() {
-    this._setActive();
+    this.setupHandlers();
   }
   _setInactive() {
     this.setAttribute("inactive", "true");
@@ -88,5 +69,29 @@ class FirefoxToolbarMenubarAutohide extends XULElement {
       this._inactiveTimeout = null;
     }
     this.removeAttribute("inactive");
+  }
+  disconnectedCallback() {
+    this._setActive();
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("DOMMenuBarActive", (event) => {
+      this._setActive();
+    });
+
+    this.addEventListener("popupshowing", (event) => {
+      this._setActive();
+    });
+
+    this.addEventListener("mousedown", (event) => {
+      this._contextMenuListener.init(event);
+    });
+
+    this.addEventListener("DOMMenuBarInactive", (event) => {
+      if (!this._contextMenuListener.active)
+        this._setInactiveAsync();
+    });
+
   }
 }

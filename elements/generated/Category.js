@@ -10,6 +10,7 @@ class FirefoxCategory extends FirefoxRichlistitem {
     if (!this.hasAttribute("count"))
       this.setAttribute("count", 0);
 
+    this.setupHandlers();
   }
 
   set badgeCount(val) {
@@ -24,5 +25,9 @@ class FirefoxCategory extends FirefoxRichlistitem {
 
   get badgeCount() {
     return this.getAttribute("count");
+  }
+
+  setupHandlers() {
+
   }
 }

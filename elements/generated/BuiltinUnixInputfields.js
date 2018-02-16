@@ -1,6 +1,11 @@
 class FirefoxBuiltinUnixInputfields extends XULElement {
   connectedCallback() {
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("keypress", (event) => {
       undefined
     });
@@ -18,5 +23,4 @@ class FirefoxBuiltinUnixInputfields extends XULElement {
     });
 
   }
-
 }

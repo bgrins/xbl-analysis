@@ -19,6 +19,23 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
 
     this._scrollTimer = 0;
 
+    this.setupHandlers();
+  }
+  enableDragScrolling(overItem) {
+    if (!this._draggingState) {
+      this.setCaptureAlways();
+      this._draggingState = overItem ? this.DRAG_OVER_POPUP : this.DRAG_OVER_BUTTON;
+    }
+  }
+  _clearScrollTimer() {
+    if (this._scrollTimer) {
+      this.ownerGlobal.clearInterval(this._scrollTimer);
+      this._scrollTimer = 0;
+    }
+  }
+
+  setupHandlers() {
+
     this.addEventListener("popupshown", (event) => {
       // Enable drag scrolling even when the mouse wasn't used. The mousemove
       // handler will remove it if the mouse isn't down.
@@ -88,18 +105,5 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
       }
     });
 
-  }
-
-  enableDragScrolling(overItem) {
-    if (!this._draggingState) {
-      this.setCaptureAlways();
-      this._draggingState = overItem ? this.DRAG_OVER_POPUP : this.DRAG_OVER_BUTTON;
-    }
-  }
-  _clearScrollTimer() {
-    if (this._scrollTimer) {
-      this.ownerGlobal.clearInterval(this._scrollTimer);
-      this._scrollTimer = 0;
-    }
   }
 }

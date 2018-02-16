@@ -21,6 +21,10 @@ class FirefoxFeed extends FirefoxRichlistitem {
       </xul:vbox>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

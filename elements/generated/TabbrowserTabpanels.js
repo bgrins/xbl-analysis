@@ -4,6 +4,7 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
 
     this._selectedIndex = 0;
 
+    this.setupHandlers();
   }
 
   set selectedIndex(val) {
@@ -30,5 +31,9 @@ class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
 
   get selectedIndex() {
     return this._selectedIndex;
+  }
+
+  setupHandlers() {
+
   }
 }

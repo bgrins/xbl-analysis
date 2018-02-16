@@ -8,6 +8,10 @@ class FirefoxMenuitem extends FirefoxMenuitemBase {
       </xul:hbox>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

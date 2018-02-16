@@ -11,6 +11,49 @@ class FirefoxTooltip extends FirefoxPopupBase {
 
     this._isMouseOver = false;
 
+    this.setupHandlers();
+  }
+
+  set label(val) {
+    this.setAttribute('label', val);
+    return val;
+  }
+
+  get label() {
+    return this.getAttribute('label');
+  }
+
+  set page(val) {
+    if (val) this.setAttribute('page', 'true');
+    else this.removeAttribute('page');
+    return val;
+  }
+
+  get page() {
+    return this.getAttribute('page') == 'true';
+  }
+
+  get textProvider() {
+    if (!this._textProvider) {
+      this._textProvider = Components.classes["@mozilla.org/embedcomp/default-tooltiptextprovider;1"]
+        .getService(Components.interfaces.nsITooltipTextProvider);
+    }
+    return this._textProvider;
+  }
+  fillInPageTooltip(tipElement) {
+    let tttp = this.textProvider;
+    let textObj = {},
+      dirObj = {};
+    let shouldChangeText = tttp.getNodeText(tipElement, textObj, dirObj);
+    if (shouldChangeText) {
+      this.style.direction = dirObj.value;
+      this.label = textObj.value;
+    }
+    return shouldChangeText;
+  }
+
+  setupHandlers() {
+
     this.addEventListener("mouseover", (event) => {
       var rel = event.relatedTarget;
       if (!rel)
@@ -67,43 +110,5 @@ class FirefoxTooltip extends FirefoxPopupBase {
       this._mouseOutCount = 0;
     });
 
-  }
-
-  set label(val) {
-    this.setAttribute('label', val);
-    return val;
-  }
-
-  get label() {
-    return this.getAttribute('label');
-  }
-
-  set page(val) {
-    if (val) this.setAttribute('page', 'true');
-    else this.removeAttribute('page');
-    return val;
-  }
-
-  get page() {
-    return this.getAttribute('page') == 'true';
-  }
-
-  get textProvider() {
-    if (!this._textProvider) {
-      this._textProvider = Components.classes["@mozilla.org/embedcomp/default-tooltiptextprovider;1"]
-        .getService(Components.interfaces.nsITooltipTextProvider);
-    }
-    return this._textProvider;
-  }
-  fillInPageTooltip(tipElement) {
-    let tttp = this.textProvider;
-    let textObj = {},
-      dirObj = {};
-    let shouldChangeText = tttp.getNodeText(tipElement, textObj, dirObj);
-    if (shouldChangeText) {
-      this.style.direction = dirObj.value;
-      this.label = textObj.value;
-    }
-    return shouldChangeText;
   }
 }

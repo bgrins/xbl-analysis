@@ -95,8 +95,8 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
 
     this.mMessageManager = null;
 
+    this.setupHandlers();
   }
-
   initialize(aPPBrowser) {
     let {
       Services
@@ -308,5 +308,9 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
       this.mTotalPages.value = numPages;
       this.mPageTextBox.max = numPages;
     }
+  }
+
+  setupHandlers() {
+
   }
 }

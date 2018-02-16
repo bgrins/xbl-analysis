@@ -2,18 +2,7 @@ class FirefoxTextLink extends FirefoxTextLabel {
   connectedCallback() {
     super.connectedCallback()
 
-    this.addEventListener("click", (event) => {
-      this.open(event)
-    }, true);
-
-    this.addEventListener("click", (event) => {
-      this.open(event)
-    }, true);
-
-    this.addEventListener("keypress", (event) => {
-      this.click()
-    });
-
+    this.setupHandlers();
   }
 
   set href(val) {
@@ -110,5 +99,21 @@ class FirefoxTextLink extends FirefoxTextLabel {
         win = win.opener;
     }
     win.open(href);
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("click", (event) => {
+      this.open(event)
+    }, true);
+
+    this.addEventListener("click", (event) => {
+      this.open(event)
+    }, true);
+
+    this.addEventListener("keypress", (event) => {
+      this.click()
+    });
+
   }
 }

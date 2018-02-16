@@ -8,6 +8,11 @@ class FirefoxPrettyprint extends XULElement {
       </html:span>
     `;
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("click", (event) => {
       try {
         var par = event.originalTarget;
@@ -28,5 +33,4 @@ class FirefoxPrettyprint extends XULElement {
     });
 
   }
-
 }

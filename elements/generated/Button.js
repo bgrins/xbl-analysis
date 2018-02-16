@@ -10,6 +10,10 @@ class FirefoxButton extends FirefoxButtonBase {
       </xul:hbox>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

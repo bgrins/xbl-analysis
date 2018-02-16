@@ -5,6 +5,10 @@ class FirefoxAutorepeatbutton extends FirefoxScrollboxBase {
       <xul:image class="autorepeatbutton-icon"></xul:image>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

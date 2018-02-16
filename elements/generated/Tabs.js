@@ -35,6 +35,7 @@ class FirefoxTabs extends FirefoxBasecontrol {
     else
       this.selectedIndex = 0;
 
+    this.setupHandlers();
   }
 
   get itemCount() {
@@ -253,5 +254,9 @@ class FirefoxTabs extends FirefoxBasecontrol {
     if (remove)
       this.removeChild(remove);
     return remove;
+  }
+
+  setupHandlers() {
+
   }
 }

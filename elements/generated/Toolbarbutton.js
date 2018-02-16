@@ -9,6 +9,10 @@ class FirefoxToolbarbutton extends FirefoxButtonBase {
       <children includes="box"></children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

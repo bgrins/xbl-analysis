@@ -1,6 +1,11 @@
 class FirefoxBuiltinWinEditor extends XULElement {
   connectedCallback() {
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("keypress", (event) => {
       undefined
     });
@@ -118,5 +123,4 @@ class FirefoxBuiltinWinEditor extends XULElement {
     });
 
   }
-
 }

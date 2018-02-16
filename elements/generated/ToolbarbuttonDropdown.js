@@ -8,6 +8,10 @@ class FirefoxToolbarbuttonDropdown extends FirefoxMenuBase {
       <children includes="menupopup"></children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

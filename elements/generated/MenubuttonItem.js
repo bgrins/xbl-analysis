@@ -6,6 +6,10 @@ class FirefoxMenubuttonItem extends FirefoxMenuitemBase {
       <children includes="menupopup"></children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

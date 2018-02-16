@@ -139,13 +139,7 @@ class FirefoxFindbar extends XULElement {
         aSelf.browser = aSelf.browser;
       }, 0, this);
 
-    this.addEventListener("keypress", (event) => {
-      if (this.close) this.close();
-    }, true);
-
-  }
-  disconnectedCallback() {
-    this.destroy();
+    this.setupHandlers();
   }
 
   set _findMode(val) {
@@ -890,5 +884,16 @@ class FirefoxFindbar extends XULElement {
       return false;
 
     return true;
+  }
+  disconnectedCallback() {
+    this.destroy();
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("keypress", (event) => {
+      if (this.close) this.close();
+    }, true);
+
   }
 }

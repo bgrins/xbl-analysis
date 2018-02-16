@@ -57,56 +57,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.setAttribute("aria-owns", this.popup.id);
     document.getBindingParent(this)._textboxInitialized = true;
 
-    this.addEventListener("input", (event) => {
-      this.popup.removeAttribute("showonlysettings");
-    });
-
-    this.addEventListener("keypress", (event) => {
-      return this.handleKeyboardNavigation(event);
-    }, true);
-
-    this.addEventListener("keypress", (event) => {
-      document.getBindingParent(this).selectEngine(event, false);
-    }, true);
-
-    this.addEventListener("keypress", (event) => {
-      document.getBindingParent(this).selectEngine(event, true);
-    }, true);
-
-    this.addEventListener("keypress", (event) => {
-      return this.openSearch();
-    }, true);
-
-    this.addEventListener("keypress", (event) => {
-      return this.openSearch();
-    }, true);
-
-    this.addEventListener("dragover", (event) => {
-      var types = event.dataTransfer.types;
-      if (types.includes("text/plain") || types.includes("text/x-moz-text-internal"))
-        event.preventDefault();
-    });
-
-    this.addEventListener("drop", (event) => {
-      var dataTransfer = event.dataTransfer;
-      var data = dataTransfer.getData("text/plain");
-      if (!data)
-        data = dataTransfer.getData("text/x-moz-text-internal");
-      if (data) {
-        event.preventDefault();
-        this.value = data;
-        document.getBindingParent(this).openSuggestionsPanel();
-      }
-    });
-
-  }
-  disconnectedCallback() {
-    // If the context menu has never been opened, there won't be anything
-    // to remove here.
-    // Also, XBL and the customize toolbar code sometimes interact poorly.
-    try {
-      this.controllers.removeController(this.searchbarController);
-    } catch (ex) {}
+    this.setupHandlers();
   }
 
   set searchParam(val) {
@@ -301,5 +252,59 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
       popup.richlistbox.getAttribute("collapsed") == "true";
     let numItems = suggestionsHidden ? 0 : this.popup.matchCount;
     this.popup.oneOffButtons.handleKeyPress(aEvent, numItems, true);
+  }
+  disconnectedCallback() {
+    // If the context menu has never been opened, there won't be anything
+    // to remove here.
+    // Also, XBL and the customize toolbar code sometimes interact poorly.
+    try {
+      this.controllers.removeController(this.searchbarController);
+    } catch (ex) {}
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("input", (event) => {
+      this.popup.removeAttribute("showonlysettings");
+    });
+
+    this.addEventListener("keypress", (event) => {
+      return this.handleKeyboardNavigation(event);
+    }, true);
+
+    this.addEventListener("keypress", (event) => {
+      document.getBindingParent(this).selectEngine(event, false);
+    }, true);
+
+    this.addEventListener("keypress", (event) => {
+      document.getBindingParent(this).selectEngine(event, true);
+    }, true);
+
+    this.addEventListener("keypress", (event) => {
+      return this.openSearch();
+    }, true);
+
+    this.addEventListener("keypress", (event) => {
+      return this.openSearch();
+    }, true);
+
+    this.addEventListener("dragover", (event) => {
+      var types = event.dataTransfer.types;
+      if (types.includes("text/plain") || types.includes("text/x-moz-text-internal"))
+        event.preventDefault();
+    });
+
+    this.addEventListener("drop", (event) => {
+      var dataTransfer = event.dataTransfer;
+      var data = dataTransfer.getData("text/plain");
+      if (!data)
+        data = dataTransfer.getData("text/x-moz-text-internal");
+      if (data) {
+        event.preventDefault();
+        this.value = data;
+        document.getBindingParent(this).openSuggestionsPanel();
+      }
+    });
+
   }
 }

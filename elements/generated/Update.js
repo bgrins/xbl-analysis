@@ -24,6 +24,7 @@ class FirefoxUpdate extends FirefoxRichlistitem {
       </xul:grid>
     `;
 
+    this.setupHandlers();
   }
 
   set name(val) {
@@ -73,5 +74,9 @@ class FirefoxUpdate extends FirefoxRichlistitem {
 
   get status() {
     return this.getAttribute('status');
+  }
+
+  setupHandlers() {
+
   }
 }

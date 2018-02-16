@@ -115,7 +115,9 @@ class FirefoxNocontrols extends XULElement {
     this.Utils.init(this);
     this.Utils.video.dispatchEvent(new CustomEvent("MozNoControlsVideoBindingAttached"));
 
+    this.setupHandlers();
   }
+
   disconnectedCallback() {
     this.Utils.terminateEventListeners();
     // randomID used to be a <field>, which meant that the XBL machinery
@@ -123,5 +125,9 @@ class FirefoxNocontrols extends XULElement {
     // this file actually depends on this, so now that randomID is an
     // expando, we need to make sure to explicitly delete it.
     delete this.randomID;
+  }
+
+  setupHandlers() {
+
   }
 }

@@ -14,30 +14,7 @@ class FirefoxRadio extends FirefoxBasetext {
     if (control)
       control._radioChildren = null;
 
-    this.addEventListener("click", (event) => {
-      if (!this.disabled)
-        this.control.selectedItem = this;
-    });
-
-    this.addEventListener("mousedown", (event) => {
-      if (!this.disabled)
-        this.control.focusedItem = this;
-    });
-
-  }
-  disconnectedCallback() {
-    if (!this.control)
-      return;
-
-    var radioList = this.control._radioChildren;
-    if (!radioList)
-      return;
-    for (var i = 0; i < radioList.length; ++i) {
-      if (radioList[i] == this) {
-        radioList.splice(i, 1);
-        return;
-      }
-    }
+    this.setupHandlers();
   }
 
   set value(val) {
@@ -81,5 +58,34 @@ class FirefoxRadio extends FirefoxBasetext {
       parent = null;
     }
     return parent;
+  }
+
+  disconnectedCallback() {
+    if (!this.control)
+      return;
+
+    var radioList = this.control._radioChildren;
+    if (!radioList)
+      return;
+    for (var i = 0; i < radioList.length; ++i) {
+      if (radioList[i] == this) {
+        radioList.splice(i, 1);
+        return;
+      }
+    }
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("click", (event) => {
+      if (!this.disabled)
+        this.control.selectedItem = this;
+    });
+
+    this.addEventListener("mousedown", (event) => {
+      if (!this.disabled)
+        this.control.focusedItem = this;
+    });
+
   }
 }

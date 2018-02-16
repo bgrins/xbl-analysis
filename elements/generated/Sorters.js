@@ -17,6 +17,7 @@ class FirefoxSorters extends XULElement {
 
     this._refreshState();
 
+    this.setupHandlers();
   }
 
   set sortBy(val) {
@@ -89,5 +90,9 @@ class FirefoxSorters extends XULElement {
 
     if (this.handler && "onSortChanged" in this.handler)
       this.handler.onSortChanged(sortBy, this.ascending);
+  }
+
+  setupHandlers() {
+
   }
 }

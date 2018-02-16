@@ -67,62 +67,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     // For security reasons delay searches on pasted values.
     this.inputField.controllers.insertControllerAt(0, this._pasteController);
 
-    this.addEventListener("input", (event) => {
-      this.onInput(event);
-    });
-
-    this.addEventListener("keypress", (event) => {
-      return this.onKeyPress(event);
-    }, true);
-
-    this.addEventListener("compositionstart", (event) => {
-      if (this.mController.input == this) this.mController.handleStartComposition();
-    }, true);
-
-    this.addEventListener("compositionend", (event) => {
-      if (this.mController.input == this) this.mController.handleEndComposition();
-    }, true);
-
-    this.addEventListener("focus", (event) => {
-      this.attachController();
-      if (window.gBrowser && window.gBrowser.selectedBrowser.hasAttribute("usercontextid")) {
-        this.userContextId = parseInt(window.gBrowser.selectedBrowser.getAttribute("usercontextid"));
-      } else {
-        this.userContextId = 0;
-      }
-    }, true);
-
-    this.addEventListener("blur", (event) => {
-      if (!this._dontBlur) {
-        if (this.forceComplete && this.mController.matchCount >= 1) {
-          // mousemove sets selected index. Don't blindly use that selected
-          // index in this blur handler since if the popup is open you can
-          // easily "select" another match just by moving the mouse over it.
-          let filledVal = this.value.replace(/.+ >> /, "").toLowerCase();
-          let selectedVal = null;
-          if (this.popup.selectedIndex >= 0) {
-            selectedVal = this.mController.getFinalCompleteValueAt(
-              this.popup.selectedIndex);
-          }
-          if (selectedVal && filledVal != selectedVal.toLowerCase()) {
-            for (let i = 0; i < this.mController.matchCount; i++) {
-              let matchVal = this.mController.getFinalCompleteValueAt(i);
-              if (matchVal.toLowerCase() == filledVal) {
-                this.popup.selectedIndex = i;
-                break;
-              }
-            }
-          }
-          this.mController.handleEnter(false);
-        }
-        if (!this.ignoreBlurWhileSearching)
-          this.detachController();
-      }
-    }, true);
-
-  }
-  disconnectedCallback() {
-    this.inputField.controllers.removeController(this._pasteController);
+    this.setupHandlers();
   }
 
   get popup() {
@@ -608,5 +553,65 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       this.mController.handleText();
     }
     this.resetActionType();
+  }
+  disconnectedCallback() {
+    this.inputField.controllers.removeController(this._pasteController);
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("input", (event) => {
+      this.onInput(event);
+    });
+
+    this.addEventListener("keypress", (event) => {
+      return this.onKeyPress(event);
+    }, true);
+
+    this.addEventListener("compositionstart", (event) => {
+      if (this.mController.input == this) this.mController.handleStartComposition();
+    }, true);
+
+    this.addEventListener("compositionend", (event) => {
+      if (this.mController.input == this) this.mController.handleEndComposition();
+    }, true);
+
+    this.addEventListener("focus", (event) => {
+      this.attachController();
+      if (window.gBrowser && window.gBrowser.selectedBrowser.hasAttribute("usercontextid")) {
+        this.userContextId = parseInt(window.gBrowser.selectedBrowser.getAttribute("usercontextid"));
+      } else {
+        this.userContextId = 0;
+      }
+    }, true);
+
+    this.addEventListener("blur", (event) => {
+      if (!this._dontBlur) {
+        if (this.forceComplete && this.mController.matchCount >= 1) {
+          // mousemove sets selected index. Don't blindly use that selected
+          // index in this blur handler since if the popup is open you can
+          // easily "select" another match just by moving the mouse over it.
+          let filledVal = this.value.replace(/.+ >> /, "").toLowerCase();
+          let selectedVal = null;
+          if (this.popup.selectedIndex >= 0) {
+            selectedVal = this.mController.getFinalCompleteValueAt(
+              this.popup.selectedIndex);
+          }
+          if (selectedVal && filledVal != selectedVal.toLowerCase()) {
+            for (let i = 0; i < this.mController.matchCount; i++) {
+              let matchVal = this.mController.getFinalCompleteValueAt(i);
+              if (matchVal.toLowerCase() == filledVal) {
+                this.popup.selectedIndex = i;
+                break;
+              }
+            }
+          }
+          this.mController.handleEnter(false);
+        }
+        if (!this.ignoreBlurWhileSearching)
+          this.detachController();
+      }
+    }, true);
+
   }
 }

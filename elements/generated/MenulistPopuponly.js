@@ -5,6 +5,10 @@ class FirefoxMenulistPopuponly extends FirefoxMenulist {
       <children includes="menupopup"></children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

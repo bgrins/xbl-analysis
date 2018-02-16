@@ -10,9 +10,8 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
     this._alive = true;
 
     this._init();
-
+    this.setupHandlers();
   }
-
   _init() {
     var stack =
       document.getAnonymousElementByAttribute(this, "anonid", "stack");
@@ -51,5 +50,9 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
       } catch (e) {}
     }
     requestAnimationFrame(nextStep);
+  }
+
+  setupHandlers() {
+
   }
 }

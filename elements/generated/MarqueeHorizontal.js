@@ -13,6 +13,10 @@ class FirefoxMarqueeHorizontal extends FirefoxMarquee {
       </html:div>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

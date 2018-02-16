@@ -11,6 +11,10 @@ class FirefoxUpdateheader extends FirefoxWizardHeader {
       </xul:hbox>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

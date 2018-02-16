@@ -17,9 +17,14 @@ class FirefoxSoftblockedaddon extends XULElement {
 
     this._checkbox = document.getAnonymousElementByAttribute(this, "class", "disableCheckbox");
 
+    this.setupHandlers();
   }
 
   get checked() {
     return this._checkbox.checked;
+  }
+
+  setupHandlers() {
+
   }
 }

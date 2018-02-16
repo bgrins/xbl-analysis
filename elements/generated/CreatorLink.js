@@ -18,8 +18,8 @@ class FirefoxCreatorLink extends XULElement {
       this._label.hidden = true;
     }
 
+    this.setupHandlers();
   }
-
   setCreator(aCreator, aHomepageURL) {
     if (!aCreator) {
       this.collapsed = true;
@@ -36,5 +36,9 @@ class FirefoxCreatorLink extends XULElement {
     }
     this._creatorLink.hidden = !showLink;
     this._creatorName.hidden = showLink;
+  }
+
+  setupHandlers() {
+
   }
 }

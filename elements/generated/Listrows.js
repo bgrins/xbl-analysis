@@ -1,6 +1,11 @@
 class FirefoxListrows extends XULElement {
   connectedCallback() {
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("DOMMouseScroll", (event) => {
       if (event.axis == event.HORIZONTAL_AXIS)
         return;
@@ -26,5 +31,4 @@ class FirefoxListrows extends XULElement {
     }, true);
 
   }
-
 }

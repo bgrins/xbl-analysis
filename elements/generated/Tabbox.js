@@ -23,13 +23,7 @@ class FirefoxTabbox extends FirefoxTabBase {
       .getService(nsIEventListenerService);
     els.addSystemEventListener(this._eventNode, "keydown", this, false);
 
-  }
-  disconnectedCallback() {
-    const nsIEventListenerService =
-      Components.interfaces.nsIEventListenerService;
-    let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
-      .getService(nsIEventListenerService);
-    els.removeSystemEventListener(this._eventNode, "keydown", this, false);
+    this.setupHandlers();
   }
 
   set handleCtrlTab(val) {
@@ -171,5 +165,16 @@ class FirefoxTabbox extends FirefoxTabBase {
           }
         break;
     }
+  }
+  disconnectedCallback() {
+    const nsIEventListenerService =
+      Components.interfaces.nsIEventListenerService;
+    let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+      .getService(nsIEventListenerService);
+    els.removeSystemEventListener(this._eventNode, "keydown", this, false);
+  }
+
+  setupHandlers() {
+
   }
 }

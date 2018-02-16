@@ -1,6 +1,11 @@
 class FirefoxBuiltinMacTextareas extends XULElement {
   connectedCallback() {
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("keypress", (event) => {
       undefined
     });
@@ -26,5 +31,4 @@ class FirefoxBuiltinMacTextareas extends XULElement {
     });
 
   }
-
 }

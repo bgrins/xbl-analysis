@@ -7,6 +7,27 @@ class FirefoxMenubar extends XULElement {
 
     this._originalStatusText = null;
 
+    this.setupHandlers();
+  }
+
+  set statusbar(val) {
+    this.setAttribute('statusbar', val);
+    return val;
+  }
+
+  get statusbar() {
+    return this.getAttribute('statusbar');
+  }
+  _updateStatusText(itemText) {
+    if (!this._active)
+      return;
+    var newText = itemText ? itemText : this._originalStatusText;
+    if (newText != this._statusbar.label)
+      this._statusbar.label = newText;
+  }
+
+  setupHandlers() {
+
     this.addEventListener("DOMMenuBarActive", (event) => {
       if (!this.statusbar) return;
       this._statusbar = document.getElementById(this.statusbar);
@@ -31,21 +52,5 @@ class FirefoxMenubar extends XULElement {
       this._updateStatusText("");
     });
 
-  }
-
-  set statusbar(val) {
-    this.setAttribute('statusbar', val);
-    return val;
-  }
-
-  get statusbar() {
-    return this.getAttribute('statusbar');
-  }
-  _updateStatusText(itemText) {
-    if (!this._active)
-      return;
-    var newText = itemText ? itemText : this._originalStatusText;
-    if (newText != this._statusbar.label)
-      this._statusbar.label = newText;
   }
 }

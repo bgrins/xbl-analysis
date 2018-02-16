@@ -36,6 +36,7 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
 
     this._dictionariesMenu = document.getAnonymousElementByAttribute(this, "anonid", "spell-dictionaries-menu");
 
+    this.setupHandlers();
   }
 
   get spellCheckerUI() {
@@ -98,5 +99,9 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
       this.spellCheckerUI.clearSuggestionsFromMenu();
       this.spellCheckerUI.clearDictionaryListFromMenu();
     }
+  }
+
+  setupHandlers() {
+
   }
 }

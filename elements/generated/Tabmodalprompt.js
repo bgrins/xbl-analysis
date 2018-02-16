@@ -99,50 +99,7 @@ class FirefoxTabmodalprompt extends XULElement {
     });
     this.isLive = false;
 
-    this.addEventListener("keypress", (event) => {
-      this.onKeyAction('default', event);
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this.onKeyAction('cancel', event);
-    });
-
-    this.addEventListener("focus", (event) => {
-      let bnum = this.args.defaultButtonNum || 0;
-      let defaultButton = this.ui["button" + bnum];
-
-      let {
-        AppConstants
-      } =
-      ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
-      if (AppConstants.platform == "macosx") {
-        // On OS X, the default button always stays marked as such (until
-        // the entire prompt blurs).
-        defaultButton.setAttribute("default", true);
-      } else {
-        // On other platforms, the default button is only marked as such
-        // when no other button has focus. XUL buttons on not-OSX will
-        // react to pressing enter as a command, so you can't trigger the
-        // default without tabbing to it or something that isn't a button.
-        let focusedDefault = (event.originalTarget == defaultButton);
-        let someButtonFocused = event.originalTarget instanceof Ci.nsIDOMXULButtonElement;
-        defaultButton.setAttribute("default", focusedDefault || !someButtonFocused);
-      }
-    }, true);
-
-    this.addEventListener("blur", (event) => {
-      // If focus shifted to somewhere else in the browser, don't make
-      // the default button look active.
-      let bnum = this.args.defaultButtonNum || 0;
-      let button = this.ui["button" + bnum];
-      button.setAttribute("default", false);
-    });
-
-  }
-  disconnectedCallback() {
-    if (this.isLive) {
-      this.abortPrompt();
-    }
+    this.setupHandlers();
   }
   init(args, linkedTab, onCloseCallback) {
     this.args = args;
@@ -276,5 +233,53 @@ class FirefoxTabmodalprompt extends XULElement {
     } else { // action == "cancel"
       this.onButtonClick(1); // Cancel button
     }
+  }
+  disconnectedCallback() {
+    if (this.isLive) {
+      this.abortPrompt();
+    }
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("keypress", (event) => {
+      this.onKeyAction('default', event);
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this.onKeyAction('cancel', event);
+    });
+
+    this.addEventListener("focus", (event) => {
+      let bnum = this.args.defaultButtonNum || 0;
+      let defaultButton = this.ui["button" + bnum];
+
+      let {
+        AppConstants
+      } =
+      ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
+      if (AppConstants.platform == "macosx") {
+        // On OS X, the default button always stays marked as such (until
+        // the entire prompt blurs).
+        defaultButton.setAttribute("default", true);
+      } else {
+        // On other platforms, the default button is only marked as such
+        // when no other button has focus. XUL buttons on not-OSX will
+        // react to pressing enter as a command, so you can't trigger the
+        // default without tabbing to it or something that isn't a button.
+        let focusedDefault = (event.originalTarget == defaultButton);
+        let someButtonFocused = event.originalTarget instanceof Ci.nsIDOMXULButtonElement;
+        defaultButton.setAttribute("default", focusedDefault || !someButtonFocused);
+      }
+    }, true);
+
+    this.addEventListener("blur", (event) => {
+      // If focus shifted to somewhere else in the browser, don't make
+      // the default button look active.
+      let bnum = this.args.defaultButtonNum || 0;
+      let button = this.ui["button" + bnum];
+      button.setAttribute("default", false);
+    });
+
   }
 }

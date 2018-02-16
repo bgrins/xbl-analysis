@@ -51,22 +51,7 @@ class FirefoxDatetimeInputBase extends XULElement {
       mozSystemGroup: true
     });
 
-  }
-  disconnectedCallback() {
-    this.EVENTS.forEach((eventName) => {
-      this.removeEventListener(eventName, this, {
-        mozSystemGroup: true
-      });
-    });
-    this.removeEventListener("keypress", this, {
-      capture: true,
-      mozSystemGroup: true
-    });
-    this.mInputElement.removeEventListener("click", this, {
-      mozSystemGroup: true
-    });
-
-    this.mInputElement = null;
+    this.setupHandlers();
   }
 
   get EVENTS() {
@@ -473,5 +458,25 @@ class FirefoxDatetimeInputBase extends XULElement {
     } else if (!this.mIsPickerOpen) {
       this.mInputElement.openDateTimePicker(this.getCurrentValue());
     }
+  }
+  disconnectedCallback() {
+    this.EVENTS.forEach((eventName) => {
+      this.removeEventListener(eventName, this, {
+        mozSystemGroup: true
+      });
+    });
+    this.removeEventListener("keypress", this, {
+      capture: true,
+      mozSystemGroup: true
+    });
+    this.mInputElement.removeEventListener("click", this, {
+      mozSystemGroup: true
+    });
+
+    this.mInputElement = null;
+  }
+
+  setupHandlers() {
+
   }
 }

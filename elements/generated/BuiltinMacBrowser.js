@@ -1,6 +1,11 @@
 class FirefoxBuiltinMacBrowser extends XULElement {
   connectedCallback() {
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("keypress", (event) => {
       undefined
     });
@@ -66,5 +71,4 @@ class FirefoxBuiltinMacBrowser extends XULElement {
     });
 
   }
-
 }

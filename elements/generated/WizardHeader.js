@@ -11,6 +11,10 @@ class FirefoxWizardHeader extends FirefoxWizardBase {
       </xul:hbox>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

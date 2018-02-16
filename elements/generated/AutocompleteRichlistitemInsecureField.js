@@ -34,13 +34,7 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     // recalculate an item's height and width.
     this.classList.add("forceHandleUnderflow");
 
-    this.addEventListener("click", (event) => {
-      let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
-      window.openUILinkIn(baseURL + "insecure-password", "tab", {
-        relatedToCurrent: true,
-      });
-    });
-
+    this.setupHandlers();
   }
 
   get _learnMoreString() {
@@ -53,5 +47,16 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
   }
   _getSearchTokens(aSearch) {
     return [this._learnMoreString.toLowerCase()];
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("click", (event) => {
+      let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
+      window.openUILinkIn(baseURL + "insecure-password", "tab", {
+        relatedToCurrent: true,
+      });
+    });
+
   }
 }

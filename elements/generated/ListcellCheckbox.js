@@ -8,6 +8,10 @@ class FirefoxListcellCheckbox extends FirefoxListcell {
       </children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

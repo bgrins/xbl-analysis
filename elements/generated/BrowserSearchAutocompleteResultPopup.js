@@ -17,69 +17,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     this.oneOffButtons = document.getAnonymousElementByAttribute(this, "anonid",
       "search-one-off-buttons");
 
-    this.addEventListener("popupshowing", (event) => {
-      // Force the panel to have the width of the searchbar rather than
-      // the width of the textfield.
-      let DOMUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
-        .getInterface(Ci.nsIDOMWindowUtils);
-      let textboxRect = DOMUtils.getBoundsWithoutFlushing(this.mInput);
-      let inputRect = DOMUtils.getBoundsWithoutFlushing(this.mInput.inputField);
-
-      // Ensure the panel is wide enough to fit at least 3 engines.
-      let minWidth = Math.max(textboxRect.width,
-        this.oneOffButtons.buttonWidth * 3);
-      this.style.minWidth = Math.round(minWidth) + "px";
-      // Alignment of the panel with the searchbar is obtained with negative
-      // margins.
-      this.style.marginLeft = (textboxRect.left - inputRect.left) + "px";
-      // This second margin is needed when the direction is reversed,
-      // eg. when using command+shift+X.
-      this.style.marginRight = (inputRect.right - textboxRect.right) + "px";
-
-      // First handle deciding if we are showing the reduced version of the
-      // popup containing only the preferences button. We do this if the
-      // glass icon has been clicked if the text field is empty.
-      let searchbar = document.getElementById("searchbar");
-      if (searchbar.hasAttribute("showonlysettings")) {
-        searchbar.removeAttribute("showonlysettings");
-        this.setAttribute("showonlysettings", "true");
-
-        // Setting this with an xbl-inherited attribute gets overridden the
-        // second time the user clicks the glass icon for some reason...
-        this.richlistbox.collapsed = true;
-      } else {
-        this.removeAttribute("showonlysettings");
-        // Uncollapse as long as we have a view which has >= 1 row.
-        // The autocomplete binding itself will take care of uncollapsing later,
-        // if we currently have no rows but end up having some in the future
-        // when the search string changes
-        this.richlistbox.collapsed = (this.matchCount == 0);
-      }
-
-      // Show the current default engine in the top header of the panel.
-      this.updateHeader();
-    });
-
-    this.addEventListener("popuphiding", (event) => {
-      this._isHiding = true;
-      Services.tm.dispatchToMainThread(() => {
-        this._isHiding = false;
-      });
-    });
-
-    this.addEventListener("click", (event) => {
-      if (event.button == 2) {
-        // Ignore right clicks.
-        return;
-      }
-      let button = event.originalTarget;
-      let engine = button.parentNode.engine;
-      if (!engine) {
-        return;
-      }
-      this.oneOffButtons.handleSearchCommand(event, engine);
-    });
-
+    this.setupHandlers();
   }
 
   get bundle() {
@@ -176,5 +114,72 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
   handleOneOffSearch(event, engine, where, params) {
     let searchbar = document.getElementById("searchbar");
     searchbar.handleSearchCommandWhere(event, engine, where, params);
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("popupshowing", (event) => {
+      // Force the panel to have the width of the searchbar rather than
+      // the width of the textfield.
+      let DOMUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
+        .getInterface(Ci.nsIDOMWindowUtils);
+      let textboxRect = DOMUtils.getBoundsWithoutFlushing(this.mInput);
+      let inputRect = DOMUtils.getBoundsWithoutFlushing(this.mInput.inputField);
+
+      // Ensure the panel is wide enough to fit at least 3 engines.
+      let minWidth = Math.max(textboxRect.width,
+        this.oneOffButtons.buttonWidth * 3);
+      this.style.minWidth = Math.round(minWidth) + "px";
+      // Alignment of the panel with the searchbar is obtained with negative
+      // margins.
+      this.style.marginLeft = (textboxRect.left - inputRect.left) + "px";
+      // This second margin is needed when the direction is reversed,
+      // eg. when using command+shift+X.
+      this.style.marginRight = (inputRect.right - textboxRect.right) + "px";
+
+      // First handle deciding if we are showing the reduced version of the
+      // popup containing only the preferences button. We do this if the
+      // glass icon has been clicked if the text field is empty.
+      let searchbar = document.getElementById("searchbar");
+      if (searchbar.hasAttribute("showonlysettings")) {
+        searchbar.removeAttribute("showonlysettings");
+        this.setAttribute("showonlysettings", "true");
+
+        // Setting this with an xbl-inherited attribute gets overridden the
+        // second time the user clicks the glass icon for some reason...
+        this.richlistbox.collapsed = true;
+      } else {
+        this.removeAttribute("showonlysettings");
+        // Uncollapse as long as we have a view which has >= 1 row.
+        // The autocomplete binding itself will take care of uncollapsing later,
+        // if we currently have no rows but end up having some in the future
+        // when the search string changes
+        this.richlistbox.collapsed = (this.matchCount == 0);
+      }
+
+      // Show the current default engine in the top header of the panel.
+      this.updateHeader();
+    });
+
+    this.addEventListener("popuphiding", (event) => {
+      this._isHiding = true;
+      Services.tm.dispatchToMainThread(() => {
+        this._isHiding = false;
+      });
+    });
+
+    this.addEventListener("click", (event) => {
+      if (event.button == 2) {
+        // Ignore right clicks.
+        return;
+      }
+      let button = event.originalTarget;
+      let engine = button.parentNode.engine;
+      if (!engine) {
+        return;
+      }
+      this.oneOffButtons.handleSearchCommand(event, engine);
+    });
+
   }
 }

@@ -31,325 +31,7 @@ class FirefoxTree extends FirefoxTreeBase {
 
     this._touchY = -1;
 
-    this.addEventListener("touchstart", (event) => {
-      function isScrollbarElement(target) {
-        return (target.localName == "thumb" || target.localName == "slider") &&
-          target.namespaceURI == "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-      }
-      if (event.touches.length > 1 || isScrollbarElement(event.touches[0].target)) {
-        // Multiple touch points detected, abort. In particular this aborts
-        // the panning gesture when the user puts a second finger down after
-        // already panning with one finger. Aborting at this point prevents
-        // the pan gesture from being resumed until all fingers are lifted
-        // (as opposed to when the user is back down to one finger).
-        // Additionally, if the user lands on the scrollbar don't use this
-        // code for scrolling, instead allow gecko to handle scrollbar
-        // interaction normally.
-        this._touchY = -1;
-      } else {
-        this._touchY = event.touches[0].screenY;
-      }
-    });
-
-    this.addEventListener("touchmove", (event) => {
-      if (event.touches.length == 1 &&
-        this._touchY >= 0) {
-        var deltaY = this._touchY - event.touches[0].screenY;
-        var lines = Math.trunc(deltaY / this.treeBoxObject.rowHeight);
-        if (Math.abs(lines) > 0) {
-          this.treeBoxObject.scrollByLines(lines);
-          deltaY -= lines * this.treeBoxObject.rowHeight;
-          this._touchY = event.touches[0].screenY + deltaY;
-        }
-        event.preventDefault();
-      }
-    });
-
-    this.addEventListener("touchend", (event) => {
-      this._touchY = -1;
-    });
-
-    this.addEventListener("MozMousePixelScroll", (event) => {
-      if (!(this.getAttribute("allowunderflowscroll") == "true" &&
-          this.getAttribute("hidevscroll") == "true"))
-        event.preventDefault();
-    });
-
-    this.addEventListener("DOMMouseScroll", (event) => {
-      if (!(this.getAttribute("allowunderflowscroll") == "true" &&
-          this.getAttribute("hidevscroll") == "true"))
-        event.preventDefault();
-
-      if (this._editingColumn)
-        return;
-      if (event.axis == event.HORIZONTAL_AXIS)
-        return;
-
-      var rows = event.detail;
-      if (rows == UIEvent.SCROLL_PAGE_UP)
-        this.treeBoxObject.scrollByPages(-1);
-      else if (rows == UIEvent.SCROLL_PAGE_DOWN)
-        this.treeBoxObject.scrollByPages(1);
-      else
-        this.treeBoxObject.scrollByLines(rows);
-    });
-
-    this.addEventListener("MozSwipeGesture", (event) => {
-      // Figure out which row to show
-      let targetRow = 0;
-
-      // Only handle swipe gestures up and down
-      switch (event.direction) {
-        case event.DIRECTION_DOWN:
-          targetRow = this.view.rowCount - 1;
-          // Fall through for actual action
-        case event.DIRECTION_UP:
-          this.treeBoxObject.ensureRowIsVisible(targetRow);
-          break;
-      }
-    });
-
-    this.addEventListener("select", (event) => {
-      if (event.originalTarget == this) this.stopEditing(true);
-    });
-
-    this.addEventListener("focus", (event) => {
-      this.treeBoxObject.focused = true;
-      if (this.currentIndex == -1 && this.view.rowCount > 0) {
-        this.currentIndex = this.treeBoxObject.getFirstVisibleRow();
-      }
-      if (this._cellSelType && !this.view.selection.currentColumn) {
-        var col = this._getNextColumn(this.currentIndex, false);
-        this.view.selection.currentColumn = col;
-      }
-    });
-
-    this.addEventListener("blur", (event) => {
-      this.treeBoxObject.focused = false;
-    });
-
-    this.addEventListener("blur", (event) => {
-      if (event.originalTarget == this.inputField.inputField) this.stopEditing(true);
-    }, true);
-
-    this.addEventListener("keydown", (event) => {
-      if (this._handleEnter(event)) {
-        event.stopPropagation();
-        event.preventDefault();
-      }
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (!this._cellSelType)
-        return;
-      var row = this.currentIndex;
-      var column = this.view.selection.currentColumn;
-      if (this.startEditing(row, column))
-        event.preventDefault();
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn) {
-        this.stopEditing(false);
-        this.focus();
-        event.stopPropagation();
-        event.preventDefault();
-      }
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-
-      var row = this.currentIndex;
-      if (row < 0)
-        return;
-
-      var cellSelType = this._cellSelType;
-      var checkContainers = true;
-
-      var currentColumn;
-      if (cellSelType) {
-        currentColumn = this.view.selection.currentColumn;
-        if (currentColumn && !currentColumn.primary)
-          checkContainers = false;
-      }
-
-      if (checkContainers) {
-        if (this.changeOpenState(this.currentIndex, false)) {
-          event.preventDefault();
-          return;
-        }
-        var parentIndex = this.view.getParentIndex(this.currentIndex);
-        if (parentIndex >= 0) {
-          if (cellSelType && !this.view.isSelectable(parentIndex, currentColumn)) {
-            return;
-          }
-          this.view.selection.select(parentIndex);
-          this.treeBoxObject.ensureRowIsVisible(parentIndex);
-          event.preventDefault();
-          return;
-        }
-      }
-
-      if (cellSelType) {
-        var col = this._getNextColumn(row, true);
-        if (col) {
-          this.view.selection.currentColumn = col;
-          this.treeBoxObject.ensureCellIsVisible(row, col);
-          event.preventDefault();
-        }
-      }
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-
-      var row = this.currentIndex;
-      if (row < 0)
-        return;
-
-      var cellSelType = this._cellSelType;
-      var checkContainers = true;
-
-      var currentColumn;
-      if (cellSelType) {
-        currentColumn = this.view.selection.currentColumn;
-        if (currentColumn && !currentColumn.primary)
-          checkContainers = false;
-      }
-
-      if (checkContainers) {
-        if (this.changeOpenState(row, true)) {
-          event.preventDefault();
-          return;
-        }
-        var c = row + 1;
-        var view = this.view;
-        if (c < view.rowCount &&
-          view.getParentIndex(c) == row) {
-          // If already opened, select the first child.
-          // The getParentIndex test above ensures that the children
-          // are already populated and ready.
-          if (cellSelType && !this.view.isSelectable(c, currentColumn)) {
-            let col = this._getNextColumn(c, false);
-            if (col) {
-              this.view.selection.currentColumn = col;
-            }
-          }
-          this.view.selection.timedSelect(c, this._selectDelay);
-          this.treeBoxObject.ensureRowIsVisible(c);
-          event.preventDefault();
-          return;
-        }
-      }
-
-      if (cellSelType) {
-        let col = this._getNextColumn(row, false);
-        if (col) {
-          this.view.selection.currentColumn = col;
-          this.treeBoxObject.ensureCellIsVisible(row, col);
-          event.preventDefault();
-        }
-      }
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveByOffset(-1, 0, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveByOffset(1, this.view.rowCount - 1, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveByOffsetShift(-1, 0, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveByOffsetShift(1, this.view.rowCount - 1, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveByPage(-1, 0, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveByPage(1, this.view.rowCount - 1, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveByPageShift(-1, 0, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveByPageShift(1, this.view.rowCount - 1, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveToEdge(0, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveToEdge(this.view.rowCount - 1, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveToEdgeShift(0, event);
-    });
-
-    this.addEventListener("keydown", (event) => {
-      if (this._editingColumn)
-        return;
-      this._moveToEdgeShift(this.view.rowCount - 1, event);
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (this._editingColumn)
-        return;
-
-      if (event.charCode == " ".charCodeAt(0)) {
-        var c = this.currentIndex;
-        if (!this.view.selection.isSelected(c) ||
-          (!this.view.selection.single && this._isAccelPressed(event))) {
-          this.view.selection.toggleSelect(c);
-          event.preventDefault();
-        }
-      } else if (!this.disableKeyNavigation && event.charCode > 0 &&
-        !event.altKey && !this._isAccelPressed(event) &&
-        !event.metaKey && !event.ctrlKey) {
-        var l = this._keyNavigate(event);
-        if (l >= 0) {
-          this.view.selection.timedSelect(l, this._selectDelay);
-          this.treeBoxObject.ensureRowIsVisible(l);
-        }
-        event.preventDefault();
-      }
-    });
-
+    this.setupHandlers();
   }
 
   get columns() {
@@ -910,5 +592,328 @@ class FirefoxTree extends FirefoxTreeBase {
       }
     }
     return this.changeOpenState(this.currentIndex);
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("touchstart", (event) => {
+      function isScrollbarElement(target) {
+        return (target.localName == "thumb" || target.localName == "slider") &&
+          target.namespaceURI == "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+      }
+      if (event.touches.length > 1 || isScrollbarElement(event.touches[0].target)) {
+        // Multiple touch points detected, abort. In particular this aborts
+        // the panning gesture when the user puts a second finger down after
+        // already panning with one finger. Aborting at this point prevents
+        // the pan gesture from being resumed until all fingers are lifted
+        // (as opposed to when the user is back down to one finger).
+        // Additionally, if the user lands on the scrollbar don't use this
+        // code for scrolling, instead allow gecko to handle scrollbar
+        // interaction normally.
+        this._touchY = -1;
+      } else {
+        this._touchY = event.touches[0].screenY;
+      }
+    });
+
+    this.addEventListener("touchmove", (event) => {
+      if (event.touches.length == 1 &&
+        this._touchY >= 0) {
+        var deltaY = this._touchY - event.touches[0].screenY;
+        var lines = Math.trunc(deltaY / this.treeBoxObject.rowHeight);
+        if (Math.abs(lines) > 0) {
+          this.treeBoxObject.scrollByLines(lines);
+          deltaY -= lines * this.treeBoxObject.rowHeight;
+          this._touchY = event.touches[0].screenY + deltaY;
+        }
+        event.preventDefault();
+      }
+    });
+
+    this.addEventListener("touchend", (event) => {
+      this._touchY = -1;
+    });
+
+    this.addEventListener("MozMousePixelScroll", (event) => {
+      if (!(this.getAttribute("allowunderflowscroll") == "true" &&
+          this.getAttribute("hidevscroll") == "true"))
+        event.preventDefault();
+    });
+
+    this.addEventListener("DOMMouseScroll", (event) => {
+      if (!(this.getAttribute("allowunderflowscroll") == "true" &&
+          this.getAttribute("hidevscroll") == "true"))
+        event.preventDefault();
+
+      if (this._editingColumn)
+        return;
+      if (event.axis == event.HORIZONTAL_AXIS)
+        return;
+
+      var rows = event.detail;
+      if (rows == UIEvent.SCROLL_PAGE_UP)
+        this.treeBoxObject.scrollByPages(-1);
+      else if (rows == UIEvent.SCROLL_PAGE_DOWN)
+        this.treeBoxObject.scrollByPages(1);
+      else
+        this.treeBoxObject.scrollByLines(rows);
+    });
+
+    this.addEventListener("MozSwipeGesture", (event) => {
+      // Figure out which row to show
+      let targetRow = 0;
+
+      // Only handle swipe gestures up and down
+      switch (event.direction) {
+        case event.DIRECTION_DOWN:
+          targetRow = this.view.rowCount - 1;
+          // Fall through for actual action
+        case event.DIRECTION_UP:
+          this.treeBoxObject.ensureRowIsVisible(targetRow);
+          break;
+      }
+    });
+
+    this.addEventListener("select", (event) => {
+      if (event.originalTarget == this) this.stopEditing(true);
+    });
+
+    this.addEventListener("focus", (event) => {
+      this.treeBoxObject.focused = true;
+      if (this.currentIndex == -1 && this.view.rowCount > 0) {
+        this.currentIndex = this.treeBoxObject.getFirstVisibleRow();
+      }
+      if (this._cellSelType && !this.view.selection.currentColumn) {
+        var col = this._getNextColumn(this.currentIndex, false);
+        this.view.selection.currentColumn = col;
+      }
+    });
+
+    this.addEventListener("blur", (event) => {
+      this.treeBoxObject.focused = false;
+    });
+
+    this.addEventListener("blur", (event) => {
+      if (event.originalTarget == this.inputField.inputField) this.stopEditing(true);
+    }, true);
+
+    this.addEventListener("keydown", (event) => {
+      if (this._handleEnter(event)) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (!this._cellSelType)
+        return;
+      var row = this.currentIndex;
+      var column = this.view.selection.currentColumn;
+      if (this.startEditing(row, column))
+        event.preventDefault();
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn) {
+        this.stopEditing(false);
+        this.focus();
+        event.stopPropagation();
+        event.preventDefault();
+      }
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+
+      var row = this.currentIndex;
+      if (row < 0)
+        return;
+
+      var cellSelType = this._cellSelType;
+      var checkContainers = true;
+
+      var currentColumn;
+      if (cellSelType) {
+        currentColumn = this.view.selection.currentColumn;
+        if (currentColumn && !currentColumn.primary)
+          checkContainers = false;
+      }
+
+      if (checkContainers) {
+        if (this.changeOpenState(this.currentIndex, false)) {
+          event.preventDefault();
+          return;
+        }
+        var parentIndex = this.view.getParentIndex(this.currentIndex);
+        if (parentIndex >= 0) {
+          if (cellSelType && !this.view.isSelectable(parentIndex, currentColumn)) {
+            return;
+          }
+          this.view.selection.select(parentIndex);
+          this.treeBoxObject.ensureRowIsVisible(parentIndex);
+          event.preventDefault();
+          return;
+        }
+      }
+
+      if (cellSelType) {
+        var col = this._getNextColumn(row, true);
+        if (col) {
+          this.view.selection.currentColumn = col;
+          this.treeBoxObject.ensureCellIsVisible(row, col);
+          event.preventDefault();
+        }
+      }
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+
+      var row = this.currentIndex;
+      if (row < 0)
+        return;
+
+      var cellSelType = this._cellSelType;
+      var checkContainers = true;
+
+      var currentColumn;
+      if (cellSelType) {
+        currentColumn = this.view.selection.currentColumn;
+        if (currentColumn && !currentColumn.primary)
+          checkContainers = false;
+      }
+
+      if (checkContainers) {
+        if (this.changeOpenState(row, true)) {
+          event.preventDefault();
+          return;
+        }
+        var c = row + 1;
+        var view = this.view;
+        if (c < view.rowCount &&
+          view.getParentIndex(c) == row) {
+          // If already opened, select the first child.
+          // The getParentIndex test above ensures that the children
+          // are already populated and ready.
+          if (cellSelType && !this.view.isSelectable(c, currentColumn)) {
+            let col = this._getNextColumn(c, false);
+            if (col) {
+              this.view.selection.currentColumn = col;
+            }
+          }
+          this.view.selection.timedSelect(c, this._selectDelay);
+          this.treeBoxObject.ensureRowIsVisible(c);
+          event.preventDefault();
+          return;
+        }
+      }
+
+      if (cellSelType) {
+        let col = this._getNextColumn(row, false);
+        if (col) {
+          this.view.selection.currentColumn = col;
+          this.treeBoxObject.ensureCellIsVisible(row, col);
+          event.preventDefault();
+        }
+      }
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveByOffset(-1, 0, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveByOffset(1, this.view.rowCount - 1, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveByOffsetShift(-1, 0, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveByOffsetShift(1, this.view.rowCount - 1, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveByPage(-1, 0, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveByPage(1, this.view.rowCount - 1, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveByPageShift(-1, 0, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveByPageShift(1, this.view.rowCount - 1, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveToEdge(0, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveToEdge(this.view.rowCount - 1, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveToEdgeShift(0, event);
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (this._editingColumn)
+        return;
+      this._moveToEdgeShift(this.view.rowCount - 1, event);
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (this._editingColumn)
+        return;
+
+      if (event.charCode == " ".charCodeAt(0)) {
+        var c = this.currentIndex;
+        if (!this.view.selection.isSelected(c) ||
+          (!this.view.selection.single && this._isAccelPressed(event))) {
+          this.view.selection.toggleSelect(c);
+          event.preventDefault();
+        }
+      } else if (!this.disableKeyNavigation && event.charCode > 0 &&
+        !event.altKey && !this._isAccelPressed(event) &&
+        !event.metaKey && !event.ctrlKey) {
+        var l = this._keyNavigate(event);
+        if (l >= 0) {
+          this.view.selection.timedSelect(l, this._selectDelay);
+          this.treeBoxObject.ensureRowIsVisible(l);
+        }
+        event.preventDefault();
+      }
+    });
+
   }
 }

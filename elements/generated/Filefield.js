@@ -11,6 +11,7 @@ class FirefoxFilefield extends FirefoxBasetext {
 
     this._file = null;
 
+    this.setupHandlers();
   }
 
   set label(val) {
@@ -69,5 +70,9 @@ class FirefoxFilefield extends FirefoxBasetext {
       .QueryInterface(Components.interfaces.nsIFileProtocolHandler);
     var urlspec = fph.getURLSpecFromFile(aFile);
     return "moz-icon://" + urlspec + "?size=16";
+  }
+
+  setupHandlers() {
+
   }
 }

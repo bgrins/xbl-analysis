@@ -4,6 +4,40 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
 
     this._findbar = null;
 
+    this.setupHandlers();
+  }
+
+  get findbar() {
+    return this._findbar ?
+      this._findbar : this._findbar = document.getBindingParent(this);
+  }
+  _handleEnter(aEvent) {
+    if (this.findbar._findMode == this.findbar.FIND_NORMAL) {
+      let findString = this.findbar._findField;
+      if (!findString.value)
+        return;
+      if (aEvent.getModifierState("Accel")) {
+        this.findbar.getElement("highlight").click();
+        return;
+      }
+
+      this.findbar.onFindAgainCommand(aEvent.shiftKey);
+    } else {
+      this.findbar._finishFAYT(aEvent);
+    }
+  }
+  _handleTab(aEvent) {
+    let shouldHandle = !aEvent.altKey && !aEvent.ctrlKey &&
+      !aEvent.metaKey;
+    if (shouldHandle &&
+      this.findbar._findMode != this.findbar.FIND_NORMAL) {
+
+      this.findbar._finishFAYT(aEvent);
+    }
+  }
+
+  setupHandlers() {
+
     this.addEventListener("input", (event) => {
       // We should do nothing during composition.  E.g., composing string
       // before converting may matches a forward word of expected word.
@@ -94,34 +128,5 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
       event.preventDefault();
     });
 
-  }
-
-  get findbar() {
-    return this._findbar ?
-      this._findbar : this._findbar = document.getBindingParent(this);
-  }
-  _handleEnter(aEvent) {
-    if (this.findbar._findMode == this.findbar.FIND_NORMAL) {
-      let findString = this.findbar._findField;
-      if (!findString.value)
-        return;
-      if (aEvent.getModifierState("Accel")) {
-        this.findbar.getElement("highlight").click();
-        return;
-      }
-
-      this.findbar.onFindAgainCommand(aEvent.shiftKey);
-    } else {
-      this.findbar._finishFAYT(aEvent);
-    }
-  }
-  _handleTab(aEvent) {
-    let shouldHandle = !aEvent.altKey && !aEvent.ctrlKey &&
-      !aEvent.metaKey;
-    if (shouldHandle &&
-      this.findbar._findMode != this.findbar.FIND_NORMAL) {
-
-      this.findbar._finishFAYT(aEvent);
-    }
   }
 }

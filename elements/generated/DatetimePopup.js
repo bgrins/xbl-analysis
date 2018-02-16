@@ -15,6 +15,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     // Notify DateTimePickerHelper.jsm that binding is ready.
     this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
 
+    this.setupHandlers();
   }
 
   get dateTimePopupFrame() {
@@ -324,5 +325,9 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     if (this.dateTimePopupFrame.contentDocument.nodePrincipal.isSystemPrincipal) {
       this.dateTimePopupFrame.contentWindow.postMessage(data, "*");
     }
+  }
+
+  setupHandlers() {
+
   }
 }

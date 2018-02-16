@@ -7,6 +7,10 @@ class FirefoxListcell extends FirefoxBasecontrol {
       </children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

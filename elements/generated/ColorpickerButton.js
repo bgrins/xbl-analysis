@@ -10,14 +10,7 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
 
     this.initialize();
 
-    this.addEventListener("keydown", (event) => {
-      // open popup if key is space/up/left/right/down and popup is closed
-      if ((event.keyCode == 32 || (event.keyCode > 36 && event.keyCode < 41)) && !this.open)
-        this.showPopup();
-      else if ((event.keyCode == 27) && this.open)
-        this.hidePopup();
-    });
-
+    this.setupHandlers();
   }
 
   set open(val) {
@@ -95,5 +88,17 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
     }, 1, this.mPicker.parentNode);
 
     this._fireEvent(this, "change");
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("keydown", (event) => {
+      // open popup if key is space/up/left/right/down and popup is closed
+      if ((event.keyCode == 32 || (event.keyCode > 36 && event.keyCode < 41)) && !this.open)
+        this.showPopup();
+      else if ((event.keyCode == 27) && this.open)
+        this.hidePopup();
+    });
+
   }
 }

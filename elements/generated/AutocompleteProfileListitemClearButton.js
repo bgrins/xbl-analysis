@@ -16,6 +16,18 @@ class FirefoxAutocompleteProfileListitemClearButton extends FirefoxAutocompleteP
 
     this._adjustAcItem();
 
+    this.setupHandlers();
+  }
+  _adjustAcItem() {
+    this._adjustAutofillItemLayout();
+    this.setAttribute("formautofillattached", "true");
+
+    let clearFormBtnLabel = this._stringBundle.GetStringFromName("clearFormBtnLabel2");
+    this._clearBtn.textContent = clearFormBtnLabel;
+  }
+
+  setupHandlers() {
+
     this.addEventListener("click", (event) => {
       /* global Cu */
       let {
@@ -25,13 +37,5 @@ class FirefoxAutocompleteProfileListitemClearButton extends FirefoxAutocompleteP
       AutoCompletePopup.sendMessageToBrowser("FormAutofill:ClearForm");
     });
 
-  }
-
-  _adjustAcItem() {
-    this._adjustAutofillItemLayout();
-    this.setAttribute("formautofillattached", "true");
-
-    let clearFormBtnLabel = this._stringBundle.GetStringFromName("clearFormBtnLabel2");
-    this._clearBtn.textContent = clearFormBtnLabel;
   }
 }

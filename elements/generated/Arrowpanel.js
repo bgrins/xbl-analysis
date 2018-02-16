@@ -14,64 +14,8 @@ class FirefoxArrowpanel extends FirefoxPanel {
 
     this._fadeTimer = null;
 
-    this.addEventListener("popupshowing", (event) => {
-      var arrow = document.getAnonymousElementByAttribute(this, "anonid", "arrow");
-      arrow.hidden = this.anchorNode == null;
-      document.getAnonymousElementByAttribute(this, "anonid", "arrowbox")
-        .style.removeProperty("transform");
-
-      if (this.getAttribute("animate") != "false") {
-        this.setAttribute("animate", "open");
-        // the animating attribute prevents user interaction during transition
-        // it is removed when popupshown fires
-        this.setAttribute("animating", "true");
-      }
-
-      // set fading
-      var fade = this.getAttribute("fade");
-      var fadeDelay = 0;
-      if (fade == "fast") {
-        fadeDelay = 1;
-      } else if (fade == "slow") {
-        fadeDelay = 4000;
-      } else {
-        return;
-      }
-
-      this._fadeTimer = setTimeout(() => this.hidePopup(true), fadeDelay, this);
-    });
-
-    this.addEventListener("popuphiding", (event) => {
-      let animate = (this.getAttribute("animate") != "false");
-
-      if (this._fadeTimer) {
-        clearTimeout(this._fadeTimer);
-        if (animate) {
-          this.setAttribute("animate", "fade");
-        }
-      } else if (animate) {
-        this.setAttribute("animate", "cancel");
-      }
-    });
-
-    this.addEventListener("popupshown", (event) => {
-      this.removeAttribute("animating");
-      this.setAttribute("panelopen", "true");
-    });
-
-    this.addEventListener("popuphidden", (event) => {
-      this.removeAttribute("panelopen");
-      if (this.getAttribute("animate") != "false") {
-        this.removeAttribute("animate");
-      }
-    });
-
-    this.addEventListener("popuppositioned", (event) => {
-      this.adjustArrowPosition();
-    });
-
+    this.setupHandlers();
   }
-
   sizeTo(aWidth, aHeight) {
     this.popupBoxObject.sizeTo(aWidth, aHeight);
     if (this.state == "open") {
@@ -133,5 +77,65 @@ class FirefoxArrowpanel extends FirefoxPanel {
         this.setAttribute("side", "top");
       }
     }
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("popupshowing", (event) => {
+      var arrow = document.getAnonymousElementByAttribute(this, "anonid", "arrow");
+      arrow.hidden = this.anchorNode == null;
+      document.getAnonymousElementByAttribute(this, "anonid", "arrowbox")
+        .style.removeProperty("transform");
+
+      if (this.getAttribute("animate") != "false") {
+        this.setAttribute("animate", "open");
+        // the animating attribute prevents user interaction during transition
+        // it is removed when popupshown fires
+        this.setAttribute("animating", "true");
+      }
+
+      // set fading
+      var fade = this.getAttribute("fade");
+      var fadeDelay = 0;
+      if (fade == "fast") {
+        fadeDelay = 1;
+      } else if (fade == "slow") {
+        fadeDelay = 4000;
+      } else {
+        return;
+      }
+
+      this._fadeTimer = setTimeout(() => this.hidePopup(true), fadeDelay, this);
+    });
+
+    this.addEventListener("popuphiding", (event) => {
+      let animate = (this.getAttribute("animate") != "false");
+
+      if (this._fadeTimer) {
+        clearTimeout(this._fadeTimer);
+        if (animate) {
+          this.setAttribute("animate", "fade");
+        }
+      } else if (animate) {
+        this.setAttribute("animate", "cancel");
+      }
+    });
+
+    this.addEventListener("popupshown", (event) => {
+      this.removeAttribute("animating");
+      this.setAttribute("panelopen", "true");
+    });
+
+    this.addEventListener("popuphidden", (event) => {
+      this.removeAttribute("panelopen");
+      if (this.getAttribute("animate") != "false") {
+        this.removeAttribute("animate");
+      }
+    });
+
+    this.addEventListener("popuppositioned", (event) => {
+      this.adjustArrowPosition();
+    });
+
   }
 }

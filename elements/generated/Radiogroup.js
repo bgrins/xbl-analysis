@@ -22,69 +22,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     else
       this.selectedIndex = 0;
 
-    this.addEventListener("mousedown", (event) => {
-      if (this.disabled)
-        event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this.selectedItem = this.focusedItem;
-      this.selectedItem.doCommand();
-      // Prevent page from scrolling on the space key.
-      event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this.checkAdjacentElement(false);
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      // left arrow goes back when we are ltr, forward when we are rtl
-      this.checkAdjacentElement(document.defaultView.getComputedStyle(
-        this).direction == "rtl");
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this.checkAdjacentElement(true);
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      // right arrow goes forward when we are ltr, back when we are rtl
-      this.checkAdjacentElement(document.defaultView.getComputedStyle(
-        this).direction == "ltr");
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    this.addEventListener("focus", (event) => {
-      this.setAttribute("focused", "true");
-      if (this.focusedItem)
-        return;
-
-      var val = this.selectedItem;
-      if (!val || val.disabled || val.hidden || val.collapsed) {
-        var children = this._getRadioChildren();
-        for (var i = 0; i < children.length; ++i) {
-          if (!children[i].hidden && !children[i].collapsed && !children[i].disabled) {
-            val = children[i];
-            break;
-          }
-        }
-      }
-      this.focusedItem = val;
-    });
-
-    this.addEventListener("blur", (event) => {
-      this.removeAttribute("focused");
-      this.focusedItem = null;
-    });
-
+    this.setupHandlers();
   }
 
   set value(val) {
@@ -337,5 +275,72 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       this._radioChildren = null;
     }
     return remove;
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("mousedown", (event) => {
+      if (this.disabled)
+        event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this.selectedItem = this.focusedItem;
+      this.selectedItem.doCommand();
+      // Prevent page from scrolling on the space key.
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this.checkAdjacentElement(false);
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      // left arrow goes back when we are ltr, forward when we are rtl
+      this.checkAdjacentElement(document.defaultView.getComputedStyle(
+        this).direction == "rtl");
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this.checkAdjacentElement(true);
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      // right arrow goes forward when we are ltr, back when we are rtl
+      this.checkAdjacentElement(document.defaultView.getComputedStyle(
+        this).direction == "ltr");
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    this.addEventListener("focus", (event) => {
+      this.setAttribute("focused", "true");
+      if (this.focusedItem)
+        return;
+
+      var val = this.selectedItem;
+      if (!val || val.disabled || val.hidden || val.collapsed) {
+        var children = this._getRadioChildren();
+        for (var i = 0; i < children.length; ++i) {
+          if (!children[i].hidden && !children[i].collapsed && !children[i].disabled) {
+            val = children[i];
+            break;
+          }
+        }
+      }
+      this.focusedItem = val;
+    });
+
+    this.addEventListener("blur", (event) => {
+      this.removeAttribute("focused");
+      this.focusedItem = null;
+    });
+
   }
 }

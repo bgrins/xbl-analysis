@@ -5,6 +5,10 @@ class FirefoxTreecolImage extends FirefoxTreecolBase {
       <xul:image class="treecol-icon" inherits="src"></xul:image>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

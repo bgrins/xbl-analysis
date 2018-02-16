@@ -19,8 +19,8 @@ class FirefoxInputBox extends XULElement {
       </xul:menupopup>
     `;
 
+    this.setupHandlers();
   }
-
   _doPopupItemEnabling(popupNode) {
     var children = popupNode.childNodes;
     for (var i = 0; i < children.length; i++) {
@@ -42,5 +42,9 @@ class FirefoxInputBox extends XULElement {
   doCommand(command) {
     var controller = document.commandDispatcher.getControllerForCommand(command);
     controller.doCommand(command);
+  }
+
+  setupHandlers() {
+
   }
 }

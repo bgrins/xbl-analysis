@@ -57,6 +57,10 @@ class FirefoxPluginproblem extends XULElement {
     // completes.
     this.dispatchEvent(new CustomEvent("PluginBindingAttached"));
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

@@ -92,34 +92,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
 
     this.initialize();
 
-    this.addEventListener("mouseover", (event) => {
-      this.hoverCell(event.originalTarget);
-    });
-
-    this.addEventListener("click", (event) => {
-      if (event.originalTarget.hasAttribute("color")) {
-        this.selectCell(event.originalTarget);
-        this.hoverCell(this.mSelectedCell);
-      }
-    });
-
-    this.addEventListener("focus", (event) => {
-      if (!this.mIsPopup && this.getAttribute("focused") != "true") {
-        this.setAttribute("focused", "true");
-        document.addEventListener("keydown", this, true);
-        if (this.mSelectedCell)
-          this.hoverCell(this.mSelectedCell);
-      }
-    }, true);
-
-    this.addEventListener("blur", (event) => {
-      if (!this.mIsPopup && this.getAttribute("focused") == "true") {
-        document.removeEventListener("keydown", this, true);
-        this.removeAttribute("focused");
-        this.resetHover();
-      }
-    }, true);
-
+    this.setupHandlers();
   }
 
   set color(val) {
@@ -331,5 +304,37 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
         this.selectHoverCell();
         break;
     }
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("mouseover", (event) => {
+      this.hoverCell(event.originalTarget);
+    });
+
+    this.addEventListener("click", (event) => {
+      if (event.originalTarget.hasAttribute("color")) {
+        this.selectCell(event.originalTarget);
+        this.hoverCell(this.mSelectedCell);
+      }
+    });
+
+    this.addEventListener("focus", (event) => {
+      if (!this.mIsPopup && this.getAttribute("focused") != "true") {
+        this.setAttribute("focused", "true");
+        document.addEventListener("keydown", this, true);
+        if (this.mSelectedCell)
+          this.hoverCell(this.mSelectedCell);
+      }
+    }, true);
+
+    this.addEventListener("blur", (event) => {
+      if (!this.mIsPopup && this.getAttribute("focused") == "true") {
+        document.removeEventListener("keydown", this, true);
+        this.removeAttribute("focused");
+        this.resetHover();
+      }
+    }, true);
+
   }
 }

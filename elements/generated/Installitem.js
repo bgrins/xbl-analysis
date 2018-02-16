@@ -17,6 +17,7 @@ class FirefoxInstallitem extends XULElement {
       </xul:hbox>
     `;
 
+    this.setupHandlers();
   }
 
   set name(val) {
@@ -71,5 +72,9 @@ class FirefoxInstallitem extends XULElement {
 
   get type() {
     return this.getAttribute('type');
+  }
+
+  setupHandlers() {
+
   }
 }

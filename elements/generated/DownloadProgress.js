@@ -28,6 +28,7 @@ class FirefoxDownloadProgress extends XULElement {
       progress = parseInt(this.getAttribute("progress"));
     this.progress = progress;
 
+    this.setupHandlers();
   }
 
   set progress(val) {
@@ -65,5 +66,9 @@ class FirefoxDownloadProgress extends XULElement {
   }
   cancel() {
     this.mInstall.cancel();
+  }
+
+  setupHandlers() {
+
   }
 }

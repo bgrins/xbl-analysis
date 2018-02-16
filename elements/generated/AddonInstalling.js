@@ -40,8 +40,8 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
     this._installStatus.mInstall = this.mInstall;
     this.refreshInfo();
 
+    this.setupHandlers();
   }
-
   onInstallCompleted() {
     this.mAddon = this.mInstall.addon;
     this.setAttribute("name", this.mAddon.name);
@@ -91,5 +91,9 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
   }
   retryInstall() {
     this.mInstall.install();
+  }
+
+  setupHandlers() {
+
   }
 }

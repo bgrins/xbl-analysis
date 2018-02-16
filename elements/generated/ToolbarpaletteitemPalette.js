@@ -8,6 +8,10 @@ class FirefoxToolbarpaletteitemPalette extends FirefoxToolbarpaletteitem {
       <xul:label inherits="value=title"></xul:label>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

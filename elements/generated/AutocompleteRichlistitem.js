@@ -59,39 +59,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     );
     this._adjustAcItem();
 
-    this.addEventListener("mousedown", (event) => {
-      // Call this.control only once since it's not a simple getter.
-      let control = this.control;
-      if (!control || control.disabled) {
-        return;
-      }
-      if (!this.selected) {
-        control.selectItem(this);
-      }
-      control.currentItem = this;
-    });
-
-    this.addEventListener("mouseover", (event) => {
-      // The point of implementing this handler is to allow drags to change
-      // the selected item.  If the user mouses down on an item, it becomes
-      // selected.  If they then drag the mouse to another item, select it.
-      // Handle all three primary mouse buttons: right, left, and wheel, since
-      // all three change the selection on mousedown.
-      let mouseDown = event.buttons & 0b111;
-      if (!mouseDown) {
-        return;
-      }
-      // Call this.control only once since it's not a simple getter.
-      let control = this.control;
-      if (!control || control.disabled) {
-        return;
-      }
-      if (!this.selected) {
-        control.selectItem(this);
-      }
-      control.currentItem = this;
-    });
-
+    this.setupHandlers();
   }
 
   get label() {
@@ -732,5 +700,42 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     }
 
     return action;
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("mousedown", (event) => {
+      // Call this.control only once since it's not a simple getter.
+      let control = this.control;
+      if (!control || control.disabled) {
+        return;
+      }
+      if (!this.selected) {
+        control.selectItem(this);
+      }
+      control.currentItem = this;
+    });
+
+    this.addEventListener("mouseover", (event) => {
+      // The point of implementing this handler is to allow drags to change
+      // the selected item.  If the user mouses down on an item, it becomes
+      // selected.  If they then drag the mouse to another item, select it.
+      // Handle all three primary mouse buttons: right, left, and wheel, since
+      // all three change the selection on mousedown.
+      let mouseDown = event.buttons & 0b111;
+      if (!mouseDown) {
+        return;
+      }
+      // Call this.control only once since it's not a simple getter.
+      let control = this.control;
+      if (!control || control.disabled) {
+        return;
+      }
+      if (!this.selected) {
+        control.selectItem(this);
+      }
+      control.currentItem = this;
+    });
+
   }
 }

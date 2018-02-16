@@ -9,41 +9,7 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
       <children includes="menupopup"></children>
     `;
 
-    this.addEventListener("focus", (event) => {
-      this.setAttribute("focused", "true");
-    }, true);
-
-    this.addEventListener("blur", (event) => {
-      this.removeAttribute("focused");
-    }, true);
-
-    this.addEventListener("popupshowing", (event) => {
-      // editable menulists elements aren't in the focus order,
-      // so when the popup opens we need to force the focus to the inputField
-      if (event.target.parentNode == this) {
-        if (document.commandDispatcher.focusedElement != this.inputField)
-          this.inputField.focus();
-
-        this.menuBoxObject.activeChild = null;
-        if (this.selectedItem)
-          // Not ready for auto-setting the active child in hierarchies yet.
-          // For now, only do this when the outermost menupopup opens.
-          this.menuBoxObject.activeChild = this.mSelectedInternal;
-      }
-    });
-
-    this.addEventListener("keypress", (event) => {
-      // open popup if key is up arrow, down arrow, or F4
-      if (!event.ctrlKey && !event.shiftKey) {
-        if (event.keyCode == KeyEvent.DOM_VK_UP ||
-          event.keyCode == KeyEvent.DOM_VK_DOWN ||
-          (event.keyCode == KeyEvent.DOM_VK_F4 && !event.altKey)) {
-          event.preventDefault();
-          this.open = true;
-        }
-      }
-    });
-
+    this.setupHandlers();
   }
 
   get inputField() {
@@ -173,5 +139,44 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
   }
   select() {
     this.inputField.select();
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("focus", (event) => {
+      this.setAttribute("focused", "true");
+    }, true);
+
+    this.addEventListener("blur", (event) => {
+      this.removeAttribute("focused");
+    }, true);
+
+    this.addEventListener("popupshowing", (event) => {
+      // editable menulists elements aren't in the focus order,
+      // so when the popup opens we need to force the focus to the inputField
+      if (event.target.parentNode == this) {
+        if (document.commandDispatcher.focusedElement != this.inputField)
+          this.inputField.focus();
+
+        this.menuBoxObject.activeChild = null;
+        if (this.selectedItem)
+          // Not ready for auto-setting the active child in hierarchies yet.
+          // For now, only do this when the outermost menupopup opens.
+          this.menuBoxObject.activeChild = this.mSelectedInternal;
+      }
+    });
+
+    this.addEventListener("keypress", (event) => {
+      // open popup if key is up arrow, down arrow, or F4
+      if (!event.ctrlKey && !event.shiftKey) {
+        if (event.keyCode == KeyEvent.DOM_VK_UP ||
+          event.keyCode == KeyEvent.DOM_VK_DOWN ||
+          (event.keyCode == KeyEvent.DOM_VK_F4 && !event.altKey)) {
+          event.preventDefault();
+          this.open = true;
+        }
+      }
+    });
+
   }
 }

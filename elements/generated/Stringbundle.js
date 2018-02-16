@@ -3,6 +3,7 @@ class FirefoxStringbundle extends XULElement {
 
     this._bundle = null;
 
+    this.setupHandlers();
   }
 
   get stringBundle() {
@@ -49,5 +50,9 @@ class FirefoxStringbundle extends XULElement {
       dump("*** Failed to format string " + aStringKey + " in bundle: " + this.src + "\n");
       throw e;
     }
+  }
+
+  setupHandlers() {
+
   }
 }

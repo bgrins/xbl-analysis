@@ -6,6 +6,7 @@ class FirefoxProgressmeter extends XULElement {
       <xul:spacer class="progress-remainder" inherits="mode"></xul:spacer>
     `;
 
+    this.setupHandlers();
   }
 
   set mode(val) {
@@ -53,5 +54,9 @@ class FirefoxProgressmeter extends XULElement {
 
   get max() {
     return this.getAttribute('max') || '100';
+  }
+
+  setupHandlers() {
+
   }
 }

@@ -75,18 +75,8 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
 
     this._adjustAcItem();
 
-    this.addEventListener("click", (event) => {
-      if (this._warningTextBox.contains(event.originalTarget)) {
-        return;
-      }
-
-      window.openPreferences("panePrivacy", {
-        origin: "autofillFooter"
-      });
-    });
-
+    this.setupHandlers();
   }
-
   _onCollapse() {
     /* global messageManager */
 
@@ -124,5 +114,19 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
     } else {
       this._itemBox.setAttribute("no-warning", "true");
     }
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("click", (event) => {
+      if (this._warningTextBox.contains(event.originalTarget)) {
+        return;
+      }
+
+      window.openPreferences("panePrivacy", {
+        origin: "autofillFooter"
+      });
+    });
+
   }
 }

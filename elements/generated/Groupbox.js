@@ -10,6 +10,10 @@ class FirefoxGroupbox extends FirefoxGroupboxBase {
       </xul:box>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

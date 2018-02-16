@@ -34,6 +34,10 @@ class FirefoxDownload extends FirefoxRichlistitem {
       </xul:stack>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

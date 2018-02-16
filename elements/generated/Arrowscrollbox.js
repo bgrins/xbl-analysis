@@ -50,156 +50,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     this.setAttribute("notoverflowing", "true");
     this._updateScrollButtonsDisabledState();
 
-    this.addEventListener("wheel", (event) => {
-      let doScroll = false;
-      let instant;
-      let scrollAmount = 0;
-      if (this.orient == "vertical") {
-        doScroll = true;
-        if (event.deltaMode == event.DOM_DELTA_PIXEL)
-          scrollAmount = event.deltaY;
-        else if (event.deltaMode == event.DOM_DELTA_PAGE)
-          scrollAmount = event.deltaY * this.scrollClientSize;
-        else
-          scrollAmount = event.deltaY * this.lineScrollAmount;
-      } else {
-        // We allow vertical scrolling to scroll a horizontal scrollbox
-        // because many users have a vertical scroll wheel but no
-        // horizontal support.
-        // Because of this, we need to avoid scrolling chaos on trackpads
-        // and mouse wheels that support simultaneous scrolling in both axes.
-        // We do this by scrolling only when the last two scroll events were
-        // on the same axis as the current scroll event.
-        // For diagonal scroll events we only respect the dominant axis.
-        let isVertical = Math.abs(event.deltaY) > Math.abs(event.deltaX);
-        let delta = isVertical ? event.deltaY : event.deltaX;
-        let scrollByDelta = isVertical && this._isRTLScrollbox ? -delta : delta;
-
-        if (this._prevMouseScrolls.every(prev => prev == isVertical)) {
-          doScroll = true;
-          if (event.deltaMode == event.DOM_DELTA_PIXEL) {
-            scrollAmount = scrollByDelta;
-            instant = true;
-          } else if (event.deltaMode == event.DOM_DELTA_PAGE) {
-            scrollAmount = scrollByDelta * this.scrollClientSize;
-          } else {
-            scrollAmount = scrollByDelta * this.lineScrollAmount;
-          }
-        }
-
-        if (this._prevMouseScrolls.length > 1)
-          this._prevMouseScrolls.shift();
-        this._prevMouseScrolls.push(isVertical);
-      }
-
-      if (doScroll) {
-        let direction = scrollAmount < 0 ? -1 : 1;
-        let startPos = this.scrollPosition;
-
-        if (!this._isScrolling || this._direction != direction) {
-          this._destination = startPos + scrollAmount;
-          this._direction = direction;
-        } else {
-          // We were already in the process of scrolling in this direction
-          this._destination = this._destination + scrollAmount;
-          scrollAmount = this._destination - startPos;
-        }
-        this.scrollByPixels(scrollAmount, instant);
-      }
-
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    this.addEventListener("touchstart", (event) => {
-      if (event.touches.length > 1) {
-        // Multiple touch points detected, abort. In particular this aborts
-        // the panning gesture when the user puts a second finger down after
-        // already panning with one finger. Aborting at this point prevents
-        // the pan gesture from being resumed until all fingers are lifted
-        // (as opposed to when the user is back down to one finger).
-        this._touchStart = -1;
-      } else {
-        this._touchStart = (this.orient == "vertical" ?
-          event.touches[0].screenY :
-          event.touches[0].screenX);
-      }
-    });
-
-    this.addEventListener("touchmove", (event) => {
-      if (event.touches.length == 1 &&
-        this._touchStart >= 0) {
-        var touchPoint = (this.orient == "vertical" ?
-          event.touches[0].screenY :
-          event.touches[0].screenX);
-        var delta = this._touchStart - touchPoint;
-        if (Math.abs(delta) > 0) {
-          this.scrollByPixels(delta, true);
-          this._touchStart = touchPoint;
-        }
-        event.preventDefault();
-      }
-    });
-
-    this.addEventListener("touchend", (event) => {
-      this._touchStart = -1;
-    });
-
-    this.addEventListener("underflow", (event) => {
-      // filter underflow events which were dispatched on nested scrollboxes
-      if (event.target != this)
-        return;
-
-      // Ignore events that doesn't match our orientation.
-      // Scrollport event orientation:
-      //   0: vertical
-      //   1: horizontal
-      //   2: both
-      if (this.orient == "vertical") {
-        if (event.detail == 1)
-          return;
-      } else if (event.detail == 0) {
-        // horizontal scrollbox
-        return;
-      }
-
-      this.setAttribute("notoverflowing", "true");
-      this._updateScrollButtonsDisabledState();
-    }, true);
-
-    this.addEventListener("overflow", (event) => {
-      // filter underflow events which were dispatched on nested scrollboxes
-      if (event.target != this)
-        return;
-
-      // Ignore events that doesn't match our orientation.
-      // Scrollport event orientation:
-      //   0: vertical
-      //   1: horizontal
-      //   2: both
-      if (this.orient == "vertical") {
-        if (event.detail == 1)
-          return;
-      } else if (event.detail == 0) {
-        // horizontal scrollbox
-        return;
-      }
-
-      this.removeAttribute("notoverflowing");
-      this._updateScrollButtonsDisabledState();
-    }, true);
-
-    this.addEventListener("scroll", (event) => {
-      this._isScrolling = true;
-      this._updateScrollButtonsDisabledState();
-    });
-
-    this.addEventListener("scrollend", (event) => {
-      this._isScrolling = false;
-      this._destination = 0;
-      this._direction = 0;
-    });
-
+    this.setupHandlers();
   }
 
   get _prefBranch() {
@@ -468,5 +319,159 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
         }
       }, 0);
     });
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("wheel", (event) => {
+      let doScroll = false;
+      let instant;
+      let scrollAmount = 0;
+      if (this.orient == "vertical") {
+        doScroll = true;
+        if (event.deltaMode == event.DOM_DELTA_PIXEL)
+          scrollAmount = event.deltaY;
+        else if (event.deltaMode == event.DOM_DELTA_PAGE)
+          scrollAmount = event.deltaY * this.scrollClientSize;
+        else
+          scrollAmount = event.deltaY * this.lineScrollAmount;
+      } else {
+        // We allow vertical scrolling to scroll a horizontal scrollbox
+        // because many users have a vertical scroll wheel but no
+        // horizontal support.
+        // Because of this, we need to avoid scrolling chaos on trackpads
+        // and mouse wheels that support simultaneous scrolling in both axes.
+        // We do this by scrolling only when the last two scroll events were
+        // on the same axis as the current scroll event.
+        // For diagonal scroll events we only respect the dominant axis.
+        let isVertical = Math.abs(event.deltaY) > Math.abs(event.deltaX);
+        let delta = isVertical ? event.deltaY : event.deltaX;
+        let scrollByDelta = isVertical && this._isRTLScrollbox ? -delta : delta;
+
+        if (this._prevMouseScrolls.every(prev => prev == isVertical)) {
+          doScroll = true;
+          if (event.deltaMode == event.DOM_DELTA_PIXEL) {
+            scrollAmount = scrollByDelta;
+            instant = true;
+          } else if (event.deltaMode == event.DOM_DELTA_PAGE) {
+            scrollAmount = scrollByDelta * this.scrollClientSize;
+          } else {
+            scrollAmount = scrollByDelta * this.lineScrollAmount;
+          }
+        }
+
+        if (this._prevMouseScrolls.length > 1)
+          this._prevMouseScrolls.shift();
+        this._prevMouseScrolls.push(isVertical);
+      }
+
+      if (doScroll) {
+        let direction = scrollAmount < 0 ? -1 : 1;
+        let startPos = this.scrollPosition;
+
+        if (!this._isScrolling || this._direction != direction) {
+          this._destination = startPos + scrollAmount;
+          this._direction = direction;
+        } else {
+          // We were already in the process of scrolling in this direction
+          this._destination = this._destination + scrollAmount;
+          scrollAmount = this._destination - startPos;
+        }
+        this.scrollByPixels(scrollAmount, instant);
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    this.addEventListener("touchstart", (event) => {
+      if (event.touches.length > 1) {
+        // Multiple touch points detected, abort. In particular this aborts
+        // the panning gesture when the user puts a second finger down after
+        // already panning with one finger. Aborting at this point prevents
+        // the pan gesture from being resumed until all fingers are lifted
+        // (as opposed to when the user is back down to one finger).
+        this._touchStart = -1;
+      } else {
+        this._touchStart = (this.orient == "vertical" ?
+          event.touches[0].screenY :
+          event.touches[0].screenX);
+      }
+    });
+
+    this.addEventListener("touchmove", (event) => {
+      if (event.touches.length == 1 &&
+        this._touchStart >= 0) {
+        var touchPoint = (this.orient == "vertical" ?
+          event.touches[0].screenY :
+          event.touches[0].screenX);
+        var delta = this._touchStart - touchPoint;
+        if (Math.abs(delta) > 0) {
+          this.scrollByPixels(delta, true);
+          this._touchStart = touchPoint;
+        }
+        event.preventDefault();
+      }
+    });
+
+    this.addEventListener("touchend", (event) => {
+      this._touchStart = -1;
+    });
+
+    this.addEventListener("underflow", (event) => {
+      // filter underflow events which were dispatched on nested scrollboxes
+      if (event.target != this)
+        return;
+
+      // Ignore events that doesn't match our orientation.
+      // Scrollport event orientation:
+      //   0: vertical
+      //   1: horizontal
+      //   2: both
+      if (this.orient == "vertical") {
+        if (event.detail == 1)
+          return;
+      } else if (event.detail == 0) {
+        // horizontal scrollbox
+        return;
+      }
+
+      this.setAttribute("notoverflowing", "true");
+      this._updateScrollButtonsDisabledState();
+    }, true);
+
+    this.addEventListener("overflow", (event) => {
+      // filter underflow events which were dispatched on nested scrollboxes
+      if (event.target != this)
+        return;
+
+      // Ignore events that doesn't match our orientation.
+      // Scrollport event orientation:
+      //   0: vertical
+      //   1: horizontal
+      //   2: both
+      if (this.orient == "vertical") {
+        if (event.detail == 1)
+          return;
+      } else if (event.detail == 0) {
+        // horizontal scrollbox
+        return;
+      }
+
+      this.removeAttribute("notoverflowing");
+      this._updateScrollButtonsDisabledState();
+    }, true);
+
+    this.addEventListener("scroll", (event) => {
+      this._isScrolling = true;
+      this._updateScrollButtonsDisabledState();
+    });
+
+    this.addEventListener("scrollend", (event) => {
+      this._isScrolling = false;
+      this._destination = 0;
+      this._direction = 0;
+    });
+
   }
 }

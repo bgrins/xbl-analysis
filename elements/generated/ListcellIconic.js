@@ -8,6 +8,10 @@ class FirefoxListcellIconic extends FirefoxListcell {
       </children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

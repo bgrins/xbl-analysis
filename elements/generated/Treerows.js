@@ -8,6 +8,11 @@ class FirefoxTreerows extends FirefoxTreeBase {
       <xul:scrollbar height="0" minwidth="0" minheight="0" orient="vertical" inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></xul:scrollbar>
     `;
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("underflow", (event) => {
       // Scrollport event orientation
       // 0: vertical
@@ -31,5 +36,4 @@ class FirefoxTreerows extends FirefoxTreeBase {
     });
 
   }
-
 }

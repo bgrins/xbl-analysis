@@ -4,6 +4,7 @@ class FirefoxBasetext extends FirefoxBasecontrol {
 
     this.labelElement = "";
 
+    this.setupHandlers();
   }
 
   set label(val) {
@@ -55,5 +56,9 @@ class FirefoxBasetext extends FirefoxBasecontrol {
 
   get accessKey() {
     return this.labelElement ? this.labelElement.accessKey : this.getAttribute("accesskey");
+  }
+
+  setupHandlers() {
+
   }
 }

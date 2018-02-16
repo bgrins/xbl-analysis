@@ -227,6 +227,17 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
     this.TouchUtils.init(this);
     this.dispatchEvent(new CustomEvent("VideoBindingAttached"));
 
+    this.setupHandlers();
+  }
+
+  disconnectedCallback() {
+    // XBL destructors don't appear to be inherited properly, so we need
+    // to do this here in addition to the videoControls destructor. :-(
+    delete this.randomID;
+  }
+
+  setupHandlers() {
+
     this.addEventListener("mouseup", (event) => {
       if (event.originalTarget.nodeName == "vbox") {
         if (this.TouchUtils.firstShow) {
@@ -236,10 +247,5 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
       }
     });
 
-  }
-  disconnectedCallback() {
-    // XBL destructors don't appear to be inherited properly, so we need
-    // to do this here in addition to the videoControls destructor. :-(
-    delete this.randomID;
   }
 }

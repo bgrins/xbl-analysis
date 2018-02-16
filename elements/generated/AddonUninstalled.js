@@ -23,9 +23,7 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
 
     gEventManager.registerAddonListener(this, this.mAddon.id);
 
-  }
-  disconnectedCallback() {
-    gEventManager.unregisterAddonListener(this, this.mAddon.id);
+    this.setupHandlers();
   }
   cancelUninstall() {
     // This assumes that disabling does not require a restart when
@@ -70,5 +68,12 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
       this.mAddon = aAddon;
 
     this.removeAttribute("pending");
+  }
+  disconnectedCallback() {
+    gEventManager.unregisterAddonListener(this, this.mAddon.id);
+  }
+
+  setupHandlers() {
+
   }
 }

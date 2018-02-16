@@ -7,6 +7,11 @@ class FirefoxTreebody extends FirefoxTreeBase {
     if ("_ensureColumnOrder" in this.parentNode)
       this.parentNode._ensureColumnOrder();
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("mousedown", (event) => {
       if (this.parentNode.disabled)
         return;
@@ -169,5 +174,4 @@ class FirefoxTreebody extends FirefoxTreeBase {
     });
 
   }
-
 }

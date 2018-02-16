@@ -2,6 +2,7 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
   connectedCallback() {
     super.connectedCallback()
 
+    this.setupHandlers();
   }
 
   set open(val) {
@@ -81,5 +82,9 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
       return null;
 
     return menupopup.childNodes[aIndex];
+  }
+
+  setupHandlers() {
+
   }
 }

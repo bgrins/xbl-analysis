@@ -1,6 +1,11 @@
 class FirefoxBuiltinEmacsInputfields extends XULElement {
   connectedCallback() {
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("keypress", (event) => {
       undefined
     });
@@ -114,5 +119,4 @@ class FirefoxBuiltinEmacsInputfields extends XULElement {
     });
 
   }
-
 }

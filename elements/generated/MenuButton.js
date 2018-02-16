@@ -8,6 +8,10 @@ class FirefoxMenuButton extends FirefoxMenuButtonBase {
       <xul:dropmarker type="menu-button" class="toolbarbutton-menubutton-dropmarker" anonid="dropmarker" inherits="align,dir,pack,orient,disabled,label,open,consumeanchor"></xul:dropmarker>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

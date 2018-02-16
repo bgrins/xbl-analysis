@@ -10,122 +10,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     if (this.place)
       this.place = this.place;
 
-    this.addEventListener("focus", (event) => {
-      this._cachedInsertionPoint = undefined;
-
-      // See select handler. We need the sidebar's places commandset to be
-      // updated as well
-      document.commandDispatcher.updateCommands("focus");
-    });
-
-    this.addEventListener("select", (event) => {
-      this._cachedInsertionPoint = undefined;
-
-      // This additional complexity is here for the sidebars
-      var win = window;
-      while (true) {
-        win.document.commandDispatcher.updateCommands("focus");
-        if (win == window.top)
-          break;
-
-        win = win.parent;
-      }
-    });
-
-    this.addEventListener("dragstart", (event) => {
-      if (event.target.localName != "treechildren")
-        return;
-
-      let nodes = this.selectedNodes;
-      for (let i = 0; i < nodes.length; i++) {
-        let node = nodes[i];
-
-        // Disallow dragging the root node of a tree.
-        if (!node.parent) {
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-
-        // If this node is child of a readonly container (e.g. a livemark)
-        // or cannot be moved, we must force a copy.
-        if (!PlacesControllerDragHelper.canMoveNode(node, this)) {
-          event.dataTransfer.effectAllowed = "copyLink";
-          break;
-        }
-      }
-
-      this._controller.setDataTransfer(event);
-      event.stopPropagation();
-    });
-
-    this.addEventListener("dragover", (event) => {
-      if (event.target.localName != "treechildren")
-        return;
-
-      let cell = this.treeBoxObject.getCellAt(event.clientX, event.clientY);
-      let node = cell.row != -1 ?
-        this.view.nodeForTreeIndex(cell.row) :
-        this.result.root;
-      // cache the dropTarget for the view
-      PlacesControllerDragHelper.currentDropTarget = node;
-
-      // We have to calculate the orientation since view.canDrop will use
-      // it and we want to be consistent with the dropfeedback.
-      let tbo = this.treeBoxObject;
-      let rowHeight = tbo.rowHeight;
-      let eventY = event.clientY - tbo.treeBody.boxObject.y -
-        rowHeight * (cell.row - tbo.getFirstVisibleRow());
-
-      let orientation = Ci.nsITreeView.DROP_BEFORE;
-
-      if (cell.row == -1) {
-        // If the row is not valid we try to insert inside the resultNode.
-        orientation = Ci.nsITreeView.DROP_ON;
-      } else if (PlacesUtils.nodeIsContainer(node) &&
-        eventY > rowHeight * 0.75) {
-        // If we are below the 75% of a container the treeview we try
-        // to drop after the node.
-        orientation = Ci.nsITreeView.DROP_AFTER;
-      } else if (PlacesUtils.nodeIsContainer(node) &&
-        eventY > rowHeight * 0.25) {
-        // If we are below the 25% of a container the treeview we try
-        // to drop inside the node.
-        orientation = Ci.nsITreeView.DROP_ON;
-      }
-
-      if (!this.view.canDrop(cell.row, orientation, event.dataTransfer))
-        return;
-
-      event.preventDefault();
-      event.stopPropagation();
-    });
-
-    this.addEventListener("dragend", (event) => {
-      PlacesControllerDragHelper.currentDropTarget = null;
-    });
-
-  }
-  disconnectedCallback() {
-    // Break the treeviewer->result->treeviewer cycle.
-    // Note: unsetting the result's viewer also unsets
-    // the viewer's reference to our treeBoxObject.
-    var result = this.result;
-    if (result) {
-      result.root.containerOpen = false;
-    }
-
-    // Unregister the controllber before unlinking the view, otherwise it
-    // may still try to update commands on a view with a null result.
-    if (this._controller) {
-      this._controller.terminate();
-      this.controllers.removeController(this._controller);
-    }
-
-    if (this.view) {
-      this.view.uninit();
-    }
-    this.view = null;
+    this.setupHandlers();
   }
 
   get controller() {
@@ -718,4 +603,124 @@ class FirefoxPlacesTree extends FirefoxTree {
     return this.controller.buildContextMenu(aPopup);
   }
   destroyContextMenu(aPopup) {}
+  disconnectedCallback() {
+    // Break the treeviewer->result->treeviewer cycle.
+    // Note: unsetting the result's viewer also unsets
+    // the viewer's reference to our treeBoxObject.
+    var result = this.result;
+    if (result) {
+      result.root.containerOpen = false;
+    }
+
+    // Unregister the controllber before unlinking the view, otherwise it
+    // may still try to update commands on a view with a null result.
+    if (this._controller) {
+      this._controller.terminate();
+      this.controllers.removeController(this._controller);
+    }
+
+    if (this.view) {
+      this.view.uninit();
+    }
+    this.view = null;
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("focus", (event) => {
+      this._cachedInsertionPoint = undefined;
+
+      // See select handler. We need the sidebar's places commandset to be
+      // updated as well
+      document.commandDispatcher.updateCommands("focus");
+    });
+
+    this.addEventListener("select", (event) => {
+      this._cachedInsertionPoint = undefined;
+
+      // This additional complexity is here for the sidebars
+      var win = window;
+      while (true) {
+        win.document.commandDispatcher.updateCommands("focus");
+        if (win == window.top)
+          break;
+
+        win = win.parent;
+      }
+    });
+
+    this.addEventListener("dragstart", (event) => {
+      if (event.target.localName != "treechildren")
+        return;
+
+      let nodes = this.selectedNodes;
+      for (let i = 0; i < nodes.length; i++) {
+        let node = nodes[i];
+
+        // Disallow dragging the root node of a tree.
+        if (!node.parent) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+
+        // If this node is child of a readonly container (e.g. a livemark)
+        // or cannot be moved, we must force a copy.
+        if (!PlacesControllerDragHelper.canMoveNode(node, this)) {
+          event.dataTransfer.effectAllowed = "copyLink";
+          break;
+        }
+      }
+
+      this._controller.setDataTransfer(event);
+      event.stopPropagation();
+    });
+
+    this.addEventListener("dragover", (event) => {
+      if (event.target.localName != "treechildren")
+        return;
+
+      let cell = this.treeBoxObject.getCellAt(event.clientX, event.clientY);
+      let node = cell.row != -1 ?
+        this.view.nodeForTreeIndex(cell.row) :
+        this.result.root;
+      // cache the dropTarget for the view
+      PlacesControllerDragHelper.currentDropTarget = node;
+
+      // We have to calculate the orientation since view.canDrop will use
+      // it and we want to be consistent with the dropfeedback.
+      let tbo = this.treeBoxObject;
+      let rowHeight = tbo.rowHeight;
+      let eventY = event.clientY - tbo.treeBody.boxObject.y -
+        rowHeight * (cell.row - tbo.getFirstVisibleRow());
+
+      let orientation = Ci.nsITreeView.DROP_BEFORE;
+
+      if (cell.row == -1) {
+        // If the row is not valid we try to insert inside the resultNode.
+        orientation = Ci.nsITreeView.DROP_ON;
+      } else if (PlacesUtils.nodeIsContainer(node) &&
+        eventY > rowHeight * 0.75) {
+        // If we are below the 75% of a container the treeview we try
+        // to drop after the node.
+        orientation = Ci.nsITreeView.DROP_AFTER;
+      } else if (PlacesUtils.nodeIsContainer(node) &&
+        eventY > rowHeight * 0.25) {
+        // If we are below the 25% of a container the treeview we try
+        // to drop inside the node.
+        orientation = Ci.nsITreeView.DROP_ON;
+      }
+
+      if (!this.view.canDrop(cell.row, orientation, event.dataTransfer))
+        return;
+
+      event.preventDefault();
+      event.stopPropagation();
+    });
+
+    this.addEventListener("dragend", (event) => {
+      PlacesControllerDragHelper.currentDropTarget = null;
+    });
+
+  }
 }

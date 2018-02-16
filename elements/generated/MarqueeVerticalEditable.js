@@ -7,6 +7,10 @@ class FirefoxMarqueeVerticalEditable extends XULElement {
       </html:div>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

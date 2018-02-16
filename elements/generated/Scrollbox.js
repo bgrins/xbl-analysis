@@ -7,9 +7,13 @@ class FirefoxScrollbox extends FirefoxScrollboxBase {
       </xul:box>
     `;
 
+    this.setupHandlers();
   }
-
   scrollByIndex(index) {
     this.boxObject.scrollByIndex(index);
+  }
+
+  setupHandlers() {
+
   }
 }

@@ -211,25 +211,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
     gEventManager.registerAddonListener(this, this.mAddon.id);
 
-    this.addEventListener("click", (event) => {
-      switch (event.detail) {
-        case 1:
-          // Prevent double-click where the UI changes on the first click
-          this._lastClickTarget = event.originalTarget;
-          break;
-        case 2:
-          if (event.originalTarget.localName != "button" &&
-            !event.originalTarget.classList.contains("text-link") &&
-            event.originalTarget == this._lastClickTarget) {
-            this.showInDetailView();
-          }
-          break;
-      }
-    });
-
-  }
-  disconnectedCallback() {
-    gEventManager.unregisterAddonListener(this, this.mAddon.id);
+    this.setupHandlers();
   }
 
   set userDisabled(val) {
@@ -798,5 +780,28 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
   }
   onInstallCancelled() {
     this._updateState();
+  }
+  disconnectedCallback() {
+    gEventManager.unregisterAddonListener(this, this.mAddon.id);
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("click", (event) => {
+      switch (event.detail) {
+        case 1:
+          // Prevent double-click where the UI changes on the first click
+          this._lastClickTarget = event.originalTarget;
+          break;
+        case 2:
+          if (event.originalTarget.localName != "button" &&
+            !event.originalTarget.classList.contains("text-link") &&
+            event.originalTarget == this._lastClickTarget) {
+            this.showInDetailView();
+          }
+          break;
+      }
+    });
+
   }
 }

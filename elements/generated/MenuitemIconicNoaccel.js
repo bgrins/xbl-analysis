@@ -9,6 +9,10 @@ class FirefoxMenuitemIconicNoaccel extends FirefoxMenuitem {
       <xul:label class="menu-iconic-highlightable-text" inherits="text=label,crop,accesskey,highlightable" crop="right"></xul:label>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

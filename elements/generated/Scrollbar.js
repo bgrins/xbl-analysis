@@ -11,6 +11,10 @@ class FirefoxScrollbar extends XULElement {
       <xul:scrollbarbutton sbattr="scrollbar-down-bottom" type="increment" inherits="curpos,maxpos,disabled,sborient=orient"></xul:scrollbarbutton>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

@@ -18,8 +18,14 @@ class FirefoxPanelmultiview extends XULElement {
     this.instance = PanelMultiView.forNode(this);
     this.instance.connect();
 
+    this.setupHandlers();
   }
+
   disconnectedCallback() {
     this.instance.destructor();
+  }
+
+  setupHandlers() {
+
   }
 }

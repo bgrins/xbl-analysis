@@ -7,6 +7,10 @@ class FirefoxMenuMenubarIconic extends FirefoxMenuBase {
       <children includes="menupopup"></children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

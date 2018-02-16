@@ -37,21 +37,7 @@ class FirefoxDialog extends XULElement {
     window.moveToAlertPosition = this.moveToAlertPosition;
     window.centerWindowOnScreen = this.centerWindowOnScreen;
 
-    this.addEventListener("keypress", (event) => {
-      this._hitEnter(event);
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (!event.defaultPrevented)
-        this.cancelDialog();
-    });
-
-    this.addEventListener("focus", (event) => {
-      var btn = this.getButton(this.defaultButton);
-      if (btn)
-        btn.setAttribute("default", event.originalTarget == btn || !(event.originalTarget instanceof Components.interfaces.nsIDOMXULButtonElement));
-    }, true);
-
+    this.setupHandlers();
   }
 
   set buttons(val) {
@@ -348,5 +334,24 @@ class FirefoxDialog extends XULElement {
     var btn = this.getButton(this.defaultButton);
     if (btn)
       this._doButtonCommand(this.defaultButton);
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("keypress", (event) => {
+      this._hitEnter(event);
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (!event.defaultPrevented)
+        this.cancelDialog();
+    });
+
+    this.addEventListener("focus", (event) => {
+      var btn = this.getButton(this.defaultButton);
+      if (btn)
+        btn.setAttribute("default", event.originalTarget == btn || !(event.originalTarget instanceof Components.interfaces.nsIDOMXULButtonElement));
+    }, true);
+
   }
 }

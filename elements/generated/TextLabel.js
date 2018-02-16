@@ -2,6 +2,7 @@ class FirefoxTextLabel extends FirefoxTextBase {
   connectedCallback() {
     super.connectedCallback()
 
+    this.setupHandlers();
   }
 
   set accessKey(val) {
@@ -22,5 +23,9 @@ class FirefoxTextLabel extends FirefoxTextBase {
 
   get control() {
     return getAttribute('control');
+  }
+
+  setupHandlers() {
+
   }
 }

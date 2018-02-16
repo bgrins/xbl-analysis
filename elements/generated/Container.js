@@ -14,6 +14,10 @@ class FirefoxContainer extends XULElement {
       </xul:hbox>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

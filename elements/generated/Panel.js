@@ -18,6 +18,11 @@ class FirefoxPanel extends FirefoxPopupBase {
       } catch (e) {}
     }
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("popupshowing", (event) => {
       // Capture the previous focus before has a chance to get set inside the panel
       try {
@@ -96,5 +101,4 @@ class FirefoxPanel extends FirefoxPopupBase {
     });
 
   }
-
 }

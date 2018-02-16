@@ -17,44 +17,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     this.menuBoxObject = this.boxObject;
     this.setInitialSelection();
 
-    this.addEventListener("command", (event) => {
-      if (event.target.parentNode.parentNode == this) this.selectedItem = event.target;
-    }, true);
-
-    this.addEventListener("popupshowing", (event) => {
-      if (event.target.parentNode == this) {
-        this.menuBoxObject.activeChild = null;
-        if (this.selectedItem)
-          // Not ready for auto-setting the active child in hierarchies yet.
-          // For now, only do this when the outermost menupopup opens.
-          this.menuBoxObject.activeChild = this.mSelectedInternal;
-      }
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (!event.defaultPrevented &&
-        (event.keyCode == KeyEvent.DOM_VK_UP ||
-          event.keyCode == KeyEvent.DOM_VK_DOWN ||
-          event.keyCode == KeyEvent.DOM_VK_PAGE_UP ||
-          event.keyCode == KeyEvent.DOM_VK_PAGE_DOWN ||
-          event.keyCode == KeyEvent.DOM_VK_HOME ||
-          event.keyCode == KeyEvent.DOM_VK_END ||
-          event.keyCode == KeyEvent.DOM_VK_BACK_SPACE ||
-          event.charCode > 0)) {
-        // Moving relative to an item: start from the currently selected item
-        this.menuBoxObject.activeChild = this.mSelectedInternal;
-        if (this.menuBoxObject.handleKeyPress(event)) {
-          this.menuBoxObject.activeChild.doCommand();
-          event.preventDefault();
-        }
-      }
-    });
-
-  }
-  disconnectedCallback() {
-    if (this.mAttributeObserver) {
-      this.mAttributeObserver.disconnect();
-    }
+    this.setupHandlers();
   }
 
   set value(val) {
@@ -332,5 +295,47 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     var popup = this.menupopup;
     if (popup)
       this.removeChild(popup);
+  }
+  disconnectedCallback() {
+    if (this.mAttributeObserver) {
+      this.mAttributeObserver.disconnect();
+    }
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("command", (event) => {
+      if (event.target.parentNode.parentNode == this) this.selectedItem = event.target;
+    }, true);
+
+    this.addEventListener("popupshowing", (event) => {
+      if (event.target.parentNode == this) {
+        this.menuBoxObject.activeChild = null;
+        if (this.selectedItem)
+          // Not ready for auto-setting the active child in hierarchies yet.
+          // For now, only do this when the outermost menupopup opens.
+          this.menuBoxObject.activeChild = this.mSelectedInternal;
+      }
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (!event.defaultPrevented &&
+        (event.keyCode == KeyEvent.DOM_VK_UP ||
+          event.keyCode == KeyEvent.DOM_VK_DOWN ||
+          event.keyCode == KeyEvent.DOM_VK_PAGE_UP ||
+          event.keyCode == KeyEvent.DOM_VK_PAGE_DOWN ||
+          event.keyCode == KeyEvent.DOM_VK_HOME ||
+          event.keyCode == KeyEvent.DOM_VK_END ||
+          event.keyCode == KeyEvent.DOM_VK_BACK_SPACE ||
+          event.charCode > 0)) {
+        // Moving relative to an item: start from the currently selected item
+        this.menuBoxObject.activeChild = this.mSelectedInternal;
+        if (this.menuBoxObject.handleKeyPress(event)) {
+          this.menuBoxObject.activeChild.doCommand();
+          event.preventDefault();
+        }
+      }
+    });
+
   }
 }

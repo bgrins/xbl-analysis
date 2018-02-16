@@ -8,6 +8,10 @@ class FirefoxOfflineapp extends FirefoxListitem {
       </children>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

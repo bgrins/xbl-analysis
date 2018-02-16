@@ -10,6 +10,64 @@ class FirefoxTab extends FirefoxBasetext {
 
     this.arrowKeysShouldWrap = /Mac/.test(navigator.platform);
 
+    this.setupHandlers();
+  }
+
+  set value(val) {
+    this.setAttribute('value', val);
+    return val;
+  }
+
+  get value() {
+    return this.getAttribute('value');
+  }
+
+  get control() {
+    var parent = this.parentNode;
+    if (parent instanceof Components.interfaces.nsIDOMXULSelectControlElement)
+      return parent;
+    return null;
+  }
+
+  get selected() {
+    return this.getAttribute('selected') == 'true';
+  }
+
+  set _selected(val) {
+    if (val) {
+      this.setAttribute("selected", "true");
+      this.setAttribute("visuallyselected", "true");
+    } else {
+      this.removeAttribute("selected");
+      this.removeAttribute("visuallyselected");
+    }
+
+    return val;
+  }
+
+  set linkedPanel(val) {
+    this.setAttribute('linkedpanel', val);
+    return val;
+  }
+
+  get linkedPanel() {
+    return this.getAttribute('linkedpanel')
+  }
+
+  get TelemetryStopwatch() {
+    let module = {};
+    ChromeUtils.import("resource://gre/modules/TelemetryStopwatch.jsm", module);
+    Object.defineProperty(this, "TelemetryStopwatch", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: module.TelemetryStopwatch
+    });
+    return module.TelemetryStopwatch;
+  }
+
+  setupHandlers() {
+
     this.addEventListener("mousedown", (event) => {
       if (this.disabled)
         return;
@@ -74,58 +132,5 @@ class FirefoxTab extends FirefoxBasetext {
       this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
     });
 
-  }
-
-  set value(val) {
-    this.setAttribute('value', val);
-    return val;
-  }
-
-  get value() {
-    return this.getAttribute('value');
-  }
-
-  get control() {
-    var parent = this.parentNode;
-    if (parent instanceof Components.interfaces.nsIDOMXULSelectControlElement)
-      return parent;
-    return null;
-  }
-
-  get selected() {
-    return this.getAttribute('selected') == 'true';
-  }
-
-  set _selected(val) {
-    if (val) {
-      this.setAttribute("selected", "true");
-      this.setAttribute("visuallyselected", "true");
-    } else {
-      this.removeAttribute("selected");
-      this.removeAttribute("visuallyselected");
-    }
-
-    return val;
-  }
-
-  set linkedPanel(val) {
-    this.setAttribute('linkedpanel', val);
-    return val;
-  }
-
-  get linkedPanel() {
-    return this.getAttribute('linkedpanel')
-  }
-
-  get TelemetryStopwatch() {
-    let module = {};
-    ChromeUtils.import("resource://gre/modules/TelemetryStopwatch.jsm", module);
-    Object.defineProperty(this, "TelemetryStopwatch", {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: module.TelemetryStopwatch
-    });
-    return module.TelemetryStopwatch;
   }
 }

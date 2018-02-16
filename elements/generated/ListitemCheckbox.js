@@ -7,13 +7,7 @@ class FirefoxListitemCheckbox extends FirefoxListitem {
       </children>
     `;
 
-    this.addEventListener("mousedown", (event) => {
-      if (!this.disabled && !this.control.disabled) {
-        this.checked = !this.checked;
-        this.doCommand();
-      }
-    });
-
+    this.setupHandlers();
   }
 
   set checked(val) {
@@ -29,5 +23,16 @@ class FirefoxListitemCheckbox extends FirefoxListitem {
 
   get checked() {
     return this.getAttribute('checked') == 'true';
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("mousedown", (event) => {
+      if (!this.disabled && !this.control.disabled) {
+        this.checked = !this.checked;
+        this.doCommand();
+      }
+    });
+
   }
 }

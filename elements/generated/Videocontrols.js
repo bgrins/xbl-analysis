@@ -1749,6 +1749,21 @@ class FirefoxVideocontrols extends XULElement {
 
     this.Utils.init(this);
 
+    this.setupHandlers();
+  }
+
+  disconnectedCallback() {
+    this.Utils.terminateEventListeners();
+    this.Utils.updateOrientationState(false);
+    // randomID used to be a <field>, which meant that the XBL machinery
+    // undefined the property when the element was unbound. The code in
+    // this file actually depends on this, so now that randomID is an
+    // expando, we need to make sure to explicitly delete it.
+    delete this.randomID;
+  }
+
+  setupHandlers() {
+
     this.addEventListener("mouseover", (event) => {
       if (!this.isTouchControls) {
         this.Utils.onMouseInOut(event);
@@ -1767,14 +1782,5 @@ class FirefoxVideocontrols extends XULElement {
       }
     });
 
-  }
-  disconnectedCallback() {
-    this.Utils.terminateEventListeners();
-    this.Utils.updateOrientationState(false);
-    // randomID used to be a <field>, which meant that the XBL machinery
-    // undefined the property when the element was unbound. The code in
-    // this file actually depends on this, so now that randomID is an
-    // expando, we need to make sure to explicitly delete it.
-    delete this.randomID;
   }
 }

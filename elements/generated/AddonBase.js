@@ -2,6 +2,7 @@ class FirefoxAddonBase extends FirefoxRichlistitem {
   connectedCallback() {
     super.connectedCallback()
 
+    this.setupHandlers();
   }
 
   get isLegacy() {
@@ -30,5 +31,9 @@ class FirefoxAddonBase extends FirefoxRichlistitem {
   }
   onUninstalled() {
     this.remove();
+  }
+
+  setupHandlers() {
+
   }
 }

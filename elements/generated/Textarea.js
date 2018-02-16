@@ -9,6 +9,10 @@ class FirefoxTextarea extends FirefoxTextbox {
       </xul:hbox>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

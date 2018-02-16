@@ -35,69 +35,7 @@ class FirefoxTextbox extends XULElement {
     if (this.hasAttribute("emptytext"))
       this.placeholder = this.getAttribute("emptytext");
 
-    this.addEventListener("focus", (event) => {
-      if (this.hasAttribute("focused"))
-        return;
-
-      let {
-        originalTarget
-      } = event;
-      if (originalTarget == this) {
-        // Forward focus to actual HTML input
-        this.inputField.focus();
-        this.setAttribute("focused", "true");
-        return;
-      }
-
-      // We check for the parent nodes to support input[type=number] where originalTarget may be an
-      // anonymous child input.
-      if (originalTarget == this.inputField ||
-        originalTarget.localName == "input" && originalTarget.parentNode.parentNode == this.inputField) {
-        if (this.mIgnoreFocus) {
-          this.mIgnoreFocus = false;
-        } else if (this.clickSelectsAll) {
-          try {
-            if (!this.editor || !this.editor.composing)
-              this.editor.selectAll();
-          } catch (e) {}
-        }
-        this.setAttribute("focused", "true");
-      }
-      // Otherwise, allow other children (e.g. URL bar buttons) to get focus
-    }, true);
-
-    this.addEventListener("blur", (event) => {
-      this.removeAttribute("focused");
-
-      // don't trigger clickSelectsAll when switching application windows
-      if (window == window.top &&
-        window.isChromeWindow &&
-        document.activeElement == this.inputField)
-        this.mIgnoreFocus = true;
-    }, true);
-
-    this.addEventListener("mousedown", (event) => {
-      this.mIgnoreClick = this.hasAttribute("focused");
-
-      if (!this.mIgnoreClick) {
-        this.mIgnoreFocus = true;
-        this.setSelectionRange(0, 0);
-        if (event.originalTarget == this ||
-          event.originalTarget == this.inputField.parentNode)
-          this.inputField.focus();
-      }
-    });
-
-    this.addEventListener("click", (event) => {
-      this._maybeSelectAll();
-    });
-
-  }
-  disconnectedCallback() {
-    var field = this.inputField;
-    if (field && field.value)
-      this.boxObject.setProperty("value", field.value);
-    this.mInputField = null;
+    this.setupHandlers();
   }
 
   get inputField() {
@@ -296,5 +234,72 @@ class FirefoxTextbox extends XULElement {
       document.activeElement == this.inputField &&
       this.inputField.selectionStart == this.inputField.selectionEnd)
       this.editor.selectAll();
+  }
+  disconnectedCallback() {
+    var field = this.inputField;
+    if (field && field.value)
+      this.boxObject.setProperty("value", field.value);
+    this.mInputField = null;
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("focus", (event) => {
+      if (this.hasAttribute("focused"))
+        return;
+
+      let {
+        originalTarget
+      } = event;
+      if (originalTarget == this) {
+        // Forward focus to actual HTML input
+        this.inputField.focus();
+        this.setAttribute("focused", "true");
+        return;
+      }
+
+      // We check for the parent nodes to support input[type=number] where originalTarget may be an
+      // anonymous child input.
+      if (originalTarget == this.inputField ||
+        originalTarget.localName == "input" && originalTarget.parentNode.parentNode == this.inputField) {
+        if (this.mIgnoreFocus) {
+          this.mIgnoreFocus = false;
+        } else if (this.clickSelectsAll) {
+          try {
+            if (!this.editor || !this.editor.composing)
+              this.editor.selectAll();
+          } catch (e) {}
+        }
+        this.setAttribute("focused", "true");
+      }
+      // Otherwise, allow other children (e.g. URL bar buttons) to get focus
+    }, true);
+
+    this.addEventListener("blur", (event) => {
+      this.removeAttribute("focused");
+
+      // don't trigger clickSelectsAll when switching application windows
+      if (window == window.top &&
+        window.isChromeWindow &&
+        document.activeElement == this.inputField)
+        this.mIgnoreFocus = true;
+    }, true);
+
+    this.addEventListener("mousedown", (event) => {
+      this.mIgnoreClick = this.hasAttribute("focused");
+
+      if (!this.mIgnoreClick) {
+        this.mIgnoreFocus = true;
+        this.setSelectionRange(0, 0);
+        if (event.originalTarget == this ||
+          event.originalTarget == this.inputField.parentNode)
+          this.inputField.focus();
+      }
+    });
+
+    this.addEventListener("click", (event) => {
+      this._maybeSelectAll();
+    });
+
   }
 }

@@ -13,6 +13,11 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
       </xul:vbox>
     `;
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("mouseover", (event) => {
       ctrlTab._mouseOverFocus(this);
     });
@@ -26,5 +31,4 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
     });
 
   }
-
 }

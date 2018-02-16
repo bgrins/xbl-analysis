@@ -16,54 +16,7 @@ class FirefoxScale extends FirefoxBasecontrol {
     else if (this.max < 0)
       this.value = this.max;
 
-    this.addEventListener("keypress", (event) => {
-      this._userChanged = true;
-      (this.orient != "vertical" && this.dir == "reverse") ? this.increase(): this.decrease();
-      this._userChanged = false;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this._userChanged = true;
-      (this.orient != "vertical" && this.dir == "reverse") ? this.decrease(): this.increase();
-      this._userChanged = false;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this._userChanged = true;
-      (this.orient == "vertical" && this.dir != "reverse") ? this.decrease(): this.increase();
-      this._userChanged = false;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this._userChanged = true;
-      (this.orient == "vertical" && this.dir != "reverse") ? this.increase(): this.decrease();
-      this._userChanged = false;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this._userChanged = true;
-      (this.orient == "vertical" && this.dir != "reverse") ? this.decreasePage(): this.increasePage();
-      this._userChanged = false;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this._userChanged = true;
-      (this.orient == "vertical" && this.dir != "reverse") ? this.increasePage(): this.decreasePage();
-      this._userChanged = false;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this._userChanged = true;
-      this.value = (this.dir == "reverse") ? this.max : this.min;
-      this._userChanged = false;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      this._userChanged = true;
-      this.value = (this.dir == "reverse") ? this.min : this.max;
-      this._userChanged = false;
-    });
-
+    this.setupHandlers();
   }
 
   set value(val) {
@@ -173,4 +126,56 @@ class FirefoxScale extends FirefoxBasecontrol {
     }
   }
   dragStateChanged(isDragging) {}
+
+  setupHandlers() {
+
+    this.addEventListener("keypress", (event) => {
+      this._userChanged = true;
+      (this.orient != "vertical" && this.dir == "reverse") ? this.increase(): this.decrease();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this._userChanged = true;
+      (this.orient != "vertical" && this.dir == "reverse") ? this.decrease(): this.increase();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this._userChanged = true;
+      (this.orient == "vertical" && this.dir != "reverse") ? this.decrease(): this.increase();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this._userChanged = true;
+      (this.orient == "vertical" && this.dir != "reverse") ? this.increase(): this.decrease();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this._userChanged = true;
+      (this.orient == "vertical" && this.dir != "reverse") ? this.decreasePage(): this.increasePage();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this._userChanged = true;
+      (this.orient == "vertical" && this.dir != "reverse") ? this.increasePage(): this.decreasePage();
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this._userChanged = true;
+      this.value = (this.dir == "reverse") ? this.max : this.min;
+      this._userChanged = false;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      this._userChanged = true;
+      this.value = (this.dir == "reverse") ? this.min : this.max;
+      this._userChanged = false;
+    });
+
+  }
 }

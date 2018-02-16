@@ -6,19 +6,7 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
 
     this.init();
 
-    this.addEventListener("keypress", (event) => {
-      if (event.originalTarget == this)
-        this.open = true;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.originalTarget == this) {
-        this.open = true;
-        // Prevent page from scrolling on the space key.
-        event.preventDefault();
-      }
-    });
-
+    this.setupHandlers();
   }
 
   set buttonover(val) {
@@ -77,5 +65,22 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
     this._pendingActive = false;
     this.buttondown = false;
     document.removeEventListener("mouseup", this, true);
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("keypress", (event) => {
+      if (event.originalTarget == this)
+        this.open = true;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.originalTarget == this) {
+        this.open = true;
+        // Prevent page from scrolling on the space key.
+        event.preventDefault();
+      }
+    });
+
   }
 }

@@ -39,9 +39,7 @@ class FirefoxEditor extends XULElement {
     if (this.editortype)
       this.makeEditable(this.editortype, true);
 
-  }
-  disconnectedCallback() {
-    undefined
+    this.setupHandlers();
   }
 
   get finder() {
@@ -169,5 +167,12 @@ class FirefoxEditor extends XULElement {
   getHTMLEditor(containingWindow) {
     var editor = this.editingSession.getEditorForWindow(containingWindow);
     return editor.QueryInterface(Components.interfaces.nsIHTMLEditor);
+  }
+  disconnectedCallback() {
+    undefined
+  }
+
+  setupHandlers() {
+
   }
 }

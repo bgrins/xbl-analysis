@@ -1,6 +1,11 @@
 class FirefoxGrippy extends XULElement {
   connectedCallback() {
 
+    this.setupHandlers();
+  }
+
+  setupHandlers() {
+
     this.addEventListener("command", (event) => {
       var splitter = this.parentNode;
       if (splitter) {
@@ -13,5 +18,4 @@ class FirefoxGrippy extends XULElement {
     });
 
   }
-
 }

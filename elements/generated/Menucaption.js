@@ -9,6 +9,10 @@ class FirefoxMenucaption extends FirefoxMenuBase {
       <xul:label class="menu-iconic-highlightable-text" inherits="text=label,crop,highlightable" crop="right"></xul:label>
     `;
 
+    this.setupHandlers();
   }
 
+  setupHandlers() {
+
+  }
 }

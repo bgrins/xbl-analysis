@@ -95,16 +95,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this._controller = new RemoteController(this);
     this.controllers.appendController(this._controller);
 
-    this.addEventListener("dragstart", (event) => {
-      // If we're a remote browser dealing with a dragstart, stop it
-      // from propagating up, since our content process should be dealing
-      // with the mouse movement.
-      event.stopPropagation();
-    });
-
-  }
-  disconnectedCallback() {
-    this.destroy();
+    this.setupHandlers();
   }
 
   get securityUI() {
@@ -562,5 +553,19 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
     // Create the about blank content viewer in the content process
     this.messageManager.sendAsyncMessage("Browser:CreateAboutBlank", aPrincipal);
+  }
+  disconnectedCallback() {
+    this.destroy();
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("dragstart", (event) => {
+      // If we're a remote browser dealing with a dragstart, stop it
+      // from propagating up, since our content process should be dealing
+      // with the mouse movement.
+      event.stopPropagation();
+    });
+
   }
 }

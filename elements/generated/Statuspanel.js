@@ -9,10 +9,7 @@ class FirefoxStatuspanel extends XULElement {
 
     window.addEventListener("resize", this);
 
-  }
-  disconnectedCallback() {
-    window.removeEventListener("resize", this);
-    MousePosTracker.removeListener(this);
+    this.setupHandlers();
   }
 
   set label(val) {
@@ -97,5 +94,13 @@ class FirefoxStatuspanel extends XULElement {
       this.setAttribute("sizelimit", "true");
       this._mouseTargetRect = null;
     }
+  }
+  disconnectedCallback() {
+    window.removeEventListener("resize", this);
+    MousePosTracker.removeListener(this);
+  }
+
+  setupHandlers() {
+
   }
 }

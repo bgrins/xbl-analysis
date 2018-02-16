@@ -34,77 +34,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this.updateLastAccessed();
     }
 
-    this.addEventListener("mouseover", (event) => {
-      if (event.originalTarget.getAttribute("anonid") == "close-button") {
-        this.mOverCloseButton = true;
-      }
-
-      this._mouseenter();
-    });
-
-    this.addEventListener("mouseout", (event) => {
-      if (event.originalTarget.getAttribute("anonid") == "close-button") {
-        this.mOverCloseButton = false;
-      }
-
-      this._mouseleave();
-    });
-
-    this.addEventListener("dragstart", (event) => {
-      this.style.MozUserFocus = "";
-    }, true);
-
-    this.addEventListener("dragstart", (event) => {
-      if (this.mOverCloseButton) {
-        event.stopPropagation();
-      }
-    });
-
-    this.addEventListener("mousedown", (event) => {
-      if (this.selected) {
-        this.style.MozUserFocus = "ignore";
-      } else if (this.mOverCloseButton ||
-        this._overPlayingIcon) {
-        // Prevent tabbox.xml from selecting the tab.
-        event.stopPropagation();
-      }
-    }, true);
-
-    this.addEventListener("mouseup", (event) => {
-      this.style.MozUserFocus = "";
-    });
-
-    this.addEventListener("click", (event) => {
-      if (this._overPlayingIcon) {
-        this.toggleMuteAudio();
-        return;
-      }
-
-      if (event.originalTarget.getAttribute("anonid") == "close-button") {
-        let tabContainer = this.parentNode;
-        tabContainer.tabbrowser.removeTab(this, {
-          animate: true,
-          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE
-        });
-        // This enables double-click protection for the tab container
-        // (see tabbrowser-tabs 'click' handler).
-        tabContainer._blockDblClick = true;
-      }
-    });
-
-    this.addEventListener("dblclick", (event) => {
-      // for the one-close-button case
-      if (event.originalTarget.getAttribute("anonid") == "close-button") {
-        event.stopPropagation();
-      }
-    }, true);
-
-    this.addEventListener("animationend", (event) => {
-      if (event.originalTarget.getAttribute("anonid") == "tab-loading-burst") {
-        this.removeAttribute("bursting");
-      }
-    });
-
+    this.setupHandlers();
   }
 
   set _visuallySelected(val) {
@@ -339,5 +269,80 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     }
 
     ContextualIdentityService.setTabStyle(this);
+  }
+
+  setupHandlers() {
+
+    this.addEventListener("mouseover", (event) => {
+      if (event.originalTarget.getAttribute("anonid") == "close-button") {
+        this.mOverCloseButton = true;
+      }
+
+      this._mouseenter();
+    });
+
+    this.addEventListener("mouseout", (event) => {
+      if (event.originalTarget.getAttribute("anonid") == "close-button") {
+        this.mOverCloseButton = false;
+      }
+
+      this._mouseleave();
+    });
+
+    this.addEventListener("dragstart", (event) => {
+      this.style.MozUserFocus = "";
+    }, true);
+
+    this.addEventListener("dragstart", (event) => {
+      if (this.mOverCloseButton) {
+        event.stopPropagation();
+      }
+    });
+
+    this.addEventListener("mousedown", (event) => {
+      if (this.selected) {
+        this.style.MozUserFocus = "ignore";
+      } else if (this.mOverCloseButton ||
+        this._overPlayingIcon) {
+        // Prevent tabbox.xml from selecting the tab.
+        event.stopPropagation();
+      }
+    }, true);
+
+    this.addEventListener("mouseup", (event) => {
+      this.style.MozUserFocus = "";
+    });
+
+    this.addEventListener("click", (event) => {
+      if (this._overPlayingIcon) {
+        this.toggleMuteAudio();
+        return;
+      }
+
+      if (event.originalTarget.getAttribute("anonid") == "close-button") {
+        let tabContainer = this.parentNode;
+        tabContainer.tabbrowser.removeTab(this, {
+          animate: true,
+          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE
+        });
+        // This enables double-click protection for the tab container
+        // (see tabbrowser-tabs 'click' handler).
+        tabContainer._blockDblClick = true;
+      }
+    });
+
+    this.addEventListener("dblclick", (event) => {
+      // for the one-close-button case
+      if (event.originalTarget.getAttribute("anonid") == "close-button") {
+        event.stopPropagation();
+      }
+    }, true);
+
+    this.addEventListener("animationend", (event) => {
+      if (event.originalTarget.getAttribute("anonid") == "tab-loading-burst") {
+        this.removeAttribute("bursting");
+      }
+    });
+
   }
 }
