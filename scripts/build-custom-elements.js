@@ -24,6 +24,8 @@ getParsedFiles().then(files => {
             indent_size: 2,
             // preserve_newlines: false,
             max_preserve_newlines: 2,
+            brace_style: "preserve-inline"
+            // keep_array_indentation: true
           }
         ));
     });

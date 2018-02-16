@@ -76,11 +76,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         }
       case "date":
         {
-          const {
-            year,
-            month,
-            day
-          } = data.value;
+          const { year, month, day } = data.value;
           this.postMessageToPicker({
             name: "PickerSetValue",
             detail: {
@@ -103,10 +99,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     switch (this.type) {
       case "time":
         {
-          const {
-            hour,
-            minute
-          } = detail.value;
+          const { hour, minute } = detail.value;
           const format = detail.format || "12";
 
           this.postMessageToPicker({
@@ -125,15 +118,8 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         }
       case "date":
         {
-          const {
-            year,
-            month,
-            day
-          } = detail.value;
-          const {
-            firstDayOfWeek,
-            weekends
-          } =
+          const { year, month, day } = detail.value;
+          const { firstDayOfWeek, weekends } =
           this.getCalendarInfo(locale);
           const monthStrings = this.getDisplayNames(
             locale, [
@@ -191,19 +177,10 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     switch (this.type) {
       case "time":
         {
-          const {
-            hour,
-            minute,
-            isHourSet,
-            isMinuteSet,
-            isDayPeriodSet
-          } = this.pickerState;
+          const { hour, minute, isHourSet, isMinuteSet, isDayPeriodSet } = this.pickerState;
           const isAnyValueSet = isHourSet || isMinuteSet || isDayPeriodSet;
           if (passAllValues && isAnyValueSet) {
-            this.sendPickerValueChanged({
-              hour,
-              minute
-            });
+            this.sendPickerValueChanged({ hour, minute });
           } else {
             this.sendPickerValueChanged({
               hour: isHourSet || isDayPeriodSet ? hour : undefined,
@@ -274,10 +251,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     };
   }
   getDisplayNames(locale, keys, style) {
-    const displayNames = this.mozIntl.getDisplayNames(locale, {
-      keys,
-      style
-    });
+    const displayNames = this.mozIntl.getDisplayNames(locale, { keys, style });
     return keys.map(key => displayNames.values[key]);
   }
   setGregorian(locale) {

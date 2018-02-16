@@ -297,9 +297,7 @@ class FirefoxDialog extends XULElement {
         if (aDlgType == "accept" || aDlgType == "cancel") {
           var closingEvent = new CustomEvent("dialogclosing", {
             bubbles: true,
-            detail: {
-              button: aDlgType
-            },
+            detail: { button: aDlgType },
           });
           this.dispatchEvent(closingEvent);
           window.close();
@@ -339,9 +337,7 @@ class FirefoxDialog extends XULElement {
 
   setupHandlers() {
 
-    this.addEventListener("keypress", (event) => {
-      this._hitEnter(event);
-    });
+    this.addEventListener("keypress", (event) => { this._hitEnter(event); });
 
     this.addEventListener("keypress", (event) => {
       if (!event.defaultPrevented)

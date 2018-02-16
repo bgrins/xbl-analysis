@@ -154,10 +154,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     this.popup.addEventListener("popupshowing", () => {
       this._enableOrDisableOneOffSearches();
-    }, {
-      capturing: true,
-      once: true
-    });
+    }, { capturing: true, once: true });
 
     // history dropmarker open state
     this.popup.addEventListener("popupshowing", () => {
@@ -236,9 +233,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     return this._whichSearchSuggestionsNotification = "none";
   }
   onBeforeValueGet() {
-    return {
-      value: this._value
-    };
+    return { value: this._value };
   }
   onBeforeValueSet(aValue) {
     this._value = aValue;
@@ -1047,9 +1042,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
   }
   onBeforeTextValueGet() {
-    return {
-      value: this.inputField.value
-    };
+    return { value: this.inputField.value };
   }
   onBeforeTextValueSet(aValue) {
     let val = aValue;
@@ -1356,13 +1349,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       event.stopPropagation();
     }, true);
 
-    this.addEventListener("dragover", (event) => {
-      this.onDragOver(event, this);
-    }, true);
+    this.addEventListener("dragover", (event) => { this.onDragOver(event, this); }, true);
 
-    this.addEventListener("drop", (event) => {
-      this.onDrop(event, this);
-    }, true);
+    this.addEventListener("drop", (event) => { this.onDrop(event, this); }, true);
 
     this.addEventListener("select", (event) => {
       if (!Cc["@mozilla.org/widget/clipboard;1"]

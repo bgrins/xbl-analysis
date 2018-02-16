@@ -70,10 +70,7 @@ class FirefoxSearchbar extends XULElement {
         oneOffButtons.textbox = this.textbox;
         oneOffButtons.popup = this.textbox.popup;
       }
-    }, {
-      capturing: true,
-      once: true
-    });
+    }, { capturing: true, once: true });
 
     this.setupHandlers();
   }
@@ -92,10 +89,7 @@ class FirefoxSearchbar extends XULElement {
   get currentEngine() {
     var currentEngine = Services.search.currentEngine;
     // Return a dummy engine if there is no currentEngine
-    return currentEngine || {
-      name: "",
-      uri: null
-    };
+    return currentEngine || { name: "", uri: null };
   }
 
   get textbox() {
@@ -375,17 +369,11 @@ class FirefoxSearchbar extends XULElement {
       this.select();
     });
 
-    this.addEventListener("DOMMouseScroll", (event) => {
-      this.selectEngine(event, (event.detail > 0));
-    }, true);
+    this.addEventListener("DOMMouseScroll", (event) => { this.selectEngine(event, (event.detail > 0)); }, true);
 
-    this.addEventListener("input", (event) => {
-      this.updateGoButtonVisibility();
-    });
+    this.addEventListener("input", (event) => { this.updateGoButtonVisibility(); });
 
-    this.addEventListener("drop", (event) => {
-      this.updateGoButtonVisibility();
-    });
+    this.addEventListener("drop", (event) => { this.updateGoButtonVisibility(); });
 
     this.addEventListener("blur", (event) => {
       // If the input field is still focused then a different window has

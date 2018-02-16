@@ -174,10 +174,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       return null;
     }
 
-    var dropPoint = {
-      ip: null,
-      folderElt: null
-    };
+    var dropPoint = { ip: null, folderElt: null };
 
     // The element we are dragging over
     let elt = aEvent.target;

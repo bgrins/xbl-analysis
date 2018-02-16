@@ -201,9 +201,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
         "bottomcenter topleft");
 
       Services.prefs.setBoolPref(kWelcomePref, true);
-    }, {
-      once: true
-    });
+    }, { once: true });
   }
   _getAnonElt(aAnonId) {
     return document.getAnonymousElementByAttribute(this, "anonid", aAnonId);

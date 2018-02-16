@@ -147,9 +147,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     if (!this._canScrollToElement(element))
       return;
 
-    element.scrollIntoView({
-      behavior: aInstant ? "instant" : "auto"
-    });
+    element.scrollIntoView({ behavior: aInstant ? "instant" : "auto" });
   }
   scrollByIndex(index, aInstant) {
     if (index == 0)
@@ -254,9 +252,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     event.stopPropagation();
   }
   scrollByPixels(aPixels, aInstant) {
-    let scrollOptions = {
-      behavior: aInstant ? "instant" : "auto"
-    };
+    let scrollOptions = { behavior: aInstant ? "instant" : "auto" };
     scrollOptions[this._startEndProps[0]] = aPixels;
     this._scrollbox.scrollBy(scrollOptions);
   }

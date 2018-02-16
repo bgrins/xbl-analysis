@@ -86,9 +86,7 @@ class FirefoxEditor extends XULElement {
   }
 
   get docShell() {
-    let {
-      frameLoader
-    } = this;
+    let { frameLoader } = this;
     return frameLoader ? frameLoader.docShell : null;
   }
 
@@ -168,9 +166,7 @@ class FirefoxEditor extends XULElement {
     var editor = this.editingSession.getEditorForWindow(containingWindow);
     return editor.QueryInterface(Components.interfaces.nsIHTMLEditor);
   }
-  disconnectedCallback() {
-    undefined
-  }
+  disconnectedCallback() { undefined }
 
   setupHandlers() {
 

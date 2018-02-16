@@ -167,9 +167,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
       }
 
       this.mAttributeObserver = new MutationObserver(this.handleMutation.bind(this));
-      this.mAttributeObserver.observe(val, {
-        attributeFilter
-      });
+      this.mAttributeObserver.observe(val, { attributeFilter });
     } else {
       for (let attr of attributeFilter) {
         this.removeAttribute(attr);
@@ -304,9 +302,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
 
   setupHandlers() {
 
-    this.addEventListener("command", (event) => {
-      if (event.target.parentNode.parentNode == this) this.selectedItem = event.target;
-    }, true);
+    this.addEventListener("command", (event) => { if (event.target.parentNode.parentNode == this) this.selectedItem = event.target; }, true);
 
     this.addEventListener("popupshowing", (event) => {
       if (event.target.parentNode == this) {

@@ -131,11 +131,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       return;
     }
 
-    let {
-      year,
-      month,
-      day
-    } = this.getCurrentValue();
+    let { year, month, day } = this.getCurrentValue();
 
     // Convert to a valid date string according to:
     // https://html.spec.whatwg.org/multipage/infrastructure.html#valid-date-string
@@ -277,11 +273,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     let month = this.getFieldValue(this.mMonthField);
     let day = this.getFieldValue(this.mDayField);
 
-    let date = {
-      year,
-      month,
-      day
-    };
+    let date = { year, month, day };
 
     this.log("getCurrentValue: " + JSON.stringify(date));
     return date;
@@ -323,21 +315,13 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     this.updateResetButtonVisibility();
   }
   isAnyFieldAvailable(aForPicker) {
-    let {
-      year,
-      month,
-      day
-    } = this.getCurrentValue();
+    let { year, month, day } = this.getCurrentValue();
 
     return !this.isEmpty(year) || !this.isEmpty(month) ||
       !this.isEmpty(day);
   }
   isAnyFieldEmpty() {
-    let {
-      year,
-      month,
-      day
-    } = this.getCurrentValue();
+    let { year, month, day } = this.getCurrentValue();
 
     return (this.isEmpty(year) || this.isEmpty(month) ||
       this.isEmpty(day));

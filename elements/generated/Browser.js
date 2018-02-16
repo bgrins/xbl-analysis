@@ -208,9 +208,7 @@ class FirefoxBrowser extends XULElement {
     if (this._docShell)
       return this._docShell;
 
-    let {
-      frameLoader
-    } = this;
+    let { frameLoader } = this;
     if (!frameLoader)
       return null;
     this._docShell = frameLoader.docShell;
@@ -221,9 +219,7 @@ class FirefoxBrowser extends XULElement {
     if (this._loadContext)
       return this._loadContext;
 
-    let {
-      frameLoader
-    } = this;
+    let { frameLoader } = this;
     if (!frameLoader)
       return null;
     this._loadContext = frameLoader.loadContext;
@@ -266,10 +262,7 @@ class FirefoxBrowser extends XULElement {
       return null;
 
     try {
-      return {
-        width: document.imageRequest.image.width,
-        height: document.imageRequest.image.height
-      };
+      return { width: document.imageRequest.image.width, height: document.imageRequest.image.height };
     } catch (e) {}
     return null;
   }
@@ -681,9 +674,7 @@ class FirefoxBrowser extends XULElement {
     });
   }
   unblockPopup(aPopupIndex) {
-    this.messageManager.sendAsyncMessage("PopupBlocking:UnblockPopup", {
-      index: aPopupIndex
-    });
+    this.messageManager.sendAsyncMessage("PopupBlocking:UnblockPopup", { index: aPopupIndex });
   }
   audioPlaybackStarted() {
     if (this._audioMuted) {
@@ -720,15 +711,11 @@ class FirefoxBrowser extends XULElement {
     if (!transientState) {
       this._audioMuted = true;
     }
-    this.messageManager.sendAsyncMessage("AudioPlayback", {
-      type: "mute"
-    });
+    this.messageManager.sendAsyncMessage("AudioPlayback", { type: "mute" });
   }
   unmute() {
     this._audioMuted = false;
-    this.messageManager.sendAsyncMessage("AudioPlayback", {
-      type: "unmute"
-    });
+    this.messageManager.sendAsyncMessage("AudioPlayback", { type: "unmute" });
   }
   pauseMedia(disposable) {
     let suspendedReason;
@@ -738,20 +725,14 @@ class FirefoxBrowser extends XULElement {
       suspendedReason = "lostAudioFocusTransiently";
     }
 
-    this.messageManager.sendAsyncMessage("AudioPlayback", {
-      type: suspendedReason
-    });
+    this.messageManager.sendAsyncMessage("AudioPlayback", { type: suspendedReason });
   }
   stopMedia() {
-    this.messageManager.sendAsyncMessage("AudioPlayback", {
-      type: "mediaControlStopped"
-    });
+    this.messageManager.sendAsyncMessage("AudioPlayback", { type: "mediaControlStopped" });
   }
   resumeMedia() {
     this._mediaBlocked = false;
-    this.messageManager.sendAsyncMessage("AudioPlayback", {
-      type: "resumeMedia"
-    });
+    this.messageManager.sendAsyncMessage("AudioPlayback", { type: "resumeMedia" });
     if (this._hasAnyPlayingMediaBeenBlocked) {
       this._hasAnyPlayingMediaBeenBlocked = false;
       let event = document.createEvent("Events");
@@ -763,9 +744,7 @@ class FirefoxBrowser extends XULElement {
     if (!this._shouldSendUnselectedTabHover) {
       return;
     }
-    this.messageManager.sendAsyncMessage("Browser:UnselectedTabHover", {
-      hovered
-    });
+    this.messageManager.sendAsyncMessage("Browser:UnselectedTabHover", { hovered });
   }
   didStartLoadSinceLastUserTyping() {
     return !this.inLoadURI &&
@@ -824,18 +803,13 @@ class FirefoxBrowser extends XULElement {
       case "Autoscroll:Start":
         {
           if (!this.autoscrollEnabled) {
-            return {
-              autoscrollEnabled: false,
-              usingApz: false
-            };
+            return { autoscrollEnabled: false, usingApz: false };
           }
           this.startScroll(data.scrolldir, data.screenX, data.screenY);
           let usingApz = false;
           if (this.isRemoteBrowser && data.scrollId != null &&
             this.mPrefs.getBoolPref("apz.autoscroll.enabled", false)) {
-            let {
-              tabParent
-            } = this.frameLoader;
+            let { tabParent } = this.frameLoader;
             if (tabParent) {
               // If APZ is handling the autoscroll, it may decide to cancel
               // it of its own accord, so register an observer to allow it
@@ -852,10 +826,7 @@ class FirefoxBrowser extends XULElement {
             this._autoScrollScrollId = data.scrollId;
             this._autoScrollPresShellId = data.presShellId;
           }
-          return {
-            autoscrollEnabled: true,
-            usingApz
-          };
+          return { autoscrollEnabled: true, usingApz };
         }
       case "Autoscroll:Cancel":
         this._autoScrollPopup.hidePopup();
@@ -956,9 +927,7 @@ class FirefoxBrowser extends XULElement {
       }
 
       if (this.isRemoteBrowser && this._autoScrollScrollId != null) {
-        let {
-          tabParent
-        } = this.frameLoader;
+        let { tabParent } = this.frameLoader;
         if (tabParent) {
           tabParent.stopApzAutoscroll(this._autoScrollScrollId,
             this._autoScrollPresShellId);
@@ -1163,13 +1132,9 @@ class FirefoxBrowser extends XULElement {
     //             which is quite common after a swpDocShells call, its
     //             frame loader is destroyed, and that destroys the relevant
     //             message manager, which will remove the listeners.
-    let event = new CustomEvent("SwapDocShells", {
-      "detail": aOtherBrowser
-    });
+    let event = new CustomEvent("SwapDocShells", { "detail": aOtherBrowser });
     this.dispatchEvent(event);
-    event = new CustomEvent("SwapDocShells", {
-      "detail": this
-    });
+    event = new CustomEvent("SwapDocShells", { "detail": this });
     aOtherBrowser.dispatchEvent(event);
 
     // We need to swap fields that are tied to our docshell or related to
@@ -1251,13 +1216,9 @@ class FirefoxBrowser extends XULElement {
         aOtherBrowser._remoteFinder.swapBrowser(aOtherBrowser);
     }
 
-    event = new CustomEvent("EndSwapDocShells", {
-      "detail": aOtherBrowser
-    });
+    event = new CustomEvent("EndSwapDocShells", { "detail": aOtherBrowser });
     this.dispatchEvent(event);
-    event = new CustomEvent("EndSwapDocShells", {
-      "detail": this
-    });
+    event = new CustomEvent("EndSwapDocShells", { "detail": this });
     aOtherBrowser.dispatchEvent(event);
   }
   getInPermitUnload(aCallback) {
@@ -1269,10 +1230,7 @@ class FirefoxBrowser extends XULElement {
   }
   permitUnload(aPermitUnloadFlags) {
     if (!this.docShell || !this.docShell.contentViewer) {
-      return {
-        permitUnload: true,
-        timedOut: false
-      };
+      return { permitUnload: true, timedOut: false };
     }
     return {
       permitUnload: this.docShell.contentViewer.permitUnload(aPermitUnloadFlags),
@@ -1325,9 +1283,7 @@ class FirefoxBrowser extends XULElement {
       var browseWithCaretOn = this.mPrefs.getBoolPref(kPrefCaretBrowsingOn, false);
       var warn = this.mPrefs.getBoolPref(kPrefWarnOnEnable, true);
       if (warn && !browseWithCaretOn) {
-        var checkValue = {
-          value: false
-        };
+        var checkValue = { value: false };
         var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
           .getService(Components.interfaces.nsIPromptService);
 

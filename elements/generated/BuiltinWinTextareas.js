@@ -6,121 +6,63 @@ class FirefoxBuiltinWinTextareas extends XULElement {
 
   setupHandlers() {
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
-    this.addEventListener("keypress", (event) => {
-      undefined
-    });
+    this.addEventListener("keypress", (event) => { undefined });
 
   }
 }

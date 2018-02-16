@@ -248,9 +248,7 @@ class FirefoxTextbox extends XULElement {
       if (this.hasAttribute("focused"))
         return;
 
-      let {
-        originalTarget
-      } = event;
+      let { originalTarget } = event;
       if (originalTarget == this) {
         // Forward focus to actual HTML input
         this.inputField.focus();
@@ -297,9 +295,7 @@ class FirefoxTextbox extends XULElement {
       }
     });
 
-    this.addEventListener("click", (event) => {
-      this._maybeSelectAll();
-    });
+    this.addEventListener("click", (event) => { this._maybeSelectAll(); });
 
   }
 }

@@ -54,9 +54,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     // remember the current item and all selected items with IDs
     var state = this.currentItem ? this.currentItem.id : "";
     if (this.selType == "multiple" && this.selectedCount) {
-      let getId = function getId(aItem) {
-        return aItem.id;
-      };
+      let getId = function getId(aItem) { return aItem.id; };
       state += " " + [...this.selectedItems].filter(getId).map(getId).join(" ");
     }
     if (state)

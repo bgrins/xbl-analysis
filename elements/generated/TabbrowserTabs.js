@@ -72,9 +72,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     this._tabClipWidth = Services.prefs.getIntPref("browser.tabs.tabClipWidth");
 
-    let {
-      restoreTabsButton
-    } = this;
+    let { restoreTabsButton } = this;
     restoreTabsButton.setAttribute("label", gTabBrowserBundle.GetStringFromName("tabs.restoreLastTabs"));
 
     var tab = this.firstChild;
@@ -122,11 +120,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     return !this._container.collapsed;
   }
   updateSessionRestoreVisibility() {
-    let {
-      restoreTabsButton,
-      restoreTabsButtonWrapperWidth,
-      windowUtils
-    } = this;
+    let { restoreTabsButton, restoreTabsButtonWrapperWidth, windowUtils } = this;
     let restoreTabsButtonWrapper = restoreTabsButton.parentNode;
 
     if (!restoreTabsButtonWrapper.getAttribute("session-exists")) {
@@ -591,10 +585,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     var tab = aTab.getBoundingClientRect();
 
     // DOMRect left/right properties are immutable.
-    tab = {
-      left: tab.left,
-      right: tab.right
-    };
+    tab = { left: tab.left, right: tab.right };
 
     // Is the new tab already completely visible?
     if (scrollRect.left <= tab.left && tab.right <= scrollRect.right)
@@ -722,9 +713,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
   setupHandlers() {
 
-    this.addEventListener("TabSelect", (event) => {
-      this._handleTabSelect();
-    });
+    this.addEventListener("TabSelect", (event) => { this._handleTabSelect(); });
 
     this.addEventListener("transitionend", (event) => {
       if (event.propertyName != "max-width")
@@ -1265,11 +1254,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         window.moveTo(left, top);
         window.focus();
       } else {
-        let props = {
-          screenX: left,
-          screenY: top,
-          suppressanimation: 1
-        };
+        let props = { screenX: left, screenY: top, suppressanimation: 1 };
         if (AppConstants.platform != "win") {
           props.outerWidth = winWidth;
           props.outerHeight = winHeight;

@@ -18,10 +18,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
           case "cmd_clearhistory":
             var param = this._self.getAttribute("autocompletesearchparam");
 
-            BrowserSearch.searchBar.FormHistory.update({
-              op: "remove",
-              fieldname: param
-            }, null);
+            BrowserSearch.searchBar.FormHistory.update({ op: "remove", fieldname: param }, null);
             this._self.value = "";
             break;
           case "cmd_togglesuggest":
@@ -47,12 +44,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     var cxmenu = document.getAnonymousElementByAttribute(textBox,
       "anonid", "input-box-contextmenu");
     cxmenu.addEventListener("popupshowing",
-      () => {
-        this.initContextMenu(cxmenu);
-      }, {
-        capturing: true,
-        once: true
-      });
+      () => { this.initContextMenu(cxmenu); }, { capturing: true, once: true });
 
     this.setAttribute("aria-owns", this.popup.id);
     document.getBindingParent(this)._textboxInitialized = true;
@@ -268,25 +260,15 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
       this.popup.removeAttribute("showonlysettings");
     });
 
-    this.addEventListener("keypress", (event) => {
-      return this.handleKeyboardNavigation(event);
-    }, true);
+    this.addEventListener("keypress", (event) => { return this.handleKeyboardNavigation(event); }, true);
 
-    this.addEventListener("keypress", (event) => {
-      document.getBindingParent(this).selectEngine(event, false);
-    }, true);
+    this.addEventListener("keypress", (event) => { document.getBindingParent(this).selectEngine(event, false); }, true);
 
-    this.addEventListener("keypress", (event) => {
-      document.getBindingParent(this).selectEngine(event, true);
-    }, true);
+    this.addEventListener("keypress", (event) => { document.getBindingParent(this).selectEngine(event, true); }, true);
 
-    this.addEventListener("keypress", (event) => {
-      return this.openSearch();
-    }, true);
+    this.addEventListener("keypress", (event) => { return this.openSearch(); }, true);
 
-    this.addEventListener("keypress", (event) => {
-      return this.openSearch();
-    }, true);
+    this.addEventListener("keypress", (event) => { return this.openSearch(); }, true);
 
     this.addEventListener("dragover", (event) => {
       var types = event.dataTransfer.types;

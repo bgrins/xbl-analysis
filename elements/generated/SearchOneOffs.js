@@ -252,9 +252,7 @@ class FirefoxSearchOneOffs extends XULElement {
   showSettings() {
     BrowserUITelemetry.countSearchSettingsEvent(this.telemetryOrigin);
 
-    openPreferences("paneSearch", {
-      origin: "contentSearch"
-    });
+    openPreferences("paneSearch", { origin: "contentSearch" });
 
     // If the preference tab was already selected, the panel doesn't
     // close itself automatically.

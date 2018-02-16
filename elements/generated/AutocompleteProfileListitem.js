@@ -39,9 +39,7 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
       this.removeAttribute("selected");
     }
 
-    let {
-      AutoCompletePopup
-    } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm", {});
+    let { AutoCompletePopup } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm", {});
 
     AutoCompletePopup.sendMessageToBrowser("FormAutofill:PreviewProfile");
 
@@ -56,11 +54,7 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
     this.setAttribute("formautofillattached", "true");
     this._itemBox.style.setProperty("--primary-icon", `url(${this.getAttribute("ac-image")})`);
 
-    let {
-      primaryAffix,
-      primary,
-      secondary
-    } = JSON.parse(this.getAttribute("ac-value"));
+    let { primaryAffix, primary, secondary } = JSON.parse(this.getAttribute("ac-value"));
 
     this._labelAffix.textContent = primaryAffix;
     this._label.textContent = primary;

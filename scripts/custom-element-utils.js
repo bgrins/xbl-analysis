@@ -149,7 +149,9 @@ function getJSForBinding(binding) {
   for (let property of binding.find('property')) {
     if (property.attrs.onset) {
       js.push(`
-        set ${property.attrs.name}(val) {${property.attrs.onset}}
+        set ${property.attrs.name}(val) {
+          ${property.attrs.onset}
+        }
       `);
     } else if(property.find('setter').length) {
       js.push(`
@@ -158,7 +160,9 @@ function getJSForBinding(binding) {
     }
     if (property.attrs.onget) {
       js.push(`
-        get ${property.attrs.name}() {${property.attrs.onget}}
+        get ${property.attrs.name}() {
+          ${property.attrs.onget}
+        }
       `);
     } else if(property.find('getter').length) {
       js.push(`

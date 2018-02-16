@@ -564,17 +564,11 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       this.onInput(event);
     });
 
-    this.addEventListener("keypress", (event) => {
-      return this.onKeyPress(event);
-    }, true);
+    this.addEventListener("keypress", (event) => { return this.onKeyPress(event); }, true);
 
-    this.addEventListener("compositionstart", (event) => {
-      if (this.mController.input == this) this.mController.handleStartComposition();
-    }, true);
+    this.addEventListener("compositionstart", (event) => { if (this.mController.input == this) this.mController.handleStartComposition(); }, true);
 
-    this.addEventListener("compositionend", (event) => {
-      if (this.mController.input == this) this.mController.handleEndComposition();
-    }, true);
+    this.addEventListener("compositionend", (event) => { if (this.mController.input == this) this.mController.handleEndComposition(); }, true);
 
     this.addEventListener("focus", (event) => {
       this.attachController();

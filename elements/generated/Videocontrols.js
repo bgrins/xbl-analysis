@@ -84,9 +84,7 @@ class FirefoxVideocontrols extends XULElement {
       isPausedByDragging: false,
       _isAudioOnly: false,
 
-      get isAudioOnly() {
-        return this._isAudioOnly;
-      },
+      get isAudioOnly() { return this._isAudioOnly; },
       set isAudioOnly(val) {
         this._isAudioOnly = val;
         this.setFullscreenButtonState();
@@ -565,10 +563,7 @@ class FirefoxVideocontrols extends XULElement {
         if (this.controlListeners) {
           for (let element of this.controlListeners) {
             try {
-              element.item.removeEventListener(element.event, element.func, {
-                mozSystemGroup: element.mozSystemGroup,
-                capture: element.capture
-              });
+              element.item.removeEventListener(element.event, element.func, { mozSystemGroup: element.mozSystemGroup, capture: element.capture });
             } catch (ex) {}
           }
 
@@ -1687,10 +1682,7 @@ class FirefoxVideocontrols extends XULElement {
         // Due to this helper function, "Utils" is made available to the event
         // listener functions. Hence declare it as a global for ESLint.
         /* global Utils */
-        function addListener(elem, eventName, func, {
-          capture = false,
-          mozSystemGroup = true
-        } = {}) {
+        function addListener(elem, eventName, func, { capture = false, mozSystemGroup = true } = {}) {
           let boundFunc = func.bind(self);
           self.controlListeners.push({
             item: elem,
@@ -1699,10 +1691,7 @@ class FirefoxVideocontrols extends XULElement {
             capture,
             mozSystemGroup,
           });
-          elem.addEventListener(eventName, boundFunc, {
-            mozSystemGroup,
-            capture
-          });
+          elem.addEventListener(eventName, boundFunc, { mozSystemGroup, capture });
         }
 
         addListener(this.muteButton, "click", this.toggleMute);
@@ -1718,15 +1707,11 @@ class FirefoxVideocontrols extends XULElement {
         addListener(this.video.ownerDocument, "mozfullscreenchange", this.onFullscreenChange);
         addListener(this.controlBar, "transitionend", this.onControlBarTransitioned);
         addListener(this.video.ownerDocument, "fullscreenchange", this.onFullscreenChange);
-        addListener(this.video, "keypress", this.keyHandler, {
-          capture: true
-        });
+        addListener(this.video, "keypress", this.keyHandler, { capture: true });
         // Prevent any click event within media controls from dispatching through to video.
         addListener(this.videocontrols, "click", function(event) {
           event.stopPropagation();
-        }, {
-          mozSystemGroup: false
-        });
+        }, { mozSystemGroup: false });
         addListener(this.videocontrols, "dragstart", function(event) {
           event.preventDefault(); // prevent dragging of controls image (bug 517114)
         });

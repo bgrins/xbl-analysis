@@ -94,9 +94,7 @@ class FirefoxTabmodalprompt extends XULElement {
     this.ui.button2.addEventListener("command", this.onButtonClick.bind(this, 2));
     this.ui.button3.addEventListener("command", this.onButtonClick.bind(this, 3));
     // Anonymous wrapper used here because |Dialog| doesn't exist until init() is called!
-    this.ui.checkbox.addEventListener("command", function() {
-      self.Dialog.onCheckbox();
-    });
+    this.ui.checkbox.addEventListener("command", function() { self.Dialog.onCheckbox(); });
     this.isLive = false;
 
     this.setupHandlers();
@@ -242,21 +240,15 @@ class FirefoxTabmodalprompt extends XULElement {
 
   setupHandlers() {
 
-    this.addEventListener("keypress", (event) => {
-      this.onKeyAction('default', event);
-    });
+    this.addEventListener("keypress", (event) => { this.onKeyAction('default', event); });
 
-    this.addEventListener("keypress", (event) => {
-      this.onKeyAction('cancel', event);
-    });
+    this.addEventListener("keypress", (event) => { this.onKeyAction('cancel', event); });
 
     this.addEventListener("focus", (event) => {
       let bnum = this.args.defaultButtonNum || 0;
       let defaultButton = this.ui["button" + bnum];
 
-      let {
-        AppConstants
-      } =
+      let { AppConstants } =
       ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
       if (AppConstants.platform == "macosx") {
         // On OS X, the default button always stays marked as such (until

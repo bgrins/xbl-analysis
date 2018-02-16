@@ -44,13 +44,9 @@ class FirefoxMenubar extends XULElement {
       this._statusbar.label = this._originalStatusText;
     });
 
-    this.addEventListener("DOMMenuItemActive", (event) => {
-      this._updateStatusText(event.target.statusText);
-    });
+    this.addEventListener("DOMMenuItemActive", (event) => { this._updateStatusText(event.target.statusText); });
 
-    this.addEventListener("DOMMenuItemInactive", (event) => {
-      this._updateStatusText("");
-    });
+    this.addEventListener("DOMMenuItemInactive", (event) => { this._updateStatusText(""); });
 
   }
 }

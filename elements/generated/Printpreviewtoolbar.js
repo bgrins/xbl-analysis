@@ -98,9 +98,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     this.setupHandlers();
   }
   initialize(aPPBrowser) {
-    let {
-      Services
-    } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
+    let { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
     if (!Services.prefs.getBoolPref("print.use_simplify_page")) {
       this.mSimplifyPageCheckbox.hidden = true;
       this.mSimplifyPageToolbarSeparator.hidden = true;
@@ -114,9 +112,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     let ltr = document.documentElement.matches(":root:-moz-locale-dir(ltr)");
     // Windows 7 doesn't support ⏮ and ⏭ by default, and fallback doesn't
     // always work (bug 1343330).
-    let {
-      AppConstants
-    } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
+    let { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
     let useCompatCharacters = AppConstants.isPlatformAndVersionAtMost("win", "6.1");
     let leftEnd = useCompatCharacters ? "⏪" : "⏮";
     let rightEnd = useCompatCharacters ? "⏩" : "⏭";
@@ -194,15 +190,9 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     var value = Math.round(aValue);
     var promptStr = this.mScaleLabel.value;
     var renameTitle = this.mCustomTitle;
-    var result = {
-      value
-    };
-    let {
-      Services
-    } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
-    var confirmed = Services.prompt.prompt(window, renameTitle, promptStr, result, null, {
-      value
-    });
+    var result = { value };
+    let { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
+    var confirmed = Services.prompt.prompt(window, renameTitle, promptStr, result, null, { value });
     if (!confirmed || (!result.value) || (result.value == "")) {
       return -1;
     }

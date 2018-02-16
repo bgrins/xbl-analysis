@@ -416,11 +416,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
         // properly generate emphasis pairs. That said, no localization
         // changed the order while it was possible, so doesn't look like
         // there's a strong need for that.
-        let {
-          engineName,
-          searchSuggestion,
-          searchQuery
-        } = action.params;
+        let { engineName, searchSuggestion, searchQuery } = action.params;
 
         // Override the engine name if the popup defines an override.
         let override = popup.overrideSearchEngineName;

@@ -64,9 +64,7 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
       },
 
       _firstShow: false,
-      get firstShow() {
-        return this._firstShow;
-      },
+      get firstShow() { return this._firstShow; },
       set firstShow(val) {
         this._firstShow = val;
         this.Utils.controlBar.setAttribute("firstshow", val);
@@ -187,9 +185,7 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
         this.Utils.scrubber.addEventListener("touchend", function() {
           self.delayHideControls(self.controlsTimeout);
         });
-        this.Utils.muteButton.addEventListener("click", function() {
-          self.delayHideControls(self.controlsTimeout);
-        });
+        this.Utils.muteButton.addEventListener("click", function() { self.delayHideControls(self.controlsTimeout); });
 
         this.castingButton = document.getAnonymousElementByAttribute(binding, "anonid", "castingButton");
         this.castingButton.addEventListener("command", function() {

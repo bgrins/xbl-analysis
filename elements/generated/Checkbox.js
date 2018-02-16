@@ -35,9 +35,7 @@ class FirefoxCheckbox extends FirefoxBasetext {
 
   setupHandlers() {
 
-    this.addEventListener("click", (event) => {
-      if (!this.disabled) this.checked = !this.checked;
-    });
+    this.addEventListener("click", (event) => { if (!this.disabled) this.checked = !this.checked; });
 
     this.addEventListener("keypress", (event) => {
       this.checked = !this.checked;

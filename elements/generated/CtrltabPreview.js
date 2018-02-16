@@ -18,17 +18,11 @@ class FirefoxCtrltabPreview extends FirefoxButtonBase {
 
   setupHandlers() {
 
-    this.addEventListener("mouseover", (event) => {
-      ctrlTab._mouseOverFocus(this);
-    });
+    this.addEventListener("mouseover", (event) => { ctrlTab._mouseOverFocus(this); });
 
-    this.addEventListener("command", (event) => {
-      ctrlTab.pick(this);
-    });
+    this.addEventListener("command", (event) => { ctrlTab.pick(this); });
 
-    this.addEventListener("click", (event) => {
-      ctrlTab.remove(this);
-    });
+    this.addEventListener("click", (event) => { ctrlTab.remove(this); });
 
   }
 }

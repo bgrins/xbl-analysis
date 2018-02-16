@@ -76,17 +76,11 @@ class FirefoxToolbarMenubarAutohide extends XULElement {
 
   setupHandlers() {
 
-    this.addEventListener("DOMMenuBarActive", (event) => {
-      this._setActive();
-    });
+    this.addEventListener("DOMMenuBarActive", (event) => { this._setActive(); });
 
-    this.addEventListener("popupshowing", (event) => {
-      this._setActive();
-    });
+    this.addEventListener("popupshowing", (event) => { this._setActive(); });
 
-    this.addEventListener("mousedown", (event) => {
-      this._contextMenuListener.init(event);
-    });
+    this.addEventListener("mousedown", (event) => { this._contextMenuListener.init(event); });
 
     this.addEventListener("DOMMenuBarInactive", (event) => {
       if (!this._contextMenuListener.active)

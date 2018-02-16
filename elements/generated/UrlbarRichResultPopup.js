@@ -260,11 +260,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       if (!this.margins || start != this.margins.start ||
         endOffset != this.margins.end ||
         width != this.margins.width) {
-        this.margins = {
-          start,
-          end: endOffset,
-          width
-        };
+        this.margins = { start, end: endOffset, width };
         needsHandleOverUnderflow = true;
       }
     } else if (this.margins) {
@@ -291,9 +287,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         this.addEventListener("popupshown", () => {
           if (this._searchSuggestionsImpressionId == impressionId)
             aInput.updateSearchSuggestionsNotificationImpressions(whichNotification);
-        }, {
-          once: true
-        });
+        }, { once: true });
         this._showSearchSuggestionsNotification(whichNotification, popupDirection);
       } else if (this.classList.contains("showSearchSuggestionsNotification")) {
         this._hideSearchSuggestionsNotification();

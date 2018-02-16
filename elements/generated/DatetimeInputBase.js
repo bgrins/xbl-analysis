@@ -36,9 +36,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.mResetButton.style.visibility = "hidden";
 
     this.EVENTS.forEach((eventName) => {
-      this.addEventListener(eventName, this, {
-        mozSystemGroup: true
-      });
+      this.addEventListener(eventName, this, { mozSystemGroup: true });
     });
     // Handle keypress separately since we need to catch it on capturing.
     this.addEventListener("keypress", this, {
@@ -47,9 +45,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     });
     // This is to open the picker when input element is clicked (this
     // includes padding area).
-    this.mInputElement.addEventListener("click", this, {
-      mozSystemGroup: true
-    });
+    this.mInputElement.addEventListener("click", this, { mozSystemGroup: true });
 
     this.setupHandlers();
   }
@@ -461,17 +457,13 @@ class FirefoxDatetimeInputBase extends XULElement {
   }
   disconnectedCallback() {
     this.EVENTS.forEach((eventName) => {
-      this.removeEventListener(eventName, this, {
-        mozSystemGroup: true
-      });
+      this.removeEventListener(eventName, this, { mozSystemGroup: true });
     });
     this.removeEventListener("keypress", this, {
       capture: true,
       mozSystemGroup: true
     });
-    this.mInputElement.removeEventListener("click", this, {
-      mozSystemGroup: true
-    });
+    this.mInputElement.removeEventListener("click", this, { mozSystemGroup: true });
 
     this.mInputElement = null;
   }

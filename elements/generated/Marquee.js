@@ -17,9 +17,7 @@ class FirefoxMarquee extends XULElement {
 
     // hack needed to fix js error, see bug 386470
     var myThis = this;
-    var lambda = function myScopeFunction() {
-      if (myThis.init) myThis.init();
-    }
+    var lambda = function myScopeFunction() { if (myThis.init) myThis.init(); }
 
     this._set_direction(this.getAttribute('direction'));
     this._set_behavior(this.getAttribute('behavior'));
@@ -318,9 +316,7 @@ class FirefoxMarquee extends XULElement {
   start() {
     if (this.runId == 0) {
       var myThis = this;
-      var lambda = function myTimeOutFunction() {
-        myThis._doMove(false);
-      }
+      var lambda = function myTimeOutFunction() { myThis._doMove(false); }
       this.runId = window.setTimeout(lambda, this._scrollDelay - this._deltaStartStop);
       this._deltaStartStop = 0;
     }
@@ -409,12 +405,7 @@ class FirefoxMarquee extends XULElement {
           this.startNewDirection = true;
 
           // swap direction
-          const swap = {
-            left: "right",
-            down: "up",
-            up: "down",
-            right: "left"
-          };
+          const swap = { left: "right", down: "up", up: "down", right: "left" };
           this._direction = swap[this._direction];
           this.newPosition = this.stopAt;
 
@@ -469,9 +460,7 @@ class FirefoxMarquee extends XULElement {
     }
 
     var myThis = this;
-    var lambda = function myTimeOutFunction() {
-      myThis._doMove(false);
-    }
+    var lambda = function myTimeOutFunction() { myThis._doMove(false); }
     this.runId = window.setTimeout(lambda, this._scrollDelay);
   }
   init() {
@@ -525,9 +514,7 @@ class FirefoxMarquee extends XULElement {
           case "truespeed":
             //needed to update target._scrollDelay
             var myThis = target;
-            var lambda = function() {
-              myThis._set_scrollDelay(myThis.getAttribute('scrolldelay'));
-            }
+            var lambda = function() { myThis._set_scrollDelay(myThis.getAttribute('scrolldelay')); }
             window.setTimeout(lambda, 0);
             break;
           case "behavior":

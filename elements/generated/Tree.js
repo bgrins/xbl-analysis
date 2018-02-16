@@ -674,9 +674,7 @@ class FirefoxTree extends FirefoxTreeBase {
       }
     });
 
-    this.addEventListener("select", (event) => {
-      if (event.originalTarget == this) this.stopEditing(true);
-    });
+    this.addEventListener("select", (event) => { if (event.originalTarget == this) this.stopEditing(true); });
 
     this.addEventListener("focus", (event) => {
       this.treeBoxObject.focused = true;
@@ -689,13 +687,9 @@ class FirefoxTree extends FirefoxTreeBase {
       }
     });
 
-    this.addEventListener("blur", (event) => {
-      this.treeBoxObject.focused = false;
-    });
+    this.addEventListener("blur", (event) => { this.treeBoxObject.focused = false; });
 
-    this.addEventListener("blur", (event) => {
-      if (event.originalTarget == this.inputField.inputField) this.stopEditing(true);
-    }, true);
+    this.addEventListener("blur", (event) => { if (event.originalTarget == this.inputField.inputField) this.stopEditing(true); }, true);
 
     this.addEventListener("keydown", (event) => {
       if (this._handleEnter(event)) {

@@ -71,21 +71,8 @@ class FirefoxTextLink extends FirefoxTextLabel {
     var linkHandled = Components.classes["@mozilla.org/supports-PRBool;1"]
       .createInstance(Components.interfaces.nsISupportsPRBool);
     linkHandled.data = false;
-    let {
-      shiftKey,
-      ctrlKey,
-      metaKey,
-      altKey,
-      button
-    } = aEvent;
-    let data = {
-      shiftKey,
-      ctrlKey,
-      metaKey,
-      altKey,
-      button,
-      href
-    };
+    let { shiftKey, ctrlKey, metaKey, altKey, button } = aEvent;
+    let data = { shiftKey, ctrlKey, metaKey, altKey, button, href };
     Components.classes["@mozilla.org/observer-service;1"]
       .getService(Components.interfaces.nsIObserverService)
       .notifyObservers(linkHandled, "handle-xul-text-link", JSON.stringify(data));
@@ -103,17 +90,11 @@ class FirefoxTextLink extends FirefoxTextLabel {
 
   setupHandlers() {
 
-    this.addEventListener("click", (event) => {
-      this.open(event)
-    }, true);
+    this.addEventListener("click", (event) => { this.open(event) }, true);
 
-    this.addEventListener("click", (event) => {
-      this.open(event)
-    }, true);
+    this.addEventListener("click", (event) => { this.open(event) }, true);
 
-    this.addEventListener("keypress", (event) => {
-      this.click()
-    });
+    this.addEventListener("keypress", (event) => { this.click() });
 
   }
 }

@@ -297,11 +297,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
   }
   _updateDates() {
     function formatDate(aDate) {
-      const dtOptions = {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      };
+      const dtOptions = { year: "numeric", month: "long", day: "numeric" };
       return aDate.toLocaleDateString(undefined, dtOptions);
     }
 

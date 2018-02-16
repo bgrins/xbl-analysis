@@ -135,9 +135,7 @@ class FirefoxFindbar extends XULElement {
     // Make sure the FAYT keypress listener is attached by initializing the
     // browser property
     if (this.getAttribute("browserid"))
-      setTimeout(function(aSelf) {
-        aSelf.browser = aSelf.browser;
-      }, 0, this);
+      setTimeout(function(aSelf) { aSelf.browser = aSelf.browser; }, 0, this);
 
     this.setupHandlers();
   }
@@ -740,9 +738,7 @@ class FirefoxFindbar extends XULElement {
         --this._flashFindBar);
     }
 
-    let {
-      PromiseUtils
-    } =
+    let { PromiseUtils } =
     ChromeUtils.import("resource://gre/modules/PromiseUtils.jsm", {});
     this._startFindDeferred = PromiseUtils.defer();
     let startFindPromise = this._startFindDeferred.promise;
@@ -891,9 +887,7 @@ class FirefoxFindbar extends XULElement {
 
   setupHandlers() {
 
-    this.addEventListener("keypress", (event) => {
-      if (this.close) this.close();
-    }, true);
+    this.addEventListener("keypress", (event) => { if (this.close) this.close(); }, true);
 
   }
 }

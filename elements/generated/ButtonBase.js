@@ -137,9 +137,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
 
   setupHandlers() {
 
-    this.addEventListener("click", (event) => {
-      this._handleClick();
-    });
+    this.addEventListener("click", (event) => { this._handleClick(); });
 
     this.addEventListener("keypress", (event) => {
       this._handleClick();

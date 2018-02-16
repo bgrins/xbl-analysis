@@ -379,13 +379,9 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
   setupHandlers() {
 
-    this.addEventListener("keypress", (event) => {
-      this._moveByOffsetFromUserEvent(-1, event);
-    });
+    this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(-1, event); });
 
-    this.addEventListener("keypress", (event) => {
-      this._moveByOffsetFromUserEvent(1, event);
-    });
+    this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(1, event); });
 
     this.addEventListener("keypress", (event) => {
       this._mayReverse = true;

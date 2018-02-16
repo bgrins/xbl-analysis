@@ -84,9 +84,7 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
   }
   pickerChange() {
     this.color = this.mPicker.color;
-    setTimeout(function(aPopup) {
-      aPopup.hidePopup();
-    }, 1, this.mPicker.parentNode);
+    setTimeout(function(aPopup) { aPopup.hidePopup(); }, 1, this.mPicker.parentNode);
 
     this._fireEvent(this, "change");
   }

@@ -34,29 +34,17 @@ class FirefoxWizard extends XULElement {
 
     this._cancelButton = "";
 
-    this._backFunc = function() {
-      document.documentElement.rewind();
-    };
+    this._backFunc = function() { document.documentElement.rewind(); };
 
-    this._nextFunc = function() {
-      document.documentElement.advance();
-    };
+    this._nextFunc = function() { document.documentElement.advance(); };
 
-    this._finishFunc = function() {
-      document.documentElement.advance();
-    };
+    this._finishFunc = function() { document.documentElement.advance(); };
 
-    this._cancelFunc = function() {
-      document.documentElement.cancel();
-    };
+    this._cancelFunc = function() { document.documentElement.cancel(); };
 
-    this._extra1Func = function() {
-      document.documentElement.extra1();
-    };
+    this._extra1Func = function() { document.documentElement.extra1(); };
 
-    this._extra2Func = function() {
-      document.documentElement.extra2();
-    };
+    this._extra2Func = function() { document.documentElement.extra2(); };
 
     this._closeHandler = function(event) {
       if (document.documentElement.cancel())
@@ -255,9 +243,7 @@ class FirefoxWizard extends XULElement {
 
     if (this.onLastPage && !aPageId) {
       if (this._fireEvent(this, "wizardfinish"))
-        window.setTimeout(function() {
-          window.close();
-        }, 1);
+        window.setTimeout(function() { window.close(); }, 1);
     } else {
       if (!this._fireEvent(this, "wizardnext"))
         return;
@@ -295,9 +281,7 @@ class FirefoxWizard extends XULElement {
       return true;
 
     window.close();
-    window.setTimeout(function() {
-      window.close();
-    }, 1);
+    window.setTimeout(function() { window.close(); }, 1);
     return false;
   }
   _setInitialFocus(aEvent) {
@@ -393,9 +377,7 @@ class FirefoxWizard extends XULElement {
 
   setupHandlers() {
 
-    this.addEventListener("keypress", (event) => {
-      this._hitEnter(event)
-    });
+    this.addEventListener("keypress", (event) => { this._hitEnter(event) });
 
     this.addEventListener("keypress", (event) => {
       if (!event.defaultPrevented)

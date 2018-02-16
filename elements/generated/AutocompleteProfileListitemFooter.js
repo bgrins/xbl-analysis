@@ -32,35 +32,18 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
      * @param {string[]} data.categories
      *        The categories of all the fields contained in the selected address.
      */
-    this._updateWarningNote = ({
-      data
-    } = {}) => {
+    this._updateWarningNote = ({ data } = {}) => {
       let categories = (data && data.categories) ? data.categories : this._allFieldCategories;
       // If the length of categories is 1, that means all the fillable fields are in the same
       // category. We will change the way to inform user according to this flag. When the value
       // is true, we show "Also autofills ...", otherwise, show "Autofills ..." only.
       let hasExtraCategories = categories.length > 1;
       // Show the categories in certain order to conform with the spec.
-      let orderedCategoryList = [{
-          id: "address",
-          l10nId: "category.address"
-        },
-        {
-          id: "name",
-          l10nId: "category.name"
-        },
-        {
-          id: "organization",
-          l10nId: "category.organization2"
-        },
-        {
-          id: "tel",
-          l10nId: "category.tel"
-        },
-        {
-          id: "email",
-          l10nId: "category.email"
-        }
+      let orderedCategoryList = [{ id: "address", l10nId: "category.address" },
+        { id: "name", l10nId: "category.name" },
+        { id: "organization", l10nId: "category.organization2" },
+        { id: "tel", l10nId: "category.tel" },
+        { id: "email", l10nId: "category.email" }
       ];
       let showCategories = hasExtraCategories ?
         orderedCategoryList.filter(category => categories.includes(category.id) && category.id != this._focusedCategory) : [orderedCategoryList.find(category => category.id == this._focusedCategory)];
@@ -91,9 +74,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
     this._adjustAutofillItemLayout();
     this.setAttribute("formautofillattached", "true");
 
-    let {
-      AppConstants
-    } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
+    let { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
     // TODO: The "Short" suffix is pointless now as normal version string is no longer needed,
     // we should consider removing the suffix if possible when the next time locale change.
     let buttonTextBundleKey = AppConstants.platform == "macosx" ?
@@ -123,9 +104,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
         return;
       }
 
-      window.openPreferences("panePrivacy", {
-        origin: "autofillFooter"
-      });
+      window.openPreferences("panePrivacy", { origin: "autofillFooter" });
     });
 
   }

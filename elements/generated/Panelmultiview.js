@@ -12,9 +12,7 @@ class FirefoxPanelmultiview extends XULElement {
       </xul:box>
     `;
 
-    const {
-      PanelMultiView
-    } = ChromeUtils.import("resource:///modules/PanelMultiView.jsm", {});
+    const { PanelMultiView } = ChromeUtils.import("resource:///modules/PanelMultiView.jsm", {});
     this.instance = PanelMultiView.forNode(this);
     this.instance.connect();
 

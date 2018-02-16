@@ -5,9 +5,7 @@ class FirefoxIframe extends XULElement {
   }
 
   get docShell() {
-    let {
-      frameLoader
-    } = this;
+    let { frameLoader } = this;
     return frameLoader ? frameLoader.docShell : null;
   }
 

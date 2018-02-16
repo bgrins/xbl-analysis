@@ -19,17 +19,13 @@ class FirefoxNocontrols extends XULElement {
       terminateEventListeners() {
         for (let event of this.videoEvents) {
           try {
-            this.video.removeEventListener(event, this, {
-              mozSystemGroup: true
-            });
+            this.video.removeEventListener(event, this, { mozSystemGroup: true });
           } catch (ex) {}
         }
 
         for (let element of this.controlListeners) {
           try {
-            element.item.removeEventListener(element.event, element.func, {
-              mozSystemGroup: true
-            });
+            element.item.removeEventListener(element.event, element.func, { mozSystemGroup: true });
           } catch (ex) {}
         }
 
@@ -93,22 +89,14 @@ class FirefoxNocontrols extends XULElement {
 
         function addListener(elem, eventName, func) {
           let boundFunc = func.bind(self);
-          self.controlListeners.push({
-            item: elem,
-            event: eventName,
-            func: boundFunc
-          });
-          elem.addEventListener(eventName, boundFunc, {
-            mozSystemGroup: true
-          });
+          self.controlListeners.push({ item: elem, event: eventName, func: boundFunc });
+          elem.addEventListener(eventName, boundFunc, { mozSystemGroup: true });
         }
         addListener(this.clickToPlay, "click", this.clickToPlayClickHandler);
         addListener(this.video, "MozNoControlsBlockedVideo", this.blockedVideoHandler);
 
         for (let event of this.videoEvents) {
-          this.video.addEventListener(event, this, {
-            mozSystemGroup: true
-          });
+          this.video.addEventListener(event, this, { mozSystemGroup: true });
         }
       }
     };
