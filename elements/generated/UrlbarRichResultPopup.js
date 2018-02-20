@@ -478,7 +478,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     this.input.tabScrolling = true;
 
     this.input.gotResultForCurrentQuery = true;
-    this.input.maybeReplayDeferredKeyEvents();
+    this.input.replaySafeDeferredKeyEvents();
   }
   _onSearchBegin() {
     // Set the selected index to 0 (heuristic) until a result comes back

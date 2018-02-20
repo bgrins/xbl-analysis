@@ -287,8 +287,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         break;
     }
     if (!this.popup.disableKeyNavigation) {
-      if (this._keyCodesToDefer.has(aEvent.keyCode) &&
-        this._shouldDeferKeyEvent(aEvent)) {
+      if (this._shouldDeferKeyEvent(aEvent)) {
         this._deferKeyEvent(aEvent, "onKeyPress");
         return false;
       }
@@ -299,24 +298,64 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     return this.handleKeyPress(aEvent);
   }
   _shouldDeferKeyEvent(event) {
-    let waitedLongEnough =
-      this._searchStartDate + this._deferredKeyEventTimeoutMs < Date.now();
-    if (waitedLongEnough && !this._deferredKeyEventTimeout) {
-      return false;
-    }
-    if (event && event.keyCode == KeyEvent.DOM_VK_TAB && !this.popupOpen) {
-      // In this case, the popup is closed and the user pressed the Tab
-      // key.  The focus should move out of the urlbar immediately.
-      return false;
-    }
-    if (!this.gotResultForCurrentQuery || !this.popupOpen) {
+    // If any event has been deferred for this search, then defer all
+    // subsequent events so that the user does not experience any
+    // keypresses out of order.  All events will be replayed when this
+    // timeout fires.
+    if (this._deferredKeyEventTimeout) {
       return true;
     }
+
+    // At this point, no events have been deferred for this search, and we
+    // need to decide whether `event` is the first one that should be.
+
+    if (!this._keyCodesToDefer.has(event.keyCode)) {
+      // Not a key that should trigger deferring.
+      return false;
+    }
+
+    let waitedLongEnough =
+      this._searchStartDate + this._deferredKeyEventTimeoutMs <= Cu.now();
+    if (waitedLongEnough) {
+      // This is a key that we would defer, but enough time has passed
+      // since the start of the search that we don't want to block the
+      // user's keypresses anymore.
+      return false;
+    }
+
+    if (event.keyCode == KeyEvent.DOM_VK_TAB && !this.popupOpen) {
+      // The popup is closed and the user pressed the Tab key.  The
+      // focus should move out of the urlbar immediately.
+      return false;
+    }
+
+    return !this._safeToPlayDeferredKeyEvent(event);
+  }
+  _safeToPlayDeferredKeyEvent(event) {
+    if (!this.gotResultForCurrentQuery || !this.popupOpen) {
+      // We're still waiting on the first result, or the popup hasn't
+      // opened yet, so not safe.
+      return false;
+    }
+
     let maxResultsRemaining =
       this.popup.maxResults - this.popup.matchCount;
-    let lastResultSelected =
-      this.popup.selectedIndex + 1 == this.popup.matchCount;
-    return maxResultsRemaining > 0 && lastResultSelected;
+    if (maxResultsRemaining == 0) {
+      // The popup can't possibly have any more results, so there's no
+      // need to defer any event now.
+      return true;
+    }
+
+    if (event.keyCode == KeyEvent.DOM_VK_DOWN) {
+      // Don't play the event if the last result is selected so that the
+      // user doesn't accidentally arrow down into the one-off buttons
+      // when they didn't mean to.
+      let lastResultSelected =
+        this.popup.selectedIndex + 1 == this.popup.matchCount;
+      return !lastResultSelected;
+    }
+
+    return true;
   }
   _deferKeyEvent(event, methodName) {
     // Somehow event.defaultPrevented ends up true for deferred events.
@@ -334,29 +373,53 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     });
 
     if (!this._deferredKeyEventTimeout) {
-      this._deferredKeyEventTimeout = setTimeout(() => {
-        this._deferredKeyEventTimeout = null;
-        this.maybeReplayDeferredKeyEvents();
-      }, this._deferredKeyEventTimeoutMs);
+      // Start the timeout that will unconditionally replay all deferred
+      // events when it fires so that, after a certain point, we don't
+      // keep blocking the user's keypresses when nothing else has caused
+      // the events to be replayed.  Do not check whether it's safe to
+      // replay the events because otherwise it may look like we ignored
+      // the user's input.
+      let elapsed = Cu.now() - this._searchStartDate;
+      let remaining = this._deferredKeyEventTimeoutMs - elapsed;
+      if (remaining <= 0) {
+        this.replayAllDeferredKeyEvents();
+      } else {
+        this._deferredKeyEventTimeout = setTimeout(() => {
+          this.replayAllDeferredKeyEvents();
+          this._deferredKeyEventTimeout = null;
+        }, remaining);
+      }
     }
   }
-  maybeReplayDeferredKeyEvents() {
-    if (!this._deferredKeyEventQueue.length ||
-      this._shouldDeferKeyEvent()) {
+  replaySafeDeferredKeyEvents() {
+    if (!this._deferredKeyEventQueue.length) {
       return;
     }
-    if (this._deferredKeyEventTimeout) {
-      clearTimeout(this._deferredKeyEventTimeout);
-      this._deferredKeyEventTimeout = null;
+    let instance = this._deferredKeyEventQueue[0];
+    if (!this._safeToPlayDeferredKeyEvent(instance.event)) {
+      return;
     }
+    this._deferredKeyEventQueue.shift();
+    this._replayKeyEventInstance(instance);
+    Services.tm.dispatchToMainThread(() => {
+      this.replaySafeDeferredKeyEvents();
+    });
+  }
+  replayAllDeferredKeyEvents() {
     let instance = this._deferredKeyEventQueue.shift();
+    if (!instance) {
+      return;
+    }
+    this._replayKeyEventInstance(instance);
+    Services.tm.dispatchToMainThread(() => {
+      this.replayAllDeferredKeyEvents();
+    });
+  }
+  _replayKeyEventInstance(instance) {
     // Safety check: handle only if the search string didn't change.
     if (this.mController.searchString == instance.searchString) {
       this[instance.methodName](instance.event);
     }
-    setTimeout(() => {
-      this.maybeReplayDeferredKeyEvents();
-    });
   }
   trimValue(aURL) {
     // This method must not modify the given URL such that calling
@@ -1114,7 +1177,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       // a new search and we won't get a result.
       if (this.mController.handleText()) {
         this.gotResultForCurrentQuery = false;
-        this._searchStartDate = Date.now();
+        this._searchStartDate = Cu.now();
         this._deferredKeyEventQueue = [];
         if (this._deferredKeyEventTimeout) {
           clearTimeout(this._deferredKeyEventTimeout);
