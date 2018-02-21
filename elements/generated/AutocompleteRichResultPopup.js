@@ -112,8 +112,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
     return aIndex;
   }
   onPopupClick(aEvent) {
-    var controller = this.view.QueryInterface(Components.interfaces.nsIAutoCompleteController);
-    controller.handleEnter(true, aEvent);
+    this.input.controller.handleEnter(true, aEvent);
   }
   onSearchBegin() {
     this.richlistbox.mousedOverIndex = -1;
@@ -425,8 +424,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       var isListActive = true;
       if (this.selectedIndex == -1)
         isListActive = false;
-      var controller = this.view.QueryInterface(Components.interfaces.nsIAutoCompleteController);
-      controller.stopSearch();
+      this.input.controller.stopSearch();
 
       this.removeAttribute("autocompleteinput");
       this.mPopupOpen = false;

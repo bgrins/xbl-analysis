@@ -137,8 +137,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       return;
     }
     // Otherwise "call super" -- do what autocomplete-base-popup does.
-    let controller = this.view.QueryInterface(Components.interfaces.nsIAutoCompleteController);
-    controller.handleEnter(true, aEvent);
+    this.input.controller.handleEnter(true, aEvent);
   }
   enableOneOffSearches(enable) {
     this._oneOffSearchesEnabled = enable;
@@ -274,7 +273,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // _invalidate).
     this.mInput = aInput;
     aInput.controller.setInitiallySelectedIndex(this._isFirstResultHeuristic ? 0 : -1);
-    this.view = aInput.controller.QueryInterface(Components.interfaces.nsITreeView);
     this._invalidate();
 
     try {

@@ -40,8 +40,6 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     if (aEvent.button == 2)
       return;
 
-    var controller = this.view.QueryInterface(Components.interfaces.nsIAutoCompleteController);
-
     var searchBar = BrowserSearch.searchBar;
     var popupForSearchBar = searchBar && searchBar.textbox == this.mInput;
     if (popupForSearchBar) {
@@ -54,7 +52,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     // Check for unmodified left-click, and use default behavior
     if (aEvent.button == 0 && !aEvent.shiftKey && !aEvent.ctrlKey &&
       !aEvent.altKey && !aEvent.metaKey) {
-      controller.handleEnter(true, aEvent);
+      this.input.controller.handleEnter(true, aEvent);
       return;
     }
 
@@ -66,7 +64,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
       );
 
       // Handle search bar popup clicks
-      var search = controller.getValueAt(this.selectedIndex);
+      var search = this.input.controller.getValueAt(this.selectedIndex);
 
       // open the search results according to the clicking subtlety
       var where = whereToOpenLink(aEvent, false, true);
@@ -84,7 +82,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
       if (!(where == "tab" && params.inBackground)) {
         // close the autocomplete popup and revert the entered search term
         this.closePopup();
-        controller.handleEscape();
+        this.input.controller.handleEscape();
       }
 
       searchBar.doSearch(search, where, null, params);

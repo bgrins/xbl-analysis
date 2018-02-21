@@ -20412,13 +20412,13 @@ var DATA = {
     },
     label: "2018-02-19"
   },
-  "master@{2018-02-20}": {
+  "master@{2018-02-21}": {
     numBindings: 222,
-    loc: 43140,
+    loc: 43134,
     directoryLOC: {
-      browser: 16518,
+      browser: 16514,
       dom: 723,
-      toolkit: 25252,
+      toolkit: 25250,
       mobile: 0,
       layout: 726,
       xpfe: 0
@@ -20444,7 +20444,7 @@ var DATA = {
       "autocomplete-richlistitem": 916,
       "places-tree": 801,
       "time-input": 766,
-      "urlbar-rich-result-popup": 762,
+      "urlbar-rich-result-popup": 760,
       marquee: 660,
       "datetime-input-base": 649,
       autocomplete: 639,
@@ -20452,7 +20452,7 @@ var DATA = {
       "listbox-base": 582,
       searchbar: 556,
       arrowscrollbox: 548,
-      "autocomplete-rich-result-popup": 546,
+      "autocomplete-rich-result-popup": 544,
       richlistbox: 515,
       "places-popup-base": 482,
       "tabbrowser-tab": 455,
@@ -20476,7 +20476,7 @@ var DATA = {
       textbox: 234,
       "install-status": 233,
       "tabbrowser-alltabs-popup": 224,
-      "browser-search-autocomplete-result-popup": 220,
+      "browser-search-autocomplete-result-popup": 218,
       scale: 209,
       tabbox: 208,
       "button-base": 207,
@@ -20651,7 +20651,7 @@ var DATA = {
       empty: 3,
       thumb: 3
     },
-    label: "2018-02-20"
+    label: "2018-02-21"
   }
 };
 var SORTED_BINDINGS = {
