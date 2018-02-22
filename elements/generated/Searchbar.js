@@ -344,6 +344,7 @@ class FirefoxSearchbar extends XULElement {
     }
     openUILinkIn(submission.uri.spec, aWhere, params);
   }
+
   disconnectedCallback() {
     this.destroy();
   }

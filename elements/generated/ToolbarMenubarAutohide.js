@@ -70,6 +70,7 @@ class FirefoxToolbarMenubarAutohide extends XULElement {
     }
     this.removeAttribute("inactive");
   }
+
   disconnectedCallback() {
     this._setActive();
   }

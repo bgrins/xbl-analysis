@@ -294,6 +294,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     if (popup)
       this.removeChild(popup);
   }
+
   disconnectedCallback() {
     if (this.mAttributeObserver) {
       this.mAttributeObserver.disconnect();

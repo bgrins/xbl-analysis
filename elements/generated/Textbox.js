@@ -235,6 +235,7 @@ class FirefoxTextbox extends XULElement {
       this.inputField.selectionStart == this.inputField.selectionEnd)
       this.editor.selectAll();
   }
+
   disconnectedCallback() {
     var field = this.inputField;
     if (field && field.value)

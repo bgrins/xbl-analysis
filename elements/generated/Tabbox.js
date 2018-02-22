@@ -166,6 +166,7 @@ class FirefoxTabbox extends FirefoxTabBase {
         break;
     }
   }
+
   disconnectedCallback() {
     const nsIEventListenerService =
       Components.interfaces.nsIEventListenerService;

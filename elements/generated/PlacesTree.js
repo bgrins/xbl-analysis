@@ -603,6 +603,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     return this.controller.buildContextMenu(aPopup);
   }
   destroyContextMenu(aPopup) {}
+
   disconnectedCallback() {
     // Break the treeviewer->result->treeviewer cycle.
     // Note: unsetting the result's viewer also unsets

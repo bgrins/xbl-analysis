@@ -69,6 +69,7 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
 
     this.removeAttribute("pending");
   }
+
   disconnectedCallback() {
     gEventManager.unregisterAddonListener(this, this.mAddon.id);
   }

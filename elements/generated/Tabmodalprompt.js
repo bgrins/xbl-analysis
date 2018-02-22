@@ -232,6 +232,7 @@ class FirefoxTabmodalprompt extends XULElement {
       this.onButtonClick(1); // Cancel button
     }
   }
+
   disconnectedCallback() {
     if (this.isLive) {
       this.abortPrompt();

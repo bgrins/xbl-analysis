@@ -517,6 +517,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     // Create the about blank content viewer in the content process
     this.messageManager.sendAsyncMessage("Browser:CreateAboutBlank", aPrincipal);
   }
+
   disconnectedCallback() {
     this.destroy();
   }

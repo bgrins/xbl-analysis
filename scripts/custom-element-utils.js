@@ -177,7 +177,7 @@ function getJSForBinding(binding) {
     js.push(`${method.find('parameter').map(p => p.attrs.name).join(',')}`);
     js.push(`) {`);
     js.push(method.find('body')[0].cdata || method.find('body')[0].value);
-    js.push(`}`);
+    js.push(`}\n`);
   }
 
   js.push(`

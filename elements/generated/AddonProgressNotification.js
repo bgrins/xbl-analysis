@@ -136,6 +136,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
   onDownloadEnded() {
     this.updateProgress();
   }
+
   disconnectedCallback() {
     this.destroy();
   }

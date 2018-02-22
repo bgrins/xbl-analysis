@@ -775,6 +775,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
   onInstallCancelled() {
     this._updateState();
   }
+
   disconnectedCallback() {
     gEventManager.unregisterAddonListener(this, this.mAddon.id);
   }

@@ -455,6 +455,7 @@ class FirefoxDatetimeInputBase extends XULElement {
       this.mInputElement.openDateTimePicker(this.getCurrentValue());
     }
   }
+
   disconnectedCallback() {
     this.EVENTS.forEach((eventName) => {
       this.removeEventListener(eventName, this, { mozSystemGroup: true });

@@ -1271,6 +1271,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       }
     }
   }
+
   disconnectedCallback() {
     // Somehow, it's possible for the XBL destructor to fire without the
     // constructor ever having fired. Fix:

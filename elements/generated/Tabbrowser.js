@@ -1577,7 +1577,8 @@ class FirefoxTabbrowser extends XULElement {
     state.microphone = !!state.microphone;
     return state;
   }
-  setTabTitleLoading(aTab) {} setInitialTabTitle(aTab, aTitle, aOptions) {
+  setTabTitleLoading(aTab) {}
+  setInitialTabTitle(aTab, aTitle, aOptions) {
     if (aTitle) {
       if (!aTab.getAttribute("label")) {
         aTab._labelIsInitialTitle = true;
@@ -5240,6 +5241,7 @@ class FirefoxTabbrowser extends XULElement {
     // to random failures because of colliding IDs.
     return "panel-" + outerID + "-" + (++this._uniquePanelIDCounter);
   }
+
   disconnectedCallback() {
     Services.obs.removeObserver(this, "contextual-identity-updated");
 

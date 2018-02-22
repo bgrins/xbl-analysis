@@ -71,6 +71,7 @@ class FirefoxCustomizableuiToolbarMenubarAutohide extends FirefoxToolbar {
     }
     this.removeAttribute("inactive");
   }
+
   disconnectedCallback() {
     this._setActive();
   }

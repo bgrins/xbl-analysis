@@ -166,6 +166,7 @@ class FirefoxEditor extends XULElement {
     var editor = this.editingSession.getEditorForWindow(containingWindow);
     return editor.QueryInterface(Components.interfaces.nsIHTMLEditor);
   }
+
   disconnectedCallback() { undefined }
 
   _setupEventListeners() {

@@ -174,6 +174,7 @@ class FirefoxInstallStatus extends XULElement {
   onInstallFailed() {
     this.refreshState();
   }
+
   disconnectedCallback() {
     if (this.mInstall)
       this.mInstall.removeListener(this);

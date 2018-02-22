@@ -95,6 +95,7 @@ class FirefoxStatuspanel extends XULElement {
       this._mouseTargetRect = null;
     }
   }
+
   disconnectedCallback() {
     window.removeEventListener("resize", this);
     MousePosTracker.removeListener(this);

@@ -881,6 +881,7 @@ class FirefoxFindbar extends XULElement {
 
     return true;
   }
+
   disconnectedCallback() {
     this.destroy();
   }

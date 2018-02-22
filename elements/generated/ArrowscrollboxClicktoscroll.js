@@ -141,6 +141,7 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
 
     this.ensureElementIsVisible(targetElement);
   }
+
   disconnectedCallback() {
     // Release timer to avoid reference cycles.
     if (this._scrollTimer) {

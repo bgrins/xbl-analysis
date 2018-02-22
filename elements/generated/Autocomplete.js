@@ -554,6 +554,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     }
     this.resetActionType();
   }
+
   disconnectedCallback() {
     this.inputField.controllers.removeController(this._pasteController);
   }

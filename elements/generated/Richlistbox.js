@@ -333,6 +333,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     return index != this.currentIndex;
   }
   fireActiveItemEvent() {}
+
   disconnectedCallback() {
     // remove the template build listener
     if (this.builder)

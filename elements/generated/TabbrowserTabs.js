@@ -710,6 +710,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this.tabbrowser._insertBrowser(aTab);
     return document.getElementById(aTab.linkedPanel);
   }
+
   disconnectedCallback() {
     Services.prefs.removeObserver("privacy.userContext", this);
   }

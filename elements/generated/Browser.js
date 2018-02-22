@@ -1261,6 +1261,7 @@ class FirefoxBrowser extends XULElement {
     this.droppedLinkHandler(null, links, aTriggeringPrincipal);
     return true;
   }
+
   disconnectedCallback() {
     this.destroy();
   }

@@ -20,7 +20,10 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
       this._itemBox.removeAttribute("size");
     }
   }
-  _onOverflow() {} _onUnderflow() {} handleOverUnderflow() {} _adjustAutofillItemLayout() {
+  _onOverflow() {}
+  _onUnderflow() {}
+  handleOverUnderflow() {}
+  _adjustAutofillItemLayout() {
     let outerBoxRect = this.parentNode.getBoundingClientRect();
 
     // Make item fit in popup as XUL box could not constrain

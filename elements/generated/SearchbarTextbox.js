@@ -245,6 +245,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     let numItems = suggestionsHidden ? 0 : this.popup.matchCount;
     this.popup.oneOffButtons.handleKeyPress(aEvent, numItems, true);
   }
+
   disconnectedCallback() {
     // If the context menu has never been opened, there won't be anything
     // to remove here.
