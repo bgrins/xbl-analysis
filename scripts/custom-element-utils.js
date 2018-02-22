@@ -141,7 +141,7 @@ function getJSForBinding(binding) {
       ${fields.join("\n")}
 
       ${xblconstructor}
-      this.setupHandlers();
+      this._setupEventListeners();
     }
   `);
 
@@ -183,7 +183,7 @@ function getJSForBinding(binding) {
   js.push(`
     ${xbldestructor}
 
-    setupHandlers() {
+    _setupEventListeners() {
       ${handlers.join("\n")}
     }
   `);
