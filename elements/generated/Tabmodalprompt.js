@@ -97,7 +97,7 @@ class FirefoxTabmodalprompt extends XULElement {
     this.ui.checkbox.addEventListener("command", function() { self.Dialog.onCheckbox(); });
     this.isLive = false;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   init(args, linkedTab, onCloseCallback) {
     this.args = args;
@@ -238,7 +238,7 @@ class FirefoxTabmodalprompt extends XULElement {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => { this.onKeyAction('default', event); });
 

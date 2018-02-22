@@ -11,7 +11,7 @@ class FirefoxTooltip extends FirefoxPopupBase {
 
     this._isMouseOver = false;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set label(val) {
@@ -52,7 +52,7 @@ class FirefoxTooltip extends FirefoxPopupBase {
     return shouldChangeText;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mouseover", (event) => {
       var rel = event.relatedTarget;

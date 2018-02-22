@@ -9,7 +9,7 @@ class FirefoxStatuspanel extends XULElement {
 
     window.addEventListener("resize", this);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set label(val) {
@@ -100,7 +100,7 @@ class FirefoxStatuspanel extends XULElement {
     MousePosTracker.removeListener(this);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

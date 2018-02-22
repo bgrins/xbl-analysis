@@ -19,7 +19,7 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
 
     this._scrollTimer = 0;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   enableDragScrolling(overItem) {
     if (!this._draggingState) {
@@ -34,7 +34,7 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("popupshown", (event) => {
       // Enable drag scrolling even when the mouse wasn't used. The mousemove

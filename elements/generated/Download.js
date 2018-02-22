@@ -34,10 +34,10 @@ class FirefoxDownload extends FirefoxRichlistitem {
       </xul:stack>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

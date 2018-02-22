@@ -4,7 +4,7 @@ class FirefoxWizardpage extends FirefoxWizardBase {
 
     this.pageIndex = -1;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set pageid(val) {
@@ -25,7 +25,7 @@ class FirefoxWizardpage extends FirefoxWizardBase {
     return this.getAttribute('next');
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

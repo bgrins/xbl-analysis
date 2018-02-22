@@ -47,10 +47,10 @@ class FirefoxPopupNotification extends XULElement {
 
     this.menupopup = document.getAnonymousElementByAttribute(this, "anonid", "menupopup");
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

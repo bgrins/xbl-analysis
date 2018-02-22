@@ -9,7 +9,7 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
       </xul:menupopup>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   buildPopup(aPopup) {
     // We no longer cache the picker content, remove the old content.
@@ -46,7 +46,7 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("command", (event) => {
       if (event.originalTarget == this) {

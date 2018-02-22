@@ -103,7 +103,7 @@ class FirefoxNocontrols extends XULElement {
     this.Utils.init(this);
     this.Utils.video.dispatchEvent(new CustomEvent("MozNoControlsVideoBindingAttached"));
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   disconnectedCallback() {
@@ -115,7 +115,7 @@ class FirefoxNocontrols extends XULElement {
     delete this.randomID;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

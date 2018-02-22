@@ -24,7 +24,7 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
 
     this._wizardButtonDeck = document.getAnonymousElementByAttribute(this, "anonid", "WizardButtonDeck");
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get defaultButton() {
@@ -47,7 +47,7 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

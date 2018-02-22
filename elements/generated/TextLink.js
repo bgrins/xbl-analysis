@@ -2,7 +2,7 @@ class FirefoxTextLink extends FirefoxTextLabel {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set href(val) {
@@ -88,7 +88,7 @@ class FirefoxTextLink extends FirefoxTextLabel {
     win.open(href);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => { this.open(event) }, true);
 

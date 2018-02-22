@@ -171,7 +171,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // Ensure to clear those internal caches when switching tabs.
     gBrowser.tabContainer.addEventListener("TabSelect", this);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get maxRows() {
@@ -1300,7 +1300,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this.popup.oneOffSearchButtons.textbox = null;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keydown", (event) => {
       if (this._noActionKeys.has(event.keyCode) &&

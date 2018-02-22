@@ -1,10 +1,10 @@
 class FirefoxGrippy extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("command", (event) => {
       var splitter = this.parentNode;

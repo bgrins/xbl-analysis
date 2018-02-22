@@ -17,7 +17,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
     var value = this.inputField.value || 0;
     this._validateValue(value);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set value(val) {
@@ -94,7 +94,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
     this.dispatchEvent(evt);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("input", (event) => {
       this._valueEntered = true;

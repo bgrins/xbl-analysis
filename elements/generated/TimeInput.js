@@ -29,7 +29,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
       this.setFieldsFromInputValue();
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get kMsPerSecond() {
@@ -610,7 +610,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     return time;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

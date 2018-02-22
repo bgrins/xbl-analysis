@@ -4,7 +4,7 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
 
     this.parentNode.parentNode._columnsDirty = true;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set ordinal(val) {
@@ -149,7 +149,7 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
     aEvent.preventDefault();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mousedown", (event) => {
       if (this.parentNode.parentNode.enableColumnDrag) {

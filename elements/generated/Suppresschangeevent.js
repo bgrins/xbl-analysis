@@ -14,7 +14,7 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
     this.Utils = document.getBindingParent(this.parentNode).Utils;
     this.valueBar = this.Utils.progressBar;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get accessibleName() {
@@ -80,7 +80,7 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

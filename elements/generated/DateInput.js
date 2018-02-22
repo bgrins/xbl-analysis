@@ -24,7 +24,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       this.setFieldsFromInputValue();
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   buildEditFields() {
     const HTML_NS = "http://www.w3.org/1999/xhtml";
@@ -327,7 +327,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       this.isEmpty(day));
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

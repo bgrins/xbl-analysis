@@ -2,14 +2,14 @@ class FirefoxHandlerBase extends FirefoxRichlistitem {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get type() {
     return this.getAttribute("type");
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

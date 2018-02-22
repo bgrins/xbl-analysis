@@ -11,7 +11,7 @@ class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProf
 
     this._adjustAcItem();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set selected(val) {
@@ -30,7 +30,7 @@ class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProf
     this._itemBox.textContent = value;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

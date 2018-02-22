@@ -17,10 +17,10 @@ class FirefoxHandlerSelected extends FirefoxHandlerBase {
 
     gMainPane.rebuildActionsMenu();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

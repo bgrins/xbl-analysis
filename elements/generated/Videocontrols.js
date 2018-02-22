@@ -1734,7 +1734,7 @@ class FirefoxVideocontrols extends XULElement {
 
     this.Utils.init(this);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   disconnectedCallback() {
@@ -1747,7 +1747,7 @@ class FirefoxVideocontrols extends XULElement {
     delete this.randomID;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mouseover", (event) => {
       if (!this.isTouchControls) {

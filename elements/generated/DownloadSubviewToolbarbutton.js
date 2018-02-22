@@ -14,10 +14,10 @@ class FirefoxDownloadSubviewToolbarbutton extends FirefoxMenuButtonBase {
       <xul:toolbarbutton anonid="button" class="action-button"></xul:toolbarbutton>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

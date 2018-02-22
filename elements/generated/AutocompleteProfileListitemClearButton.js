@@ -16,7 +16,7 @@ class FirefoxAutocompleteProfileListitemClearButton extends FirefoxAutocompleteP
 
     this._adjustAcItem();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _adjustAcItem() {
     this._adjustAutofillItemLayout();
@@ -26,7 +26,7 @@ class FirefoxAutocompleteProfileListitemClearButton extends FirefoxAutocompleteP
     this._clearBtn.textContent = clearFormBtnLabel;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => {
       /* global Cu */

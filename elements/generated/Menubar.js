@@ -7,7 +7,7 @@ class FirefoxMenubar extends XULElement {
 
     this._originalStatusText = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set statusbar(val) {
@@ -26,7 +26,7 @@ class FirefoxMenubar extends XULElement {
       this._statusbar.label = newText;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("DOMMenuBarActive", (event) => {
       if (!this.statusbar) return;

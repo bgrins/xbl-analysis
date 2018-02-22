@@ -1,10 +1,10 @@
 class FirefoxEmpty extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

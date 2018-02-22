@@ -19,7 +19,7 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
 
     this.style.pointerEvents = "none";
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   adjustArrowPosition() {
     var arrow = document.getAnonymousElementByAttribute(this, "anonid", "arrow");
@@ -82,7 +82,7 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
     arrow.hidden = false;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("popupshowing", (event) => {
       this.adjustArrowPosition();

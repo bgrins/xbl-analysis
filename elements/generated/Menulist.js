@@ -17,7 +17,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     this.menuBoxObject = this.boxObject;
     this.setInitialSelection();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set value(val) {
@@ -300,7 +300,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("command", (event) => { if (event.target.parentNode.parentNode == this) this.selectedItem = event.target; }, true);
 

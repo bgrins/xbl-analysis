@@ -7,10 +7,10 @@ class FirefoxTreebody extends FirefoxTreeBase {
     if ("_ensureColumnOrder" in this.parentNode)
       this.parentNode._ensureColumnOrder();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mousedown", (event) => {
       if (this.parentNode.disabled)

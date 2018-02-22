@@ -11,7 +11,7 @@ class FirefoxRating extends XULElement {
 
     this._updateStars();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get stars() {
@@ -73,7 +73,7 @@ class FirefoxRating extends XULElement {
       stars[i].setAttribute("on", i <= (aScore - 1));
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mouseout", (event) => {
       this._updateStars();

@@ -14,7 +14,7 @@ class FirefoxLabelControl extends FirefoxTextLabel {
 
     this.formatAccessKey(true);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set accessKey(val) {
@@ -202,7 +202,7 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     element.remove();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => {
       if (this.disabled) return;

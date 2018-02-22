@@ -74,7 +74,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
       <xul:toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).closeCommand();"></xul:toolbarbutton>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set state(val) {
@@ -299,7 +299,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
     Translation.openProviderAttribution();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

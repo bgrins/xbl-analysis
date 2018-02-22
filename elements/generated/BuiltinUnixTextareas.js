@@ -1,10 +1,10 @@
 class FirefoxBuiltinUnixTextareas extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => { undefined });
 

@@ -10,7 +10,7 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
     this._alive = true;
 
     this._init();
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _init() {
     var stack =
@@ -52,7 +52,7 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
     requestAnimationFrame(nextStep);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

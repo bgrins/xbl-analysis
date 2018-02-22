@@ -7,10 +7,10 @@ class FirefoxToolbarpaletteitem extends XULElement {
       </xul:hbox>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

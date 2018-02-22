@@ -39,7 +39,7 @@ class FirefoxEditor extends XULElement {
     if (this.editortype)
       this.makeEditable(this.editortype, true);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get finder() {
@@ -168,7 +168,7 @@ class FirefoxEditor extends XULElement {
   }
   disconnectedCallback() { undefined }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

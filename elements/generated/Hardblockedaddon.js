@@ -15,10 +15,10 @@ class FirefoxHardblockedaddon extends XULElement {
       </xul:vbox>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

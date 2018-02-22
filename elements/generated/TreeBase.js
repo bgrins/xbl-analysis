@@ -2,13 +2,13 @@ class FirefoxTreeBase extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _isAccelPressed(aEvent) {
     return aEvent.getModifierState("Accel");
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

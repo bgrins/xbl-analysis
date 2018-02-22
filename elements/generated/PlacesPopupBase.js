@@ -151,7 +151,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       }
     };
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _hideDropIndicator(aEvent) {
     let target = aEvent.target;
@@ -264,7 +264,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     this._indicatorBar.hidden = true;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("DOMMenuItemActive", (event) => {
       let elt = event.target;

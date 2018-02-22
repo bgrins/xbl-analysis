@@ -93,7 +93,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this._controller = new RemoteController(this);
     this.controllers.appendController(this._controller);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get securityUI() {
@@ -521,7 +521,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this.destroy();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("dragstart", (event) => {
       // If we're a remote browser dealing with a dragstart, stop it

@@ -6,7 +6,7 @@ class FirefoxTabpanels extends FirefoxTabBase {
 
     this._selectedPanel = this.childNodes.item(this.selectedIndex);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get tabbox() {
@@ -90,7 +90,7 @@ class FirefoxTabpanels extends FirefoxTabBase {
     return tabElmFromIndex;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

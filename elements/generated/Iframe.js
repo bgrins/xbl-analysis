@@ -1,7 +1,7 @@
 class FirefoxIframe extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get docShell() {
@@ -21,7 +21,7 @@ class FirefoxIframe extends XULElement {
     return this.webNavigation.document;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

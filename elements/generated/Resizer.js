@@ -19,10 +19,10 @@ class FirefoxResizer extends XULElement {
       this.setAttribute("rtl", "true");
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

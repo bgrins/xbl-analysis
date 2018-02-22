@@ -8,10 +8,10 @@ class FirefoxToolbarpaletteitemPaletteWrappingLabel extends FirefoxToolbarpalett
       <xul:label inherits="text=title"></xul:label>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

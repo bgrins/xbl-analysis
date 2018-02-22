@@ -22,7 +22,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     else
       this.selectedIndex = 0;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set value(val) {
@@ -277,7 +277,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     return remove;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mousedown", (event) => {
       if (this.disabled)

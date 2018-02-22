@@ -86,7 +86,7 @@ class FirefoxSearchOneOffs extends XULElement {
     // of buttons to disappear.
     Services.obs.addObserver(this, "lightweight-theme-changed", true);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get buttonWidth() {
@@ -874,7 +874,7 @@ class FirefoxSearchOneOffs extends XULElement {
     }, this._addEngineMenuTimeoutMs);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mousedown", (event) => {
       let target = event.originalTarget;

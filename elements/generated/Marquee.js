@@ -46,7 +46,7 @@ class FirefoxMarquee extends XULElement {
       window.addEventListener("load", lambda);
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set scrollAmount(val) {
@@ -550,7 +550,7 @@ class FirefoxMarquee extends XULElement {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

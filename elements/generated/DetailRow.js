@@ -6,7 +6,7 @@ class FirefoxDetailRow extends XULElement {
       <xul:label class="detail-row-value" inherits="value"></xul:label>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set value(val) {
@@ -20,7 +20,7 @@ class FirefoxDetailRow extends XULElement {
     return this.getAttribute("value");
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

@@ -37,7 +37,7 @@ class FirefoxDialog extends XULElement {
     window.moveToAlertPosition = this.moveToAlertPosition;
     window.centerWindowOnScreen = this.centerWindowOnScreen;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set buttons(val) {
@@ -335,7 +335,7 @@ class FirefoxDialog extends XULElement {
       this._doButtonCommand(this.defaultButton);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => { this._hitEnter(event); });
 

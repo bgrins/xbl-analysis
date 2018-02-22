@@ -11,7 +11,7 @@ class FirefoxFilefield extends FirefoxBasetext {
 
     this._file = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set label(val) {
@@ -72,7 +72,7 @@ class FirefoxFilefield extends FirefoxBasetext {
     return "moz-icon://" + urlspec + "?size=16";
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

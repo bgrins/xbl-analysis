@@ -24,7 +24,7 @@ class FirefoxListbox extends FirefoxListboxBase {
         this.selectedItems.append(item);
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get listBoxObject() {
@@ -118,7 +118,7 @@ class FirefoxListbox extends FirefoxListboxBase {
     return pageOffset;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => {
       if (this.currentItem) {

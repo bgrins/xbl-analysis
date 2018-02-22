@@ -1,7 +1,7 @@
 class FirefoxBasecontrol extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set disabled(val) {
@@ -24,7 +24,7 @@ class FirefoxBasecontrol extends XULElement {
     return parseInt(this.getAttribute('tabindex')) || 0
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

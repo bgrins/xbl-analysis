@@ -137,7 +137,7 @@ class FirefoxFindbar extends XULElement {
     if (this.getAttribute("browserid"))
       setTimeout(function(aSelf) { aSelf.browser = aSelf.browser; }, 0, this);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set _findMode(val) {
@@ -885,7 +885,7 @@ class FirefoxFindbar extends XULElement {
     this.destroy();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => { if (this.close) this.close(); }, true);
 

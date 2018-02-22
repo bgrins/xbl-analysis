@@ -50,7 +50,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     this.setAttribute("notoverflowing", "true");
     this._updateScrollButtonsDisabledState();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get _prefBranch() {
@@ -317,7 +317,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     });
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("wheel", (event) => {
       let doScroll = false;

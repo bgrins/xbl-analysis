@@ -7,10 +7,10 @@ class FirefoxMarqueeHorizontalEditable extends XULElement {
       </html:div>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

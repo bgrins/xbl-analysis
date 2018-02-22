@@ -4,7 +4,7 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
 
     this.selectedByMouseOver = true;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get _stringBundle() {
@@ -37,7 +37,7 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

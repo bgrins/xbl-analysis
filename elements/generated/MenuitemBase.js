@@ -2,7 +2,7 @@ class FirefoxMenuitemBase extends FirefoxBasetext {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set value(val) {
@@ -34,7 +34,7 @@ class FirefoxMenuitemBase extends FirefoxBasetext {
     return null;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

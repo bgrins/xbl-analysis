@@ -27,7 +27,7 @@ class FirefoxInstallStatus extends XULElement {
     else
       this.refreshState();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   initWithInstall(aInstall) {
     if (this.mInstall) {
@@ -179,7 +179,7 @@ class FirefoxInstallStatus extends XULElement {
       this.mInstall.removeListener(this);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

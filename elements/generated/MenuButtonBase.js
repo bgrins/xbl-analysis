@@ -6,7 +6,7 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
 
     this.init();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set buttonover(val) {
@@ -67,7 +67,7 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
     document.removeEventListener("mouseup", this, true);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => {
       if (event.originalTarget == this)

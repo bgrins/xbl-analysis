@@ -31,7 +31,7 @@ class FirefoxTree extends FirefoxTreeBase {
 
     this._touchY = -1;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get columns() {
@@ -594,7 +594,7 @@ class FirefoxTree extends FirefoxTreeBase {
     return this.changeOpenState(this.currentIndex);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("touchstart", (event) => {
       function isScrollbarElement(target) {

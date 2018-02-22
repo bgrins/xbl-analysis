@@ -2,10 +2,10 @@ class FirefoxScrollboxBase extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

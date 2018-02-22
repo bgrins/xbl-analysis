@@ -211,7 +211,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
     gEventManager.registerAddonListener(this, this.mAddon.id);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set userDisabled(val) {
@@ -779,7 +779,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     gEventManager.unregisterAddonListener(this, this.mAddon.id);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => {
       switch (event.detail) {

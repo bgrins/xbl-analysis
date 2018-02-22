@@ -33,7 +33,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
       .map(node => node.id);
     CustomizableUI.registerToolbarNode(this, children);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set toolbarName(val) {
@@ -178,7 +178,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     return this.ownerDocument.getElementById(aId);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

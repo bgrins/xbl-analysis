@@ -92,7 +92,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
 
     this.initialize();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set color(val) {
@@ -307,7 +307,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mouseover", (event) => {
       this.hoverCell(event.originalTarget);

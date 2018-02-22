@@ -223,7 +223,7 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
     this.TouchUtils.init(this);
     this.dispatchEvent(new CustomEvent("VideoBindingAttached"));
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   disconnectedCallback() {
@@ -232,7 +232,7 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
     delete this.randomID;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mouseup", (event) => {
       if (event.originalTarget.nodeName == "vbox") {

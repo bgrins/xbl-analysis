@@ -7,10 +7,10 @@ class FirefoxListhead extends XULElement {
       </xul:listheaditem>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

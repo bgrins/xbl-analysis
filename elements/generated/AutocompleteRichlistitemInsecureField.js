@@ -34,7 +34,7 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     // recalculate an item's height and width.
     this.classList.add("forceHandleUnderflow");
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get _learnMoreString() {
@@ -49,7 +49,7 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     return [this._learnMoreString.toLowerCase()];
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => {
       let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");

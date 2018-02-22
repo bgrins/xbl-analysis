@@ -8,10 +8,10 @@ class FirefoxPrettyprint extends XULElement {
       </html:span>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => {
       try {

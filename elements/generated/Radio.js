@@ -14,7 +14,7 @@ class FirefoxRadio extends FirefoxBasetext {
     if (control)
       control._radioChildren = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set value(val) {
@@ -75,7 +75,7 @@ class FirefoxRadio extends FirefoxBasetext {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => {
       if (!this.disabled)

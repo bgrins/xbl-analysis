@@ -47,7 +47,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     // includes padding area).
     this.mInputElement.addEventListener("click", this, { mozSystemGroup: true });
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get EVENTS() {
@@ -468,7 +468,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.mInputElement = null;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

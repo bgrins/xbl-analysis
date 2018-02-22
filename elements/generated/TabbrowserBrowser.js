@@ -4,7 +4,7 @@ class FirefoxTabbrowserBrowser extends FirefoxBrowser {
 
     this.tabModalPromptBox = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {
     var params = arguments[1];
@@ -19,7 +19,7 @@ class FirefoxTabbrowserBrowser extends FirefoxBrowser {
     _loadURIWithFlags(this, aURI, params);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

@@ -22,7 +22,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
 
     this.richlistbox = document.getAnonymousElementByAttribute(this, "anonid", "richlistbox");
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get input() {
@@ -384,7 +384,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("popupshowing", (event) => {
       // If normalMaxRows wasn't already set by the input, then set it here

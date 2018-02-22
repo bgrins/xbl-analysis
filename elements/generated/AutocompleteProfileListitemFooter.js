@@ -58,7 +58,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
 
     this._adjustAcItem();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _onCollapse() {
     /* global messageManager */
@@ -97,7 +97,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => {
       if (this._warningTextBox.contains(event.originalTarget)) {

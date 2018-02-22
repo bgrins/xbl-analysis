@@ -2,7 +2,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _tabOnAttrModified(aEvent) {
     var tab = aEvent.target;
@@ -106,7 +106,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       addEndImage().setAttribute("soundplaying", "true");
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("popupshowing", (event) => {
       if (event.target.getAttribute("id") == "alltabs_containersMenuTab") {

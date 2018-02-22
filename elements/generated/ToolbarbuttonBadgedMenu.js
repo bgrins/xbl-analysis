@@ -12,10 +12,10 @@ class FirefoxToolbarbuttonBadgedMenu extends FirefoxToolbarbutton {
       <xul:dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label"></xul:dropmarker>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

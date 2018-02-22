@@ -2,7 +2,7 @@ class FirefoxAddonBase extends FirefoxRichlistitem {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get isLegacy() {
@@ -33,7 +33,7 @@ class FirefoxAddonBase extends FirefoxRichlistitem {
     this.remove();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

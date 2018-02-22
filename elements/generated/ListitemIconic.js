@@ -7,10 +7,10 @@ class FirefoxListitemIconic extends FirefoxListitem {
       </children>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

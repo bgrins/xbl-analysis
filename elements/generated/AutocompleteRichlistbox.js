@@ -6,10 +6,10 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
 
     this.mousedOverIndex = -1;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mouseup", (event) => {
       // don't call onPopupClick for the scrollbar buttons, thumb, slider, etc.

@@ -1,7 +1,7 @@
 class FirefoxTextBase extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set disabled(val) {
@@ -32,7 +32,7 @@ class FirefoxTextBase extends XULElement {
     return this.getAttribute('crop');
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

@@ -10,7 +10,7 @@ class FirefoxTab extends FirefoxBasetext {
 
     this.arrowKeysShouldWrap = /Mac/.test(navigator.platform);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set value(val) {
@@ -66,7 +66,7 @@ class FirefoxTab extends FirefoxBasetext {
     return module.TelemetryStopwatch;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mousedown", (event) => {
       if (this.disabled)

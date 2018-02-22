@@ -13,7 +13,7 @@ class FirefoxNotification extends XULElement {
 
     this.timeout = 0;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set label(val) {
@@ -112,7 +112,7 @@ class FirefoxNotification extends XULElement {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

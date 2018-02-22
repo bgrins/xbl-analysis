@@ -17,7 +17,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     this.oneOffButtons = document.getAnonymousElementByAttribute(this, "anonid",
       "search-one-off-buttons");
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get bundle() {
@@ -114,7 +114,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     searchbar.handleSearchCommandWhere(event, engine, where, params);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("popupshowing", (event) => {
       // Force the panel to have the width of the searchbar rather than

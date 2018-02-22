@@ -10,7 +10,7 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
 
     this.initialize();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set open(val) {
@@ -89,7 +89,7 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
     this._fireEvent(this, "change");
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keydown", (event) => {
       // open popup if key is space/up/left/right/down and popup is closed

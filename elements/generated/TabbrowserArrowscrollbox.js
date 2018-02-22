@@ -2,17 +2,17 @@ class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _getScrollableElements() {
     return Array.filter(document.getBindingParent(this).childNodes,
       this._canScrollToElement, this);
   }
   _canScrollToElement(tab) {
-    return !tab.pinned && !tab.hidden;
+    return !tab._pinnedUnscrollable && !tab.hidden;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("underflow", (event) => {
       // Ignore underflow events:

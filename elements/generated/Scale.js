@@ -16,7 +16,7 @@ class FirefoxScale extends FirefoxBasecontrol {
     else if (this.max < 0)
       this.value = this.max;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set value(val) {
@@ -127,7 +127,7 @@ class FirefoxScale extends FirefoxBasecontrol {
   }
   dragStateChanged(isDragging) {}
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => {
       this._userChanged = true;

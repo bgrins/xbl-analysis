@@ -13,10 +13,10 @@ class FirefoxMenuitemIconic extends FirefoxMenuitem {
       </xul:hbox>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

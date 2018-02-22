@@ -91,7 +91,7 @@ class FirefoxWizard extends XULElement {
     // give focus to the first focusable element in the dialog
     window.addEventListener("load", this._setInitialFocus);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set title(val) {
@@ -375,7 +375,7 @@ class FirefoxWizard extends XULElement {
     return noCancel;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => { this._hitEnter(event) });
 

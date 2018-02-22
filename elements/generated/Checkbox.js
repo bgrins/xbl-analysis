@@ -9,7 +9,7 @@ class FirefoxCheckbox extends FirefoxBasetext {
       </xul:hbox>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set checked(val) {
@@ -33,7 +33,7 @@ class FirefoxCheckbox extends FirefoxBasetext {
     return aValue;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => { if (!this.disabled) this.checked = !this.checked; });
 

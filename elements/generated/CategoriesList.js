@@ -2,7 +2,7 @@ class FirefoxCategoriesList extends FirefoxRichlistbox {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _canUserSelect(aItem) {
     if (aItem.hasAttribute("disabled") &&
@@ -12,7 +12,7 @@ class FirefoxCategoriesList extends FirefoxRichlistbox {
     return style.display != "none" && style.visibility == "visible";
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

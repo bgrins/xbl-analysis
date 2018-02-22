@@ -11,14 +11,14 @@ class FirefoxHandler extends FirefoxRichlistitem {
       </xul:vbox>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get label() {
     return this.getAttribute('name') + ' ' + this.getAttribute('description');
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

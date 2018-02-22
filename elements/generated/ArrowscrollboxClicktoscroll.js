@@ -43,7 +43,7 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       this._prefBranch.getIntPref("toolkit.scrollbox.clickToScroll.scrollDelay",
         this._scrollDelay);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   notify(aTimer) {
     if (!document)
@@ -149,7 +149,7 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

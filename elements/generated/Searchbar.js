@@ -72,7 +72,7 @@ class FirefoxSearchbar extends XULElement {
       }
     }, { capturing: true, once: true });
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get engines() {
@@ -348,7 +348,7 @@ class FirefoxSearchbar extends XULElement {
     this.destroy();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("command", (event) => {
       const target = event.originalTarget;

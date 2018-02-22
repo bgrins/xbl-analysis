@@ -35,7 +35,7 @@ class FirefoxTextbox extends XULElement {
     if (this.hasAttribute("emptytext"))
       this.placeholder = this.getAttribute("emptytext");
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get inputField() {
@@ -242,7 +242,7 @@ class FirefoxTextbox extends XULElement {
     this.mInputField = null;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("focus", (event) => {
       if (this.hasAttribute("focused"))

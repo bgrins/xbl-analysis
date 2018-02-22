@@ -9,7 +9,7 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
       <children includes="menupopup"></children>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get inputField() {
@@ -141,7 +141,7 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
     this.inputField.select();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("focus", (event) => {
       this.setAttribute("focused", "true");

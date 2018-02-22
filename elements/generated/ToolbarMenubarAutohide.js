@@ -50,7 +50,7 @@ class FirefoxToolbarMenubarAutohide extends XULElement {
 
     this._setInactive();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   _setInactive() {
     this.setAttribute("inactive", "true");
@@ -74,7 +74,7 @@ class FirefoxToolbarMenubarAutohide extends XULElement {
     this._setActive();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("DOMMenuBarActive", (event) => { this._setActive(); });
 

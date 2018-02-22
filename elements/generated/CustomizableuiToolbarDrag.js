@@ -16,10 +16,10 @@ class FirefoxCustomizableuiToolbarDrag extends FirefoxToolbar {
       } catch (e) {}
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

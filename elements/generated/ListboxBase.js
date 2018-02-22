@@ -20,7 +20,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
     this._selectionStart = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set selectedItem(val) {
@@ -377,7 +377,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     aMe._selectTimeout = null;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(-1, event); });
 

@@ -34,7 +34,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this.updateLastAccessed();
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set _visuallySelected(val) {
@@ -271,7 +271,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     ContextualIdentityService.setTabStyle(this);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mouseover", (event) => {
       if (event.originalTarget.getAttribute("anonid") == "close-button") {

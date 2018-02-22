@@ -29,7 +29,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     else
       this._refreshSelection();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get itemCount() {
@@ -339,7 +339,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       this.builder.removeListener(this._builderListener);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => {
       // clicking into nothing should unselect

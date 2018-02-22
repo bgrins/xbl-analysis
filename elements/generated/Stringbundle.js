@@ -3,7 +3,7 @@ class FirefoxStringbundle extends XULElement {
 
     this._bundle = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get stringBundle() {
@@ -52,7 +52,7 @@ class FirefoxStringbundle extends XULElement {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

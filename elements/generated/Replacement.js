@@ -4,10 +4,10 @@ class FirefoxReplacement extends FirefoxPluginproblem {
 
     this.dispatchEvent(new CustomEvent("PluginPlaceholderReplaced"));
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

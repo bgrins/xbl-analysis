@@ -7,10 +7,10 @@ class FirefoxListheader extends XULElement {
       <xul:image class="listheader-sortdirection" inherits="sortDirection"></xul:image>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

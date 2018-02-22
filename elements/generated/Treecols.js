@@ -15,10 +15,10 @@ class FirefoxTreecols extends XULElement {
         splitter.setAttribute("resizeafter", "farthest");
     });
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

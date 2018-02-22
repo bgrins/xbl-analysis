@@ -5,10 +5,10 @@ class FirefoxDropmarker extends XULElement {
       <xul:image class="dropmarker-icon"></xul:image>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

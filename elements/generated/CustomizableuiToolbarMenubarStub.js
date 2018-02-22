@@ -1,7 +1,7 @@
 class FirefoxCustomizableuiToolbarMenubarStub extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get toolbox() {
@@ -22,7 +22,7 @@ class FirefoxCustomizableuiToolbarMenubarStub extends XULElement {
     return null;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

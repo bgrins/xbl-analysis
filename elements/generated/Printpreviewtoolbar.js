@@ -95,7 +95,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
 
     this.mMessageManager = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   initialize(aPPBrowser) {
     let { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
@@ -300,7 +300,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

@@ -28,7 +28,7 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
 
     this._adjustAcItem();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set selected(val) {
@@ -61,7 +61,7 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
     this._comment.textContent = secondary;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

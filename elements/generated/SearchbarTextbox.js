@@ -49,7 +49,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.setAttribute("aria-owns", this.popup.id);
     document.getBindingParent(this)._textboxInitialized = true;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set searchParam(val) {
@@ -254,7 +254,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     } catch (ex) {}
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("input", (event) => {
       this.popup.removeAttribute("showonlysettings");

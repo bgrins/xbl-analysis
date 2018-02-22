@@ -1,7 +1,7 @@
 class FirefoxPopupBase extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set label(val) {
@@ -139,7 +139,7 @@ class FirefoxPopupBase extends XULElement {
     this.popupBoxObject.setConstraintRect(aRect);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

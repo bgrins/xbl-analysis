@@ -15,10 +15,10 @@ class FirefoxWindowdragbox extends XULElement {
       } catch (e) {}
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

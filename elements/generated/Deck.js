@@ -1,7 +1,7 @@
 class FirefoxDeck extends XULElement {
   connectedCallback() {
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set selectedIndex(val) {
@@ -30,7 +30,7 @@ class FirefoxDeck extends XULElement {
     return this.childNodes[this.selectedIndex];
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

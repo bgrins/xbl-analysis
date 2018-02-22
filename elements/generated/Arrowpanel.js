@@ -14,7 +14,7 @@ class FirefoxArrowpanel extends FirefoxPanel {
 
     this._fadeTimer = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
   sizeTo(aWidth, aHeight) {
     this.popupBoxObject.sizeTo(aWidth, aHeight);
@@ -79,7 +79,7 @@ class FirefoxArrowpanel extends FirefoxPanel {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("popupshowing", (event) => {
       var arrow = document.getAnonymousElementByAttribute(this, "anonid", "arrow");

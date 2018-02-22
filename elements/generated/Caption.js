@@ -8,10 +8,10 @@ class FirefoxCaption extends FirefoxBasetext {
       </children>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

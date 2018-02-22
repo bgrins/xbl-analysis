@@ -67,7 +67,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     // For security reasons delay searches on pasted values.
     this.inputField.controllers.insertControllerAt(0, this._pasteController);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get popup() {
@@ -558,7 +558,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.inputField.controllers.removeController(this._pasteController);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("input", (event) => {
       this.onInput(event);

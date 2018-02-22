@@ -37,7 +37,7 @@ class FirefoxNotificationbox extends XULElement {
 
     this._animating = false;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get _allowAnimation() {
@@ -310,7 +310,7 @@ class FirefoxNotificationbox extends XULElement {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("transitionend", (event) => {
       if (event.target.localName == "notification" &&

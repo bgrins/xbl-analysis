@@ -64,7 +64,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
 
     this._addonIframeHiddenDisplaysByAnonid = {};
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set overrideValue(val) {
@@ -563,7 +563,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     return iframe;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("SelectedOneOffButtonChanged", (event) => {
       this._selectedOneOffChanged();

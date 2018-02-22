@@ -6,10 +6,10 @@ class FirefoxTreecol extends FirefoxTreecolBase {
       <xul:image class="treecol-sortdirection" inherits="sortDirection,hidden=hideheader"></xul:image>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

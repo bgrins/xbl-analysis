@@ -2,7 +2,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
   connectedCallback() {
     super.connectedCallback()
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set type(val) {
@@ -135,7 +135,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("click", (event) => { this._handleClick(); });
 

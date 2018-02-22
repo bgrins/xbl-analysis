@@ -23,7 +23,7 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
     this.searchButton = this.searchButton;
     this._searchButtonIcon.addEventListener("click", (e) => this._iconClick(e));
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set timeout(val) {
@@ -99,7 +99,7 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
     return false;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("input", (event) => {
       if (this.searchButton) {

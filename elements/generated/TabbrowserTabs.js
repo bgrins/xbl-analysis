@@ -87,7 +87,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     this._setPositionalAttributes();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get restoreTabsButtonWrapperWidth() {
@@ -400,6 +400,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   _positionPinnedTabs() {
     var numPinned = this.tabbrowser._numPinnedTabs;
     var doPosition = this.getAttribute("overflow") == "true" &&
+      this.tabbrowser.visibleTabs.length > numPinned &&
       numPinned > 0;
 
     if (doPosition) {
@@ -422,6 +423,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         let tab = this.childNodes[i];
         width += layoutData.pinnedTabWidth;
         tab.style.marginInlineStart = -(width + layoutData.scrollButtonWidth) + "px";
+        tab._pinnedUnscrollable = true;
       }
       this.style.paddingInlineStart = width + "px";
     } else {
@@ -430,6 +432,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       for (let i = 0; i < numPinned; i++) {
         let tab = this.childNodes[i];
         tab.style.marginInlineStart = "";
+        tab._pinnedUnscrollable = false;
       }
 
       this.style.paddingInlineStart = "";
@@ -711,7 +714,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     Services.prefs.removeObserver("privacy.userContext", this);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("TabSelect", (event) => { this._handleTabSelect(); });
 

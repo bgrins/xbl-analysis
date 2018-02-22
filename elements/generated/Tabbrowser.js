@@ -225,7 +225,7 @@ class FirefoxTabbrowser extends XULElement {
 
     this.tabMinWidth = this.tabMinWidthPref;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get tabContextMenu() {
@@ -5291,7 +5291,7 @@ class FirefoxTabbrowser extends XULElement {
     Services.prefs.removeObserver("accessibility.typeaheadfind", this);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("DOMWindowClose", (event) => {
       if (!event.isTrusted)

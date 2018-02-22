@@ -10,7 +10,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     if (this.place)
       this.place = this.place;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get controller() {
@@ -625,7 +625,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     this.view = null;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("focus", (event) => {
       this._cachedInsertionPoint = undefined;

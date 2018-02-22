@@ -4,7 +4,7 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
 
     this._findbar = null;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get findbar() {
@@ -36,7 +36,7 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
     }
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("input", (event) => {
       // We should do nothing during composition.  E.g., composing string

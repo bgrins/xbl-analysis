@@ -59,7 +59,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     );
     this._adjustAcItem();
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get label() {
@@ -698,7 +698,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     return action;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mousedown", (event) => {
       // Call this.control only once since it's not a simple getter.

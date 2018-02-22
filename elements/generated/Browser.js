@@ -143,7 +143,7 @@ class FirefoxBrowser extends XULElement {
 
     }
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get autoscrollEnabled() {
@@ -888,13 +888,13 @@ class FirefoxBrowser extends XULElement {
       this.purgeSessionHistory();
     } else if (aTopic == "apz:cancel-autoscroll") {
       if (aState == this._autoScrollScrollId) {
-        this._autoScrollPopup.hidePopup();
-
         // Set this._autoScrollScrollId to null, so in stopScroll() we
         // don't call stopApzAutoscroll() (since it's APZ that
         // initiated the stopping).
         this._autoScrollScrollId = null;
         this._autoScrollPresShellId = null;
+
+        this._autoScrollPopup.hidePopup();
       }
     }
   }
@@ -1265,7 +1265,7 @@ class FirefoxBrowser extends XULElement {
     this.destroy();
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("keypress", (event) => {
       if (event.defaultPrevented || !event.isTrusted)

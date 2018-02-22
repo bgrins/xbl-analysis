@@ -7,7 +7,7 @@ class FirefoxListitem extends FirefoxBasetext {
       </children>
     `;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set current(val) {
@@ -74,7 +74,7 @@ class FirefoxListitem extends FirefoxBasetext {
     this.dispatchEvent(event);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
     this.addEventListener("mousedown", (event) => {
       var control = this.control;

@@ -7,7 +7,7 @@ class FirefoxRichlistitem extends FirefoxListitem {
 
     this.selectedByMouseOver = false;
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   get label() {
@@ -49,7 +49,7 @@ class FirefoxRichlistitem extends FirefoxListitem {
       control.currentItem = null;
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }

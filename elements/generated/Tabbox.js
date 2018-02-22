@@ -23,7 +23,7 @@ class FirefoxTabbox extends FirefoxTabBase {
       .getService(nsIEventListenerService);
     els.addSystemEventListener(this._eventNode, "keydown", this, false);
 
-    this.setupHandlers();
+    this._setupEventListeners();
   }
 
   set handleCtrlTab(val) {
@@ -174,7 +174,7 @@ class FirefoxTabbox extends FirefoxTabBase {
     els.removeSystemEventListener(this._eventNode, "keydown", this, false);
   }
 
-  setupHandlers() {
+  _setupEventListeners() {
 
   }
 }
