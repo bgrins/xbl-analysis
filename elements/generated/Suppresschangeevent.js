@@ -16,7 +16,9 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
 
     this._setupEventListeners();
   }
-
+  /**
+   * nsIXBLAccessible
+   */
   get accessibleName() {
     var currTime = this.positionValue;
     var totalTime = this.durationValue;

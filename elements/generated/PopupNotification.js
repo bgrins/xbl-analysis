@@ -34,7 +34,6 @@ class FirefoxPopupNotification extends XULElement {
         <xul:button anonid="button" class="popup-notification-button" default="true" label="FROM-DTD-defaultButton-label" accesskey="FROM-DTD-defaultButton-accesskey" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled"></xul:button>
       </xul:hbox>
     `;
-
     this.checkbox = document.getAnonymousElementByAttribute(this, "anonid", "checkbox");
 
     this.closebutton = document.getAnonymousElementByAttribute(this, "anonid", "closebutton");

@@ -23,7 +23,14 @@ class FirefoxTabbrowserTab extends FirefoxTab {
         </xul:hbox>
       </xul:stack>
     `;
-
+    /**
+     * Describes how the tab ended up in this mute state. May be any of:
+     *
+     * - undefined: The tabs mute state has never changed.
+     * - null: The mute state was last changed through the UI.
+     * - Any string: The ID was changed through an extension API. The string
+     * must be the ID of the extension which changed it.
+     */
     this.muteReason = undefined;
 
     this.mOverCloseButton = false;
@@ -112,6 +119,12 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   updateLastAccessed(aDate) {
     this._lastAccessed = this.selected ? Infinity : (aDate || Date.now());
   }
+  /**
+   * While it would make sense to track this in a field, the field will get nuked
+   * once the node is gone from the DOM, which causes us to think the tab is not
+   * closed, which causes us to make wrong decisions. So we use an expando instead.
+   * <field name="closing">false</field>
+   */
   _mouseenter() {
     if (this.hidden || this.closing)
       return;
@@ -272,7 +285,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mouseover", (event) => {
       if (event.originalTarget.getAttribute("anonid") == "close-button") {
         this.mOverCloseButton = true;

@@ -6,7 +6,9 @@ class FirefoxBasetext extends FirefoxBasecontrol {
 
     this._setupEventListeners();
   }
-
+  /**
+   * public implementation
+   */
   set label(val) {
     this.setAttribute('label', val);
     return val;

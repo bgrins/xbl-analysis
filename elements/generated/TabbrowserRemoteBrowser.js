@@ -6,6 +6,9 @@ class FirefoxTabbrowserRemoteBrowser extends FirefoxRemoteBrowser {
 
     this._setupEventListeners();
   }
+  /**
+   * throws exception for unknown schemes
+   */
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {
     var params = arguments[1];
     if (typeof(params) == "number") {

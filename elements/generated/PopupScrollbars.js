@@ -6,7 +6,6 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
         <children></children>
       </xul:scrollbox>
     `;
-
     this.AUTOSCROLL_INTERVAL = 25;
 
     this.NOT_DRAGGING = 0;
@@ -35,7 +34,6 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("popupshown", (event) => {
       // Enable drag scrolling even when the mouse wasn't used. The mousemove
       // handler will remove it if the mouse isn't down.

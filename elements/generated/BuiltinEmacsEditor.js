@@ -5,7 +5,6 @@ class FirefoxBuiltinEmacsEditor extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keypress", (event) => { undefined });
 
     this.addEventListener("keypress", (event) => { undefined });

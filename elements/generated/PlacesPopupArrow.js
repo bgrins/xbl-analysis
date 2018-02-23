@@ -83,7 +83,6 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("popupshowing", (event) => {
       this.adjustArrowPosition();
       this.setAttribute("animate", "open");

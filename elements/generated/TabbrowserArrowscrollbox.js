@@ -4,6 +4,10 @@ class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll
 
     this._setupEventListeners();
   }
+  /**
+   * Override scrollbox.xml method, since our scrollbox's children are
+   * inherited from the binding parent
+   */
   _getScrollableElements() {
     return Array.filter(document.getBindingParent(this).childNodes,
       this._canScrollToElement, this);
@@ -13,7 +17,6 @@ class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll
   }
 
   _setupEventListeners() {
-
     this.addEventListener("underflow", (event) => {
       // Ignore underflow events:
       // - from nested scrollable elements

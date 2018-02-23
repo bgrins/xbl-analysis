@@ -27,7 +27,6 @@ class FirefoxMenubar extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("DOMMenuBarActive", (event) => {
       if (!this.statusbar) return;
       this._statusbar = document.getElementById(this.statusbar);

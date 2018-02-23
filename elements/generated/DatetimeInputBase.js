@@ -159,6 +159,9 @@ class FirefoxDatetimeInputBase extends XULElement {
   notifyMinMaxStepAttrChanged() {
 
   }
+  /**
+   * No operation by default
+   */
   setValueFromPicker(aValue) {
     this.setFieldsFromPicker(aValue);
   }

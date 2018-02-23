@@ -22,7 +22,9 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
     this._setupEventListeners();
   }
-
+  /**
+   * nsIDOMXULSelectControlElement
+   */
   set selectedItem(val) {
     this.selectItem(val);
   }
@@ -66,7 +68,9 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
       return this.selectedItem.value;
     return null;
   }
-
+  /**
+   * nsIDOMXULMultiSelectControlElement
+   */
   set selType(val) {
     this.setAttribute('seltype', val);
     return val;
@@ -108,7 +112,9 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   get selectedCount() {
     return this.selectedItems.length;
   }
-
+  /**
+   * Other public members
+   */
   set disableKeyNavigation(val) {
     if (val)
       this.setAttribute("disableKeyNavigation", "true");
@@ -334,6 +340,9 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
       this.currentItem = newItem;
     }
   }
+  /**
+   * Private
+   */
   getNextItem(aStartItem, aDelta) {
     while (aStartItem) {
       aStartItem = aStartItem.nextSibling;
@@ -378,7 +387,6 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(-1, event); });
 
     this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(1, event); });

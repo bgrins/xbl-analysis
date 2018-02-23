@@ -16,7 +16,9 @@ class FirefoxPlacesTree extends FirefoxTree {
   get controller() {
     return this._controller
   }
-
+  /**
+   * overriding
+   */
   set view(val) {
     return this.treeBoxObject.view = val;
   }
@@ -60,7 +62,9 @@ class FirefoxPlacesTree extends FirefoxTree {
   get onOpenFlatContainer() {
     return this.getAttribute("onopenflatcontainer");
   }
-
+  /**
+   * nsIPlacesView
+   */
   get result() {
     try {
       return this.view.QueryInterface(Ci.nsINavHistoryResultObserver).result;
@@ -68,7 +72,9 @@ class FirefoxPlacesTree extends FirefoxTree {
       return null;
     }
   }
-
+  /**
+   * nsIPlacesView
+   */
   set place(val) {
     this.setAttribute("place", val);
 
@@ -89,11 +95,15 @@ class FirefoxPlacesTree extends FirefoxTree {
   get place() {
     return this.getAttribute("place");
   }
-
+  /**
+   * nsIPlacesView
+   */
   get hasSelection() {
     return this.view && this.view.selection.count >= 1;
   }
-
+  /**
+   * nsIPlacesView
+   */
   get selectedNodes() {
     let nodes = [];
     if (!this.hasSelection)
@@ -112,7 +122,9 @@ class FirefoxPlacesTree extends FirefoxTree {
     }
     return nodes;
   }
-
+  /**
+   * nsIPlacesView
+   */
   get removableSelectionRanges() {
     // This property exists in addition to selectedNodes because it
     // encodes selection ranges (which only occur in list views) into
@@ -165,11 +177,15 @@ class FirefoxPlacesTree extends FirefoxTree {
     }
     return nodes;
   }
-
+  /**
+   * nsIPlacesView
+   */
   get draggableSelection() {
     return this.selectedNodes
   }
-
+  /**
+   * nsIPlacesView
+   */
   get selectedNode() {
     var view = this.view;
     if (!view || view.selection.count != 1)
@@ -182,7 +198,9 @@ class FirefoxPlacesTree extends FirefoxTree {
 
     return this.view.nodeForTreeIndex(min.value);
   }
-
+  /**
+   * nsIPlacesView
+   */
   get insertionPoint() {
     // invalidated on selection and focus changes
     if (this._cachedInsertionPoint !== undefined)
@@ -309,6 +327,11 @@ class FirefoxPlacesTree extends FirefoxTree {
 
     this._cachedInsertionPoint = undefined;
   }
+  /**
+   * Causes a particular node represented by the specified placeURI to be
+   * selected in the tree. All containers above the node in the hierarchy
+   * will be opened, so that the node is visible.
+   */
   selectPlaceURI(placeURI) {
     // Do nothing if a node matching the given uri is already selected
     if (this.hasSelection && this.selectedNode.uri == placeURI)
@@ -359,6 +382,11 @@ class FirefoxPlacesTree extends FirefoxTree {
       selection.clearSelection();
     }
   }
+  /**
+   * Causes a particular node to be selected in the tree, resulting in all
+   * containers above the node in the hierarchy to be opened, so that the
+   * node is visible.
+   */
   selectNode(node) {
     var view = this.view;
 
@@ -471,9 +499,19 @@ class FirefoxPlacesTree extends FirefoxTree {
       dropNearNode
     });
   }
+  /**
+   * nsIPlacesView
+   */
   selectAll() {
     this.view.selection.selectAll();
   }
+  /**
+   * This method will select the first node in the tree that matches
+   * each given item guid. It will open any folder nodes that it needs
+   * to in order to show the selected items.
+   * Note: An array of ids or guids (or a mixture) may be passed as aIDs.
+   * Passing IDs should be considered deprecated.
+   */
   selectItems(aIDs, aOpenContainers) {
     // Never open containers in flat lists.
     if (this.flatList)
@@ -627,7 +665,6 @@ class FirefoxPlacesTree extends FirefoxTree {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("focus", (event) => {
       this._cachedInsertionPoint = undefined;
 

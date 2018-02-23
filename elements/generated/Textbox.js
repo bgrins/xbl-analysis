@@ -7,7 +7,9 @@ class FirefoxTextbox extends XULElement {
         <html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck"></html:input>
       </xul:hbox>
     `;
-
+    /**
+     * nsIDOMXULLabeledControlElement
+     */
     this.crop = "";
 
     this.image = "";
@@ -244,7 +246,6 @@ class FirefoxTextbox extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("focus", (event) => {
       if (this.hasAttribute("focused"))
         return;

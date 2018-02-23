@@ -37,7 +37,6 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("input", (event) => {
       // We should do nothing during composition.  E.g., composing string
       // before converting may matches a forward word of expected word.

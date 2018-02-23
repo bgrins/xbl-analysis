@@ -7,7 +7,6 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
         <children></children>
       </xul:scrollbox>
     `;
-
     this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "main-box");
 
     this.scrollBoxObject = this._scrollbox.boxObject;
@@ -35,7 +34,9 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   get itemCount() {
     return this.children.length
   }
-
+  /**
+   * richlistbox specific
+   */
   get children() {
     let iface = Components.interfaces.nsIDOMXULSelectControlItemElement;
     let children = Array.from(this.childNodes)
@@ -45,6 +46,9 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     }
     return children;
   }
+  /**
+   * Overriding baselistbox
+   */
   _fireOnSelect() {
     // make sure not to modify last-selected when suppressing select events
     // (otherwise we'll lose the selection when a template gets rebuilt)
@@ -73,6 +77,10 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     // always call this (allows a commandupdater without controller)
     document.commandDispatcher.updateCommands("richlistbox-select");
   }
+  /**
+   * We override base-listbox here because those methods don't take dir
+   * into account on listbox (which doesn't support dir yet)
+   */
   getNextItem(aStartItem, aDelta) {
     var prop = this.dir == "reverse" && this._mayReverse ?
       "previousSibling" :
@@ -316,12 +324,24 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     return (aItem.boxObject.y + aItem.boxObject.height > y) &&
       (aItem.boxObject.y < y + this.scrollBoxObject.height);
   }
+  /**
+   * For backwards-compatibility and for convenience.
+   * Use getIndexOfItem instead.
+   */
   getIndexOf(aElement) {
     return this.getIndexOfItem(aElement);
   }
+  /**
+   * For backwards-compatibility and for convenience.
+   * Use ensureElementIsVisible instead
+   */
   ensureSelectedElementIsVisible() {
     return this.ensureElementIsVisible(this.selectedItem);
   }
+  /**
+   * For backwards-compatibility and for convenience.
+   * Use moveByOffset instead.
+   */
   goUp() {
     var index = this.currentIndex;
     this.moveByOffset(-1, true, false);
@@ -332,6 +352,9 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     this.moveByOffset(1, true, false);
     return index != this.currentIndex;
   }
+  /**
+   * deprecated (is implied by currentItem and selectItem)
+   */
   fireActiveItemEvent() {}
 
   disconnectedCallback() {
@@ -341,7 +364,6 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("click", (event) => {
       // clicking into nothing should unselect
       if (event.originalTarget == this._scrollbox) {

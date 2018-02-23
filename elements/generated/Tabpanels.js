@@ -2,6 +2,9 @@ class FirefoxTabpanels extends FirefoxTabBase {
   connectedCallback() {
     super.connectedCallback()
 
+    /**
+     * public
+     */
     this._tabbox = null;
 
     this._selectedPanel = this.childNodes.item(this.selectedIndex);
@@ -57,6 +60,9 @@ class FirefoxTabpanels extends FirefoxTabBase {
   get selectedPanel() {
     return this._selectedPanel;
   }
+  /**
+   * nsIDOMXULRelatedElement
+   */
   getRelatedElement(aTabPanelElm) {
     if (!aTabPanelElm)
       return null;

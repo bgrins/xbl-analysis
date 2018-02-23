@@ -8,7 +8,6 @@ class FirefoxNotificationbox extends XULElement {
       </xul:stack>
       <children></children>
     `;
-
     this.PRIORITY_INFO_LOW = 1;
 
     this.PRIORITY_INFO_MEDIUM = 2;
@@ -311,7 +310,6 @@ class FirefoxNotificationbox extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("transitionend", (event) => {
       if (event.target.localName == "notification" &&
         event.propertyName == "margin-top")

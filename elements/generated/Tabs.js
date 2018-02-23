@@ -6,9 +6,11 @@ class FirefoxTabs extends FirefoxBasecontrol {
       <children></children>
       <xul:spacer class="tabs-right" flex="1"></xul:spacer>
     `;
-
     this._tabbox = null;
 
+    /**
+     * _tabbox is deprecated, it exists only for backwards compatibility.
+     */
     this._tabbox = this.tabbox;
 
     if (!this.hasAttribute("orient"))
@@ -37,7 +39,9 @@ class FirefoxTabs extends FirefoxBasecontrol {
 
     this._setupEventListeners();
   }
-
+  /**
+   * nsIDOMXULSelectControlElement
+   */
   get itemCount() {
     return this.childNodes.length
   }
@@ -133,6 +137,9 @@ class FirefoxTabs extends FirefoxBasecontrol {
     }
     return null;
   }
+  /**
+   * nsIDOMXULRelatedElement
+   */
   getRelatedElement(aTabElm) {
     if (!aTabElm)
       return null;

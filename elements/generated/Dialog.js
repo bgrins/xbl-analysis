@@ -18,7 +18,6 @@ class FirefoxDialog extends XULElement {
         <xul:key phase="capturing" oncommand="document.documentElement.openHelp(event)" keycode="FROM-DTD-openHelp-commandkey"></xul:key>
       </xul:keyset>
     `;
-
     this._mStrBundle = null;
 
     this._closeHandler = function(event) {
@@ -336,7 +335,6 @@ class FirefoxDialog extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keypress", (event) => { this._hitEnter(event); });
 
     this.addEventListener("keypress", (event) => {

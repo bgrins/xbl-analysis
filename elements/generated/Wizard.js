@@ -9,7 +9,6 @@ class FirefoxWizard extends XULElement {
       <children></children>
       <xul:hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage"></xul:hbox>
     `;
-
     this.pageCount = 0;
 
     this._accessMethod = null;
@@ -34,6 +33,9 @@ class FirefoxWizard extends XULElement {
 
     this._cancelButton = "";
 
+    /**
+     * functions to be added as oncommand listeners to the wizard buttons
+     */
     this._backFunc = function() { document.documentElement.rewind(); };
 
     this._nextFunc = function() { document.documentElement.advance(); };
@@ -376,7 +378,6 @@ class FirefoxWizard extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keypress", (event) => { this._hitEnter(event) });
 
     this.addEventListener("keypress", (event) => {

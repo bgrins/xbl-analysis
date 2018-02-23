@@ -23,7 +23,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         <xul:vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></xul:vbox>
       </xul:hbox>
     `;
-
     this.DOMWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIDOMWindowUtils);
 
@@ -52,6 +51,11 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
 
     this._addonIframeOverriddenFunctionsByName = {};
 
+    /**
+     * These methods must be overridden and properly handled by the API
+     * runtime so that it doesn't break the popup.  If any of these methods
+     * is not overridden, then initAddonIframe should throw.
+     */
     this._addonIframeOverrideFunctionNames = [
       "_invalidate",
     ];
@@ -96,7 +100,11 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     }
     return this._maxResults;
   }
-
+  /**
+   * This is set either to undefined or to a new object containing
+   * { start, end } margin values in pixels. These are used to align the
+   * results to the input field.
+   */
   set margins(val) {
     this._margins = val;
 
@@ -126,7 +134,10 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   get margins() {
     return this._margins;
   }
-
+  /**
+   * Result listitems call this to determine which search engine they
+   * should show in their labels and include in their url attributes.
+   */
   get overrideSearchEngineName() {
     let button = this.oneOffSearchButtons.selectedButton;
     return button && button.engine && button.engine.name;
@@ -155,6 +166,10 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       this.oneOffSearchButtons.popup = null;
     }
   }
+  /**
+   * Override this so that navigating between items results in an item
+   * always being selected.
+   */
   getNextIndex(reverse, amount, index, maxRow) {
     if (maxRow < 0)
       return -1;
@@ -384,11 +399,20 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       }
     }
   }
+  /**
+   * This handles keypress changes to the selection among the one-off
+   * search buttons and between the one-offs and the listbox.  It returns
+   * true if the keypress was consumed and false if not.
+   */
   handleKeyPress(aEvent) {
     this.oneOffSearchButtons.handleKeyPress(aEvent, this.matchCount, !this._isFirstResultHeuristic,
       gBrowser.userTypedValue);
     return aEvent.defaultPrevented && !aEvent.urlbarDeferred;
   }
+  /**
+   * This is called when a one-off is clicked and when "search in new tab"
+   * is selected from a one-off context menu.
+   */
   handleOneOffSearch(event, engine, where, params) {
     this.input.handleCommand(event, where, params);
   }
@@ -564,7 +588,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("SelectedOneOffButtonChanged", (event) => {
       this._selectedOneOffChanged();
     });

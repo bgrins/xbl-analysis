@@ -16,7 +16,6 @@ class FirefoxDownloadProgress extends XULElement {
         </xul:hbox>
       </xul:stack>
     `;
-
     this._progress = document.getAnonymousElementByAttribute(this, "anonid", "progress");
 
     this._cancel = document.getAnonymousElementByAttribute(this, "anonid", "cancel-btn");

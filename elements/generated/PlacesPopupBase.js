@@ -11,7 +11,6 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
         </xul:arrowscrollbox>
       </xul:hbox>
     `;
-
     this.AppConstants = (ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {})).AppConstants;
 
     this._indicatorBar = document.getAnonymousElementByAttribute(this, "class",
@@ -20,8 +19,16 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     this._scrollBox = document.getAnonymousElementByAttribute(this, "class",
       "popup-internal-box");
 
+    /**
+     * This is the view that manage the popup
+     */
     this._rootView = PlacesUIUtils.getViewForNode(this);
 
+    /**
+     * Sub-menus should be opened when the mouse drags over them, and closed
+     * when the mouse drags off.  The overFolder object manages opening and
+     * closing of folders when the mouse hovers.
+     */
     this._overFolder = {
       _self: this,
       _folder: {
@@ -153,6 +160,9 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
 
     this._setupEventListeners();
   }
+  /**
+   * Check if we should hide the drop indicator for the target
+   */
   _hideDropIndicator(aEvent) {
     let target = aEvent.target;
 
@@ -165,6 +175,10 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     // Hide the dropmarker if current node is not a Places node.
     return !(target && target._placesNode && betweenMarkers);
   }
+  /**
+   * This function returns information about where to drop when
+   * dragging over this popup insertion point
+   */
   _getDropPoint(aEvent) {
     // Can't drop if the menu isn't a folder
     let resultNode = this._placesNode;
@@ -265,7 +279,6 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("DOMMenuItemActive", (event) => {
       let elt = event.target;
       if (elt.parentNode != this)

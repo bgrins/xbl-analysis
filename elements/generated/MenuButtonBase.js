@@ -68,7 +68,6 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keypress", (event) => {
       if (event.originalTarget == this)
         this.open = true;

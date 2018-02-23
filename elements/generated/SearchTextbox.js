@@ -12,7 +12,6 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
         </xul:deck>
       </xul:hbox>
     `;
-
     this._timer = null;
 
     this._searchIcons = document.getAnonymousElementByAttribute(this, "anonid", "search-icons");
@@ -100,7 +99,6 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("input", (event) => {
       if (this.searchButton) {
         this._searchIcons.selectedIndex = 0;

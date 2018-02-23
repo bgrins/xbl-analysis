@@ -14,7 +14,6 @@ class FirefoxSoftblockedaddon extends XULElement {
         </xul:hbox>
       </xul:vbox>
     `;
-
     this._checkbox = document.getAnonymousElementByAttribute(this, "class", "disableCheckbox");
 
     this._setupEventListeners();

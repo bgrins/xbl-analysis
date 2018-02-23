@@ -25,13 +25,16 @@ class FirefoxSearchOneOffs extends XULElement {
         <xul:menuitem anonid="search-one-offs-context-set-default" label="FROM-DTD-searchSetAsDefault-label" accesskey="FROM-DTD-searchSetAsDefault-accesskey"></xul:menuitem>
       </xul:menupopup>
     `;
-
     this._popup = null;
 
     this._textbox = null;
 
     this._textboxWidth = 0;
 
+    /**
+     * Set this to a string that identifies your one-offs consumer.  It'll
+     * be appended to telemetry recorded with maybeRecordTelemetry().
+     */
     this.telemetryOrigin = "";
 
     this._query = "";
@@ -50,12 +53,26 @@ class FirefoxSearchOneOffs extends XULElement {
 
     this._bundle = null;
 
+    /**
+     * When a context menu is opened on a one-off button, this is set to the
+     * engine of that button for use with the context menu actions.
+     */
     this._contextEngine = null;
 
     this._engines = null;
 
+    /**
+     * If a page offers more than this number of engines, the add-engines
+     * menu button is shown, instead of showing the engines directly in the
+     * popup.
+     */
     this._addEngineMenuThreshold = 5;
 
+    /**
+     * All this stuff is to make the add-engines menu button behave like an
+     * actual menu.  The add-engines menu button is shown when there are
+     * many engines offered by the current site.
+     */
     this._addEngineMenuTimeoutMs = 200;
 
     this._addEngineMenuTimeout = null;
@@ -88,11 +105,19 @@ class FirefoxSearchOneOffs extends XULElement {
 
     this._setupEventListeners();
   }
-
+  /**
+   * Width in pixels of the one-off buttons.  49px is the min-width of
+   * each search engine button, adapt this const when changing the css.
+   * It's actually 48px + 1px of right border.
+   */
   get buttonWidth() {
     return 49;
   }
-
+  /**
+   * The popup that contains the one-offs.  This is required, so it should
+   * never be null or undefined, except possibly before the one-offs are
+   * used.
+   */
   set popup(val) {
     let events = [
       "popupshowing",
@@ -122,7 +147,12 @@ class FirefoxSearchOneOffs extends XULElement {
   get popup() {
     return this._popup;
   }
-
+  /**
+   * The textbox associated with the one-offs.  Set this to a textbox to
+   * automatically keep the related one-offs UI up to date.  Otherwise you
+   * can leave it null/undefined, and in that case you should update the
+   * query property manually.
+   */
   set textbox(val) {
     if (this._textbox) {
       this._textbox.removeEventListener("input", this);
@@ -136,7 +166,11 @@ class FirefoxSearchOneOffs extends XULElement {
   get textbox() {
     return this._textbox;
   }
-
+  /**
+   * The query string currently shown in the one-offs.  If the textbox
+   * property is non-null, then this is automatically updated on
+   * input.
+   */
   set query(val) {
     this._query = val;
     if (this.popup && this.popup.popupOpen) {
@@ -148,7 +182,10 @@ class FirefoxSearchOneOffs extends XULElement {
   get query() {
     return this._query;
   }
-
+  /**
+   * The selected one-off, a xul:button, including the add-engine button
+   * and the search-settings button.  Null if no one-off is selected.
+   */
   set selectedButton(val) {
     if (val && val.classList.contains("dummy")) {
       // Never select dummy buttons.
@@ -177,7 +214,10 @@ class FirefoxSearchOneOffs extends XULElement {
   get selectedButton() {
     return this._selectedButton;
   }
-
+  /**
+   * The index of the selected one-off, including the add-engine button
+   * and the search-settings button.  -1 if no one-off is selected.
+   */
   set selectedButtonIndex(val) {
     let buttons = this.getSelectableButtons(true);
     this.selectedButton = buttons[val];
@@ -225,6 +265,10 @@ class FirefoxSearchOneOffs extends XULElement {
 
     return this._engines;
   }
+  /**
+   * This handles events outside the one-off buttons, like on the popup
+   * and textbox.
+   */
   handleEvent(event) {
     switch (event.type) {
       case "input":
@@ -258,6 +302,9 @@ class FirefoxSearchOneOffs extends XULElement {
     // close itself automatically.
     this.popup.hidePopup();
   }
+  /**
+   * Updates the parts of the UI that show the query string.
+   */
   _updateAfterQueryChanged() {
     let headerSearchText =
       document.getAnonymousElementByAttribute(this, "anonid",
@@ -287,6 +334,9 @@ class FirefoxSearchOneOffs extends XULElement {
     }
     this.buttons.setAttribute("aria-label", groupText);
   }
+  /**
+   * Builds all the UI.
+   */
   _rebuild() {
     // Update the 'Search for <keywords> with:" header.
     this._updateAfterQueryChanged();
@@ -531,6 +581,13 @@ class FirefoxSearchOneOffs extends XULElement {
   _buttonForEngine(engine) {
     return document.getElementById(this._buttonIDForEngine(engine));
   }
+  /**
+   * Updates the popup and textbox for the currently selected or moused-over
+   * button.
+   *
+   * @param mousedOverButton
+   * The currently moused-over button, or null if there isn't one.
+   */
   _updateStateForButton(mousedOverButton) {
     let button = mousedOverButton;
 
@@ -616,6 +673,27 @@ class FirefoxSearchOneOffs extends XULElement {
 
     this.popup.handleOneOffSearch(aEvent, aEngine, where, params);
   }
+  /**
+   * Increments or decrements the index of the currently selected one-off.
+   *
+   * @param aForward
+   * If true, the index is incremented, and if false, the index is
+   * decremented.
+   * @param aIncludeNonEngineButtons
+   * If true, non-dummy buttons that do not have engines are included.
+   * These buttons include the OpenSearch and settings buttons.  For
+   * example, if the currently selected button is an engine button,
+   * the next button is the settings button, and you pass true for
+   * aForward, then passing true for this value would cause the
+   * settings to be selected.  Passing false for this value would
+   * cause the selection to clear or wrap around, depending on what
+   * value you passed for the aWrapAround parameter.
+   * @param aWrapAround
+   * If true, the selection wraps around between the first and last
+   * buttons.
+   * @return True if the selection can continue to advance after this method
+   * returns and false if not.
+   */
   advanceSelection(aForward, aIncludeNonEngineButtons, aWrapAround) {
     let buttons = this.getSelectableButtons(aIncludeNonEngineButtons);
     let index;
@@ -635,6 +713,34 @@ class FirefoxSearchOneOffs extends XULElement {
     }
     this.selectedButton = index < 0 ? null : buttons[index];
   }
+  /**
+   * This handles key presses specific to the one-off buttons like Tab and
+   * Alt+Up/Down, and Up/Down keys within the buttons.  Since one-off buttons
+   * are always used in conjunction with a list of some sort (in this.popup),
+   * it also handles Up/Down keys that cross the boundaries between list
+   * items and the one-off buttons.
+   *
+   * If this method handles the key press, then event.defaultPrevented will
+   * be true when it returns.
+   *
+   * @param event
+   * The key event.
+   * @param numListItems
+   * The number of items in the list.  The reason that this is a
+   * parameter at all is that the list may contain items at the end
+   * that should be ignored, depending on the consumer.  That's true
+   * for the urlbar for example.
+   * @param allowEmptySelection
+   * Pass true if it's OK that neither the list nor the one-off
+   * buttons contains a selection.  Pass false if either the list or
+   * the one-off buttons (or both) should always contain a selection.
+   * @param textboxUserValue
+   * When the last list item is selected and the user presses Down,
+   * the first one-off becomes selected and the textbox value is
+   * restored to the value that the user typed.  Pass that value here.
+   * However, if you pass true for allowEmptySelection, you don't need
+   * to pass anything for this parameter.  (Pass undefined or null.)
+   */
   handleKeyPress(event, numListItems, allowEmptySelection, textboxUserValue) {
     if (!this.popup) {
       return;
@@ -816,6 +922,19 @@ class FirefoxSearchOneOffs extends XULElement {
 
     return false;
   }
+  /**
+   * If the given event is related to the one-offs, this method records
+   * one-off telemetry for it.  this.telemetryOrigin will be appended to the
+   * computed source, so make sure you set that first.
+   *
+   * @param aEvent
+   * An event, like a click on a one-off button.
+   * @param aOpenUILinkWhere
+   * The "where" passed to openUILink.
+   * @param aOpenUILinkParams
+   * The "params" passed to openUILink.
+   * @return True if telemetry was recorded and false if not.
+   */
   maybeRecordTelemetry(aEvent, aOpenUILinkWhere, aOpenUILinkParams) {
     if (!aEvent) {
       return false;
@@ -875,7 +994,6 @@ class FirefoxSearchOneOffs extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mousedown", (event) => {
       let target = event.originalTarget;
       if (target.getAttribute("anonid") == "addengine-menu-button") {

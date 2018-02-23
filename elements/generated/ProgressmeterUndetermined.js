@@ -6,7 +6,6 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
         <xul:spacer class="progress-bar" anonid="spacer" top="0" style="margin-right: -1000px;"></xul:spacer>
       </xul:stack>
     `;
-
     this._alive = true;
 
     this._init();

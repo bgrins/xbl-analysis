@@ -24,7 +24,6 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
         </xul:vbox>
       </xul:hbox>
     `;
-
     this._icon = document.getAnonymousElementByAttribute(this, "anonid", "icon");
 
     this._name = document.getAnonymousElementByAttribute(this, "anonid", "name");

@@ -5,7 +5,6 @@ class FirefoxSorters extends XULElement {
       <xul:button anonid="name-btn" class="sorter" label="FROM-DTD-sort-name-label" tooltiptext="FROM-DTD-sort-name-tooltip" oncommand="this.parentNode._handleChange('name');"></xul:button>
       <xul:button anonid="date-btn" class="sorter" label="FROM-DTD-sort-dateUpdated-label" tooltiptext="FROM-DTD-sort-dateUpdated-tooltip" oncommand="this.parentNode._handleChange('updateDate');"></xul:button>
     `;
-
     this.handler = null;
 
     this._btnName = document.getAnonymousElementByAttribute(this, "anonid", "name-btn");

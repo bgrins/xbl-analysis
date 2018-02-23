@@ -2,6 +2,9 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
   connectedCallback() {
     super.connectedCallback()
 
+    /**
+     * nsIController
+     */
     this.searchbarController = {
       _self: this,
       supportsCommand(aCommand) {
@@ -51,7 +54,15 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
 
     this._setupEventListeners();
   }
-
+  /**
+   * This overrides the searchParam property in autocomplete.xml.  We're
+   * hijacking this property as a vehicle for delivering the privacy
+   * information about the window into the guts of nsSearchSuggestions.
+   *
+   * Note that the setter is the same as the parent.  We were not sure whether
+   * we can override just the getter.  If that proves to be the case, the setter
+   * can be removed.
+   */
   set searchParam(val) {
     this.setAttribute('autocompletesearchparam', val);
     return val;
@@ -143,10 +154,20 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     aMenu.addEventListener("popupshowing", onpopupshowing);
     onpopupshowing();
   }
+  /**
+   * This is implemented so that when textbox.value is set directly (e.g.,
+   * by tests), the one-off query is updated.
+   */
   onBeforeValueSet(aValue) {
     this.popup.oneOffButtons.query = aValue;
     return aValue;
   }
+  /**
+   * This method overrides the autocomplete binding's openPopup (essentially
+   * duplicating the logic from the autocomplete popup binding's
+   * openAutocompletePopup method), modifying it so that the popup is aligned with
+   * the inner textbox, but sized to not extend beyond the search bar border.
+   */
   openPopup() {
     // Entering customization mode after the search bar had focus causes
     // the popup to appear again, due to focus returning after the
@@ -214,6 +235,9 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     // handleEnter implementation does.
     return this.mController.handleEnter(false, event || null);
   }
+  /**
+   * override |onTextEntered| in autocomplete.xml
+   */
   onTextEntered(aEvent) {
     let engine;
     let oneOff = this.selectedButton;
@@ -256,7 +280,6 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("input", (event) => {
       this.popup.removeAttribute("showonlysettings");
     });

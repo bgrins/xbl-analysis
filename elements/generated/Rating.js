@@ -74,7 +74,6 @@ class FirefoxRating extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mouseout", (event) => {
       this._updateStars();
     });

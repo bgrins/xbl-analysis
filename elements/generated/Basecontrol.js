@@ -3,7 +3,9 @@ class FirefoxBasecontrol extends XULElement {
 
     this._setupEventListeners();
   }
-
+  /**
+   * public implementation
+   */
   set disabled(val) {
     if (val) this.setAttribute('disabled', 'true');
     else this.removeAttribute('disabled');

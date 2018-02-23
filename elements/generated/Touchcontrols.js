@@ -233,7 +233,6 @@ class FirefoxTouchcontrols extends FirefoxVideocontrols {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mouseup", (event) => {
       if (event.originalTarget.nodeName == "vbox") {
         if (this.TouchUtils.firstShow) {

@@ -89,7 +89,6 @@ class FirefoxTextLink extends FirefoxTextLabel {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("click", (event) => { this.open(event) }, true);
 
     this.addEventListener("click", (event) => { this.open(event) }, true);

@@ -150,7 +150,6 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mousedown", (event) => {
       if (this.parentNode.parentNode.enableColumnDrag) {
         var xulns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";

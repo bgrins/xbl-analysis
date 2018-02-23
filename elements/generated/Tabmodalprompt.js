@@ -42,7 +42,6 @@ class FirefoxTabmodalprompt extends XULElement {
       </hbox>
       <spacer flex="2"></spacer>
     `;
-
     this.ui = "";
 
     this.args = "";
@@ -240,7 +239,9 @@ class FirefoxTabmodalprompt extends XULElement {
   }
 
   _setupEventListeners() {
-
+    /**
+     * Based on dialog.xml handlers
+     */
     this.addEventListener("keypress", (event) => { this.onKeyAction('default', event); });
 
     this.addEventListener("keypress", (event) => { this.onKeyAction('cancel', event); });

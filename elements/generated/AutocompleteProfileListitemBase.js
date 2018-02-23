@@ -2,6 +2,12 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
   connectedCallback() {
     super.connectedCallback()
 
+    /**
+     * For form autofill, we want to unify the selection no matter by
+     * keyboard navigation or mouseover in order not to confuse user which
+     * profile preview is being shown. This field is set to true to indicate
+     * that selectedIndex of popup should be changed while mouseover item
+     */
     this.selectedByMouseOver = true;
 
     this._setupEventListeners();

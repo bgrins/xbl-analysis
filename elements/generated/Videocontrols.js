@@ -1748,7 +1748,6 @@ class FirefoxVideocontrols extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mouseover", (event) => {
       if (!this.isTouchControls) {
         this.Utils.onMouseInOut(event);

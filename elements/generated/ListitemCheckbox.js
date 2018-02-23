@@ -26,7 +26,6 @@ class FirefoxListitemCheckbox extends FirefoxListitem {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mousedown", (event) => {
       if (!this.disabled && !this.control.disabled) {
         this.checked = !this.checked;

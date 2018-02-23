@@ -10,7 +10,6 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       <xul:spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></xul:spacer>
       <xul:autorepeatbutton class="autorepeatbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" oncommand="_autorepeatbuttonScroll(event);"></xul:autorepeatbutton>
     `;
-
     this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "scrollbox");
 
     this._scrollButtonUp = document.getAnonymousElementByAttribute(this, "anonid", "scrollbutton-up");
@@ -318,7 +317,6 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("wheel", (event) => {
       let doScroll = false;
       let instant;

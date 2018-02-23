@@ -289,6 +289,12 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   get manifestURI() {
     return this._manifestURI
   }
+  /**
+   * Used by session restore to ensure that currentURI is set so
+   * that switch-to-tab works before the tab is fully
+   * restored. This function also invokes onLocationChanged
+   * listeners in tabbrowser.xml.
+   */
   _setCurrentURI(aURI) {
     this._remoteWebProgressManager.setCurrentURI(aURI);
   }
@@ -373,6 +379,12 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
     return { permitUnload, timedOut };
   }
+  /**
+   * This is necessary because the destructor doesn't always get called when
+   * we are removed from a tabbrowser. This will be explicitly called by tabbrowser.
+   *
+   * Note: This overrides the destroy() method from browser.xml.
+   */
   destroy() {
     // Make sure that any open select is closed.
     if (this._selectParentHelper) {
@@ -523,7 +535,6 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("dragstart", (event) => {
       // If we're a remote browser dealing with a dragstart, stop it
       // from propagating up, since our content process should be dealing

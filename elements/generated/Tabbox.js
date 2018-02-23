@@ -34,7 +34,10 @@ class FirefoxTabbox extends FirefoxTabBase {
   get handleCtrlTab() {
     return (this.getAttribute("handleCtrlTab") != "false");
   }
-
+  /**
+   * _tabs and _tabpanels are deprecated, they exist only for
+   * backwards compatibility.
+   */
   get _tabs() {
     return this.tabs;
   }

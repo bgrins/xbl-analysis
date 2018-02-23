@@ -4,7 +4,6 @@ class FirefoxRichlistitem extends FirefoxListitem {
     this.innerHTML = `
       <children></children>
     `;
-
     this.selectedByMouseOver = false;
 
     this._setupEventListeners();

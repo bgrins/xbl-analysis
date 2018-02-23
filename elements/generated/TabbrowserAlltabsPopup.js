@@ -107,7 +107,6 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("popupshowing", (event) => {
       if (event.target.getAttribute("id") == "alltabs_containersMenuTab") {
         createUserContextMenu(event, { useAccessKeys: false });

@@ -128,7 +128,6 @@ class FirefoxScale extends FirefoxBasecontrol {
   dragStateChanged(isDragging) {}
 
   _setupEventListeners() {
-
     this.addEventListener("keypress", (event) => {
       this._userChanged = true;
       (this.orient != "vertical" && this.dir == "reverse") ? this.increase(): this.decrease();

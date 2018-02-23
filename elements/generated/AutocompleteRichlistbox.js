@@ -10,7 +10,6 @@ class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mouseup", (event) => {
       // don't call onPopupClick for the scrollbar buttons, thumb, slider, etc.
       let item = event.originalTarget;

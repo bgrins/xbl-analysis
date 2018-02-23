@@ -27,7 +27,6 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
         </xul:menu>
       </xul:menupopup>
     `;
-
     this._spellCheckInitialized = false;
 
     this._enabledCheckbox = document.getAnonymousElementByAttribute(this, "anonid", "spell-check-enabled");

@@ -52,7 +52,6 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
       <xul:button label="FROM-DTD-close-label" accesskey="FROM-DTD-close-accesskey" oncommand="PrintUtils.exitPrintPreview();" icon="close"></xul:button>
       <xul:data value="FROM-DTD-customPrompt-title"></xul:data>
     `;
-
     this.mPrintButton = document.getAnonymousNodes(this)[0];
 
     this.mPageSetupButton = document.getAnonymousElementByAttribute(this, "anonid", "pageSetup");
@@ -292,6 +291,9 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
       .getService(Components.interfaces.nsIPrintSettingsService);
     PSSVC.savePrintSettingsToPrefs(settings, true, flags);
   }
+  /**
+   * nsIMessageListener
+   */
   receiveMessage(message) {
     if (message.name == "Printing:Preview:UpdatePageCount") {
       let numPages = message.data.numPages;

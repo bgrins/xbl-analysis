@@ -7,7 +7,6 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
         <children></children>
       </xul:hbox>
     `;
-
     this.mInput = null;
 
     this.mPopupOpen = false;
@@ -16,15 +15,33 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
 
     this._rlbAnimated = false;
 
+    /**
+     * This is the default number of rows that we give the autocomplete
+     * popup when the textbox doesn't have a "maxrows" attribute
+     * for us to use.
+     */
     this.defaultMaxRows = 6;
 
+    /**
+     * In some cases (e.g. when the input's dropmarker button is clicked),
+     * the input wants to display a popup with more rows. In that case, it
+     * should increase its maxRows property and store the "normal" maxRows
+     * in this field. When the popup is hidden, we restore the input's
+     * maxRows to the value stored in this field.
+     *
+     * This field is set to -1 between uses so that we can tell when it's
+     * been set by the input and when we need to set it in the popupshowing
+     * handler.
+     */
     this._normalMaxRows = -1;
 
     this.richlistbox = document.getAnonymousElementByAttribute(this, "anonid", "richlistbox");
 
     this._setupEventListeners();
   }
-
+  /**
+   * =================== nsIAutoCompletePopup ===================
+   */
   get input() {
     return this.mInput
   }
@@ -385,7 +402,6 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("popupshowing", (event) => {
       // If normalMaxRows wasn't already set by the input, then set it here
       // so that we restore the correct number when the popup is hidden.

@@ -21,7 +21,6 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
         </xul:hbox>
       </xul:vbox>
     `;
-
     this._wizardButtonDeck = document.getAnonymousElementByAttribute(this, "anonid", "WizardButtonDeck");
 
     this._setupEventListeners();

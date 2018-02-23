@@ -47,7 +47,6 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("command", (event) => {
       if (event.originalTarget == this) {
         var popup = document.getAnonymousElementByAttribute(this, "anonid", "popup");

@@ -10,7 +10,6 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       <xul:spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></xul:spacer>
       <xul:toolbarbutton class="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" anonid="scrollbutton-down" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(1);" onmouseout="_pauseScroll();"></xul:toolbarbutton>
     `;
-
     this._scrollIndex = 0;
 
     this._scrollDelay = 150;

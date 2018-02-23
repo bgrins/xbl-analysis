@@ -11,7 +11,10 @@ class FirefoxTreebody extends FirefoxTreeBase {
   }
 
   _setupEventListeners() {
-
+    /**
+     * If there is no modifier key, we select on mousedown, not
+     * click, so that drags work correctly.
+     */
     this.addEventListener("mousedown", (event) => {
       if (this.parentNode.disabled)
         return;
@@ -69,6 +72,10 @@ class FirefoxTreebody extends FirefoxTreeBase {
       }
     });
 
+    /**
+     * On a click (up+down on the same item), deselect everything
+     * except this item.
+     */
     this.addEventListener("click", (event) => {
       if (this.parentNode.disabled)
         return;
@@ -148,6 +155,9 @@ class FirefoxTreebody extends FirefoxTreeBase {
       }
     });
 
+    /**
+     * double-click
+     */
     this.addEventListener("click", (event) => {
       if (this.parentNode.disabled)
         return;

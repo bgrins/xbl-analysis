@@ -14,7 +14,9 @@ class FirefoxListbox extends FirefoxListboxBase {
         </xul:listboxbody>
       </xul:listrows>
     `;
-
+    /**
+     * ///////////////// private listbox members /////////////////
+     */
     this._touchY = -1;
 
     var count = this.itemCount;
@@ -26,7 +28,9 @@ class FirefoxListbox extends FirefoxListboxBase {
 
     this._setupEventListeners();
   }
-
+  /**
+   * ///////////////// public listbox members /////////////////
+   */
   get listBoxObject() {
     return this.boxObject;
   }
@@ -41,6 +45,9 @@ class FirefoxListbox extends FirefoxListboxBase {
       this.dispatchEvent(event);
     }
   }
+  /**
+   * ///////////////// nsIDOMXULSelectControlElement /////////////////
+   */
   appendItem(aLabel, aValue) {
     const XULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
@@ -65,6 +72,9 @@ class FirefoxListbox extends FirefoxListboxBase {
       this.appendChild(item);
     return item;
   }
+  /**
+   * ///////////////// nsIListBoxObject /////////////////
+   */
   getIndexOfItem(item) {
     if (this._selecting && this._selecting.item == item)
       return this._selecting.index;
@@ -119,7 +129,6 @@ class FirefoxListbox extends FirefoxListboxBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keypress", (event) => {
       if (this.currentItem) {
         if (this.currentItem.getAttribute("type") != "checkbox") {

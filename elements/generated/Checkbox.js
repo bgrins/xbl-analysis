@@ -11,7 +11,9 @@ class FirefoxCheckbox extends FirefoxBasetext {
 
     this._setupEventListeners();
   }
-
+  /**
+   * public implementation
+   */
   set checked(val) {
     return this.setChecked(val);
   }
@@ -34,7 +36,11 @@ class FirefoxCheckbox extends FirefoxBasetext {
   }
 
   _setupEventListeners() {
-
+    /**
+     * While it would seem we could do this by handling oncommand, we need can't
+     * because any external oncommand handlers might get called before ours, and
+     * then they would see the incorrect value of checked.
+     */
     this.addEventListener("click", (event) => { if (!this.disabled) this.checked = !this.checked; });
 
     this.addEventListener("keypress", (event) => {

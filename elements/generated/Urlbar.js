@@ -15,7 +15,6 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       <xul:popupset anonid="popupset" class="autocomplete-result-popupset"></xul:popupset>
       <children includes="toolbarbutton"></children>
     `;
-
     this.ExtensionSearchHandler = (ChromeUtils.import("resource://gre/modules/ExtensionSearchHandler.jsm", {})).ExtensionSearchHandler;
 
     this.goButton = document.getAnonymousElementByAttribute(this, "anonid", "urlbar-go-button");
@@ -24,12 +23,28 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     this.gotResultForCurrentQuery = false;
 
+    /**
+     * This is set around HandleHenter so it can be used in handleCommand.
+     * It is also used to track whether we must handle a delayed handleEnter,
+     * by checking if it has been cleared.
+     */
     this.handleEnterInstance = null;
 
+    /**
+     * For performance reasons we want to limit the size of the text runs we
+     * build and show to the user.
+     */
     this.textRunsMaxLen = 255;
 
+    /**
+     * Set by focusAndSelectUrlBar to indicate whether the next focus event was
+     * initiated by an explicit user action. See the "focus" handler below.
+     */
     this.userInitiatedFocus = false;
 
+    /**
+     * The enter key is always deferred, so it's not included here.
+     */
     this._keyCodesToDefer = new Set([
       KeyboardEvent.DOM_VK_DOWN,
       KeyboardEvent.DOM_VK_TAB,
@@ -173,7 +188,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     this._setupEventListeners();
   }
-
+  /**
+   * Since we never want scrollbars, we always use the maxResults value.
+   */
   get maxRows() {
     return this.popup.maxResults;
   }
@@ -232,9 +249,18 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return this._whichSearchSuggestionsNotification = "none";
   }
+  /**
+   * onBeforeValueGet is called by the base-binding's .value getter.
+   * It can return an object with a "value" property, to override the
+   * return value of the getter.
+   */
   onBeforeValueGet() {
     return { value: this._value };
   }
+  /**
+   * onBeforeValueSet is called by the base-binding's .value setter.
+   * It should return the value that the setter should use.
+   */
   onBeforeValueSet(aValue) {
     this._value = aValue;
     var returnValue = aValue;
@@ -297,6 +323,22 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return this.handleKeyPress(aEvent);
   }
+  /**
+   * Search results arrive asynchronously, which means that keypresses may
+   * arrive before results do and therefore not have the effect the user
+   * intends.  That's especially likely to happen with the down arrow and
+   * enter keys due to the one-off search buttons: if the user very quickly
+   * pastes something in the input, presses the down arrow key, and then hits
+   * enter, they are probably expecting to visit the first result.  But if
+   * there are no results, then pressing down and enter will trigger the
+   * first one-off button.  To prevent that undesirable behavior, certain
+   * keys are buffered and deferred until more results arrive, at which time
+   * they're replayed.
+   *
+   * @param  event
+   * The key event that should maybe be deferred.
+   * @return True if the event should be deferred, false if not.
+   */
   _shouldDeferKeyEvent(event) {
     // If any event has been deferred for this search, then defer all
     // subsequent events so that the user does not experience any
@@ -331,6 +373,17 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     return !this._safeToPlayDeferredKeyEvent(event);
   }
+  /**
+   * Returns true if the given deferred key event can be played now without
+   * possibly surprising the user.  This depends on the state of the popup,
+   * its results, and the type of keypress.  Use this method only after
+   * determining that the event should be deferred, or after it's already
+   * been deferred and you want to know if it can be played now.
+   *
+   * @param  event
+   * The key event.
+   * @return True if the event can be played, false if not.
+   */
   _safeToPlayDeferredKeyEvent(event) {
     if (!this.gotResultForCurrentQuery || !this.popupOpen) {
       // We're still waiting on the first result, or the popup hasn't
@@ -357,6 +410,15 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     return true;
   }
+  /**
+   * Adds a key event to the deferred event queue.
+   *
+   * @param event
+   * The key event to defer.
+   * @param methodName
+   * The name of the method on `this` to call.  It's expected to take
+   * a single argument, the event.
+   */
   _deferKeyEvent(event, methodName) {
     // Somehow event.defaultPrevented ends up true for deferred events.
     // autocomplete ignores defaultPrevented events, which means it would
@@ -405,6 +467,12 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       this.replaySafeDeferredKeyEvents();
     });
   }
+  /**
+   * Unconditionally replays all deferred key events.  This does not check
+   * whether it's safe to replay the events; use replaySafeDeferredKeyEvents
+   * for that.  Use this method when you must replay all events so that it
+   * does not appear that we ignored the user's input.
+   */
   replayAllDeferredKeyEvents() {
     let instance = this._deferredKeyEventQueue.shift();
     if (!instance) {
@@ -561,6 +629,23 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return where;
   }
+  /**
+   * This is ultimately called by the autocomplete controller as the result
+   * of handleEnter when the Return key is pressed in the textbox.  Since
+   * onPopupClick also calls handleEnter, this is also called as a result in
+   * that case.
+   *
+   * @param event
+   * The event that triggered the command.
+   * @param openUILinkWhere
+   * Optional.  The "where" to pass to openUILinkIn.  This method
+   * computes the appropriate "where" given the event, but you can
+   * use this to override it.
+   * @param openUILinkParams
+   * Optional.  The parameters to pass to openUILinkIn.  As with
+   * "where", this method computes the appropriate parameters, but
+   * any parameters you supply here will override those.
+   */
   handleCommand(event, openUILinkWhere, openUILinkParams) {
     let isMouseEvent = event instanceof MouseEvent;
     if (isMouseEvent && event.button == 2) {
@@ -841,6 +926,12 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   _hideURLTooltip() {
     this.inputField.removeAttribute("tooltiptext");
   }
+  /**
+   * Returns:
+   * null if there's a security issue and we should do nothing.
+   * a URL object if there is one that we're OK with loading,
+   * a text value otherwise.
+   */
   _getDroppableItem(aEvent) {
     let links;
     try {
@@ -1104,9 +1195,17 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         break;
     }
   }
+  /**
+   * onBeforeTextValueSet is called by the base-binding's .textValue getter.
+   * It should return the value that the getter should use.
+   */
   onBeforeTextValueGet() {
     return { value: this.inputField.value };
   }
+  /**
+   * onBeforeTextValueSet is called by the base-binding's .textValue setter.
+   * It should return the value that the setter should use.
+   */
   onBeforeTextValueSet(aValue) {
     let val = aValue;
     let uri;
@@ -1302,7 +1401,6 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keydown", (event) => {
       if (this._noActionKeys.has(event.keyCode) &&
         this.popup.selectedIndex >= 0 &&

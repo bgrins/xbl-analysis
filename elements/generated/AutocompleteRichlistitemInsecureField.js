@@ -45,12 +45,14 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     }
     return this.__learnMoreString;
   }
+  /**
+   * Override _getSearchTokens to have the Learn More text emphasized
+   */
   _getSearchTokens(aSearch) {
     return [this._learnMoreString.toLowerCase()];
   }
 
   _setupEventListeners() {
-
     this.addEventListener("click", (event) => {
       let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
       window.openUILinkIn(baseURL + "insecure-password", "tab", {

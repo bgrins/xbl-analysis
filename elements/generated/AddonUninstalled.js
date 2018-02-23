@@ -10,7 +10,6 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
         <xul:spacer flex="5000"></xul:spacer>
       </xul:hbox>
     `;
-
     this._notice = document.getAnonymousElementByAttribute(this, "anonid", "notice");
 
     this._restartBtn = document.getAnonymousElementByAttribute(this, "anonid", "restart-btn");

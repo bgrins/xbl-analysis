@@ -9,7 +9,12 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
       <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox search-panel-tree" flex="1"></xul:richlistbox>
       <xul:vbox anonid="search-one-off-buttons" class="search-one-offs"></xul:vbox>
     `;
-
+    /**
+     * Popup rollup is triggered by native events before the mousedown event
+     * reaches the DOM. The will be set to true by the popuphiding event and
+     * false after the mousedown event has been triggered to detect what
+     * caused rollup.
+     */
     this._isHiding = false;
 
     this._bundle = null;
@@ -109,13 +114,16 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     document.getAnonymousElementByAttribute(this, "anonid", "searchbar-engine")
       .engine = currentEngine;
   }
+  /**
+   * This is called when a one-off is clicked and when "search in new tab"
+   * is selected from a one-off context menu.
+   */
   handleOneOffSearch(event, engine, where, params) {
     let searchbar = document.getElementById("searchbar");
     searchbar.handleSearchCommandWhere(event, engine, where, params);
   }
 
   _setupEventListeners() {
-
     this.addEventListener("popupshowing", (event) => {
       // Force the panel to have the width of the searchbar rather than
       // the width of the textfield.
@@ -166,6 +174,10 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
       });
     });
 
+    /**
+     * This handles clicks on the topmost "Foo Search" header in the
+     * popup (hbox[anonid="searchbar-engine"]).
+     */
     this.addEventListener("click", (event) => {
       if (event.button == 2) {
         // Ignore right clicks.

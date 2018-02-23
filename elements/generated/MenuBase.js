@@ -33,6 +33,9 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
     }
     return null;
   }
+  /**
+   * nsIDOMXULContainerElement interface
+   */
   appendItem(aLabel, aValue) {
     return this.insertItemAt(-1, aLabel, aValue);
   }

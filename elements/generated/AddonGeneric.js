@@ -95,7 +95,6 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
         </xul:vbox>
       </xul:hbox>
     `;
-
     this._warningContainer = document.getAnonymousElementByAttribute(this, "anonid",
       "warning-container");
 
@@ -781,7 +780,6 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("click", (event) => {
       switch (event.detail) {
         case 1:

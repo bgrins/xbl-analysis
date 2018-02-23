@@ -14,7 +14,6 @@ class FirefoxTree extends FirefoxTreeBase {
         <xul:scrollcorner inherits="collapsed=hidevscroll" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></xul:scrollcorner>
       </xul:hbox>
     `;
-
     this.pageUpOrDownMovesSelection = !/Mac/.test(navigator.platform);
 
     this._inputField = null;
@@ -33,7 +32,9 @@ class FirefoxTree extends FirefoxTreeBase {
 
     this._setupEventListeners();
   }
-
+  /**
+   * ///////////////// nsIDOMXULTreeElement /////////////////
+   */
   get columns() {
     return this.treeBoxObject.columns;
   }
@@ -61,7 +62,9 @@ class FirefoxTree extends FirefoxTreeBase {
   get editable() {
     return this.getAttribute('editable') == 'true';
   }
-
+  /**
+   * ///////////////// nsIDOMXULSelectControlElement /////////////////  ///////////////// nsIDOMXULMultiSelectControlElement /////////////////
+   */
   set selType(val) {
     this.setAttribute('seltype', val);
     return val;
@@ -595,7 +598,6 @@ class FirefoxTree extends FirefoxTreeBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("touchstart", (event) => {
       function isScrollbarElement(target) {
         return (target.localName == "thumb" || target.localName == "slider") &&
@@ -698,6 +700,9 @@ class FirefoxTree extends FirefoxTreeBase {
       }
     });
 
+    /**
+     * Use F2 key to enter text editing.
+     */
     this.addEventListener("keydown", (event) => {
       if (!this._cellSelType)
         return;

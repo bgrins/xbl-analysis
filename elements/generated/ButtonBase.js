@@ -136,7 +136,12 @@ class FirefoxButtonBase extends FirefoxBasetext {
   }
 
   _setupEventListeners() {
-
+    /**
+     * While it would seem we could do this by handling oncommand, we can't
+     * because any external oncommand handlers might get called before ours,
+     * and then they would see the incorrect value of checked. Additionally
+     * a command attribute would redirect the command events anyway.
+     */
     this.addEventListener("click", (event) => { this._handleClick(); });
 
     this.addEventListener("keypress", (event) => {

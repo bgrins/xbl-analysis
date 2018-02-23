@@ -19,7 +19,9 @@ class FirefoxFindbar extends XULElement {
       </xul:hbox>
       <xul:toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="FROM-DTD-findCloseButton-tooltip" oncommand="close();"></xul:toolbarbutton>
     `;
-
+    /**
+     * Please keep in sync with toolkit/content/browser-content.js
+     */
     this.FIND_NORMAL = 0;
 
     this.FIND_TYPEAHEAD = 1;
@@ -32,6 +34,10 @@ class FirefoxFindbar extends XULElement {
 
     this._initialFlashFindBarCount = 6;
 
+    /**
+     * - For tests that need to know when the find bar is finished
+     * - initializing, we store a promise to notify on.
+     */
     this._startFindDeferred = null;
 
     this._browser = null;
@@ -237,6 +243,11 @@ class FirefoxFindbar extends XULElement {
       "anonid",
       aAnonymousID);
   }
+  /**
+   * This is necessary because the destructor isn't called when
+   * we are removed from a document that is not destroyed. This
+   * needs to be explicitly called in this case
+   */
   destroy() {
     if (this._destroyed)
       return;
@@ -292,6 +303,11 @@ class FirefoxFindbar extends XULElement {
       this._quickFindTimeout = null;
     }, this._quickFindTimeoutLength);
   }
+  /**
+   * - Updates the search match count after each find operation on a new string.
+   * - @param aRes
+   * -        the result of the find operation
+   */
   _updateMatchesCount() {
     if (!this._dispatchFindEvent("matchescount"))
       return;
@@ -299,6 +315,14 @@ class FirefoxFindbar extends XULElement {
     this.browser.finder.requestMatchesCount(this._findField.value,
       this._findMode == this.FIND_LINKS);
   }
+  /**
+   * - Turns highlight on or off.
+   * - @param aHighlight (boolean)
+   * -        Whether to turn the highlight on or off
+   * - @param aFromPrefObserver (boolean)
+   * -        Whether the callee is the pref observer, which means we should
+   * -        not set the same pref again.
+   */
   toggleHighlight(aHighlight, aFromPrefObserver) {
     if (aHighlight === this._highlightAll) {
       return;
@@ -323,6 +347,14 @@ class FirefoxFindbar extends XULElement {
     // Update the matches count
     this._updateMatchesCount(this.nsITypeAheadFind.FIND_FOUND);
   }
+  /**
+   * - Updates the highlight-all mode of the findbar and its UI.
+   * - @param aHighlight (boolean)
+   * -        Whether to turn the highlight on or off.
+   * - @param aFromPrefObserver (boolean)
+   * -        Whether the callee is the pref observer, which means we should
+   * -        not set the same pref again.
+   */
   _setHighlightAll(aHighlight, aFromPrefObserver) {
     if (typeof aHighlight != "boolean") {
       aHighlight = this._highlightAll;
@@ -334,6 +366,14 @@ class FirefoxFindbar extends XULElement {
     let checkbox = this.getElement("highlight");
     checkbox.checked = this._highlightAll;
   }
+  /**
+   * - Updates the case-sensitivity mode of the findbar and its UI.
+   * - @param [optional] aString
+   * -        The string for which case sensitivity might be turned on.
+   * -        This only used when case-sensitivity is in auto mode,
+   * -        @see _shouldBeCaseSensitive. The default value for this
+   * -        parameter is the find-field value.
+   */
   _updateCaseSensitivity(aString) {
     let val = aString || this._findField.value;
 
@@ -354,6 +394,14 @@ class FirefoxFindbar extends XULElement {
 
     this.browser.finder.caseSensitive = caseSensitive;
   }
+  /**
+   * - Sets the findbar case-sensitivity mode
+   * - @param aCaseSensitivity (int)
+   * -   0 - case insensitive
+   * -   1 - case sensitive
+   * -   2 - auto = case sensitive iff match string contains upper case letters
+   * -   @see _shouldBeCaseSensitive
+   */
   _setCaseSensitivity(aCaseSensitivity) {
     this._typeAheadCaseSensitive = aCaseSensitivity;
     this._updateCaseSensitivity();
@@ -362,6 +410,9 @@ class FirefoxFindbar extends XULElement {
 
     this._dispatchFindEvent("casesensitivitychange");
   }
+  /**
+   * - Updates the entire-word mode of the findbar and its UI.
+   */
   _setEntireWord() {
     let entireWord = this._entireWord;
     let checkbox = this.getElement("find-entire-word");
@@ -378,6 +429,11 @@ class FirefoxFindbar extends XULElement {
 
     this.browser.finder.entireWord = entireWord;
   }
+  /**
+   * - Sets the findbar entire-word mode
+   * - @param aEntireWord (boolean)
+   * - Whether or not entire-word mode should be turned on.
+   */
   toggleEntireWord(aEntireWord, aFromPrefObserver) {
     if (!aFromPrefObserver) {
       // Just set the pref; our observer will change the find bar behavior.
@@ -388,6 +444,15 @@ class FirefoxFindbar extends XULElement {
     this._findFailedString = null;
     this._find();
   }
+  /**
+   * - Opens and displays the find bar.
+   * -
+   * - @param aMode
+   * -        the find mode to be used, which is either FIND_NORMAL,
+   * -        FIND_TYPEAHEAD or FIND_LINKS. If not passed, the last
+   * -        find mode if any or FIND_NORMAL.
+   * - @returns true if the find bar wasn't previously open, false otherwise.
+   */
   open(aMode) {
     if (aMode != undefined)
       this._findMode = aMode;
@@ -430,6 +495,9 @@ class FirefoxFindbar extends XULElement {
     }
     return false;
   }
+  /**
+   * - Closes the findbar.
+   */
   close(aNoAnim) {
     if (this.hidden)
       return;
@@ -505,6 +573,13 @@ class FirefoxFindbar extends XULElement {
 
     return aString != aString.toLowerCase();
   }
+  /**
+   * We get a fake event object through an IPC message which contains the
+   * data we need to make a decision. We then return |true| if and only if
+   * the page gets to deal with the event itself. Everywhere we return
+   * false, the message sender will take care of calling event.preventDefault
+   * on the real event.
+   */
   _onBrowserKeypress(aFakeEvent, aShouldFastFind) {
     const FAYT_LINKS_KEY = "'";
     const FAYT_TEXT_KEY = "/";
@@ -559,6 +634,9 @@ class FirefoxFindbar extends XULElement {
     }
     return undefined;
   }
+  /**
+   * See nsIMessageListener
+   */
   receiveMessage(aMessage) {
     if (aMessage.target != this._browser) {
       return undefined;
@@ -586,6 +664,10 @@ class FirefoxFindbar extends XULElement {
     this.getElement("find-next").disabled =
       this.getElement("find-previous").disabled = !aEnable;
   }
+  /**
+   * - Determines whether minimalist or general-purpose search UI is to be
+   * - displayed when the find bar is activated.
+   */
   _updateFindUI() {
     let showMinimalUI = this._findMode != this.FIND_NORMAL;
 
@@ -727,6 +809,14 @@ class FirefoxFindbar extends XULElement {
     });
     return this.dispatchEvent(event);
   }
+  /**
+   * - Opens the findbar, focuses the findfield and selects its contents.
+   * - Also flashes the findbar the first time it's used.
+   * - @param aMode
+   * -        the find mode to be used, which is either FIND_NORMAL,
+   * -        FIND_TYPEAHEAD or FIND_LINKS. If not passed, the last
+   * -        find mode if any or FIND_NORMAL.
+   */
   startFind(aMode) {
     let prefsvc = this._prefsvc;
     let userWantsPrefill = true;
@@ -769,9 +859,20 @@ class FirefoxFindbar extends XULElement {
     this.onCurrentSelection("", true);
     return startFindPromise;
   }
+  /**
+   * - Convenient alias to startFind(gFindBar.FIND_NORMAL);
+   * -
+   * - You should generally map the window's find command to this method.
+   * -   e.g. <command name="cmd_find" oncommand="gFindBar.onFindCommand();"/>
+   */
   onFindCommand() {
     return this.startFind(this.FIND_NORMAL);
   }
+  /**
+   * - Stub for find-next and find-previous commands
+   * - @param aFindPrevious
+   * -        true for find-previous, false otherwise.
+   */
   onFindAgainCommand(aFindPrevious) {
     let findString = this._browser.finder.searchString || this._findField.value;
     if (!findString)
@@ -800,6 +901,20 @@ class FirefoxFindbar extends XULElement {
 
     return undefined;
   }
+  /**
+   * - This handles all the result changes for both
+   * - type-ahead-find and highlighting.
+   * - @param aResult
+   * -   One of the nsITypeAheadFind.FIND_* constants
+   * -   indicating the result of a search operation.
+   * - @param aFindBackwards
+   * -   If the search was done from the bottom to
+   * -   the top. This is used for right error messages
+   * -   when reaching "the end of the page".
+   * - @param aLinkURL
+   * -   When a link matched then its URK. Always null
+   * -   when not in FIND_LINKS mode.
+   */
   onFindResult(aData) {
     if (aData.result == this.nsITypeAheadFind.FIND_NOTFOUND) {
       // If an explicit Find Again command fails, re-open the toolbar.
@@ -818,6 +933,12 @@ class FirefoxFindbar extends XULElement {
     if (this._findMode != this.FIND_NORMAL)
       this._setFindCloseTimeout();
   }
+  /**
+   * - This handles all the result changes for matches counts.
+   * - @param aResult
+   * -   Result Object, containing the total amount of matches and a vector
+   * -   of the current result.
+   */
   onMatchesCountResult(aResult) {
     if (aResult.total !== 0) {
       if (aResult.total == -1) {
@@ -865,6 +986,10 @@ class FirefoxFindbar extends XULElement {
       this._startFindDeferred = null;
     }
   }
+  /**
+   * - This handler may cancel a request to focus content by returning |false|
+   * - explicitly.
+   */
   shouldFocusContent() {
     const fm = Components.classes["@mozilla.org/focus-manager;1"]
       .getService(Components.interfaces.nsIFocusManager);
@@ -887,7 +1012,10 @@ class FirefoxFindbar extends XULElement {
   }
 
   _setupEventListeners() {
-
+    /**
+     * - We have to guard against `this.close` being |null| due to an unknown
+     * - issue, which is tracked in bug 957999.
+     */
     this.addEventListener("keypress", (event) => { if (this.close) this.close(); }, true);
 
   }

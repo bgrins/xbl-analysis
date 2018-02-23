@@ -142,7 +142,6 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("focus", (event) => {
       this.setAttribute("focused", "true");
     }, true);

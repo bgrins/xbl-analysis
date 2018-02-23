@@ -6,7 +6,6 @@ class FirefoxCreatorLink extends XULElement {
       <xul:label anonid="creator-link" class="creator-link text-link"></xul:label>
       <xul:label anonid="creator-name" class="creator-name"></xul:label>
     `;
-
     this._label = document.getAnonymousElementByAttribute(this, "anonid", "label");
 
     this._creatorLink = document.getAnonymousElementByAttribute(this, "anonid", "creator-link");

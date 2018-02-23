@@ -6,7 +6,6 @@ class FirefoxTooltip extends FirefoxPopupBase {
         <xul:label class="tooltip-label" inherits="text=label" flex="1"></xul:label>
       </children>
     `;
-
     this._mouseOutCount = 0;
 
     this._isMouseOver = false;
@@ -40,6 +39,11 @@ class FirefoxTooltip extends FirefoxPopupBase {
     }
     return this._textProvider;
   }
+  /**
+   * Given the supplied element within a page, set the tooltip's text to the text
+   * for that element. Returns true if text was assigned, and false if the no text
+   * is set, which normally would be used to cancel tooltip display.
+   */
   fillInPageTooltip(tipElement) {
     let tttp = this.textProvider;
     let textObj = {},
@@ -53,7 +57,6 @@ class FirefoxTooltip extends FirefoxPopupBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mouseover", (event) => {
       var rel = event.relatedTarget;
       if (!rel)

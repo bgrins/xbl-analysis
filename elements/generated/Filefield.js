@@ -8,7 +8,6 @@ class FirefoxFilefield extends FirefoxBasetext {
         <xul:textbox class="fileFieldLabel" inherits="value=label,disabled,accesskey,tabindex,aria-labelledby" flex="1" readonly="true"></xul:textbox>
       </xul:hbox>
     `;
-
     this._file = null;
 
     this._setupEventListeners();

@@ -10,7 +10,6 @@ class FirefoxNotification extends XULElement {
       </xul:hbox>
       <xul:toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" anonid="close-button" inherits="hidden=hideclose" tooltiptext="FROM-DTD-closeNotification-tooltip" oncommand="document.getBindingParent(this).dismiss();"></xul:toolbarbutton>
     `;
-
     this.timeout = 0;
 
     this._setupEventListeners();
@@ -79,6 +78,12 @@ class FirefoxNotification extends XULElement {
     }
     return null;
   }
+  /**
+   * This method should only be called when the user has
+   * manually closed the notification. If you want to
+   * programmatically close the notification, you should
+   * call close() instead.
+   */
   dismiss() {
     if (this.eventCallback) {
       this.eventCallback("dismissed");

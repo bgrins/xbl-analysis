@@ -22,7 +22,6 @@ class FirefoxPanel extends FirefoxPopupBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("popupshowing", (event) => {
       // Capture the previous focus before has a chance to get set inside the panel
       try {

@@ -76,7 +76,6 @@ class FirefoxRadio extends FirefoxBasetext {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("click", (event) => {
       if (!this.disabled)
         this.control.selectedItem = this;

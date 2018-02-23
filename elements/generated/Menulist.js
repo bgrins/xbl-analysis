@@ -302,7 +302,6 @@ class FirefoxMenulist extends FirefoxMenulistBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("command", (event) => { if (event.target.parentNode.parentNode == this) this.selectedItem = event.target; }, true);
 
     this.addEventListener("popupshowing", (event) => {

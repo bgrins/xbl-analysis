@@ -18,6 +18,6 @@
     "prettier": "^1.4.4",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4",
-    "xmlom": "^3.2.5"
+    "xmlom": "^3.3.0"
   }
 }

@@ -27,7 +27,9 @@ class FirefoxListitem extends FirefoxBasetext {
   get current() {
     return this.getAttribute('current') == 'true';
   }
-
+  /**
+   * ///////////////// nsIDOMXULSelectControlItemElement /////////////////
+   */
   set value(val) {
     this.setAttribute('value', val);
     return val;
@@ -75,7 +77,10 @@ class FirefoxListitem extends FirefoxBasetext {
   }
 
   _setupEventListeners() {
-
+    /**
+     * If there is no modifier key, we select on mousedown, not
+     * click, so that drags work correctly.
+     */
     this.addEventListener("mousedown", (event) => {
       var control = this.control;
       if (!control || control.disabled)
@@ -89,6 +94,10 @@ class FirefoxListitem extends FirefoxBasetext {
       }
     });
 
+    /**
+     * On a click (up+down on the same item), deselect everything
+     * except this item.
+     */
     this.addEventListener("click", (event) => {
       var control = this.control;
       if (!control || control.disabled)

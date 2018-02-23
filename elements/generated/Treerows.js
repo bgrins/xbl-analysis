@@ -12,7 +12,6 @@ class FirefoxTreerows extends FirefoxTreeBase {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("underflow", (event) => {
       // Scrollport event orientation
       // 0: vertical

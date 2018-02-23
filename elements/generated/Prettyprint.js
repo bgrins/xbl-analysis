@@ -12,7 +12,6 @@ class FirefoxPrettyprint extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("click", (event) => {
       try {
         var par = event.originalTarget;

@@ -4,7 +4,11 @@ class FirefoxBrowser extends XULElement {
     this.innerHTML = `
       <children></children>
     `;
-
+    /**
+     * Weak reference to an optional frame loader that can be used to influence
+     * process selection for this browser.
+     * See nsIBrowser.sameProcessAsFrameLoader.
+     */
     this._sameProcessAsFrameLoader = null;
 
     this._docShell = null;
@@ -36,6 +40,10 @@ class FirefoxBrowser extends XULElement {
 
     this._hasAnyPlayingMediaBeenBlocked = false;
 
+    /**
+     * Only send the message "Browser:UnselectedTabHover" when someone requests
+     * for the message, which can reduce non-necessary communication.
+     */
     this._shouldSendUnselectedTabHover = false;
 
     this._unselectedTabHoverMessageListenerCount = 0;
@@ -64,6 +72,9 @@ class FirefoxBrowser extends XULElement {
 
     this.mIconURL = null;
 
+    /**
+     * This is managed by the tabbrowser
+     */
     this.lastURI = null;
 
     this.mDestroyed = false;
@@ -80,6 +91,9 @@ class FirefoxBrowser extends XULElement {
 
     this._autoScrollNeedsCleanup = false;
 
+    /**
+     * These IDs identify the scroll frame being autoscrolled.
+     */
     this._autoScrollScrollId = null;
 
     this._autoScrollPresShellId = null;
@@ -474,7 +488,9 @@ class FirefoxBrowser extends XULElement {
     }
     return this._mStrBundle;
   }
-
+  /**
+   * Obsolete name for blockedPopups. Used by android.
+   */
   get pageReport() {
     return this.blockedPopups;
   }
@@ -565,12 +581,18 @@ class FirefoxBrowser extends XULElement {
     const flags = nsIWebNavigation.STOP_ALL;
     this.webNavigation.stop(flags);
   }
+  /**
+   * throws exception for unknown schemes
+   */
   loadURI(aURI, aReferrerURI, aCharset) {
     const nsIWebNavigation = Components.interfaces.nsIWebNavigation;
     const flags = nsIWebNavigation.LOAD_FLAGS_NONE;
     this._wrapURIChangeCall(() =>
       this.loadURIWithFlags(aURI, flags, aReferrerURI, aCharset));
   }
+  /**
+   * throws exception for unknown schemes
+   */
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {
     if (!aURI)
       aURI = "about:blank";
@@ -606,6 +628,12 @@ class FirefoxBrowser extends XULElement {
   gotoIndex(aIndex) {
     this._wrapURIChangeCall(() => this.webNavigation.gotoIndex(aIndex));
   }
+  /**
+   * Used by session restore to ensure that currentURI is set so
+   * that switch-to-tab works before the tab is fully
+   * restored. This function also invokes onLocationChanged
+   * listeners in tabbrowser.xml.
+   */
   _setCurrentURI(aURI) {
     this.docShell.setCurrentURI(aURI);
   }
@@ -689,6 +717,19 @@ class FirefoxBrowser extends XULElement {
     event.initEvent("DOMAudioPlaybackStopped", true, false);
     this.dispatchEvent(event);
   }
+  /**
+   * When the pref "media.block-autoplay-until-in-foreground" is on, all
+   * windows would be blocked by default in gecko. The "block" means the
+   * autoplay media can't be started in that tab unless the tab has been
+   * visited or resumed by tab's play tab icon. Since the window is blocked
+   * by default, there's no method to signal entering that state.
+   * (1) If the window is resumed, no matter it has autoplay media or not
+   * - will call mediaBlockStopped()
+   * (2) If the window has blocked any autoplay media
+   * - will call activeMediaBlockStarted()
+   * (3) If the window has resumed any autoplay media
+   * - will call activeMediaBlockStopped()
+   */
   activeMediaBlockStarted() {
     this._hasAnyPlayingMediaBeenBlocked = true;
     let event = document.createEvent("Events");
@@ -750,6 +791,13 @@ class FirefoxBrowser extends XULElement {
     return !this.inLoadURI &&
       this.urlbarChangeTracker._startedLoadSinceLastUserTyping;
   }
+  /**
+   * This is necessary because the destructor doesn't always get called when
+   * we are removed from a tabbrowser. This will be explicitly called by tabbrowser.
+   *
+   * Note: this function is overriden in remote-browser.xml, so any clean-up that
+   * also applies to browser.isRemoteBrowser = true must be duplicated there.
+   */
   destroy() {
     // Make sure that any open select is closed.
     if (this._selectParentHelper) {
@@ -787,6 +835,10 @@ class FirefoxBrowser extends XULElement {
       this._autoScrollPopup.remove();
     }
   }
+  /**
+   * We call this _receiveMessage (and alias receiveMessage to it) so that
+   * bindings that inherit from this one can delegate to it.
+   */
   _receiveMessage(aMessage) {
     let data = aMessage.data;
     switch (aMessage.name) {
@@ -1267,7 +1319,6 @@ class FirefoxBrowser extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keypress", (event) => {
       if (event.defaultPrevented || !event.isTrusted)
         return;

@@ -90,7 +90,6 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("keydown", (event) => {
       // open popup if key is space/up/left/right/down and popup is closed
       if ((event.keyCode == 32 || (event.keyCode > 36 && event.keyCode < 41)) && !this.open)

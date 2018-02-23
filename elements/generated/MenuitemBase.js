@@ -13,7 +13,9 @@ class FirefoxMenuitemBase extends FirefoxBasetext {
   get value() {
     return this.getAttribute('value');
   }
-
+  /**
+   * nsIDOMXULSelectControlItemElement
+   */
   get selected() {
     return this.getAttribute('selected') == 'true';
   }
@@ -25,7 +27,9 @@ class FirefoxMenuitemBase extends FirefoxBasetext {
       return parent.parentNode;
     return null;
   }
-
+  /**
+   * nsIDOMXULContainerItemElement
+   */
   get parentContainer() {
     for (var parent = this.parentNode; parent; parent = parent.parentNode) {
       if (parent instanceof Components.interfaces.nsIDOMXULContainerElement)

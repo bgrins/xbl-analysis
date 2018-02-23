@@ -11,7 +11,6 @@ class FirefoxArrowpanel extends FirefoxPanel {
         </xul:box>
       </xul:vbox>
     `;
-
     this._fadeTimer = null;
 
     this._setupEventListeners();
@@ -80,7 +79,6 @@ class FirefoxArrowpanel extends FirefoxPanel {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("popupshowing", (event) => {
       var arrow = document.getAnonymousElementByAttribute(this, "anonid", "arrow");
       arrow.hidden = this.anchorNode == null;

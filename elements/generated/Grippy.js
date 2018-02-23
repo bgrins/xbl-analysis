@@ -5,7 +5,6 @@ class FirefoxGrippy extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("command", (event) => {
       var splitter = this.parentNode;
       if (splitter) {

@@ -278,12 +278,19 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("mousedown", (event) => {
       if (this.disabled)
         event.preventDefault();
     });
 
+    /**
+     * keyboard navigation  Here's how keyboard navigation works in radio groups on Windows:
+     * The group takes 'focus'
+     * The user is then free to navigate around inside the group
+     * using the arrow keys. Accessing previous or following radio buttons
+     * is done solely through the arrow keys and not the tab button. Tab
+     * takes you to the next widget in the tab order
+     */
     this.addEventListener("keypress", (event) => {
       this.selectedItem = this.focusedItem;
       this.selectedItem.doCommand();
@@ -319,6 +326,12 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       event.preventDefault();
     });
 
+    /**
+     * set a focused attribute on the selected item when the group
+     * receives focus so that we can style it as if it were focused even though
+     * it is not (Windows platform behaviour is for the group to receive focus,
+     * not the item
+     */
     this.addEventListener("focus", (event) => {
       this.setAttribute("focused", "true");
       if (this.focusedItem)

@@ -5,7 +5,6 @@ class FirefoxLabelControl extends FirefoxTextLabel {
       <children></children>
       <html:span anonid="accessKeyParens"></html:span>
     `;
-
     this.mUnderlineAccesskey = !/Mac/.test(navigator.platform);
 
     this.mInsertSeparator = "";
@@ -203,7 +202,6 @@ class FirefoxLabelControl extends FirefoxTextLabel {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("click", (event) => {
       if (this.disabled) return;
       var controlElement = this.labeledControlElement;

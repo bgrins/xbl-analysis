@@ -10,6 +10,22 @@ function titleCase(str) {
   return str[0].toUpperCase() + str.substr(1).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
 }
 
+function formatComment(comment, spaces = 2) {
+  if (!comment) {
+    return '';
+  }
+
+  let spacesStr = new Array(spaces).join(" ");
+  let commentArr = comment.split("\n").map(s=> s.trim());
+  if (!commentArr[0]) { commentArr.shift(); }
+  if (!commentArr[commentArr.length - 1]) { commentArr.pop(); }
+  let commentFormatted = commentArr
+    .map(s => (s ? `${spacesStr}* ${s}` : `${spacesStr}*`))
+    .join("\n");
+
+  return `${spacesStr}/**\n${commentFormatted}\n${spacesStr}*/`;
+}
+
 function getJSForBinding(binding) {
   let js = [];
   let elementName = 'firefox-' + binding.attrs.id;
@@ -53,34 +69,42 @@ function getJSForBinding(binding) {
         "";
 
   let xblconstructor = (binding.find("constructor") || [])[0];
+  let xblconstructorComment = xblconstructor ? formatComment(xblconstructor.comment) : null;
   xblconstructor = xblconstructor ? `${xblconstructor.cdata || xblconstructor.value}` : '';
+  if (xblconstructorComment) {
+    xblconstructor = xblconstructorComment + "\n" + xblconstructor;
+  }
   // Or, try / catch since many components will fail when loaded in a tab due to chrome references
   // xblconstructor = xblconstructor ? `try { ${xblconstructor.cdata} } catch(e) { }` : '';
 
   let xbldestructor = (binding.find("destructor") || [])[0];
+  let xbldestructorComment = xbldestructor ? formatComment(xbldestructor.comment) : null;
   xbldestructor = xbldestructor ? `${xbldestructor.cdata || xbldestructor.value}` : '';
   // Or, try / catch since many components will fail when loaded in a tab due to chrome references
   // xbldestructor = xbldestructor ? `try { ${xbldestructor.cdata} } catch(e) { }` : '';
   if (xbldestructor != '') {
     xbldestructor = `disconnectedCallback() { ${xbldestructor} }`
+    if (xblconstructorComment) {
+      xbldestructor = xblconstructorComment + "\n" + xbldestructor;
+    }
   }
 
   let handlers = [];
   // <handler>
   for (let handler of binding.find('handler')) {
+    let comment = formatComment(handler.comment);
+    if (comment) {
+      handlers.push(comment);
+    }
     // XXX: Handle: <handler event="keypress" keycode="VK_END" command="cmd_endLine"/>
     let capturing = handler.attrs.phase === "capturing" ? ", true" : "";
-    handlers.push(`
-      this.addEventListener("${handler.attrs.event}", (event) => {${handler.cdata || handler.value || handler.attrs.action}}${capturing});
-    `);
+    handlers.push(`this.addEventListener("${handler.attrs.event}", (event) => {${handler.cdata || handler.value || handler.attrs.action}}${capturing});\n`);
   }
 
 
   // <field>
   let fields = [];
   for (let field of binding.find('field')) {
-
-
     // Work around fields like _weekStart in the datepicker where the value is coming from a dtd.
     // Just print an empty string in that case.
     let data = (field.cdata || field.value || "").trim();
@@ -91,11 +115,11 @@ function getJSForBinding(binding) {
 
     // Remove leading comments, which would cause the 'return' to be on a different line
     // than the expression.
-    let comments = [];
+    let leadingComments = [];
     let expressions = data.split("\n");
     for (var i = 0; i < expressions.length; i++) {
       if (expressions[i].trim().startsWith("//")) {
-        comments.push(expressions[i]);
+        leadingComments.push(expressions[i]);
       } else {
         expressions = expressions.slice(i);
         break;
@@ -111,10 +135,16 @@ function getJSForBinding(binding) {
       expr = expr.substring(1, expr.length - 2) + ";";
     }
 
-    fields.push(`
-      ${comments.join("\n")}
-      this.${field.attrs.name} = ${expr}
-    `);
+    let comment = formatComment(field.comment);
+    if (comment) {
+      fields.push(comment);
+    }
+
+    if (leadingComments.length) {
+      fields.push(leadingComments.join("\n"));
+    }
+
+    fields.push(`this.${field.attrs.name} = ${expr}\n`);
 
     // let setter = field.attrs.readonly ? '' :
     // `set(val) {
@@ -147,6 +177,10 @@ function getJSForBinding(binding) {
 
   // <property>
   for (let property of binding.find('property')) {
+    let comment = formatComment(property.comment);
+    if (comment) {
+      js.push(comment);
+    }
     if (property.attrs.onset) {
       js.push(`
         set ${property.attrs.name}(val) {
@@ -173,6 +207,10 @@ function getJSForBinding(binding) {
 
   // <method>
   for (let method of binding.find('method')) {
+    let comment = formatComment(method.comment);
+    if (comment) {
+      js.push(comment);
+    }
     js.push(`${method.attrs.name}(`);
     js.push(`${method.find('parameter').map(p => p.attrs.name).join(',')}`);
     js.push(`) {`);

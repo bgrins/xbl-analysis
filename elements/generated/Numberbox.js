@@ -6,7 +6,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
         <html:input class="numberbox-input textbox-input" type="number" anonid="input" inherits="value,min,max,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"></html:input>
       </xul:hbox>
     `;
-
     this._valueEntered = false;
 
     this._value = 0;
@@ -95,7 +94,6 @@ class FirefoxNumberbox extends FirefoxTextbox {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("input", (event) => {
       this._valueEntered = true;
     }, true);

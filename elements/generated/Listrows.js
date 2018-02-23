@@ -5,7 +5,6 @@ class FirefoxListrows extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("DOMMouseScroll", (event) => {
       if (event.axis == event.HORIZONTAL_AXIS)
         return;

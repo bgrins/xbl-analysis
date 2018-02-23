@@ -15,7 +15,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         <xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;"></xul:spacer>
       </xul:arrowscrollbox>
     `;
-
     this.tabbrowser = gBrowser;
 
     this.tabbox = this.tabbrowser.tabbox;
@@ -313,6 +312,9 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     this.selectedItem._notselectedsinceload = false;
   }
+  /**
+   * Try to keep the active tab's close button under the mouse cursor
+   */
   _lockTabSizing(aTab) {
     var tabs = this.tabbrowser.visibleTabs;
     if (!tabs.length)
@@ -716,7 +718,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("TabSelect", (event) => { this._handleTabSelect(); });
 
     this.addEventListener("transitionend", (event) => {

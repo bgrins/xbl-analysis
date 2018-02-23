@@ -217,6 +217,10 @@ class FirefoxTranslationbar extends FirefoxNotification {
     this.translation.translate(this._getAnonElt("fromLanguage").value,
       this._getAnonElt("toLanguage").value);
   }
+  /**
+   * To be called when the infobar should be closed per user's wish (e.g.
+   * by clicking the notification's close button
+   */
   closeCommand() {
     this.close();
     this.translation.infobarClosed();

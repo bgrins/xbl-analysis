@@ -11,7 +11,6 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       <xul:popupset anonid="popupset" class="autocomplete-result-popupset"></xul:popupset>
       <children includes="toolbarbutton"></children>
     `;
-
     this.mController = null;
 
     this.mSearchNames = null;
@@ -26,16 +25,29 @@ class FirefoxAutocomplete extends FirefoxTextbox {
 
     this._textRevertedHandler = null;
 
+    /**
+     * =================== nsIAutoCompleteInput ===================
+     */
     this._popup = null;
 
     this.shrinkDelay = parseInt(this.getAttribute("shrinkdelay")) || 0;
 
+    /**
+     * This is the maximum number of drop-down rows we get when we
+     * hit the drop marker beside fields that have it (like the URLbar).
+     */
     this.maxDropMarkerRows = 14;
 
+    /**
+     * =================== PUBLIC MEMBERS ===================
+     */
     this.valueIsTyped = false;
 
     this._disableTrim = false;
 
+    /**
+     * ::::::::::::: key handling :::::::::::::
+     */
     this._selectionDetails = null;
 
     this._valueIsPasted = false;
@@ -230,7 +242,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     }
     return this.value;
   }
-
+  /**
+   * =================== nsIDOMXULMenuListElement ===================
+   */
   get editable() {
     return true;
   }
@@ -289,7 +303,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   get focused() {
     return this.getAttribute('focused') == 'true';
   }
-
+  /**
+   * maximum number of rows to display at a time
+   */
   set maxRows(val) {
     this.setAttribute('maxrows', val);
     return val;
@@ -298,7 +314,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   get maxRows() {
     return parseInt(this.getAttribute('maxrows')) || 0;
   }
-
+  /**
+   * option to allow scrolling through the list via the tab key, rather than
+   * tab moving focus out of the textbox
+   */
   set tabScrolling(val) {
     this.setAttribute('tabscrolling', val);
     return val;
@@ -307,7 +326,10 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   get tabScrolling() {
     return this.getAttribute('tabscrolling') == 'true';
   }
-
+  /**
+   * option to completely ignore any blur events while searches are
+   * still going on.
+   */
   set ignoreBlurWhileSearching(val) {
     this.setAttribute('ignoreblurwhilesearching', val);
     return val;
@@ -316,7 +338,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   get ignoreBlurWhileSearching() {
     return this.getAttribute('ignoreblurwhilesearching') == 'true';
   }
-
+  /**
+   * disable key navigation handling in the popup results
+   */
   set disableKeyNavigation(val) {
     this.setAttribute('disablekeynavigation', val);
     return val;
@@ -325,7 +349,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   get disableKeyNavigation() {
     return this.getAttribute('disablekeynavigation') == 'true';
   }
-
+  /**
+   * option to highlight entries that don't have any matches
+   */
   set highlightNonMatches(val) {
     this.setAttribute('highlightnonmatches', val);
     return val;
@@ -381,6 +407,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       return this._textRevertedHandler();
     return false;
   }
+  /**
+   * =================== PRIVATE MEMBERS ===================  ::::::::::::: autocomplete controller :::::::::::::
+   */
   attachController() {
     this.mController.input = this;
   }
@@ -388,6 +417,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     if (this.mController.input == this)
       this.mController.input = null;
   }
+  /**
+   * ::::::::::::: popup opening :::::::::::::
+   */
   openPopup() {
     if (this.focused)
       this.popup.openAutocompletePopup(this, this);
@@ -417,6 +449,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     else
       this.closePopup();
   }
+  /**
+   * ::::::::::::: event dispatching :::::::::::::
+   */
   initEventHandler(aEventType) {
     let handlerString = this.getAttribute("on" + aEventType);
     if (handlerString) {
@@ -528,6 +563,9 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   handleDelete() {
     return this.mController.handleDelete();
   }
+  /**
+   * ::::::::::::: miscellaneous :::::::::::::
+   */
   initSearchNames() {
     if (!this.mSearchNames) {
       var names = this.getAttribute("autocompletesearch");
@@ -560,7 +598,6 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("input", (event) => {
       this.onInput(event);
     });

@@ -17,7 +17,6 @@ class FirefoxTabbrowser extends XULElement {
       </xul:tabbox>
       <children></children>
     `;
-
     this.tabContainer = document.getElementById(this.getAttribute("tabcontainer"));
 
     this.tabs = this.tabContainer.childNodes;
@@ -66,15 +65,32 @@ class FirefoxTabbrowser extends XULElement {
 
     this.tabAnimationsInProgress = 0;
 
+    /**
+     * Binding from browser to tab
+     */
     this._tabForBrowser = new WeakMap();
 
     this.serializationHelper = Cc["@mozilla.org/network/serialization-helper;1"]
       .getService(Ci.nsISerializationHelper);
 
+    /**
+     * Holds a unique ID for the tab change that's currently being timed.
+     * Used to make sure that multiple, rapid tab switches do not try to
+     * create overlapping timers.
+     */
     this._tabSwitchID = null;
 
     this._preloadedBrowser = null;
 
+    /**
+     * `_createLazyBrowser` will define properties on the unbound lazy browser
+     * which correspond to properties defined in XBL which will be bound to
+     * the browser when it is inserted into the document.  If any of these
+     * properties are accessed by consumers, `_insertBrowser` is called and
+     * the browser is inserted to ensure that things don't break.  This list
+     * provides the names of properties that may be called while the browser
+     * is in its unbound (lazy) state.
+     */
     this._browserBindingProperties = [
       "canGoBack", "canGoForward", "goBack", "goForward", "permitUnload",
       "reload", "reloadWithFlags", "stop", "loadURI", "loadURIWithFlags",
@@ -92,6 +108,10 @@ class FirefoxTabbrowser extends XULElement {
 
     this._removingTabs = [];
 
+    /**
+     * Tab close requests are ignored if the window is closing anyway,
+     * e.g. when holding Ctrl+W.
+     */
     this._windowIsClosing = false;
 
     // This defines a proxy which allows us to access browsers by
@@ -117,8 +137,50 @@ class FirefoxTabbrowser extends XULElement {
       }
     });
 
+    /**
+     * List of browsers whose docshells must be active in order for print preview
+     * to work.
+     */
     this._printPreviewBrowsers = new Set();
 
+    /**
+     * The tab switcher is responsible for asynchronously switching
+     * tabs in e10s. It waits until the new tab is ready (i.e., the
+     * layer tree is available) before switching to it. Then it
+     * unloads the layer tree for the old tab.
+     *
+     * The tab switcher is a state machine. For each tab, it
+     * maintains state about whether the layer tree for the tab is
+     * available, being loaded, being unloaded, or unavailable. It
+     * also keeps track of the tab currently being displayed, the tab
+     * it's trying to load, and the tab the user has asked to switch
+     * to. The switcher object is created upon tab switch. It is
+     * released when there are no pending tabs to load or unload.
+     *
+     * The following general principles have guided the design:
+     *
+     * 1. We only request one layer tree at a time. If the user
+     * switches to a different tab while waiting, we don't request
+     * the new layer tree until the old tab has loaded or timed out.
+     *
+     * 2. If loading the layers for a tab times out, we show the
+     * spinner and possibly request the layer tree for another tab if
+     * the user has requested one.
+     *
+     * 3. We discard layer trees on a delay. This way, if the user is
+     * switching among the same tabs frequently, we don't continually
+     * load the same tabs.
+     *
+     * It's important that we always show either the spinner or a tab
+     * whose layers are available. Otherwise the compositor will draw
+     * an entirely black frame, which is very jarring. To ensure this
+     * never happens when switching away from a tab, we assume the
+     * old tab might still be drawn until a MozAfterPaint event
+     * occurs. Because layout and compositing happen asynchronously,
+     * we don't have any other way of knowing when the switch
+     * actually takes place. Therefore, we don't unload the old tab
+     * until the next MozAfterPaint event.
+     */
     this._switcher = null;
 
     this._tabMinWidthLimit = 50;
@@ -277,7 +339,10 @@ class FirefoxTabbrowser extends XULElement {
   get selectedBrowser() {
     return this.mCurrentBrowser;
   }
-
+  /**
+   * BEGIN FORWARDED BROWSER PROPERTIES.  IF YOU ADD A PROPERTY TO THE BROWSER ELEMENT
+   * MAKE SURE TO ADD IT HERE AS WELL.
+   */
   get canGoBack() {
     return this.mCurrentBrowser.canGoBack;
   }
@@ -624,6 +689,9 @@ class FirefoxTabbrowser extends XULElement {
 
     return rv;
   }
+  /**
+   * Determine if a URI is an about: page pointing to a local resource.
+   */
   _isLocalAboutURI(aURI, aResolvedURI) {
     if (!aURI.schemeIs("about")) {
       return false;
@@ -650,6 +718,9 @@ class FirefoxTabbrowser extends XULElement {
       return false;
     }
   }
+  /**
+   * A web progress listener object definition for a given tab.
+   */
   mTabProgressListener(aTab, aBrowser, aStartsBlank, aWasPreloadedBrowser, aOrigStateFlags) {
     let stateFlags = aOrigStateFlags || 0;
     // Initialize mStateFlags to non-zero e.g. when creating a progress
@@ -1577,6 +1648,9 @@ class FirefoxTabbrowser extends XULElement {
     state.microphone = !!state.microphone;
     return state;
   }
+  /**
+   * TODO: remove after 57, once we know add-ons can no longer use it.
+   */
   setTabTitleLoading(aTab) {}
   setInitialTabTitle(aTab, aTitle, aOptions) {
     if (aTitle) {
@@ -3626,6 +3700,10 @@ class FirefoxTabbrowser extends XULElement {
       aEvent.stopPropagation();
     }
   }
+  /**
+   * Moves a tab to a new browser window, unless it's already the only tab
+   * in the current window, in which case this will do nothing.
+   */
   replaceTabWithWindow(aTab, aOptions) {
     if (this.tabs.length == 1)
       return null;
@@ -3719,6 +3797,9 @@ class FirefoxTabbrowser extends XULElement {
     else if (this.arrowKeysShouldWrap)
       this.moveTabToStart();
   }
+  /**
+   * Adopts a tab from another browser window, and inserts it at aIndex
+   */
   adoptTab(aTab, aIndex, aSelectTab) {
     // Swap the dropped tab with a new one we create and then close
     // it in the other window (making it seem to have moved between
@@ -3816,6 +3897,9 @@ class FirefoxTabbrowser extends XULElement {
       browser.docShellIsActive = this.shouldActivateDocShell(browser);
     }
   }
+  /**
+   * Returns true if a given browser's docshell should be active.
+   */
   shouldActivateDocShell(aBrowser) {
     if (this._switcher) {
       return this._switcher.shouldActivateDocShell(aBrowser);
@@ -4880,9 +4964,15 @@ class FirefoxTabbrowser extends XULElement {
   stop() {
     return this.mCurrentBrowser.stop();
   }
+  /**
+   * throws exception for unknown schemes
+   */
   loadURI(aURI, aReferrerURI, aCharset) {
     return this.mCurrentBrowser.loadURI(aURI, aReferrerURI, aCharset);
   }
+  /**
+   * throws exception for unknown schemes
+   */
   loadURIWithFlags(aURI, aFlags, aReferrerURI, aCharset, aPostData) {
     // Note - the callee understands both:
     // (a) loadURIWithFlags(aURI, aFlags, ...)
@@ -5294,7 +5384,6 @@ class FirefoxTabbrowser extends XULElement {
   }
 
   _setupEventListeners() {
-
     this.addEventListener("DOMWindowClose", (event) => {
       if (!event.isTrusted)
         return;
