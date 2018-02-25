@@ -197,6 +197,7 @@ class FirefoxTextbox extends XULElement {
   get selectionEnd() {
     return this.inputField.selectionEnd;
   }
+
   reset() {
     this.value = this.defaultValue;
     try {
@@ -205,9 +206,11 @@ class FirefoxTextbox extends XULElement {
     } catch (e) {}
     return false;
   }
+
   select() {
     this.inputField.select();
   }
+
   setSelectionRange(aSelectionStart, aSelectionEnd) {
     // According to https://html.spec.whatwg.org/#do-not-apply,
     // setSelectionRange() is only available on a limited set of input types.
@@ -216,6 +219,7 @@ class FirefoxTextbox extends XULElement {
       this.inputField.setSelectionRange(aSelectionStart, aSelectionEnd);
     }
   }
+
   _setNewlineHandling() {
     var str = this.getAttribute("newlines");
     if (str && this.editor) {
@@ -231,6 +235,7 @@ class FirefoxTextbox extends XULElement {
       }
     }
   }
+
   _maybeSelectAll() {
     if (!this.mIgnoreClick && this.clickSelectsAll &&
       document.activeElement == this.inputField &&

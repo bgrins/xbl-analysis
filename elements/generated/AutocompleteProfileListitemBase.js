@@ -20,15 +20,20 @@ class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
     }
     return this.__stringBundle;
   }
+
   _cleanup() {
     this.removeAttribute("formautofillattached");
     if (this._itemBox) {
       this._itemBox.removeAttribute("size");
     }
   }
+
   _onOverflow() {}
+
   _onUnderflow() {}
+
   handleOverUnderflow() {}
+
   _adjustAutofillItemLayout() {
     let outerBoxRect = this.parentNode.getBoundingClientRect();
 

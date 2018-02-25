@@ -33,6 +33,7 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
   get color() {
     return this.getAttribute("color");
   }
+
   initialize() {
     this.mColorBox = document.getAnonymousElementByAttribute(this, "anonid", "colorbox");
     this.mColorBox.setAttribute("src",
@@ -45,6 +46,7 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
 
     this.mPicker = document.getAnonymousElementByAttribute(this, "anonid", "colorpicker");
   }
+
   _fireEvent(aTarget, aEventName) {
     try {
       var event = document.createEvent("Events");
@@ -63,12 +65,15 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
     }
     return false;
   }
+
   showPopup() {
     this.mPicker.parentNode.openPopup(this, "after_start", 0, 0, false, false);
   }
+
   hidePopup() {
     this.mPicker.parentNode.hidePopup();
   }
+
   onPopupShowing() {
     if ("resetHover" in this.mPicker)
       this.mPicker.resetHover();
@@ -77,11 +82,13 @@ class FirefoxColorpickerButton extends FirefoxBasecontrol {
     // Initialize to current button's color
     this.mPicker.initColor(this.color);
   }
+
   onPopupHiding() {
     // Removes the key listener
     document.removeEventListener("keydown", this.mPicker, true);
     this.mPicker.mIsPopup = false;
   }
+
   pickerChange() {
     this.color = this.mPicker.color;
     setTimeout(function(aPopup) { aPopup.hidePopup(); }, 1, this.mPicker.parentNode);

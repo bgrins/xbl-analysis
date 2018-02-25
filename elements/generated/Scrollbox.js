@@ -9,6 +9,7 @@ class FirefoxScrollbox extends FirefoxScrollboxBase {
 
     this._setupEventListeners();
   }
+
   scrollByIndex(index) {
     this.boxObject.scrollByIndex(index);
   }

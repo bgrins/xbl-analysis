@@ -97,6 +97,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     }
     return this._boundaryCutoff;
   }
+
   _cleanup() {
     this.removeAttribute("url");
     this.removeAttribute("image");
@@ -104,14 +105,17 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     this.removeAttribute("text");
     this.removeAttribute("displayurl");
   }
+
   _onOverflow() {
     this._inOverflow = true;
     this._handleOverflow();
   }
+
   _onUnderflow() {
     this._inOverflow = false;
     this._handleOverflow();
   }
+
   _getBoundaryIndices(aText, aSearchTokens) {
     // Short circuit for empty search ([""] == "")
     if (aSearchTokens == "")
@@ -169,10 +173,12 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     // Skip the first item because it's always 0
     return boundaries.slice(1);
   }
+
   _getSearchTokens(aSearch) {
     let search = aSearch.toLowerCase();
     return search.split(/\s+/);
   }
+
   _setUpDescription(aDescriptionElement, aText, aNoEmphasis) {
     // Get rid of all previous text
     if (!aDescriptionElement) {
@@ -195,6 +201,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
     this._appendDescriptionSpans(indices, aText, aDescriptionElement,
       aDescriptionElement);
   }
+
   _appendDescriptionSpans(indices, text, spansParentElement, descriptionElement) {
     let next;
     let start = 0;
@@ -217,6 +224,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       }
     }
   }
+
   _setUpTags(tags) {
     while (this._tagsText.hasChildNodes()) {
       this._tagsText.firstChild.remove();
@@ -250,6 +258,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
 
     return anyTagsMatch;
   }
+
   _setUpEmphasisSpan(aSpan, aDescriptionElement) {
     aSpan.classList.add("ac-emphasize-text");
     switch (aDescriptionElement) {
@@ -267,6 +276,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
         break;
     }
   }
+
   /**
    * This will generate an array of emphasis pairs for use with
    * _setUpEmphasisedSections(). Each pair is a tuple (array) that
@@ -330,6 +340,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
 
     return pairs;
   }
+
   /**
    * _setUpEmphasisedSections() has the same use as _setUpDescription,
    * except instead of taking a string and highlighting given tokens, it takes
@@ -357,9 +368,11 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       }
     }
   }
+
   _unescapeUrl(url) {
     return Services.textToSubURI.unEscapeURIForUI("UTF-8", url);
   }
+
   _reuseAcItem() {
     let action = this._parseActionUrl(this.getAttribute("url"));
     let popup = this.parentNode.parentNode;
@@ -388,6 +401,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
 
     return false;
   }
+
   _adjustAcItem() {
     let originalUrl = this.getAttribute("ac-value");
     let title = this.getAttribute("ac-comment");
@@ -618,6 +632,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       this._handleOverflow();
     }
   }
+
   _removeMaxWidths() {
     if (this._hasMaxWidths) {
       this._titleText.style.removeProperty("max-width");
@@ -627,6 +642,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       this._hasMaxWidths = false;
     }
   }
+
   /**
    * This method truncates the displayed strings as necessary.
    */
@@ -699,10 +715,12 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       this._hasMaxWidths = true;
     }
   }
+
   handleOverUnderflow() {
     this._removeMaxWidths();
     this._handleOverflow();
   }
+
   _parseActionUrl(aUrl) {
     if (!aUrl.startsWith("moz-action:"))
       return null;

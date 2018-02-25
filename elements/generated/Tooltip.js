@@ -39,6 +39,7 @@ class FirefoxTooltip extends FirefoxPopupBase {
     }
     return this._textProvider;
   }
+
   /**
    * Given the supplied element within a page, set the tooltip's text to the text
    * for that element. Returns true if text was assigned, and false if the no text

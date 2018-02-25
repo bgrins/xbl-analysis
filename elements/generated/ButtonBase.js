@@ -93,6 +93,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
   get autoCheck() {
     return this.getAttribute('autoCheck') == 'true';
   }
+
   filterButtons(node) {
     // if the node isn't visible, don't descend into it.
     var cs = node.ownerGlobal.getComputedStyle(node);
@@ -108,6 +109,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
       return NodeFilter.FILTER_ACCEPT;
     return NodeFilter.FILTER_SKIP;
   }
+
   fireAccessKeyButton(aSubtree, aAccessKeyLower) {
     var iterator = aSubtree.ownerDocument.createTreeWalker(aSubtree,
       NodeFilter.SHOW_ELEMENT,
@@ -123,6 +125,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
     }
     return false;
   }
+
   _handleClick() {
     if (!this.disabled &&
       (this.autoCheck || !this.hasAttribute("autoCheck"))) {

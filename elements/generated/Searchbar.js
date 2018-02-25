@@ -105,6 +105,7 @@ class FirefoxSearchbar extends XULElement {
   get value() {
     return this._textbox.value;
   }
+
   destroy() {
     if (this._initialized) {
       this._initialized = false;
@@ -120,12 +121,15 @@ class FirefoxSearchbar extends XULElement {
     if (this._textboxInitialized && this._textbox.mController.input == this)
       this._textbox.mController.input = null;
   }
+
   focus() {
     this._textbox.focus();
   }
+
   select() {
     this._textbox.select();
   }
+
   observe(aEngine, aTopic, aVerb) {
     if (aTopic == "browser-search-engine-modified") {
       switch (aVerb) {
@@ -148,6 +152,7 @@ class FirefoxSearchbar extends XULElement {
       this.updateDisplay();
     }
   }
+
   /**
    * There are two seaprate lists of search engines, whose uses intersect
    * in this file.  The search service (nsIBrowserSearchService and
@@ -187,6 +192,7 @@ class FirefoxSearchbar extends XULElement {
     }
     BrowserSearch.updateOpenSearchBadge();
   }
+
   /**
    * If the engine that was just added to the searchbox list was
    * autodetected on this page, move it to each browser's hidden list so it is
@@ -211,9 +217,11 @@ class FirefoxSearchbar extends XULElement {
     }
     BrowserSearch.updateOpenSearchBadge();
   }
+
   setIcon(element, uri) {
     element.setAttribute("src", uri);
   }
+
   updateDisplay() {
     var uri = this.currentEngine.iconURI;
     this.setIcon(this, uri ? uri.spec : "");
@@ -223,11 +231,13 @@ class FirefoxSearchbar extends XULElement {
     this._textbox.label = text;
     this._textbox.tooltipText = text;
   }
+
   updateGoButtonVisibility() {
     document.getAnonymousElementByAttribute(this, "anonid",
         "search-go-button")
       .hidden = !this._textbox.value;
   }
+
   openSuggestionsPanel(aShowOnlySettingsIfEmpty) {
     if (this._textbox.open)
       return;
@@ -242,6 +252,7 @@ class FirefoxSearchbar extends XULElement {
       this.setAttribute("showonlysettings", "true");
     }
   }
+
   selectEngine(aEvent, isNextEngine) {
     // Find the new index
     var newIndex = this.engines.indexOf(this.currentEngine);
@@ -256,6 +267,7 @@ class FirefoxSearchbar extends XULElement {
 
     this.openSuggestionsPanel();
   }
+
   handleSearchCommand(aEvent, aEngine, aForceNewTab) {
     var where = "current";
     let params;
@@ -284,6 +296,7 @@ class FirefoxSearchbar extends XULElement {
 
     this.handleSearchCommandWhere(aEvent, aEngine, where, params);
   }
+
   handleSearchCommandWhere(aEvent, aEngine, aWhere, aParams) {
     var textBox = this._textbox;
     var textValue = textBox.value;
@@ -330,6 +343,7 @@ class FirefoxSearchbar extends XULElement {
     if (aWhere == "tab" && aParams && aParams.inBackground)
       this.focus();
   }
+
   doSearch(aData, aWhere, aEngine, aParams, aOneOff) {
     var textBox = this._textbox;
 

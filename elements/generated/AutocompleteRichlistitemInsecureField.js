@@ -45,6 +45,7 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
     }
     return this.__learnMoreString;
   }
+
   /**
    * Override _getSearchTokens to have the Learn More text emphasized
    */

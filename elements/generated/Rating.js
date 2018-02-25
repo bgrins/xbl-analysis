@@ -56,6 +56,7 @@ class FirefoxRating extends XULElement {
       return this.getAttribute("showrating");
     return "average";
   }
+
   _updateStars() {
     var stars = this.stars;
     var rating = this[this.showRating + "Rating"];
@@ -65,6 +66,7 @@ class FirefoxRating extends XULElement {
     for (let i = 0; i < stars.length; i++)
       stars[i].setAttribute("on", rating > i);
   }
+
   _hover(aScore) {
     if (this.showRating != "user")
       return;

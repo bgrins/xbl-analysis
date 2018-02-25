@@ -116,9 +116,11 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     return soundPlayingIcon && soundPlayingIcon.matches(":hover") ||
       (overlayIcon && overlayIcon.matches(":hover") && iconVisible);
   }
+
   updateLastAccessed(aDate) {
     this._lastAccessed = this.selected ? Infinity : (aDate || Date.now());
   }
+
   /**
    * While it would make sense to track this in a field, the field will get nuked
    * once the node is gone from the DOM, which causes us to think the tab is not
@@ -174,6 +176,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     }
     tabContainer.tabbrowser.warmupTab(tabToWarm);
   }
+
   _mouseleave() {
     let tabContainer = this.parentNode;
     if (tabContainer._beforeHoveredTab) {
@@ -191,6 +194,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this.cancelUnselectedTabHoverTimer();
     }
   }
+
   startUnselectedTabHoverTimer() {
     // Only record data when we need to.
     if (!this.linkedBrowser.shouldHandleUnselectedTabHover) {
@@ -206,6 +210,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this._hoverTabTimer = null;
     }
   }
+
   cancelUnselectedTabHoverTimer() {
     // Since we're listening "mouseout" event, instead of "mouseleave".
     // Every time the cursor is moving from the tab to its child node (icon),
@@ -221,18 +226,22 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       }
     }, 100);
   }
+
   finishUnselectedTabHoverTimer() {
     // Stop timer when the tab is opened.
     if (TelemetryStopwatch.running("HOVER_UNTIL_UNSELECTED_TAB_OPENED", this)) {
       TelemetryStopwatch.finish("HOVER_UNTIL_UNSELECTED_TAB_OPENED", this);
     }
   }
+
   startMediaBlockTimer() {
     TelemetryStopwatch.start("TAB_MEDIA_BLOCKING_TIME_MS", this);
   }
+
   finishMediaBlockTimer() {
     TelemetryStopwatch.finish("TAB_MEDIA_BLOCKING_TIME_MS", this);
   }
+
   toggleMuteAudio(aMuteReason) {
     // Do not attempt to toggle mute state if browser is lazy.
     if (!this.linkedPanel) {
@@ -268,6 +277,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     }
     tabContainer.tabbrowser._tabAttrModified(this, modifiedAttrs);
   }
+
   setUserContextId(aUserContextId) {
     if (aUserContextId) {
       if (this.linkedBrowser) {

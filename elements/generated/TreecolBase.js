@@ -29,6 +29,7 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
     }
     return null;
   }
+
   _onDragMouseMove(aEvent) {
     var col = document.treecolDragging;
     if (!col) return;
@@ -90,6 +91,7 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
       col.mTargetDir = pos.value;
     }
   }
+
   _onDragMouseUp(aEvent) {
     var col = document.treecolDragging;
     if (!col) return;
@@ -143,6 +145,7 @@ class FirefoxTreecolBase extends FirefoxTreeBase {
     };
     window.setTimeout(clickHandler, 0, col._onDragMouseClick);
   }
+
   _onDragMouseClick(aEvent) {
     // prevent click event from firing after column drag and drop
     aEvent.stopPropagation();

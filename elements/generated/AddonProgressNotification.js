@@ -35,6 +35,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     });
     return module.DownloadUtils;
   }
+
   destroy() {
     if (!this.notification)
       return;
@@ -44,6 +45,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     }, this);
     clearTimeout(this._updateProgressTimeout);
   }
+
   setProgress(aProgress, aMaxProgress) {
     if (aMaxProgress == -1) {
       this.progressmeter.setAttribute("mode", "undetermined");
@@ -80,6 +82,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
     this.progresstext.setAttribute("value", status);
     this.progresstext.setAttribute("tooltiptext", status);
   }
+
   cancel() {
     let installs = this.notification.options.installs;
     installs.forEach(function(aInstall) {
@@ -92,6 +95,7 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
 
     PopupNotifications.remove(this.notification);
   }
+
   updateProgress() {
     if (!this.notification)
       return;
@@ -124,15 +128,19 @@ class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
       this.setProgress(progress, maxProgress);
     }
   }
+
   onDownloadProgress() {
     this.updateProgress();
   }
+
   onDownloadFailed() {
     this.updateProgress();
   }
+
   onDownloadCancelled() {
     this.updateProgress();
   }
+
   onDownloadEnded() {
     this.updateProgress();
   }

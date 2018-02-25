@@ -238,11 +238,13 @@ class FirefoxFindbar extends XULElement {
     }
     return this._strBundle;
   }
+
   getElement(aAnonymousID) {
     return document.getAnonymousElementByAttribute(this,
       "anonid",
       aAnonymousID);
   }
+
   /**
    * This is necessary because the destructor isn't called when
    * we are removed from a document that is not destroyed. This
@@ -272,6 +274,7 @@ class FirefoxFindbar extends XULElement {
     // Clear all timers that might still be running.
     this._cancelTimers();
   }
+
   _cancelTimers() {
     if (this._flashFindBarTimeout) {
       clearInterval(this._flashFindBarTimeout);
@@ -286,6 +289,7 @@ class FirefoxFindbar extends XULElement {
       this._findResetTimeout = null;
     }
   }
+
   _setFindCloseTimeout() {
     if (this._quickFindTimeout)
       clearTimeout(this._quickFindTimeout);
@@ -303,6 +307,7 @@ class FirefoxFindbar extends XULElement {
       this._quickFindTimeout = null;
     }, this._quickFindTimeoutLength);
   }
+
   /**
    * - Updates the search match count after each find operation on a new string.
    * - @param aRes
@@ -315,6 +320,7 @@ class FirefoxFindbar extends XULElement {
     this.browser.finder.requestMatchesCount(this._findField.value,
       this._findMode == this.FIND_LINKS);
   }
+
   /**
    * - Turns highlight on or off.
    * - @param aHighlight (boolean)
@@ -347,6 +353,7 @@ class FirefoxFindbar extends XULElement {
     // Update the matches count
     this._updateMatchesCount(this.nsITypeAheadFind.FIND_FOUND);
   }
+
   /**
    * - Updates the highlight-all mode of the findbar and its UI.
    * - @param aHighlight (boolean)
@@ -366,6 +373,7 @@ class FirefoxFindbar extends XULElement {
     let checkbox = this.getElement("highlight");
     checkbox.checked = this._highlightAll;
   }
+
   /**
    * - Updates the case-sensitivity mode of the findbar and its UI.
    * - @param [optional] aString
@@ -394,6 +402,7 @@ class FirefoxFindbar extends XULElement {
 
     this.browser.finder.caseSensitive = caseSensitive;
   }
+
   /**
    * - Sets the findbar case-sensitivity mode
    * - @param aCaseSensitivity (int)
@@ -410,6 +419,7 @@ class FirefoxFindbar extends XULElement {
 
     this._dispatchFindEvent("casesensitivitychange");
   }
+
   /**
    * - Updates the entire-word mode of the findbar and its UI.
    */
@@ -429,6 +439,7 @@ class FirefoxFindbar extends XULElement {
 
     this.browser.finder.entireWord = entireWord;
   }
+
   /**
    * - Sets the findbar entire-word mode
    * - @param aEntireWord (boolean)
@@ -444,6 +455,7 @@ class FirefoxFindbar extends XULElement {
     this._findFailedString = null;
     this._find();
   }
+
   /**
    * - Opens and displays the find bar.
    * -
@@ -495,6 +507,7 @@ class FirefoxFindbar extends XULElement {
     }
     return false;
   }
+
   /**
    * - Closes the findbar.
    */
@@ -515,6 +528,7 @@ class FirefoxFindbar extends XULElement {
 
     this._findFailedString = null;
   }
+
   clear() {
     this.browser.finder.removeSelection();
     this._findField.reset();
@@ -522,6 +536,7 @@ class FirefoxFindbar extends XULElement {
     this._updateStatusUI();
     this._enableFindButtons(false);
   }
+
   _dispatchKeypressEvent(aTarget, aEvent) {
     if (!aTarget)
       return;
@@ -533,6 +548,7 @@ class FirefoxFindbar extends XULElement {
       aEvent.charCode);
     aTarget.dispatchEvent(event);
   }
+
   _updateStatusUIBar(aFoundURL) {
     if (!this._xulBrowserWindow) {
       try {
@@ -554,6 +570,7 @@ class FirefoxFindbar extends XULElement {
     this._xulBrowserWindow.setOverLink(aFoundURL || "", null);
     return true;
   }
+
   _finishFAYT(aKeypressEvent) {
     this.browser.finder.focusContent();
 
@@ -565,6 +582,7 @@ class FirefoxFindbar extends XULElement {
     this.close();
     return true;
   }
+
   _shouldBeCaseSensitive(aString) {
     if (this._typeAheadCaseSensitive == 0)
       return false;
@@ -573,6 +591,7 @@ class FirefoxFindbar extends XULElement {
 
     return aString != aString.toLowerCase();
   }
+
   /**
    * We get a fake event object through an IPC message which contains the
    * data we need to make a decision. We then return |true| if and only if
@@ -634,6 +653,7 @@ class FirefoxFindbar extends XULElement {
     }
     return undefined;
   }
+
   /**
    * See nsIMessageListener
    */
@@ -653,6 +673,7 @@ class FirefoxFindbar extends XULElement {
     }
     return undefined;
   }
+
   _updateBrowserWithState() {
     if (this._browser && this._browser.messageManager) {
       this._browser.messageManager.sendAsyncMessage("Findbar:UpdateState", {
@@ -660,10 +681,12 @@ class FirefoxFindbar extends XULElement {
       });
     }
   }
+
   _enableFindButtons(aEnable) {
     this.getElement("find-next").disabled =
       this.getElement("find-previous").disabled = !aEnable;
   }
+
   /**
    * - Determines whether minimalist or general-purpose search UI is to be
    * - displayed when the find bar is activated.
@@ -698,6 +721,7 @@ class FirefoxFindbar extends XULElement {
     else
       this._findField.placeholder = this._normalFindStr;
   }
+
   _find(aValue) {
     if (!this._dispatchFindEvent(""))
       return;
@@ -747,6 +771,7 @@ class FirefoxFindbar extends XULElement {
       this._findResetTimeout = -1;
     }, 1000);
   }
+
   _flash() {
     if (this._flashFindBarCount === undefined)
       this._flashFindBarCount = this._initialFlashFindBarCount;
@@ -762,11 +787,13 @@ class FirefoxFindbar extends XULElement {
       (this._flashFindBarCount % 2 == 0) ?
       "false" : "true");
   }
+
   _findAgain(aFindPrevious) {
     this.browser.finder.findAgain(aFindPrevious,
       this._findMode == this.FIND_LINKS,
       this._findMode != this.FIND_NORMAL);
   }
+
   _updateStatusUI(res, aFindPrevious) {
     switch (res) {
       case this.nsITypeAheadFind.FIND_WRAPPED:
@@ -793,11 +820,13 @@ class FirefoxFindbar extends XULElement {
         break;
     }
   }
+
   updateControlState(aResult, aFindPrevious) {
     this._updateStatusUI(aResult, aFindPrevious);
     this._enableFindButtons(aResult !== this.nsITypeAheadFind.FIND_NOTFOUND &&
       !!this._findField.value);
   }
+
   _dispatchFindEvent(aType, aFindPrevious) {
     let event = document.createEvent("CustomEvent");
     event.initCustomEvent("find" + aType, true, true, {
@@ -809,6 +838,7 @@ class FirefoxFindbar extends XULElement {
     });
     return this.dispatchEvent(event);
   }
+
   /**
    * - Opens the findbar, focuses the findfield and selects its contents.
    * - Also flashes the findbar the first time it's used.
@@ -859,6 +889,7 @@ class FirefoxFindbar extends XULElement {
     this.onCurrentSelection("", true);
     return startFindPromise;
   }
+
   /**
    * - Convenient alias to startFind(gFindBar.FIND_NORMAL);
    * -
@@ -868,6 +899,7 @@ class FirefoxFindbar extends XULElement {
   onFindCommand() {
     return this.startFind(this.FIND_NORMAL);
   }
+
   /**
    * - Stub for find-next and find-previous commands
    * - @param aFindPrevious
@@ -901,6 +933,7 @@ class FirefoxFindbar extends XULElement {
 
     return undefined;
   }
+
   /**
    * - This handles all the result changes for both
    * - type-ahead-find and highlighting.
@@ -933,6 +966,7 @@ class FirefoxFindbar extends XULElement {
     if (this._findMode != this.FIND_NORMAL)
       this._setFindCloseTimeout();
   }
+
   /**
    * - This handles all the result changes for matches counts.
    * - @param aResult
@@ -959,9 +993,11 @@ class FirefoxFindbar extends XULElement {
       this._foundMatches.value = "";
     }
   }
+
   onHighlightFinished(result) {
     // Noop.
   }
+
   onCurrentSelection(aSelectionString, aIsInitialSelection) {
     // Ignore the prefill if the user has already typed in the findbar,
     // it would have been overwritten anyway. See bug 1198465.
@@ -986,6 +1022,7 @@ class FirefoxFindbar extends XULElement {
       this._startFindDeferred = null;
     }
   }
+
   /**
    * - This handler may cancel a request to focus content by returning |false|
    * - explicitly.

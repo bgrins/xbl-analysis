@@ -19,6 +19,7 @@ class FirefoxCreatorLink extends XULElement {
 
     this._setupEventListeners();
   }
+
   setCreator(aCreator, aHomepageURL) {
     if (!aCreator) {
       this.collapsed = true;

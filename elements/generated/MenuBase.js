@@ -33,12 +33,14 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
     }
     return null;
   }
+
   /**
    * nsIDOMXULContainerElement interface
    */
   appendItem(aLabel, aValue) {
     return this.insertItemAt(-1, aLabel, aValue);
   }
+
   insertItemAt(aIndex, aLabel, aValue) {
     const XUL_NS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
@@ -58,6 +60,7 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
       return menupopup.insertBefore(menuitem, before);
     return menupopup.appendChild(menuitem);
   }
+
   removeItemAt(aIndex) {
     var menupopup = this.menupopup;
     if (menupopup) {
@@ -67,6 +70,7 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
     }
     return null;
   }
+
   getIndexOfItem(aItem) {
     var menupopup = this.menupopup;
     if (menupopup) {
@@ -79,6 +83,7 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
     }
     return -1;
   }
+
   getItemAtIndex(aIndex) {
     var menupopup = this.menupopup;
     if (!menupopup || aIndex < 0 || aIndex >= menupopup.childNodes.length)

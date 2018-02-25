@@ -193,6 +193,7 @@ class FirefoxMarquee extends XULElement {
   get width() {
     return this.getAttribute('width');
   }
+
   _set_scrollDelay(aValue) {
     aValue = parseInt(aValue);
     if (aValue <= 0) {
@@ -209,6 +210,7 @@ class FirefoxMarquee extends XULElement {
       this._scrollDelay = aValue;
     }
   }
+
   _set_scrollAmount(aValue) {
     aValue = parseInt(aValue);
     if (isNaN(aValue)) {
@@ -219,6 +221,7 @@ class FirefoxMarquee extends XULElement {
       this._scrollAmount = aValue;
     }
   }
+
   _set_behavior(aValue) {
     if (typeof aValue == 'string') {
       aValue = aValue.toLowerCase();
@@ -229,6 +232,7 @@ class FirefoxMarquee extends XULElement {
       this._behavior = aValue;
     }
   }
+
   _set_direction(aValue) {
     if (typeof aValue == 'string') {
       aValue = aValue.toLowerCase();
@@ -242,6 +246,7 @@ class FirefoxMarquee extends XULElement {
     }
     this._direction = aValue;
   }
+
   _set_loop(aValue) {
     var aValue = parseInt(aValue);
     if (aValue == 0) {
@@ -252,6 +257,7 @@ class FirefoxMarquee extends XULElement {
     }
     this._loop = aValue;
   }
+
   _setEventListener(aName, aValue, aIgnoreNextCall) {
     // _setEventListener is only used for setting the attribute event
     // handlers, which we want to ignore if our document is sandboxed
@@ -308,11 +314,13 @@ class FirefoxMarquee extends XULElement {
     }
     return true;
   }
+
   _fireEvent(aName, aBubbles, aCancelable) {
     var e = document.createEvent("Events");
     e.initEvent(aName, aBubbles, aCancelable);
     this.dispatchEvent(e);
   }
+
   start() {
     if (this.runId == 0) {
       var myThis = this;
@@ -321,6 +329,7 @@ class FirefoxMarquee extends XULElement {
       this._deltaStartStop = 0;
     }
   }
+
   stop() {
     if (this.runId != 0) {
       this._deltaStartStop = Date.now() - this._lastMoveDate;
@@ -329,6 +338,7 @@ class FirefoxMarquee extends XULElement {
 
     this.runId = 0;
   }
+
   _doMove(aResetPosition) {
     this._lastMoveDate = Date.now();
 
@@ -463,6 +473,7 @@ class FirefoxMarquee extends XULElement {
     var lambda = function myTimeOutFunction() { myThis._doMove(false); }
     this.runId = window.setTimeout(lambda, this._scrollDelay);
   }
+
   init() {
     this.stop();
 
@@ -487,6 +498,7 @@ class FirefoxMarquee extends XULElement {
 
     this._doMove(true);
   }
+
   _mutationActor(aMutations) {
     while (aMutations.length > 0) {
       var mutation = aMutations.shift();

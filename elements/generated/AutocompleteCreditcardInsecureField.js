@@ -22,6 +22,7 @@ class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProf
   get selected() {
     return this.getAttribute('selected') == 'true';
   }
+
   _adjustAcItem() {
     this._adjustAutofillItemLayout();
     this.setAttribute("formautofillattached", "true");

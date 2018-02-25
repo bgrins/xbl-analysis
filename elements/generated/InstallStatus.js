@@ -28,6 +28,7 @@ class FirefoxInstallStatus extends XULElement {
 
     this._setupEventListeners();
   }
+
   initWithInstall(aInstall) {
     if (this.mInstall) {
       this.mInstall.removeListener(this);
@@ -38,6 +39,7 @@ class FirefoxInstallStatus extends XULElement {
     this.refreshState();
     this.mInstall.addListener(this);
   }
+
   refreshState() {
     var showInstallRemote = false;
 
@@ -83,6 +85,7 @@ class FirefoxInstallStatus extends XULElement {
     if ("refreshInfo" in this.mControl)
       this.mControl.refreshInfo();
   }
+
   showMessage(aMsgId, aHideProgress) {
     this._message.setAttribute("hidden", !aHideProgress);
     this._progress.setAttribute("hidden", !!aHideProgress);
@@ -93,6 +96,7 @@ class FirefoxInstallStatus extends XULElement {
     else
       this._progress.status = msg;
   }
+
   installRemote() {
     if (this.mControl.getAttribute("remote") != "true")
       return;
@@ -138,6 +142,7 @@ class FirefoxInstallStatus extends XULElement {
     }
     this.mInstall.install();
   }
+
   undoAction() {
     if (!this.mAddon)
       return;
@@ -148,28 +153,35 @@ class FirefoxInstallStatus extends XULElement {
       this.mAddon.userDisabled = false;
     this.refreshState();
   }
+
   onDownloadStarted() {
     this.refreshState();
   }
+
   onDownloadEnded() {
     this.refreshState();
   }
+
   onDownloadFailed() {
     this.refreshState();
   }
+
   onDownloadProgress() {
     this._progress.maxProgress = this.mInstall.maxProgress;
     this._progress.progress = this.mInstall.progress;
   }
+
   onInstallStarted() {
     this._progress.progress = 0;
     this.refreshState();
   }
+
   onInstallEnded() {
     this.refreshState();
     if ("onInstallCompleted" in this.mControl)
       this.mControl.onInstallCompleted();
   }
+
   onInstallFailed() {
     this.refreshState();
   }

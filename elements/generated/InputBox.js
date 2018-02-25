@@ -21,6 +21,7 @@ class FirefoxInputBox extends XULElement {
 
     this._setupEventListeners();
   }
+
   _doPopupItemEnabling(popupNode) {
     var children = popupNode.childNodes;
     for (var i = 0; i < children.length; i++) {
@@ -35,10 +36,12 @@ class FirefoxInputBox extends XULElement {
       }
     }
   }
+
   _setMenuItemVisibility(anonid, visible) {
     document.getAnonymousElementByAttribute(this, "anonid", anonid).
     hidden = !visible;
   }
+
   doCommand(command) {
     var controller = document.commandDispatcher.getControllerForCommand(command);
     controller.doCommand(command);

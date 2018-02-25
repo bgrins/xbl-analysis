@@ -236,6 +236,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
   get includeUpdate() {
     return this._includeUpdate.checked && !!this.mManualUpdate;
   }
+
   _initWithAddon(aAddon) {
     this.mAddon = aAddon;
 
@@ -281,6 +282,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       });
     }
   }
+
   _showStatus(aType) {
     this._controlContainer.hidden = aType != "none" &&
       !(aType == "update-available" && !this.hasAttribute("upgrade"));
@@ -294,6 +296,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       this.mManualUpdate.releaseNotesURI :
       this.mAddon.releaseNotesURI);
   }
+
   _updateDates() {
     function formatDate(aDate) {
       const dtOptions = { year: "numeric", month: "long", day: "numeric" };
@@ -305,6 +308,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     else
       this._dateUpdated.value = this._dateUpdated.getAttribute("unknown");
   }
+
   _updateState() {
     if (this.parentNode.selectedItem == this)
       gViewController.updateCommands();
@@ -527,6 +531,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       }
     }
   }
+
   _fetchReleaseNotes(aURI) {
     if (!aURI || this._relNotesLoaded) {
       sendToggleEvent();
@@ -604,6 +609,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     styleReq.addEventListener("error", handleError);
     styleReq.send(null);
   }
+
   toggleReleaseNotes() {
     if (this.hasAttribute("show-relnotes")) {
       this._relNotesContainer.style.height = "0px";
@@ -637,12 +643,15 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       this._fetchReleaseNotes(uri);
     }
   }
+
   restart() {
     gViewController.commands.cmd_restartApp.doCommand();
   }
+
   undo() {
     gViewController.commands.cmd_cancelOperation.doCommand(this.mAddon);
   }
+
   uninstall() {
     // If uninstalling does not require a restart and the type doesn't
     // support undoing of restartless uninstalls, then we fake it by
@@ -661,14 +670,17 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       this.mAddon.uninstall(true);
     }
   }
+
   showPreferences() {
     gViewController.doCommand("cmd_showItemPreferences", this.mAddon);
   }
+
   upgrade() {
     var install = this.mManualUpdate;
     delete this.mManualUpdate;
     install.install();
   }
+
   retryInstall() {
     var install = this._installStatus.mInstall;
     if (!install)
@@ -678,54 +690,68 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       return;
     install.install();
   }
+
   showInDetailView() {
     gViewController.loadView("addons://detail/" +
       encodeURIComponent(this.mAddon.id));
   }
+
   findReplacement() {
     let url = (this.mAddon.type == "theme") ?
       SUPPORT_URL + "complete-themes" :
       `https://addons.mozilla.org/find-replacement/?guid=${this.mAddon.id}`;
     openURL(url);
   }
+
   onIncludeUpdateChanged() {
     var event = document.createEvent("Events");
     event.initEvent("IncludeUpdateChanged", true, true);
     this.dispatchEvent(event);
   }
+
   onEnabling() {
     this._updateState();
   }
+
   onEnabled() {
     this._updateState();
   }
+
   onDisabling() {
     this._updateState();
   }
+
   onDisabled() {
     this._updateState();
   }
+
   onUninstalling(aRestartRequired) {
     this._updateState();
   }
+
   onOperationCancelled() {
     this._updateState();
   }
+
   onPropertyChanged(aProperties) {
     if (aProperties.includes("appDisabled") ||
       aProperties.includes("signedState") ||
       aProperties.includes("userDisabled"))
       this._updateState();
   }
+
   onNoUpdateAvailable() {
     this._showStatus("none");
   }
+
   onCheckingUpdate() {
     this._showStatus("checking-update");
   }
+
   onCompatibilityUpdateAvailable() {
     this._updateState();
   }
+
   onExternalInstall(aAddon, aExistingAddon, aNeedsRestart) {
     if (aExistingAddon.id != this.mAddon.id)
       return;
@@ -737,6 +763,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     else
       this._updateState();
   }
+
   onNewInstall(aInstall) {
     if (this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_ENABLE)
       return;
@@ -747,16 +774,19 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     this.mManualUpdate = aInstall;
     this._showStatus("update-available");
   }
+
   onDownloadStarted(aInstall) {
     this._updateState();
     this._showStatus("progress");
     this._installStatus.initWithInstall(aInstall);
   }
+
   onInstallStarted(aInstall) {
     this._updateState();
     this._showStatus("progress");
     this._installStatus.initWithInstall(aInstall);
   }
+
   onInstallEnded(aInstall, aAddon) {
     // If the install completed without needing a restart then switch to
     // using the new Addon
@@ -765,12 +795,15 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     else
       this._updateState();
   }
+
   onDownloadFailed() {
     this._updateState();
   }
+
   onInstallFailed() {
     this._updateState();
   }
+
   onInstallCancelled() {
     this._updateState();
   }

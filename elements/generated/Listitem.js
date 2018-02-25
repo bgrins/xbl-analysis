@@ -70,6 +70,7 @@ class FirefoxListitem extends FirefoxBasetext {
     }
     return null;
   }
+
   _fireEvent(name) {
     var event = document.createEvent("Events");
     event.initEvent(name, true, true);

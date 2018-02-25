@@ -44,12 +44,14 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
 
     this._setupEventListeners();
   }
+
   notify(aTimer) {
     if (!document)
       aTimer.cancel();
 
     this.scrollByIndex(this._scrollIndex);
   }
+
   _startScroll(index) {
     if (this._isRTLScrollbox)
       index *= -1;
@@ -72,6 +74,7 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       this._scrollTimer.TYPE_REPEATING_SLACK);
     this.notify(this._scrollTimer);
   }
+
   _stopScroll() {
     if (this._scrollTimer)
       this._scrollTimer.cancel();
@@ -84,6 +87,7 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
 
     this._arrowScrollAnim.stop();
   }
+
   _pauseScroll() {
     if (this._mousedown) {
       this._stopScroll();
@@ -92,10 +96,12 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       document.addEventListener("blur", this, true);
     }
   }
+
   _continueScroll(index) {
     if (this._mousedown)
       this._startScroll(index);
   }
+
   handleEvent(aEvent) {
     if (aEvent.type == "mouseup" ||
       aEvent.type == "blur" && aEvent.target == document) {
@@ -104,6 +110,7 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
       document.removeEventListener("blur", this, true);
     }
   }
+
   _distanceScroll(aEvent) {
     if (aEvent.detail < 2 || aEvent.detail > 3)
       return;

@@ -70,6 +70,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
     var max = this.getAttribute("max");
     return max ? Number(max) : Infinity;
   }
+
   _validateValue(aValue) {
     aValue = Number(aValue) || 0;
     aValue = Math.round(aValue);
@@ -87,6 +88,7 @@ class FirefoxNumberbox extends FirefoxTextbox {
 
     return aValue;
   }
+
   _fireChange() {
     var evt = document.createEvent("Events");
     evt.initEvent("change", true, true);

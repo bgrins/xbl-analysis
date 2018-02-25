@@ -53,9 +53,11 @@ class FirefoxCustomizableuiToolbarMenubarAutohide extends FirefoxToolbar {
 
     this._setupEventListeners();
   }
+
   _setInactive() {
     this.setAttribute("inactive", "true");
   }
+
   _setInactiveAsync() {
     this._inactiveTimeout = setTimeout(function(self) {
       if (self.getAttribute("autohide") == "true") {
@@ -64,6 +66,7 @@ class FirefoxCustomizableuiToolbarMenubarAutohide extends FirefoxToolbar {
       }
     }, 0, this);
   }
+
   _setActive() {
     if (this._inactiveTimeout) {
       clearTimeout(this._inactiveTimeout);

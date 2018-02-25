@@ -118,6 +118,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   get visible() {
     return !this._container.collapsed;
   }
+
   updateSessionRestoreVisibility() {
     let { restoreTabsButton, restoreTabsButtonWrapperWidth, windowUtils } = this;
     let restoreTabsButtonWrapper = restoreTabsButton.parentNode;
@@ -149,6 +150,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       restoreTabsButtonWrapper.removeAttribute("shown");
     }
   }
+
   observe(aSubject, aTopic, aData) {
     switch (aTopic) {
       case "nsPref:changed":
@@ -206,6 +208,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         break;
     }
   }
+
   _setPositionalAttributes() {
     let visibleTabs = this.tabbrowser.visibleTabs;
 
@@ -249,6 +252,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       hoveredTab._mouseenter();
     }
   }
+
   _propagateVisibility() {
     let visible = this.visible;
 
@@ -258,12 +262,14 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     TabsInTitlebar.allowedBy("tabs-visible", visible);
   }
+
   updateVisibility() {
     if (this.childNodes.length - this.tabbrowser._removingTabs.length == 1)
       this.visible = window.toolbar.visible;
     else
       this.visible = true;
   }
+
   _updateCloseButtons() {
     // If we're overflowing, tabs are at their minimum widths.
     if (this.getAttribute("overflow") == "true") {
@@ -306,12 +312,14 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       });
     });
   }
+
   _handleTabSelect(aInstant) {
     if (this.getAttribute("overflow") == "true")
       this.arrowScrollbox.ensureElementIsVisible(this.selectedItem, aInstant);
 
     this.selectedItem._notselectedsinceload = false;
   }
+
   /**
    * Try to keep the active tab's close button under the mouse cursor
    */
@@ -371,6 +379,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       window.addEventListener("mouseout", this);
     }
   }
+
   _expandSpacerBy(pixels) {
     let spacer = this._closingTabsSpacer;
     spacer.style.width = parseFloat(spacer.style.width) + pixels + "px";
@@ -378,6 +387,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this.tabbrowser.addEventListener("mousemove", this);
     window.addEventListener("mouseout", this);
   }
+
   _unlockTabSizing() {
     this.tabbrowser.removeEventListener("mousemove", this);
     window.removeEventListener("mouseout", this);
@@ -394,11 +404,13 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       this._closingTabsSpacer.style.width = 0;
     }
   }
+
   uiDensityChanged() {
     this._positionPinnedTabs();
     this._updateCloseButtons();
     this._handleTabSelect(true);
   }
+
   _positionPinnedTabs() {
     var numPinned = this.tabbrowser._numPinnedTabs;
     var doPosition = this.getAttribute("overflow") == "true" &&
@@ -445,6 +457,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       this._handleTabSelect(true);
     }
   }
+
   _animateTabMove(event) {
     let draggedTab = event.dataTransfer.mozGetDataAt(TAB_DROP_TYPE, 0);
 
@@ -543,6 +556,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       return 0;
     }
   }
+
   _finishAnimateTabMove() {
     if (this.getAttribute("movingtab") != "true")
       return;
@@ -555,6 +569,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     this._handleTabSelect();
   }
+
   handleEvent(aEvent) {
     switch (aEvent.type) {
       case "DOMContentLoaded":
@@ -582,6 +597,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         break;
     }
   }
+
   _notifyBackgroundTab(aTab) {
     if (aTab.pinned || aTab.hidden)
       return;
@@ -620,6 +636,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       }, 150, this._animateElement);
     }
   }
+
   _getDragTargetTab(event, isLink) {
     let tab = event.target.localName == "tab" ? event.target : null;
     if (tab && isLink) {
@@ -630,6 +647,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     }
     return tab;
   }
+
   _getDropIndex(event, isLink) {
     var tabs = this.childNodes;
     var tab = this._getDragTargetTab(event, isLink);
@@ -644,6 +662,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     }
     return tabs.length;
   }
+
   _getDropEffectForTabDrag(event) {
     var dt = event.dataTransfer;
     if (dt.mozItemCount == 1) {
@@ -676,6 +695,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     }
     return "none";
   }
+
   _handleNewTab(tab) {
     if (tab.parentNode != this)
       return;
@@ -700,9 +720,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     // Preload the next about:newtab if there isn't one already.
     this.tabbrowser._createPreloadBrowser();
   }
+
   _canAdvanceToTab(aTab) {
     return !aTab.closing;
   }
+
   getRelatedElement(aTab) {
     if (!aTab)
       return null;

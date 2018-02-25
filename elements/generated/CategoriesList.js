@@ -4,6 +4,7 @@ class FirefoxCategoriesList extends FirefoxRichlistbox {
 
     this._setupEventListeners();
   }
+
   /**
    * This needs to be overridden to allow the fancy animation while not
    * allowing that item to be selected when hiding.

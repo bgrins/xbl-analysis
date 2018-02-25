@@ -360,10 +360,12 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   get highlightNonMatches() {
     return this.getAttribute('highlightnonmatches') == 'true';
   }
+
   getSearchAt(aIndex) {
     this.initSearchNames();
     return this.mSearchNames[aIndex];
   }
+
   setTextValueWithReason(aValue, aReason) {
     if (aReason == Components.interfaces.nsIAutoCompleteInput
       .TEXTVALUE_REASON_COMPLETEDEFAULT) {
@@ -372,15 +374,18 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.textValue = aValue;
     this._disableTrim = false;
   }
+
   selectTextRange(aStartIndex, aEndIndex) {
     this.inputField.setSelectionRange(aStartIndex, aEndIndex);
   }
+
   onSearchBegin() {
     if (this.popup && typeof this.popup.onSearchBegin == "function")
       this.popup.onSearchBegin();
     if (this._searchBeginHandler)
       this._searchBeginHandler();
   }
+
   onSearchComplete() {
     if (this.mController.matchCount == 0)
       this.setAttribute("nomatch", "true");
@@ -395,6 +400,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     if (this._searchCompleteHandler)
       this._searchCompleteHandler();
   }
+
   onTextEntered(event) {
     let rv = false;
     if (this._textEnteredHandler) {
@@ -402,21 +408,25 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     }
     return rv;
   }
+
   onTextReverted() {
     if (this._textRevertedHandler)
       return this._textRevertedHandler();
     return false;
   }
+
   /**
    * =================== PRIVATE MEMBERS ===================  ::::::::::::: autocomplete controller :::::::::::::
    */
   attachController() {
     this.mController.input = this;
   }
+
   detachController() {
     if (this.mController.input == this)
       this.mController.input = null;
   }
+
   /**
    * ::::::::::::: popup opening :::::::::::::
    */
@@ -424,9 +434,11 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     if (this.focused)
       this.popup.openAutocompletePopup(this, this);
   }
+
   closePopup() {
     this.popup.closePopup();
   }
+
   showHistoryPopup() {
     // Store our "normal" maxRows on the popup, so that it can reset the
     // value when the popup is hidden.
@@ -443,12 +455,14 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     this.attachController();
     this.mController.startSearch("");
   }
+
   toggleHistoryPopup() {
     if (!this.popup.popupOpen)
       this.showHistoryPopup();
     else
       this.closePopup();
   }
+
   /**
    * ::::::::::::: event dispatching :::::::::::::
    */
@@ -459,9 +473,11 @@ class FirefoxAutocomplete extends FirefoxTextbox {
     }
     return null;
   }
+
   onKeyPress(aEvent) {
     return this.handleKeyPress(aEvent);
   }
+
   handleKeyPress(aEvent) {
     if (aEvent.target.localName != "textbox")
       return true; // Let child buttons of autocomplete take input
@@ -557,12 +573,15 @@ class FirefoxAutocomplete extends FirefoxTextbox {
 
     return true;
   }
+
   handleEnter(event) {
     return this.mController.handleEnter(false, event || null);
   }
+
   handleDelete() {
     return this.mController.handleDelete();
   }
+
   /**
    * ::::::::::::: miscellaneous :::::::::::::
    */
@@ -575,16 +594,19 @@ class FirefoxAutocomplete extends FirefoxTextbox {
         this.mSearchNames = names.split(" ");
     }
   }
+
   _focus() {
     this._dontBlur = true;
     this.focus();
     this._dontBlur = false;
   }
+
   resetActionType() {
     if (this.mIgnoreInput)
       return;
     this.removeAttribute("actiontype");
   }
+
   onInput(aEvent) {
     if (!this.mIgnoreInput && this.mController.input == this) {
       this.valueIsTyped = true;

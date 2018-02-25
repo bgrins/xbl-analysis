@@ -11,6 +11,7 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
     return this._findbar ?
       this._findbar : this._findbar = document.getBindingParent(this);
   }
+
   _handleEnter(aEvent) {
     if (this.findbar._findMode == this.findbar.FIND_NORMAL) {
       let findString = this.findbar._findField;
@@ -26,6 +27,7 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
       this.findbar._finishFAYT(aEvent);
     }
   }
+
   _handleTab(aEvent) {
     let shouldHandle = !aEvent.altKey && !aEvent.ctrlKey &&
       !aEvent.metaKey;

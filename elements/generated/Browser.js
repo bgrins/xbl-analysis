@@ -546,6 +546,7 @@ class FirefoxBrowser extends XULElement {
   get dontPromptAndUnload() {
     return 2;
   }
+
   _wrapURIChangeCall(fn) {
     if (!this.isRemoteBrowser) {
       this.inLoadURI = true;
@@ -558,29 +559,35 @@ class FirefoxBrowser extends XULElement {
       fn();
     }
   }
+
   goBack() {
     var webNavigation = this.webNavigation;
     if (webNavigation.canGoBack)
       this._wrapURIChangeCall(() => webNavigation.goBack());
   }
+
   goForward() {
     var webNavigation = this.webNavigation;
     if (webNavigation.canGoForward)
       this._wrapURIChangeCall(() => webNavigation.goForward());
   }
+
   reload() {
     const nsIWebNavigation = Components.interfaces.nsIWebNavigation;
     const flags = nsIWebNavigation.LOAD_FLAGS_NONE;
     this.reloadWithFlags(flags);
   }
+
   reloadWithFlags(aFlags) {
     this.webNavigation.reload(aFlags);
   }
+
   stop() {
     const nsIWebNavigation = Components.interfaces.nsIWebNavigation;
     const flags = nsIWebNavigation.STOP_ALL;
     this.webNavigation.stop(flags);
   }
+
   /**
    * throws exception for unknown schemes
    */
@@ -590,6 +597,7 @@ class FirefoxBrowser extends XULElement {
     this._wrapURIChangeCall(() =>
       this.loadURIWithFlags(aURI, flags, aReferrerURI, aCharset));
   }
+
   /**
    * throws exception for unknown schemes
    */
@@ -620,14 +628,17 @@ class FirefoxBrowser extends XULElement {
         aURI, aFlags, aReferrerURI, aReferrerPolicy,
         aPostData, null, null, aTriggeringPrincipal));
   }
+
   goHome() {
     try {
       this.loadURI(this.homePage);
     } catch (e) {}
   }
+
   gotoIndex(aIndex) {
     this._wrapURIChangeCall(() => this.webNavigation.gotoIndex(aIndex));
   }
+
   /**
    * Used by session restore to ensure that currentURI is set so
    * that switch-to-tab works before the tab is fully
@@ -637,9 +648,11 @@ class FirefoxBrowser extends XULElement {
   _setCurrentURI(aURI) {
     this.docShell.setCurrentURI(aURI);
   }
+
   preserveLayers(preserve) {
     // Only useful for remote browsers.
   }
+
   getTabBrowser() {
     if (this.ownerGlobal.gBrowser &&
       this.ownerGlobal.gBrowser.getTabForBrowser &&
@@ -648,15 +661,18 @@ class FirefoxBrowser extends XULElement {
     }
     return null;
   }
+
   addProgressListener(aListener, aNotifyMask) {
     if (!aNotifyMask) {
       aNotifyMask = Components.interfaces.nsIWebProgress.NOTIFY_ALL;
     }
     this.webProgress.addProgressListener(aListener, aNotifyMask);
   }
+
   removeProgressListener(aListener) {
     this.webProgress.removeProgressListener(aListener);
   }
+
   findChildShell(aDocShell, aSoughtURI) {
     if (aDocShell.QueryInterface(Components.interfaces.nsIWebNavigation)
       .currentURI.spec == aSoughtURI.spec)
@@ -671,6 +687,7 @@ class FirefoxBrowser extends XULElement {
     }
     return null;
   }
+
   onPageHide(aEvent) {
     // Delete the feeds cache if we're hiding the topmost page
     // (as opposed to one of its iframes).
@@ -683,11 +700,13 @@ class FirefoxBrowser extends XULElement {
       tabBrowser.selectedBrowser == this)
       this.fastFind.setDocShell(this.docShell);
   }
+
   updateBlockedPopups() {
     let event = document.createEvent("Events");
     event.initEvent("DOMUpdatePageReport", true, true);
     this.dispatchEvent(event);
   }
+
   retrieveListOfBlockedPopups() {
     this.messageManager.sendAsyncMessage("PopupBlocking:GetBlockedPopupList", null);
     return new Promise(resolve => {
@@ -701,9 +720,11 @@ class FirefoxBrowser extends XULElement {
       );
     });
   }
+
   unblockPopup(aPopupIndex) {
     this.messageManager.sendAsyncMessage("PopupBlocking:UnblockPopup", { index: aPopupIndex });
   }
+
   audioPlaybackStarted() {
     if (this._audioMuted) {
       return;
@@ -712,11 +733,13 @@ class FirefoxBrowser extends XULElement {
     event.initEvent("DOMAudioPlaybackStarted", true, false);
     this.dispatchEvent(event);
   }
+
   audioPlaybackStopped() {
     let event = document.createEvent("Events");
     event.initEvent("DOMAudioPlaybackStopped", true, false);
     this.dispatchEvent(event);
   }
+
   /**
    * When the pref "media.block-autoplay-until-in-foreground" is on, all
    * windows would be blocked by default in gecko. The "block" means the
@@ -736,6 +759,7 @@ class FirefoxBrowser extends XULElement {
     event.initEvent("DOMAudioPlaybackBlockStarted", true, false);
     this.dispatchEvent(event);
   }
+
   activeMediaBlockStopped() {
     if (!this._hasAnyPlayingMediaBeenBlocked) {
       return;
@@ -745,19 +769,23 @@ class FirefoxBrowser extends XULElement {
     event.initEvent("DOMAudioPlaybackBlockStopped", true, false);
     this.dispatchEvent(event);
   }
+
   mediaBlockStopped() {
     this._mediaBlocked = false;
   }
+
   mute(transientState) {
     if (!transientState) {
       this._audioMuted = true;
     }
     this.messageManager.sendAsyncMessage("AudioPlayback", { type: "mute" });
   }
+
   unmute() {
     this._audioMuted = false;
     this.messageManager.sendAsyncMessage("AudioPlayback", { type: "unmute" });
   }
+
   pauseMedia(disposable) {
     let suspendedReason;
     if (disposable) {
@@ -768,9 +796,11 @@ class FirefoxBrowser extends XULElement {
 
     this.messageManager.sendAsyncMessage("AudioPlayback", { type: suspendedReason });
   }
+
   stopMedia() {
     this.messageManager.sendAsyncMessage("AudioPlayback", { type: "mediaControlStopped" });
   }
+
   resumeMedia() {
     this._mediaBlocked = false;
     this.messageManager.sendAsyncMessage("AudioPlayback", { type: "resumeMedia" });
@@ -781,16 +811,19 @@ class FirefoxBrowser extends XULElement {
       this.dispatchEvent(event);
     }
   }
+
   unselectedTabHover(hovered) {
     if (!this._shouldSendUnselectedTabHover) {
       return;
     }
     this.messageManager.sendAsyncMessage("Browser:UnselectedTabHover", { hovered });
   }
+
   didStartLoadSinceLastUserTyping() {
     return !this.inLoadURI &&
       this.urlbarChangeTracker._startedLoadSinceLastUserTyping;
   }
+
   /**
    * This is necessary because the destructor doesn't always get called when
    * we are removed from a tabbrowser. This will be explicitly called by tabbrowser.
@@ -835,6 +868,7 @@ class FirefoxBrowser extends XULElement {
       this._autoScrollPopup.remove();
     }
   }
+
   /**
    * We call this _receiveMessage (and alias receiveMessage to it) so that
    * bindings that inherit from this one can delegate to it.
@@ -932,9 +966,11 @@ class FirefoxBrowser extends XULElement {
     }
     return undefined;
   }
+
   receiveMessage(aMessage) {
     return this._receiveMessage(aMessage);
   }
+
   observe(aSubject, aTopic, aState) {
     if (aTopic == "browser:purge-session-history") {
       this.purgeSessionHistory();
@@ -950,13 +986,16 @@ class FirefoxBrowser extends XULElement {
       }
     }
   }
+
   purgeSessionHistory() {
     this.messageManager.sendAsyncMessage("Browser:PurgeSessionHistory");
   }
+
   createAboutBlankContentViewer(aPrincipal) {
     let principal = BrowserUtils.principalWithMatchingOA(aPrincipal, this.contentPrincipal);
     this.docShell.createAboutBlankContentViewer(principal);
   }
+
   stopScroll() {
     if (this._scrolling) {
       this._scrolling = false;
@@ -989,6 +1028,7 @@ class FirefoxBrowser extends XULElement {
       }
     }
   }
+
   _createAutoScrollPopup() {
     const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var popup = document.createElementNS(XUL_NS, "panel");
@@ -1000,6 +1040,7 @@ class FirefoxBrowser extends XULElement {
     popup.setAttribute("hidden", "true");
     return popup;
   }
+
   startScroll(scrolldir, screenX, screenY) {
     const POPUP_SIZE = 28;
     if (!this._autoScrollPopup) {
@@ -1076,6 +1117,7 @@ class FirefoxBrowser extends XULElement {
     window.addEventListener("keypress", this, true);
     window.addEventListener("keyup", this, true);
   }
+
   handleEvent(aEvent) {
     if (this._scrolling) {
       switch (aEvent.type) {
@@ -1135,6 +1177,7 @@ class FirefoxBrowser extends XULElement {
       }
     }
   }
+
   closeBrowser() {
     // The request comes from a XPCOM component, we'd want to redirect
     // the request to tabbrowser.
@@ -1149,6 +1192,7 @@ class FirefoxBrowser extends XULElement {
 
     throw new Error("Closing a browser which was not attached to a tabbrowser is unsupported.");
   }
+
   swapBrowsers(aOtherBrowser, aFlags) {
     // The request comes from a XPCOM component, we'd want to redirect
     // the request to tabbrowser so tabbrowser will be setup correctly,
@@ -1165,6 +1209,7 @@ class FirefoxBrowser extends XULElement {
     // One of us is not connected to a tabbrowser, so just swap.
     this.swapDocShells(aOtherBrowser);
   }
+
   swapDocShells(aOtherBrowser) {
     if (this.isRemoteBrowser != aOtherBrowser.isRemoteBrowser)
       throw new Error("Can only swap docshells between browsers in the same process.");
@@ -1273,6 +1318,7 @@ class FirefoxBrowser extends XULElement {
     event = new CustomEvent("EndSwapDocShells", { "detail": this });
     aOtherBrowser.dispatchEvent(event);
   }
+
   getInPermitUnload(aCallback) {
     if (!this.docShell || !this.docShell.contentViewer) {
       aCallback(false);
@@ -1280,6 +1326,7 @@ class FirefoxBrowser extends XULElement {
     }
     aCallback(this.docShell.contentViewer.inPermitUnload);
   }
+
   permitUnload(aPermitUnloadFlags) {
     if (!this.docShell || !this.docShell.contentViewer) {
       return { permitUnload: true, timedOut: false };
@@ -1289,6 +1336,7 @@ class FirefoxBrowser extends XULElement {
       timedOut: false
     };
   }
+
   print(aOuterWindowID, aPrintSettings, aPrintProgressListener) {
     if (!this.frameLoader) {
       throw Components.Exception("No frame loader.",
@@ -1298,6 +1346,7 @@ class FirefoxBrowser extends XULElement {
     this.frameLoader.print(aOuterWindowID, aPrintSettings,
       aPrintProgressListener);
   }
+
   dropLinks(aLinksCount, aLinks, aTriggeringPrincipal) {
     if (!this.droppedLinkHandler) {
       return false;

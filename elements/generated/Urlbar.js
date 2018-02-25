@@ -249,6 +249,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return this._whichSearchSuggestionsNotification = "none";
   }
+
   /**
    * onBeforeValueGet is called by the base-binding's .value getter.
    * It can return an object with a "value" property, to override the
@@ -257,6 +258,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   onBeforeValueGet() {
     return { value: this._value };
   }
+
   /**
    * onBeforeValueSet is called by the base-binding's .value setter.
    * It should return the value that the setter should use.
@@ -302,6 +304,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return returnValue;
   }
+
   onKeyPress(aEvent) {
     switch (aEvent.keyCode) {
       case KeyEvent.DOM_VK_LEFT:
@@ -323,6 +326,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return this.handleKeyPress(aEvent);
   }
+
   /**
    * Search results arrive asynchronously, which means that keypresses may
    * arrive before results do and therefore not have the effect the user
@@ -373,6 +377,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     return !this._safeToPlayDeferredKeyEvent(event);
   }
+
   /**
    * Returns true if the given deferred key event can be played now without
    * possibly surprising the user.  This depends on the state of the popup,
@@ -410,6 +415,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     return true;
   }
+
   /**
    * Adds a key event to the deferred event queue.
    *
@@ -453,6 +459,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       }
     }
   }
+
   replaySafeDeferredKeyEvents() {
     if (!this._deferredKeyEventQueue.length) {
       return;
@@ -467,6 +474,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       this.replaySafeDeferredKeyEvents();
     });
   }
+
   /**
    * Unconditionally replays all deferred key events.  This does not check
    * whether it's safe to replay the events; use replaySafeDeferredKeyEvents
@@ -483,17 +491,20 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       this.replayAllDeferredKeyEvents();
     });
   }
+
   _replayKeyEventInstance(instance) {
     // Safety check: handle only if the search string didn't change.
     if (this.mController.searchString == instance.searchString) {
       this[instance.methodName](instance.event);
     }
   }
+
   trimValue(aURL) {
     // This method must not modify the given URL such that calling
     // nsIURIFixup::createFixupURI with the result will produce a different URI.
     return this._mayTrimURLs ? trimURL(aURL) : aURL;
   }
+
   formatValue() {
     if (!this._formattingEnabled || !this.editor)
       return;
@@ -587,6 +598,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       selection.addRange(range);
     }
   }
+
   handleRevert() {
     var isScrolling = this.popupOpen;
 
@@ -606,6 +618,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // was scrolling when they hit escape
     return !isScrolling;
   }
+
   _whereToOpen(event) {
     let isMouseEvent = event instanceof MouseEvent;
     let reuseEmpty = !isMouseEvent;
@@ -629,6 +642,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return where;
   }
+
   /**
    * This is ultimately called by the autocomplete controller as the result
    * of handleEnter when the Return key is pressed in the textbox.  Since
@@ -786,6 +800,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this._loadURL(url, browser, postData, where, openUILinkParams,
       mayInheritPrincipal);
   }
+
   _loadURL(url, browser, postData, openUILinkWhere, openUILinkParams, mayInheritPrincipal) {
     this.value = url;
     browser.userTypedValue = url;
@@ -844,6 +859,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       this.selectionStart = this.selectionEnd = 0;
     }
   }
+
   _parseAndRecordSearchEngineLoad(engineOrEngineName, query, event, openUILinkWhere, openUILinkParams, searchActionDetails) {
     let engine =
       typeof(engineOrEngineName) == "string" ?
@@ -867,6 +883,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     let submission = engine.getSubmission(query, null, "keyword");
     return [submission.uri.spec, submission.postData];
   }
+
   maybeCanonizeURL(aTriggeringEvent, aUrl) {
     // Only add the suffix when the URL bar value isn't already "URL-like",
     // and only if we get a keyboard event, to match user expectations.
@@ -918,14 +935,17 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     this.popup.overrideValue = "http://www." + url;
   }
+
   _initURLTooltip() {
     if (this.focused || !this.hasAttribute("textoverflow"))
       return;
     this.inputField.setAttribute("tooltiptext", this.value);
   }
+
   _hideURLTooltip() {
     this.inputField.removeAttribute("tooltiptext");
   }
+
   /**
    * Returns:
    * null if there's a security issue and we should do nothing.
@@ -975,11 +995,13 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return aEvent.dataTransfer.getData("text/unicode");
   }
+
   onDragOver(aEvent) {
     if (!this._getDroppableItem(aEvent)) {
       aEvent.dataTransfer.dropEffect = "none";
     }
   }
+
   onDrop(aEvent) {
     let droppedItem = this._getDroppableItem(aEvent);
     if (droppedItem) {
@@ -992,6 +1014,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       URLBarSetURI();
     }
   }
+
   makeURIReadable(aURI) {
     // Avoid copying 'about:reader?url=', and always provide the original URI:
     // Reader mode ensures we call createExposableURI itself.
@@ -1006,6 +1029,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return aURI;
   }
+
   _getSelectedValueForClipboard() {
     // Grab the actual input field's value, not our value, which could
     // include "moz-action:".
@@ -1078,6 +1102,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     return selectedVal;
   }
+
   observe(aSubject, aTopic, aData) {
     if (aTopic == "nsPref:changed") {
       switch (aData) {
@@ -1129,10 +1154,12 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       }
     }
   }
+
   _enableOrDisableOneOffSearches() {
     let enable = this._prefs.getBoolPref("oneOffSearches");
     this.popup.enableOneOffSearches(enable);
   }
+
   handleEvent(aEvent) {
     switch (aEvent.type) {
       case "paste":
@@ -1195,6 +1222,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         break;
     }
   }
+
   /**
    * onBeforeTextValueSet is called by the base-binding's .textValue getter.
    * It should return the value that the getter should use.
@@ -1202,6 +1230,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   onBeforeTextValueGet() {
     return { value: this.inputField.value };
   }
+
   /**
    * onBeforeTextValueSet is called by the base-binding's .textValue setter.
    * It should return the value that the setter should use.
@@ -1224,6 +1253,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     return val;
   }
+
   _parseActionUrl(aUrl) {
     const MOZ_ACTION_REGEX = /^moz-action:([^,]+),(.*)$/;
     if (!MOZ_ACTION_REGEX.test(aUrl))
@@ -1254,6 +1284,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     return action;
   }
+
   _clearNoActions(aURL) {
     this._pressedNoActionKeys.clear();
     this.popup.removeAttribute("noactions");
@@ -1261,6 +1292,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     if (action)
       this.setAttribute("actiontype", action.type);
   }
+
   onInput(aEvent) {
     if (!this.mIgnoreInput && this.mController.input == this) {
       this._value = this.inputField.value;
@@ -1286,6 +1318,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     this.resetActionType();
   }
+
   handleEnter(event) {
     // We need to ensure we're using a selected autocomplete result.
     // A result should automatically be selected by default,
@@ -1330,6 +1363,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this._deferKeyEvent(event, "handleEnter");
     return false;
   }
+
   handleDelete() {
     // If the heuristic result is selected, then the autocomplete
     // controller's handleDelete implementation will remove it, which is
@@ -1342,6 +1376,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
     return this.mController.handleDelete();
   }
+
   updateSearchSuggestionsNotificationImpressions(whichNotification) {
     if (whichNotification == "none") {
       throw new Error("Unexpected notification type");
@@ -1352,6 +1387,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       this._prefs.setIntPref("timesBeforeHidingSuggestionsHint", remaining - 1);
     }
   }
+
   maybeShowSearchSuggestionsNotificationOnFocus(mouseFocused) {
     let whichNotification = this.whichSearchSuggestionsNotification;
     if (this._showSearchSuggestionNotificationOnMouseFocus &&

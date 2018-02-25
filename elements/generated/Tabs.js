@@ -137,6 +137,7 @@ class FirefoxTabs extends FirefoxBasecontrol {
     }
     return null;
   }
+
   /**
    * nsIDOMXULRelatedElement
    */
@@ -179,12 +180,15 @@ class FirefoxTabs extends FirefoxBasecontrol {
     let tabElmIdx = this.getIndexOfItem(aTabElm);
     return tabpanelsElm.childNodes[tabElmIdx];
   }
+
   getIndexOfItem(item) {
     return Array.indexOf(this.childNodes, item);
   }
+
   getItemAtIndex(index) {
     return this.childNodes.item(index);
   }
+
   _selectNewTab(aNewTab, aFallbackDir, aWrap) {
     var requestedTab = aNewTab;
     while (aNewTab.hidden || aNewTab.disabled || !this._canAdvanceToTab(aNewTab)) {
@@ -222,9 +226,11 @@ class FirefoxTabs extends FirefoxBasecontrol {
       }
     }
   }
+
   _canAdvanceToTab(aTab) {
     return true;
   }
+
   advanceSelectedTab(aDir, aWrap) {
     var startTab = this.selectedItem;
     var next = startTab[aDir == -1 ? "previousSibling" : "nextSibling"];
@@ -236,6 +242,7 @@ class FirefoxTabs extends FirefoxBasecontrol {
       this._selectNewTab(next, aDir, aWrap);
     }
   }
+
   appendItem(label, value) {
     var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var tab = document.createElementNS(XULNS, "tab");
@@ -244,6 +251,7 @@ class FirefoxTabs extends FirefoxBasecontrol {
     this.appendChild(tab);
     return tab;
   }
+
   insertItemAt(index, label, value) {
     var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var tab = document.createElementNS(XULNS, "tab");
@@ -256,6 +264,7 @@ class FirefoxTabs extends FirefoxBasecontrol {
       this.appendChild(tab);
     return tab;
   }
+
   removeItemAt(index) {
     var remove = this.getItemAtIndex(index);
     if (remove)

@@ -21,6 +21,7 @@ class FirefoxCheckbox extends FirefoxBasetext {
   get checked() {
     return this.getAttribute('checked') == 'true';
   }
+
   setChecked(aValue) {
     var change = (aValue != (this.getAttribute("checked") == "true"));
     if (aValue)

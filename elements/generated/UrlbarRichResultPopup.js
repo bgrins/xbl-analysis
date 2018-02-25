@@ -142,6 +142,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     let button = this.oneOffSearchButtons.selectedButton;
     return button && button.engine && button.engine.name;
   }
+
   onPopupClick(aEvent) {
     if (aEvent.button == 2) {
       // Ignore right-clicks.
@@ -150,6 +151,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // Otherwise "call super" -- do what autocomplete-base-popup does.
     this.input.controller.handleEnter(true, aEvent);
   }
+
   enableOneOffSearches(enable) {
     this._oneOffSearchesEnabled = enable;
     if (enable) {
@@ -166,6 +168,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       this.oneOffSearchButtons.popup = null;
     }
   }
+
   /**
    * Override this so that navigating between items results in an item
    * always being selected.
@@ -203,6 +206,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     }
     return newIndex;
   }
+
   openAutocompletePopup(aInput, aElement) {
     // initially the panel is hidden
     // to avoid impacting startup / new window performance
@@ -210,6 +214,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
 
     this._openAutocompletePopup(aInput, aElement);
   }
+
   _openAutocompletePopup(aInput, aElement) {
     if (this.mPopupOpen) {
       return;
@@ -327,6 +332,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       }
     }
   }
+
   _showSearchSuggestionsNotification(whichNotification, popupDirection) {
     if (whichNotification == "opt-out") {
       if (this.margins) {
@@ -371,6 +377,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       this.searchSuggestionsNotification.dispatchEvent(event);
     }
   }
+
   _hideSearchSuggestionsNotification() {
     this.classList.remove("showSearchSuggestionsNotification");
     this.richlistbox.flex = 1;
@@ -383,6 +390,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       this.closePopup();
     }
   }
+
   _selectedOneOffChanged() {
     // Update all searchengine result items to use the newly selected
     // engine.
@@ -399,6 +407,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       }
     }
   }
+
   /**
    * This handles keypress changes to the selection among the one-off
    * search buttons and between the one-offs and the listbox.  It returns
@@ -409,6 +418,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       gBrowser.userTypedValue);
     return aEvent.defaultPrevented && !aEvent.urlbarDeferred;
   }
+
   /**
    * This is called when a one-off is clicked and when "search in new tab"
    * is selected from a one-off context menu.
@@ -416,6 +426,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   handleOneOffSearch(event, engine, where, params) {
     this.input.handleCommand(event, where, params);
   }
+
   createResultLabel(item, proposedLabel) {
     let parts = [proposedLabel];
 
@@ -448,6 +459,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
 
     return parts.filter(str => str).join(" ");
   }
+
   maybeSetupSpeculativeConnect(aUriString) {
     try {
       let uri = makeURI(aUriString);
@@ -457,6 +469,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       // reason, just ignore it.
     }
   }
+
   onResultsAdded() {
     // If nothing is selected yet, select the first result if it is a
     // pre-selected "heuristic" result.  (See UnifiedComplete.js.)
@@ -502,6 +515,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     this.input.gotResultForCurrentQuery = true;
     this.input.replaySafeDeferredKeyEvents();
   }
+
   _onSearchBegin() {
     // Set the selected index to 0 (heuristic) until a result comes back
     // and we can evaluate it better.
@@ -523,6 +537,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // not have been closed from the previous search.
     this.oneOffSearchButtons.selectedButton = null;
   }
+
   initAddonIframe(owner, overrides) {
     if (this._addonIframeOwner) {
       // Another add-on has already requested the iframe.  Return null to
@@ -548,6 +563,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     }
     return this._addonIframe;
   }
+
   destroyAddonIframe(owner) {
     if (this._addonIframeOwner != owner) {
       throw new Error("You're not the iframe owner");
@@ -567,6 +583,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     }
     this._addonIframeOverriddenFunctionsByName = {};
   }
+
   _makeAddonIframe() {
     this._addonIframeHiddenDisplaysByAnonid = {};
     for (let anonid of this._addonIframeHiddenAnonids) {

@@ -11,6 +11,7 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
 
     this._setupEventListeners();
   }
+
   buildPopup(aPopup) {
     // We no longer cache the picker content, remove the old content.
     while (aPopup.childNodes.length > 2)

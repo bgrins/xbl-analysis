@@ -200,22 +200,27 @@ class FirefoxWizard extends XULElement {
     return cp && ((this._accessMethod == "sequential" && cp.pageIndex == this.pageCount - 1) ||
       (this._accessMethod == "random" && cp.next == ""));
   }
+
   getButton(aDlgType) {
     var btns = this.getElementsByAttribute("dlgtype", aDlgType);
     return btns.item(0) ? btns[0] : document.getAnonymousElementByAttribute(this._wizardButtons, "dlgtype", aDlgType);
   }
+
   getPageById(aPageId) {
     var els = this.getElementsByAttribute("pageid", aPageId);
     return els.item(0);
   }
+
   extra1() {
     if (this.currentPage)
       this._fireEvent(this.currentPage, "extra1");
   }
+
   extra2() {
     if (this.currentPage)
       this._fireEvent(this.currentPage, "extra2");
   }
+
   rewind() {
     if (!this.canRewind)
       return;
@@ -233,6 +238,7 @@ class FirefoxWizard extends XULElement {
     this.currentPage = this._pageStack[this._pageStack.length - 1];
     this.setAttribute("pagestep", this._pageStack.length);
   }
+
   advance(aPageId) {
     if (!this.canAdvance)
       return;
@@ -271,6 +277,7 @@ class FirefoxWizard extends XULElement {
       }
     }
   }
+
   goTo(aPageId) {
     var page = this.getPageById(aPageId);
     if (page) {
@@ -278,6 +285,7 @@ class FirefoxWizard extends XULElement {
       this.currentPage = page;
     }
   }
+
   cancel() {
     if (!this._fireEvent(this, "wizardcancel"))
       return true;
@@ -286,6 +294,7 @@ class FirefoxWizard extends XULElement {
     window.setTimeout(function() { window.close(); }, 1);
     return false;
   }
+
   _setInitialFocus(aEvent) {
     document.documentElement._hasLoaded = true;
     var focusInit =
@@ -305,6 +314,7 @@ class FirefoxWizard extends XULElement {
     // Give focus after onload completes, see bug 103197.
     setTimeout(focusInit, 0);
   }
+
   _advanceFocusToPage(aPage) {
     if (!this._hasLoaded)
       return;
@@ -317,6 +327,7 @@ class FirefoxWizard extends XULElement {
     if (focused && focused.hasAttribute("dlgtype"))
       this.focus();
   }
+
   _initPages() {
     var meth = "sequential";
     var pages = this.wizardPages;
@@ -328,6 +339,7 @@ class FirefoxWizard extends XULElement {
     }
     this._accessMethod = meth;
   }
+
   _initWizardButton(aName) {
     var btn = document.getAnonymousElementByAttribute(this._wizardButtons, "dlgtype", aName);
     if (btn) {
@@ -336,6 +348,7 @@ class FirefoxWizard extends XULElement {
     }
     return btn;
   }
+
   _adjustWizardHeader() {
     var label = this.currentPage.getAttribute("label");
     if (!label && this.onFirstPage && this._bundle) {
@@ -354,10 +367,12 @@ class FirefoxWizard extends XULElement {
     this._wizardHeader.setAttribute("label", label);
     this._wizardHeader.setAttribute("description", this.currentPage.getAttribute("description"));
   }
+
   _hitEnter(evt) {
     if (!evt.defaultPrevented)
       this.advance();
   }
+
   _fireEvent(aTarget, aType) {
     var event = document.createEvent("Events");
     event.initEvent(aType, true, true);

@@ -39,6 +39,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
   get kMsPerMinute() {
     return (60 * 1000);
   }
+
   getInputElementValues() {
     let value = this.mInputElement.value;
     if (value.length === 0) {
@@ -60,15 +61,19 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     return { hour, minute, second, millisecond };
   }
+
   hasSecondField() {
     return !!this.mSecondField;
   }
+
   hasMillisecField() {
     return !!this.mMillisecField;
   }
+
   hasDayPeriodField() {
     return !!this.mDayPeriodField;
   }
+
   shouldShowSecondField() {
     let { second } = this.getInputElementValues();
     if (second != undefined) {
@@ -87,6 +92,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     return false;
   }
+
   shouldShowMillisecField() {
     let { millisecond } = this.getInputElementValues();
     if (millisecond != undefined) {
@@ -105,6 +111,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     return false;
   }
+
   rebuildEditFieldsIfNeeded() {
     if ((this.shouldShowSecondField() == this.hasSecondField()) &&
       (this.shouldShowMillisecField() == this.hasMillisecField())) {
@@ -124,6 +131,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     this.buildEditFields();
   }
+
   buildEditFields() {
     const HTML_NS = "http://www.w3.org/1999/xhtml";
     let root =
@@ -199,6 +207,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     root.appendChild(fragment);
   }
+
   getStringsForLocale(aLocales) {
     this.log("getStringsForLocale: " + aLocales);
 
@@ -221,6 +230,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     return { amString, pmString };
   }
+
   is12HourTime(aLocales) {
     let options = (new Intl.DateTimeFormat(aLocales, {
       hour: "numeric"
@@ -228,6 +238,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     return options.hour12;
   }
+
   setFieldsFromInputValue() {
     let { hour, minute, second, millisecond } =
     this.getInputElementValues();
@@ -260,6 +271,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     this.notifyPicker();
   }
+
   setInputValueFromFields() {
     if (this.isAnyFieldEmpty()) {
       // Clear input element's value if any of the field has been cleared,
@@ -314,6 +326,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     this.notifyPicker();
     this.mInputElement.setUserInput(time);
   }
+
   setFieldsFromPicker(aValue) {
     let hour = aValue.hour;
     let minute = aValue.minute;
@@ -334,6 +347,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     // Update input element's .value if needed.
     this.setInputValueFromFields();
   }
+
   clearInputFields(aFromInputElement) {
     this.log("clearInputFields");
 
@@ -374,6 +388,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
       }
     }
   }
+
   notifyMinMaxStepAttrChanged() {
     // Second and millisecond part are optional, rebuild edit fields if
     // needed.
@@ -381,6 +396,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     // Fill in values again.
     this.setFieldsFromInputValue();
   }
+
   incrementFieldValue(aTargetField, aTimes) {
     let value = this.getFieldValue(aTargetField);
 
@@ -417,6 +433,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     this.setFieldValue(aTargetField, value);
   }
+
   handleKeyboardNav(aEvent) {
     if (this.isDisabled() || this.isReadonly()) {
       return;
@@ -469,6 +486,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     }
     this.setInputValueFromFields();
   }
+
   handleKeypress(aEvent) {
     if (this.isDisabled() || this.isReadonly()) {
       return;
@@ -503,6 +521,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
       targetField.setAttribute("typeBuffer", buffer);
     }
   }
+
   setFieldValue(aField, aValue) {
     if (!aField || !aField.classList.contains("numeric")) {
       return;
@@ -541,6 +560,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     aField.setAttribute("aria-valuetext", formatted);
     this.updateResetButtonVisibility();
   }
+
   getDayPeriodValue(aValue) {
     if (!this.hasDayPeriodField()) {
       return "";
@@ -551,6 +571,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
 
     return (value == placeholder ? "" : value);
   }
+
   setDayPeriodValue(aValue) {
     if (!this.hasDayPeriodField()) {
       return;
@@ -559,6 +580,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
     this.mDayPeriodField.textContent = aValue;
     this.updateResetButtonVisibility();
   }
+
   isAnyFieldAvailable(aForPicker) {
     let { hour, minute, second, millisecond } = this.getCurrentValue();
     let dayPeriod = this.getDayPeriodValue();
@@ -577,6 +599,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
       (this.hasSecondField() && !this.isEmpty(second)) ||
       (this.hasMillisecField() && !this.isEmpty(millisecond));
   }
+
   isAnyFieldEmpty() {
     let { hour, minute, second, millisecond } = this.getCurrentValue();
     let dayPeriod = this.getDayPeriodValue();
@@ -586,6 +609,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
       (this.hasSecondField() && this.isEmpty(second)) ||
       (this.hasMillisecField() && this.isEmpty(millisecond)));
   }
+
   getCurrentValue() {
     let hour = this.getFieldValue(this.mHourField);
     if (!this.isEmpty(hour)) {

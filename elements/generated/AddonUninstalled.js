@@ -24,6 +24,7 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
 
     this._setupEventListeners();
   }
+
   cancelUninstall() {
     // This assumes that disabling does not require a restart when
     // uninstalling doesn't. Things will still work if not, the add-on
@@ -36,10 +37,12 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
 
     this.removeAttribute("pending");
   }
+
   onOperationCancelled() {
     if (!this.isPending("uninstall"))
       this.removeAttribute("pending");
   }
+
   onExternalInstall(aAddon, aExistingAddon, aNeedsRestart) {
     if (aExistingAddon.id != this.mAddon.id)
       return;
@@ -55,11 +58,13 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
 
     this.removeAttribute("pending");
   }
+
   onInstallStarted(aInstall) {
     // Make sure any newly installed add-on has the correct disabled state
     if (this.hasAttribute("wasDisabled"))
       aInstall.addon.userDisabled = this.getAttribute("wasDisabled") == "true";
   }
+
   onInstallEnded(aInstall, aAddon) {
     // If the install completed without needing a restart then switch to
     // using the new Addon

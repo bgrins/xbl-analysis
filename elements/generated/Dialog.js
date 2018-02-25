@@ -69,15 +69,19 @@ class FirefoxDialog extends XULElement {
     }
     return this._mStrBundle;
   }
+
   acceptDialog() {
     return this._doButtonCommand("accept");
   }
+
   cancelDialog() {
     return this._doButtonCommand("cancel");
   }
+
   getButton(aDlgType) {
     return this._buttons[aDlgType];
   }
+
   moveToAlertPosition() {
     // hack. we need this so the window has something like its final size
     if (window.outerWidth == 1) {
@@ -109,6 +113,7 @@ class FirefoxDialog extends XULElement {
 
     window.moveTo(newX, newY);
   }
+
   centerWindowOnScreen() {
     var xOffset = screen.availWidth / 2 - window.outerWidth / 2;
     var yOffset = screen.availHeight / 2 - window.outerHeight / 2;
@@ -117,6 +122,7 @@ class FirefoxDialog extends XULElement {
     yOffset = yOffset > 0 ? yOffset : 0;
     window.moveTo(xOffset, yOffset);
   }
+
   postLoadInit(aEvent) {
     function focusInit() {
       const dialog = document.documentElement;
@@ -162,6 +168,7 @@ class FirefoxDialog extends XULElement {
     // Give focus after onload completes, see bug 103197.
     setTimeout(focusInit, 0);
   }
+
   openHelp(event) {
     var helpButton = document.documentElement.getButton("help");
     if (helpButton.disabled || helpButton.hidden)
@@ -170,6 +177,7 @@ class FirefoxDialog extends XULElement {
     event.stopPropagation();
     event.preventDefault();
   }
+
   _configureButtons(aButtons) {
     // by default, get all the anonymous button elements
     var buttons = {};
@@ -268,6 +276,7 @@ class FirefoxDialog extends XULElement {
       }
     }
   }
+
   _setDefaultButton(aNewDefault) {
     // remove the default attribute from the previous default button, if any
     var oldDefaultButton = this.getButton(this.defaultButton);
@@ -284,10 +293,12 @@ class FirefoxDialog extends XULElement {
         dump("invalid new default button: " + aNewDefault + ", assuming: none\n");
     }
   }
+
   _handleButtonCommand(aEvent) {
     return document.documentElement._doButtonCommand(
       aEvent.target.getAttribute("dlgtype"));
   }
+
   _doButtonCommand(aDlgType) {
     var button = this.getButton(aDlgType);
     if (!button.disabled) {
@@ -306,6 +317,7 @@ class FirefoxDialog extends XULElement {
     }
     return true;
   }
+
   _fireButtonEvent(aDlgType) {
     var event = document.createEvent("Events");
     event.initEvent("dialog" + aDlgType, true, true);
@@ -325,6 +337,7 @@ class FirefoxDialog extends XULElement {
 
     return noCancel;
   }
+
   _hitEnter(evt) {
     if (evt.defaultPrevented)
       return;

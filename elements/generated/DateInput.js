@@ -26,6 +26,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
 
     this._setupEventListeners();
   }
+
   buildEditFields() {
     const HTML_NS = "http://www.w3.org/1999/xhtml";
     let root =
@@ -69,6 +70,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
 
     root.appendChild(fragment);
   }
+
   clearInputFields(aFromInputElement) {
     this.log("clearInputFields");
 
@@ -99,6 +101,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       }
     }
   }
+
   setFieldsFromInputValue() {
     let value = this.mInputElement.value;
     if (!value) {
@@ -115,6 +118,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
 
     this.notifyPicker();
   }
+
   setInputValueFromFields() {
     if (this.isAnyFieldEmpty()) {
       // Clear input element's value if any of the field has been cleared,
@@ -149,6 +153,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     this.notifyPicker();
     this.mInputElement.setUserInput(date);
   }
+
   setFieldsFromPicker(aValue) {
     let year = aValue.year;
     let month = aValue.month;
@@ -169,6 +174,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     // Update input element's .value if needed.
     this.setInputValueFromFields();
   }
+
   handleKeypress(aEvent) {
     if (this.isDisabled() || this.isReadonly()) {
       return;
@@ -193,6 +199,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
       targetField.setAttribute("typeBuffer", buffer);
     }
   }
+
   incrementFieldValue(aTargetField, aTimes) {
     let value = this.getFieldValue(aTargetField);
 
@@ -224,6 +231,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
 
     this.setFieldValue(aTargetField, value);
   }
+
   handleKeyboardNav(aEvent) {
     if (this.isDisabled() || this.isReadonly()) {
       return;
@@ -268,6 +276,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     }
     this.setInputValueFromFields();
   }
+
   getCurrentValue() {
     let year = this.getFieldValue(this.mYearField);
     let month = this.getFieldValue(this.mMonthField);
@@ -278,6 +287,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     this.log("getCurrentValue: " + JSON.stringify(date));
     return date;
   }
+
   setFieldValue(aField, aValue) {
     if (!aField || !aField.classList.contains("numeric")) {
       return;
@@ -314,12 +324,14 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
     aField.setAttribute("aria-valuetext", formatted);
     this.updateResetButtonVisibility();
   }
+
   isAnyFieldAvailable(aForPicker) {
     let { year, month, day } = this.getCurrentValue();
 
     return !this.isEmpty(year) || !this.isEmpty(month) ||
       !this.isEmpty(day);
   }
+
   isAnyFieldEmpty() {
     let { year, month, day } = this.getCurrentValue();
 

@@ -20,12 +20,14 @@ class FirefoxPopupScrollbars extends FirefoxPopup {
 
     this._setupEventListeners();
   }
+
   enableDragScrolling(overItem) {
     if (!this._draggingState) {
       this.setCaptureAlways();
       this._draggingState = overItem ? this.DRAG_OVER_POPUP : this.DRAG_OVER_BUTTON;
     }
   }
+
   _clearScrollTimer() {
     if (this._scrollTimer) {
       this.ownerGlobal.clearInterval(this._scrollTimer);

@@ -15,15 +15,18 @@ class FirefoxArrowpanel extends FirefoxPanel {
 
     this._setupEventListeners();
   }
+
   sizeTo(aWidth, aHeight) {
     this.popupBoxObject.sizeTo(aWidth, aHeight);
     if (this.state == "open") {
       this.adjustArrowPosition();
     }
   }
+
   moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride) {
     this.popupBoxObject.moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride);
   }
+
   adjustArrowPosition() {
     var anchor = this.anchorNode;
     if (!anchor) {

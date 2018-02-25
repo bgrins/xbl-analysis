@@ -41,12 +41,14 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
 
     this._setupEventListeners();
   }
+
   onInstallCompleted() {
     this.mAddon = this.mInstall.addon;
     this.setAttribute("name", this.mAddon.name);
     this.setAttribute("value", this.mAddon.id);
     this.setAttribute("status", "installed");
   }
+
   refreshInfo() {
     this.mAddon = this.mAddon || this.mInstall.addon;
     if (this.mAddon) {
@@ -88,6 +90,7 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
       this.removeAttribute("notification");
     }
   }
+
   retryInstall() {
     this.mInstall.install();
   }

@@ -58,6 +58,7 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
 
     return this.InlineSpellCheckerUI;
   }
+
   _doPopupItemEnablingSpell(popupNode) {
     var spellui = this.spellCheckerUI;
     if (!spellui || !spellui.canSpellCheck) {
@@ -93,6 +94,7 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
 
     this._doPopupItemEnabling(popupNode);
   }
+
   _doPopupItemDisabling() {
     if (this.spellCheckerUI) {
       this.spellCheckerUI.clearSuggestionsFromMenu();

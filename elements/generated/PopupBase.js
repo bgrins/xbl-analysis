@@ -53,6 +53,7 @@ class FirefoxPopupBase extends XULElement {
   get alignmentOffset() {
     return this.popupBoxObject.alignmentOffset;
   }
+
   openPopup(aAnchorElement, aPosition, aX, aY, aIsContextMenu, aAttributesOverride, aTriggerEvent) {
     // Allow for passing an options object as the second argument.
     if (arguments.length == 2 &&
@@ -74,6 +75,7 @@ class FirefoxPopupBase extends XULElement {
           aIsContextMenu, aAttributesOverride, aTriggerEvent);
     } catch (e) {}
   }
+
   openPopupAtScreen(aX, aY, aIsContextMenu, aTriggerEvent) {
     try {
       var popupBox = this.popupBoxObject;
@@ -81,6 +83,7 @@ class FirefoxPopupBase extends XULElement {
         popupBox.openPopupAtScreen(aX, aY, aIsContextMenu, aTriggerEvent);
     } catch (e) {}
   }
+
   openPopupAtScreenRect(aPosition, aX, aY, aWidth, aHeight, aIsContextMenu, aAttributesOverride, aTriggerEvent) {
     try {
       var popupBox = this.popupBoxObject;
@@ -89,6 +92,7 @@ class FirefoxPopupBase extends XULElement {
           aIsContextMenu, aAttributesOverride, aTriggerEvent);
     } catch (e) {}
   }
+
   showPopup(element, xpos, ypos, popuptype, anchoralignment, popupalignment) {
     var popupBox = null;
     var menuBox = null;
@@ -103,6 +107,7 @@ class FirefoxPopupBase extends XULElement {
     else if (popupBox)
       popupBox.showPopup(element, this, xpos, ypos, popuptype, anchoralignment, popupalignment);
   }
+
   hidePopup(cancel) {
     var popupBox = null;
     var menuBox = null;
@@ -117,24 +122,31 @@ class FirefoxPopupBase extends XULElement {
     else if (popupBox instanceof PopupBoxObject)
       popupBox.hidePopup(cancel);
   }
+
   enableKeyboardNavigator(aEnableKeyboardNavigator) {
     this.popupBoxObject.enableKeyboardNavigator(aEnableKeyboardNavigator);
   }
+
   enableRollup(aEnableRollup) {
     this.popupBoxObject.enableRollup(aEnableRollup);
   }
+
   sizeTo(aWidth, aHeight) {
     this.popupBoxObject.sizeTo(aWidth, aHeight);
   }
+
   moveTo(aLeft, aTop) {
     this.popupBoxObject.moveTo(aLeft, aTop);
   }
+
   moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride) {
     this.popupBoxObject.moveToAnchor(aAnchorElement, aPosition, aX, aY, aAttributesOverride);
   }
+
   getOuterScreenRect() {
     return this.popupBoxObject.getOuterScreenRect();
   }
+
   setConstraintRect(aRect) {
     this.popupBoxObject.setConstraintRect(aRect);
   }

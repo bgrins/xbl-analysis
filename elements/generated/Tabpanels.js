@@ -60,6 +60,7 @@ class FirefoxTabpanels extends FirefoxTabBase {
   get selectedPanel() {
     return this._selectedPanel;
   }
+
   /**
    * nsIDOMXULRelatedElement
    */

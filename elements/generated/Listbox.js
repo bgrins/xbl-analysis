@@ -38,6 +38,7 @@ class FirefoxListbox extends FirefoxListboxBase {
   get itemCount() {
     return this.listBoxObject.getRowCount()
   }
+
   _fireOnSelect() {
     if (!this._suppressOnSelect && !this.suppressOnSelect) {
       var event = document.createEvent("Events");
@@ -45,6 +46,7 @@ class FirefoxListbox extends FirefoxListboxBase {
       this.dispatchEvent(event);
     }
   }
+
   /**
    * ///////////////// nsIDOMXULSelectControlElement /////////////////
    */
@@ -58,6 +60,7 @@ class FirefoxListbox extends FirefoxListboxBase {
     this.appendChild(item);
     return item;
   }
+
   insertItemAt(aIndex, aLabel, aValue) {
     const XULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
@@ -72,6 +75,7 @@ class FirefoxListbox extends FirefoxListboxBase {
       this.appendChild(item);
     return item;
   }
+
   /**
    * ///////////////// nsIListBoxObject /////////////////
    */
@@ -80,29 +84,37 @@ class FirefoxListbox extends FirefoxListboxBase {
       return this._selecting.index;
     return this.listBoxObject.getIndexOfItem(item);
   }
+
   getItemAtIndex(index) {
     if (this._selecting && this._selecting.index == index)
       return this._selecting.item;
     return this.listBoxObject.getItemAtIndex(index);
   }
+
   ensureIndexIsVisible(index) {
     return this.listBoxObject.ensureIndexIsVisible(index);
   }
+
   ensureElementIsVisible(element) {
     return this.ensureIndexIsVisible(this.listBoxObject.getIndexOfItem(element));
   }
+
   scrollToIndex(index) {
     return this.listBoxObject.scrollToIndex(index);
   }
+
   getNumberOfVisibleRows() {
     return this.listBoxObject.getNumberOfVisibleRows();
   }
+
   getIndexOfFirstVisibleRow() {
     return this.listBoxObject.getIndexOfFirstVisibleRow();
   }
+
   getRowCount() {
     return this.listBoxObject.getRowCount();
   }
+
   scrollOnePage(direction) {
     var pageOffset = this.getNumberOfVisibleRows() * direction;
     // skip over invisible elements - the user won't care about them

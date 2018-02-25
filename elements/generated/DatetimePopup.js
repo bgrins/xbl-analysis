@@ -27,6 +27,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     }
     return frame;
   }
+
   openPicker(type, anchor, detail) {
     this.type = type;
     this.pickerState = {};
@@ -55,6 +56,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     this.hidden = false;
     this.openPopup(anchor, "after_start", 0, 0);
   }
+
   closePicker() {
     this.setInputBoxValue(true);
     this.pickerState = {};
@@ -64,6 +66,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
     this.dateTimePopupFrame.setAttribute("src", "");
     this.hidden = true;
   }
+
   setPopupValue(data) {
     switch (this.type) {
       case "time":
@@ -90,6 +93,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         }
     }
   }
+
   initPicker(detail) {
     // TODO: When bug 1376616 lands, replace this.setGregorian with
     //       mozIntl.Locale for setting calendar to Gregorian
@@ -170,6 +174,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         }
     }
   }
+
   setInputBoxValue(passAllValues) {
     /**
      * @param {Boolean} passAllValues: Pass spinner values regardless if they've been set/changed or not
@@ -196,6 +201,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         }
     }
   }
+
   sendPickerValueChanged(value) {
     switch (this.type) {
       case "time":
@@ -222,6 +228,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         }
     }
   }
+
   getCalendarInfo(locale) {
     const calendarInfo = this.mozIntl.getCalendarInfo(locale);
 
@@ -250,16 +257,19 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
       weekends
     };
   }
+
   getDisplayNames(locale, keys, style) {
     const displayNames = this.mozIntl.getDisplayNames(locale, { keys, style });
     return keys.map(key => displayNames.values[key]);
   }
+
   setGregorian(locale) {
     if (locale.match(/u-ca-/)) {
       return locale.replace(/u-ca-[^-]+/, "u-ca-gregory");
     }
     return locale + "-u-ca-gregory";
   }
+
   handleEvent(aEvent) {
     switch (aEvent.type) {
       case "load":
@@ -275,6 +285,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         }
     }
   }
+
   handleMessage(aEvent) {
     if (!this.dateTimePopupFrame.contentDocument.nodePrincipal.isSystemPrincipal) {
       return;
@@ -295,6 +306,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
         }
     }
   }
+
   postMessageToPicker(data) {
     if (this.dateTimePopupFrame.contentDocument.nodePrincipal.isSystemPrincipal) {
       this.dateTimePopupFrame.contentWindow.postMessage(data, "*");

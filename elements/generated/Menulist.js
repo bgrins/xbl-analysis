@@ -188,6 +188,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
   get selectedItem() {
     return this.mSelectedInternal;
   }
+
   setInitialSelection() {
     var popup = this.menupopup;
     if (popup) {
@@ -204,6 +205,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
         this.selectedIndex = 0;
     }
   }
+
   contains(item) {
     if (!item)
       return false;
@@ -211,6 +213,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     var parent = item.parentNode;
     return (parent && parent.parentNode == this);
   }
+
   handleMutation(aRecords) {
     for (let record of aRecords) {
       let t = record.target;
@@ -230,6 +233,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
       }
     }
   }
+
   getIndexOfItem(item) {
     var popup = this.menupopup;
     if (popup) {
@@ -241,6 +245,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     }
     return -1;
   }
+
   getItemAtIndex(index) {
     var popup = this.menupopup;
     if (popup) {
@@ -250,6 +255,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     }
     return null;
   }
+
   appendItem(label, value, description) {
     const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var popup = this.menupopup ||
@@ -263,6 +269,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     popup.appendChild(item);
     return item;
   }
+
   insertItemAt(index, label, value, description) {
     const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var popup = this.menupopup ||
@@ -279,6 +286,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
       popup.appendChild(item);
     return item;
   }
+
   removeItemAt(index) {
     var popup = this.menupopup;
     if (popup && 0 <= index && index < popup.childNodes.length) {
@@ -288,6 +296,7 @@ class FirefoxMenulist extends FirefoxMenulistBase {
     }
     return null;
   }
+
   removeAllItems() {
     this.selectedItem = null;
     var popup = this.menupopup;

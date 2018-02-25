@@ -265,6 +265,7 @@ class FirefoxSearchOneOffs extends XULElement {
 
     return this._engines;
   }
+
   /**
    * This handles events outside the one-off buttons, like on the popup
    * and textbox.
@@ -289,10 +290,12 @@ class FirefoxSearchOneOffs extends XULElement {
         break;
     }
   }
+
   observe(aEngine, aTopic, aData) {
     // Make sure the engine list is refetched next time it's needed.
     this._engines = null;
   }
+
   showSettings() {
     BrowserUITelemetry.countSearchSettingsEvent(this.telemetryOrigin);
 
@@ -302,6 +305,7 @@ class FirefoxSearchOneOffs extends XULElement {
     // close itself automatically.
     this.popup.hidePopup();
   }
+
   /**
    * Updates the parts of the UI that show the query string.
    */
@@ -334,6 +338,7 @@ class FirefoxSearchOneOffs extends XULElement {
     }
     this.buttons.setAttribute("aria-label", groupText);
   }
+
   /**
    * Builds all the UI.
    */
@@ -477,6 +482,7 @@ class FirefoxSearchOneOffs extends XULElement {
       }
     }
   }
+
   _rebuildAddEngineList() {
     let list = this.addEngines;
     while (list.firstChild) {
@@ -571,16 +577,20 @@ class FirefoxSearchOneOffs extends XULElement {
       list.appendChild(button);
     }
   }
+
   _buttonIDForEngine(engine) {
     return this.telemetryOrigin + "-engine-one-off-item-" +
       this._fixUpEngineNameForID(engine.name);
   }
+
   _fixUpEngineNameForID(name) {
     return name.replace(/ /g, "-");
   }
+
   _buttonForEngine(engine) {
     return document.getElementById(this._buttonIDForEngine(engine));
   }
+
   /**
    * Updates the popup and textbox for the currently selected or moused-over
    * button.
@@ -622,6 +632,7 @@ class FirefoxSearchOneOffs extends XULElement {
       this.textbox.setAttribute("aria-activedescendant", button.id);
     }
   }
+
   getSelectableButtons(aIncludeNonEngineButtons) {
     let buttons = [];
     for (let oneOff = this.buttons.firstChild; oneOff; oneOff = oneOff.nextSibling) {
@@ -646,6 +657,7 @@ class FirefoxSearchOneOffs extends XULElement {
 
     return buttons;
   }
+
   handleSearchCommand(aEvent, aEngine, aForceNewTab) {
     let where = "current";
     let params;
@@ -673,6 +685,7 @@ class FirefoxSearchOneOffs extends XULElement {
 
     this.popup.handleOneOffSearch(aEvent, aEngine, where, params);
   }
+
   /**
    * Increments or decrements the index of the currently selected one-off.
    *
@@ -713,6 +726,7 @@ class FirefoxSearchOneOffs extends XULElement {
     }
     this.selectedButton = index < 0 ? null : buttons[index];
   }
+
   /**
    * This handles key presses specific to the one-off buttons like Tab and
    * Alt+Up/Down, and Up/Down keys within the buttons.  Since one-off buttons
@@ -753,6 +767,7 @@ class FirefoxSearchOneOffs extends XULElement {
       event.stopPropagation();
     }
   }
+
   _handleKeyPress(event, numListItems, allowEmptySelection, textboxUserValue) {
     if (this.compact && this.buttons.collapsed)
       return false;
@@ -922,6 +937,7 @@ class FirefoxSearchOneOffs extends XULElement {
 
     return false;
   }
+
   /**
    * If the given event is related to the one-offs, this method records
    * one-off telemetry for it.  this.telemetryOrigin will be appended to the
@@ -980,6 +996,7 @@ class FirefoxSearchOneOffs extends XULElement {
       where);
     return true;
   }
+
   _resetAddEngineMenuTimeout() {
     if (this._addEngineMenuTimeout) {
       clearTimeout(this._addEngineMenuTimeout);

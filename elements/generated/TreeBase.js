@@ -4,6 +4,7 @@ class FirefoxTreeBase extends FirefoxBasecontrol {
 
     this._setupEventListeners();
   }
+
   _isAccelPressed(aEvent) {
     return aEvent.getModifierState("Accel");
   }

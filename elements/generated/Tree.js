@@ -153,6 +153,7 @@ class FirefoxTree extends FirefoxTreeBase {
       return seltype;
     return null;
   }
+
   _ensureColumnOrder() {
     if (!this._columnsDirty)
       return;
@@ -175,6 +176,7 @@ class FirefoxTree extends FirefoxTreeBase {
     }
     this._columnsDirty = false;
   }
+
   _reorderColumn(aColMove, aColBefore, aBefore) {
     this._ensureColumnOrder();
 
@@ -201,6 +203,7 @@ class FirefoxTree extends FirefoxTreeBase {
         cols[i].ordinal = parseInt(cols[i].ordinal) - 2;
     }
   }
+
   _getColumnAtX(aX, aThresh, aPos) {
     var isRTL = document.defaultView.getComputedStyle(this)
       .direction == "rtl";
@@ -232,6 +235,7 @@ class FirefoxTree extends FirefoxTreeBase {
       aPos.value = isRTL ? "before" : "after";
     return columns.pop().element;
   }
+
   changeOpenState(row, openState) {
     if (row < 0 || !this.view.isContainer(row)) {
       return false;
@@ -250,6 +254,7 @@ class FirefoxTree extends FirefoxTreeBase {
     }
     return false;
   }
+
   _getNextColumn(row, left) {
     var col = this.view.selection.currentColumn;
     if (col) {
@@ -262,6 +267,7 @@ class FirefoxTree extends FirefoxTreeBase {
       col = left ? col.getPrevious() : col.getNext();
     return col;
   }
+
   _keyNavigate(event) {
     var key = String.fromCharCode(event.charCode).toLowerCase();
     if (event.timeStamp - this._lastKeyTime > 1000)
@@ -301,6 +307,7 @@ class FirefoxTree extends FirefoxTreeBase {
     }
     return -1;
   }
+
   startEditing(row, column) {
     if (!this.editable)
       return false;
@@ -364,6 +371,7 @@ class FirefoxTree extends FirefoxTreeBase {
     box.invalidateCell(row, column);
     return true;
   }
+
   stopEditing(accept) {
     if (!this._editingColumn)
       return;
@@ -382,6 +390,7 @@ class FirefoxTree extends FirefoxTreeBase {
     input.value = "";
     this.removeAttribute("editing");
   }
+
   _moveByOffset(offset, edge, event) {
     event.preventDefault();
 
@@ -418,6 +427,7 @@ class FirefoxTree extends FirefoxTreeBase {
       this.currentIndex = c;
     this.treeBoxObject.ensureRowIsVisible(c);
   }
+
   _moveByOffsetShift(offset, edge, event) {
     event.preventDefault();
 
@@ -449,6 +459,7 @@ class FirefoxTree extends FirefoxTreeBase {
     this.treeBoxObject.ensureRowIsVisible(c + offset);
 
   }
+
   _moveByPage(offset, edge, event) {
     event.preventDefault();
 
@@ -490,6 +501,7 @@ class FirefoxTree extends FirefoxTreeBase {
     }
     this.view.selection.timedSelect(i, this._selectDelay);
   }
+
   _moveByPageShift(offset, edge, event) {
     event.preventDefault();
 
@@ -535,6 +547,7 @@ class FirefoxTree extends FirefoxTreeBase {
     }
 
   }
+
   _moveToEdge(edge, event) {
     event.preventDefault();
 
@@ -556,6 +569,7 @@ class FirefoxTree extends FirefoxTreeBase {
 
     this.treeBoxObject.ensureRowIsVisible(edge);
   }
+
   _moveToEdgeShift(edge, event) {
     event.preventDefault();
 
@@ -577,6 +591,7 @@ class FirefoxTree extends FirefoxTreeBase {
 
     this.treeBoxObject.ensureRowIsVisible(edge);
   }
+
   _handleEnter(event) {
     if (this._editingColumn) {
       this.stopEditing(true);

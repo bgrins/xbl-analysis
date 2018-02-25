@@ -160,6 +160,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
 
     this._setupEventListeners();
   }
+
   /**
    * Check if we should hide the drop indicator for the target
    */
@@ -175,6 +176,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     // Hide the dropmarker if current node is not a Places node.
     return !(target && target._placesNode && betweenMarkers);
   }
+
   /**
    * This function returns information about where to drop when
    * dragging over this popup insertion point
@@ -269,6 +271,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     });
     return dropPoint;
   }
+
   _cleanupDragDetails() {
     // Called on dragend and drop.
     PlacesControllerDragHelper.currentDropTarget = null;

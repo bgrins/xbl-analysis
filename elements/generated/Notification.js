@@ -78,6 +78,7 @@ class FirefoxNotification extends XULElement {
     }
     return null;
   }
+
   /**
    * This method should only be called when the user has
    * manually closed the notification. If you want to
@@ -90,6 +91,7 @@ class FirefoxNotification extends XULElement {
     }
     this.close();
   }
+
   close() {
     var control = this.control;
     if (control)
@@ -97,6 +99,7 @@ class FirefoxNotification extends XULElement {
     else
       this.hidden = true;
   }
+
   _doButtonCommand(aEvent) {
     if (!("buttonInfo" in aEvent.target))
       return;

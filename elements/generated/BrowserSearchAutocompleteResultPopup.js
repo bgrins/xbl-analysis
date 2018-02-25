@@ -32,6 +32,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     }
     return this._bundle;
   }
+
   openAutocompletePopup(aInput, aElement) {
     // initially the panel is hidden
     // to avoid impacting startup / new window performance
@@ -40,6 +41,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     // this method is defined on the base binding
     this._openAutocompletePopup(aInput, aElement);
   }
+
   onPopupClick(aEvent) {
     // Ignore all right-clicks
     if (aEvent.button == 2)
@@ -97,6 +99,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
         searchBar.value = search;
     }
   }
+
   updateHeader() {
     let currentEngine = Services.search.currentEngine;
     let uri = currentEngine.iconURI;
@@ -114,6 +117,7 @@ class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRic
     document.getAnonymousElementByAttribute(this, "anonid", "searchbar-engine")
       .engine = currentEngine;
   }
+
   /**
    * This is called when a one-off is clicked and when "search in new tab"
    * is selected from a one-off context menu.

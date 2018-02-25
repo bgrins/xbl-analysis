@@ -38,6 +38,7 @@ class FirefoxWizardButtons extends FirefoxWizardBase {
     }
     return null;
   }
+
   onPageChange() {
     if (this.getAttribute("lastpage") == "true") {
       this._wizardButtonDeck.setAttribute("selectedIndex", 0);

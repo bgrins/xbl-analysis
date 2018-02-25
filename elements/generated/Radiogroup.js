@@ -160,6 +160,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     }
     return null;
   }
+
   checkAdjacentElement(aNextFlag) {
     var currentElement = this.focusedItem || this.selectedItem;
     var i;
@@ -196,6 +197,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
       children[i].doCommand();
     }
   }
+
   _getRadioChildren() {
     if (this._radioChildren)
       return this._radioChildren;
@@ -228,6 +230,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     }
     return this._radioChildren = radioChildren;
   }
+
   _filterRadioGroup(node) {
     switch (node.localName) {
       case "radio":
@@ -239,13 +242,16 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
         return NodeFilter.FILTER_SKIP;
     }
   }
+
   getIndexOfItem(item) {
     return this._getRadioChildren().indexOf(item);
   }
+
   getItemAtIndex(index) {
     var children = this._getRadioChildren();
     return (index >= 0 && index < children.length) ? children[index] : null;
   }
+
   appendItem(label, value) {
     var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var radio = document.createElementNS(XULNS, "radio");
@@ -255,6 +261,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     this._radioChildren = null;
     return radio;
   }
+
   insertItemAt(index, label, value) {
     var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var radio = document.createElementNS(XULNS, "radio");
@@ -268,6 +275,7 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     this._radioChildren = null;
     return radio;
   }
+
   removeItemAt(index) {
     var remove = this.getItemAtIndex(index);
     if (remove) {

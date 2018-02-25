@@ -18,6 +18,7 @@ class FirefoxAutocompleteProfileListitemClearButton extends FirefoxAutocompleteP
 
     this._setupEventListeners();
   }
+
   _adjustAcItem() {
     this._adjustAutofillItemLayout();
     this.setAttribute("formautofillattached", "true");

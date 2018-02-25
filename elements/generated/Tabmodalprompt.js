@@ -98,6 +98,7 @@ class FirefoxTabmodalprompt extends XULElement {
 
     this._setupEventListeners();
   }
+
   init(args, linkedTab, onCloseCallback) {
     this.args = args;
     this.linkedTab = linkedTab;
@@ -135,6 +136,7 @@ class FirefoxTabmodalprompt extends XULElement {
 
     this.onResize();
   }
+
   shutdownPrompt() {
     // remove our event listeners
     try {
@@ -148,11 +150,13 @@ class FirefoxTabmodalprompt extends XULElement {
     // invoke callback
     this.onCloseCallback();
   }
+
   abortPrompt() {
     // Called from other code when the page changes.
     this.Dialog.abortPrompt();
     this.shutdownPrompt();
   }
+
   handleEvent(aEvent) {
     switch (aEvent.type) {
       case "resize":
@@ -164,6 +168,7 @@ class FirefoxTabmodalprompt extends XULElement {
         break;
     }
   }
+
   onResize() {
     let availWidth = this.clientWidth;
     let availHeight = this.clientHeight;
@@ -203,6 +208,7 @@ class FirefoxTabmodalprompt extends XULElement {
       info.style.height = maxHeight + "px";
     }
   }
+
   onButtonClick(buttonNum) {
     // We want to do all the work her asynchronously off a Gecko
     // runnable, because of situations like the one described in
@@ -219,6 +225,7 @@ class FirefoxTabmodalprompt extends XULElement {
       this.shutdownPrompt();
     });
   }
+
   onKeyAction(action, event) {
     if (event.defaultPrevented)
       return;

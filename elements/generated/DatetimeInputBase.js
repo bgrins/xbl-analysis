@@ -53,11 +53,13 @@ class FirefoxDatetimeInputBase extends XULElement {
   get EVENTS() {
     return ["focus", "blur", "copy", "cut", "paste", "mousedown"];
   }
+
   log(aMsg) {
     if (this.DEBUG) {
       dump("[DateTimeBox] " + aMsg + "\n");
     }
   }
+
   createEditField(aPlaceHolder, aLabel, aIsNumeric, aMinDigits, aMaxLength, aMinValue, aMaxValue, aPageUpDownInterval) {
     const HTML_NS = "http://www.w3.org/1999/xhtml";
 
@@ -111,6 +113,7 @@ class FirefoxDatetimeInputBase extends XULElement {
 
     return field;
   }
+
   updateResetButtonVisibility() {
     if (this.isAnyFieldAvailable(false)) {
       this.mResetButton.style.visibility = "visible";
@@ -118,6 +121,7 @@ class FirefoxDatetimeInputBase extends XULElement {
       this.mResetButton.style.visibility = "hidden";
     }
   }
+
   focusInnerTextBox() {
     this.log("Focus inner editable field.");
 
@@ -133,6 +137,7 @@ class FirefoxDatetimeInputBase extends XULElement {
       }
     }
   }
+
   blurInnerTextBox() {
     this.log("Blur inner editable field.");
 
@@ -152,19 +157,23 @@ class FirefoxDatetimeInputBase extends XULElement {
       }
     }
   }
+
   notifyInputElementValueChanged() {
     this.log("inputElementValueChanged");
     this.setFieldsFromInputValue();
   }
+
   notifyMinMaxStepAttrChanged() {
 
   }
+
   /**
    * No operation by default
    */
   setValueFromPicker(aValue) {
     this.setFieldsFromPicker(aValue);
   }
+
   hasBadInput() {
     // Incomplete field does not imply bad input.
     if (this.isAnyFieldEmpty()) {
@@ -179,6 +188,7 @@ class FirefoxDatetimeInputBase extends XULElement {
 
     return false;
   }
+
   advanceToNextField(aReverse) {
     this.log("advanceToNextField");
 
@@ -200,10 +210,12 @@ class FirefoxDatetimeInputBase extends XULElement {
         next.nextElementSibling;
     }
   }
+
   setPickerState(aIsOpen) {
     this.log("picker is now " + (aIsOpen ? "opened" : "closed"));
     this.mIsPickerOpen = aIsOpen;
   }
+
   setEditAttribute(aName, aValue) {
     this.log("setAttribute: " + aName + "=" + aValue);
 
@@ -241,6 +253,7 @@ class FirefoxDatetimeInputBase extends XULElement {
       }
     }
   }
+
   removeEditAttribute(aName) {
     this.log("removeAttribute: " + aName);
 
@@ -265,9 +278,11 @@ class FirefoxDatetimeInputBase extends XULElement {
       }
     }
   }
+
   isEmpty(aValue) {
     return (aValue == undefined || 0 === aValue.length);
   }
+
   getFieldValue(aField) {
     if (!aField || !aField.classList.contains("numeric")) {
       return undefined;
@@ -277,6 +292,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     // Avoid returning 0 when field is empty.
     return (this.isEmpty(value) ? undefined : Number(value));
   }
+
   clearFieldValue(aField) {
     aField.textContent = aField.placeholder;
     if (aField.classList.contains("numeric")) {
@@ -285,44 +301,57 @@ class FirefoxDatetimeInputBase extends XULElement {
     }
     this.updateResetButtonVisibility();
   }
+
   setFieldValue() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   clearInputFields() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   setFieldsFromInputValue() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   setInputValueFromFields() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   setFieldsFromPicker() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   handleKeypress() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   handleKeyboardNav() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   getCurrentValue() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   isAnyFieldAvailable() {
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   }
+
   notifyPicker() {
     if (this.mIsPickerOpen && this.isAnyFieldAvailable(true)) {
       this.mInputElement.updateDateTimePicker(this.getCurrentValue());
     }
   }
+
   isDisabled() {
     return this.mInputElement.hasAttribute("disabled");
   }
+
   isReadonly() {
     return this.mInputElement.hasAttribute("readonly");
   }
+
   handleEvent(aEvent) {
     this.log("handleEvent: " + aEvent.type);
 
@@ -365,6 +394,7 @@ class FirefoxDatetimeInputBase extends XULElement {
         break;
     }
   }
+
   onFocus(aEvent) {
     this.log("onFocus originalTarget: " + aEvent.originalTarget);
 
@@ -382,6 +412,7 @@ class FirefoxDatetimeInputBase extends XULElement {
       this.mInputElement.setFocusState(true);
     }
   }
+
   onBlur(aEvent) {
     this.log("onBlur originalTarget: " + aEvent.originalTarget +
       " target: " + aEvent.target);
@@ -391,6 +422,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.setInputValueFromFields();
     this.mInputElement.setFocusState(false);
   }
+
   onKeyPress(aEvent) {
     this.log("onKeyPress key: " + aEvent.key);
 
@@ -444,6 +476,7 @@ class FirefoxDatetimeInputBase extends XULElement {
         }
     }
   }
+
   onClick(aEvent) {
     this.log("onClick originalTarget: " + aEvent.originalTarget +
       " target: " + aEvent.target);

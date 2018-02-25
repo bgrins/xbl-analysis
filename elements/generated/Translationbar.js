@@ -102,6 +102,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
   get state() {
     return this._getAnonElt('translationStates').selectedIndex;
   }
+
   init(aTranslation) {
     this.translation = aTranslation;
     let bundle = Services.strings.createBundle("chrome://global/locale/languageNames.properties");
@@ -203,9 +204,11 @@ class FirefoxTranslationbar extends FirefoxNotification {
       Services.prefs.setBoolPref(kWelcomePref, true);
     }, { once: true });
   }
+
   _getAnonElt(aAnonId) {
     return document.getAnonymousElementByAttribute(this, "anonid", aAnonId);
   }
+
   translate() {
     if (this.state == Translation.STATE_OFFER) {
       this._getAnonElt("fromLanguage").value =
@@ -217,6 +220,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
     this.translation.translate(this._getAnonElt("fromLanguage").value,
       this._getAnonElt("toLanguage").value);
   }
+
   /**
    * To be called when the infobar should be closed per user's wish (e.g.
    * by clicking the notification's close button
@@ -225,19 +229,23 @@ class FirefoxTranslationbar extends FirefoxNotification {
     this.close();
     this.translation.infobarClosed();
   }
+
   _handleButtonHiding() {
     let originalShown = this.translation.originalShown;
     this._getAnonElt("showOriginal").hidden = originalShown;
     this._getAnonElt("showTranslation").hidden = !originalShown;
   }
+
   showOriginal() {
     this.translation.showOriginalContent();
     this._handleButtonHiding();
   }
+
   showTranslation() {
     this.translation.showTranslatedContent();
     this._handleButtonHiding();
   }
+
   optionsShowing() {
     // Get the source language name.
     let lang;
@@ -280,6 +288,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
     item.disabled =
       perms.testExactPermission(uri, "translate") == perms.DENY_ACTION;
   }
+
   neverForLanguage() {
     const kPrefName = "browser.translation.neverForLanguages";
 
@@ -292,6 +301,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
 
     this.closeCommand();
   }
+
   neverForSite() {
     let uri = this.translation.browser.currentURI;
     let perms = Services.perms;
@@ -299,6 +309,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
 
     this.closeCommand();
   }
+
   openProviderAttribution() {
     Translation.openProviderAttribution();
   }

@@ -207,6 +207,7 @@ function getJSForBinding(binding) {
 
   // <method>
   for (let method of binding.find('method')) {
+    js.push('\n');
     let comment = formatComment(method.comment);
     if (comment) {
       js.push(comment);

@@ -118,6 +118,7 @@ class FirefoxTabbox extends FirefoxTabBase {
   get eventNode() {
     return this._eventNode;
   }
+
   handleEvent(event) {
     if (!event.isTrusted) {
       // Don't let untrusted events mess with tabs.

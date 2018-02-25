@@ -18,6 +18,7 @@ class FirefoxCustomizableuiToolbarMenubarStub extends XULElement {
   get currentSet() {
     return this.getAttribute("defaultset");
   }
+
   insertItem() {
     return null;
   }

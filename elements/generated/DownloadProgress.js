@@ -63,6 +63,7 @@ class FirefoxDownloadProgress extends XULElement {
   get status() {
     return this._status.value;
   }
+
   cancel() {
     this.mInstall.cancel();
   }

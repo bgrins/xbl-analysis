@@ -41,6 +41,7 @@ class FirefoxSorters extends XULElement {
   get ascending() {
     return (this.getAttribute("ascending") == "true");
   }
+
   setSort(aSort, aAscending) {
     var sortChanged = false;
     if (aSort != this.sortBy) {
@@ -57,6 +58,7 @@ class FirefoxSorters extends XULElement {
     if (sortChanged)
       this._refreshState();
   }
+
   _handleChange(aSort) {
     const ASCENDING_SORT_FIELDS = ["name"];
 
@@ -67,6 +69,7 @@ class FirefoxSorters extends XULElement {
     else
       this.setSort(aSort, ASCENDING_SORT_FIELDS.includes(aSort));
   }
+
   _refreshState() {
     var sortBy = this.sortBy;
     var checkState = this.ascending ? 2 : 1;

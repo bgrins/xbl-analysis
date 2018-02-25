@@ -39,6 +39,7 @@ class FirefoxFilefield extends FirefoxBasetext {
   get file() {
     return this._file
   }
+
   _getDisplayNameForFile(aFile) {
     if (/Win/.test(navigator.platform)) {
       var lfw = aFile.QueryInterface(Components.interfaces.nsILocalFileWin);
@@ -60,6 +61,7 @@ class FirefoxFilefield extends FirefoxBasetext {
     var url = ios.newFileURI(aFile).QueryInterface(Components.interfaces.nsIURL);
     return url.fileName;
   }
+
   _getIconURLForFile(aFile) {
     if (!aFile)
       return "";

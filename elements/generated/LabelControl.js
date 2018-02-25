@@ -59,6 +59,7 @@ class FirefoxLabelControl extends FirefoxTextLabel {
   get control() {
     return this.getAttribute('control');
   }
+
   formatAccessKey(firstTime) {
     var control = this.labeledControlElement;
     if (!control) {
@@ -174,6 +175,7 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     }
     this.wrapChar(span, accessKeyIndex);
   }
+
   wrapChar(element, index) {
     var treeWalker = document.createTreeWalker(this,
       NodeFilter.SHOW_TEXT,
@@ -192,6 +194,7 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     }
     element.appendChild(node);
   }
+
   mergeElement(element) {
     if (element.previousSibling instanceof Text) {
       element.previousSibling.appendData(element.textContent);

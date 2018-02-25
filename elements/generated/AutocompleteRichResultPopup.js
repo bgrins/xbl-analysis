@@ -105,12 +105,14 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
   get view() {
     return this.mInput.controller;
   }
+
   closePopup() {
     if (this.mPopupOpen) {
       this.hidePopup();
       this.removeAttribute("width");
     }
   }
+
   getNextIndex(aReverse, aAmount, aIndex, aMaxRow) {
     if (aMaxRow < 0)
       return -1;
@@ -128,9 +130,11 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
 
     return aIndex;
   }
+
   onPopupClick(aEvent) {
     this.input.controller.handleEnter(true, aEvent);
   }
+
   onSearchBegin() {
     this.richlistbox.mousedOverIndex = -1;
 
@@ -138,12 +142,14 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       this._onSearchBegin();
     }
   }
+
   openAutocompletePopup(aInput, aElement) {
     // until we have "baseBinding", (see bug #373652) this allows
     // us to override openAutocompletePopup(), but still call
     // the method on the base class
     this._openAutocompletePopup(aInput, aElement);
   }
+
   _openAutocompletePopup(aInput, aElement) {
     if (!this.mPopupOpen) {
       // It's possible that the panel is hidden initially
@@ -162,6 +168,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       this.openPopup(aElement, "after_start", 0, 0, false, false);
     }
   }
+
   invalidate(reason) {
     // Don't bother doing work if we're not even showing
     if (!this.mPopupOpen)
@@ -169,6 +176,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
 
     this._invalidate(reason);
   }
+
   _invalidate(reason) {
     // collapsed if no matches
     this.richlistbox.collapsed = (this.matchCount == 0);
@@ -194,6 +202,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
     }
     this._appendCurrentResult(reason);
   }
+
   _collapseUnusedItems() {
     let existingItemsCount = this.richlistbox.childNodes.length;
     for (let i = this.matchCount; i < existingItemsCount; ++i) {
@@ -205,6 +214,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       }
     }
   }
+
   adjustHeight() {
     // Figure out how many rows to show
     let rows = this.richlistbox.childNodes;
@@ -276,6 +286,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       }, this.mInput.shrinkDelay);
     }
   }
+
   _appendCurrentResult(invalidateReason) {
     var controller = this.mInput.controller;
     var matchCount = this.matchCount;
@@ -385,6 +396,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       this._appendResultTimeout = setTimeout(() => this._appendCurrentResult(), 0);
     }
   }
+
   selectBy(aReverse, aPage) {
     try {
       var amount = aPage ? 5 : 1;

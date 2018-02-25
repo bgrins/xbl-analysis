@@ -46,6 +46,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     }
     return children;
   }
+
   /**
    * Overriding baselistbox
    */
@@ -77,6 +78,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     // always call this (allows a commandupdater without controller)
     document.commandDispatcher.updateCommands("richlistbox-select");
   }
+
   /**
    * We override base-listbox here because those methods don't take dir
    * into account on listbox (which doesn't support dir yet)
@@ -96,6 +98,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     }
     return null;
   }
+
   getPreviousItem(aStartItem, aDelta) {
     var prop = this.dir == "reverse" && this._mayReverse ?
       "nextSibling" :
@@ -111,9 +114,11 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     }
     return null;
   }
+
   appendItem(aLabel, aValue) {
     return this.insertItemAt(-1, aLabel, aValue);
   }
+
   insertItemAt(aIndex, aLabel, aValue) {
     const XULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
@@ -136,6 +141,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
 
     return item;
   }
+
   getIndexOfItem(aItem) {
     // don't search the children, if we're looking for none of them
     if (aItem == null)
@@ -144,15 +150,18 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       return this._selecting.index;
     return this.children.indexOf(aItem);
   }
+
   getItemAtIndex(aIndex) {
     if (this._selecting && this._selecting.index == aIndex)
       return this._selecting.item;
     return this.children[aIndex] || null;
   }
+
   ensureIndexIsVisible(aIndex) {
     // work around missing implementation in scrollBoxObject
     return this.ensureElementIsVisible(this.getItemAtIndex(aIndex));
   }
+
   ensureElementIsVisible(aElement) {
     if (!aElement)
       return;
@@ -168,11 +177,13 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     }
     this._scrollbox.scrollTop += offset;
   }
+
   scrollToIndex(aIndex) {
     var item = this.getItemAtIndex(aIndex);
     if (item)
       this.scrollBoxObject.scrollToElement(item);
   }
+
   getNumberOfVisibleRows() {
     var children = this.children;
 
@@ -181,6 +192,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
 
     return ix - top;
   }
+
   getIndexOfFirstVisibleRow() {
     var children = this.children;
 
@@ -190,9 +202,11 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
 
     return -1;
   }
+
   getRowCount() {
     return this.children.length;
   }
+
   scrollOnePage(aDirection) {
     var children = this.children;
 
@@ -231,6 +245,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
 
     return index != this.currentIndex ? index - this.currentIndex : aDirection;
   }
+
   _refreshSelection() {
     // when this method is called, we know that either the currentItem
     // and selectedItems we have are null (ctor) or a reference to an
@@ -314,6 +329,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     if (this.selType != "multiple" && this.selectedCount == 0)
       this.selectedItem = this.currentItem;
   }
+
   _isItemVisible(aItem) {
     if (!aItem)
       return false;
@@ -324,6 +340,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     return (aItem.boxObject.y + aItem.boxObject.height > y) &&
       (aItem.boxObject.y < y + this.scrollBoxObject.height);
   }
+
   /**
    * For backwards-compatibility and for convenience.
    * Use getIndexOfItem instead.
@@ -331,6 +348,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   getIndexOf(aElement) {
     return this.getIndexOfItem(aElement);
   }
+
   /**
    * For backwards-compatibility and for convenience.
    * Use ensureElementIsVisible instead
@@ -338,6 +356,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   ensureSelectedElementIsVisible() {
     return this.ensureElementIsVisible(this.selectedItem);
   }
+
   /**
    * For backwards-compatibility and for convenience.
    * Use moveByOffset instead.
@@ -347,11 +366,13 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     this.moveByOffset(-1, true, false);
     return index != this.currentIndex;
   }
+
   goDown() {
     var index = this.currentIndex;
     this.moveByOffset(1, true, false);
     return index != this.currentIndex;
   }
+
   /**
    * deprecated (is implied by currentItem and selectItem)
    */

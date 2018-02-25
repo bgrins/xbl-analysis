@@ -271,6 +271,7 @@ class FirefoxPlacesTree extends FirefoxTree {
   get active() {
     return this._active
   }
+
   applyFilter(filterString, folderRestrict, includeHidden) {
     // preserve grouping
     var queryNode = PlacesUtils.asQuery(this.result.root);
@@ -297,6 +298,7 @@ class FirefoxPlacesTree extends FirefoxTree {
 
     this.load([query], options);
   }
+
   load(queries, options) {
     let result = PlacesUtils.history
       .executeQueries(queries, queries.length,
@@ -327,6 +329,7 @@ class FirefoxPlacesTree extends FirefoxTree {
 
     this._cachedInsertionPoint = undefined;
   }
+
   /**
    * Causes a particular node represented by the specified placeURI to be
    * selected in the tree. All containers above the node in the hierarchy
@@ -382,6 +385,7 @@ class FirefoxPlacesTree extends FirefoxTree {
       selection.clearSelection();
     }
   }
+
   /**
    * Causes a particular node to be selected in the tree, resulting in all
    * containers above the node in the hierarchy to be opened, so that the
@@ -420,9 +424,11 @@ class FirefoxPlacesTree extends FirefoxTree {
     // ... and ensure it's visible, not scrolled off somewhere.
     this.treeBoxObject.ensureRowIsVisible(index);
   }
+
   toggleCutNode(aNode, aValue) {
     this.view.toggleCutNode(aNode, aValue);
   }
+
   _getInsertionPoint(index, orientation) {
     var result = this.result;
     var resultview = this.view;
@@ -499,12 +505,14 @@ class FirefoxPlacesTree extends FirefoxTree {
       dropNearNode
     });
   }
+
   /**
    * nsIPlacesView
    */
   selectAll() {
     this.view.selection.selectAll();
   }
+
   /**
    * This method will select the first node in the tree that matches
    * each given item guid. It will open any folder nodes that it needs
@@ -636,10 +644,12 @@ class FirefoxPlacesTree extends FirefoxTree {
     }
     selection.selectEventsSuppressed = false;
   }
+
   buildContextMenu(aPopup) {
     this._contextMenuShown = true;
     return this.controller.buildContextMenu(aPopup);
   }
+
   destroyContextMenu(aPopup) {}
 
   disconnectedCallback() {

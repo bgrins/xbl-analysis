@@ -138,6 +138,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     let orderedPlacements = CustomizableUI.getWidgetIdsInArea(this.id);
     return orderedPlacements.filter(w => currentWidgets.has(w)).join(",");
   }
+
   handleEvent(aEvent) {
     // Ignore overflow/underflow events from from nodes inside the toolbar.
     if (aEvent.target != this.customizationTarget) {
@@ -154,6 +155,7 @@ class FirefoxCustomizableuiToolbar extends XULElement {
       this.overflowedDuringConstruction = null;
     }
   }
+
   insertItem(aId, aBeforeElt, aWrapper) {
     if (aWrapper) {
       Cu.reportError("Can't insert " + aId + ": using insertItem " +

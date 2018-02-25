@@ -18,6 +18,7 @@ class FirefoxMenubar extends XULElement {
   get statusbar() {
     return this.getAttribute('statusbar');
   }
+
   _updateStatusText(itemText) {
     if (!this._active)
       return;

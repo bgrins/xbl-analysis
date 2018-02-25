@@ -61,6 +61,7 @@ class FirefoxNotificationbox extends XULElement {
     var notifications = this.getElementsByTagName("notification");
     return Array.filter(notifications, n => n != closedNotification);
   }
+
   getNotificationWithValue(aValue) {
     var notifications = this.allNotifications;
     for (var n = notifications.length - 1; n >= 0; n--) {
@@ -69,6 +70,7 @@ class FirefoxNotificationbox extends XULElement {
     }
     return null;
   }
+
   appendNotification(aLabel, aValue, aImage, aPriority, aButtons, aEventCallback) {
     if (aPriority < this.PRIORITY_INFO_LOW ||
       aPriority > this.PRIORITY_CRITICAL_BLOCK)
@@ -165,6 +167,7 @@ class FirefoxNotificationbox extends XULElement {
 
     return newitem;
   }
+
   removeNotification(aItem, aSkipAnimation) {
     if (aItem == this.currentNotification)
       this.removeCurrentNotification(aSkipAnimation);
@@ -172,6 +175,7 @@ class FirefoxNotificationbox extends XULElement {
       this._removeNotificationElement(aItem);
     return aItem;
   }
+
   _removeNotificationElement(aChild) {
     if (aChild.eventCallback)
       aChild.eventCallback("removed");
@@ -183,9 +187,11 @@ class FirefoxNotificationbox extends XULElement {
     if (!fm.getFocusedElementForWindow(window, false, {}))
       fm.moveFocus(window, this, fm.MOVEFOCUS_FORWARD, 0);
   }
+
   removeCurrentNotification(aSkipAnimation) {
     this._showNotification(this.currentNotification, false, aSkipAnimation);
   }
+
   removeAllNotifications(aImmediate) {
     var notifications = this.allNotifications;
     for (var n = notifications.length - 1; n >= 0; n--) {
@@ -205,6 +211,7 @@ class FirefoxNotificationbox extends XULElement {
     if (aImmediate || !this._allowAnimation)
       this._finishAnimation();
   }
+
   removeTransientNotifications() {
     var notifications = this.allNotifications;
     for (var n = notifications.length - 1; n >= 0; n--) {
@@ -215,6 +222,7 @@ class FirefoxNotificationbox extends XULElement {
         this.removeNotification(notification);
     }
   }
+
   _showNotification(aNotification, aSlideIn, aSkipAnimation) {
     this._finishAnimation();
 
@@ -253,6 +261,7 @@ class FirefoxNotificationbox extends XULElement {
 
     this._animating = true;
   }
+
   _finishAnimation() {
     if (this._animating) {
       this._animating = false;
@@ -263,6 +272,7 @@ class FirefoxNotificationbox extends XULElement {
       this._setBlockingState(this.currentNotification);
     }
   }
+
   _setBlockingState(aNotification) {
     var isblock = aNotification &&
       aNotification.priority == this.PRIORITY_CRITICAL_BLOCK;

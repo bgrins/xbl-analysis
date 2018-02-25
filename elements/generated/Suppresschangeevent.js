@@ -27,6 +27,7 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
       .replace(/#1/, currTime)
       .replace(/#2/, totalTime);
   }
+
   valueChanged(which, newValue, userChanged) {
     // This method is a copy of the base binding's valueChanged(), except that it does
     // not dispatch a |change| event (to avoid exposing the event to web content), and
@@ -65,6 +66,7 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
         break;
     }
   }
+
   dragStateChanged(isDragging) {
     this.Utils.log("--- dragStateChanged: " + isDragging + " ---");
     this.isDragging = isDragging;
@@ -74,6 +76,7 @@ class FirefoxSuppresschangeevent extends FirefoxScale {
       this.isPausedByDragging = false;
     }
   }
+
   pauseVideoDuringDragging() {
     if (this.isDragging &&
       !this.Utils.video.paused && !this.isPausedByDragging) {

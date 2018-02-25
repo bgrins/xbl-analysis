@@ -289,6 +289,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   get manifestURI() {
     return this._manifestURI
   }
+
   /**
    * Used by session restore to ensure that currentURI is set so
    * that switch-to-tab works before the tab is fully
@@ -298,12 +299,14 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   _setCurrentURI(aURI) {
     this._remoteWebProgressManager.setCurrentURI(aURI);
   }
+
   preserveLayers(preserve) {
     let { frameLoader } = this;
     if (frameLoader.tabParent) {
       frameLoader.tabParent.preserveLayers(preserve);
     }
   }
+
   getInPermitUnload(aCallback) {
     let id = this._permitUnloadId++;
     let mm = this.messageManager;
@@ -315,10 +318,11 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       aCallback(msg.data.inPermitUnload);
     });
   }
+
   permitUnload(aPermitUnloadFlags) {
     let { tabParent } = this.frameLoader;
 
-    if (!tabParent.hasBeforeUnload) {
+    if (!tabParent || !tabParent.hasBeforeUnload) {
       return { permitUnload: true, timedOut: false };
     }
 
@@ -379,6 +383,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
     return { permitUnload, timedOut };
   }
+
   /**
    * This is necessary because the destructor doesn't always get called when
    * we are removed from a tabbrowser. This will be explicitly called by tabbrowser.
@@ -412,6 +417,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       }
     }
   }
+
   receiveMessage(aMessage) {
     let data = aMessage.data;
     switch (aMessage.name) {
@@ -500,6 +506,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     }
     return undefined;
   }
+
   enableDisableCommands(aAction, aEnabledLength, aEnabledCommands, aDisabledLength, aDisabledCommands) {
     if (this._controller) {
       this._controller.enableDisableCommands(aAction,
@@ -507,6 +514,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
         aDisabledLength, aDisabledCommands);
     }
   }
+
   purgeSessionHistory() {
     try {
       this.messageManager.sendAsyncMessage("Browser:PurgeSessionHistory");
@@ -519,6 +527,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this._remoteWebNavigationImpl.canGoBack = false;
     this._remoteWebNavigationImpl.canGoForward = false;
   }
+
   createAboutBlankContentViewer(aPrincipal) {
     // Ensure that the content process has the permissions which are
     // needed to create a document with the given principal.

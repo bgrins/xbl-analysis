@@ -35,6 +35,7 @@ class FirefoxStringbundle extends XULElement {
     //       readonly attribute nsISimpleEnumerator strings;
     return this.stringBundle.getSimpleEnumeration();
   }
+
   getString(aStringKey) {
     try {
       return this.stringBundle.GetStringFromName(aStringKey);
@@ -43,6 +44,7 @@ class FirefoxStringbundle extends XULElement {
       throw e;
     }
   }
+
   getFormattedString(aStringKey, aStringsArray) {
     try {
       return this.stringBundle.formatStringFromName(aStringKey, aStringsArray, aStringsArray.length);

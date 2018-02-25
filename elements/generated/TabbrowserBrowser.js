@@ -6,6 +6,7 @@ class FirefoxTabbrowserBrowser extends FirefoxBrowser {
 
     this._setupEventListeners();
   }
+
   /**
    * throws exception for unknown schemes
    */

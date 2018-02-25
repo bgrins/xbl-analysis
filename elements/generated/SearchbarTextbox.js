@@ -80,6 +80,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
   get selectedButton() {
     return this.popup.oneOffButtons.selectedButton;
   }
+
   initContextMenu(aMenu) {
     const kXULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
@@ -154,6 +155,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     aMenu.addEventListener("popupshowing", onpopupshowing);
     onpopupshowing();
   }
+
   /**
    * This is implemented so that when textbox.value is set directly (e.g.,
    * by tests), the one-off query is updated.
@@ -162,6 +164,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     this.popup.oneOffButtons.query = aValue;
     return aValue;
   }
+
   /**
    * This method overrides the autocomplete binding's openPopup (essentially
    * duplicating the logic from the autocomplete popup binding's
@@ -214,6 +217,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
       popup.openPopup(this.inputField, "after_start", 0, yOffset, false, false);
     }
   }
+
   openSearch() {
     if (!this.popupOpen) {
       document.getBindingParent(this).openSuggestionsPanel();
@@ -221,6 +225,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     }
     return true;
   }
+
   handleEnter(event) {
     // Toggle the open state of the add-engine menu button if it's
     // selected.  We're using handleEnter for this instead of listening
@@ -235,6 +240,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     // handleEnter implementation does.
     return this.mController.handleEnter(false, event || null);
   }
+
   /**
    * override |onTextEntered| in autocomplete.xml
    */
@@ -254,6 +260,7 @@ class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
     }
     document.getBindingParent(this).handleSearchCommand(aEvent, engine);
   }
+
   handleKeyboardNavigation(aEvent) {
     let popup = this.popup;
     if (!popup.popupOpen)

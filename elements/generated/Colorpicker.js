@@ -163,6 +163,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
   get color() {
     return this.mSelectedCell ? this.mSelectedCell.getAttribute("color") : null;
   }
+
   initColor(aColor) {
     // Use this to initialize color without
     //  triggering the "onselect" handler,
@@ -171,6 +172,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
     this.color = aColor;
     this.mDoOnSelect = true;
   }
+
   initialize() {
     this.mSelectedCell = null;
     this.mHoverCell = null;
@@ -197,6 +199,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
     };
 
   }
+
   _fireEvent(aTarget, aEventName) {
     try {
       var event = document.createEvent("Events");
@@ -215,10 +218,12 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
     }
     return false;
   }
+
   resetHover() {
     if (this.mHoverCell)
       this.mHoverCell.removeAttribute("hover");
   }
+
   getColIndex(aCell) {
     var cell = aCell;
     var idx;
@@ -227,17 +232,21 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
 
     return idx;
   }
+
   isColorCell(aCell) {
     return aCell && aCell.hasAttribute("color");
   }
+
   hoverLeft() {
     var cell = this.mHoverCell.previousSibling;
     this.hoverCell(cell);
   }
+
   hoverRight() {
     var cell = this.mHoverCell.nextSibling;
     this.hoverCell(cell);
   }
+
   hoverUp() {
     var row = this.mHoverCell.parentNode.previousSibling;
     if (row) {
@@ -246,6 +255,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
       this.hoverCell(cell);
     }
   }
+
   hoverDown() {
     var row = this.mHoverCell.parentNode.nextSibling;
     if (row) {
@@ -254,6 +264,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
       this.hoverCell(cell);
     }
   }
+
   hoverTo(aRow, aCol) {
     var row = this.mBox.childNodes[aRow];
     if (!row) return;
@@ -261,6 +272,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
     if (!cell) return;
     this.hoverCell(cell);
   }
+
   hoverCell(aCell) {
     if (this.isColorCell(aCell)) {
       this.resetHover();
@@ -271,9 +283,11 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
       aCell.dispatchEvent(event);
     }
   }
+
   selectHoverCell() {
     this.selectCell(this.mHoverCell);
   }
+
   selectCell(aCell) {
     if (this.isColorCell(aCell)) {
       if (this.mSelectedCell)
@@ -286,6 +300,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
         this._fireEvent(this, "select");
     }
   }
+
   handleEvent(aEvent) {
     switch (aEvent.keyCode) {
       case 37: // left

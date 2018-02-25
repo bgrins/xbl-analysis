@@ -49,18 +49,22 @@ class FirefoxStatuspanel extends XULElement {
   get label() {
     return this.hasAttribute("inactive") ? "" : this.getAttribute("label");
   }
+
   getMouseTargetRect() {
     if (!this._mouseTargetRect) {
       this._calcMouseTargetRect();
     }
     return this._mouseTargetRect;
   }
+
   onMouseEnter() {
     this._mirror();
   }
+
   onMouseLeave() {
     this._mirror();
   }
+
   handleEvent(event) {
     if (!this.label)
       return;
@@ -71,6 +75,7 @@ class FirefoxStatuspanel extends XULElement {
         break;
     }
   }
+
   _calcMouseTargetRect() {
     let container = this.parentNode;
     let alignRight = (getComputedStyle(container).direction == "rtl");
@@ -84,6 +89,7 @@ class FirefoxStatuspanel extends XULElement {
       right: alignRight ? containerRect.right : containerRect.left + panelRect.width
     };
   }
+
   _mirror() {
     if (this.hasAttribute("mirror"))
       this.removeAttribute("mirror");

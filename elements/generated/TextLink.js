@@ -13,6 +13,7 @@ class FirefoxTextLink extends FirefoxTextLabel {
   get href() {
     return this.getAttribute('href');
   }
+
   open(aEvent) {
     var href = this.href;
     if (!href || this.disabled || aEvent.defaultPrevented)

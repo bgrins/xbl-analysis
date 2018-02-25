@@ -106,6 +106,7 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
   get readOnly() {
     return this.inputField.readOnly;
   }
+
   _selectInputFieldValueInList() {
     if (this.hasAttribute("disableautoselect"))
       return;
@@ -119,6 +120,7 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
 
     this.setSelectionInternal(arr ? arr.item(0) : null);
   }
+
   setSelectionInternal(val) {
     // This is called internally to set selected item
     //  without triggering infinite loop
@@ -137,6 +139,7 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
     // Do NOT change the "value", which is owned by inputField
     return val;
   }
+
   select() {
     this.inputField.select();
   }

@@ -69,18 +69,21 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
   get value() {
     return this.inputField.value;
   }
+
   _fireCommand(me) {
     if (me._timer)
       clearTimeout(me._timer);
     me._timer = null;
     me.doCommand();
   }
+
   _iconClick() {
     if (this.searchButton)
       this._enterSearch();
     else
       this.focus();
   }
+
   _enterSearch() {
     if (this.disabled)
       return;
@@ -88,6 +91,7 @@ class FirefoxSearchTextbox extends FirefoxTextbox {
       this._searchIcons.selectedIndex = 1;
     this._fireCommand(this);
   }
+
   _clearSearch() {
     if (!this.disabled && !this.readOnly && this.value) {
       this.value = "";

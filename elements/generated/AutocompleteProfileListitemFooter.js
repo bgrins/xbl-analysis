@@ -60,6 +60,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
 
     this._setupEventListeners();
   }
+
   _onCollapse() {
     /* global messageManager */
 
@@ -69,6 +70,7 @@ class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfil
 
     this._itemBox.removeAttribute("no-warning");
   }
+
   _adjustAcItem() {
     /* global Cu */
     this._adjustAutofillItemLayout();

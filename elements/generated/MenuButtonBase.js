@@ -41,6 +41,7 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
   get buttondown() {
     return this.getAttribute('buttondown') == 'true';
   }
+
   init() {
     var btn = document.getAnonymousElementByAttribute(this, "anonid", "button");
     if (!btn)
@@ -61,6 +62,7 @@ class FirefoxMenuButtonBase extends FirefoxButtonBase {
       }
     }, true);
   }
+
   handleEvent(aEvent) {
     this._pendingActive = false;
     this.buttondown = false;

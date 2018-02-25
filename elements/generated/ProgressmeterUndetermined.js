@@ -11,6 +11,7 @@ class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
     this._init();
     this._setupEventListeners();
   }
+
   _init() {
     var stack =
       document.getAnonymousElementByAttribute(this, "anonid", "stack");

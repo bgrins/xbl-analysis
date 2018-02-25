@@ -114,6 +114,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       this._scrollbox.scrollTop :
       this._scrollbox.scrollLeft;
   }
+
   _boundsWithoutFlushing(element) {
     if (!("_DOMWindowUtils" in this)) {
       try {
@@ -130,6 +131,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
       this._DOMWindowUtils.getBoundsWithoutFlushing(element) :
       element.getBoundingClientRect();
   }
+
   _canScrollToElement(element) {
     if (element.hidden) {
       return false;
@@ -142,12 +144,14 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     let rect = this._boundsWithoutFlushing(element);
     return !!(rect.top || rect.left || rect.width || rect.height);
   }
+
   ensureElementIsVisible(element, aInstant) {
     if (!this._canScrollToElement(element))
       return;
 
     element.scrollIntoView({ behavior: aInstant ? "instant" : "auto" });
   }
+
   scrollByIndex(index, aInstant) {
     if (index == 0)
       return;
@@ -189,6 +193,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
 
     this.ensureElementIsVisible(targetElement, aInstant);
   }
+
   _getScrollableElements() {
     var nodes = this.childNodes;
     if (nodes.length == 1 &&
@@ -199,6 +204,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
 
     return Array.filter(nodes, this._canScrollToElement, this);
   }
+
   _elementFromPoint(aX, aPhysicalScrollDir) {
     var elements = this._getScrollableElements();
     if (!elements.length)
@@ -241,6 +247,7 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
 
     return elements[mid];
   }
+
   _autorepeatbuttonScroll(event) {
     var dir = event.originalTarget == this._scrollButtonUp ? -1 : 1;
     if (this._isRTLScrollbox)
@@ -250,11 +257,13 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
 
     event.stopPropagation();
   }
+
   scrollByPixels(aPixels, aInstant) {
     let scrollOptions = { behavior: aInstant ? "instant" : "auto" };
     scrollOptions[this._startEndProps[0]] = aPixels;
     this._scrollbox.scrollBy(scrollOptions);
   }
+
   _updateScrollButtonsDisabledState() {
     if (this.hasAttribute("notoverflowing")) {
       this.setAttribute("scrolledtoend", "true");

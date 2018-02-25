@@ -151,6 +151,7 @@ class FirefoxEditor extends XULElement {
       .getInterface(Components.interfaces.nsIDOMWindowUtils)
       .outerWindowID;
   }
+
   makeEditable(editortype, waitForUrlLoad) {
     this.editingSession.makeWindowEditable(this.contentWindow, editortype, waitForUrlLoad, true, false);
     this.setAttribute("editortype", editortype);
@@ -159,9 +160,11 @@ class FirefoxEditor extends XULElement {
       .getInterface(Components.interfaces.nsIURIContentListener)
       .parentContentListener = this._editorContentListener;
   }
+
   getEditor(containingWindow) {
     return this.editingSession.getEditorForWindow(containingWindow);
   }
+
   getHTMLEditor(containingWindow) {
     var editor = this.editingSession.getEditorForWindow(containingWindow);
     return editor.QueryInterface(Components.interfaces.nsIHTMLEditor);

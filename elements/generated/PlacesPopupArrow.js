@@ -21,6 +21,7 @@ class FirefoxPlacesPopupArrow extends FirefoxPlacesPopupBase {
 
     this._setupEventListeners();
   }
+
   adjustArrowPosition() {
     var arrow = document.getAnonymousElementByAttribute(this, "anonid", "arrow");
 

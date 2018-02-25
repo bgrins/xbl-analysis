@@ -64,6 +64,7 @@ class FirefoxScale extends FirefoxBasecontrol {
       this._sliderElement = document.getAnonymousElementByAttribute(this, "anonid", "slider");
     return this._sliderElement;
   }
+
   _getIntegerAttribute(aAttr, aDefaultValue) {
     var value = this._slider.getAttribute(aAttr);
     var intvalue = parseInt(value, 10);
@@ -71,6 +72,7 @@ class FirefoxScale extends FirefoxBasecontrol {
       return intvalue;
     return aDefaultValue;
   }
+
   _setIntegerAttribute(aAttr, aValue) {
     var intvalue = parseInt(aValue, 10);
     if (!isNaN(intvalue)) {
@@ -84,26 +86,31 @@ class FirefoxScale extends FirefoxBasecontrol {
     }
     return aValue;
   }
+
   decrease() {
     var newpos = this.value - this.increment;
     var startpos = this.min;
     this.value = (newpos > startpos) ? newpos : startpos;
   }
+
   increase() {
     var newpos = this.value + this.increment;
     var endpos = this.max;
     this.value = (newpos < endpos) ? newpos : endpos;
   }
+
   decreasePage() {
     var newpos = this.value - this.pageIncrement;
     var startpos = this.min;
     this.value = (newpos > startpos) ? newpos : startpos;
   }
+
   increasePage() {
     var newpos = this.value + this.pageIncrement;
     var endpos = this.max;
     this.value = (newpos < endpos) ? newpos : endpos;
   }
+
   valueChanged(which, newValue, userChanged) {
     switch (which) {
       case "curpos":
@@ -125,6 +132,7 @@ class FirefoxScale extends FirefoxBasecontrol {
         break;
     }
   }
+
   dragStateChanged(isDragging) {}
 
   _setupEventListeners() {

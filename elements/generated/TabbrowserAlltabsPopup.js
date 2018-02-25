@@ -4,16 +4,19 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
 
     this._setupEventListeners();
   }
+
   _tabOnAttrModified(aEvent) {
     var tab = aEvent.target;
     if (tab.mCorrespondingMenuitem)
       this._setMenuitemAttributes(tab.mCorrespondingMenuitem, tab);
   }
+
   _tabOnTabClose(aEvent) {
     var tab = aEvent.target;
     if (tab.mCorrespondingMenuitem)
       this.removeChild(tab.mCorrespondingMenuitem);
   }
+
   handleEvent(aEvent) {
     switch (aEvent.type) {
       case "TabAttrModified":
@@ -24,6 +27,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
         break;
     }
   }
+
   _updateTabsVisibilityStatus() {
     var tabContainer = gBrowser.tabContainer;
     // We don't want menu item decoration unless there is overflow.
@@ -49,6 +53,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       }
     }
   }
+
   _createTabMenuItem(aTab) {
     var menuItem = document.createElementNS(
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
@@ -63,6 +68,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
 
     this.appendChild(menuItem);
   }
+
   _setMenuitemAttributes(aMenuitem, aTab) {
     aMenuitem.setAttribute("label", aTab.label);
     aMenuitem.setAttribute("crop", "end");

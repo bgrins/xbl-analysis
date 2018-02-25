@@ -96,6 +96,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
 
     this._setupEventListeners();
   }
+
   initialize(aPPBrowser) {
     let { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm", {});
     if (!Services.prefs.getBoolPref("print.use_simplify_page")) {
@@ -120,11 +121,13 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     $("navigateNext").label = ltr ? "▸" : "◂";
     $("navigateEnd").label = ltr ? rightEnd : leftEnd;
   }
+
   destroy() {
     this.mMessageManager.removeMessageListener("Printing:Preview:UpdatePageCount", this);
     delete this.mMessageManager;
     delete this.mPPBrowser;
   }
+
   disableUpdateTriggers(aDisabled) {
     this.mPrintButton.disabled = aDisabled;
     this.mPageSetupButton.disabled = aDisabled;
@@ -138,6 +141,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     this.mLandscapeButton.disabled = aDisabled;
     this.mSimplifyPageCheckbox.disabled = this.mSimplifyPageNotAllowed || aDisabled;
   }
+
   doPageSetup() {
     /* import-globals-from printUtils.js */
     var didOK = PrintUtils.showPageSetup();
@@ -149,6 +153,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
       PrintUtils.printPreview();
     }
   }
+
   navigate(aDirection, aPageNum, aHomeOrEnd) {
     const nsIWebBrowserPrint = Components.interfaces.nsIWebBrowserPrint;
     let navType, pageNum;
@@ -182,9 +187,11 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
       pageNum,
     });
   }
+
   print() {
     PrintUtils.printWindow(this.mPPBrowser.outerWindowID, this.mPPBrowser);
   }
+
   promptForScaleValue(aValue) {
     var value = Math.round(aValue);
     var promptStr = this.mScaleLabel.value;
@@ -197,6 +204,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     }
     return result.value;
   }
+
   setScaleCombobox(aValue) {
     var scaleValues = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.25, 1.5, 1.75, 2];
 
@@ -210,6 +218,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     }
     this.mScaleCombobox.value = "Custom";
   }
+
   scale(aValue) {
     var settings = PrintUtils.getPrintSettings();
     if (aValue == "ShrinkToFit") {
@@ -243,6 +252,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
       PrintUtils.printPreview();
     }
   }
+
   orient(aOrientation) {
     const kIPrintSettings = Components.interfaces.nsIPrintSettings;
     var orientValue = (aOrientation == "portrait") ? kIPrintSettings.kPortraitOrientation :
@@ -254,22 +264,26 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
       PrintUtils.printPreview();
     }
   }
+
   simplify() {
     PrintUtils.setSimplifiedMode(this.mSimplifyPageCheckbox.checked);
     PrintUtils.printPreview();
   }
+
   enableSimplifyPage() {
     this.mSimplifyPageNotAllowed = false;
     this.mSimplifyPageCheckbox.disabled = false;
     this.mSimplifyPageCheckbox.setAttribute("tooltiptext",
       this.mSimplifyPageCheckbox.getAttribute("tooltiptext-enabled"));
   }
+
   disableSimplifyPage() {
     this.mSimplifyPageNotAllowed = true;
     this.mSimplifyPageCheckbox.disabled = true;
     this.mSimplifyPageCheckbox.setAttribute("tooltiptext",
       this.mSimplifyPageCheckbox.getAttribute("tooltiptext-disabled"));
   }
+
   updateToolbar() {
     var settings = PrintUtils.getPrintSettings();
 
@@ -286,11 +300,13 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
 
     this.mPageTextBox.value = 1;
   }
+
   savePrintSettings(settings, flags) {
     var PSSVC = Components.classes["@mozilla.org/gfx/printsettings-service;1"]
       .getService(Components.interfaces.nsIPrintSettingsService);
     PSSVC.savePrintSettingsToPrefs(settings, true, flags);
   }
+
   /**
    * nsIMessageListener
    */

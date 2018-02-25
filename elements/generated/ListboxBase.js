@@ -142,12 +142,14 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   get _selectDelay() {
     return this.getAttribute('_selectDelay') || 50;
   }
+
   removeItemAt(index) {
     var remove = this.getItemAtIndex(index);
     if (remove)
       this.removeChild(remove);
     return remove;
   }
+
   addItemToSelection(aItem) {
     if (this.selType != "multiple" && this.selectedCount)
       return;
@@ -160,6 +162,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
     this._fireOnSelect();
   }
+
   removeItemFromSelection(aItem) {
     if (!aItem.selected)
       return;
@@ -168,12 +171,14 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     aItem.selected = false;
     this._fireOnSelect();
   }
+
   toggleItemSelection(aItem) {
     if (aItem.selected)
       this.removeItemFromSelection(aItem);
     else
       this.addItemToSelection(aItem);
   }
+
   selectItem(aItem) {
     if (!aItem)
       return;
@@ -193,6 +198,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     this._suppressOnSelect = suppress;
     this._fireOnSelect();
   }
+
   selectItemRange(aStartItem, aEndItem) {
     if (this.selType != "multiple")
       return;
@@ -246,6 +252,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
 
     this._fireOnSelect();
   }
+
   selectAll() {
     this._selectionStart = null;
 
@@ -261,6 +268,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     this._suppressOnSelect = suppress;
     this._fireOnSelect();
   }
+
   invertSelection() {
     this._selectionStart = null;
 
@@ -279,6 +287,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     this._suppressOnSelect = suppress;
     this._fireOnSelect();
   }
+
   clearSelection() {
     if (this.selectedItems) {
       while (this.selectedItems.length > 0) {
@@ -291,10 +300,12 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     this._selectionStart = null;
     this._fireOnSelect();
   }
+
   getSelectedItem(aIndex) {
     return aIndex < this.selectedItems.length ?
       this.selectedItems[aIndex] : null;
   }
+
   timedSelect(aItem, aTimeout) {
     var suppress = this._suppressOnSelect;
     if (aTimeout != -1)
@@ -311,6 +322,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
         window.setTimeout(this._selectTimeoutHandler, aTimeout, this);
     }
   }
+
   moveByOffset(aOffset, aIsSelecting, aIsSelectingRange) {
     if ((aIsSelectingRange || !aIsSelecting) &&
       this.selType != "multiple")
@@ -340,6 +352,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
       this.currentItem = newItem;
     }
   }
+
   /**
    * Private
    */
@@ -355,6 +368,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     }
     return null;
   }
+
   getPreviousItem(aStartItem, aDelta) {
     while (aStartItem) {
       aStartItem = aStartItem.previousSibling;
@@ -367,6 +381,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     }
     return null;
   }
+
   _moveByOffsetFromUserEvent(aOffset, aEvent) {
     if (!aEvent.defaultPrevented) {
       this._userSelecting = true;
@@ -377,10 +392,12 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
       aEvent.preventDefault();
     }
   }
+
   _canUserSelect(aItem) {
     var style = document.defaultView.getComputedStyle(aItem);
     return style.display != "none" && style.visibility == "visible";
   }
+
   _selectTimeoutHandler(aMe) {
     aMe._fireOnSelect();
     aMe._selectTimeout = null;
