@@ -554,7 +554,7 @@ class FirefoxTabbrowser extends XULElement {
   }
 
   syncThrobberAnimations(aTab) {
-    BrowserUtils.promiseLayoutFlushed(aTab.ownerDocument, "style", () => {
+    aTab.ownerGlobal.promiseDocumentFlushed(() => {
       if (!aTab.parentNode) {
         return;
       }
@@ -4164,7 +4164,6 @@ class FirefoxTabbrowser extends XULElement {
         window.addEventListener("MozAfterPaint", this);
         window.addEventListener("MozLayerTreeReady", this);
         window.addEventListener("MozLayerTreeCleared", this);
-        window.addEventListener("TabBrowserDiscarded", this);
         window.addEventListener("TabRemotenessChange", this);
         window.addEventListener("sizemodechange", this);
         window.addEventListener("occlusionstatechange", this);
@@ -4209,7 +4208,6 @@ class FirefoxTabbrowser extends XULElement {
         window.removeEventListener("MozAfterPaint", this);
         window.removeEventListener("MozLayerTreeReady", this);
         window.removeEventListener("MozLayerTreeCleared", this);
-        window.removeEventListener("TabBrowserDiscarded", this);
         window.removeEventListener("TabRemotenessChange", this);
         window.removeEventListener("sizemodechange", this);
         window.removeEventListener("occlusionstatechange", this);
@@ -4431,26 +4429,26 @@ class FirefoxTabbrowser extends XULElement {
         this.assert(this.tabbrowser._switcher === this);
 
         for (let [tab, ] of this.tabState) {
-          if (!tab.linkedPanel) {
+          if (!tab.linkedBrowser) {
             this.tabState.delete(tab);
             this.unwarmTab(tab);
           }
         }
 
-        if (this.lastVisibleTab && !this.lastVisibleTab.linkedPanel) {
+        if (this.lastVisibleTab && !this.lastVisibleTab.linkedBrowser) {
           this.lastVisibleTab = null;
         }
-        if (this.lastPrimaryTab && !this.lastPrimaryTab.linkedPanel) {
+        if (this.lastPrimaryTab && !this.lastPrimaryTab.linkedBrowser) {
           this.lastPrimaryTab = null;
         }
-        if (this.blankTab && !this.blankTab.linkedPanel) {
+        if (this.blankTab && !this.blankTab.linkedBrowser) {
           this.blankTab = null;
         }
-        if (this.spinnerTab && !this.spinnerTab.linkedPanel) {
+        if (this.spinnerTab && !this.spinnerTab.linkedBrowser) {
           this.spinnerHidden();
           this.spinnerTab = null;
         }
-        if (this.loadingTab && !this.loadingTab.linkedPanel) {
+        if (this.loadingTab && !this.loadingTab.linkedBrowser) {
           this.loadingTab = null;
           this.clearTimer(this.loadTimer);
           this.loadTimer = null;
@@ -4650,12 +4648,6 @@ class FirefoxTabbrowser extends XULElement {
           // it sends up a layer tree.
           this.setTabState(tab, this.STATE_LOADING);
         }
-      },
-
-      // Called when a tab is discarded
-      onTabDiscarded(tab) {
-        this.logState(`onTabDiscarded(${tab._tPos})`);
-        this.setTabStateNoAction(tab, this.STATE_UNLOADED);
       },
 
       // Called when a tab has been removed, and the browser node is
@@ -4895,8 +4887,6 @@ class FirefoxTabbrowser extends XULElement {
           this.onLayersCleared(event.originalTarget);
         } else if (event.type == "TabRemotenessChange") {
           this.onRemotenessChange(event.target);
-        } else if (event.type == "TabBrowserDiscarded") {
-          this.onTabDiscarded(event.target);
         } else if (event.type == "sizemodechange" ||
           event.type == "occlusionstatechange") {
           this.onSizeModeOrOcclusionStateChange();
@@ -5620,7 +5610,8 @@ class FirefoxTabbrowser extends XULElement {
       if (this.selectedBrowser == browser) {
         TabCrashHandler.onSelectedBrowserCrash(browser);
       } else {
-        this.discardBrowser(browser);
+        this.updateBrowserRemoteness(browser, false);
+        SessionStore.reviveCrashedTab(tab);
       }
 
       tab.removeAttribute("soundplaying");

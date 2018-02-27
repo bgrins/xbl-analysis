@@ -322,7 +322,7 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   permitUnload(aPermitUnloadFlags) {
     let { tabParent } = this.frameLoader;
 
-    if (!tabParent || !tabParent.hasBeforeUnload) {
+    if (!tabParent.hasBeforeUnload) {
       return { permitUnload: true, timedOut: false };
     }
 
