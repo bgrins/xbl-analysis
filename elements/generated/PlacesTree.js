@@ -16,6 +16,16 @@ class FirefoxPlacesTree extends FirefoxTree {
   get controller() {
     return this._controller
   }
+
+  set disableUserActions(val) {
+    if (val) this.setAttribute('disableUserActions', 'true');
+    else this.removeAttribute('disableUserActions');
+    return val;
+  }
+
+  get disableUserActions() {
+    return this.getAttribute('disableUserActions') == 'true';
+  }
   /**
    * overriding
    */
@@ -312,6 +322,7 @@ class FirefoxPlacesTree extends FirefoxTree {
 
     if (!this._controller) {
       this._controller = new PlacesController(this);
+      this._controller.disableUserActions = this.disableUserActions;
       this.controllers.appendController(this._controller);
     }
 
@@ -700,6 +711,12 @@ class FirefoxPlacesTree extends FirefoxTree {
     this.addEventListener("dragstart", (event) => {
       if (event.target.localName != "treechildren")
         return;
+
+      if (this.disableUserActions) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
 
       let nodes = this.selectedNodes;
       for (let i = 0; i < nodes.length; i++) {

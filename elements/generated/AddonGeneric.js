@@ -496,7 +496,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
     this.setAttribute("active", this.mAddon.isActive);
 
-    var showProgress = this.mAddon.purchaseURL || (this.mAddon.install &&
+    var showProgress = (this.mAddon.install &&
       this.mAddon.install.state != AddonManager.STATE_INSTALLED);
     this._showStatus(showProgress ? "progress" : "none");
 

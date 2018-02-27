@@ -238,3 +238,4 @@ function getJSForBinding(binding) {
 exports.getJSForBinding = getJSForBinding;
 exports.titleCase = titleCase;
 exports.formatExtends = formatExtends;
+exports.formatComment = formatComment;

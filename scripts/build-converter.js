@@ -1,6 +1,11 @@
 var fs = require('fs');
 var {getParsedFiles, files} = require('./xbl-files');
-var {getJSForBinding, titleCase, formatExtends} = require("./custom-element-utils");
+var {
+  getJSForBinding,
+  titleCase,
+  formatExtends,
+  formatComment
+} = require("./custom-element-utils");
 
 getParsedFiles().then(parsedFiles => {
   var jsObj = [];
@@ -12,7 +17,7 @@ getParsedFiles().then(parsedFiles => {
     return `<li><a href='#' data-index=${i}>${file}</a></li>`;
   }).join("\n");
 
-  fs.writeFileSync('converter/index.html', `
+  fs.writeFileSync("converter/index.html", `
   <!DOCTYPE html>
   <html>
   <head>
@@ -87,6 +92,7 @@ getParsedFiles().then(parsedFiles => {
     ${getJSForBinding.toString()}
     ${titleCase.toString()}
     ${formatExtends.toString()}
+    ${formatComment.toString()}
 
     var worker = new Worker("../static/prettier-worker.js");
     var textarea = document.querySelector("textarea");
