@@ -4084,6 +4084,10 @@ class FirefoxTabbrowser extends XULElement {
 
       getTabState(tab) {
         let state = this.tabState.get(tab);
+
+        // As an optimization, we lazily evaluate the state of tabs
+        // that we've never seen before. Once we've figured it out,
+        // we stash it in our state map.
         if (state === undefined) {
           state = this.STATE_UNLOADED;
 
@@ -4097,6 +4101,8 @@ class FirefoxTabbrowser extends XULElement {
               state = this.STATE_UNLOADING;
             }
           }
+
+          this.setTabStateNoAction(tab, state);
         }
 
         return state;
@@ -4111,6 +4117,10 @@ class FirefoxTabbrowser extends XULElement {
       },
 
       setTabState(tab, state) {
+        if (state == this.getTabState(tab)) {
+          return;
+        }
+
         this.setTabStateNoAction(tab, state);
 
         let browser = tab.linkedBrowser;
@@ -4483,10 +4493,12 @@ class FirefoxTabbrowser extends XULElement {
         }
 
         // If we're not loading anything, try loading the requested tab.
-        let requestedState = this.getTabState(this.requestedTab);
+        let stateOfRequestedTab = this.getTabState(this.requestedTab);
         if (!this.loadTimer && !this.minimizedOrFullyOccluded &&
-          (requestedState == this.STATE_UNLOADED ||
-            requestedState == this.STATE_UNLOADING)) {
+          (stateOfRequestedTab == this.STATE_UNLOADED ||
+            stateOfRequestedTab == this.STATE_UNLOADING ||
+            this.warmingTabs.has(this.requestedTab))) {
+          this.assert(stateOfRequestedTab != this.STATE_LOADED);
           this.loadRequestedTab();
         }
 
@@ -4605,6 +4617,7 @@ class FirefoxTabbrowser extends XULElement {
         this.assert(this.getTabState(tab) == this.STATE_LOADING ||
           this.getTabState(tab) == this.STATE_LOADED);
         this.setTabState(tab, this.STATE_LOADED);
+        this.unwarmTab(tab);
 
         if (this.loadingTab === tab) {
           this.clearTimer(this.loadTimer);
@@ -4826,8 +4839,6 @@ class FirefoxTabbrowser extends XULElement {
           Services.telemetry
             .getHistogramById("FX_TAB_SWITCH_REQUEST_TAB_WARMING_STATE")
             .add(warmingState);
-
-          this.unwarmTab(tab);
         }
 
         this._requestingTab = true;

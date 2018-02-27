@@ -21135,11 +21135,11 @@ var DATA = {
     },
     label: "2018-02-25"
   },
-  "master@{2018-02-26}": {
+  "master@{2018-02-27}": {
     numBindings: 221,
-    loc: 43099,
+    loc: 43110,
     directoryLOC: {
-      browser: 16479,
+      browser: 16490,
       dom: 723,
       toolkit: 25250,
       mobile: 0,
@@ -21155,7 +21155,7 @@ var DATA = {
       xpfe: 0
     },
     bindingsLOC: {
-      tabbrowser: 6308,
+      tabbrowser: 6319,
       videoControls: 1784,
       browser: 1775,
       urlbar: 1709,
@@ -21373,7 +21373,7 @@ var DATA = {
       empty: 3,
       thumb: 3
     },
-    label: "2018-02-26"
+    label: "2018-02-27"
   }
 };
 var SORTED_BINDINGS = {
