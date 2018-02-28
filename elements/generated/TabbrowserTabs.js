@@ -15,8 +15,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         <xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;"></xul:spacer>
       </xul:arrowscrollbox>
     `;
-    this.tabbrowser = gBrowser;
-
     this.tabbox = this.tabbrowser.tabbox;
 
     this.contextMenu = document.getElementById("tabContextMenu");
@@ -87,6 +85,10 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this._setPositionalAttributes();
 
     this._setupEventListeners();
+  }
+
+  get tabbrowser() {
+    return window.gBrowser;
   }
 
   get restoreTabsButtonWrapperWidth() {
@@ -1176,7 +1178,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
           return;
 
         let inBackground = Services.prefs.getBoolPref("browser.tabs.loadInBackground");
-
         if (event.shiftKey)
           inBackground = !inBackground;
 
@@ -1187,15 +1188,27 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         let urls = links.map(link => link.url);
 
         let triggeringPrincipal = browserDragAndDrop.getTriggeringPrincipal(event);
-        this.tabbrowser.loadTabs(urls, {
-          inBackground,
-          replace,
-          allowThirdPartyFixup: true,
-          targetTab,
-          newIndex,
-          userContextId,
-          triggeringPrincipal,
-        });
+
+        (async () => {
+          if (urls.length >= Services.prefs.getIntPref("browser.tabs.maxOpenBeforeWarn")) {
+            // Sync dialog cannot be used inside drop event handler.
+            let answer = await OpenInTabsUtils.promiseConfirmOpenInTabs(urls.length,
+              window);
+            if (!answer) {
+              return;
+            }
+          }
+
+          this.tabbrowser.loadTabs(urls, {
+            inBackground,
+            replace,
+            allowThirdPartyFixup: true,
+            targetTab,
+            newIndex,
+            userContextId,
+            triggeringPrincipal,
+          });
+        })();
       }
 
       if (draggedTab) {

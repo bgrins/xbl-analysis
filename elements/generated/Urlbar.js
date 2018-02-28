@@ -660,7 +660,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
    * "where", this method computes the appropriate parameters, but
    * any parameters you supply here will override those.
    */
-  handleCommand(event, openUILinkWhere, openUILinkParams) {
+  handleCommand(event, openUILinkWhere, openUILinkParams, triggeringPrincipal) {
     let isMouseEvent = event instanceof MouseEvent;
     if (isMouseEvent && event.button == 2) {
       // Do nothing for right clicks.
@@ -790,7 +790,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           if (where != "current" ||
             browser.lastLocationChange == lastLocationChange) {
             this._loadURL(data.url, browser, data.postData, where,
-              openUILinkParams, data.mayInheritPrincipal);
+              openUILinkParams, data.mayInheritPrincipal,
+              triggeringPrincipal);
           }
         });
         return;
@@ -798,10 +799,10 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
 
     this._loadURL(url, browser, postData, where, openUILinkParams,
-      mayInheritPrincipal);
+      mayInheritPrincipal, triggeringPrincipal);
   }
 
-  _loadURL(url, browser, postData, openUILinkWhere, openUILinkParams, mayInheritPrincipal) {
+  _loadURL(url, browser, postData, openUILinkWhere, openUILinkParams, mayInheritPrincipal, triggeringPrincipal) {
     this.value = url;
     browser.userTypedValue = url;
     if (gInitialPages.includes(url)) {
@@ -818,6 +819,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     let params = {
       postData,
       allowThirdPartyFixup: true,
+      triggeringPrincipal,
     };
     if (openUILinkWhere == "current") {
       params.targetBrowser = browser;
@@ -965,6 +967,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // The URL bar automatically handles inputs with newline characters,
     // so we can get away with treating text/x-moz-url flavours as text/plain.
     if (links.length > 0 && links[0].url) {
+      let triggeringPrincipal = browserDragAndDrop.getTriggeringPrincipal(aEvent);
       aEvent.preventDefault();
       let url = links[0].url;
       let strippedURL = stripUnsafeProtocolOnPaste(url);
@@ -983,7 +986,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         // URL object. If the *security checks* fail, return null.
         try {
           urlSecurityCheck(url,
-            gBrowser.contentPrincipal,
+            triggeringPrincipal,
             Ci.nsIScriptSecurityManager.DISALLOW_INHERIT_PRINCIPAL);
           return urlObj;
         } catch (ex) {
@@ -1005,10 +1008,11 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   onDrop(aEvent) {
     let droppedItem = this._getDroppableItem(aEvent);
     if (droppedItem) {
+      let triggeringPrincipal = browserDragAndDrop.getTriggeringPrincipal(aEvent);
       this.value = droppedItem instanceof URL ? droppedItem.href : droppedItem;
       SetPageProxyState("invalid");
       this.focus();
-      this.handleCommand();
+      this.handleCommand(null, undefined, undefined, triggeringPrincipal);
       // Force not showing the dropped URI immediately.
       gBrowser.userTypedValue = null;
       URLBarSetURI();
