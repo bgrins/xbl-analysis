@@ -21,14 +21,14 @@ class FirefoxTextLink extends FirefoxTextLabel {
 
     var uri = null;
     try {
-      const nsISSM = Components.interfaces.nsIScriptSecurityManager;
+      const nsISSM = Ci.nsIScriptSecurityManager;
       const secMan =
-        Components.classes["@mozilla.org/scriptsecuritymanager;1"]
+        Cc["@mozilla.org/scriptsecuritymanager;1"]
         .getService(nsISSM);
 
       const ioService =
-        Components.classes["@mozilla.org/network/io-service;1"]
-        .getService(Components.interfaces.nsIIOService);
+        Cc["@mozilla.org/network/io-service;1"]
+        .getService(Ci.nsIIOService);
 
       uri = ioService.newURI(href);
 
@@ -44,13 +44,13 @@ class FirefoxTextLink extends FirefoxTextLabel {
       } catch (ex) {
         var msg = "Error: Cannot open a " + uri.scheme + ": link using \
                          the text-link binding.";
-        Components.utils.reportError(msg);
+        Cu.reportError(msg);
         return;
       }
 
       const cID = "@mozilla.org/uriloader/external-protocol-service;1";
-      const nsIEPS = Components.interfaces.nsIExternalProtocolService;
-      var protocolSvc = Components.classes[cID].getService(nsIEPS);
+      const nsIEPS = Ci.nsIExternalProtocolService;
+      var protocolSvc = Cc[cID].getService(nsIEPS);
 
       // if the scheme is not an exposed protocol, then opening this link
       // should be deferred to the system's external protocol handler
@@ -61,7 +61,7 @@ class FirefoxTextLink extends FirefoxTextLabel {
       }
 
     } catch (ex) {
-      Components.utils.reportError(ex);
+      Cu.reportError(ex);
     }
 
     aEvent.preventDefault();
@@ -69,13 +69,13 @@ class FirefoxTextLink extends FirefoxTextLabel {
 
     // Try handing off the link to the host application, e.g. for
     // opening it in a tabbed browser.
-    var linkHandled = Components.classes["@mozilla.org/supports-PRBool;1"]
-      .createInstance(Components.interfaces.nsISupportsPRBool);
+    var linkHandled = Cc["@mozilla.org/supports-PRBool;1"]
+      .createInstance(Ci.nsISupportsPRBool);
     linkHandled.data = false;
     let { shiftKey, ctrlKey, metaKey, altKey, button } = aEvent;
     let data = { shiftKey, ctrlKey, metaKey, altKey, button, href };
-    Components.classes["@mozilla.org/observer-service;1"]
-      .getService(Components.interfaces.nsIObserverService)
+    Cc["@mozilla.org/observer-service;1"]
+      .getService(Ci.nsIObserverService)
       .notifyObservers(linkHandled, "handle-xul-text-link", JSON.stringify(data));
     if (linkHandled.data)
       return;

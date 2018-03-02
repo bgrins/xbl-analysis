@@ -34,8 +34,8 @@ class FirefoxTooltip extends FirefoxPopupBase {
 
   get textProvider() {
     if (!this._textProvider) {
-      this._textProvider = Components.classes["@mozilla.org/embedcomp/default-tooltiptextprovider;1"]
-        .getService(Components.interfaces.nsITooltipTextProvider);
+      this._textProvider = Cc["@mozilla.org/embedcomp/default-tooltiptextprovider;1"]
+        .getService(Ci.nsITooltipTextProvider);
     }
     return this._textProvider;
   }

@@ -61,13 +61,13 @@ class FirefoxAddonInstalling extends FirefoxAddonBase {
       if (this.mInstall.name) {
         this._name.value = this.mInstall.name;
       } else if (this.mInstall.sourceURI) {
-        var url = Components.classes["@mozilla.org/network/standard-url-mutator;1"]
-          .createInstance(Components.interfaces.nsIStandardURLMutator)
-          .init(Components.interfaces.nsIStandardURL.URLTYPE_STANDARD,
+        var url = Cc["@mozilla.org/network/standard-url-mutator;1"]
+          .createInstance(Ci.nsIStandardURLMutator)
+          .init(Ci.nsIStandardURL.URLTYPE_STANDARD,
             80, this.mInstall.sourceURI.spec,
             null, null)
           .finalize()
-          .QueryInterface(Components.interfaces.nsIURL);
+          .QueryInterface(Ci.nsIURL);
         this._name.value = url.fileName;
       }
     }

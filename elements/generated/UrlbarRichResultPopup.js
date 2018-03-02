@@ -312,7 +312,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       }
     } catch (ex) {
       // Not critical for the urlbar functionality, just report the error.
-      Components.utils.reportError(ex);
+      Cu.reportError(ex);
     }
 
     // Position the popup below the navbar.  To get the y-coordinate,

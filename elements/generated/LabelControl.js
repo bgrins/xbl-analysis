@@ -64,7 +64,7 @@ class FirefoxLabelControl extends FirefoxTextLabel {
     var control = this.labeledControlElement;
     if (!control) {
       var bindingParent = document.getBindingParent(this);
-      if (bindingParent instanceof Components.interfaces.nsIDOMXULLabeledControlElement) {
+      if (bindingParent instanceof Ci.nsIDOMXULLabeledControlElement) {
         control = bindingParent; // For controls that make the <label> an anon child
       }
     }
@@ -79,12 +79,12 @@ class FirefoxLabelControl extends FirefoxTextLabel {
 
     if (this.mInsertSeparator === undefined) {
       try {
-        var prefs = Components.classes["@mozilla.org/preferences-service;1"].
-        getService(Components.interfaces.nsIPrefBranch);
+        var prefs = Cc["@mozilla.org/preferences-service;1"].
+        getService(Ci.nsIPrefBranch);
         this.mUnderlineAccesskey = (prefs.getIntPref("ui.key.menuAccessKey") != 0);
 
         const nsIPrefLocalizedString =
-          Components.interfaces.nsIPrefLocalizedString;
+          Ci.nsIPrefLocalizedString;
 
         const prefNameInsertSeparator =
           "intl.menuitems.insertseparatorbeforeaccesskeys";

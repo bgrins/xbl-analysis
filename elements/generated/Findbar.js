@@ -48,12 +48,12 @@ class FirefoxFindbar extends XULElement {
       _self: this,
 
       QueryInterface(aIID) {
-        if (aIID.equals(Components.interfaces.nsIObserver) ||
-          aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-          aIID.equals(Components.interfaces.nsISupports))
+        if (aIID.equals(Ci.nsIObserver) ||
+          aIID.equals(Ci.nsISupportsWeakReference) ||
+          aIID.equals(Ci.nsISupports))
           return this;
 
-        throw Components.results.NS_ERROR_NO_INTERFACE;
+        throw Cr.NS_ERROR_NO_INTERFACE;
       },
 
       observe(aSubject, aTopic, aPrefName) {
@@ -132,8 +132,8 @@ class FirefoxFindbar extends XULElement {
     this._highlightAll = prefsvc.getBoolPref("findbar.highlightAll");
 
     // Convenience
-    this.nsITypeAheadFind = Components.interfaces.nsITypeAheadFind;
-    this.nsISelectionController = Components.interfaces.nsISelectionController;
+    this.nsITypeAheadFind = Ci.nsITypeAheadFind;
+    this.nsISelectionController = Ci.nsISelectionController;
     this._findSelection = this.nsISelectionController.SELECTION_FIND;
 
     this._findResetTimeout = -1;
@@ -215,8 +215,8 @@ class FirefoxFindbar extends XULElement {
 
   get _prefsvc() {
     if (!this.__prefsvc) {
-      this.__prefsvc = Components.classes["@mozilla.org/preferences-service;1"]
-        .getService(Components.interfaces.nsIPrefBranch);
+      this.__prefsvc = Cc["@mozilla.org/preferences-service;1"]
+        .getService(Ci.nsIPrefBranch);
     }
     return this.__prefsvc;
   }
@@ -232,8 +232,8 @@ class FirefoxFindbar extends XULElement {
   get strBundle() {
     if (!this._strBundle) {
       this._strBundle =
-        Components.classes["@mozilla.org/intl/stringbundle;1"]
-        .getService(Components.interfaces.nsIStringBundleService)
+        Cc["@mozilla.org/intl/stringbundle;1"]
+        .getService(Ci.nsIStringBundleService)
         .createBundle("chrome://global/locale/findbar.properties");
     }
     return this._strBundle;
@@ -553,12 +553,12 @@ class FirefoxFindbar extends XULElement {
     if (!this._xulBrowserWindow) {
       try {
         this._xulBrowserWindow =
-          window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-          .getInterface(Components.interfaces.nsIWebNavigation)
-          .QueryInterface(Components.interfaces.nsIDocShellTreeItem)
+          window.QueryInterface(Ci.nsIInterfaceRequestor)
+          .getInterface(Ci.nsIWebNavigation)
+          .QueryInterface(Ci.nsIDocShellTreeItem)
           .treeOwner
-          .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-          .getInterface(Components.interfaces.nsIXULWindow)
+          .QueryInterface(Ci.nsIInterfaceRequestor)
+          .getInterface(Ci.nsIXULWindow)
           .XULBrowserWindow;
       } catch (ex) {}
       if (!this._xulBrowserWindow)
@@ -1028,8 +1028,8 @@ class FirefoxFindbar extends XULElement {
    * - explicitly.
    */
   shouldFocusContent() {
-    const fm = Components.classes["@mozilla.org/focus-manager;1"]
-      .getService(Components.interfaces.nsIFocusManager);
+    const fm = Cc["@mozilla.org/focus-manager;1"]
+      .getService(Ci.nsIFocusManager);
     if (fm.focusedWindow != window)
       return false;
 

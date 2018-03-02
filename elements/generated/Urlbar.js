@@ -106,13 +106,13 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
 
     this._pressedNoActionKeys = new Set();
 
-    this._prefs = Components.classes["@mozilla.org/preferences-service;1"]
-      .getService(Components.interfaces.nsIPrefService)
+    this._prefs = Cc["@mozilla.org/preferences-service;1"]
+      .getService(Ci.nsIPrefService)
       .getBranch("browser.urlbar.");
     this._prefs.addObserver("", this);
 
-    this._defaultPrefs = Components.classes["@mozilla.org/preferences-service;1"]
-      .getService(Components.interfaces.nsIPrefService)
+    this._defaultPrefs = Cc["@mozilla.org/preferences-service;1"]
+      .getService(Ci.nsIPrefService)
       .getDefaultBranch("browser.urlbar.");
 
     Services.prefs.addObserver("browser.search.suggest.enabled", this);

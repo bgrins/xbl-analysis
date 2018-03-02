@@ -54,7 +54,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
 
     this._pasteController = {
       _autocomplete: this,
-      _kGlobalClipboard: Components.interfaces.nsIClipboard.kGlobalClipboard,
+      _kGlobalClipboard: Ci.nsIClipboard.kGlobalClipboard,
       supportsCommand: aCommand => aCommand == "cmd_paste",
       doCommand(aCommand) {
         this._autocomplete._valueIsPasted = true;
@@ -68,8 +68,8 @@ class FirefoxAutocomplete extends FirefoxTextbox {
       onEvent() {}
     };
 
-    this.mController = Components.classes["@mozilla.org/autocomplete/controller;1"].
-    getService(Components.interfaces.nsIAutoCompleteController);
+    this.mController = Cc["@mozilla.org/autocomplete/controller;1"].
+    getService(Ci.nsIAutoCompleteController);
 
     this._searchBeginHandler = this.initEventHandler("searchbegin");
     this._searchCompleteHandler = this.initEventHandler("searchcomplete");
@@ -367,7 +367,7 @@ class FirefoxAutocomplete extends FirefoxTextbox {
   }
 
   setTextValueWithReason(aValue, aReason) {
-    if (aReason == Components.interfaces.nsIAutoCompleteInput
+    if (aReason == Ci.nsIAutoCompleteInput
       .TEXTVALUE_REASON_COMPLETEDEFAULT) {
       this._disableTrim = true;
     }

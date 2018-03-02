@@ -23,7 +23,7 @@ class FirefoxTab extends FirefoxBasetext {
 
   get control() {
     var parent = this.parentNode;
-    if (parent instanceof Components.interfaces.nsIDOMXULSelectControlElement)
+    if (parent instanceof Ci.nsIDOMXULSelectControlElement)
       return parent;
     return null;
   }

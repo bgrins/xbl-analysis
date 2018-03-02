@@ -359,7 +359,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   getNextItem(aStartItem, aDelta) {
     while (aStartItem) {
       aStartItem = aStartItem.nextSibling;
-      if (aStartItem && aStartItem instanceof Components.interfaces.nsIDOMXULSelectControlItemElement &&
+      if (aStartItem && aStartItem instanceof Ci.nsIDOMXULSelectControlItemElement &&
         (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
         if (aDelta == 0)
@@ -372,7 +372,7 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
   getPreviousItem(aStartItem, aDelta) {
     while (aStartItem) {
       aStartItem = aStartItem.previousSibling;
-      if (aStartItem && aStartItem instanceof Components.interfaces.nsIDOMXULSelectControlItemElement &&
+      if (aStartItem && aStartItem instanceof Ci.nsIDOMXULSelectControlItemElement &&
         (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
         if (aDelta == 0)

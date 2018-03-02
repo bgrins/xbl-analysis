@@ -10,8 +10,8 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
 
     this.DATE_PICKER_HEIGHT = "20.7em";
 
-    this.mozIntl = Components.classes["@mozilla.org/mozintl;1"]
-      .getService(Components.interfaces.mozIMozIntl);
+    this.mozIntl = Cc["@mozilla.org/mozintl;1"]
+      .getService(Ci.mozIMozIntl);
     // Notify DateTimePickerHelper.jsm that binding is ready.
     this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
 

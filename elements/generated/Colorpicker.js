@@ -214,7 +214,7 @@ class FirefoxColorpicker extends FirefoxBasecontrol {
       }
       return !cancel;
     } catch (e) {
-      Components.utils.reportError(e);
+      Cu.reportError(e);
     }
     return false;
   }

@@ -64,7 +64,7 @@ class FirefoxListitem extends FirefoxBasetext {
   get control() {
     var parent = this.parentNode;
     while (parent) {
-      if (parent instanceof Components.interfaces.nsIDOMXULSelectControlElement)
+      if (parent instanceof Ci.nsIDOMXULSelectControlElement)
         return parent;
       parent = parent.parentNode;
     }

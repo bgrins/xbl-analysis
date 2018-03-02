@@ -65,8 +65,8 @@ class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
 
     if (!this._scrollTimer)
       this._scrollTimer =
-      Components.classes["@mozilla.org/timer;1"]
-      .createInstance(Components.interfaces.nsITimer);
+      Cc["@mozilla.org/timer;1"]
+      .createInstance(Ci.nsITimer);
     else
       this._scrollTimer.cancel();
 

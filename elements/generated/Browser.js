@@ -27,8 +27,7 @@ class FirefoxBrowser extends XULElement {
 
     this._contentWindow = null;
 
-    this.mPrefs = Components.classes["@mozilla.org/preferences-service;1"]
-      .getService(Components.interfaces.nsIPrefBranch);
+    this.mPrefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 
     this._mStrBundle = null;
 
@@ -103,8 +102,8 @@ class FirefoxBrowser extends XULElement {
       // loader when creating the docShell as long as this xul:browser
       // doesn't have the 'disablehistory' attribute set.
       if (this.docShell && this.webNavigation.sessionHistory) {
-        var os = Components.classes["@mozilla.org/observer-service;1"]
-          .getService(Components.interfaces.nsIObserverService);
+        var os = Cc["@mozilla.org/observer-service;1"]
+          .getService(Ci.nsIObserverService);
         os.addObserver(this, "browser:purge-session-history", true);
 
         // enable global history if we weren't told otherwise
@@ -113,12 +112,12 @@ class FirefoxBrowser extends XULElement {
             this.docShell.useGlobalHistory = true;
           } catch (ex) {
             // This can occur if the Places database is locked
-            Components.utils.reportError("Error enabling browser global history: " + ex);
+            Cu.reportError("Error enabling browser global history: " + ex);
           }
         }
       }
     } catch (e) {
-      Components.utils.reportError(e);
+      Cu.reportError(e);
     }
     try {
       // Ensures the securityUI is initialized.
@@ -211,7 +210,7 @@ class FirefoxBrowser extends XULElement {
   }
 
   set sameProcessAsFrameLoader(val) {
-    this._sameProcessAsFrameLoader = Components.utils.getWeakReference(val);
+    this._sameProcessAsFrameLoader = Cu.getWeakReference(val);
   }
 
   get sameProcessAsFrameLoader() {
@@ -272,7 +271,7 @@ class FirefoxBrowser extends XULElement {
 
   get imageDocument() {
     var document = this.contentDocument;
-    if (!document || !(document instanceof Components.interfaces.nsIImageDocument))
+    if (!document || !(document instanceof Ci.nsIImageDocument))
       return null;
 
     try {
@@ -311,14 +310,14 @@ class FirefoxBrowser extends XULElement {
       if (!this.docShell) {
         return null;
       }
-      this._webNavigation = this.docShell.QueryInterface(Components.interfaces.nsIWebNavigation);
+      this._webNavigation = this.docShell.QueryInterface(Ci.nsIWebNavigation);
     }
     return this._webNavigation;
   }
 
   get webBrowserFind() {
     if (!this._webBrowserFind)
-      this._webBrowserFind = this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebBrowserFind);
+      this._webBrowserFind = this.docShell.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIWebBrowserFind);
     return this._webBrowserFind;
   }
 
@@ -335,7 +334,7 @@ class FirefoxBrowser extends XULElement {
 
   get fastFind() {
     if (!this._fastFind) {
-      if (!("@mozilla.org/typeaheadfind;1" in Components.classes))
+      if (!("@mozilla.org/typeaheadfind;1" in Cc))
         return null;
 
       var tabBrowser = this.getTabBrowser();
@@ -345,8 +344,8 @@ class FirefoxBrowser extends XULElement {
       if (!this.docShell)
         return null;
 
-      this._fastFind = Components.classes["@mozilla.org/typeaheadfind;1"]
-        .createInstance(Components.interfaces.nsITypeAheadFind);
+      this._fastFind = Cc["@mozilla.org/typeaheadfind;1"]
+        .createInstance(Ci.nsITypeAheadFind);
       this._fastFind.init(this.docShell);
     }
     return this._fastFind;
@@ -354,16 +353,16 @@ class FirefoxBrowser extends XULElement {
 
   get outerWindowID() {
     return this.contentWindow
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIDOMWindowUtils)
+      .QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIDOMWindowUtils)
       .outerWindowID;
   }
 
   get innerWindowID() {
     try {
       return this.contentWindow
-        .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-        .getInterface(Components.interfaces.nsIDOMWindowUtils)
+        .QueryInterface(Ci.nsIInterfaceRequestor)
+        .getInterface(Ci.nsIDOMWindowUtils)
         .currentInnerWindowID;
     } catch (e) {
       if (e.result != Cr.NS_ERROR_NOT_AVAILABLE) {
@@ -482,8 +481,8 @@ class FirefoxBrowser extends XULElement {
     if (!this._mStrBundle) {
       // need to create string bundle manually instead of using <xul:stringbundle/>
       // see bug 63370 for details
-      this._mStrBundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
-        .getService(Components.interfaces.nsIStringBundleService)
+      this._mStrBundle = Cc["@mozilla.org/intl/stringbundle;1"]
+        .getService(Ci.nsIStringBundleService)
         .createBundle("chrome://global/locale/browser.properties");
     }
     return this._mStrBundle;
@@ -519,9 +518,9 @@ class FirefoxBrowser extends XULElement {
     if (!this.docShell.securityUI) {
       const SECUREBROWSERUI_CONTRACTID = "@mozilla.org/secure_browser_ui;1";
       if (!this.hasAttribute("disablesecurity") &&
-        SECUREBROWSERUI_CONTRACTID in Components.classes) {
-        var securityUI = Components.classes[SECUREBROWSERUI_CONTRACTID]
-          .createInstance(Components.interfaces.nsISecureBrowserUI);
+        SECUREBROWSERUI_CONTRACTID in Cc) {
+        var securityUI = Cc[SECUREBROWSERUI_CONTRACTID]
+          .createInstance(Ci.nsISecureBrowserUI);
         securityUI.init(this.contentWindow);
       }
     }
@@ -573,7 +572,7 @@ class FirefoxBrowser extends XULElement {
   }
 
   reload() {
-    const nsIWebNavigation = Components.interfaces.nsIWebNavigation;
+    const nsIWebNavigation = Ci.nsIWebNavigation;
     const flags = nsIWebNavigation.LOAD_FLAGS_NONE;
     this.reloadWithFlags(flags);
   }
@@ -583,7 +582,7 @@ class FirefoxBrowser extends XULElement {
   }
 
   stop() {
-    const nsIWebNavigation = Components.interfaces.nsIWebNavigation;
+    const nsIWebNavigation = Ci.nsIWebNavigation;
     const flags = nsIWebNavigation.STOP_ALL;
     this.webNavigation.stop(flags);
   }
@@ -592,7 +591,7 @@ class FirefoxBrowser extends XULElement {
    * throws exception for unknown schemes
    */
   loadURI(aURI, aReferrerURI, aCharset) {
-    const nsIWebNavigation = Components.interfaces.nsIWebNavigation;
+    const nsIWebNavigation = Ci.nsIWebNavigation;
     const flags = nsIWebNavigation.LOAD_FLAGS_NONE;
     this._wrapURIChangeCall(() =>
       this.loadURIWithFlags(aURI, flags, aReferrerURI, aCharset));
@@ -605,7 +604,7 @@ class FirefoxBrowser extends XULElement {
     if (!aURI)
       aURI = "about:blank";
 
-    var aReferrerPolicy = Components.interfaces.nsIHttpChannel.REFERRER_POLICY_UNSET;
+    var aReferrerPolicy = Ci.nsIHttpChannel.REFERRER_POLICY_UNSET;
     var aTriggeringPrincipal;
 
     // Check for loadURIWithFlags(uri, { ... });
@@ -664,7 +663,7 @@ class FirefoxBrowser extends XULElement {
 
   addProgressListener(aListener, aNotifyMask) {
     if (!aNotifyMask) {
-      aNotifyMask = Components.interfaces.nsIWebProgress.NOTIFY_ALL;
+      aNotifyMask = Ci.nsIWebProgress.NOTIFY_ALL;
     }
     this.webProgress.addProgressListener(aListener, aNotifyMask);
   }
@@ -674,11 +673,11 @@ class FirefoxBrowser extends XULElement {
   }
 
   findChildShell(aDocShell, aSoughtURI) {
-    if (aDocShell.QueryInterface(Components.interfaces.nsIWebNavigation)
+    if (aDocShell.QueryInterface(Ci.nsIWebNavigation)
       .currentURI.spec == aSoughtURI.spec)
       return aDocShell;
     var node = aDocShell.QueryInterface(
-      Components.interfaces.nsIDocShellTreeItem);
+      Ci.nsIDocShellTreeItem);
     for (var i = 0; i < node.childCount; ++i) {
       var docShell = node.getChildAt(i);
       docShell = this.findChildShell(docShell, aSoughtURI);
@@ -842,8 +841,8 @@ class FirefoxBrowser extends XULElement {
     this.mDestroyed = true;
 
     if (this.docShell && this.webNavigation.sessionHistory) {
-      var os = Components.classes["@mozilla.org/observer-service;1"]
-        .getService(Components.interfaces.nsIObserverService);
+      var os = Cc["@mozilla.org/observer-service;1"]
+        .getService(Ci.nsIObserverService);
       try {
         os.removeObserver(this, "browser:purge-session-history");
       } catch (ex) {
@@ -900,8 +899,8 @@ class FirefoxBrowser extends XULElement {
               // If APZ is handling the autoscroll, it may decide to cancel
               // it of its own accord, so register an observer to allow it
               // to notify us of that.
-              var os = Components.classes["@mozilla.org/observer-service;1"]
-                .getService(Components.interfaces.nsIObserverService);
+              var os = Cc["@mozilla.org/observer-service;1"]
+                .getService(Ci.nsIObserverService);
               os.addObserver(this, "apz:cancel-autoscroll", true);
 
               usingApz = tabParent.startApzAutoscroll(
@@ -1009,8 +1008,8 @@ class FirefoxBrowser extends XULElement {
       window.removeEventListener("keyup", this, true);
       this.messageManager.sendAsyncMessage("Autoscroll:Stop");
 
-      var os = Components.classes["@mozilla.org/observer-service;1"]
-        .getService(Components.interfaces.nsIObserverService);
+      var os = Cc["@mozilla.org/observer-service;1"]
+        .getService(Ci.nsIObserverService);
       try {
         os.removeObserver(this, "apz:cancel-autoscroll");
       } catch (ex) {
@@ -1042,7 +1041,7 @@ class FirefoxBrowser extends XULElement {
   }
 
   startScroll(scrolldir, screenX, screenY) {
-    const POPUP_SIZE = 28;
+    const POPUP_SIZE = 32;
     if (!this._autoScrollPopup) {
       if (this.hasAttribute("autoscrollpopup")) {
         // our creator provided a popup to share
@@ -1060,8 +1059,8 @@ class FirefoxBrowser extends XULElement {
       this._autoScrollPopup.style.margin = -POPUP_SIZE / 2 + "px";
     }
 
-    let screenManager = Components.classes["@mozilla.org/gfx/screenmanager;1"]
-      .getService(Components.interfaces.nsIScreenManager);
+    let screenManager = Cc["@mozilla.org/gfx/screenmanager;1"]
+      .getService(Ci.nsIScreenManager);
     let screen = screenManager.screenForRect(screenX, screenY, 1, 1);
 
     // we need these attributes so themers don't need to create per-platform packages
@@ -1340,7 +1339,7 @@ class FirefoxBrowser extends XULElement {
   print(aOuterWindowID, aPrintSettings, aPrintProgressListener) {
     if (!this.frameLoader) {
       throw Components.Exception("No frame loader.",
-        Components.results.NS_ERROR_FAILURE);
+        Cr.NS_ERROR_FAILURE);
     }
 
     this.frameLoader.print(aOuterWindowID, aPrintSettings,
@@ -1385,8 +1384,8 @@ class FirefoxBrowser extends XULElement {
       var warn = this.mPrefs.getBoolPref(kPrefWarnOnEnable, true);
       if (warn && !browseWithCaretOn) {
         var checkValue = { value: false };
-        var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-          .getService(Components.interfaces.nsIPromptService);
+        var promptService = Cc["@mozilla.org/embedcomp/prompt-service;1"]
+          .getService(Ci.nsIPromptService);
 
         var buttonPressed = promptService.confirmEx(window,
           this.mStrBundle.GetStringFromName("browsewithcaret.checkWindowTitle"),
@@ -1435,8 +1434,8 @@ class FirefoxBrowser extends XULElement {
       if (this.isRemoteBrowser)
         return;
 
-      let linkHandler = Components.classes["@mozilla.org/content/dropped-link-handler;1"].
-      getService(Components.interfaces.nsIDroppedLinkHandler);
+      let linkHandler = Cc["@mozilla.org/content/dropped-link-handler;1"].
+      getService(Ci.nsIDroppedLinkHandler);
       if (linkHandler.canDropLink(event, false))
         event.preventDefault();
     });
@@ -1447,8 +1446,8 @@ class FirefoxBrowser extends XULElement {
       if (!this.droppedLinkHandler || event.defaultPrevented || this.isRemoteBrowser)
         return;
 
-      let linkHandler = Components.classes["@mozilla.org/content/dropped-link-handler;1"].
-      getService(Components.interfaces.nsIDroppedLinkHandler);
+      let linkHandler = Cc["@mozilla.org/content/dropped-link-handler;1"].
+      getService(Ci.nsIDroppedLinkHandler);
       try {
         // Pass true to prevent the dropping of javascript:/data: URIs
         var links = linkHandler.dropLinks(event, true);

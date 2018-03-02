@@ -54,8 +54,8 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
 
   get _prefBranch() {
     if (this.__prefBranch === null) {
-      this.__prefBranch = Components.classes["@mozilla.org/preferences-service;1"]
-        .getService(Components.interfaces.nsIPrefBranch);
+      this.__prefBranch = Cc["@mozilla.org/preferences-service;1"]
+        .getService(Ci.nsIPrefBranch);
     }
     return this.__prefBranch;
   }
@@ -119,8 +119,8 @@ class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
     if (!("_DOMWindowUtils" in this)) {
       try {
         this._DOMWindowUtils =
-          window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-          .getInterface(Components.interfaces.nsIDOMWindowUtils);
+          window.QueryInterface(Ci.nsIInterfaceRequestor)
+          .getInterface(Ci.nsIDOMWindowUtils);
       } catch (e) {
         // Can't access nsIDOMWindowUtils if we're unprivileged.
         this._DOMWindowUtils = null;

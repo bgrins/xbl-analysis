@@ -166,7 +166,7 @@ class FirefoxTextbox extends XULElement {
 
   get editor() {
     if (!this.mEditor) {
-      const nsIDOMNSEditableElement = Components.interfaces.nsIDOMNSEditableElement;
+      const nsIDOMNSEditableElement = Ci.nsIDOMNSEditableElement;
       this.mEditor = this.inputField.QueryInterface(nsIDOMNSEditableElement).editor;
     }
     return this.mEditor;
@@ -223,7 +223,7 @@ class FirefoxTextbox extends XULElement {
   _setNewlineHandling() {
     var str = this.getAttribute("newlines");
     if (str && this.editor) {
-      const nsIPlaintextEditor = Components.interfaces.nsIPlaintextEditor;
+      const nsIPlaintextEditor = Ci.nsIPlaintextEditor;
       for (var x in nsIPlaintextEditor) {
         if (/^eNewlines/.test(x)) {
           if (str == RegExp.rightContext.toLowerCase()) {

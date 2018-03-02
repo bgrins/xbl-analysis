@@ -155,7 +155,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
   }
 
   navigate(aDirection, aPageNum, aHomeOrEnd) {
-    const nsIWebBrowserPrint = Components.interfaces.nsIWebBrowserPrint;
+    const nsIWebBrowserPrint = Ci.nsIWebBrowserPrint;
     let navType, pageNum;
 
     // we use only one of aHomeOrEnd, aDirection, or aPageNum
@@ -254,7 +254,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
   }
 
   orient(aOrientation) {
-    const kIPrintSettings = Components.interfaces.nsIPrintSettings;
+    const kIPrintSettings = Ci.nsIPrintSettings;
     var orientValue = (aOrientation == "portrait") ? kIPrintSettings.kPortraitOrientation :
       kIPrintSettings.kLandscapeOrientation;
     var settings = PrintUtils.getPrintSettings();
@@ -287,7 +287,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
   updateToolbar() {
     var settings = PrintUtils.getPrintSettings();
 
-    var isPortrait = settings.orientation == Components.interfaces.nsIPrintSettings.kPortraitOrientation;
+    var isPortrait = settings.orientation == Ci.nsIPrintSettings.kPortraitOrientation;
 
     this.mPortaitButton.checked = isPortrait;
     this.mLandscapeButton.checked = !isPortrait;
@@ -302,8 +302,8 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
   }
 
   savePrintSettings(settings, flags) {
-    var PSSVC = Components.classes["@mozilla.org/gfx/printsettings-service;1"]
-      .getService(Components.interfaces.nsIPrintSettingsService);
+    var PSSVC = Cc["@mozilla.org/gfx/printsettings-service;1"]
+      .getService(Ci.nsIPrintSettingsService);
     PSSVC.savePrintSettingsToPrefs(settings, true, flags);
   }
 

@@ -42,12 +42,11 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
     if (!this._spellCheckInitialized) {
       this._spellCheckInitialized = true;
 
-      const CI = Components.interfaces;
       if (ChromeUtils.getClassName(document) != "XULDocument")
         return null;
 
       var textbox = document.getBindingParent(this);
-      if (!textbox || !(textbox instanceof CI.nsIDOMXULTextBoxElement))
+      if (!textbox || !(textbox instanceof Ci.nsIDOMXULTextBoxElement))
         return null;
 
       try {

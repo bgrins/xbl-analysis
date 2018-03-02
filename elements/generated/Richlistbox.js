@@ -38,7 +38,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
    * richlistbox specific
    */
   get children() {
-    let iface = Components.interfaces.nsIDOMXULSelectControlItemElement;
+    let iface = Ci.nsIDOMXULSelectControlItemElement;
     let children = Array.from(this.childNodes)
       .filter(node => node instanceof iface);
     if (this.dir == "reverse" && this._mayReverse) {
@@ -89,7 +89,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       "nextSibling";
     while (aStartItem) {
       aStartItem = aStartItem[prop];
-      if (aStartItem && aStartItem instanceof Components.interfaces.nsIDOMXULSelectControlItemElement &&
+      if (aStartItem && aStartItem instanceof Ci.nsIDOMXULSelectControlItemElement &&
         (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
         if (aDelta == 0)
@@ -105,7 +105,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
       "previousSibling";
     while (aStartItem) {
       aStartItem = aStartItem[prop];
-      if (aStartItem && aStartItem instanceof Components.interfaces.nsIDOMXULSelectControlItemElement &&
+      if (aStartItem && aStartItem instanceof Ci.nsIDOMXULSelectControlItemElement &&
         (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
         if (aDelta == 0)

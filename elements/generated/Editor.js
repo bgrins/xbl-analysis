@@ -3,12 +3,12 @@ class FirefoxEditor extends XULElement {
 
     this._editorContentListener = {
       QueryInterface(iid) {
-        if (iid.equals(Components.interfaces.nsIURIContentListener) ||
-          iid.equals(Components.interfaces.nsISupportsWeakReference) ||
-          iid.equals(Components.interfaces.nsISupports))
+        if (iid.equals(Ci.nsIURIContentListener) ||
+          iid.equals(Ci.nsISupportsWeakReference) ||
+          iid.equals(Ci.nsISupports))
           return this;
 
-        throw Components.results.NS_ERROR_NO_INTERFACE;
+        throw Cr.NS_ERROR_NO_INTERFACE;
       },
       onStartURIOpen(uri) {
         return false;
@@ -55,14 +55,14 @@ class FirefoxEditor extends XULElement {
 
   get fastFind() {
     if (!this._fastFind) {
-      if (!("@mozilla.org/typeaheadfind;1" in Components.classes))
+      if (!("@mozilla.org/typeaheadfind;1" in Cc))
         return null;
 
       if (!this.docShell)
         return null;
 
-      this._fastFind = Components.classes["@mozilla.org/typeaheadfind;1"]
-        .createInstance(Components.interfaces.nsITypeAheadFind);
+      this._fastFind = Cc["@mozilla.org/typeaheadfind;1"]
+        .createInstance(Ci.nsITypeAheadFind);
       this._fastFind.init(this.docShell);
     }
     return this._fastFind;
@@ -147,8 +147,8 @@ class FirefoxEditor extends XULElement {
 
   get outerWindowID() {
     return this.contentWindow
-      .QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIDOMWindowUtils)
+      .QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIDOMWindowUtils)
       .outerWindowID;
   }
 
@@ -156,8 +156,8 @@ class FirefoxEditor extends XULElement {
     this.editingSession.makeWindowEditable(this.contentWindow, editortype, waitForUrlLoad, true, false);
     this.setAttribute("editortype", editortype);
 
-    this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-      .getInterface(Components.interfaces.nsIURIContentListener)
+    this.docShell.QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIURIContentListener)
       .parentContentListener = this._editorContentListener;
   }
 
@@ -167,7 +167,7 @@ class FirefoxEditor extends XULElement {
 
   getHTMLEditor(containingWindow) {
     var editor = this.editingSession.getEditorForWindow(containingWindow);
-    return editor.QueryInterface(Components.interfaces.nsIHTMLEditor);
+    return editor.QueryInterface(Ci.nsIHTMLEditor);
   }
 
   disconnectedCallback() { undefined }

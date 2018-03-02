@@ -17,10 +17,8 @@ class FirefoxTabbox extends FirefoxTabBase {
         this._eventNode = document;
         break;
     }
-    const nsIEventListenerService =
-      Components.interfaces.nsIEventListenerService;
-    let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
-      .getService(nsIEventListenerService);
+    let els = Cc["@mozilla.org/eventlistenerservice;1"]
+      .getService(Ci.nsIEventListenerService);
     els.addSystemEventListener(this._eventNode, "keydown", this, false);
 
     this._setupEventListeners();
@@ -105,8 +103,8 @@ class FirefoxTabbox extends FirefoxTabBase {
   set eventNode(val) {
     if (val != this._eventNode) {
       const nsIEventListenerService =
-        Components.interfaces.nsIEventListenerService;
-      let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
+        Ci.nsIEventListenerService;
+      let els = Cc["@mozilla.org/eventlistenerservice;1"]
         .getService(nsIEventListenerService);
       els.addSystemEventListener(val, "keydown", this, false);
       els.removeSystemEventListener(this._eventNode, "keydown", this, false);
@@ -172,10 +170,8 @@ class FirefoxTabbox extends FirefoxTabBase {
   }
 
   disconnectedCallback() {
-    const nsIEventListenerService =
-      Components.interfaces.nsIEventListenerService;
-    let els = Components.classes["@mozilla.org/eventlistenerservice;1"]
-      .getService(nsIEventListenerService);
+    let els = Cc["@mozilla.org/eventlistenerservice;1"]
+      .getService(Ci.nsIEventListenerService);
     els.removeSystemEventListener(this._eventNode, "keydown", this, false);
   }
 

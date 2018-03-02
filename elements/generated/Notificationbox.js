@@ -40,8 +40,8 @@ class FirefoxNotificationbox extends XULElement {
   }
 
   get _allowAnimation() {
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-      .getService(Components.interfaces.nsIPrefBranch);
+    var prefs = Cc["@mozilla.org/preferences-service;1"]
+      .getService(Ci.nsIPrefBranch);
     return prefs.getBoolPref("toolkit.cosmeticAnimations.enabled");
   }
 
@@ -182,8 +182,8 @@ class FirefoxNotificationbox extends XULElement {
     this.removeChild(aChild);
 
     // make sure focus doesn't get lost (workaround for bug 570835)
-    let fm = Components.classes["@mozilla.org/focus-manager;1"]
-      .getService(Components.interfaces.nsIFocusManager);
+    let fm = Cc["@mozilla.org/focus-manager;1"]
+      .getService(Ci.nsIFocusManager);
     if (!fm.getFocusedElementForWindow(window, false, {}))
       fm.moveFocus(window, this, fm.MOVEFOCUS_FORWARD, 0);
   }
@@ -300,8 +300,8 @@ class FirefoxNotificationbox extends XULElement {
 
       var bgcolor = "white";
       try {
-        var prefService = Components.classes["@mozilla.org/preferences-service;1"].
-        getService(Components.interfaces.nsIPrefBranch);
+        var prefService = Cc["@mozilla.org/preferences-service;1"].
+        getService(Ci.nsIPrefBranch);
         bgcolor = prefService.getCharPref("browser.display.background_color");
 
         var win = content.contentWindow;

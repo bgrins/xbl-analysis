@@ -46,7 +46,7 @@ class FirefoxRating extends XULElement {
 
   set showRating(val) {
     if (val != "average" || val != "user")
-      throw Components.Exception("Invalid value", Components.results.NS_ERROR_ILLEGAL_VALUE);
+      throw Components.Exception("Invalid value", Cr.NS_ERROR_ILLEGAL_VALUE);
     this.setAttribute("showrating", val);
     this._updateStars();
   }

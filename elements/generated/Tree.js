@@ -313,8 +313,8 @@ class FirefoxTree extends FirefoxTreeBase {
       return false;
     if (row < 0 || row >= this.view.rowCount || !column)
       return false;
-    if (column.type != Components.interfaces.nsITreeColumn.TYPE_TEXT &&
-      column.type != Components.interfaces.nsITreeColumn.TYPE_PASSWORD)
+    if (column.type != Ci.nsITreeColumn.TYPE_TEXT &&
+      column.type != Ci.nsITreeColumn.TYPE_PASSWORD)
       return false;
     if (column.cycler || !this.view.isEditable(row, column))
       return false;

@@ -9,8 +9,8 @@ class FirefoxStringbundle extends XULElement {
   get stringBundle() {
     if (!this._bundle) {
       try {
-        this._bundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
-          .getService(Components.interfaces.nsIStringBundleService)
+        this._bundle = Cc["@mozilla.org/intl/stringbundle;1"]
+          .getService(Ci.nsIStringBundleService)
           .createBundle(this.src);
       } catch (e) {
         dump("Failed to get stringbundle:\n");

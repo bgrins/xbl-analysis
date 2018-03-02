@@ -347,7 +347,7 @@ class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
       // due to new results, but only when: the item is the same, *OR*
       // we are about to replace the currently moused-over item, to
       // avoid surprising the user.
-      let iface = Components.interfaces.nsIAutoCompletePopup;
+      let iface = Ci.nsIAutoCompletePopup;
       if (reusable &&
         originalText == trimmedSearchString &&
         invalidateReason == iface.INVALIDATE_REASON_NEW_RESULT &&

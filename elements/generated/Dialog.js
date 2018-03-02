@@ -63,8 +63,8 @@ class FirefoxDialog extends XULElement {
     if (!this._mStrBundle) {
       // need to create string bundle manually instead of using <xul:stringbundle/>
       // see bug 63370 for details
-      this._mStrBundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
-        .getService(Components.interfaces.nsIStringBundleService)
+      this._mStrBundle = Cc["@mozilla.org/intl/stringbundle;1"]
+        .getService(Ci.nsIStringBundleService)
         .createBundle("chrome://global/locale/dialog.properties");
     }
     return this._mStrBundle;
@@ -358,7 +358,7 @@ class FirefoxDialog extends XULElement {
     this.addEventListener("focus", (event) => {
       var btn = this.getButton(this.defaultButton);
       if (btn)
-        btn.setAttribute("default", event.originalTarget == btn || !(event.originalTarget instanceof Components.interfaces.nsIDOMXULButtonElement));
+        btn.setAttribute("default", event.originalTarget == btn || !(event.originalTarget instanceof Ci.nsIDOMXULButtonElement));
     }, true);
 
   }

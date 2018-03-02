@@ -25,13 +25,13 @@ class FirefoxPanel extends FirefoxPopupBase {
     this.addEventListener("popupshowing", (event) => {
       // Capture the previous focus before has a chance to get set inside the panel
       try {
-        this._prevFocus = Components.utils
+        this._prevFocus = Cu
           .getWeakReference(document.commandDispatcher.focusedElement);
         if (this._prevFocus.get())
           return;
       } catch (ex) {}
 
-      this._prevFocus = Components.utils.getWeakReference(document.activeElement);
+      this._prevFocus = Cu.getWeakReference(document.activeElement);
     });
 
     this.addEventListener("popupshown", (event) => {
@@ -54,8 +54,8 @@ class FirefoxPanel extends FirefoxPopupBase {
         // Focus was set on an element inside this panel,
         // so we need to move it back to where it was previously
         try {
-          let fm = Components.classes["@mozilla.org/focus-manager;1"]
-            .getService(Components.interfaces.nsIFocusManager);
+          let fm = Cc["@mozilla.org/focus-manager;1"]
+            .getService(Ci.nsIFocusManager);
           fm.setFocus(prevFocus, fm.FLAG_NOSCROLL);
         } catch (e) {
           prevFocus.focus();

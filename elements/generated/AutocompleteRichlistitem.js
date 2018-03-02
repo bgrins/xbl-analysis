@@ -91,8 +91,8 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
   get boundaryCutoff() {
     if (!this._boundaryCutoff) {
       this._boundaryCutoff =
-        Components.classes["@mozilla.org/preferences-service;1"].
-      getService(Components.interfaces.nsIPrefBranch).
+        Cc["@mozilla.org/preferences-service;1"].
+      getService(Ci.nsIPrefBranch).
       getIntPref("toolkit.autocomplete.richBoundaryCutoff");
     }
     return this._boundaryCutoff;

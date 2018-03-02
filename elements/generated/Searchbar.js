@@ -50,7 +50,7 @@ class FirefoxSearchbar extends XULElement {
             this.updateDisplay();
             BrowserSearch.updateOpenSearchBadge();
           } else {
-            Components.utils.reportError("Cannot initialize search service, bailing out: " + aStatus);
+            Cu.reportError("Cannot initialize search service, bailing out: " + aStatus);
           }
         });
       });
@@ -355,7 +355,7 @@ class FirefoxSearchbar extends XULElement {
         value: aData
       }, {
         handleError(aError) {
-          Components.utils.reportError("Saving search to form history failed: " + aError.message);
+          Cu.reportError("Saving search to form history failed: " + aError.message);
         }
       });
     }

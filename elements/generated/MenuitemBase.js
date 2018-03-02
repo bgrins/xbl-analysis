@@ -23,7 +23,7 @@ class FirefoxMenuitemBase extends FirefoxBasetext {
   get control() {
     var parent = this.parentNode;
     if (parent &&
-      parent.parentNode instanceof Components.interfaces.nsIDOMXULSelectControlElement)
+      parent.parentNode instanceof Ci.nsIDOMXULSelectControlElement)
       return parent.parentNode;
     return null;
   }
@@ -32,7 +32,7 @@ class FirefoxMenuitemBase extends FirefoxBasetext {
    */
   get parentContainer() {
     for (var parent = this.parentNode; parent; parent = parent.parentNode) {
-      if (parent instanceof Components.interfaces.nsIDOMXULContainerElement)
+      if (parent instanceof Ci.nsIDOMXULContainerElement)
         return parent;
     }
     return null;

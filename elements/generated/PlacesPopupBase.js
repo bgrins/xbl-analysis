@@ -207,7 +207,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
 
     if (!elt._placesNode) {
       // If we are dragging over a non places node drop at the end.
-      dropPoint.ip = new InsertionPoint({
+      dropPoint.ip = new PlacesInsertionPoint({
         parentId: PlacesUtils.getConcreteItemId(resultNode),
         parentGuid: PlacesUtils.getConcreteItemGuid(resultNode)
       });
@@ -230,7 +230,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       // This is a folder or a tag container.
       if (eventY - eltY < eltHeight * 0.20) {
         // If mouse is in the top part of the element, drop above folder.
-        dropPoint.ip = new InsertionPoint({
+        dropPoint.ip = new PlacesInsertionPoint({
           parentId: PlacesUtils.getConcreteItemId(resultNode),
           parentGuid: PlacesUtils.getConcreteItemGuid(resultNode),
           orientation: Ci.nsITreeView.DROP_BEFORE,
@@ -240,7 +240,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
         return dropPoint;
       } else if (eventY - eltY < eltHeight * 0.80) {
         // If mouse is in the middle of the element, drop inside folder.
-        dropPoint.ip = new InsertionPoint({
+        dropPoint.ip = new PlacesInsertionPoint({
           parentId: PlacesUtils.getConcreteItemId(elt._placesNode),
           parentGuid: PlacesUtils.getConcreteItemGuid(elt._placesNode),
           tagName
@@ -251,7 +251,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     } else if (eventY - eltY <= eltHeight / 2) {
       // This is a non-folder node or a readonly folder.
       // If the mouse is above the middle, drop above this item.
-      dropPoint.ip = new InsertionPoint({
+      dropPoint.ip = new PlacesInsertionPoint({
         parentId: PlacesUtils.getConcreteItemId(resultNode),
         parentGuid: PlacesUtils.getConcreteItemGuid(resultNode),
         orientation: Ci.nsITreeView.DROP_BEFORE,
@@ -262,7 +262,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     }
 
     // Drop below the item.
-    dropPoint.ip = new InsertionPoint({
+    dropPoint.ip = new PlacesInsertionPoint({
       parentId: PlacesUtils.getConcreteItemId(resultNode),
       parentGuid: PlacesUtils.getConcreteItemGuid(resultNode),
       orientation: Ci.nsITreeView.DROP_AFTER,
@@ -332,7 +332,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
 
       // Force a copy action if parent node is a query or we are dragging a
       // not-removable node.
-      if (!PlacesControllerDragHelper.canMoveNode(draggedElt, this._rootView))
+      if (!this._rootView.controller.canMoveNode(draggedElt))
         event.dataTransfer.effectAllowed = "copyLink";
 
       // Activate the view and cache the dragged element.
@@ -348,7 +348,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
       let dropPoint = this._getDropPoint(event);
       if (dropPoint && dropPoint.ip) {
         PlacesControllerDragHelper.onDrop(dropPoint.ip, event.dataTransfer)
-          .catch(Components.utils.reportError);
+          .catch(Cu.reportError);
         event.preventDefault();
       }
 
