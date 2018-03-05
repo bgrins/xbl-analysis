@@ -287,8 +287,8 @@ new Chart(
       responsive: true,
       title: {
         display: true,
-        text: "XBL Burndown",
         fontSize: 20,
+        text: "XBL Burndown",
       },
       scales: {
         xAxes: [
@@ -351,6 +351,7 @@ new Chart(
       },
       title: {
         display: true,
+        fontSize: 20,
         text: "Lines of code per binding (sorted)"
       },
       tooltips: {
@@ -409,6 +410,7 @@ new Chart(
       },
       title: {
         display: true,
+        fontSize: 20,
         text: "Number of instances per binding (sorted)"
       },
       tooltips: {
@@ -456,6 +458,7 @@ new Chart(document.querySelector("#directory-loc-container canvas").getContext("
     responsive: true,
     title: {
       display: true,
+      fontSize: 20,
       text: "Lines of Code Per Directory"
     },
   }
@@ -466,7 +469,6 @@ new Chart(document.querySelector("#loc-container canvas").getContext("2d"), {
   data: {
     labels: labels,
     datasets: [{
-      label: "Total lines of XBL",
       backgroundColor: window.chartColors.red,
       borderColor: window.chartColors.red,
       data: locs,
@@ -474,6 +476,14 @@ new Chart(document.querySelector("#loc-container canvas").getContext("2d"), {
     }],
   },
   options: {
+    legend: {
+      display: false,
+    },
+    title: {
+      display: true,
+      fontSize: 20,
+      text: "Total Lines of XBL"
+    },
     responsive: true,
     scales: {
       xAxes: [
@@ -527,6 +537,7 @@ new Chart(document.querySelector("#directory-bindings-container canvas").getCont
   options: {
     title: {
       display: true,
+      fontSize: 20,
       text: "Number of bindings per directory"
     },
     responsive: true,
@@ -541,7 +552,6 @@ new Chart(
       labels: labels,
       datasets: [
         {
-          label: "Number of Bindings",
           backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
           data: bindings,
@@ -550,6 +560,14 @@ new Chart(
       ],
     },
     options: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        fontSize: 20,
+        text: "Number of XBL Bindings"
+      },
       responsive: true,
       scales: {
         xAxes: [
