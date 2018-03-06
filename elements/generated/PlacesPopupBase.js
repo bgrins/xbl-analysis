@@ -186,7 +186,7 @@ class FirefoxPlacesPopupBase extends FirefoxPopup {
     let resultNode = this._placesNode;
 
     if (!PlacesUtils.nodeIsFolder(resultNode) ||
-      PlacesControllerDragHelper.disallowInsertion(resultNode, this._rootView)) {
+      this._rootView.controller.disallowInsertion(resultNode)) {
       return null;
     }
 
