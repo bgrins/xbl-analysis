@@ -209,6 +209,7 @@ function parseBody(body, file) {
     "mobile/android/chrome/content/bindings/checkbox.xml": "android",
     "components/customizableui/content/toolbar.xml": "customizableui",
   }
+  exports.replaceDuplicateIds = replaceDuplicateIds;
 
   for (var i in replaceDuplicateIds) {
     if (file.includes(i)) {
