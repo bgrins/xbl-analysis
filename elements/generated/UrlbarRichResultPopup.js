@@ -292,7 +292,8 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
     // Now that the margins have been set, start adding items (via
     // _invalidate).
     this.mInput = aInput;
-    aInput.controller.setInitiallySelectedIndex(this._isFirstResultHeuristic ? 0 : -1);
+    this.input.controller.setInitiallySelectedIndex(this._isFirstResultHeuristic ? 0 : -1);
+    this.input.userSelectionBehavior = "none";
     this._invalidate();
 
     try {
@@ -430,7 +431,7 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
   createResultLabel(item, proposedLabel) {
     let parts = [proposedLabel];
 
-    let action = this.mInput._parseActionUrl(item.getAttribute("url"));
+    let action = this.input._parseActionUrl(item.getAttribute("url"));
     if (action) {
       switch (action.type) {
         case "searchengine":

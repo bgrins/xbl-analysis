@@ -314,6 +314,16 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         // simply closes the popup without trying to fill anything.
         this.popup.selectedIndex = -1;
         break;
+      case KeyEvent.DOM_VK_TAB:
+        this.userSelectionBehavior = "tab";
+        break;
+      case KeyEvent.DOM_VK_UP:
+      case KeyEvent.DOM_VK_DOWN:
+      case KeyEvent.DOM_VK_PAGE_UP:
+      case KeyEvent.DOM_VK_PAGE_DOWN:
+        if (this.userSelectionBehavior != "tab")
+          this.userSelectionBehavior = "arrow";
+        break;
     }
     if (!this.popup.disableKeyNavigation) {
       if (this._shouldDeferKeyEvent(aEvent)) {
@@ -667,7 +677,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       return;
     }
 
-    BrowserUsageTelemetry.recordUrlbarSelectedResultMethod(event);
+    BrowserUsageTelemetry.recordUrlbarSelectedResultMethod(
+      event, this.userSelectionBehavior);
 
     // Determine whether to use the selected one-off search button.  In
     // one-off search buttons parlance, "selected" means that the button

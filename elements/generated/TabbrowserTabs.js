@@ -84,6 +84,9 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     this._setPositionalAttributes();
 
+    CustomizableUI.addListener(this);
+    this._updateNewTabVisibility();
+
     this._setupEventListeners();
   }
 
@@ -737,8 +740,46 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     return document.getElementById(aTab.linkedPanel);
   }
 
+  _updateNewTabVisibility() {
+    // Helper functions to help deal with customize mode wrapping some items
+    let wrap = n => n.parentNode.localName == "toolbarpaletteitem" ? n.parentNode : n;
+    let unwrap = n => n && n.localName == "toolbarpaletteitem" ? n.firstElementChild : n;
+
+    let sib = this;
+    do {
+      sib = unwrap(wrap(sib).nextElementSibling);
+    } while (sib && sib.hidden);
+
+    const kAttr = "hasadjacentnewtabbutton";
+    if (sib && sib.id == "new-tab-button") {
+      this.setAttribute(kAttr, "true");
+    } else {
+      this.removeAttribute(kAttr);
+    }
+  }
+
+  onWidgetAfterDOMChange(aNode, aNextNode, aContainer) {
+    if (aContainer.ownerDocument == document &&
+      aContainer.id == "TabsToolbar") {
+      this._updateNewTabVisibility();
+    }
+  }
+
+  onAreaNodeRegistered(aArea, aContainer) {
+    if (aContainer.ownerDocument == document &&
+      aArea == "TabsToolbar") {
+      this._updateNewTabVisibility();
+    }
+  }
+
+  onAreaReset(aArea, aContainer) {
+    this.onAreaNodeRegistered(aArea, aContainer);
+  }
+
   disconnectedCallback() {
     Services.prefs.removeObserver("privacy.userContext", this);
+
+    CustomizableUI.removeListener(this);
   }
 
   _setupEventListeners() {
