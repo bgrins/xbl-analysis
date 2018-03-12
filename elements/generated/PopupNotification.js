@@ -10,7 +10,7 @@ class FirefoxPopupNotification extends XULElement {
               <xul:label class="popup-notification-origin header" inherits="value=origin,tooltiptext=origin" crop="center"></xul:label>
               <xul:description class="popup-notification-description" inherits="popupid">
                 <html:span inherits="text=label,popupid"></html:span>
-                <html:b inherits="text=hostname,popupid"></html:b>
+                <html:b inherits="text=name,popupid"></html:b>
                 <html:span inherits="text=endlabel,popupid"></html:span>
               </xul:description>
             </xul:vbox>

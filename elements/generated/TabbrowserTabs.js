@@ -82,6 +82,17 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     Services.prefs.addObserver("privacy.userContext", this);
     this.observe(null, "nsPref:changed", "privacy.userContext.enabled");
 
+    XPCOMUtils.defineLazyPreferenceGetter(this, "_tabMinWidthPref",
+      "browser.tabs.tabMinWidth", null,
+      (pref, prevValue, newValue) => this._tabMinWidth = newValue,
+      newValue => {
+        const LIMIT = 50;
+        return Math.max(newValue, LIMIT);
+      },
+    );
+
+    this._tabMinWidth = this._tabMinWidthPref;
+
     this._setPositionalAttributes();
 
     CustomizableUI.addListener(this);
@@ -92,6 +103,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
   get tabbrowser() {
     return window.gBrowser;
+  }
+
+  set _tabMinWidth(val) {
+    this.style.setProperty("--tab-min-width", val + "px");
+    return val;
   }
 
   get restoreTabsButtonWrapperWidth() {

@@ -181,11 +181,6 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       });
     });
 
-    // The autocomplete controller uses heuristic on some internal caches
-    // to handle cases like backspace, autofill or repeated searches.
-    // Ensure to clear those internal caches when switching tabs.
-    gBrowser.tabContainer.addEventListener("TabSelect", this);
-
     this._setupEventListeners();
   }
   /**
@@ -1233,6 +1228,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         this._hideURLTooltip();
         break;
       case "TabSelect":
+        // The autocomplete controller uses heuristic on some internal caches
+        // to handle cases like backspace, autofill or repeated searches.
+        // Ensure to clear those internal caches when switching tabs.
         this.controller.resetInternalState();
         break;
     }
