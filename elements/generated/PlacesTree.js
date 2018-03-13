@@ -383,7 +383,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     }
 
     var container = this.result.root;
-    NS_ASSERT(container, "No result, cannot select place URI!");
+    console.assert(container, "No result, cannot select place URI!");
     if (!container)
       return;
 
@@ -445,7 +445,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     var resultview = this.view;
     var container = result.root;
     var dropNearNode = null;
-    NS_ASSERT(container, "null container");
+    console.assert(container, "null container");
     // When there's no selection, assume the container is the container
     // the view is populated from (i.e. the result's itemId).
     if (index != -1) {

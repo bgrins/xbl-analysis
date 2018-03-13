@@ -243,11 +243,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   }
 
   toggleMuteAudio(aMuteReason) {
-    // Do not attempt to toggle mute state if browser is lazy.
-    if (!this.linkedPanel) {
-      return;
-    }
-
     let tabContainer = this.parentNode;
     let browser = this.linkedBrowser;
     let modifiedAttrs = [];
@@ -262,12 +257,18 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this.finishMediaBlockTimer();
     } else {
       if (browser.audioMuted) {
-        browser.unmute();
+        if (this.linkedPanel) {
+          // "Lazy Browser" should not invoke its unmute method
+          browser.unmute();
+        }
         this.removeAttribute("muted");
         BrowserUITelemetry.countTabMutingEvent("unmute", aMuteReason);
         hist.add(1 /* unmute */ );
       } else {
-        browser.mute();
+        if (this.linkedPanel) {
+          // "Lazy Browser" should not invoke its mute method
+          browser.mute();
+        }
         this.setAttribute("muted", "true");
         BrowserUITelemetry.countTabMutingEvent("mute", aMuteReason);
         hist.add(0 /* mute */ );
