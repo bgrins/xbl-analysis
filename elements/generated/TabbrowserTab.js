@@ -45,11 +45,16 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   }
 
   set _visuallySelected(val) {
-    if (val)
+    if (val == (this.getAttribute("visuallyselected") == "true")) {
+      return val;
+    }
+
+    if (val) {
       this.setAttribute("visuallyselected", "true");
-    else
+    } else {
       this.removeAttribute("visuallyselected");
-    this.parentNode.tabbrowser._tabAttrModified(this, ["visuallyselected"]);
+    }
+    gBrowser._tabAttrModified(this, ["visuallyselected"]);
 
     return val;
   }
@@ -128,11 +133,12 @@ class FirefoxTabbrowserTab extends FirefoxTab {
    * <field name="closing">false</field>
    */
   _mouseenter() {
-    if (this.hidden || this.closing)
+    if (this.hidden || this.closing) {
       return;
+    }
 
     let tabContainer = this.parentNode;
-    let visibleTabs = tabContainer.tabbrowser.visibleTabs;
+    let visibleTabs = tabContainer._getVisibleTabs();
     let tabIndex = visibleTabs.indexOf(this);
 
     if (this.selected)
@@ -172,9 +178,9 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 
     let tabToWarm = this;
     if (this.mOverCloseButton) {
-      tabToWarm = tabContainer.tabbrowser._findTabToBlurTo(this);
+      tabToWarm = gBrowser._findTabToBlurTo(this);
     }
-    tabContainer.tabbrowser.warmupTab(tabToWarm);
+    gBrowser.warmupTab(tabToWarm);
   }
 
   _mouseleave() {
@@ -243,7 +249,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
   }
 
   toggleMuteAudio(aMuteReason) {
-    let tabContainer = this.parentNode;
     let browser = this.linkedBrowser;
     let modifiedAttrs = [];
     let hist = Services.telemetry.getHistogramById("TAB_AUDIO_INDICATOR_USED");
@@ -257,18 +262,12 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this.finishMediaBlockTimer();
     } else {
       if (browser.audioMuted) {
-        if (this.linkedPanel) {
-          // "Lazy Browser" should not invoke its unmute method
-          browser.unmute();
-        }
+        browser.unmute();
         this.removeAttribute("muted");
         BrowserUITelemetry.countTabMutingEvent("unmute", aMuteReason);
         hist.add(1 /* unmute */ );
       } else {
-        if (this.linkedPanel) {
-          // "Lazy Browser" should not invoke its mute method
-          browser.mute();
-        }
+        browser.mute();
         this.setAttribute("muted", "true");
         BrowserUITelemetry.countTabMutingEvent("mute", aMuteReason);
         hist.add(0 /* mute */ );
@@ -276,7 +275,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       this.muteReason = aMuteReason || null;
       modifiedAttrs.push("muted");
     }
-    tabContainer.tabbrowser._tabAttrModified(this, modifiedAttrs);
+    gBrowser._tabAttrModified(this, modifiedAttrs);
   }
 
   setUserContextId(aUserContextId) {
@@ -343,14 +342,13 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       }
 
       if (event.originalTarget.getAttribute("anonid") == "close-button") {
-        let tabContainer = this.parentNode;
-        tabContainer.tabbrowser.removeTab(this, {
+        gBrowser.removeTab(this, {
           animate: true,
-          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE
+          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE,
         });
         // This enables double-click protection for the tab container
         // (see tabbrowser-tabs 'click' handler).
-        tabContainer._blockDblClick = true;
+        gBrowser.tabContainer._blockDblClick = true;
       }
     });
 

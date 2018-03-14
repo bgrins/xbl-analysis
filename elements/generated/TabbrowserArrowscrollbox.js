@@ -37,8 +37,8 @@ class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll
         tabs._expandSpacerBy(this._scrollButtonDown.clientWidth);
       }
 
-      for (let tab of Array.from(tabs.tabbrowser._removingTabs)) {
-        tabs.tabbrowser.removeTab(tab);
+      for (let tab of Array.from(gBrowser._removingTabs)) {
+        gBrowser.removeTab(tab);
       }
 
       tabs._positionPinnedTabs();

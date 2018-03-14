@@ -15,7 +15,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         <xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;"></xul:spacer>
       </xul:arrowscrollbox>
     `;
-    this.tabbox = this.tabbrowser.tabbox;
+    this.tabbox = document.getElementById("tabbrowser-tabbox");
 
     this.contextMenu = document.getElementById("tabContextMenu");
 
@@ -72,8 +72,12 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     let { restoreTabsButton } = this;
     restoreTabsButton.setAttribute("label", gTabBrowserBundle.GetStringFromName("tabs.restoreLastTabs"));
 
+    let strId = PrivateBrowsingUtils.isWindowPrivate(window) ?
+      "emptyPrivateTabTitle" : "emptyTabTitle";
+    this.emptyTabTitle = gTabBrowserBundle.GetStringFromName("tabs." + strId);
+
     var tab = this.firstChild;
-    tab.label = gTabBrowserBundle.GetStringFromName("tabs.emptyTabTitle");
+    tab.label = this.emptyTabTitle;
     tab.setAttribute("onerror", "this.removeAttribute('image');");
 
     window.addEventListener("resize", this);
@@ -99,10 +103,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this._updateNewTabVisibility();
 
     this._setupEventListeners();
-  }
-
-  get tabbrowser() {
-    return window.gBrowser;
   }
 
   set _tabMinWidth(val) {
@@ -230,12 +230,20 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     }
   }
 
+  _getVisibleTabs() {
+    // Cannot access gBrowser before it's initialized.
+    if (!gBrowser) {
+      return [this.firstChild];
+    }
+
+    return gBrowser.visibleTabs;
+  }
+
   _setPositionalAttributes() {
-    let visibleTabs = this.tabbrowser.visibleTabs;
-
-    if (!visibleTabs.length)
+    let visibleTabs = this._getVisibleTabs();
+    if (!visibleTabs.length) {
       return;
-
+    }
     let selectedIndex = visibleTabs.indexOf(this.selectedItem);
 
     if (this._beforeSelectedTab) {
@@ -285,10 +293,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
 
   updateVisibility() {
-    if (this.childNodes.length - this.tabbrowser._removingTabs.length == 1)
+    if (this.childNodes.length - gBrowser._removingTabs.length == 1) {
       this.visible = window.toolbar.visible;
-    else
+    } else {
       this.visible = true;
+    }
   }
 
   _updateCloseButtons() {
@@ -324,7 +333,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
             .getInterface(Ci.nsIDOMWindowUtils)
             .getBoundsWithoutFlushing(ele);
         };
-        let tab = this.tabbrowser.visibleTabs[this.tabbrowser._numPinnedTabs];
+        let tab = this._getVisibleTabs()[gBrowser._numPinnedTabs];
         if (tab && rect(tab).width <= this._tabClipWidth) {
           this.setAttribute("closebuttons", "activetab");
         } else {
@@ -345,45 +354,48 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
    * Try to keep the active tab's close button under the mouse cursor
    */
   _lockTabSizing(aTab) {
-    var tabs = this.tabbrowser.visibleTabs;
-    if (!tabs.length)
+    let tabs = this._getVisibleTabs();
+    if (!tabs.length) {
       return;
+    }
 
     var isEndTab = (aTab._tPos > tabs[tabs.length - 1]._tPos);
     var tabWidth = aTab.getBoundingClientRect().width;
 
-    if (!this._tabDefaultMaxWidth)
+    if (!this._tabDefaultMaxWidth) {
       this._tabDefaultMaxWidth =
-      parseFloat(window.getComputedStyle(aTab).maxWidth);
+        parseFloat(window.getComputedStyle(aTab).maxWidth);
+    }
     this._lastTabClosedByMouse = true;
 
     if (this.getAttribute("overflow") == "true") {
       // Don't need to do anything if we're in overflow mode and aren't scrolled
       // all the way to the right, or if we're closing the last tab.
-      if (isEndTab || !this.arrowScrollbox._scrollButtonDown.disabled)
+      if (isEndTab || !this.arrowScrollbox._scrollButtonDown.disabled) {
         return;
-
+      }
       // If the tab has an owner that will become the active tab, the owner will
       // be to the left of it, so we actually want the left tab to slide over.
       // This can't be done as easily in non-overflow mode, so we don't bother.
-      if (aTab.owner)
+      if (aTab.owner) {
         return;
-
+      }
       this._expandSpacerBy(tabWidth);
     } else { // non-overflow mode
       // Locking is neither in effect nor needed, so let tabs expand normally.
-      if (isEndTab && !this._hasTabTempMaxWidth)
+      if (isEndTab && !this._hasTabTempMaxWidth) {
         return;
-
-      let numPinned = this.tabbrowser._numPinnedTabs;
+      }
+      let numPinned = gBrowser._numPinnedTabs;
       // Force tabs to stay the same width, unless we're closing the last tab,
       // which case we need to let them expand just enough so that the overall
       // tabbar width is the same.
       if (isEndTab) {
         let numNormalTabs = tabs.length - numPinned;
         tabWidth = tabWidth * (numNormalTabs + 1) / numNormalTabs;
-        if (tabWidth > this._tabDefaultMaxWidth)
+        if (tabWidth > this._tabDefaultMaxWidth) {
           tabWidth = this._tabDefaultMaxWidth;
+        }
       }
       tabWidth += "px";
       for (let i = numPinned; i < tabs.length; i++) {
@@ -396,7 +408,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         }
       }
       this._hasTabTempMaxWidth = true;
-      this.tabbrowser.addEventListener("mousemove", this);
+      gBrowser.addEventListener("mousemove", this);
       window.addEventListener("mouseout", this);
     }
   }
@@ -405,19 +417,20 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     let spacer = this._closingTabsSpacer;
     spacer.style.width = parseFloat(spacer.style.width) + pixels + "px";
     this.setAttribute("using-closing-tabs-spacer", "true");
-    this.tabbrowser.addEventListener("mousemove", this);
+    gBrowser.addEventListener("mousemove", this);
     window.addEventListener("mouseout", this);
   }
 
   _unlockTabSizing() {
-    this.tabbrowser.removeEventListener("mousemove", this);
+    gBrowser.removeEventListener("mousemove", this);
     window.removeEventListener("mouseout", this);
 
     if (this._hasTabTempMaxWidth) {
       this._hasTabTempMaxWidth = false;
-      let tabs = this.tabbrowser.visibleTabs;
-      for (let i = 0; i < tabs.length; i++)
+      let tabs = this._getVisibleTabs();
+      for (let i = 0; i < tabs.length; i++) {
         tabs[i].style.maxWidth = "";
+      }
     }
 
     if (this.hasAttribute("using-closing-tabs-spacer")) {
@@ -433,9 +446,9 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
 
   _positionPinnedTabs() {
-    var numPinned = this.tabbrowser._numPinnedTabs;
-    var doPosition = this.getAttribute("overflow") == "true" &&
-      this.tabbrowser.visibleTabs.length > numPinned &&
+    let numPinned = gBrowser._numPinnedTabs;
+    let doPosition = this.getAttribute("overflow") == "true" &&
+      this._getVisibleTabs().length > numPinned &&
       numPinned > 0;
 
     if (doPosition) {
@@ -499,12 +512,13 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     let rtl = (window.getComputedStyle(this).direction == "rtl");
     let pinned = draggedTab.pinned;
-    let numPinned = this.tabbrowser._numPinnedTabs;
-    let tabs = this.tabbrowser.visibleTabs
+    let numPinned = gBrowser._numPinnedTabs;
+    let tabs = this._getVisibleTabs()
       .slice(pinned ? 0 : numPinned,
         pinned ? numPinned : undefined);
-    if (rtl)
+    if (rtl) {
       tabs.reverse();
+    }
     let tabWidth = draggedTab.getBoundingClientRect().width;
     draggedTab._dragData.tabWidth = tabWidth;
 
@@ -514,8 +528,9 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     let rightTab = tabs[tabs.length - 1];
     let tabScreenX = draggedTab.boxObject.screenX;
     let translateX = screenX - draggedTab._dragData.screenX;
-    if (!pinned)
+    if (!pinned) {
       translateX += this.arrowScrollbox._scrollbox.scrollLeft - draggedTab._dragData.scrollX;
+    }
     let leftBound = leftTab.boxObject.screenX - tabScreenX;
     let rightBound = (rightTab.boxObject.screenX + rightTab.boxObject.width) -
       (tabScreenX + tabWidth);
@@ -579,11 +594,13 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
 
   _finishAnimateTabMove() {
-    if (this.getAttribute("movingtab") != "true")
+    if (this.getAttribute("movingtab") != "true") {
       return;
+    }
 
-    for (let tab of this.tabbrowser.visibleTabs)
+    for (let tab of this._getVisibleTabs()) {
       tab.style.transform = "";
+    }
 
     this.removeAttribute("movingtab");
     this.parentNode.removeAttribute("movingtab");
@@ -718,10 +735,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
 
   _handleNewTab(tab) {
-    if (tab.parentNode != this)
+    if (tab.parentNode != this) {
       return;
+    }
     tab._fullyOpen = true;
-    this.tabbrowser.tabAnimationsInProgress--;
+    gBrowser.tabAnimationsInProgress--;
 
     this._updateCloseButtons();
 
@@ -739,7 +757,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this.arrowScrollbox._updateScrollButtonsDisabledState();
 
     // Preload the next about:newtab if there isn't one already.
-    this.tabbrowser._createPreloadBrowser();
+    gBrowser._createPreloadBrowser();
   }
 
   _canAdvanceToTab(aTab) {
@@ -747,12 +765,19 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
   }
 
   getRelatedElement(aTab) {
-    if (!aTab)
+    if (!aTab) {
       return null;
+    }
+
+    // Cannot access gBrowser before it's initialized.
+    if (!gBrowser) {
+      return this.tabbox.tabpanels.firstChild;
+    }
+
     // If the tab's browser is lazy, we need to `_insertBrowser` in order
     // to have a linkedPanel.  This will also serve to bind the browser
     // and make it ready to use when the tab is selected.
-    this.tabbrowser._insertBrowser(aTab);
+    gBrowser._insertBrowser(aTab);
     return document.getElementById(aTab.linkedPanel);
   }
 
@@ -802,18 +827,20 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this.addEventListener("TabSelect", (event) => { this._handleTabSelect(); });
 
     this.addEventListener("transitionend", (event) => {
-      if (event.propertyName != "max-width")
+      if (event.propertyName != "max-width") {
         return;
+      }
 
       var tab = event.target;
 
       if (tab.getAttribute("fadein") == "true") {
-        if (tab._fullyOpen)
+        if (tab._fullyOpen) {
           this._updateCloseButtons();
-        else
+        } else {
           this._handleNewTab(tab);
+        }
       } else if (tab.closing) {
-        this.tabbrowser._endRemoveTab(tab);
+        gBrowser._endRemoveTab(tab);
       }
     });
 
@@ -889,13 +916,14 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     }, true);
 
     this.addEventListener("click", (event) => {
-      if (event.button != 1)
+      if (event.button != 1) {
         return;
+      }
 
       if (event.target.localName == "tab") {
-        this.tabbrowser.removeTab(event.target, {
+        gBrowser.removeTab(event.target, {
           animate: true,
-          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE
+          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE,
         });
       } else if (event.originalTarget.localName == "box") {
         // The user middleclicked an open space on the tabstrip. This could
@@ -905,8 +933,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         // want to open a tab. So if we're removing one or more tabs, and
         // the tab click is before the end of the last visible tab, we do
         // nothing.
-        if (this.tabbrowser._removingTabs.length) {
-          let visibleTabs = this.tabbrowser.visibleTabs;
+        if (gBrowser._removingTabs.length) {
+          let visibleTabs = this._getVisibleTabs();
           let ltr = (window.getComputedStyle(this).direction == "ltr");
           let lastTab = visibleTabs[visibleTabs.length - 1];
           let endOfTab = lastTab.getBoundingClientRect()[ltr ? "right" : "left"];
@@ -943,20 +971,20 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
       switch (event.keyCode) {
         case KeyEvent.DOM_VK_UP:
-          this.tabbrowser.moveTabBackward();
+          gBrowser.moveTabBackward();
           break;
         case KeyEvent.DOM_VK_DOWN:
-          this.tabbrowser.moveTabForward();
+          gBrowser.moveTabForward();
           break;
         case KeyEvent.DOM_VK_RIGHT:
         case KeyEvent.DOM_VK_LEFT:
-          this.tabbrowser.moveTabOver(event);
+          gBrowser.moveTabOver(event);
           break;
         case KeyEvent.DOM_VK_HOME:
-          this.tabbrowser.moveTabToStart();
+          gBrowser.moveTabToStart();
           break;
         case KeyEvent.DOM_VK_END:
-          this.tabbrowser.moveTabToEnd();
+          gBrowser.moveTabToEnd();
           break;
         default:
           // Consume the keydown event for the above keyboard
@@ -1176,10 +1204,11 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       if (draggedTab && dropEffect == "copy") {
         // copy the dropped tab (wherever it's from)
         let newIndex = this._getDropIndex(event, false);
-        let newTab = this.tabbrowser.duplicateTab(draggedTab);
-        this.tabbrowser.moveTabTo(newTab, newIndex);
-        if (draggedTab.parentNode != this || event.shiftKey)
+        let newTab = gBrowser.duplicateTab(draggedTab);
+        gBrowser.moveTabTo(newTab, newIndex);
+        if (draggedTab.parentNode != this || event.shiftKey) {
           this.selectedItem = newTab;
+        }
       } else if (draggedTab && draggedTab.parentNode == this) {
         let oldTranslateX = Math.round(draggedTab._dragData.translateX);
         let tabWidth = Math.round(draggedTab._dragData.tabWidth);
@@ -1196,7 +1225,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         if (dropIndex && dropIndex > draggedTab._tPos)
           dropIndex--;
 
-        let animate = this.tabbrowser.animationsEnabled;
+        let animate = gBrowser.animationsEnabled;
         if (oldTranslateX && oldTranslateX != newTranslateX && animate) {
           draggedTab.setAttribute("tabdrop-samewindow", "true");
           draggedTab.style.transform = "translateX(" + newTranslateX + "px)";
@@ -1210,20 +1239,22 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
             draggedTab.removeAttribute("tabdrop-samewindow");
 
             this._finishAnimateTabMove();
-            if (dropIndex !== false)
-              this.tabbrowser.moveTabTo(draggedTab, dropIndex);
+            if (dropIndex !== false) {
+              gBrowser.moveTabTo(draggedTab, dropIndex);
+            }
 
-            this.tabbrowser.syncThrobberAnimations(draggedTab);
+            gBrowser.syncThrobberAnimations(draggedTab);
           };
           draggedTab.addEventListener("transitionend", onTransitionEnd);
         } else {
           this._finishAnimateTabMove();
-          if (dropIndex !== false)
-            this.tabbrowser.moveTabTo(draggedTab, dropIndex);
+          if (dropIndex !== false) {
+            gBrowser.moveTabTo(draggedTab, dropIndex);
+          }
         }
       } else if (draggedTab) {
         let newIndex = this._getDropIndex(event, false);
-        this.tabbrowser.adoptTab(draggedTab, newIndex, true);
+        gBrowser.adoptTab(draggedTab, newIndex, true);
       } else {
         // Pass true to disallow dropping javascript: or data: urls
         let links;
@@ -1256,7 +1287,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
             }
           }
 
-          this.tabbrowser.loadTabs(urls, {
+          gBrowser.loadTabs(urls, {
             inBackground,
             replace,
             allowThirdPartyFixup: true,
@@ -1343,7 +1374,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
       delete draggedTab._dragData;
 
-      if (this.tabbrowser.tabs.length == 1) {
+      if (gBrowser.tabs.length == 1) {
         // resize _before_ move to ensure the window fits the new screen.  if
         // the window is too large for its screen, the window manager may do
         // automatic repositioning.
@@ -1356,7 +1387,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
           props.outerWidth = winWidth;
           props.outerHeight = winHeight;
         }
-        this.tabbrowser.replaceTabWithWindow(draggedTab, props);
+        gBrowser.replaceTabWithWindow(draggedTab, props);
       }
       event.stopPropagation();
     });
