@@ -255,7 +255,7 @@ class FirefoxFindbar extends XULElement {
       return;
     this._destroyed = true;
 
-    if (this.browser.finder)
+    if (this.browser && this.browser.finder)
       this.browser.finder.destroy();
 
     this.browser = null;

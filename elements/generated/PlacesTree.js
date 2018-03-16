@@ -598,7 +598,7 @@ class FirefoxPlacesTree extends FirefoxTree {
       // caller. We support the "AllBookmarks" case to allow callers to
       // specify just the top-level bookmark folders.
       let shouldOpen = aOpenContainers && (PlacesUtils.nodeIsFolder(node) ||
-        (PlacesUtils.nodeIsQuery(node) && node.itemId == PlacesUIUtils.leftPaneQueries.AllBookmarks));
+        (PlacesUtils.nodeIsQuery(node) && node.bookmarkGuid == PlacesUIUtils.virtualAllBookmarksGuid));
 
       PlacesUtils.asContainer(node);
       if (!node.containerOpen && !shouldOpen)

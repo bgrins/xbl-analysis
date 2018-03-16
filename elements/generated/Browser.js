@@ -487,12 +487,6 @@ class FirefoxBrowser extends XULElement {
     }
     return this._mStrBundle;
   }
-  /**
-   * Obsolete name for blockedPopups. Used by android.
-   */
-  get pageReport() {
-    return this.blockedPopups;
-  }
 
   get audioMuted() {
     return this._audioMuted;
@@ -702,7 +696,7 @@ class FirefoxBrowser extends XULElement {
 
   updateBlockedPopups() {
     let event = document.createEvent("Events");
-    event.initEvent("DOMUpdatePageReport", true, true);
+    event.initEvent("DOMUpdateBlockedPopups", true, true);
     this.dispatchEvent(event);
   }
 
@@ -1035,6 +1029,7 @@ class FirefoxBrowser extends XULElement {
     // We set this attribute on the element so that mousemove
     // events can be handled by browser-content.js.
     popup.setAttribute("mousethrough", "always");
+    popup.setAttribute("consumeoutsideclicks", "true");
     popup.setAttribute("rolluponmousewheel", "true");
     popup.setAttribute("hidden", "true");
     return popup;

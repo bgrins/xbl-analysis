@@ -75,6 +75,14 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     this.messageManager.addMessageListener("DOMFullscreen:RequestExit", this);
     this.messageManager.addMessageListener("DOMFullscreen:RequestRollback", this);
     this.messageManager.addMessageListener("MozApplicationManifest", this);
+
+    // browser-child messages, such as Content:LocationChange, are handled in
+    // RemoteWebProgress, ensure it is loaded and ready.
+    let jsm = "resource://gre/modules/RemoteWebProgress.jsm";
+    let { RemoteWebProgressManager } = ChromeUtils.import(jsm, {});
+    this._remoteWebProgressManager = new RemoteWebProgressManager(this);
+    this._remoteWebProgress = this._remoteWebProgressManager.topLevelWebProgress;
+
     this.messageManager.loadFrameScript("chrome://global/content/browser-child.js", true);
 
     if (this.hasAttribute("selectmenulist")) {
@@ -120,17 +128,6 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
   }
 
   get webProgress() {
-    if (!this._remoteWebProgress) {
-      // Don't attempt to create the remote web progress if the
-      // messageManager has already gone away
-      if (!this.messageManager)
-        return null;
-
-      let jsm = "resource://gre/modules/RemoteWebProgress.jsm";
-      let { RemoteWebProgressManager } = ChromeUtils.import(jsm, {});
-      this._remoteWebProgressManager = new RemoteWebProgressManager(this);
-      this._remoteWebProgress = this._remoteWebProgressManager.topLevelWebProgress;
-    }
     return this._remoteWebProgress;
   }
 
