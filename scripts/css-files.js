@@ -58,18 +58,34 @@ var mozBindingURLRegexp = new RegExp("\\)[\"\']?" + "(.+?)" + "[\"\']?\\(lru :" 
 var mozBindingNoneRegexp = new RegExp(stringReverse('-moz-binding: ?none'), "gmi");
 var selectorRegexp = /\{ ?([^{}\;]+)/gmi;
 
+var urlIdsMap = {
+  "platformHTMLBindings.xml": ["builtin-android", "builtin-emacs", "builtin-mac", "builtin-unix", "builtin-win"],
+  "customizableui/toolbar.xml": ["customizableui"],
+};
+
 function parseBody(body, file) {
   body = stringReverse(body);
   mozBindingURLRegexp.lastIndex = mozBindingNoneRegexp.lastIndex = 0;
+
   let infoArr = [];
   let found;
   while ((found = mozBindingURLRegexp.exec(body)) !== null) {
+    let url = stringReverse(found[1]);
+    let bindingIds = [ url.substr(url.indexOf('#') + 1) ];
+    for (var i in urlIdsMap) {
+      if (url.includes(i)) {
+        bindingIds = [].concat(urlIdsMap[i]).map(str => str + '-' + bindingIds[0]);
+      }
+    }
+
     let info = {
       cssFile: file,
-      bindingUrl: stringReverse(found[1])
+      bindingUrl: url,
+      bindingIds
     };
     selectorRegexp.lastIndex = found.index;
-    info.selector = stringReverse(selectorRegexp.exec(body)[1]).replace(/\/\*[^\0]+?\*\//gm, '').replace(/^%.+$/g, '').trim();
+    info.selectors = stringReverse(selectorRegexp.exec(body)[1])
+      .replace(/\/\*[^\0]+?\*\//gm, '').replace(/^%.+$/g, '').split(',').map(str => str.trim());
     infoArr.push(info);
   }
 
@@ -79,7 +95,8 @@ function parseBody(body, file) {
       bindingUrl: "none"
     };
     selectorRegexp.lastIndex = found.index;
-    info.selector = stringReverse(selectorRegexp.exec(body)[1]).replace(/\/\*[^\0]+?\*\//gm, '').replace(/^%.+$/g, '').trim();
+    info.selectors = stringReverse(selectorRegexp.exec(body)[1])
+      .replace(/\/\*[^\0]+?\*\//gm, '').replace(/^%.+$/g, '').split(',').map(str => str.trim());
     infoArr.push(info);
   }
 
