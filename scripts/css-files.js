@@ -109,7 +109,7 @@ function parseBody(body, file) {
     };
     selectorRegexp.lastIndex = found.index;
     info.selectors = stringReverse(selectorRegexp.exec(body)[1])
-      .replace(/\/\*[^\0]+?\*\//gm, '').replace(/^%.+$/g, '').split(',').map(str => str.trim());
+      .replace(/\/\*[^\0]+?\*\//gm, '').replace(/%[^\n]+/g, '').split(',').map(str => str.trim());
     infoArr.push(info);
   }
 
@@ -120,7 +120,7 @@ function parseBody(body, file) {
     };
     selectorRegexp.lastIndex = found.index;
     info.selectors = stringReverse(selectorRegexp.exec(body)[1])
-      .replace(/\/\*[^\0]+?\*\//gm, '').replace(/^%.+$/g, '').split(',').map(str => str.trim());
+      .replace(/\/\*[^\0]+?\*\//gm, '').replace(/%[^\n]+/g, '').split(',').map(str => str.trim());
     infoArr.push(info);
   }
 
