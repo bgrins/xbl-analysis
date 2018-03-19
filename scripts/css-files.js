@@ -46,12 +46,36 @@ var cssFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/xulscrollbars.css'
 ];
 
-var getParsedFiles = module.exports.getParsedFiles = () => {
+var getBindingSelectorsData = module.exports.getBindingSelectorsData = () => {
   return Promise.all(cssFiles.map(file => {
     return request(file).then(body => {
       return parseBody(body, file);
     });
-  })).then(val => [].concat.apply([], val));
+  })).then(val => [].concat.apply([], val)).then(infoArr => {
+    let data = {};
+    infoArr.forEach(info => {
+      if (info.bindingUrl === "none") {
+        data["NONE"] = data["NONE"] || [];
+        info.selectors.forEach(selector => {
+          data["NONE"].push({ selector, cssFile: info.cssFile });
+        });
+        return;
+      }
+      info.bindingIds.forEach(id => {
+        data[id] = data[id] || [];
+        info.selectors.forEach(selector => {
+          data[id].push({ selector, cssFile: info.cssFile });
+        });
+      });
+    });
+
+    let totalMetadata = 0;
+    for (var i in data) {
+      totalMetadata++;
+    }
+
+    return { bindingSelectorMetadata: data, totalMetadata };
+  });
 };
 
 var mozBindingURLRegexp = new RegExp("\\)[\"\']?" + "(.+?)" + "[\"\']?\\(lru :" + stringReverse("-moz-binding"), "gmi");
@@ -107,4 +131,4 @@ function parseBody(body, file) {
 }
 
 // Test
-getParsedFiles().then(val => console.log(JSON.stringify(val, null, 2)));
+getBindingSelectorsData().then(val => console.log(JSON.stringify(val, null, 2)));
