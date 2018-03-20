@@ -124,7 +124,7 @@ module.exports.getAllFilesForRev = getAllFilesForRev;
 // '2017-08-01',
 // ...
 function getRevsOverTime(daily = false) {
-  let old = moment("2017-10-01");
+  let old = moment("2017-10-06");
   let now = moment();
   let revs = [];
 
@@ -136,6 +136,7 @@ function getRevsOverTime(daily = false) {
       old.add(1, 'days');
     }
   } else {
+    old = moment("2017-10-01");
     let addDays = false;
     while (old < now) {
       if (addDays) {
