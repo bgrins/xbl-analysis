@@ -66,7 +66,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
     aTab.mCorrespondingMenuitem = menuItem;
     menuItem.tab = aTab;
 
-    this.appendChild(menuItem);
+    return menuItem;
   }
 
   _setMenuitemAttributes(aMenuitem, aTab) {
@@ -146,10 +146,14 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
         tabcontainer.addEventListener("TabClose", this);
 
         let tabs = gBrowser.visibleTabs;
+        let fragment = document.createDocumentFragment();
         for (var i = 0; i < tabs.length; i++) {
-          if (!tabs[i].pinned)
-            this._createTabMenuItem(tabs[i]);
+          if (!tabs[i].pinned) {
+            let li = this._createTabMenuItem(tabs[i]);
+            fragment.appendChild(li);
+          }
         }
+        this.appendChild(fragment);
         this._updateTabsVisibilityStatus();
       }
     });

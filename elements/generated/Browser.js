@@ -174,22 +174,6 @@ class FirefoxBrowser extends XULElement {
     return this.webNavigation.canGoForward;
   }
 
-  set homePage(val) {
-    this.setAttribute("homepage", val);
-    return val;
-  }
-
-  get homePage() {
-    var uri;
-
-    if (this.hasAttribute("homepage"))
-      uri = this.getAttribute("homepage");
-    else
-      uri = "http://www.mozilla.org/"; // widget pride
-
-    return uri;
-  }
-
   get currentURI() {
     if (this.webNavigation) {
       return this.webNavigation.currentURI;
@@ -620,12 +604,6 @@ class FirefoxBrowser extends XULElement {
       this.webNavigation.loadURIWithOptions(
         aURI, aFlags, aReferrerURI, aReferrerPolicy,
         aPostData, null, null, aTriggeringPrincipal));
-  }
-
-  goHome() {
-    try {
-      this.loadURI(this.homePage);
-    } catch (e) {}
   }
 
   gotoIndex(aIndex) {
