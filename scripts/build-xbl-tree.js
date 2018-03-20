@@ -1,5 +1,6 @@
 var fs = require("fs");
 var sortedBindings = require("./sorted-bindings").latest;
+var { getBindingSelectorsData } = require("./css-files");
 var {
   getParsedFiles,
   files,
@@ -8,6 +9,7 @@ var {
   getBindingMetadata
 } = require("./xbl-files");
 
+var selectorMetaData = null;
 revs = revs.slice();
 const revlinksHTML = revs
   .map(r => `<a href='${getPrettyRev(r)}.html'>${getPrettyRev(r)}</a>`)
@@ -17,6 +19,7 @@ const revlinksHTML = revs
 revs.push(undefined);
 
 async function run() {
+  selectorMetaData = (await getBindingSelectorsData()).bindingSelectorMetadata;
   let { metadataForBindings } = await getBindingMetadata();
   for (var i = 0; i < revs.length; i++) {
     await treeForRev(revs[i], metadataForBindings);
@@ -46,30 +49,35 @@ async function treeForRev(rev, metadataForBindings) {
   function printSingleBinding(binding) {
     totalPrintedBindings++;
     let metadata = metadataForBindings[binding] || {};
+    let selectors = (selectorMetaData[binding] || [])
+      .map(b => `<code>${b.selector}</code>`);
     let source = ` (<a href="${idToUrls[binding]}" target="_blank">source</a>)`;
     let search = ` (<a href="https://dxr.mozilla.org/mozilla-central/search?q=${binding}">m-c search</a>)`;
     let bug = "";
     if (metadata.bug) {
       bug = ` (<a href='${metadata.bug}'>bug</a>)`;
-      console.log(
-        "Got metadata " + binding + " ",
-        metadataForBindings[binding]
-      );
+      console.log("Got metadata " + binding + " ", metadataForBindings[binding]);
     }
     var html = `
       <details open ${idToFeatureAttrs[binding].join(" ")}>
       <summary><span id="${binding}">${binding}</span>${source}${search}${bug}
+      <div class='metadata'>
   `;
 
     html += `<em>Used features: `;
     html += idToFeatures[binding]
       .map(
         (feature, i) =>
-          `<code highlight='${idToFeatureAttrs[binding][i]}'>${feature}</code>`
+          `<code highlight='${idToFeatureAttrs[binding][
+            i
+          ]}'>${feature}</code>`
       )
       .join(", ");
-    html += ` <small>(${idToNumInstances[binding]} total instances)</small>`;
-    html += `</em></summary>`;
+    // XXX: Instance data isn't great right now: https://bugzilla.mozilla.org/show_bug.cgi?id=1443328
+    // html += ` <small>(${idToNumInstances[binding]} total instances)</small>`;
+    html += `</em>`;
+    html += `<br /><em>Selectors: ${selectors.join(", ")}</em>`;
+    html += `</div></summary>`;
 
     if (bindingTree[binding]) {
       html += `<ul>`;

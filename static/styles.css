@@ -32,6 +32,8 @@ main {
 li,ul { list-style: none; }
 em { padding-left: 10px; color: #999; }
 summary {padding: 4px 0; position: relative; width: 100%; }
+summary .metadata { margin-left: 6px; font-size: smaller;}
+details ul { margin-top: 2px; margin-bottom: 0; }
 .highlights { border: solid 1px; padding: 5px; margin: 5px }
 #sections {
   display: grid;
