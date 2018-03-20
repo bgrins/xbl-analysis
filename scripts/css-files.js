@@ -131,4 +131,4 @@ function parseBody(body, file) {
 }
 
 // Test
-getBindingSelectorsData().then(val => console.log(JSON.stringify(val, null, 2)));
+// getBindingSelectorsData().then(val => console.log(JSON.stringify(val, null, 2)));
