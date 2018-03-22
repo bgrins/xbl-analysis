@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+
+<bindings id="generalBindings"
+   xmlns="http://www.mozilla.org/xbl"
+   xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+   xmlns:xbl="http://www.mozilla.org/xbl">
+
+  <binding id="basecontrol">
+    <implementation implements="nsIDOMXULControlElement">
+      <!-- public implementation -->
+      <property name="disabled" onset="if (val) this.setAttribute('disabled', 'true');
+                                       else this.removeAttribute('disabled');
+                                       return val;"
+                                onget="return this.getAttribute('disabled') == 'true';"/>
+      <property name="tabIndex" onget="return parseInt(this.getAttribute('tabindex')) || 0"
+                                onset="if (val) this.setAttribute('tabindex', val);
+                                       else this.removeAttribute('tabindex'); return val;"/>
+    </implementation>
+  </binding>
+
+  <binding id="basetext" extends="chrome://global/content/bindings/general.xml#basecontrol">
+    <implementation implements="nsIDOMXULLabeledControlElement">
+      <!-- public implementation -->
+      <property name="label"      onset="this.setAttribute('label',val); return val;"
+                                  onget="return this.getAttribute('label');"/>
+      <property name="crop"       onset="this.setAttribute('crop',val); return val;"
+                                  onget="return this.getAttribute('crop');"/>
+      <property name="image"      onset="this.setAttribute('image',val); return val;"
+                                  onget="return this.getAttribute('image');"/>
+      <property name="command"    onset="this.setAttribute('command',val); return val;"
+                                  onget="return this.getAttribute('command');"/>
+      <property name="accessKey">
+        <getter>
+          <![CDATA[
+            return this.labelElement ? this.labelElement.accessKey : this.getAttribute("accesskey");
+          ]]>
+        </getter>
+        <setter>
+          <![CDATA[
+            // Always store on the control
+            this.setAttribute("accesskey", val);
+            // If there is a label, change the accesskey on the labelElement
+            // if it's also set there
+            if (this.labelElement) {
+              this.labelElement.accessKey = val;
+            }
+            return val;
+          ]]>
+        </setter>
+      </property>
+
+      <field name="labelElement"/>
+    </implementation>
+  </binding>
+
+  <binding id="iframe">
+    <implementation>
+      <property name="docShell" readonly="true">
+        <getter><![CDATA[
+          let {frameLoader} = this;
+          return frameLoader ? frameLoader.docShell : null;
+        ]]></getter>
+      </property>
+      <property name="contentWindow"
+                readonly="true"
+                onget="return this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);"/>
+      <property name="webNavigation"
+                onget="return this.docShell.QueryInterface(Components.interfaces.nsIWebNavigation);"
+                readonly="true"/>
+      <property name="contentDocument" readonly="true"
+                onget="return this.webNavigation.document;"/>
+    </implementation>
+  </binding>
+
+  <binding id="deck">
+    <implementation>
+      <property name="selectedIndex"
+                onget="return this.getAttribute('selectedIndex') || '0'">
+        <setter>
+        <![CDATA[
+          if (this.selectedIndex == val)
+            return val;
+          this.setAttribute("selectedIndex", val);
+          var event = document.createEvent("Events");
+          event.initEvent("select", true, true);
+          this.dispatchEvent(event);
+          return val;
+        ]]>
+        </setter>
+      </property>
+
+      <property name="selectedPanel">
+        <getter>
+          <![CDATA[
+            return this.childNodes[this.selectedIndex];
+          ]]>
+        </getter>
+
+        <setter>
+          <![CDATA[
+            var selectedIndex = -1;
+            for (var panel = val; panel != null; panel = panel.previousSibling)
+              ++selectedIndex;
+            this.selectedIndex = selectedIndex;
+            return val;
+          ]]>
+        </setter>
+      </property>
+    </implementation>
+  </binding>
+
+  <binding id="dropmarker" extends="xul:button">
+    <resources>
+      <stylesheet src="chrome://global/skin/dropmarker.css"/>
+    </resources>
+
+    <content>
+      <xul:image class="dropmarker-icon"/>
+    </content>
+  </binding>
+
+</bindings>
