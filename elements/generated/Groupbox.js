@@ -1,6 +1,6 @@
-class FirefoxGroupbox extends FirefoxGroupboxBase {
+class FirefoxGroupbox extends XULElement {
   connectedCallback() {
-    super.connectedCallback()
+
     this.innerHTML = `
       <xul:hbox class="groupbox-title" align="center" pack="start">
         <children includes="caption"></children>

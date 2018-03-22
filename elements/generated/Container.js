@@ -8,8 +8,7 @@ class FirefoxContainer extends XULElement {
           <xul:label flex="1" crop="end" inherits="text=containerName,highlightable"></xul:label>
         </xul:hbox>
         <xul:hbox flex="1" align="right">
-          <xul:button anonid="preferencesButton" label="FROM-DTD-preferencesButton-label" inherits="value=userContextId" oncommand="gContainersPane.onPreferenceCommand(event.originalTarget)"></xul:button>
-          <xul:button anonid="removeButton" label="FROM-DTD-removeButton-label" inherits="value=userContextId" oncommand="gContainersPane.onRemoveCommand(event.originalTarget)"></xul:button>
+          <children></children>
         </xul:hbox>
       </xul:hbox>
     `;

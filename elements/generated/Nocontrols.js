@@ -2,11 +2,13 @@ class FirefoxNocontrols extends XULElement {
   connectedCallback() {
 
     this.innerHTML = `
-      <vbox flex="1" class="statusOverlay" hidden="true">
-        <box flex="1">
-          <box class="clickToPlay" flex="1"></box>
-        </box>
-      </vbox>
+      <div anonid="controlsContainer" class="controlsContainer" role="none" hidden="true">
+        <div class="controlsOverlay stackItem">
+          <div class="controlsSpacerStack">
+            <div anonid="clickToPlay" class="clickToPlay"></div>
+          </div>
+        </div>
+      </div>
     `;
 
     this.randomID = 0;
@@ -39,7 +41,7 @@ class FirefoxNocontrols extends XULElement {
       handleEvent(aEvent) {
         // If the binding is detached (or has been replaced by a
         // newer instance of the binding), nuke our event-listeners.
-        if (this.binding.randomID != this.randomID) {
+        if (this.videocontrols.randomID != this.randomID) {
           this.terminateEventListeners();
           return;
         }
@@ -55,7 +57,7 @@ class FirefoxNocontrols extends XULElement {
       },
 
       blockedVideoHandler() {
-        if (this.binding.randomID != this.randomID) {
+        if (this.videocontrols.randomID != this.randomID) {
           this.terminateEventListeners();
           return;
         } else if (this.hasError()) {
@@ -66,7 +68,7 @@ class FirefoxNocontrols extends XULElement {
       },
 
       clickToPlayClickHandler(e) {
-        if (this.binding.randomID != this.randomID) {
+        if (this.videocontrols.randomID != this.randomID) {
           this.terminateEventListeners();
           return;
         } else if (e.button != 0) {
@@ -78,12 +80,19 @@ class FirefoxNocontrols extends XULElement {
       },
 
       init(binding) {
-        this.binding = binding;
+        this.videocontrols = binding;
         this.randomID = Math.random();
-        this.binding.randomID = this.randomID;
+        this.videocontrols.randomID = this.randomID;
         this.video = binding.parentNode;
-        this.clickToPlay = document.getAnonymousElementByAttribute(binding, "class", "clickToPlay");
-        this.noControlsOverlay = document.getAnonymousElementByAttribute(binding, "class", "statusOverlay");
+        this.controlsContainer = document.getAnonymousElementByAttribute(binding, "anonid", "controlsContainer");
+        this.clickToPlay = document.getAnonymousElementByAttribute(binding, "anonid", "clickToPlay");
+        this.noControlsOverlay = document.getAnonymousElementByAttribute(binding, "anonid", "controlsContainer");
+
+        this.videocontrols.isTouchControls =
+          navigator.appVersion.includes("Android");
+        if (this.videocontrols.isTouchControls) {
+          this.controlsContainer.classList.add("touch");
+        }
 
         let self = this;
 
