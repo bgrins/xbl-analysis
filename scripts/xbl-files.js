@@ -215,6 +215,12 @@ function parseBody(body, file) {
   for (var i in replaceDuplicateIds) {
     if (file.includes(i)) {
       body = body.replace(/\<binding id=\"([a-zA-Z\-]+)\"/gi, `<binding id="${replaceDuplicateIds[i]}-$1"`);
+
+      if (file.includes("components/customizableui/content/toolbar.xml")) {
+        var ext = "chrome://browser/content/customizableui/toolbar.xml".replace("/", "\/");
+        var extendsRegex = new RegExp(`(extends=\".*${ext}.*)#([^\"]*)\"`,  "gi");
+        body = body.replace(extendsRegex, `$1#${replaceDuplicateIds[i]}-$2"`);
+      }
     }
   }
 
