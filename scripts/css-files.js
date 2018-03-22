@@ -56,16 +56,12 @@ var getBindingSelectorsData = module.exports.getBindingSelectorsData = () => {
     infoArr.forEach(info => {
       if (info.bindingUrl === "none") {
         data["NONE"] = data["NONE"] || [];
-        info.selectors.forEach(selector => {
-          data["NONE"].push({ selector, cssFile: info.cssFile });
-        });
+        data["NONE"].push({ selectors: info.selectors, cssFile: info.cssFile });
         return;
       }
       info.bindingIds.forEach(id => {
         data[id] = data[id] || [];
-        info.selectors.forEach(selector => {
-          data[id].push({ selector, cssFile: info.cssFile });
-        });
+        data[id].push({ selectors: info.selectors, cssFile: info.cssFile });
       });
     });
 
