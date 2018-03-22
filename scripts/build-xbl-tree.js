@@ -50,7 +50,7 @@ async function treeForRev(rev, metadataForBindings) {
     totalPrintedBindings++;
     let metadata = metadataForBindings[binding] || {};
     let selectors = (selectorMetaData[binding] || [])
-      .map(b => `${b.selectors.map(s => `<code>${s}</code>`).join(', ')} (<code title="${b.cssFile.substr(58)}">${b.cssFile.match(/[^\/]+\.[^\/]+$/)[0]}</code>)`);
+      .map(b => `${b.selectors.map(s => `<code>${s}</code>`).join(', ')} (<code title="${b.cssFile.substr(58)}">${b.cssFile.match(/[^\/]+\/[^\/]+\.[^\/]+$/)[0]}</code>)`);
     let source = ` (<a href="${idToUrls[binding]}" target="_blank">source</a>)`;
     let search = ` (<a href="https://dxr.mozilla.org/mozilla-central/search?q=${binding}">m-c search</a>)`;
     let bug = "";
