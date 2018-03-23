@@ -88,16 +88,10 @@ class FirefoxPlacesTree extends FirefoxTree {
   set place(val) {
     this.setAttribute("place", val);
 
-    var queriesRef = {};
-    var queryCountRef = {};
-    var optionsRef = {};
-    PlacesUtils.history.queryStringToQueries(val, queriesRef, queryCountRef, optionsRef);
-    if (queryCountRef.value == 0)
-      queriesRef.value = [PlacesUtils.history.getNewQuery()];
-    if (!optionsRef.value)
-      optionsRef.value = PlacesUtils.history.getNewQueryOptions();
-
-    this.load(queriesRef.value, optionsRef.value);
+    let query = {},
+      options = {};
+    PlacesUtils.history.queryStringToQuery(val, query, options);
+    this.load(query.value, options.value);
 
     return val;
   }
@@ -306,13 +300,12 @@ class FirefoxPlacesTree extends FirefoxTree {
 
     options.includeHidden = !!includeHidden;
 
-    this.load([query], options);
+    this.load(query, options);
   }
 
-  load(queries, options) {
+  load(query, options) {
     let result = PlacesUtils.history
-      .executeQueries(queries, queries.length,
-        options);
+      .executeQuery(query, options);
     let callback;
     if (this.flatList) {
       let onOpenFlatContainer = this.onOpenFlatContainer;
