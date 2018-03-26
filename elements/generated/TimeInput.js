@@ -502,6 +502,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
       } else if (key == "p" || key == "P") {
         this.setDayPeriodValue(this.mPMIndicator);
       }
+      this.setInputValueFromFields();
       return;
     }
 
@@ -519,6 +520,7 @@ class FirefoxTimeInput extends FirefoxDatetimeInputBase {
         this.advanceToNextField();
       }
       targetField.setAttribute("typeBuffer", buffer);
+      this.setInputValueFromFields();
     }
   }
 

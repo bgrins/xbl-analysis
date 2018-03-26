@@ -101,6 +101,9 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     CustomizableUI.addListener(this);
     this._updateNewTabVisibility();
 
+    XPCOMUtils.defineLazyPreferenceGetter(this, "_closeTabByDblclick",
+      "browser.tabs.closeTabByDblclick", false);
+
     this._setupEventListeners();
   }
 

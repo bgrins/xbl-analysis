@@ -197,6 +197,7 @@ class FirefoxDateInput extends FirefoxDatetimeInputBase {
         this.advanceToNextField();
       }
       targetField.setAttribute("typeBuffer", buffer);
+      this.setInputValueFromFields();
     }
   }
 
