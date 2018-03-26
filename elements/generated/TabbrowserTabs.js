@@ -616,7 +616,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         if (aEvent.target != window)
           break;
 
-        TabsInTitlebar.updateAppearance();
         this._updateCloseButtons();
         this._handleTabSelect(true);
         this.updateSessionRestoreVisibility();
