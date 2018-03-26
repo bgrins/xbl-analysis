@@ -97,7 +97,9 @@ async function treeForRev(rev, metadataForBindings) {
     doc.find("binding").forEach(binding => {
       idToFeatures[binding.attrs.id] = [];
       idToFeatureAttrs[binding.attrs.id] = [];
-      idToUrls[binding.attrs.id] = files[i].replace("raw-file", "file");
+      idToUrls[binding.attrs.id] = files[i]
+        .replace('https://raw.githubusercontent.com/mozilla/gecko-dev/master/',
+                 'https://dxr.mozilla.org/mozilla-central/source/');
 
       // Handle the easier features to count, where we just need to detect a node:
       for (let feature of [
