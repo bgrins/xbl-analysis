@@ -23,6 +23,8 @@ class FirefoxTabbrowserTab extends FirefoxTab {
         </xul:hbox>
       </xul:stack>
     `;
+    this._selectedOnFirstMouseDown = false;
+
     /**
      * Describes how the tab ended up in this mute state. May be any of:
      *
@@ -328,6 +330,13 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     });
 
     this.addEventListener("mousedown", (event) => {
+      let tabContainer = this.parentNode;
+      if (tabContainer._closeTabByDblclick &&
+        event.button == 0 &&
+        event.detail == 1) {
+        this._selectedOnFirstMouseDown = this.selected;
+      }
+
       if (this.selected) {
         this.style.MozUserFocus = "ignore";
       } else if (this.mOverCloseButton ||
@@ -362,6 +371,17 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       // for the one-close-button case
       if (event.originalTarget.getAttribute("anonid") == "close-button") {
         event.stopPropagation();
+      }
+
+      let tabContainer = this.parentNode;
+      if (tabContainer._closeTabByDblclick &&
+        this._selectedOnFirstMouseDown &&
+        this.selected &&
+        !this._overPlayingIcon) {
+        gBrowser.removeTab(this, {
+          animate: true,
+          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE,
+        });
       }
     }, true);
 
