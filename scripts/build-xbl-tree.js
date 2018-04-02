@@ -264,11 +264,6 @@ async function treeForRev(rev, metadataForBindings) {
             ? '<a href="index.html">Most recent data</a>'
             : "Past data from: " + revlinksHTML}
         </ul>
-        <p>About "total instances":
-          This is a count of how many elements have a particular binding applied
-          (including bindings that are not directly appled to the element but created through the <code>extends</code> feature).
-          It currently only counts elements created in a new window, so if a binding has 0 instances that does not mean it is unused in Firefox.
-        </p>
         <div class='highlights'>
         Highlights: ${featureHighlightStr.join(" | ")}
         </div>

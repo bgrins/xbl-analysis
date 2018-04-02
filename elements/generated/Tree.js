@@ -44,9 +44,7 @@ class FirefoxTree extends FirefoxTreeBase {
   }
 
   get view() {
-    return this.treeBoxObject.view ?
-      this.treeBoxObject.view.QueryInterface(Components.interfaces.nsITreeView) :
-      null;
+    return this.treeBoxObject.view
   }
 
   get body() {

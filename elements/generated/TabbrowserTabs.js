@@ -47,10 +47,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
     this._dragTime = 0;
 
-    this._container = this.parentNode && this.parentNode.localName == "toolbar" ? this.parentNode : this;
-
-    this._propagatedVisibilityOnce = false;
-
     this._closeButtonsUpdatePending = false;
 
     this._closingTabsSpacer = document.getAnonymousElementByAttribute(this, "anonid", "closing-tabs-spacer");
@@ -123,23 +119,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
   get _isCustomizing() {
     return document.documentElement.getAttribute("customizing") == "true";
-  }
-
-  set visible(val) {
-    if (val == this.visible &&
-      this._propagatedVisibilityOnce)
-      return val;
-
-    this._container.collapsed = !val;
-
-    this._propagateVisibility();
-    this._propagatedVisibilityOnce = true;
-
-    return val;
-  }
-
-  get visible() {
-    return !this._container.collapsed;
   }
 
   updateSessionRestoreVisibility() {
@@ -281,24 +260,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     hoveredTab = this.querySelector("tab:hover");
     if (hoveredTab) {
       hoveredTab._mouseenter();
-    }
-  }
-
-  _propagateVisibility() {
-    let visible = this.visible;
-
-    document.getElementById("menu_closeWindow").hidden = !visible;
-    document.getElementById("menu_close").setAttribute("label",
-      gTabBrowserBundle.GetStringFromName(visible ? "tabs.closeTab" : "tabs.close"));
-
-    TabsInTitlebar.allowedBy("tabs-visible", visible);
-  }
-
-  updateVisibility() {
-    if (this.childNodes.length - gBrowser._removingTabs.length == 1) {
-      this.visible = window.toolbar.visible;
-    } else {
-      this.visible = true;
     }
   }
 

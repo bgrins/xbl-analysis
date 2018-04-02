@@ -63,10 +63,6 @@ class FirefoxBrowser extends XULElement {
 
     this._userTypedValue = null;
 
-    this.mFormFillAttached = false;
-
-    this.isShowingMessage = false;
-
     this.droppedLinkHandler = null;
 
     this.mIconURL = null;
@@ -187,10 +183,6 @@ class FirefoxBrowser extends XULElement {
 
   get documentContentType() {
     return this.contentDocument ? this.contentDocument.contentType : null;
-  }
-
-  get preferences() {
-    return this.mPrefs.QueryInterface(Components.interfaces.nsIPrefService);
   }
 
   set sameProcessAsFrameLoader(val) {
@@ -424,11 +416,6 @@ class FirefoxBrowser extends XULElement {
     return this.getAttribute('showresizer') == 'true';
   }
 
-  get manifestURI() {
-    return this.contentDocument.documentElement &&
-      this.contentDocument.documentElement.getAttribute("manifest");
-  }
-
   set fullZoom(val) {
     this.markupDocumentViewer.fullZoom = val;
   }
@@ -437,20 +424,12 @@ class FirefoxBrowser extends XULElement {
     return this.markupDocumentViewer.fullZoom;
   }
 
-  get deviceFullZoom() {
-    return this.markupDocumentViewer.deviceFullZoom;
-  }
-
   set textZoom(val) {
     this.markupDocumentViewer.textZoom = val;
   }
 
   get textZoom() {
     return this.markupDocumentViewer.textZoom;
-  }
-
-  get effectiveTextZoom() {
-    return this.markupDocumentViewer.effectiveTextZoom;
   }
 
   get isSyntheticDocument() {
@@ -623,21 +602,6 @@ class FirefoxBrowser extends XULElement {
 
   removeProgressListener(aListener) {
     this.webProgress.removeProgressListener(aListener);
-  }
-
-  findChildShell(aDocShell, aSoughtURI) {
-    if (aDocShell.QueryInterface(Ci.nsIWebNavigation)
-      .currentURI.spec == aSoughtURI.spec)
-      return aDocShell;
-    var node = aDocShell.QueryInterface(
-      Ci.nsIDocShellTreeItem);
-    for (var i = 0; i < node.childCount; ++i) {
-      var docShell = node.getChildAt(i);
-      docShell = this.findChildShell(docShell, aSoughtURI);
-      if (docShell)
-        return docShell;
-    }
-    return null;
   }
 
   onPageHide(aEvent) {

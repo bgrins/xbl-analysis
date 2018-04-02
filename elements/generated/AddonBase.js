@@ -17,11 +17,6 @@ class FirefoxAddonBase extends FirefoxRichlistitem {
     return !!(this.mAddon.permissions & perm);
   }
 
-  opRequiresRestart(aOperation) {
-    var operation = AddonManager["OP_NEEDS_RESTART_" + aOperation.toUpperCase()];
-    return !!(this.mAddon.operationsRequiringRestart & operation);
-  }
-
   isPending(aAction) {
     var action = AddonManager["PENDING_" + aAction.toUpperCase()];
     return !!(this.mAddon.pendingOperations & action);

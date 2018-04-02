@@ -13,9 +13,6 @@ class FirefoxInstallStatus extends XULElement {
     this._installRemote = document.getAnonymousElementByAttribute(this, "anonid",
       "install-remote-btn");
 
-    this._restartNeeded = document.getAnonymousElementByAttribute(this, "anonid",
-      "restart-needed");
-
     this._undo = document.getAnonymousElementByAttribute(this, "anonid",
       "undo-btn");
 
@@ -141,17 +138,6 @@ class FirefoxInstallStatus extends XULElement {
       });
     }
     this.mInstall.install();
-  }
-
-  undoAction() {
-    if (!this.mAddon)
-      return;
-    var pending = this.mAddon.pendingOperations;
-    if (pending & AddonManager.PENDING_ENABLE)
-      this.mAddon.userDisabled = true;
-    else if (pending & AddonManager.PENDING_DISABLE)
-      this.mAddon.userDisabled = false;
-    this.refreshState();
   }
 
   onDownloadStarted() {

@@ -44,8 +44,6 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
 
     this._innerWindowID = null;
 
-    this._manifestURI = "";
-
     this.mDestroyed = false;
 
     this._permitUnloadId = 0;
@@ -281,10 +279,6 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
       return frameLoader.tabParent.hasLayers;
     }
     return false;
-  }
-
-  get manifestURI() {
-    return this._manifestURI
   }
 
   /**

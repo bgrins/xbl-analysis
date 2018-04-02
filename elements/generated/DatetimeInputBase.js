@@ -36,16 +36,17 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.mResetButton.style.visibility = "hidden";
 
     this.EVENTS.forEach((eventName) => {
-      this.addEventListener(eventName, this, { mozSystemGroup: true });
+      this.addEventListener(eventName, this, { mozSystemGroup: true }, false);
     });
     // Handle keypress separately since we need to catch it on capturing.
     this.addEventListener("keypress", this, {
       capture: true,
       mozSystemGroup: true
-    });
+    }, false);
     // This is to open the picker when input element is clicked (this
     // includes padding area).
-    this.mInputElement.addEventListener("click", this, { mozSystemGroup: true });
+    this.mInputElement.addEventListener("click", this, { mozSystemGroup: true },
+      false);
 
     this._setupEventListeners();
   }

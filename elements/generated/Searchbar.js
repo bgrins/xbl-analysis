@@ -132,18 +132,6 @@ class FirefoxSearchbar extends XULElement {
 
   observe(aEngine, aTopic, aVerb) {
     if (aTopic == "browser-search-engine-modified") {
-      switch (aVerb) {
-        case "engine-removed":
-          this.offerNewEngine(aEngine);
-          break;
-        case "engine-added":
-          this.hideNewEngine(aEngine);
-          break;
-        case "engine-changed":
-          // An engine was removed (or hidden) or added, or an icon was
-          // changed.  Do nothing special.
-      }
-
       // Make sure the engine list is refetched next time it's needed
       this._engines = null;
 
@@ -151,71 +139,6 @@ class FirefoxSearchbar extends XULElement {
       this._textbox.popup.updateHeader();
       this.updateDisplay();
     }
-  }
-
-  /**
-   * There are two seaprate lists of search engines, whose uses intersect
-   * in this file.  The search service (nsIBrowserSearchService and
-   * nsSearchService.js) maintains a list of Engine objects which is used to
-   * populate the searchbox list of available engines and to perform queries.
-   * That list is accessed here via this.SearchService, and it's that sort of
-   * Engine that is passed to this binding's observer as aEngine.
-   *
-   * In addition, browser.js fills two lists of autodetected search engines
-   * (browser.engines and browser.hiddenEngines) as properties of
-   * selectedBrowser.  Those lists contain unnamed JS objects of the form
-   * { uri:, title:, icon: }, and that's what the searchbar uses to determine
-   * whether to show any "Add <EngineName>" menu items in the drop-down.
-   *
-   * The two types of engines are currently related by their identifying
-   * titles (the Engine object's 'name'), although that may change; see bug
-   * 335102.   If the engine that was just removed from the searchbox list was
-   * autodetected on this page, move it to each browser's active list so it
-   * will be offered to be added again.
-   */
-  offerNewEngine(aEngine) {
-    for (let browser of gBrowser.browsers) {
-      if (browser.hiddenEngines) {
-        // XXX This will need to be changed when engines are identified by
-        // URL rather than title; see bug 335102.
-        var removeTitle = aEngine.wrappedJSObject.name;
-        for (var i = 0; i < browser.hiddenEngines.length; i++) {
-          if (browser.hiddenEngines[i].title == removeTitle) {
-            if (!browser.engines)
-              browser.engines = [];
-            browser.engines.push(browser.hiddenEngines[i]);
-            browser.hiddenEngines.splice(i, 1);
-            break;
-          }
-        }
-      }
-    }
-    BrowserSearch.updateOpenSearchBadge();
-  }
-
-  /**
-   * If the engine that was just added to the searchbox list was
-   * autodetected on this page, move it to each browser's hidden list so it is
-   * no longer offered to be added.
-   */
-  hideNewEngine(aEngine) {
-    for (let browser of gBrowser.browsers) {
-      if (browser.engines) {
-        // XXX This will need to be changed when engines are identified by
-        // URL rather than title; see bug 335102.
-        var removeTitle = aEngine.wrappedJSObject.name;
-        for (var i = 0; i < browser.engines.length; i++) {
-          if (browser.engines[i].title == removeTitle) {
-            if (!browser.hiddenEngines)
-              browser.hiddenEngines = [];
-            browser.hiddenEngines.push(browser.engines[i]);
-            browser.engines.splice(i, 1);
-            break;
-          }
-        }
-      }
-    }
-    BrowserSearch.updateOpenSearchBadge();
   }
 
   setIcon(element, uri) {

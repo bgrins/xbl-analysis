@@ -18,7 +18,6 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       <xul:hbox anonid="pending-container" class="pending">
         <xul:image class="pending-icon"></xul:image>
         <xul:label anonid="pending" flex="1"></xul:label>
-        <xul:button anonid="restart-btn" class="button-link" label="FROM-DTD-addon-restartNow-label" oncommand="document.getBindingParent(this).restart();"></xul:button>
         <xul:button anonid="undo-btn" class="button-link" label="FROM-DTD-addon-undoAction-label" tooltipText="FROM-DTD-addon-undoAction-tooltip" oncommand="document.getBindingParent(this).undo();"></xul:button>
         <xul:spacer flex="5000"></xul:spacer>
       </xul:hbox>
@@ -314,22 +313,14 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       gViewController.updateCommands();
 
     var pending = this.mAddon.pendingOperations;
-    if (pending != AddonManager.PENDING_NONE) {
+    if (pending & AddonManager.PENDING_UNINSTALL) {
       this.removeAttribute("notification");
 
-      pending = null;
-      const PENDING_OPERATIONS = ["enable", "disable", "install",
-        "uninstall", "upgrade"
-      ];
-      for (let op of PENDING_OPERATIONS) {
-        if (this.isPending(op))
-          pending = op;
-      }
-
-      this.setAttribute("pending", pending);
+      // We don't care about pending operations other than uninstall.
+      // They're transient, and cannot be undone.
+      this.setAttribute("pending", "uninstall");
       this._pending.textContent = gStrings.ext.formatStringFromName(
-        "notification." + pending, [this.mAddon.name, gStrings.brandShortName], 2
-      );
+        "notification.restartless-uninstall", [this.mAddon.name], 1);
     } else {
       this.removeAttribute("pending");
 
@@ -632,20 +623,17 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     }
   }
 
-  restart() {
-    gViewController.commands.cmd_restartApp.doCommand();
-  }
-
   undo() {
     gViewController.commands.cmd_cancelOperation.doCommand(this.mAddon);
   }
 
   uninstall() {
-    // If uninstalling does not require a restart and the type doesn't
-    // support undoing of restartless uninstalls, then we fake it by
-    // just disabling it it, and doing the real uninstall later.
-    if (!this.opRequiresRestart("uninstall") &&
-      !this.typeHasFlag("SUPPORTS_UNDO_RESTARTLESS_UNINSTALL")) {
+    // If the type doesn't support undoing of restartless uninstalls,
+    // then we fake it by just disabling it it, and doing the real
+    // uninstall later.
+    if (this.typeHasFlag("SUPPORTS_UNDO_RESTARTLESS_UNINSTALL")) {
+      this.mAddon.uninstall(true);
+    } else {
       this.setAttribute("wasDisabled", this.mAddon.userDisabled);
 
       // We must set userDisabled to true first, this will call
@@ -654,8 +642,6 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
       // This won't update any other add-on manager views (bug 582002)
       this.setAttribute("pending", "uninstall");
-    } else {
-      this.mAddon.uninstall(true);
     }
   }
 
@@ -713,7 +699,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     this._updateState();
   }
 
-  onUninstalling(aRestartRequired) {
+  onUninstalling() {
     this._updateState();
   }
 
@@ -740,16 +726,11 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     this._updateState();
   }
 
-  onExternalInstall(aAddon, aExistingAddon, aNeedsRestart) {
+  onExternalInstall(aAddon, aExistingAddon) {
     if (aExistingAddon.id != this.mAddon.id)
       return;
 
-    // If the install completed without needing a restart then switch to
-    // using the new Addon
-    if (!aNeedsRestart)
-      this._initWithAddon(aAddon);
-    else
-      this._updateState();
+    this._initWithAddon(aAddon);
   }
 
   onNewInstall(aInstall) {
@@ -776,12 +757,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
   }
 
   onInstallEnded(aInstall, aAddon) {
-    // If the install completed without needing a restart then switch to
-    // using the new Addon
-    if (!(aAddon.pendingOperations & AddonManager.PENDING_INSTALL))
-      this._initWithAddon(aAddon);
-    else
-      this._updateState();
+    this._initWithAddon(aAddon);
   }
 
   onDownloadFailed() {
