@@ -212,8 +212,13 @@ function parseBody(body, file) {
   }
   exports.replaceDuplicateIds = replaceDuplicateIds;
 
+  if (file.includes("toolkit/content/widgets/toolbarbutton.xml")) {
+    body = body.replace('<binding id="menu-button"', '<binding id="toolbarbutton-menu-button"');
+  }
+
   for (var i in replaceDuplicateIds) {
     if (file.includes(i)) {
+
       body = body.replace(/\<binding id=\"([a-zA-Z\-]+)\"/gi, `<binding id="${replaceDuplicateIds[i]}-$1"`);
 
       if (file.includes("components/customizableui/content/toolbar.xml")) {
@@ -221,6 +226,7 @@ function parseBody(body, file) {
         var extendsRegex = new RegExp(`(extends=\".*${ext}.*)#([^\"]*)\"`,  "gi");
         body = body.replace(extendsRegex, `$1#${replaceDuplicateIds[i]}-$2"`);
       }
+
     }
   }
 

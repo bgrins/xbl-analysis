@@ -3,9 +3,11 @@ class FirefoxMenuButton extends FirefoxMenuButtonBase {
     super.connectedCallback()
     this.innerHTML = `
       <children includes="observes|template|menupopup|panel|tooltip"></children>
-      <xul:toolbarbutton class="box-inherit toolbarbutton-menubutton-button" anonid="button" flex="1" allowevents="true" inherits="disabled,crop,image,label,accesskey,command,wrap,badge,
-                                       align,dir,pack,orient,tooltiptext=buttontooltiptext"></xul:toolbarbutton>
-      <xul:dropmarker type="menu-button" class="toolbarbutton-menubutton-dropmarker" anonid="dropmarker" inherits="align,dir,pack,orient,disabled,label,open,consumeanchor"></xul:dropmarker>
+      <xul:button class="box-inherit button-menubutton-button" anonid="button" flex="1" allowevents="true" inherits="disabled,crop,image,label,accesskey,command,
+                                buttonover,buttondown,align,dir,pack,orient">
+        <children></children>
+      </xul:button>
+      <xul:dropmarker class="button-menubutton-dropmarker" inherits="open,disabled,label"></xul:dropmarker>
     `;
 
     this._setupEventListeners();

@@ -88,8 +88,13 @@ class FirefoxNocontrols extends XULElement {
         this.clickToPlay = document.getAnonymousElementByAttribute(binding, "anonid", "clickToPlay");
         this.noControlsOverlay = document.getAnonymousElementByAttribute(binding, "anonid", "controlsContainer");
 
-        this.videocontrols.isTouchControls =
-          navigator.appVersion.includes("Android");
+        let isMobile = navigator.appVersion.includes("Android");
+        if (isMobile) {
+          this.controlsContainer.classList.add("mobile");
+        }
+
+        // TODO: Switch to touch controls on touch-based desktops (bug 1447547)
+        this.videocontrols.isTouchControls = isMobile;
         if (this.videocontrols.isTouchControls) {
           this.controlsContainer.classList.add("touch");
         }
