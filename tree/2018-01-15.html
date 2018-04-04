@@ -28,6 +28,8 @@
 #implements:target ~ #container details:not([implements]) > summary { opacity: .5; }
 #role:target ~ * [highlight=role] { background: yellow; }
 #role:target ~ #container details:not([role]) > summary { opacity: .5; }
+#display:target ~ * [highlight=display] { background: yellow; }
+#display:target ~ #container details:not([display]) > summary { opacity: .5; }
     </style>
     </head>
     <body>
@@ -43,6 +45,7 @@
 <div id=destructor></div>
 <div id=implements></div>
 <div id=role></div>
+<div id=display></div>
         <div id="links">
           <a href="../">Home</a>
           <a href="https://github.com/bgrins/xbl-analysis">Code</a>
@@ -60,11 +63,12 @@
                           <code>field</code>: <strong>485</strong>,
                           <code>content</code>: <strong>146</strong>,
                           <code>children</code>: <strong>100</strong>,
+                          <code>role</code>: <strong>86</strong>,
                           <code>constructor</code>: <strong>78</strong>,
                           <code>resources</code>: <strong>71</strong>,
                           <code>implements</code>: <strong>48</strong>,
-                          <code>role</code>: <strong>43</strong>,
-                          <code>destructor</code>: <strong>32</strong></li>
+                          <code>destructor</code>: <strong>32</strong>,
+                          <code>display</code>: <strong>21</strong></li>
           <a href="index.html">Most recent data</a>
         </ul>
         <div class='highlights'>
@@ -75,18 +79,19 @@
                                   <a href='#field' highlight="field">field</a> | 
                                   <a href='#content' highlight="content">content</a> | 
                                   <a href='#children' highlight="children">children</a> | 
+                                  <a href='#role' highlight="role">role</a> | 
                                   <a href='#constructor' highlight="constructor">constructor</a> | 
                                   <a href='#resources' highlight="resources">resources</a> | 
                                   <a href='#implements' highlight="implements">implements</a> | 
-                                  <a href='#role' highlight="role">role</a> | 
-                                  <a href='#destructor' highlight="destructor">destructor</a>
+                                  <a href='#destructor' highlight="destructor">destructor</a> | 
+                                  <a href='#display' highlight="display">display</a>
         </div>
         <div id='container'>
         
-      <details open property implements role>
+      <details open property implements role role>
       <summary><span id="text-base">text-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/text.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=text-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1448213'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULDescriptionElement)</code>, <code highlight='role'>role (xul:text)</code></em><br /><em>Selectors: <code>description</code> (<code title="/toolkit/content/minimal-xul.css">content/minimal-xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='implements'>implements (nsIDOMXULDescriptionElement)</code>, <code highlight='role'>role (xul:text)</code>, <code highlight='role'>role (xul:text)</code></em><br /><em>Selectors: <code>description</code> (<code title="/toolkit/content/minimal-xul.css">content/minimal-xul.css</code>)</em></div></summary><ul><li>
       <details open property implements>
       <summary><span id="text-label">text-label</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/text.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=text-label">m-c search</a>)
       <div class='metadata'>
@@ -95,10 +100,10 @@
       <summary><span id="label-control">label-control</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/text.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=label-control">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULLabelElement)</code></em><br /><em>Selectors: <code>label[control]</code>, <code>label.radio-label</code>, <code>label.checkbox-label</code>, <code>label.toolbarbutton-multiline-text</code> (<code title="/toolkit/content/minimal-xul.css">content/minimal-xul.css</code>)</em></div></summary></details></li><li>
-      <details open property handler method role>
+      <details open property handler method role role>
       <summary><span id="text-link">text-link</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/text.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=text-link">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:link)</code></em><br /><em>Selectors: <code>label.text-link</code>, <code>label[onclick]</code> (<code title="/toolkit/content/minimal-xul.css">content/minimal-xul.css</code>)</em></div></summary></details></li></ul></details></li></ul></details>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:link)</code>, <code highlight='role'>role (xul:link)</code></em><br /><em>Selectors: <code>label.text-link</code>, <code>label[onclick]</code> (<code title="/toolkit/content/minimal-xul.css">content/minimal-xul.css</code>)</em></div></summary></details></li></ul></details></li></ul></details>
       <details open property implements>
       <summary><span id="basecontrol">basecontrol</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=basecontrol">m-c search</a>)
       <div class='metadata'>
@@ -107,10 +112,10 @@
       <summary><span id="basetext">basetext</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=basetext">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (5)</code>, <code highlight='field'>field (1)</code>, <code highlight='implements'>implements (nsIDOMXULLabeledControlElement)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
-      <details open property implements role>
+      <details open property implements role role>
       <summary><span id="menuitem-base">menuitem-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menuitem-base">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement, nsIDOMXULContainerItemElement)</code>, <code highlight='role'>role (xul:menuitem)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement, nsIDOMXULContainerItemElement)</code>, <code highlight='role'>role (xul:menuitem)</code>, <code highlight='role'>role (xul:menuitem)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
       <details open content>
       <summary><span id="menuitem">menuitem</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menuitem">m-c search</a>)
       <div class='metadata'>
@@ -155,38 +160,38 @@
       <summary><span id="menubutton-item">menubutton-item</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menubutton-item">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1440146'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: </em></div></summary></details></li></ul></details></li><li>
-      <details open property handler method implements role>
+      <details open property handler method implements role role>
       <summary><span id="button-base">button-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/button.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=button-base">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIDOMXULButtonElement)</code>, <code highlight='role'>role (xul:button)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
-      <details open resources content children role>
+  <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIDOMXULButtonElement)</code>, <code highlight='role'>role (xul:button)</code>, <code highlight='role'>role (xul:button)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+      <details open resources content children role role display>
       <summary><span id="toolbarbutton">toolbarbutton</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarbutton">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code>, <code highlight='role'>role (xul:toolbarbutton)</code></em><br /><em>Selectors: <code>toolbarbutton</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
-      <details open content children>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code>, <code highlight='role'>role (xul:toolbarbutton)</code>, <code highlight='role'>role (xul:toolbarbutton)</code>, <code highlight='display'>display (xul:button)</code></em><br /><em>Selectors: <code>toolbarbutton</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open content children display>
       <summary><span id="menu">menu</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menu">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>menu</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>), <code>toolbarbutton[type="menu"]</code>, <code>toolbarbutton[type="panel"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>), <code>button[type="menu"]</code>, <code>button[type="panel"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: <code>menu</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>), <code>toolbarbutton[type="menu"]</code>, <code>toolbarbutton[type="panel"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>), <code>button[type="menu"]</code>, <code>button[type="panel"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
       <details open content children>
       <summary><span id="toolbarbutton-badged">toolbarbutton-badged</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarbutton-badged">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code></em><br /><em>Selectors: <code>toolbarbutton.badged-button > toolbarbutton</code>, <code>toolbarbutton.badged-button</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open content children>
+      <details open content children display>
       <summary><span id="menu-vertical">menu-vertical</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menu-vertical">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419932'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: </em></div></summary></details></li><li>
-      <details open content children>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: </em></div></summary></details></li><li>
+      <details open content children display>
       <summary><span id="toolbarbutton-badged-menu">toolbarbutton-badged-menu</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarbutton-badged-menu">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>toolbarbutton.badged-button[type="menu"]</code>, <code>toolbarbutton.badged-button[type="panel"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
-      <details open resources content children>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: <code>toolbarbutton.badged-button[type="menu"]</code>, <code>toolbarbutton.badged-button[type="panel"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
+      <details open resources content children display>
       <summary><span id="button">button</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/button.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=button">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>button</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
-      <details open >
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='display'>display (xul:button)</code></em><br /><em>Selectors: <code>button</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open display>
       <summary><span id="button-repeat">button-repeat</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/button.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=button-repeat">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: </em><br /><em>Selectors: <code>button[type="repeat"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
+  <em>Used features: <code highlight='display'>display (xul:autorepeatbutton)</code></em><br /><em>Selectors: <code>button[type="repeat"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
       <details open content handler children>
       <summary><span id="ctrlTab-preview">ctrlTab-preview</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/base/content/browser-tabPreviews.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=ctrlTab-preview">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1450823'>bug</a>)
       <div class='metadata'>
@@ -199,30 +204,30 @@
       <summary><span id="download-subview-toolbarbutton">download-subview-toolbarbutton</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/downloads/content/download.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=download-subview-toolbarbutton">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>.subviewbutton.download</code> (<code title="/browser/components/downloads/content/downloads.css">content/downloads.css</code>)</em></div></summary></details></li><li>
-      <details open resources content children>
+      <details open resources content children display>
       <summary><span id="menu-button">menu-button</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/button.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menu-button">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1434860'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code></em><br /><em>Selectors: <code>button[type="menu-button"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open resources content children>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: <code>button[type="menu-button"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open resources content children display>
       <summary><span id="toolbarbutton-menu-button">toolbarbutton-menu-button</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarbutton-menu-button">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1434860'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: </em></div></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open resources property content handler method implements role>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: </em></div></summary></details></li></ul></details></li></ul></details></li><li>
+      <details open resources property content handler method implements role role>
       <summary><span id="checkbox">checkbox</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/checkbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=checkbox">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULCheckboxElement)</code>, <code highlight='role'>role (xul:checkbox)</code></em><br /><em>Selectors: <code>checkbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open resources property content handler constructor destructor implements role>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULCheckboxElement)</code>, <code highlight='role'>role (xul:checkbox)</code>, <code highlight='role'>role (xul:checkbox)</code></em><br /><em>Selectors: <code>checkbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open resources property content handler constructor destructor implements role role>
       <summary><span id="radio">radio</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/radio.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=radio">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:radiobutton)</code></em><br /><em>Selectors: <code>radio</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open resources property field content handler method implements role>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:radiobutton)</code>, <code highlight='role'>role (xul:radiobutton)</code></em><br /><em>Selectors: <code>radio</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open resources property field content handler method implements role role display>
       <summary><span id="tab">tab</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tab">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:tab)</code></em><br /><em>Selectors: <code>tab</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
-      <details open resources property field content handler method constructor>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:tab)</code>, <code highlight='role'>role (xul:tab)</code>, <code highlight='display'>display (xul:button)</code></em><br /><em>Selectors: <code>tab</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open resources property field content handler method constructor display>
       <summary><span id="tabbrowser-tab">tabbrowser-tab</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser-tab">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (10)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (10)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>.tabbrowser-tab</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (10)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (10)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='display'>display (xul:hbox)</code></em><br /><em>Selectors: <code>.tabbrowser-tab</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li><li>
       <details open resources property field content method implements>
       <summary><span id="filefield">filefield</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/filefield.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=filefield">m-c search</a>)
       <div class='metadata'>
@@ -231,10 +236,10 @@
       <summary><span id="caption">caption</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/groupbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=caption">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1429940'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>caption</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open resources property content handler method children implements role>
+      <details open resources property content handler method children implements role role>
       <summary><span id="listitem">listitem</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listitem">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:listitem)</code></em><br /><em>Selectors: <code>listitem</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code>, <code highlight='role'>role (xul:listitem)</code>, <code highlight='role'>role (xul:listitem)</code></em><br /><em>Selectors: <code>listitem</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open content children>
       <summary><span id="offlineapp">offlineapp</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/preferences/handlers.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=offlineapp">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1448215'>bug</a>)
       <div class='metadata'>
@@ -359,30 +364,30 @@
       <summary><span id="menulist-base">menulist-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/menulist.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menulist-base">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
-      <details open property content handler method children constructor destructor implements role>
+      <details open property content handler method children constructor destructor implements role role display>
       <summary><span id="menulist">menulist</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/menulist.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menulist">m-c search</a>) (<a href='https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menulist.xml'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (12)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULMenuListElement)</code>, <code highlight='role'>role (xul:menulist)</code></em><br /><em>Selectors: <code>menulist</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
-      <details open content children>
+  <em>Used features: <code highlight='property'>property (12)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULMenuListElement)</code>, <code highlight='role'>role (xul:menulist)</code>, <code highlight='role'>role (xul:menulist)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: <code>menulist</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open content children display>
       <summary><span id="menulist-popuponly">menulist-popuponly</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/menulist.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menulist-popuponly">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>menulist[popuponly="true"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: <code>menulist[popuponly="true"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
       <details open property content handler method children>
       <summary><span id="menulist-editable">menulist-editable</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/menulist.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menulist-editable">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>menulist[editable="true"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open content children>
+      <details open content children display>
       <summary><span id="menulist-description">menulist-description</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/menulist.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menulist-description">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419935'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: </em></div></summary></details></li></ul></details></li></ul></details></li><li>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: </em></div></summary></details></li></ul></details></li></ul></details></li><li>
       <details open resources method>
       <summary><span id="tree-base">tree-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tree-base">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='method'>method (1)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
-      <details open property field content handler method children implements role>
+      <details open property field content handler method children implements role role>
       <summary><span id="tree">tree</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tree">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (17)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (28)</code>, <code highlight='method'>method (15)</code>, <code highlight='children'>children (2)</code>, <code highlight='implements'>implements (nsIDOMXULTreeElement, nsIDOMXULMultiSelectControlElement)</code>, <code highlight='role'>role (xul:tree)</code></em><br /><em>Selectors: <code>tree</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (17)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (28)</code>, <code highlight='method'>method (15)</code>, <code highlight='children'>children (2)</code>, <code highlight='implements'>implements (nsIDOMXULTreeElement, nsIDOMXULMultiSelectControlElement)</code>, <code highlight='role'>role (xul:tree)</code>, <code highlight='role'>role (xul:tree)</code></em><br /><em>Selectors: <code>tree</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open content children>
       <summary><span id="autocomplete-tree">autocomplete-tree</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete-tree">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1427363'>bug</a>)
       <div class='metadata'>
@@ -391,10 +396,10 @@
       <summary><span id="places-tree">places-tree</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/places/content/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=places-tree">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=760974'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (15)</code>, <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (10)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em><br /><em>Selectors: <code>tree[type="places"]</code> (<code title="/browser/components/places/content/places.css">content/places.css</code>)</em></div></summary></details></li></ul></details></li><li>
-      <details open property handler method constructor role>
+      <details open property handler method constructor role role>
       <summary><span id="treecol-base">treecol-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treecol-base">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:treecolumnitem)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:treecolumnitem)</code>, <code highlight='role'>role (xul:treecolumnitem)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
       <details open content>
       <summary><span id="treecol">treecol</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treecol">m-c search</a>)
       <div class='metadata'>
@@ -403,10 +408,10 @@
       <summary><span id="treecol-image">treecol-image</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treecol-image">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='content'>content (1)</code></em><br /><em>Selectors: <code>treecol.treecol-image</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
-      <details open content handler method role>
+      <details open content handler method role role display>
       <summary><span id="columnpicker">columnpicker</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=columnpicker">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:button)</code></em><br /><em>Selectors: <code>treecolpicker</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:button)</code>, <code highlight='role'>role (xul:button)</code>, <code highlight='display'>display (xul:button)</code></em><br /><em>Selectors: <code>treecolpicker</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
       <details open content handler children>
       <summary><span id="treerows">treerows</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treerows">m-c search</a>)
       <div class='metadata'>
@@ -415,10 +420,10 @@
       <summary><span id="treebody">treebody</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treebody">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>tree > treechildren</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
-      <details open property field handler method implements role>
+      <details open property field handler method implements role role>
       <summary><span id="listbox-base">listbox-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listbox-base">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (10)</code>, <code highlight='field'>field (9)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (17)</code>, <code highlight='implements'>implements (nsIDOMXULMultiSelectControlElement)</code>, <code highlight='role'>role (xul:listbox)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (10)</code>, <code highlight='field'>field (9)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (17)</code>, <code highlight='implements'>implements (nsIDOMXULMultiSelectControlElement)</code>, <code highlight='role'>role (xul:listbox)</code>, <code highlight='role'>role (xul:listbox)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
       <details open resources property field content handler method children constructor destructor>
       <summary><span id="richlistbox">richlistbox</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/richlistbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=richlistbox">m-c search</a>)
       <div class='metadata'>
@@ -435,34 +440,34 @@
       <summary><span id="listbox">listbox</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listbox">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (12)</code>, <code highlight='children'>children (3)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>listbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
-      <details open resources property field handler method constructor implements role>
+      <details open resources property field handler method constructor implements role role>
       <summary><span id="radiogroup">radiogroup</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/radio.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=radiogroup">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement)</code>, <code highlight='role'>role (xul:radiogroup)</code></em><br /><em>Selectors: <code>radiogroup</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open resources property field content method children constructor implements role>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement)</code>, <code highlight='role'>role (xul:radiogroup)</code>, <code highlight='role'>role (xul:radiogroup)</code></em><br /><em>Selectors: <code>radiogroup</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open resources property field content method children constructor implements role role>
       <summary><span id="tabs">tabs</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabs">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement, nsIDOMXULRelatedElement)</code>, <code highlight='role'>role (xul:tabs)</code></em><br /><em>Selectors: <code>tabs</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (5)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (9)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement, nsIDOMXULRelatedElement)</code>, <code highlight='role'>role (xul:tabs)</code>, <code highlight='role'>role (xul:tabs)</code></em><br /><em>Selectors: <code>tabs</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open resources property field content handler method children constructor destructor implements>
       <summary><span id="tabbrowser-tabs">tabbrowser-tabs</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser-tabs">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='field'>field (27)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (11)</code>, <code highlight='method'>method (22)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener, nsIObserver)</code></em><br /><em>Selectors: <code>#tabbrowser-tabs</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li><li>
-      <details open resources>
+      <details open resources display>
       <summary><span id="scaleslider">scaleslider</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/scale.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=scaleslider">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1442795'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code></em><br /><em>Selectors: </em></div></summary></details></li><li>
-      <details open resources property content handler method constructor implements role>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='display'>display (xul:slider)</code></em><br /><em>Selectors: </em></div></summary></details></li><li>
+      <details open resources property content handler method constructor implements role role>
       <summary><span id="scale">scale</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/scale.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=scale">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1448126'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsISliderListener)</code>, <code highlight='role'>role (xul:scale)</code></em><br /><em>Selectors: <code>scale</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (6)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsISliderListener)</code>, <code highlight='role'>role (xul:scale)</code>, <code highlight='role'>role (xul:scale)</code></em><br /><em>Selectors: <code>scale</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open property method constructor implements>
       <summary><span id="suppressChangeEvent">suppressChangeEvent</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/videocontrols.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=suppressChangeEvent">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1444489'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIXBLAccessible)</code></em><br /><em>Selectors: </em></div></summary></details></li></ul></details></li><li>
-      <details open resources content children role>
+      <details open resources content children role role>
       <summary><span id="listcell">listcell</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listcell">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:listcell)</code></em><br /><em>Selectors: <code>listcell</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:listcell)</code>, <code highlight='role'>role (xul:listcell)</code></em><br /><em>Selectors: <code>listcell</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open content children>
       <summary><span id="listcell-iconic">listcell-iconic</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listcell-iconic">m-c search</a>)
       <div class='metadata'>
@@ -479,10 +484,10 @@
       <summary><span id="colorpicker">colorpicker</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/colorpicker.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=colorpicker">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (15)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em><br /><em>Selectors: <code>colorpicker</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open resources property content handler method constructor role>
+      <details open resources property content handler method constructor role role display>
       <summary><span id="colorpicker-button">colorpicker-button</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/colorpicker.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=colorpicker-button">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:colorpicker)</code></em><br /><em>Selectors: <code>colorpicker[type="button"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:colorpicker)</code>, <code highlight='role'>role (xul:colorpicker)</code>, <code highlight='display'>display (xul:menu)</code></em><br /><em>Selectors: <code>colorpicker[type="button"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
       <details open resources property content handler>
       <summary><span id="spinbuttons">spinbuttons</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/spinbuttons.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=spinbuttons">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1428937'>bug</a>)
       <div class='metadata'>
@@ -491,10 +496,10 @@
       <summary><span id="popup-base">popup-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=popup-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1446961'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (9)</code>, <code highlight='method'>method (12)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
-      <details open field content handler children role>
+      <details open field content handler children role role>
       <summary><span id="popup">popup</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=popup">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:menupopup)</code></em><br /><em>Selectors: <code>popup</code>, <code>menupopup</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:menupopup)</code>, <code highlight='role'>role (xul:menupopup)</code></em><br /><em>Selectors: <code>popup</code>, <code>menupopup</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open field content handler method children>
       <summary><span id="places-popup-base">places-popup-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/places/content/menu.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=places-popup-base">m-c search</a>)
       <div class='metadata'>
@@ -511,10 +516,10 @@
       <summary><span id="tabbrowser-alltabs-popup">tabbrowser-alltabs-popup</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser-alltabs-popup">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1446101'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (6)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em><br /><em>Selectors: <code>.new-tab-popup</code>, <code>#alltabs-popup</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li><li>
-      <details open property field handler method implements role>
+      <details open property field handler method implements role role>
       <summary><span id="autocomplete-base-popup">autocomplete-base-popup</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete-base-popup">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1427363'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code>, <code highlight='role'>role (none)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='field'>field (4)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code>, <code highlight='role'>role (none)</code>, <code highlight='role'>role (none)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
       <details open resources property field content handler method children implements>
       <summary><span id="autocomplete-rich-result-popup">autocomplete-rich-result-popup</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete-rich-result-popup">m-c search</a>)
       <div class='metadata'>
@@ -531,10 +536,10 @@
       <summary><span id="browser-search-autocomplete-result-popup">browser-search-autocomplete-result-popup</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/search/content/search.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=browser-search-autocomplete-result-popup">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (4)</code></em><br /><em>Selectors: <code>#PopupSearchAutoComplete</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li></ul></details></li></ul></details></li><li>
-      <details open field handler constructor role>
+      <details open field handler constructor role role>
       <summary><span id="panel">panel</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=panel">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1397876'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:panel)</code></em><br /><em>Selectors: <code>panel</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='field'>field (2)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:panel)</code>, <code highlight='role'>role (xul:panel)</code></em><br /><em>Selectors: <code>panel</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open field content handler method children>
       <summary><span id="arrowpanel">arrowpanel</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=arrowpanel">m-c search</a>)
       <div class='metadata'>
@@ -543,22 +548,22 @@
       <summary><span id="datetime-popup">datetime-popup</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/datetimepopup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=datetime-popup">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (12)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>#DateTimePickerPanel[active="true"]</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li></ul></details></li><li>
-      <details open property field content handler method children role>
+      <details open property field content handler method children role role>
       <summary><span id="tooltip">tooltip</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/popup.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tooltip">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:tooltip)</code></em><br /><em>Selectors: <code>tooltip</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:tooltip)</code>, <code highlight='role'>role (xul:tooltip)</code></em><br /><em>Selectors: <code>tooltip</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details>
       <details open resources>
       <summary><span id="toolbar-base">toolbar-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbar-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1422386'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
-      <details open role>
+      <details open role role>
       <summary><span id="toolbardecoration">toolbardecoration</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbardecoration">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1422386'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='role'>role (xul:toolbarseparator)</code></em><br /><em>Selectors: </em></div></summary></details></li><li>
-      <details open role>
+  <em>Used features: <code highlight='role'>role (xul:toolbarseparator)</code>, <code highlight='role'>role (xul:toolbarseparator)</code></em><br /><em>Selectors: </em></div></summary></details></li><li>
+      <details open role role>
       <summary><span id="toolbar">toolbar</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbar">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1422386'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='role'>role (xul:toolbar)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+  <em>Used features: <code highlight='role'>role (xul:toolbar)</code>, <code highlight='role'>role (xul:toolbar)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
       <details open field handler method constructor destructor>
       <summary><span id="toolbar-menubar-autohide">toolbar-menubar-autohide</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbar-menubar-autohide">m-c search</a>)
       <div class='metadata'>
@@ -579,14 +584,14 @@
       <summary><span id="toolbox">toolbox</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbox">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1429464'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='field'>field (1)</code></em><br /><em>Selectors: </em></div></summary></details></li><li>
-      <details open property field handler method role>
+      <details open property field handler method role role display>
       <summary><span id="menubar">menubar</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=menubar">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (3)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:menubar)</code></em><br /><em>Selectors: <code>menubar</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open content children>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (3)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (1)</code>, <code highlight='role'>role (xul:menubar)</code>, <code highlight='role'>role (xul:menubar)</code>, <code highlight='display'>display (xul:menubar)</code></em><br /><em>Selectors: <code>menubar</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open content children display>
       <summary><span id="toolbarpaletteitem">toolbarpaletteitem</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarpaletteitem">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>toolbarpaletteitem</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='display'>display (xul:button)</code></em><br /><em>Selectors: <code>toolbarpaletteitem</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open content children>
       <summary><span id="toolbarpaletteitem-palette">toolbarpaletteitem-palette</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarpaletteitem-palette">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1450816'>bug</a>)
       <div class='metadata'>
@@ -595,10 +600,10 @@
       <summary><span id="toolbarpaletteitem-palette-wrapping-label">toolbarpaletteitem-palette-wrapping-label</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=toolbarpaletteitem-palette-wrapping-label">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1450816'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>toolbarpaletteitem[place="palette"]</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li></ul></details>
-      <details open resources content role>
+      <details open resources content role role>
       <summary><span id="dropmarker">dropmarker</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=dropmarker">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:dropmarker)</code></em><br /><em>Selectors: <code>dropmarker</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:dropmarker)</code>, <code highlight='role'>role (xul:dropmarker)</code></em><br /><em>Selectors: <code>dropmarker</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
       <details open resources field content children>
       <summary><span id="popup-notification">popup-notification</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/notification.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=popup-notification">m-c search</a>)
       <div class='metadata'>
@@ -619,14 +624,14 @@
       <summary><span id="notificationbox">notificationbox</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/notification.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=notificationbox">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (14)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (10)</code>, <code highlight='children'>children (2)</code></em><br /><em>Selectors: <code>notificationbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
-      <details open resources property field content handler method children constructor destructor implements role>
+      <details open resources property field content handler method children constructor destructor implements role role>
       <summary><span id="textbox">textbox</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/textbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=textbox">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (18)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (5)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULTextBoxElement, nsIDOMXULLabeledControlElement)</code>, <code highlight='role'>role (xul:textbox)</code></em><br /><em>Selectors: <code>textbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
-      <details open resources property field content handler method children constructor destructor implements role>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (18)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (5)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULTextBoxElement, nsIDOMXULLabeledControlElement)</code>, <code highlight='role'>role (xul:textbox)</code>, <code highlight='role'>role (xul:textbox)</code></em><br /><em>Selectors: <code>textbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open resources property field content handler method children constructor destructor implements role role>
       <summary><span id="autocomplete">autocomplete</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (27)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (22)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompleteInput, nsIDOMXULMenuListElement)</code>, <code highlight='role'>role (xul:combobox)</code></em><br /><em>Selectors: <code>textbox[type="autocomplete"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (27)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (22)</code>, <code highlight='children'>children (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompleteInput, nsIDOMXULMenuListElement)</code>, <code highlight='role'>role (xul:combobox)</code>, <code highlight='role'>role (xul:combobox)</code></em><br /><em>Selectors: <code>textbox[type="autocomplete"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open property field content handler method children constructor destructor implements>
       <summary><span id="urlbar">urlbar</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/base/content/urlbarBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=urlbar">m-c search</a>)
       <div class='metadata'>
@@ -663,10 +668,10 @@
       <summary><span id="search-one-offs">search-one-offs</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/search/content/search.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=search-one-offs">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (9)</code>, <code highlight='field'>field (18)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (17)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener,nsIObserver,nsIWeakReference)</code></em><br /><em>Selectors: <code>.search-one-offs</code> (<code title="/browser/components/search/content/searchbarBindings.css">content/searchbarBindings.css</code>)</em></div></summary></details>
-      <details open property field content handler method children constructor destructor implements role>
+      <details open property field content handler method children constructor destructor implements role role>
       <summary><span id="browser">browser</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/browser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=browser">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (55)</code>, <code highlight='field'>field (33)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (49)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver, nsIDOMEventListener, nsIMessageListener, nsIBrowser)</code>, <code highlight='role'>role (outerdoc)</code></em><br /><em>Selectors: <code>browser</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (55)</code>, <code highlight='field'>field (33)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (49)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver, nsIDOMEventListener, nsIMessageListener, nsIBrowser)</code>, <code highlight='role'>role (outerdoc)</code>, <code highlight='role'>role (outerdoc)</code></em><br /><em>Selectors: <code>browser</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open property field handler method constructor destructor implements>
       <summary><span id="remote-browser">remote-browser</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/remote-browser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=remote-browser">m-c search</a>)
       <div class='metadata'>
@@ -687,18 +692,18 @@
       <summary><span id="tabbox">tabbox</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbox">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (9)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em><br /><em>Selectors: <code>tabbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
-      <details open property field method implements role>
+      <details open property field method implements role role>
       <summary><span id="tabpanels">tabpanels</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabpanels">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULRelatedElement)</code>, <code highlight='role'>role (xul:tabpanels)</code></em><br /><em>Selectors: <code>tabpanels</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (2)</code>, <code highlight='method'>method (1)</code>, <code highlight='implements'>implements (nsIDOMXULRelatedElement)</code>, <code highlight='role'>role (xul:tabpanels)</code>, <code highlight='role'>role (xul:tabpanels)</code></em><br /><em>Selectors: <code>tabpanels</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open property field>
       <summary><span id="tabbrowser-tabpanels">tabbrowser-tabpanels</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser-tabpanels">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1442582'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (1)</code></em><br /><em>Selectors: <code>.tabbrowser-tabpanels</code> (<code title="/browser/base/content/tabbrowser.css">content/tabbrowser.css</code>)</em></div></summary></details></li></ul></details></li></ul></details>
-      <details open resources property content role>
+      <details open resources property content role role>
       <summary><span id="progressmeter">progressmeter</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/progressmeter.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=progressmeter">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1428869'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:progressmeter)</code></em><br /><em>Selectors: <code>.downloadProgress[mode="undetermined"]</code> (<code title="/browser/themes/shared/downloads/progressmeter.inc.css">downloads/progressmeter.inc.css</code>), <code>progressmeter</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:progressmeter)</code>, <code highlight='role'>role (xul:progressmeter)</code></em><br /><em>Selectors: <code>.downloadProgress[mode="undetermined"]</code> (<code title="/browser/themes/shared/downloads/progressmeter.inc.css">downloads/progressmeter.inc.css</code>), <code>progressmeter</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
       <details open field content method constructor>
       <summary><span id="progressmeter-undetermined">progressmeter-undetermined</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/progressmeter.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=progressmeter-undetermined">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1428869'>bug</a>)
       <div class='metadata'>
@@ -735,26 +740,26 @@
       <summary><span id="wizard">wizard</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/wizard.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=wizard">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (9)</code>, <code highlight='field'>field (19)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (15)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>wizard</code>, <code>wizard:root</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details>
-      <details open resources property field content method children role>
+      <details open resources property field content method children role role>
       <summary><span id="notification">notification</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/notification.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=notification">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (7)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:alert)</code></em><br /><em>Selectors: <code>notification</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
-      <details open resources property content method role>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (7)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:alert)</code>, <code highlight='role'>role (xul:alert)</code></em><br /><em>Selectors: <code>notification</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open resources property content method role role>
       <summary><span id="translationbar">translationbar</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/translation/translation-infobar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=translationbar">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1450812'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (11)</code>, <code highlight='role'>role (xul:alert)</code></em><br /><em>Selectors: <code>notification[value="translation"]</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details>
-      <details open property content method constructor destructor implements>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (11)</code>, <code highlight='role'>role (xul:alert)</code>, <code highlight='role'>role (xul:alert)</code></em><br /><em>Selectors: <code>notification[value="translation"]</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details>
+      <details open property content method constructor destructor implements display>
       <summary><span id="statuspanel">statuspanel</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=statuspanel">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1444891'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (6)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code></em><br /><em>Selectors: </em></div></summary></details>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (6)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener)</code>, <code highlight='display'>display (xul:hbox)</code></em><br /><em>Selectors: </em></div></summary></details>
       <details open resources property field content handler method children constructor destructor implements>
       <summary><span id="tabbrowser">tabbrowser</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/base/content/tabbrowser.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=tabbrowser">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1442651'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (29)</code>, <code highlight='field'>field (36)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (113)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMEventListener, nsIMessageListener, nsIObserver)</code></em><br /><em>Selectors: </em></div></summary></details>
-      <details open resources content children constructor role>
+      <details open resources content children constructor role role>
       <summary><span id="treecols">treecols</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/tree.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=treecols">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:treecolumns)</code></em><br /><em>Selectors: <code>treecols</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:treecolumns)</code>, <code highlight='role'>role (xul:treecolumns)</code></em><br /><em>Selectors: <code>treecols</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
       <details open resources>
       <summary><span id="splitter">splitter</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/mobile/android/chrome/content/bindings/checkbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=splitter">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1446163'>bug</a>)
       <div class='metadata'>
@@ -799,10 +804,10 @@
       <summary><span id="autocomplete-treebody">autocomplete-treebody</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=autocomplete-treebody">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1427363'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (3)</code></em><br /><em>Selectors: </em></div></summary></details>
-      <details open resources property field method constructor role>
+      <details open resources property field method constructor role role>
       <summary><span id="customizableui-toolbar">customizableui-toolbar</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/customizableui/content/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=customizableui-toolbar">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='field'>field (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:toolbar)</code></em><br /><em>Selectors: <code>toolbar[customizable="true"]</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary><ul><li>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (4)</code>, <code highlight='field'>field (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='role'>role (xul:toolbar)</code>, <code highlight='role'>role (xul:toolbar)</code></em><br /><em>Selectors: <code>toolbar[customizable="true"]</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary><ul><li>
       <details open field handler method constructor destructor>
       <summary><span id="customizableui-toolbar-menubar-autohide">customizableui-toolbar-menubar-autohide</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/customizableui/content/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=customizableui-toolbar-menubar-autohide">m-c search</a>)
       <div class='metadata'>
@@ -815,10 +820,10 @@
       <summary><span id="customizableui-toolbar-menubar-stub">customizableui-toolbar-menubar-stub</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/customizableui/content/toolbar.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=customizableui-toolbar-menubar-stub">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='method'>method (1)</code></em><br /><em>Selectors: <code>#toolbar-menubar</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details>
-      <details open role>
+      <details open role role>
       <summary><span id="colorpickertile">colorpickertile</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/colorpicker.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=colorpickertile">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1442029'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='role'>role (xul:colorpickertile)</code></em><br /><em>Selectors: </em></div></summary></details>
+  <em>Used features: <code highlight='role'>role (xul:colorpickertile)</code>, <code highlight='role'>role (xul:colorpickertile)</code></em><br /><em>Selectors: </em></div></summary></details>
       <details open resources property content method constructor destructor implements>
       <summary><span id="datetime-input-base">datetime-input-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/datetimebox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=datetime-input-base">m-c search</a>)
       <div class='metadata'>
@@ -831,10 +836,10 @@
       <summary><span id="time-input">time-input</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/datetimebox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=time-input">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='property'>property (2)</code>, <code highlight='method'>method (24)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>input[type="time"] > xul|datetimebox</code> (<code title="/layout/style/res/html.css">res/html.css</code>)</em></div></summary></details></li></ul></details>
-      <details open property field method constructor destructor role>
+      <details open property field method constructor destructor role role>
       <summary><span id="editor">editor</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/editor.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=editor">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (18)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='role'>role (outerdoc)</code></em><br /><em>Selectors: <code>editor</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+  <em>Used features: <code highlight='property'>property (18)</code>, <code highlight='field'>field (4)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='role'>role (outerdoc)</code>, <code highlight='role'>role (outerdoc)</code></em><br /><em>Selectors: <code>editor</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
       <details open content>
       <summary><span id="container">container</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/browser/components/preferences/handlers.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=container">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1420990'>bug</a>)
       <div class='metadata'>
@@ -863,22 +868,22 @@
       <summary><span id="groupbox-base">groupbox-base</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/groupbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=groupbox-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1446009'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
-      <details open content children role>
+      <details open content children role role>
       <summary><span id="groupbox">groupbox</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/groupbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=groupbox">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code>, <code highlight='role'>role (xul:groupbox)</code></em><br /><em>Selectors: <code>groupbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code>, <code highlight='role'>role (xul:groupbox)</code>, <code highlight='role'>role (xul:groupbox)</code></em><br /><em>Selectors: <code>groupbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details>
       <details open resources handler>
       <summary><span id="listrows">listrows</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listrows">m-c search</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='handler'>handler (2)</code></em><br /><em>Selectors: <code>listrows</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
-      <details open resources content children role>
+      <details open resources content children role role>
       <summary><span id="listhead">listhead</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listhead">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:listhead)</code></em><br /><em>Selectors: <code>listhead</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
-      <details open resources content role>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='role'>role (xul:listhead)</code>, <code highlight='role'>role (xul:listhead)</code></em><br /><em>Selectors: <code>listhead</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+      <details open resources content role role display>
       <summary><span id="listheader">listheader</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/listbox.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=listheader">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:listheader)</code></em><br /><em>Selectors: <code>listheader</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='role'>role (xul:listheader)</code>, <code highlight='role'>role (xul:listheader)</code>, <code highlight='display'>display (xul:button)</code></em><br /><em>Selectors: <code>listheader</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
       <details open handler>
       <summary><span id="builtin-android-editor">builtin-android-editor</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/dom/xbl/builtin/android/platformHTMLBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=builtin-android-editor">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419091'>bug</a>)
       <div class='metadata'>
@@ -903,10 +908,10 @@
       <summary><span id="resizer">resizer</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/resizer.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=resizer">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1450017'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>resizer</code> (<code title="/toolkit/content/minimal-xul.css">content/minimal-xul.css</code>)</em></div></summary></details>
-      <details open resources role>
+      <details open resources role role>
       <summary><span id="scalethumb">scalethumb</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/scale.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=scalethumb">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1442795'>bug</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='role'>role (xul:thumb)</code></em><br /><em>Selectors: </em></div></summary></details>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='role'>role (xul:thumb)</code>, <code highlight='role'>role (xul:thumb)</code></em><br /><em>Selectors: </em></div></summary></details>
       <details open handler>
       <summary><span id="builtin-mac-inputFields">builtin-mac-inputFields</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/dom/xbl/builtin/mac/platformHTMLBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=builtin-mac-inputFields">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419091'>bug</a>)
       <div class='metadata'>
@@ -1027,10 +1032,10 @@
       <summary><span id="builtin-win-textAreas">builtin-win-textAreas</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/dom/xbl/builtin/win/platformHTMLBindings.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=builtin-win-textAreas">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1419091'>bug</a>)
       <div class='metadata'>
   <em>Used features: <code highlight='handler'>handler (29)</code></em><br /><em>Selectors: <code>textarea</code> (<code title="/layout/style/res/forms.css">res/forms.css</code>)</em></div></summary></details>
-      <details open property role>
+      <details open property role role>
       <summary><span id="iframe">iframe</span> (<a href="https://dxr.mozilla.org/mozilla-central/source/toolkit/content/widgets/general.xml" target="_blank">source</a>) (<a href="https://dxr.mozilla.org/mozilla-central/search?q=iframe">m-c search</a>)
       <div class='metadata'>
-  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='role'>role (outerdoc)</code></em><br /><em>Selectors: <code>iframe</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='role'>role (outerdoc)</code>, <code highlight='role'>role (outerdoc)</code></em><br /><em>Selectors: <code>iframe</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
         </div>
       </main>
     </body>

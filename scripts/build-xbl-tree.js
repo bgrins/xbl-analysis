@@ -148,6 +148,22 @@ async function treeForRev(rev, metadataForBindings) {
         idToFeatureAttrs[binding.attrs.id].push("role");
       }
 
+      // Count [role] uses:
+      featureCounts["role"] = featureCounts["role"] || 0;
+      if (binding.attrs.role) {
+        featureCounts["role"]++;
+        idToFeatures[binding.attrs.id].push(`role (${binding.attrs.role})`);
+        idToFeatureAttrs[binding.attrs.id].push("role");
+      }
+
+      // Count [display] uses:
+      featureCounts["display"] = featureCounts["display"] || 0;
+      if (binding.attrs.display) {
+        featureCounts["display"]++;
+        idToFeatures[binding.attrs.id].push(`display (${binding.attrs.display})`);
+        idToFeatureAttrs[binding.attrs.id].push("display");
+      }
+
       if (idToBinding[binding.attrs.id]) {
         console.log("Detected duplicate binding: ", binding.attrs.id);
       }
