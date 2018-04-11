@@ -10,7 +10,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
             <xul:description class="translation-welcome-headline" anonid="welcomeHeadline"></xul:description>
             <xul:description class="translation-welcome-body" anonid="welcomeBody"></xul:description>
             <xul:hbox align="center">
-              <xul:label anonid="learnMore" class="plain text-link" onclick="openUILinkIn('https://support.mozilla.org/kb/automatic-translation', 'tab'); this.parentNode.parentNode.parentNode.hidePopup();"></xul:label>
+              <xul:label anonid="learnMore" class="plain text-link" onclick="openTrustedLinkIn('https://support.mozilla.org/kb/automatic-translation', 'tab'); this.parentNode.parentNode.parentNode.hidePopup();"></xul:label>
               <xul:spacer flex="1"></xul:spacer>
               <xul:button class="translate-infobar-element" anonid="thanksButton" onclick="this.parentNode.parentNode.parentNode.hidePopup();"></xul:button>
             </xul:hbox>
@@ -105,9 +105,10 @@ class FirefoxTranslationbar extends FirefoxNotification {
 
   init(aTranslation) {
     this.translation = aTranslation;
-    let bundle = Services.strings.createBundle("chrome://global/locale/languageNames.properties");
+
     let sortByLocalizedName = function(aList) {
-      return aList.map(code => [code, bundle.GetStringFromName(code)])
+      let names = Services.intl.getLanguageDisplayNames(undefined, aList);
+      return aList.map((code, i) => [code, names[i]])
         .sort((a, b) => a[1].localeCompare(b[1]));
     };
 
@@ -260,9 +261,7 @@ class FirefoxTranslationbar extends FirefoxNotification {
         lang = this.translation.detectedLanguage;
     }
 
-    let langBundle =
-      Services.strings.createBundle("chrome://global/locale/languageNames.properties");
-    let langName = langBundle.GetStringFromName(lang);
+    let langName = Services.intl.getLanguageDisplayNames(undefined, [lang])[0];
 
     // Set the label and accesskey on the menuitem.
     let bundle =

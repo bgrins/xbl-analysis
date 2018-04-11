@@ -306,7 +306,7 @@ class FirefoxSearchbar extends XULElement {
         params[key] = aParams[key];
       }
     }
-    openUILinkIn(submission.uri.spec, aWhere, params);
+    openTrustedLinkIn(submission.uri.spec, aWhere, params);
   }
 
   disconnectedCallback() {

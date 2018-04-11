@@ -56,7 +56,7 @@ class FirefoxAutocompleteRichlistitemInsecureField extends FirefoxAutocompleteRi
   _setupEventListeners() {
     this.addEventListener("click", (event) => {
       let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
-      window.openUILinkIn(baseURL + "insecure-password", "tab", {
+      window.openTrustedLinkIn(baseURL + "insecure-password", "tab", {
         relatedToCurrent: true,
       });
     });

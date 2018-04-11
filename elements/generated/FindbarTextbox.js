@@ -93,10 +93,11 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
     });
 
     this.addEventListener("focus", (event) => {
+      let findbar = this.findbar;
       if (/Mac/.test(navigator.platform)) {
-        let findbar = this.findbar;
         findbar._onFindFieldFocus();
       }
+      findbar._updateBrowserWithState();
     });
 
     this.addEventListener("compositionstart", (event) => {
@@ -106,6 +107,7 @@ class FirefoxFindbarTextbox extends FirefoxTextbox {
       if (findbar._quickFindTimeout) {
         clearTimeout(findbar._quickFindTimeout);
         findbar._quickFindTimeout = null;
+        findbar._updateBrowserWithState();
       }
     });
 

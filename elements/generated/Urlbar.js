@@ -657,11 +657,11 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
    * @param event
    * The event that triggered the command.
    * @param openUILinkWhere
-   * Optional.  The "where" to pass to openUILinkIn.  This method
+   * Optional.  The "where" to pass to openTrustedLinkIn.  This method
    * computes the appropriate "where" given the event, but you can
    * use this to override it.
    * @param openUILinkParams
-   * Optional.  The parameters to pass to openUILinkIn.  As with
+   * Optional.  The parameters to pass to openTrustedLinkIn.  As with
    * "where", this method computes the appropriate parameters, but
    * any parameters you supply here will override those.
    */
@@ -853,7 +853,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     }
 
     try {
-      openUILinkIn(url, openUILinkWhere, params);
+      openTrustedLinkIn(url, openUILinkWhere, params);
     } catch (ex) {
       // This load can throw an exception in certain cases, which means
       // we'll want to replace the URL with the loaded URL:

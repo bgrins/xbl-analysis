@@ -298,6 +298,7 @@ class FirefoxFindbar extends XULElement {
     // findbar is already hidden.
     if (this._isIMEComposing || this.hidden) {
       this._quickFindTimeout = null;
+      this._updateBrowserWithState();
       return;
     }
 
@@ -306,6 +307,7 @@ class FirefoxFindbar extends XULElement {
         this.close();
       this._quickFindTimeout = null;
     }, this._quickFindTimeoutLength);
+    this._updateBrowserWithState();
   }
 
   /**
@@ -525,6 +527,7 @@ class FirefoxFindbar extends XULElement {
     this.browser.finder.onFindbarClose();
 
     this._cancelTimers();
+    this._updateBrowserWithState();
 
     this._findFailedString = null;
   }
@@ -593,38 +596,24 @@ class FirefoxFindbar extends XULElement {
   }
 
   /**
-   * We get a fake event object through an IPC message which contains the
-   * data we need to make a decision. We then return |true| if and only if
-   * the page gets to deal with the event itself. Everywhere we return
-   * false, the message sender will take care of calling event.preventDefault
-   * on the real event.
+   * We get a fake event object through an IPC message when FAYT is being used
+   * from within the browser. We then stuff that input in the find bar here.
    */
-  _onBrowserKeypress(aFakeEvent, aShouldFastFind) {
+  _onBrowserKeypress(aFakeEvent) {
     const FAYT_LINKS_KEY = "'";
     const FAYT_TEXT_KEY = "/";
 
-    // Fast keypresses can stack up when the content process is slow or
-    // hangs when in e10s mode. We make sure the findbar isn't 'opened'
-    // several times in a row, because then the find query is selected
-    // each time, losing characters typed initially.
-    let inputField = this._findField.inputField;
-    if (!this.hidden && document.activeElement == inputField) {
-      this._dispatchKeypressEvent(inputField, aFakeEvent);
-      return false;
+    if (!this.hidden && this._findField.inputField == document.activeElement) {
+      this._dispatchKeypressEvent(this._findField.inputField, aFakeEvent);
+      return;
     }
 
     if (this._findMode != this.FIND_NORMAL && this._quickFindTimeout) {
-      if (!aFakeEvent.charCode)
-        return true;
-
       this._findField.select();
       this._findField.focus();
       this._dispatchKeypressEvent(this._findField.inputField, aFakeEvent);
-      return false;
+      return;
     }
-
-    if (!aShouldFastFind)
-      return true;
 
     let key = aFakeEvent.charCode ? String.fromCharCode(aFakeEvent.charCode) : null;
     let manualstartFAYT = (key == FAYT_LINKS_KEY || key == FAYT_TEXT_KEY);
@@ -648,14 +637,11 @@ class FirefoxFindbar extends XULElement {
         this._dispatchKeypressEvent(this._findField.inputField, aFakeEvent);
       else
         this._updateStatusUI(this.nsITypeAheadFind.FIND_FOUND);
-
-      return false;
     }
-    return undefined;
   }
 
   /**
-   * See nsIMessageListener
+   * See MessageListener
    */
   receiveMessage(aMessage) {
     if (aMessage.target != this._browser) {
@@ -666,10 +652,9 @@ class FirefoxFindbar extends XULElement {
         if (!this.hidden && this._findMode != this.FIND_NORMAL)
           this.close();
         break;
-
       case "Findbar:Keypress":
-        return this._onBrowserKeypress(aMessage.data.fakeEvent,
-          aMessage.data.shouldFastFind);
+        this._onBrowserKeypress(aMessage.data);
+        break;
     }
     return undefined;
   }
@@ -677,7 +662,9 @@ class FirefoxFindbar extends XULElement {
   _updateBrowserWithState() {
     if (this._browser && this._browser.messageManager) {
       this._browser.messageManager.sendAsyncMessage("Findbar:UpdateState", {
-        findMode: this._findMode
+        findMode: this._findMode,
+        isOpenAndFocused: !this.hidden && document.activeElement == this._findField.inputField,
+        hasQuickFindTimeout: !!this._quickFindTimeout,
       });
     }
   }

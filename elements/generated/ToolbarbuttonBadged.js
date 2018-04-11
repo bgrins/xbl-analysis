@@ -10,6 +10,7 @@ class FirefoxToolbarbuttonBadged extends FirefoxToolbarbutton {
       </xul:stack>
       <xul:label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,wrap"></xul:label>
       <xul:label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap"></xul:label>
+      <xul:dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label"></xul:dropmarker>
     `;
 
     this._setupEventListeners();

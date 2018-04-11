@@ -9,9 +9,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         <children includes="tab"></children>
         <children></children>
         <xul:toolbarbutton class="tabs-newtab-button toolbarbutton-1" anonid="tabs-newtab-button" command="cmd_newNavigatorTab" onclick="checkForMiddleClick(this, event);" tooltip="dynamic-shortcut-tooltip"></xul:toolbarbutton>
-        <xul:hbox class="restore-tabs-button-wrapper" anonid="restore-tabs-button-wrapper">
-          <xul:toolbarbutton anonid="restore-tabs-button" class="restore-tabs-button" onclick="SessionStore.restoreLastSession();"></xul:toolbarbutton>
-        </xul:hbox>
         <xul:spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;"></xul:spacer>
       </xul:arrowscrollbox>
     `;
@@ -32,12 +29,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this._afterHoveredTab = null;
 
     this._hoveredTab = null;
-
-    this.restoreTabsButton = document.getAnonymousElementByAttribute(this, "anonid", "restore-tabs-button");
-
-    this._restoreTabsButtonWrapperWidth = 0;
-
-    this.windowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
 
     this._blockDblClick = false;
 
@@ -64,9 +55,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this._animateElement = this.arrowScrollbox._scrollButtonDown;
 
     this._tabClipWidth = Services.prefs.getIntPref("browser.tabs.tabClipWidth");
-
-    let { restoreTabsButton } = this;
-    restoreTabsButton.setAttribute("label", gTabBrowserBundle.GetStringFromName("tabs.restoreLastTabs"));
 
     let strId = PrivateBrowsingUtils.isWindowPrivate(window) ?
       "emptyPrivateTabTitle" : "emptyTabTitle";
@@ -108,49 +96,8 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     return val;
   }
 
-  get restoreTabsButtonWrapperWidth() {
-    if (!this._restoreTabsButtonWrapperWidth) {
-      this._restoreTabsButtonWrapperWidth = this.windowUtils
-        .getBoundsWithoutFlushing(this.restoreTabsButton.parentNode)
-        .width;
-    }
-    return this._restoreTabsButtonWrapperWidth;
-  }
-
   get _isCustomizing() {
     return document.documentElement.getAttribute("customizing") == "true";
-  }
-
-  updateSessionRestoreVisibility() {
-    let { restoreTabsButton, restoreTabsButtonWrapperWidth, windowUtils } = this;
-    let restoreTabsButtonWrapper = restoreTabsButton.parentNode;
-
-    if (!restoreTabsButtonWrapper.getAttribute("session-exists")) {
-      restoreTabsButtonWrapper.removeAttribute("shown");
-      return;
-    }
-
-    let arrowScrollboxWidth = this.arrowScrollbox.clientWidth;
-
-    let newTabButton = document.getAnonymousElementByAttribute(
-      this, "anonid", "tabs-newtab-button");
-
-    // If there are no pinned tabs it will multiply by 0 and result in 0
-    let pinnedTabsWidth = windowUtils.getBoundsWithoutFlushing(this.firstChild).width * this._lastNumPinned;
-
-    let numUnpinnedTabs = this.childNodes.length - this._lastNumPinned;
-    let unpinnedTabsWidth = windowUtils.getBoundsWithoutFlushing(this.lastChild).width * numUnpinnedTabs;
-
-    let tabbarUsedSpace = pinnedTabsWidth + unpinnedTabsWidth +
-      windowUtils.getBoundsWithoutFlushing(newTabButton).width;
-
-    // Subtract the elements' widths from the available space to ensure
-    // that showing the restoreTabsButton won't cause any overflow.
-    if (arrowScrollboxWidth - tabbarUsedSpace > restoreTabsButtonWrapperWidth) {
-      restoreTabsButtonWrapper.setAttribute("shown", "true");
-    } else {
-      restoreTabsButtonWrapper.removeAttribute("shown");
-    }
   }
 
   observe(aSubject, aTopic, aData) {
@@ -304,6 +251,14 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
         }
       });
     });
+  }
+
+  _updateHiddenTabsStatus() {
+    if (gBrowser.visibleTabs.length < gBrowser.tabs.length) {
+      this.setAttribute("hashiddentabs", "true");
+    } else {
+      this.removeAttribute("hashiddentabs");
+    }
   }
 
   _handleTabSelect(aInstant) {
@@ -579,7 +534,6 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
         this._updateCloseButtons();
         this._handleTabSelect(true);
-        this.updateSessionRestoreVisibility();
         break;
       case "mouseout":
         // If the "related target" (the node to which the pointer went) is not

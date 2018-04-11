@@ -15,23 +15,22 @@ class FirefoxNocontrols extends XULElement {
     this.Utils = {
       randomID: 0,
       videoEvents: ["play",
-        "playing"
+        "playing",
+        "MozNoControlsBlockedVideo"
       ],
-      controlListeners: [],
-      terminateEventListeners() {
+      terminate() {
         for (let event of this.videoEvents) {
           try {
-            this.video.removeEventListener(event, this, { mozSystemGroup: true });
+            this.video.removeEventListener(event, this, {
+              capture: true,
+              mozSystemGroup: true
+            });
           } catch (ex) {}
         }
 
-        for (let element of this.controlListeners) {
-          try {
-            element.item.removeEventListener(element.event, element.func, { mozSystemGroup: true });
-          } catch (ex) {}
-        }
-
-        delete this.controlListeners;
+        try {
+          this.clickToPlay.removeEventListener("click", this, { mozSystemGroup: true });
+        } catch (ex) {}
       },
 
       hasError() {
@@ -42,7 +41,7 @@ class FirefoxNocontrols extends XULElement {
         // If the binding is detached (or has been replaced by a
         // newer instance of the binding), nuke our event-listeners.
         if (this.videocontrols.randomID != this.randomID) {
-          this.terminateEventListeners();
+          this.terminate();
           return;
         }
 
@@ -53,12 +52,18 @@ class FirefoxNocontrols extends XULElement {
           case "playing":
             this.noControlsOverlay.hidden = true;
             break;
+          case "MozNoControlsBlockedVideo":
+            this.blockedVideoHandler();
+            break;
+          case "click":
+            this.clickToPlayClickHandler(aEvent);
+            break;
         }
       },
 
       blockedVideoHandler() {
         if (this.videocontrols.randomID != this.randomID) {
-          this.terminateEventListeners();
+          this.terminate();
           return;
         } else if (this.hasError()) {
           this.noControlsOverlay.hidden = true;
@@ -69,7 +74,7 @@ class FirefoxNocontrols extends XULElement {
 
       clickToPlayClickHandler(e) {
         if (this.videocontrols.randomID != this.randomID) {
-          this.terminateEventListeners();
+          this.terminate();
           return;
         } else if (e.button != 0) {
           return;
@@ -99,18 +104,13 @@ class FirefoxNocontrols extends XULElement {
           this.controlsContainer.classList.add("touch");
         }
 
-        let self = this;
-
-        function addListener(elem, eventName, func) {
-          let boundFunc = func.bind(self);
-          self.controlListeners.push({ item: elem, event: eventName, func: boundFunc });
-          elem.addEventListener(eventName, boundFunc, { mozSystemGroup: true });
-        }
-        addListener(this.clickToPlay, "click", this.clickToPlayClickHandler);
-        addListener(this.video, "MozNoControlsBlockedVideo", this.blockedVideoHandler);
+        this.clickToPlay.addEventListener("click", this, { mozSystemGroup: true });
 
         for (let event of this.videoEvents) {
-          this.video.addEventListener(event, this, { mozSystemGroup: true });
+          this.video.addEventListener(event, this, {
+            capture: true,
+            mozSystemGroup: true
+          });
         }
       }
     };
@@ -121,7 +121,7 @@ class FirefoxNocontrols extends XULElement {
   }
 
   disconnectedCallback() {
-    this.Utils.terminateEventListeners();
+    this.Utils.terminate();
     // randomID used to be a <field>, which meant that the XBL machinery
     // undefined the property when the element was unbound. The code in
     // this file actually depends on this, so now that randomID is an

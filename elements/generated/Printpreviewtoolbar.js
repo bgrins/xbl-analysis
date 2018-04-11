@@ -10,7 +10,7 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
       <xul:toolbarbutton anonid="navigateHome" class="navigate-button tabbable" oncommand="parentNode.navigate(0, 0, 'home');" tooltiptext="FROM-DTD-homearrow-tooltip"></xul:toolbarbutton>
       <xul:toolbarbutton anonid="navigatePrevious" class="navigate-button tabbable" oncommand="parentNode.navigate(-1, 0, 0);" tooltiptext="FROM-DTD-previousarrow-tooltip"></xul:toolbarbutton>
       <xul:hbox align="center" pack="center">
-        <xul:textbox id="pageNumber" size="3" value="1" min="1" type="number" hidespinbuttons="true" onchange="navigate(0, this.valueNumber, 0);"></xul:textbox>
+        <xul:textbox id="pageNumber" value="1" min="1" type="number" hidespinbuttons="true" onchange="navigate(0, this.valueNumber, 0);"></xul:textbox>
         <xul:label value="FROM-DTD-of-label"></xul:label>
         <xul:label value="1"></xul:label>
       </xul:hbox>
@@ -307,9 +307,6 @@ class FirefoxPrintpreviewtoolbar extends XULElement {
     PSSVC.savePrintSettingsToPrefs(settings, true, flags);
   }
 
-  /**
-   * nsIMessageListener
-   */
   receiveMessage(message) {
     if (message.name == "Printing:Preview:UpdatePageCount") {
       let numPages = message.data.numPages;

@@ -286,7 +286,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     // tag containers, so we must fall to the default case.
     if (PlacesUtils.nodeIsHistoryContainer(queryNode) ||
       PlacesUtils.nodeIsTagQuery(queryNode) ||
-      options.resultType == options.RESULTS_AS_TAG_QUERY ||
+      options.resultType == options.RESULTS_AS_TAGS_ROOT ||
       options.resultType == options.RESULTS_AS_ROOTS_QUERY)
       options.resultType = options.RESULTS_AS_URI;
 
