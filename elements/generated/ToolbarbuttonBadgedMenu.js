@@ -1,4 +1,4 @@
-class FirefoxToolbarbuttonBadgedMenu extends FirefoxToolbarbutton {
+class FirefoxToolbarbuttonBadgedMenu extends FirefoxToolbarbuttonBadged {
   connectedCallback() {
     super.connectedCallback()
 
