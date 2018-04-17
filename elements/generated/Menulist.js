@@ -1,4 +1,4 @@
-class FirefoxMenulist extends FirefoxMenulistBase {
+class FirefoxMenulist extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.innerHTML = `

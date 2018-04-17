@@ -123,14 +123,6 @@ class FirefoxPopupBase extends XULElement {
       popupBox.hidePopup(cancel);
   }
 
-  enableKeyboardNavigator(aEnableKeyboardNavigator) {
-    this.popupBoxObject.enableKeyboardNavigator(aEnableKeyboardNavigator);
-  }
-
-  enableRollup(aEnableRollup) {
-    this.popupBoxObject.enableRollup(aEnableRollup);
-  }
-
   sizeTo(aWidth, aHeight) {
     this.popupBoxObject.sizeTo(aWidth, aHeight);
   }

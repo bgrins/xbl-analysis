@@ -412,8 +412,9 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
 
     let popup = this.parentNode.parentNode;
     let titleLooksLikeUrl = false;
-    let displayUrl;
+    let displayUrl = originalUrl;
     let emphasiseUrl = true;
+    let trimDisplayUrl = true;
 
     let type = this.getAttribute("originaltype");
     let types = new Set(type.split(/\s+/));
@@ -430,9 +431,7 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       // Treat autofills as visiturl actions.
       action = {
         type: "visiturl",
-        params: {
-          url: this.getAttribute("title"),
-        },
+        params: { url: title },
       };
     }
 
@@ -444,96 +443,111 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
       action = action || this._parseActionUrl(originalUrl);
       this.setAttribute("actiontype", action.type);
 
-      if (action.type == "switchtab") {
-        this.classList.add("overridable-action");
-        displayUrl = this._unescapeUrl(action.params.url);
-        let desc = this._stringBundle.GetStringFromName("switchToTab2");
-        this._setUpDescription(this._actionText, desc, true);
-      } else if (action.type == "remotetab") {
-        displayUrl = this._unescapeUrl(action.params.url);
-        let desc = action.params.deviceName;
-        this._setUpDescription(this._actionText, desc, true);
-      } else if (action.type == "searchengine") {
-        emphasiseUrl = false;
-
-        // The order here is not localizable, we default to appending
-        // "- Search with Engine" to the search string, to be able to
-        // properly generate emphasis pairs. That said, no localization
-        // changed the order while it was possible, so doesn't look like
-        // there's a strong need for that.
-        let { engineName, searchSuggestion, searchQuery } = action.params;
-
-        // Override the engine name if the popup defines an override.
-        let override = popup.overrideSearchEngineName;
-        if (override && override != engineName) {
-          engineName = override;
-          action.params.engineName = override;
-          let newURL =
-            PlacesUtils.mozActionURI(action.type, action.params);
-          this.setAttribute("url", newURL);
-        }
-
-        let engineStr =
-          this._stringBundle.formatStringFromName("searchWithEngine", [engineName], 1);
-        this._setUpDescription(this._actionText, engineStr, true);
-
-        // Make the title by generating an array of pairs and its
-        // corresponding interpolation string (e.g., "%1$S") to pass to
-        // _generateEmphasisPairs.
-        let pairs;
-        if (searchSuggestion) {
-          // Check if the search query appears in the suggestion.  It may
-          // not.  If it does, then emphasize the query in the suggestion
-          // and otherwise just include the suggestion without emphasis.
-          let idx = searchSuggestion.indexOf(searchQuery);
-          if (idx >= 0) {
-            pairs = [
-              [searchSuggestion.substring(0, idx), ""],
-              [searchQuery, "match"],
-              [searchSuggestion.substring(idx + searchQuery.length), ""],
-            ];
-          } else {
-            pairs = [
-              [searchSuggestion, ""],
-            ];
+      switch (action.type) {
+        case "switchtab":
+          {
+            this.classList.add("overridable-action");
+            displayUrl = action.params.url;
+            let desc = this._stringBundle.GetStringFromName("switchToTab2");
+            this._setUpDescription(this._actionText, desc, true);
+            break;
           }
-        } else {
-          pairs = [
-            [searchQuery, ""],
-          ];
-        }
-        let interpStr = pairs.map((pair, i) => `%${i + 1}$S`).join("");
-        title = this._generateEmphasisPairs(interpStr, pairs);
+        case "remotetab":
+          {
+            displayUrl = action.params.url;
+            let desc = action.params.deviceName;
+            this._setUpDescription(this._actionText, desc, true);
+            break;
+          }
+        case "searchengine":
+          {
+            emphasiseUrl = false;
 
-        // If this is a default search match, we remove the image so we
-        // can style it ourselves with a generic search icon.
-        // We don't do this when matching an aliased search engine,
-        // because the icon helps with recognising which engine will be
-        // used (when using the default engine, we don't need that
-        // recognition).
-        if (!action.params.alias && !initialTypes.has("favicon")) {
-          this.removeAttribute("image");
-        }
-      } else if (action.type == "visiturl") {
-        emphasiseUrl = false;
-        displayUrl = this._unescapeUrl(action.params.url);
-        title = displayUrl;
-        titleLooksLikeUrl = true;
-        let visitStr = this._stringBundle.GetStringFromName("visit");
-        this._setUpDescription(this._actionText, visitStr, true);
-      } else if (action.type == "extension") {
-        let content = action.params.content;
-        displayUrl = content;
-        this._setUpDescription(this._actionText, content, true);
+            // The order here is not localizable, we default to appending
+            // "- Search with Engine" to the search string, to be able to
+            // properly generate emphasis pairs. That said, no localization
+            // changed the order while it was possible, so doesn't look like
+            // there's a strong need for that.
+            let { engineName, searchSuggestion, searchQuery } = action.params;
+
+            // Override the engine name if the popup defines an override.
+            let override = popup.overrideSearchEngineName;
+            if (override && override != engineName) {
+              engineName = override;
+              action.params.engineName = override;
+              let newURL =
+                PlacesUtils.mozActionURI(action.type, action.params);
+              this.setAttribute("url", newURL);
+            }
+
+            let engineStr =
+              this._stringBundle.formatStringFromName("searchWithEngine", [engineName], 1);
+            this._setUpDescription(this._actionText, engineStr, true);
+
+            // Make the title by generating an array of pairs and its
+            // corresponding interpolation string (e.g., "%1$S") to pass to
+            // _generateEmphasisPairs.
+            let pairs;
+            if (searchSuggestion) {
+              // Check if the search query appears in the suggestion.  It may
+              // not.  If it does, then emphasize the query in the suggestion
+              // and otherwise just include the suggestion without emphasis.
+              let idx = searchSuggestion.indexOf(searchQuery);
+              if (idx >= 0) {
+                pairs = [
+                  [searchSuggestion.substring(0, idx), ""],
+                  [searchQuery, "match"],
+                  [searchSuggestion.substring(idx + searchQuery.length), ""],
+                ];
+              } else {
+                pairs = [
+                  [searchSuggestion, ""],
+                ];
+              }
+            } else {
+              pairs = [
+                [searchQuery, ""],
+              ];
+            }
+            let interpStr = pairs.map((pair, i) => `%${i + 1}$S`).join("");
+            title = this._generateEmphasisPairs(interpStr, pairs);
+
+            // If this is a default search match, we remove the image so we
+            // can style it ourselves with a generic search icon.
+            // We don't do this when matching an aliased search engine,
+            // because the icon helps with recognising which engine will be
+            // used (when using the default engine, we don't need that
+            // recognition).
+            if (!action.params.alias && !initialTypes.has("favicon")) {
+              this.removeAttribute("image");
+            }
+            break;
+          }
+        case "visiturl":
+          {
+            emphasiseUrl = false;
+            displayUrl = action.params.url;
+            titleLooksLikeUrl = true;
+            let visitStr = this._stringBundle.GetStringFromName("visit");
+            this._setUpDescription(this._actionText, visitStr, true);
+            break;
+          }
+        case "extension":
+          {
+            let content = action.params.content;
+            displayUrl = content;
+            trimDisplayUrl = false;
+            this._setUpDescription(this._actionText, content, true);
+            break;
+          }
       }
     }
 
-    if (!displayUrl) {
+    if (trimDisplayUrl) {
       let input = popup.input;
-      let url = typeof(input.trimValue) == "function" ?
-        input.trimValue(originalUrl) :
-        originalUrl;
-      displayUrl = this._unescapeUrl(url);
+      if (typeof input.trimValue == "function")
+        displayUrl = input.trimValue(displayUrl);
+      displayUrl = this._unescapeUrl(displayUrl);
     }
     // For performance reasons we may want to limit the displayUrl size.
     if (popup.textRunsMaxLen) {
@@ -543,7 +557,6 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
 
     // Show the domain as the title if we don't have a title.
     if (!title) {
-      title = displayUrl;
       titleLooksLikeUrl = true;
       try {
         let uri = Services.io.newURI(originalUrl);
@@ -551,6 +564,8 @@ class FirefoxAutocompleteRichlistitem extends FirefoxRichlistitem {
         if (uri.host)
           title = uri.host;
       } catch (e) {}
+      if (!title)
+        title = displayUrl;
     }
 
     this._tags.setAttribute("empty", "true");

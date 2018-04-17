@@ -618,13 +618,17 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       // similar problem.
       event.preventDefault();
 
-      if (!this.input.speculativeConnectEnabled) {
-        return;
-      }
       if (event.button == 2) {
+        // Right mouse button currently allows to select.
+        this.input.userSelectionBehavior = "rightClick";
         // Ignore right-clicks.
         return;
       }
+
+      if (!this.input.speculativeConnectEnabled) {
+        return;
+      }
+
       // Ensure the user is clicking on an url instead of other buttons
       // on the popup.
       let elt = event.originalTarget;

@@ -36,13 +36,6 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
             </xul:hbox>
             <xul:label anonid="date-updated" class="date-updated" unknown="FROM-DTD-addon-unknownDate"></xul:label>
           </xul:hbox>
-          <xul:hbox class="experiment-container">
-            <svg width="6" height="6" viewBox="0 0 6 6" version="1.1" xmlns="http://www.w3.org/2000/svg" class="experiment-bullet-container">
-              <circle cx="3" cy="3" r="3" class="experiment-bullet"></circle>
-            </svg>
-            <xul:label anonid="experiment-state" class="experiment-state"></xul:label>
-            <xul:label anonid="experiment-time" class="experiment-time"></xul:label>
-          </xul:hbox>
           <xul:hbox class="advancedinfo-container" flex="1">
             <xul:vbox class="description-outer-container" flex="1">
               <xul:hbox class="description-container">
@@ -126,10 +119,6 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
     this._info = document.getAnonymousElementByAttribute(this, "anonid",
       "info");
-
-    this._experimentState = document.getAnonymousElementByAttribute(this, "anonid", "experiment-state");
-
-    this._experimentTime = document.getAnonymousElementByAttribute(this, "anonid", "experiment-time");
 
     this._icon = document.getAnonymousElementByAttribute(this, "anonid", "icon");
 
@@ -478,37 +467,6 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
     var showProgress = (this.mAddon.install &&
       this.mAddon.install.state != AddonManager.STATE_INSTALLED);
     this._showStatus(showProgress ? "progress" : "none");
-
-    if (this.mAddon.type == "experiment") {
-      this.removeAttribute("notification");
-      let prefix = "experiment.";
-      let active = this.mAddon.isActive;
-
-      if (!showProgress) {
-        let stateKey = prefix + "state." + (active ? "active" : "complete");
-        this._experimentState.value = gStrings.ext.GetStringFromName(stateKey);
-
-        let now = Date.now();
-        let end = this.endDate;
-        let days = Math.abs(end - now) / (24 * 60 * 60 * 1000);
-
-        let timeKey = prefix + "time.";
-        let timeMessage;
-
-        if (days < 1) {
-          timeKey += (active ? "endsToday" : "endedToday");
-          timeMessage = gStrings.ext.GetStringFromName(timeKey);
-        } else {
-          timeKey += (active ? "daysRemaining" : "daysPassed");
-          days = Math.round(days);
-          let timeString = gStrings.ext.GetStringFromName(timeKey);
-          timeMessage = PluralForm.get(days, timeString)
-            .replace("#1", days);
-        }
-
-        this._experimentTime.value = timeMessage;
-      }
-    }
   }
 
   _fetchReleaseNotes(aURI) {
