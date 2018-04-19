@@ -540,15 +540,14 @@ class FirefoxFindbar extends XULElement {
     this._enableFindButtons(false);
   }
 
-  _dispatchKeypressEvent(aTarget, aEvent) {
+  _dispatchKeypressEvent(aTarget, fakeEvent) {
     if (!aTarget)
       return;
 
-    let event = document.createEvent("KeyboardEvent");
-    event.initKeyEvent(aEvent.type, aEvent.bubbles, aEvent.cancelable,
-      aEvent.view, aEvent.ctrlKey, aEvent.altKey,
-      aEvent.shiftKey, aEvent.metaKey, aEvent.keyCode,
-      aEvent.charCode);
+    // The event information comes from the child process. If we need more
+    // properties/information here, change the list of sent properties in
+    // browser-content.js
+    let event = new aTarget.ownerGlobal.KeyboardEvent(fakeEvent.type, fakeEvent);
     aTarget.dispatchEvent(event);
   }
 
