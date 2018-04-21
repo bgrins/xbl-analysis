@@ -49,9 +49,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
   }
 
   set checked(val) {
-    if (this.type == "checkbox") {
-      this.checkState = val ? 1 : 0;
-    } else if (this.type == "radio" && val) {
+    if (this.type == "radio" && val) {
       var sibs = this.parentNode.getElementsByAttribute("group", this.group);
       for (var i = 0; i < sibs.length; ++i)
         sibs[i].removeAttribute("checked");
@@ -67,22 +65,6 @@ class FirefoxButtonBase extends FirefoxBasetext {
 
   get checked() {
     return this.hasAttribute('checked');
-  }
-
-  set checkState(val) {
-    this.setAttribute("checkState", val);
-    return val;
-  }
-
-  get checkState() {
-    var state = this.getAttribute("checkState");
-    if (state == "")
-      return this.checked ? 1 : 0;
-    if (state == "0")
-      return 0;
-    if (state == "2")
-      return 2;
-    return 1;
   }
 
   set autoCheck(val) {

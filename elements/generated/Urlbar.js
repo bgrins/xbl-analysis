@@ -46,6 +46,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
      * The enter key is always deferred, so it's not included here.
      */
     this._keyCodesToDefer = new Set([
+      KeyboardEvent.DOM_VK_RETURN,
       KeyboardEvent.DOM_VK_DOWN,
       KeyboardEvent.DOM_VK_TAB,
     ]);
@@ -300,7 +301,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     return returnValue;
   }
 
-  onKeyPress(aEvent) {
+  onKeyPress(aEvent, aNoDefer) {
     switch (aEvent.keyCode) {
       case KeyEvent.DOM_VK_LEFT:
       case KeyEvent.DOM_VK_RIGHT:
@@ -321,7 +322,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
         break;
     }
     if (!this.popup.disableKeyNavigation) {
-      if (this._shouldDeferKeyEvent(aEvent)) {
+      if (!aNoDefer && this._shouldDeferKeyEvent(aEvent)) {
         this._deferKeyEvent(aEvent, "onKeyPress");
         return false;
       }
@@ -351,9 +352,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   _shouldDeferKeyEvent(event) {
     // If any event has been deferred for this search, then defer all
     // subsequent events so that the user does not experience any
-    // keypresses out of order.  All events will be replayed when this
-    // timeout fires.
-    if (this._deferredKeyEventTimeout) {
+    // keypresses out of order.  All events will be replayed when
+    // _deferredKeyEventTimeout fires.
+    if (this._deferredKeyEventQueue.length) {
       return true;
     }
 
@@ -395,6 +396,11 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
    * @return True if the event can be played, false if not.
    */
   _safeToPlayDeferredKeyEvent(event) {
+    if (event.keyCode == KeyEvent.DOM_VK_RETURN) {
+      return this.popup.selectedIndex != 0 ||
+        this.gotResultForCurrentQuery;
+    }
+
     if (!this.gotResultForCurrentQuery || !this.popupOpen) {
       // We're still waiting on the first result, or the popup hasn't
       // opened yet, so not safe.
@@ -428,7 +434,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
    * The key event to defer.
    * @param methodName
    * The name of the method on `this` to call.  It's expected to take
-   * a single argument, the event.
+   * two arguments: the event, and a noDefer bool.  If the bool is
+   * true, then the event is being replayed and it should not be
+   * deferred.
    */
   _deferKeyEvent(event, methodName) {
     // Somehow event.defaultPrevented ends up true for deferred events.
@@ -437,6 +445,9 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // defaultPrevented.  That's the purpose of this expando.  If we could
     // figure out what's setting defaultPrevented and prevent it, then we
     // could get rid of this.
+    if (event.urlbarDeferred) {
+      throw new Error("Key event already deferred!");
+    }
     event.urlbarDeferred = true;
 
     this._deferredKeyEventQueue.push({
@@ -454,14 +465,10 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       // the user's input.
       let elapsed = Cu.now() - this._searchStartDate;
       let remaining = this._deferredKeyEventTimeoutMs - elapsed;
-      if (remaining <= 0) {
+      this._deferredKeyEventTimeout = setTimeout(() => {
         this.replayAllDeferredKeyEvents();
-      } else {
-        this._deferredKeyEventTimeout = setTimeout(() => {
-          this.replayAllDeferredKeyEvents();
-          this._deferredKeyEventTimeout = null;
-        }, remaining);
-      }
+        this._deferredKeyEventTimeout = null;
+      }, Math.max(0, remaining));
     }
   }
 
@@ -500,7 +507,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
   _replayKeyEventInstance(instance) {
     // Safety check: handle only if the search string didn't change.
     if (this.mController.searchString == instance.searchString) {
-      this[instance.methodName](instance.event);
+      this[instance.methodName](instance.event, true);
     }
   }
 
@@ -1332,7 +1339,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this.resetActionType();
   }
 
-  handleEnter(event) {
+  handleEnter(event, noDefer) {
     // We need to ensure we're using a selected autocomplete result.
     // A result should automatically be selected by default,
     // however autocomplete is async and therefore we may not
@@ -1351,30 +1358,29 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     // which will be called as a result of mController.handleEnter().
     this.handleEnterSearchString = this.mController.searchString;
 
-    if (!this._deferredKeyEventQueue.length &&
-      (this.popup.selectedIndex != 0 || this.gotResultForCurrentQuery)) {
-      let canonizeValue = this.value;
-      if (event.shiftKey || (AppConstants.platform === "macosx" ?
-          event.metaKey :
-          event.ctrlKey)) {
-        let action = this._parseActionUrl(canonizeValue);
-        if (action && "searchSuggestion" in action.params) {
-          canonizeValue = action.params.searchSuggestion;
-        } else if (this.popup.selectedIndex === 0 &&
-          this.mController.getStyleAt(0).includes("autofill")) {
-          canonizeValue = this.handleEnterSearchString;
-        }
-      }
-      this.maybeCanonizeURL(event, canonizeValue);
-      let handled = this.mController.handleEnter(false, event);
-      this.handleEnterSearchString = null;
-      this.popup.overrideValue = null;
-      return handled;
+    if (!noDefer && this._shouldDeferKeyEvent(event)) {
+      // Defer the event until the first non-heuristic result comes in.
+      this._deferKeyEvent(event, "handleEnter");
+      return false;
     }
 
-    // Defer the event until the first non-heuristic result comes in.
-    this._deferKeyEvent(event, "handleEnter");
-    return false;
+    let canonizeValue = this.value;
+    if (event.shiftKey || (AppConstants.platform === "macosx" ?
+        event.metaKey :
+        event.ctrlKey)) {
+      let action = this._parseActionUrl(canonizeValue);
+      if (action && "searchSuggestion" in action.params) {
+        canonizeValue = action.params.searchSuggestion;
+      } else if (this.popup.selectedIndex === 0 &&
+        this.mController.getStyleAt(0).includes("autofill")) {
+        canonizeValue = this.handleEnterSearchString;
+      }
+    }
+    this.maybeCanonizeURL(event, canonizeValue);
+    let handled = this.mController.handleEnter(false, event);
+    this.handleEnterSearchString = null;
+    this.popup.overrideValue = null;
+    return handled;
   }
 
   handleDelete() {
