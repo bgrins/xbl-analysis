@@ -254,7 +254,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
       (this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_DISABLE ||
         (this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_DEFAULT &&
           !AddonManager.autoUpdateDefault))) {
-      AddonManager.getAllInstalls(aInstallsList => {
+      AddonManager.getAllInstalls().then(aInstallsList => {
         // This can return after the binding has been destroyed,
         // so try to detect that and return early
         if (!("onNewInstall" in this))
