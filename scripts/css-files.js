@@ -39,9 +39,7 @@ var cssFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/linux/global/global.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/linux/mozapps/viewsource/viewsource.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/osx/global/global.css',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/osx/global/nativescrollbars.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/global.css',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/themes/windows/global/xulscrollbars.css'
 ];
 
 var getBindingSelectorsData = module.exports.getBindingSelectorsData = () => {

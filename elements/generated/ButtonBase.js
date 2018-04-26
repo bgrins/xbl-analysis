@@ -67,15 +67,6 @@ class FirefoxButtonBase extends FirefoxBasetext {
     return this.hasAttribute('checked');
   }
 
-  set autoCheck(val) {
-    this.setAttribute('autoCheck', val);
-    return val;
-  }
-
-  get autoCheck() {
-    return this.getAttribute('autoCheck') == 'true';
-  }
-
   filterButtons(node) {
     // if the node isn't visible, don't descend into it.
     var cs = node.ownerGlobal.getComputedStyle(node);
@@ -109,9 +100,7 @@ class FirefoxButtonBase extends FirefoxBasetext {
   }
 
   _handleClick() {
-    if (!this.disabled &&
-      (this.autoCheck || !this.hasAttribute("autoCheck"))) {
-
+    if (!this.disabled) {
       if (this.type == "checkbox") {
         this.checked = !this.checked;
       } else if (this.type == "radio") {

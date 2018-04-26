@@ -4,20 +4,6 @@ class FirefoxPanel extends FirefoxPopupBase {
 
     this._prevFocus = 0;
 
-    this._dragBindingAlive = true;
-
-    if (this.getAttribute("backdrag") == "true" && !this._draggableStarted) {
-      this._draggableStarted = true;
-      try {
-        let tmp = {};
-        ChromeUtils.import("resource://gre/modules/WindowDraggingUtils.jsm", tmp);
-        let draghandle = new tmp.WindowDraggingElement(this);
-        draghandle.mouseDownCheck = function() {
-          return this._dragBindingAlive;
-        };
-      } catch (e) {}
-    }
-
     this._setupEventListeners();
   }
 

@@ -32,9 +32,7 @@ class FirefoxTree extends FirefoxTreeBase {
 
     this._setupEventListeners();
   }
-  /**
-   * ///////////////// nsIDOMXULTreeElement /////////////////
-   */
+
   get columns() {
     return this.treeBoxObject.columns;
   }
