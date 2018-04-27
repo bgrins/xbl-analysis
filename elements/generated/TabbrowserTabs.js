@@ -55,6 +55,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this._animateElement = this.arrowScrollbox._scrollButtonDown;
 
     this._tabClipWidth = Services.prefs.getIntPref("browser.tabs.tabClipWidth");
+    this._hiddenSoundPlayingTabs = new Set();
 
     let strId = PrivateBrowsingUtils.isWindowPrivate(window) ?
       "emptyPrivateTabTitle" : "emptyTabTitle";
@@ -729,6 +730,19 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     this.onAreaNodeRegistered(aArea, aContainer);
   }
 
+  _hiddenSoundPlayingStatusChanged(tab, opts) {
+    let closed = opts && opts.closed;
+    if (!closed && tab.soundPlaying && tab.hidden) {
+      this._hiddenSoundPlayingTabs.add(tab.id);
+      this.setAttribute("hiddensoundplaying", "true");
+    } else {
+      this._hiddenSoundPlayingTabs.delete(tab.id);
+      if (this._hiddenSoundPlayingTabs.size == 0) {
+        this.removeAttribute("hiddensoundplaying");
+      }
+    }
+  }
+
   disconnectedCallback() {
     Services.prefs.removeObserver("privacy.userContext", this);
 
@@ -737,6 +751,28 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
 
   _setupEventListeners() {
     this.addEventListener("TabSelect", (event) => { this._handleTabSelect(); });
+
+    this.addEventListener("TabClose", (event) => {
+      this._hiddenSoundPlayingStatusChanged(event.target, { closed: true });
+    });
+
+    this.addEventListener("TabAttrModified", (event) => {
+      if (event.detail.changed.includes("soundplaying") && event.target.hidden) {
+        this._hiddenSoundPlayingStatusChanged(event.target);
+      }
+    });
+
+    this.addEventListener("TabHide", (event) => {
+      if (event.target.soundPlaying) {
+        this._hiddenSoundPlayingStatusChanged(event.target);
+      }
+    });
+
+    this.addEventListener("TabShow", (event) => {
+      if (event.target.soundPlaying) {
+        this._hiddenSoundPlayingStatusChanged(event.target);
+      }
+    });
 
     this.addEventListener("transitionend", (event) => {
       if (event.propertyName != "max-width") {

@@ -46,7 +46,7 @@ class FirefoxInputBoxSpell extends FirefoxInputBox {
         return null;
 
       var textbox = document.getBindingParent(this);
-      if (!textbox || !(textbox instanceof Ci.nsIDOMXULTextBoxElement))
+      if (!textbox || textbox.localName != "textbox")
         return null;
 
       try {

@@ -154,7 +154,8 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
 
         let showHiddenTabs = gBrowser.visibleTabs.length < gBrowser.tabs.length;
         document.getElementById("alltabs_hiddenTabs").hidden = !showHiddenTabs;
-        document.getElementById("alltabs-popup-separator-3").hidden = !showHiddenTabs;
+        let hiddenSeparator = document.getElementById("alltabs-popup-separator-3");
+        hiddenSeparator.hidden = !showHiddenTabs;
 
         var tabcontainer = gBrowser.tabContainer;
 
@@ -162,15 +163,22 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
         tabcontainer.addEventListener("TabAttrModified", this);
         tabcontainer.addEventListener("TabClose", this);
 
-        let tabs = gBrowser.visibleTabs;
+        let tabs = gBrowser.tabs;
         let fragment = document.createDocumentFragment();
+        let hiddenFragment = document.createDocumentFragment();
         for (var i = 0; i < tabs.length; i++) {
           if (!tabs[i].pinned) {
-            let li = this._createTabMenuItem(tabs[i]);
-            fragment.appendChild(li);
+            if (!tabs[i].hidden) {
+              let li = this._createTabMenuItem(tabs[i]);
+              fragment.appendChild(li);
+            } else if (tabs[i].soundPlaying) {
+              let li = this._createTabMenuItem(tabs[i]);
+              hiddenFragment.appendChild(li);
+            }
           }
         }
         this.appendChild(fragment);
+        this.insertBefore(hiddenFragment, hiddenSeparator);
         this._updateTabsVisibilityStatus();
       }
     });
