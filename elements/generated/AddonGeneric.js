@@ -342,8 +342,10 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
           "notification.blocked", [this.mAddon.name], 1
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.blocked.link");
-        this._errorLink.href = this.mAddon.blocklistURL;
-        this._errorLink.hidden = false;
+        this.mAddon.getBlocklistURL().then(url => {
+          this._errorLink.href = url;
+          this._errorLink.hidden = false;
+        });
       } else if (!isUpgrade && isDisabledUnsigned(this.mAddon)) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
@@ -374,8 +376,10 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
           "notification.softblocked", [this.mAddon.name], 1
         );
         this._warningLink.value = gStrings.ext.GetStringFromName("notification.softblocked.link");
-        this._warningLink.href = this.mAddon.blocklistURL;
-        this._warningLink.hidden = false;
+        this.mAddon.getBlocklistURL().then(url => {
+          this._warningLink.href = url;
+          this._warningLink.hidden = false;
+        });
         this._warningBtn.hidden = true;
       } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_OUTDATED) {
         this.setAttribute("notification", "warning");
@@ -383,8 +387,10 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
           "notification.outdated", [this.mAddon.name], 1
         );
         this._warningLink.value = gStrings.ext.GetStringFromName("notification.outdated.link");
-        this._warningLink.href = this.mAddon.blocklistURL;
-        this._warningLink.hidden = false;
+        this.mAddon.getBlocklistURL().then(url => {
+          this._warningLink.href = url;
+          this._warningLink.hidden = false;
+        });
         this._warningBtn.hidden = true;
       } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_VULNERABLE_UPDATE_AVAILABLE) {
         this.setAttribute("notification", "error");
@@ -392,16 +398,20 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
           "notification.vulnerableUpdatable", [this.mAddon.name], 1
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.vulnerableUpdatable.link");
-        this._errorLink.href = this.mAddon.blocklistURL;
-        this._errorLink.hidden = false;
+        this.mAddon.getBlocklistURL().then(url => {
+          this._errorLink.href = url;
+          this._errorLink.hidden = false;
+        });
       } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_VULNERABLE_NO_UPDATE) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
           "notification.vulnerableNoUpdate", [this.mAddon.name], 1
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.vulnerableNoUpdate.link");
-        this._errorLink.href = this.mAddon.blocklistURL;
-        this._errorLink.hidden = false;
+        this.mAddon.getBlocklistURL().then(url => {
+          this._errorLink.href = url;
+          this._errorLink.hidden = false;
+        });
       } else if (this.mAddon.isGMPlugin && !this.mAddon.isInstalled &&
         this.mAddon.isActive) {
         this.setAttribute("notification", "warning");

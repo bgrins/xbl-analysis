@@ -1628,6 +1628,7 @@ class FirefoxVideocontrols extends XULElement {
 
         ttBtn.classList.add("textTrackItem");
         ttBtn.setAttribute("index", tt.index);
+        ttBtn.setAttribute("dir", "auto");
         ttBtn.appendChild(ttText);
 
         this.textTrackList.appendChild(ttBtn);
