@@ -27528,11 +27528,11 @@ var DATA = {
     },
     label: "2018-04-29"
   },
-  "master@{2018-04-30}": {
+  "master@{2018-05-01}": {
     numBindings: 195,
-    loc: 35632,
+    loc: 35643,
     directoryLOC: {
-      browser: 10029,
+      browser: 10040,
       dom: 705,
       toolkit: 24263,
       mobile: 0,
@@ -27551,7 +27551,7 @@ var DATA = {
       videoControls: 2152,
       urlbar: 1732,
       browser: 1653,
-      "tabbrowser-tabs": 1457,
+      "tabbrowser-tabs": 1468,
       "search-one-offs": 1262,
       findbar: 1183,
       tree: 1001,
@@ -27741,7 +27741,7 @@ var DATA = {
       "toolbarbutton-badged-menu": 5,
       menu: 5
     },
-    label: "2018-04-30"
+    label: "2018-05-01"
   }
 };
 var SORTED_BINDINGS = {
