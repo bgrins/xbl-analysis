@@ -270,33 +270,6 @@ class FirefoxMenulist extends FirefoxBasecontrol {
     return item;
   }
 
-  insertItemAt(index, label, value, description) {
-    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var popup = this.menupopup ||
-      this.appendChild(document.createElementNS(XULNS, "menupopup"));
-    var item = document.createElementNS(XULNS, "menuitem");
-    item.setAttribute("label", label);
-    item.setAttribute("value", value);
-    if (description)
-      item.setAttribute("description", description);
-
-    if (index >= 0 && index < popup.childNodes.length)
-      popup.insertBefore(item, popup.childNodes[index]);
-    else
-      popup.appendChild(item);
-    return item;
-  }
-
-  removeItemAt(index) {
-    var popup = this.menupopup;
-    if (popup && 0 <= index && index < popup.childNodes.length) {
-      var remove = popup.childNodes[index];
-      popup.removeChild(remove);
-      return remove;
-    }
-    return null;
-  }
-
   removeAllItems() {
     this.selectedItem = null;
     var popup = this.menupopup;

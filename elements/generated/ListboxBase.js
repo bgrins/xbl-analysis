@@ -143,13 +143,6 @@ class FirefoxListboxBase extends FirefoxBasecontrol {
     return this.getAttribute('_selectDelay') || 50;
   }
 
-  removeItemAt(index) {
-    var remove = this.getItemAtIndex(index);
-    if (remove)
-      this.removeChild(remove);
-    return remove;
-  }
-
   addItemToSelection(aItem) {
     if (this.selType != "multiple" && this.selectedCount)
       return;

@@ -252,26 +252,6 @@ class FirefoxTabs extends FirefoxBasecontrol {
     return tab;
   }
 
-  insertItemAt(index, label, value) {
-    var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var tab = document.createElementNS(XULNS, "tab");
-    tab.setAttribute("label", label);
-    tab.setAttribute("value", value);
-    var before = this.getItemAtIndex(index);
-    if (before)
-      this.insertBefore(tab, before);
-    else
-      this.appendChild(tab);
-    return tab;
-  }
-
-  removeItemAt(index) {
-    var remove = this.getItemAtIndex(index);
-    if (remove)
-      this.removeChild(remove);
-    return remove;
-  }
-
   _setupEventListeners() {
 
   }

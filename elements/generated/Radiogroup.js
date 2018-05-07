@@ -262,29 +262,6 @@ class FirefoxRadiogroup extends FirefoxBasecontrol {
     return radio;
   }
 
-  insertItemAt(index, label, value) {
-    var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var radio = document.createElementNS(XULNS, "radio");
-    radio.setAttribute("label", label);
-    radio.setAttribute("value", value);
-    var before = this.getItemAtIndex(index);
-    if (before)
-      before.parentNode.insertBefore(radio, before);
-    else
-      this.appendChild(radio);
-    this._radioChildren = null;
-    return radio;
-  }
-
-  removeItemAt(index) {
-    var remove = this.getItemAtIndex(index);
-    if (remove) {
-      remove.remove();
-      this._radioChildren = null;
-    }
-    return remove;
-  }
-
   _setupEventListeners() {
     this.addEventListener("mousedown", (event) => {
       if (this.disabled)

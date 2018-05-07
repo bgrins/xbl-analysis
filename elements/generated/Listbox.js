@@ -61,21 +61,6 @@ class FirefoxListbox extends FirefoxListboxBase {
     return item;
   }
 
-  insertItemAt(aIndex, aLabel, aValue) {
-    const XULNS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-
-    var item = this.ownerDocument.createElementNS(XULNS, "listitem");
-    item.setAttribute("label", aLabel);
-    item.setAttribute("value", aValue);
-    var before = this.getItemAtIndex(aIndex);
-    if (before)
-      this.insertBefore(item, before);
-    else
-      this.appendChild(item);
-    return item;
-  }
-
   /**
    * ///////////////// nsIListBoxObject /////////////////
    */

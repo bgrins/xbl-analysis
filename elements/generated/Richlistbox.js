@@ -116,10 +116,6 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
   }
 
   appendItem(aLabel, aValue) {
-    return this.insertItemAt(-1, aLabel, aValue);
-  }
-
-  insertItemAt(aIndex, aLabel, aValue) {
     const XULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
@@ -133,11 +129,7 @@ class FirefoxRichlistbox extends FirefoxListboxBase {
     label.setAttribute("crop", "end");
     item.appendChild(label);
 
-    var before = this.getItemAtIndex(aIndex);
-    if (!before)
-      this.appendChild(item);
-    else
-      this.insertBefore(item, before);
+    this.appendChild(item);
 
     return item;
   }

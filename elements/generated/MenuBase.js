@@ -38,10 +38,6 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
    * nsIDOMXULContainerElement interface
    */
   appendItem(aLabel, aValue) {
-    return this.insertItemAt(-1, aLabel, aValue);
-  }
-
-  insertItemAt(aIndex, aLabel, aValue) {
     const XUL_NS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
@@ -55,20 +51,7 @@ class FirefoxMenuBase extends FirefoxMenuitemBase {
     menuitem.setAttribute("label", aLabel);
     menuitem.setAttribute("value", aValue);
 
-    var before = this.getItemAtIndex(aIndex);
-    if (before)
-      return menupopup.insertBefore(menuitem, before);
     return menupopup.appendChild(menuitem);
-  }
-
-  removeItemAt(aIndex) {
-    var menupopup = this.menupopup;
-    if (menupopup) {
-      var item = this.getItemAtIndex(aIndex);
-      if (item)
-        return menupopup.removeChild(item);
-    }
-    return null;
   }
 
   getIndexOfItem(aItem) {
