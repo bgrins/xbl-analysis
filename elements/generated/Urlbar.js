@@ -1054,8 +1054,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     let selection = this.editor.selection;
     const flags = Ci.nsIDocumentEncoder.OutputPreformatted |
       Ci.nsIDocumentEncoder.OutputRaw;
-    let selectedVal = selection.QueryInterface(Ci.nsISelectionPrivate)
-      .toStringWithFormat("text/plain", flags, 0);
+    let selectedVal = selection.toStringWithFormat("text/plain", flags, 0);
 
     // Handle multiple-range selection as a string for simplicity.
     if (selection.rangeCount > 1) {

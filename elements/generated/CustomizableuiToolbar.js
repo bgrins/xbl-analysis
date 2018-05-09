@@ -6,12 +6,6 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     let scope = {};
     ChromeUtils.import("resource:///modules/CustomizableUI.jsm", scope);
     let CustomizableUI = scope.CustomizableUI;
-    // Add an early overflow event listener that will mark if the
-    // toolbar overflowed during construction.
-    if (CustomizableUI.isAreaOverflowable(this.id)) {
-      this.addEventListener("overflow", this);
-      this.addEventListener("underflow", this);
-    }
 
     // Searching for the toolbox palette in the toolbar binding because
     // toolbars are constructed first.
@@ -137,23 +131,6 @@ class FirefoxCustomizableuiToolbar extends XULElement {
     }
     let orderedPlacements = CustomizableUI.getWidgetIdsInArea(this.id);
     return orderedPlacements.filter(w => currentWidgets.has(w)).join(",");
-  }
-
-  handleEvent(aEvent) {
-    // Ignore overflow/underflow events from from nodes inside the toolbar.
-    if (aEvent.target != this.customizationTarget) {
-      return;
-    }
-
-    if (aEvent.type == "overflow" && aEvent.detail > 0) {
-      if (this.overflowable && this.overflowable.initialized) {
-        this.overflowable.onOverflow(aEvent);
-      } else {
-        this.overflowedDuringConstruction = aEvent;
-      }
-    } else if (aEvent.type == "underflow" && aEvent.detail > 0) {
-      this.overflowedDuringConstruction = null;
-    }
   }
 
   insertItem(aId, aBeforeElt, aWrapper) {

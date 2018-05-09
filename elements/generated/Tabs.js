@@ -83,8 +83,6 @@ class FirefoxTabs extends FirefoxBasecontrol {
   set selectedIndex(val) {
     var tab = this.getItemAtIndex(val);
     if (tab) {
-      var alreadySelected = tab.selected;
-
       Array.forEach(this.childNodes, function(aTab) {
         if (aTab.selected && aTab != tab)
           aTab._selected = false;
@@ -100,13 +98,6 @@ class FirefoxTabs extends FirefoxBasecontrol {
         // This will cause an onselect event to fire for the tabpanel
         // element.
         this.tabbox.tabpanels.selectedPanel = linkedPanel;
-      }
-
-      if (!alreadySelected) {
-        // Fire an onselect event for the tabs element.
-        var event = document.createEvent("Events");
-        event.initEvent("select", true, true);
-        this.dispatchEvent(event);
       }
     }
     return val;
