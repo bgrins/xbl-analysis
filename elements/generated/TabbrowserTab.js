@@ -16,7 +16,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
           <xul:image inherits="sharing,selected=visuallyselected,pinned" anonid="sharing-icon" class="tab-sharing-icon-overlay" role="presentation"></xul:image>
           <xul:image inherits="crashed,busy,soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="overlay-icon" class="tab-icon-overlay" role="presentation"></xul:image>
           <xul:hbox class="tab-label-container" inherits="pinned,selected=visuallyselected,labeldirection" onoverflow="this.setAttribute('textoverflow', 'true');" onunderflow="this.removeAttribute('textoverflow');" flex="1">
-            <xul:label class="tab-text tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation"></xul:label>
+            <xul:label class="tab-text tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention,multiselected" role="presentation"></xul:label>
           </xul:hbox>
           <xul:image inherits="soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="soundplaying-icon" class="tab-icon-sound" role="presentation"></xul:image>
           <xul:image anonid="close-button" inherits="fadein,pinned,selected=visuallyselected" class="tab-close-button close-icon" role="presentation"></xul:image>
@@ -91,6 +91,10 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 
   get muted() {
     return this.getAttribute("muted") == "true";
+  }
+
+  get multiselected() {
+    return this.getAttribute("multiselected") == "true";
   }
 
   get userContextId() {
@@ -339,10 +343,16 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 
       if (this.selected) {
         this.style.MozUserFocus = "ignore";
-      } else if (this.mOverCloseButton ||
-        this._overPlayingIcon) {
-        // Prevent tabbox.xml from selecting the tab.
-        event.stopPropagation();
+      } else {
+        // When browser.tabs.multiselect config is set to false,
+        // then we ignore the state of multi-selection keys (Ctrl/Cmd).
+        const tabSelectionToggled = Services.prefs.getBoolPref("browser.tabs.multiselect") &&
+          event.getModifierState("Accel");
+
+        if (this.mOverCloseButton || this._overPlayingIcon || tabSelectionToggled) {
+          // Prevent tabbox.xml from selecting the tab.
+          event.stopPropagation();
+        }
       }
     }, true);
 
@@ -351,6 +361,22 @@ class FirefoxTabbrowserTab extends FirefoxTab {
     });
 
     this.addEventListener("click", (event) => {
+      if (Services.prefs.getBoolPref("browser.tabs.multiselect")) {
+        const tabSelectionToggled = event.getModifierState("Accel");
+        if (tabSelectionToggled) {
+          if (this.multiselected) {
+            gBrowser.removeFromMultiSelectedTabs(this);
+          } else {
+            gBrowser.addToMultiSelectedTabs(this);
+          }
+          return;
+        } else if (gBrowser.multiSelectedTabsCount() > 0) {
+          // Tabs were previously multi-selected and user clicks on a tab
+          // without holding Ctrl/Cmd Key
+          gBrowser.clearMultiSelectedTabs();
+        }
+      }
+
       if (this._overPlayingIcon) {
         this.toggleMuteAudio();
         return;

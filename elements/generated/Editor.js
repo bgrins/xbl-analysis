@@ -2,14 +2,9 @@ class FirefoxEditor extends XULElement {
   connectedCallback() {
 
     this._editorContentListener = {
-      QueryInterface(iid) {
-        if (iid.equals(Ci.nsIURIContentListener) ||
-          iid.equals(Ci.nsISupportsWeakReference) ||
-          iid.equals(Ci.nsISupports))
-          return this;
-
-        throw Cr.NS_ERROR_NO_INTERFACE;
-      },
+      QueryInterface: ChromeUtils.generateQI(["nsIURIContentListener",
+        "nsISupportsWeakReference"
+      ]),
       onStartURIOpen(uri) {
         return false;
       },

@@ -47,14 +47,9 @@ class FirefoxFindbar extends XULElement {
     this._observer = {
       _self: this,
 
-      QueryInterface(aIID) {
-        if (aIID.equals(Ci.nsIObserver) ||
-          aIID.equals(Ci.nsISupportsWeakReference) ||
-          aIID.equals(Ci.nsISupports))
-          return this;
-
-        throw Cr.NS_ERROR_NO_INTERFACE;
-      },
+      QueryInterface: ChromeUtils.generateQI(["nsIObserver",
+        "nsISupportsWeakReference"
+      ]),
 
       observe(aSubject, aTopic, aPrefName) {
         if (aTopic != "nsPref:changed")
