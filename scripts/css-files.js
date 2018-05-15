@@ -17,7 +17,6 @@ var cssFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/downloads/content/downloads.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/places.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.css',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/searchbarBindings.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/extensions/formautofill/content/formautofill.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/browser.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/places/organizer.css',

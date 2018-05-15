@@ -35,8 +35,6 @@ class FirefoxBrowser extends XULElement {
 
     this._audioMuted = false;
 
-    this._mediaBlocked = true;
-
     this._hasAnyPlayingMediaBeenBlocked = false;
 
     /**
@@ -142,7 +140,6 @@ class FirefoxBrowser extends XULElement {
       this.messageManager.addMessageListener("AudioPlayback:Stop", this);
       this.messageManager.addMessageListener("AudioPlayback:ActiveMediaBlockStart", this);
       this.messageManager.addMessageListener("AudioPlayback:ActiveMediaBlockStop", this);
-      this.messageManager.addMessageListener("AudioPlayback:MediaBlockStop", this);
       this.messageManager.addMessageListener("UnselectedTabHover:Toggle", this);
 
       if (this.hasAttribute("selectmenulist")) {
@@ -455,14 +452,6 @@ class FirefoxBrowser extends XULElement {
     return this._audioMuted;
   }
 
-  get mediaBlocked() {
-    if (this.mPrefs.getBoolPref("media.block-autoplay-until-in-foreground", true) &&
-      this.mPrefs.getBoolPref("media.autoplay.enabled", true)) {
-      return this._mediaBlocked;
-    }
-    return false;
-  }
-
   get shouldHandleUnselectedTabHover() {
     return this._shouldSendUnselectedTabHover;
   }
@@ -657,17 +646,15 @@ class FirefoxBrowser extends XULElement {
   }
 
   /**
-   * When the pref "media.block-autoplay-until-in-foreground" is on, all
-   * windows would be blocked by default in gecko. The "block" means the
-   * autoplay media can't be started in that tab unless the tab has been
-   * visited or resumed by tab's play tab icon. Since the window is blocked
-   * by default, there's no method to signal entering that state.
-   * (1) If the window is resumed, no matter it has autoplay media or not
-   * - will call mediaBlockStopped()
-   * (2) If the window has blocked any autoplay media
-   * - will call activeMediaBlockStarted()
-   * (3) If the window has resumed any autoplay media
-   * - will call activeMediaBlockStopped()
+   * When the pref "media.block-autoplay-until-in-foreground" is on,
+   * Gecko delays starting playback of media resources in tabs until the
+   * tab has been in the foreground or resumed by tab's play tab icon.
+   * - When Gecko delays starting playback of a media resource in a window,
+   * it sends a message to call activeMediaBlockStarted(). This causes the
+   * tab audio indicator to show.
+   * - When a tab is foregrounded, Gecko starts playing all delayed media
+   * resources in that tab, and sends a message to call
+   * activeMediaBlockStopped(). This causes the tab audio indicator to hide.
    */
   activeMediaBlockStarted() {
     this._hasAnyPlayingMediaBeenBlocked = true;
@@ -684,10 +671,6 @@ class FirefoxBrowser extends XULElement {
     let event = document.createEvent("Events");
     event.initEvent("DOMAudioPlaybackBlockStopped", true, false);
     this.dispatchEvent(event);
-  }
-
-  mediaBlockStopped() {
-    this._mediaBlocked = false;
   }
 
   mute(transientState) {
@@ -718,7 +701,6 @@ class FirefoxBrowser extends XULElement {
   }
 
   resumeMedia() {
-    this._mediaBlocked = false;
     this.messageManager.sendAsyncMessage("AudioPlayback", { type: "resumeMedia" });
     if (this._hasAnyPlayingMediaBeenBlocked) {
       this._hasAnyPlayingMediaBeenBlocked = false;
@@ -844,9 +826,6 @@ class FirefoxBrowser extends XULElement {
         break;
       case "AudioPlayback:ActiveMediaBlockStop":
         this.activeMediaBlockStopped();
-        break;
-      case "AudioPlayback:MediaBlockStop":
-        this.mediaBlockStopped();
         break;
       case "UnselectedTabHover:Toggle":
         this._shouldSendUnselectedTabHover = data.enable ?

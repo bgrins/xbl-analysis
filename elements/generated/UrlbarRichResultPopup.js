@@ -491,10 +491,6 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
       let firstStyle = this.input.mController.getStyleAt(0);
       if (firstStyle.includes("autofill")) {
         let uri = this.input.mController.getFinalCompleteValueAt(0);
-        // "http" will be stripped out, but other scheme won't.
-        if (!uri.includes("://")) {
-          uri = "http://" + uri;
-        }
         this.maybeSetupSpeculativeConnect(uri);
       } else if (firstStyle.includes("searchengine") &&
         this.input.browserSearchSuggestEnabled &&
