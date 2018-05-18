@@ -347,7 +347,7 @@ class FirefoxTabbrowserTab extends FirefoxTab {
         // When browser.tabs.multiselect config is set to false,
         // then we ignore the state of multi-selection keys (Ctrl/Cmd).
         const tabSelectionToggled = Services.prefs.getBoolPref("browser.tabs.multiselect") &&
-          event.getModifierState("Accel");
+          (event.getModifierState("Accel") || event.shiftKey);
 
         if (this.mOverCloseButton || this._overPlayingIcon || tabSelectionToggled) {
           // Prevent tabbox.xml from selecting the tab.
@@ -362,15 +362,23 @@ class FirefoxTabbrowserTab extends FirefoxTab {
 
     this.addEventListener("click", (event) => {
       if (Services.prefs.getBoolPref("browser.tabs.multiselect")) {
-        const tabSelectionToggled = event.getModifierState("Accel");
-        if (tabSelectionToggled) {
+        if (event.shiftKey) {
+          const lastSelectedTab = gBrowser.lastMultiSelectedTab || gBrowser.selectedTab;
+          gBrowser.addRangeToMultiSelectedTabs(lastSelectedTab, this);
+          gBrowser.lastMultiSelectedTab = this;
+          return;
+        }
+        if (event.getModifierState("Accel")) {
+          // Ctrl (Cmd for mac) key is pressed
           if (this.multiselected) {
             gBrowser.removeFromMultiSelectedTabs(this);
           } else {
             gBrowser.addToMultiSelectedTabs(this);
+            gBrowser.lastMultiSelectedTab = this;
           }
           return;
-        } else if (gBrowser.multiSelectedTabsCount() > 0) {
+        }
+        if (gBrowser.multiSelectedTabsCount > 0) {
           // Tabs were previously multi-selected and user clicks on a tab
           // without holding Ctrl/Cmd Key
           gBrowser.clearMultiSelectedTabs();

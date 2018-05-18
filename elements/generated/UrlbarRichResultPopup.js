@@ -23,6 +23,12 @@ class FirefoxUrlbarRichResultPopup extends FirefoxAutocompleteRichResultPopup {
         <xul:vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></xul:vbox>
       </xul:hbox>
     `;
+    /**
+     * For performance reasons we want to limit the size of the text runs we
+     * build and show to the user.
+     */
+    this.textRunsMaxLen = 255;
+
     this.DOMWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
       .getInterface(Ci.nsIDOMWindowUtils);
 

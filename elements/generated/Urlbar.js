@@ -31,12 +31,6 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
     this.handleEnterInstance = null;
 
     /**
-     * For performance reasons we want to limit the size of the text runs we
-     * build and show to the user.
-     */
-    this.textRunsMaxLen = 255;
-
-    /**
      * Set by focusAndSelectUrlBar to indicate whether the next focus event was
      * initiated by an explicit user action. See the "focus" handler below.
      */
