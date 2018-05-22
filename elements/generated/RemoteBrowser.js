@@ -298,6 +298,13 @@ class FirefoxRemoteBrowser extends FirefoxBrowser {
     }
   }
 
+  forceRepaint() {
+    let { frameLoader } = this;
+    if (frameLoader && frameLoader.tabParent) {
+      frameLoader.tabParent.forceRepaint();
+    }
+  }
+
   getInPermitUnload(aCallback) {
     let id = this._permitUnloadId++;
     let mm = this.messageManager;
