@@ -9,7 +9,6 @@
         <script src="../static/webcomponents-sd-ce.js"></script>
         <script src="base-element.js"></script>
         <script src="generated/Basecontrol.js"></script>
-<script src="generated/ScrollboxBase.js"></script>
 <script src="generated/Arrowscrollbox.js"></script>
 <script src="generated/ArrowscrollboxClicktoscroll.js"></script>
 <script src="generated/TabbrowserArrowscrollbox.js"></script>
@@ -39,6 +38,7 @@
 <script src="generated/CustomizableuiToolbarMenubarStub.js"></script>
 <script src="generated/CustomizableuiToolbarMenubarAutohide.js"></script>
 <script src="generated/CustomizableuiToolbarDrag.js"></script>
+<script src="generated/CustomizableuiToolbarpaletteitem.js"></script>
 <script src="generated/Listitem.js"></script>
 <script src="generated/Richlistitem.js"></script>
 <script src="generated/Download.js"></script>
@@ -50,7 +50,6 @@
 <script src="generated/TreeBase.js"></script>
 <script src="generated/Tree.js"></script>
 <script src="generated/PlacesTree.js"></script>
-<script src="generated/Handler.js"></script>
 <script src="generated/Searchbar.js"></script>
 <script src="generated/SearchbarTextbox.js"></script>
 <script src="generated/BrowserSearchAutocompleteResultPopup.js"></script>
@@ -160,9 +159,6 @@
 <script src="generated/InputBoxSpell.js"></script>
 <script src="generated/ToolbarMenubarAutohide.js"></script>
 <script src="generated/ToolbarDrag.js"></script>
-<script src="generated/Toolbarpaletteitem.js"></script>
-<script src="generated/ToolbarpaletteitemPalette.js"></script>
-<script src="generated/ToolbarpaletteitemPaletteWrappingLabel.js"></script>
 <script src="generated/ToolbarbuttonBadged.js"></script>
 <script src="generated/ToolbarbuttonBadgedMenu.js"></script>
 <script src="generated/Treecols.js"></script>
@@ -193,6 +189,7 @@
 <script src="generated/AddonInstalling.js"></script>
 <script src="generated/DetailRow.js"></script>
 <script src="generated/Installitem.js"></script>
+<script src="generated/Handler.js"></script>
 <script src="generated/Updateheader.js"></script>
 <script src="generated/Update.js"></script>
 <script src="generated/Pluginproblem.js"></script>
@@ -215,12 +212,12 @@
 <strong>customizableui-toolbar-menubar-stub:</strong> <firefox-customizableui-toolbar-menubar-stub observes="observe-test-target"></firefox-customizableui-toolbar-menubar-stub><br />
 <strong>customizableui-toolbar-menubar-autohide:</strong> <firefox-customizableui-toolbar-menubar-autohide observes="observe-test-target"></firefox-customizableui-toolbar-menubar-autohide><br />
 <strong>customizableui-toolbar-drag:</strong> <firefox-customizableui-toolbar-drag observes="observe-test-target"></firefox-customizableui-toolbar-drag><br />
+<strong>customizableui-toolbarpaletteitem:</strong> <firefox-customizableui-toolbarpaletteitem observes="observe-test-target"></firefox-customizableui-toolbarpaletteitem><br />
 <strong>download:</strong> <firefox-download observes="observe-test-target"></firefox-download><br />
 <strong>download-subview-toolbarbutton:</strong> <firefox-download-subview-toolbarbutton observes="observe-test-target"></firefox-download-subview-toolbarbutton><br />
 <strong>places-popup-base:</strong> <firefox-places-popup-base observes="observe-test-target"></firefox-places-popup-base><br />
 <strong>places-popup-arrow:</strong> <firefox-places-popup-arrow observes="observe-test-target"></firefox-places-popup-arrow><br />
 <strong>places-tree:</strong> <firefox-places-tree observes="observe-test-target"></firefox-places-tree><br />
-<strong>handler:</strong> <firefox-handler observes="observe-test-target"></firefox-handler><br />
 <strong>searchbar:</strong> <firefox-searchbar observes="observe-test-target"></firefox-searchbar><br />
 <strong>searchbar-textbox:</strong> <firefox-searchbar-textbox observes="observe-test-target"></firefox-searchbar-textbox><br />
 <strong>browser-search-autocomplete-result-popup:</strong> <firefox-browser-search-autocomplete-result-popup observes="observe-test-target"></firefox-browser-search-autocomplete-result-popup><br />
@@ -330,7 +327,6 @@
 <strong>richlistbox:</strong> <firefox-richlistbox observes="observe-test-target"></firefox-richlistbox><br />
 <strong>richlistitem:</strong> <firefox-richlistitem observes="observe-test-target"></firefox-richlistitem><br />
 <strong>scale:</strong> <firefox-scale observes="observe-test-target"></firefox-scale><br />
-<strong>scrollbox-base:</strong> <firefox-scrollbox-base observes="observe-test-target"></firefox-scrollbox-base><br />
 <strong>scrollbox:</strong> <firefox-scrollbox observes="observe-test-target"></firefox-scrollbox><br />
 <strong>arrowscrollbox:</strong> <firefox-arrowscrollbox observes="observe-test-target"></firefox-arrowscrollbox><br />
 <strong>autorepeatbutton:</strong> <firefox-autorepeatbutton observes="observe-test-target"></firefox-autorepeatbutton><br />
@@ -351,9 +347,6 @@
 <strong>input-box-spell:</strong> <firefox-input-box-spell observes="observe-test-target"></firefox-input-box-spell><br />
 <strong>toolbar-menubar-autohide:</strong> <firefox-toolbar-menubar-autohide observes="observe-test-target"></firefox-toolbar-menubar-autohide><br />
 <strong>toolbar-drag:</strong> <firefox-toolbar-drag observes="observe-test-target"></firefox-toolbar-drag><br />
-<strong>toolbarpaletteitem:</strong> <firefox-toolbarpaletteitem observes="observe-test-target"></firefox-toolbarpaletteitem><br />
-<strong>toolbarpaletteitem-palette:</strong> <firefox-toolbarpaletteitem-palette observes="observe-test-target"></firefox-toolbarpaletteitem-palette><br />
-<strong>toolbarpaletteitem-palette-wrapping-label:</strong> <firefox-toolbarpaletteitem-palette-wrapping-label observes="observe-test-target"></firefox-toolbarpaletteitem-palette-wrapping-label><br />
 <strong>toolbarbutton:</strong> <firefox-toolbarbutton observes="observe-test-target"></firefox-toolbarbutton><br />
 <strong>menu:</strong> <firefox-menu observes="observe-test-target"></firefox-menu><br />
 <strong>toolbarbutton-badged:</strong> <firefox-toolbarbutton-badged observes="observe-test-target"></firefox-toolbarbutton-badged><br />

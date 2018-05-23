@@ -1,4 +1,4 @@
-class FirefoxArrowscrollbox extends FirefoxScrollboxBase {
+class FirefoxArrowscrollbox extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.innerHTML = `

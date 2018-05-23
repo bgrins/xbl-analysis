@@ -1,4 +1,4 @@
-class FirefoxAutorepeatbutton extends FirefoxScrollboxBase {
+class FirefoxAutorepeatbutton extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.innerHTML = `
