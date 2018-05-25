@@ -378,7 +378,9 @@ class FirefoxTabbrowserTab extends FirefoxTab {
           }
           return;
         }
-        if (gBrowser.multiSelectedTabsCount > 0) {
+
+        const overCloseButton = event.originalTarget.getAttribute("anonid") == "close-button";
+        if (gBrowser.multiSelectedTabsCount > 0 && !overCloseButton) {
           // Tabs were previously multi-selected and user clicks on a tab
           // without holding Ctrl/Cmd Key
           gBrowser.clearMultiSelectedTabs();
@@ -391,10 +393,14 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       }
 
       if (event.originalTarget.getAttribute("anonid") == "close-button") {
-        gBrowser.removeTab(this, {
-          animate: true,
-          byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE,
-        });
+        if (this.multiselected) {
+          gBrowser.removeMultiSelectedTabs();
+        } else {
+          gBrowser.removeTab(this, {
+            animate: true,
+            byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE,
+          });
+        }
         // This enables double-click protection for the tab container
         // (see tabbrowser-tabs 'click' handler).
         gBrowser.tabContainer._blockDblClick = true;
