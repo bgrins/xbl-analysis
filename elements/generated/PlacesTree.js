@@ -294,7 +294,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     query.searchTerms = filterString;
 
     if (folderRestrict) {
-      query.setFolders(folderRestrict, folderRestrict.length);
+      query.setParents(folderRestrict, folderRestrict.length);
       options.queryType = options.QUERY_TYPE_BOOKMARKS;
     }
 

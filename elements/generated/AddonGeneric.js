@@ -606,7 +606,7 @@ class FirefoxAddonGeneric extends FirefoxAddonBase {
 
       // We must set userDisabled to true first, this will call
       // _updateState which will clear any pending attribute set.
-      this.mAddon.userDisabled = true;
+      this.mAddon.disable();
 
       // This won't update any other add-on manager views (bug 582002)
       this.setAttribute("pending", "uninstall");

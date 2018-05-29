@@ -5,29 +5,6 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
     this._setupEventListeners();
   }
 
-  _tabOnAttrModified(aEvent) {
-    var tab = aEvent.target;
-    if (tab.mCorrespondingMenuitem)
-      this._setMenuitemAttributes(tab.mCorrespondingMenuitem, tab);
-  }
-
-  _tabOnTabClose(aEvent) {
-    var tab = aEvent.target;
-    if (tab.mCorrespondingMenuitem)
-      this.removeChild(tab.mCorrespondingMenuitem);
-  }
-
-  handleEvent(aEvent) {
-    switch (aEvent.type) {
-      case "TabAttrModified":
-        this._tabOnAttrModified(aEvent);
-        break;
-      case "TabClose":
-        this._tabOnTabClose(aEvent);
-        break;
-    }
-  }
-
   _updateTabsVisibilityStatus() {
     var tabContainer = gBrowser.tabContainer;
     // We don't want menu item decoration unless there is overflow.
@@ -54,62 +31,35 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
     }
   }
 
-  _createTabMenuItem(aTab) {
-    var menuItem = document.createElementNS(
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul",
-      "menuitem");
-
-    menuItem.setAttribute("class", "menuitem-iconic alltabs-item menuitem-with-favicon");
-
-    this._setMenuitemAttributes(menuItem, aTab);
-
-    aTab.mCorrespondingMenuitem = menuItem;
-    menuItem.tab = aTab;
-
-    return menuItem;
-  }
-
-  _setMenuitemAttributes(aMenuitem, aTab) {
-    aMenuitem.setAttribute("label", aTab.label);
-    aMenuitem.setAttribute("crop", "end");
-
-    if (aTab.hasAttribute("busy")) {
-      aMenuitem.setAttribute("busy", aTab.getAttribute("busy"));
-      aMenuitem.removeAttribute("iconloadingprincipal");
-      aMenuitem.removeAttribute("image");
-    } else {
-      aMenuitem.setAttribute("iconloadingprincipal", aTab.getAttribute("iconloadingprincipal"));
-      aMenuitem.setAttribute("image", aTab.getAttribute("image"));
-      aMenuitem.removeAttribute("busy");
+  _initializeTabsPopups(event) {
+    if (this._tabsPopups) {
+      return;
     }
-
-    if (aTab.hasAttribute("pending"))
-      aMenuitem.setAttribute("pending", aTab.getAttribute("pending"));
-    else
-      aMenuitem.removeAttribute("pending");
-
-    if (aTab.selected)
-      aMenuitem.setAttribute("selected", "true");
-    else
-      aMenuitem.removeAttribute("selected");
-
-    function addEndImage() {
-      let endImage = document.createElement("image");
-      endImage.setAttribute("class", "alltabs-endimage");
-      let endImageContainer = document.createElement("hbox");
-      endImageContainer.setAttribute("align", "center");
-      endImageContainer.setAttribute("pack", "center");
-      endImageContainer.appendChild(endImage);
-      aMenuitem.appendChild(endImageContainer);
-      return endImage;
-    }
-
-    if (aMenuitem.firstChild)
-      aMenuitem.firstChild.remove();
-    if (aTab.hasAttribute("muted"))
-      addEndImage().setAttribute("muted", "true");
-    else if (aTab.hasAttribute("soundplaying"))
-      addEndImage().setAttribute("soundplaying", "true");
+    // These TabsPopup objects will handle creating menuitem elements
+    // for tabs in this popup. They have their own popupshowing and
+    // popuphidden listeners to manage the items.
+    //
+    // Since gBrowser isn't initialized yet in the constructor these are
+    // created on the first popupshowing event. The initial event is
+    // proxied once the popups are created.
+    this._tabsPopups = [
+      new TabsPopup({
+        className: "alltabs-item",
+        filterFn: (tab) => !tab.pinned && !tab.hidden,
+        popup: document.getElementById("alltabs-popup"),
+        onPopulate: () => this._updateTabsVisibilityStatus(),
+      }),
+      new TabsPopup({
+        filterFn: (tab) => tab.hidden && tab.soundPlaying,
+        popup: document.getElementById("alltabs-popup"),
+        insertBefore: document.getElementById("alltabs-popup-separator-3"),
+      }),
+      new TabsPopup({
+        filterFn: (tab) => tab.hidden,
+        popup: document.getElementById("alltabs_hiddenTabsMenu"),
+      }),
+    ];
+    this._tabsPopups.forEach(popup => popup.handleEvent(event));
   }
 
   _setupEventListeners() {
@@ -117,18 +67,7 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
       if (event.target.getAttribute("id") == "alltabs_containersMenuTab") {
         createUserContextMenu(event, { useAccessKeys: false });
         return;
-      } else if (event.target.getAttribute("id") == "alltabs_hiddenTabsMenu") {
-        let fragment = document.createDocumentFragment();
-
-        for (let tab of gBrowser.tabs) {
-          if (tab.hidden) {
-            fragment.appendChild(this._createTabMenuItem(tab));
-          }
-        }
-
-        event.target.textContent = "";
-        event.target.appendChild(fragment);
-
+      } else if (event.target != this) {
         return;
       }
 
@@ -154,58 +93,9 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
 
         let showHiddenTabs = gBrowser.visibleTabs.length < gBrowser.tabs.length;
         document.getElementById("alltabs_hiddenTabs").hidden = !showHiddenTabs;
-        let hiddenSeparator = document.getElementById("alltabs-popup-separator-3");
-        hiddenSeparator.hidden = !showHiddenTabs;
+        document.getElementById("alltabs-popup-separator-3").hidden = !showHiddenTabs;
 
-        var tabcontainer = gBrowser.tabContainer;
-
-        // Listen for changes in the tab bar.
-        tabcontainer.addEventListener("TabAttrModified", this);
-        tabcontainer.addEventListener("TabClose", this);
-
-        let tabs = gBrowser.tabs;
-        let fragment = document.createDocumentFragment();
-        let hiddenFragment = document.createDocumentFragment();
-        for (var i = 0; i < tabs.length; i++) {
-          if (!tabs[i].pinned) {
-            if (!tabs[i].hidden) {
-              let li = this._createTabMenuItem(tabs[i]);
-              fragment.appendChild(li);
-            } else if (tabs[i].soundPlaying) {
-              let li = this._createTabMenuItem(tabs[i]);
-              hiddenFragment.appendChild(li);
-            }
-          }
-        }
-        this.appendChild(fragment);
-        this.insertBefore(hiddenFragment, hiddenSeparator);
-        this._updateTabsVisibilityStatus();
-      }
-    });
-
-    this.addEventListener("popuphidden", (event) => {
-      if (event.target.getAttribute("id") == "alltabs_containersMenuTab") {
-        return;
-      }
-
-      // This could be the visible or hidden tabs menu container.
-      let container = event.target;
-
-      // clear out the menu popup and remove the listeners
-      for (let i = container.childNodes.length - 1; i > 0; i--) {
-        let menuItem = container.childNodes[i];
-        if (menuItem.tab) {
-          menuItem.tab.mCorrespondingMenuitem = null;
-          menuItem.remove();
-        }
-        if (menuItem.hasAttribute("usercontextid")) {
-          menuItem.remove();
-        }
-      }
-
-      if (container == this) {
-        gBrowser.tabContainer.removeEventListener("TabAttrModified", this);
-        gBrowser.tabContainer.removeEventListener("TabClose", this);
+        this._initializeTabsPopups(event);
       }
     });
 
@@ -221,16 +111,6 @@ class FirefoxTabbrowserAlltabsPopup extends FirefoxPopup {
 
     this.addEventListener("DOMMenuItemInactive", (event) => {
       XULBrowserWindow.setOverLink("", null);
-    });
-
-    this.addEventListener("command", (event) => {
-      if (event.target.tab) {
-        if (gBrowser.selectedTab != event.target.tab) {
-          gBrowser.selectedTab = event.target.tab;
-        } else {
-          gBrowser.tabContainer._handleTabSelect();
-        }
-      }
     });
 
   }

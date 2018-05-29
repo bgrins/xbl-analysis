@@ -27,7 +27,7 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
     if (this.isPending("uninstall"))
       this.mAddon.cancelUninstall();
     else if (this.getAttribute("wasDisabled") != "true")
-      this.mAddon.userDisabled = false;
+      this.mAddon.enable();
 
     this.removeAttribute("pending");
   }
@@ -37,8 +37,12 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
       return;
 
     // Make sure any newly installed add-on has the correct disabled state
-    if (this.hasAttribute("wasDisabled"))
-      aAddon.userDisabled = this.getAttribute("wasDisabled") == "true";
+    if (this.hasAttribute("wasDisabled")) {
+      if (this.getAttribute("wasDisabled") == "true")
+        aAddon.disable();
+      else
+        aAddon.enable();
+    }
 
     this.mAddon = aAddon;
 
@@ -47,8 +51,12 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
 
   onInstallStarted(aInstall) {
     // Make sure any newly installed add-on has the correct disabled state
-    if (this.hasAttribute("wasDisabled"))
-      aInstall.addon.userDisabled = this.getAttribute("wasDisabled") == "true";
+    if (this.hasAttribute("wasDisabled")) {
+      if (this.getAttribute("wasDisabled") == "true")
+        aInstall.addon.disable();
+      else
+        aInstall.addon.enable();
+    }
   }
 
   onInstallEnded(aInstall, aAddon) {
