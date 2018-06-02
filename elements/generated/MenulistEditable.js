@@ -92,8 +92,7 @@ class FirefoxMenulistEditable extends FirefoxMenulist {
   }
 
   get editor() {
-    const nsIDOMNSEditableElement = Ci.nsIDOMNSEditableElement;
-    return this.inputField.QueryInterface(nsIDOMNSEditableElement).editor;
+    return this.inputField.editor;
   }
 
   set readOnly(val) {

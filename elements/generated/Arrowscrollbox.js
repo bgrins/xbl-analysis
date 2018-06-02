@@ -2,13 +2,13 @@ class FirefoxArrowscrollbox extends FirefoxBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.innerHTML = `
-      <xul:autorepeatbutton class="autorepeatbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" oncommand="_autorepeatbuttonScroll(event);"></xul:autorepeatbutton>
+      <xul:toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" onmouseover="_startScroll(-1);" onmouseout="_stopScroll();"></xul:toolbarbutton>
       <xul:spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></xul:spacer>
       <xul:scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
         <children></children>
       </xul:scrollbox>
       <xul:spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></xul:spacer>
-      <xul:autorepeatbutton class="autorepeatbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" oncommand="_autorepeatbuttonScroll(event);"></xul:autorepeatbutton>
+      <xul:toolbarbutton class="scrollbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" onmouseover="_startScroll(1);" onmouseout="_stopScroll();"></xul:toolbarbutton>
     `;
     this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "scrollbox");
 
@@ -248,14 +248,30 @@ class FirefoxArrowscrollbox extends FirefoxBasecontrol {
     return elements[mid];
   }
 
-  _autorepeatbuttonScroll(event) {
-    var dir = event.originalTarget == this._scrollButtonUp ? -1 : 1;
-    if (this._isRTLScrollbox)
-      dir *= -1;
+  _startScroll(index) {
+    if (this._isRTLScrollbox) {
+      index *= -1;
+    }
 
-    this.scrollByPixels(this.scrollIncrement * dir);
+    if (!this._scrollTimer) {
+      this._scrollTimer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
+    } else {
+      this._scrollTimer.cancel();
+    }
 
-    event.stopPropagation();
+    let callback = () => this.scrollByPixels(this.scrollIncrement * index);
+
+    // Use the same REPEAT_DELAY as "nsRepeatService.h".
+    let scrollDelay = /Mac/.test(navigator.platform) ? 25 : 50;
+
+    this._scrollTimer.initWithCallback(callback, scrollDelay,
+      Ci.nsITimer.TYPE_REPEATING_SLACK);
+    callback();
+  }
+
+  _stopScroll() {
+    if (this._scrollTimer)
+      this._scrollTimer.cancel();
   }
 
   scrollByPixels(aPixels, aInstant) {
@@ -323,6 +339,14 @@ class FirefoxArrowscrollbox extends FirefoxBasecontrol {
         }
       }, 0);
     });
+  }
+
+  disconnectedCallback() {
+    // Release timer to avoid reference cycles.
+    if (this._scrollTimer) {
+      this._scrollTimer.cancel();
+      this._scrollTimer = null;
+    }
   }
 
   _setupEventListeners() {

@@ -166,8 +166,7 @@ class FirefoxTextbox extends XULElement {
 
   get editor() {
     if (!this.mEditor) {
-      const nsIDOMNSEditableElement = Ci.nsIDOMNSEditableElement;
-      this.mEditor = this.inputField.QueryInterface(nsIDOMNSEditableElement).editor;
+      this.mEditor = this.inputField.editor;
     }
     return this.mEditor;
   }
