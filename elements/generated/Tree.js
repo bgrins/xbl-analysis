@@ -84,7 +84,7 @@ class FirefoxTree extends FirefoxTreeBase {
   }
 
   get contentView() {
-    return this.view; /*.QueryInterface(Components.interfaces.nsITreeContentView)*/
+    return this.view;
   }
 
   get builderView() {
@@ -309,8 +309,8 @@ class FirefoxTree extends FirefoxTreeBase {
       return false;
     if (row < 0 || row >= this.view.rowCount || !column)
       return false;
-    if (column.type != Ci.nsITreeColumn.TYPE_TEXT &&
-      column.type != Ci.nsITreeColumn.TYPE_PASSWORD)
+    if (column.type != window.TreeColumn.TYPE_TEXT &&
+      column.type != window.TreeColumn.TYPE_PASSWORD)
       return false;
     if (column.cycler || !this.view.isEditable(row, column))
       return false;

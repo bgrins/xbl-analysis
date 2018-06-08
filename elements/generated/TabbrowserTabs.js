@@ -5,7 +5,7 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
       <xul:hbox class="tab-drop-indicator-box">
         <xul:image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true"></xul:image>
       </xul:hbox>
-      <xul:arrowscrollbox anonid="arrowscrollbox" orient="horizontal" flex="1" style="min-width: 1px;" class="tabbrowser-arrowscrollbox">
+      <xul:arrowscrollbox anonid="arrowscrollbox" orient="horizontal" flex="1" style="min-width: 1px;" clicktoscroll="true" class="tabbrowser-arrowscrollbox">
         <children includes="tab"></children>
         <children></children>
         <xul:toolbarbutton class="tabs-newtab-button toolbarbutton-1" anonid="tabs-newtab-button" command="cmd_newNavigatorTab" onclick="checkForMiddleClick(this, event);" tooltip="dynamic-shortcut-tooltip"></xul:toolbarbutton>
@@ -208,6 +208,17 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
     hoveredTab = this.querySelector("tab:hover");
     if (hoveredTab) {
       hoveredTab._mouseenter();
+    }
+
+    // Update before-multiselected attributes.
+    // gBrowser may not be initialized yet, so avoid using it
+    for (let i = 0; i < visibleTabs.length - 1; i++) {
+      let tab = visibleTabs[i];
+      let nextTab = visibleTabs[i + 1];
+      tab.removeAttribute("before-multiselected");
+      if (nextTab.multiselected) {
+        tab.setAttribute("before-multiselected", "true");
+      }
     }
   }
 

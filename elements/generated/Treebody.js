@@ -39,7 +39,7 @@ class FirefoxTreebody extends FirefoxTreeBase {
           if (cell.col.cycler) {
             view.cycleCell(cell.row, cell.col);
             return;
-          } else if (cell.col.type == Ci.nsITreeColumn.TYPE_CHECKBOX) {
+          } else if (cell.col.type == window.TreeColumn.TYPE_CHECKBOX) {
             if (this.parentNode.editable && cell.col.editable &&
               view.isEditable(cell.row, cell.col)) {
               var value = view.getCellValue(cell.row, cell.col);
@@ -133,7 +133,7 @@ class FirefoxTreebody extends FirefoxTreeBase {
       // mousedown and the time we click, don't fire the select handler.
       // see bug #92366
       if (!cell.col.cycler && this._lastSelectedRow == cell.row &&
-        cell.col.type != Ci.nsITreeColumn.TYPE_CHECKBOX) {
+        cell.col.type != window.TreeColumn.TYPE_CHECKBOX) {
 
         var cellSelType = this.parentNode._cellSelType;
         if (cellSelType == "text" && cell.childElt != "text" && cell.childElt != "image")
