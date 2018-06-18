@@ -12,7 +12,7 @@ class FirefoxDatetimePopup extends FirefoxArrowpanel {
 
     this.mozIntl = Cc["@mozilla.org/mozintl;1"]
       .getService(Ci.mozIMozIntl);
-    // Notify DateTimePickerHelper.jsm that binding is ready.
+    // Notify DateTimePickerParent.jsm that binding is ready.
     this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
 
     this._setupEventListeners();

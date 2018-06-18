@@ -35,6 +35,7 @@ class FirefoxSearchbar extends XULElement {
       return;
 
     Services.obs.addObserver(this, "browser-search-engine-modified");
+    Services.obs.addObserver(this, "browser-search-service");
 
     this._initialized = true;
 
@@ -111,6 +112,7 @@ class FirefoxSearchbar extends XULElement {
       this._initialized = false;
 
       Services.obs.removeObserver(this, "browser-search-engine-modified");
+      Services.obs.removeObserver(this, "browser-search-service");
     }
 
     // Make sure to break the cycle from _textbox to us. Otherwise we leak
@@ -131,7 +133,8 @@ class FirefoxSearchbar extends XULElement {
   }
 
   observe(aEngine, aTopic, aVerb) {
-    if (aTopic == "browser-search-engine-modified") {
+    if (aTopic == "browser-search-engine-modified" ||
+      (aTopic == "browser-search-service" && aVerb == "init-complete")) {
       // Make sure the engine list is refetched next time it's needed
       this._engines = null;
 

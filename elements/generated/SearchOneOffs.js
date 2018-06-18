@@ -97,6 +97,7 @@ class FirefoxSearchOneOffs extends XULElement {
     // Add weak referenced observers to invalidate our cached list of engines.
     Services.prefs.addObserver("browser.search.hiddenOneOffs", this, true);
     Services.obs.addObserver(this, "browser-search-engine-modified", true);
+    Services.obs.addObserver(this, "browser-search-service", true);
 
     // Rebuild the buttons when the theme changes.  See bug 1357800 for
     // details.  Summary: On Linux, switching between themes can cause a row
@@ -297,8 +298,6 @@ class FirefoxSearchOneOffs extends XULElement {
   }
 
   showSettings() {
-    BrowserUITelemetry.countSearchSettingsEvent(this.telemetryOrigin);
-
     openPreferences("paneSearch", { origin: "contentSearch" });
 
     // If the preference tab was already selected, the panel doesn't

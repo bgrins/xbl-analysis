@@ -516,10 +516,8 @@ class FirefoxPlacesTree extends FirefoxTree {
    * This method will select the first node in the tree that matches
    * each given item guid. It will open any folder nodes that it needs
    * to in order to show the selected items.
-   * Note: An array of ids or guids (or a mixture) may be passed as aIDs.
-   * Passing IDs should be considered deprecated.
    */
-  selectItems(aIDs, aOpenContainers) {
+  selectItems(aGuids, aOpenContainers) {
     // Never open containers in flat lists.
     if (this.flatList)
       aOpenContainers = false;
@@ -529,7 +527,7 @@ class FirefoxPlacesTree extends FirefoxTree {
     if (aOpenContainers === undefined)
       aOpenContainers = true;
 
-    var ids = aIDs; // don't manipulate the caller's array
+    var guids = aGuids; // don't manipulate the caller's array
 
     // Array of nodes found by findNodes which are to be selected
     var nodes = [];
@@ -545,8 +543,8 @@ class FirefoxPlacesTree extends FirefoxTree {
 
     /**
      * Recursively search through a node's children for items
-     * with the given IDs. When a matching item is found, remove its ID
-     * from the IDs array, and add the found node to the nodes dictionary.
+     * with the given GUIDs. When a matching item is found, remove its GUID
+     * from the GUIDs array, and add the found node to the nodes dictionary.
      *
      * NOTE: This method will leave open any node that had matching items
      * in its subtree.
@@ -556,29 +554,22 @@ class FirefoxPlacesTree extends FirefoxTree {
       // See if node matches an ID we wanted; add to results.
       // For simple folder queries, check both itemId and the concrete
       // item id.
-      var index = ids.indexOf(node.itemId);
-      if (index == -1 &&
-        node.type == Ci.nsINavHistoryResultNode.RESULT_TYPE_FOLDER_SHORTCUT)
-        index = ids.indexOf(PlacesUtils.asQuery(node).folderItemId);
-
+      var index = guids.indexOf(node.bookmarkGuid);
       if (index == -1) {
-        index = ids.indexOf(node.bookmarkGuid);
-        if (index == -1) {
-          let concreteGuid = PlacesUtils.getConcreteItemGuid(node);
-          if (concreteGuid != node.bookmarkGuid) {
-            index = ids.indexOf(concreteGuid);
-          }
+        let concreteGuid = PlacesUtils.getConcreteItemGuid(node);
+        if (concreteGuid != node.bookmarkGuid) {
+          index = guids.indexOf(concreteGuid);
         }
       }
 
       if (index != -1) {
         nodes.push(node);
         foundOne = true;
-        ids.splice(index, 1);
+        guids.splice(index, 1);
       }
 
       var concreteGuid = PlacesUtils.getConcreteItemGuid(node);
-      if (ids.length == 0 || !PlacesUtils.nodeIsContainer(node) ||
+      if (guids.length == 0 || !PlacesUtils.nodeIsContainer(node) ||
         checkedGuidsSet.has(concreteGuid))
         return foundOne;
 
@@ -598,7 +589,7 @@ class FirefoxPlacesTree extends FirefoxTree {
       // this node if we don't find any additional results here.
       var previousOpenness = node.containerOpen;
       node.containerOpen = true;
-      for (var child = 0; child < node.childCount && ids.length > 0; child++) {
+      for (var child = 0; child < node.childCount && guids.length > 0; child++) {
         var childNode = node.getChild(child);
         var found = findNodes(childNode);
         if (!foundOne)

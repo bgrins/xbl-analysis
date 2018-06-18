@@ -277,7 +277,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
           browser.unmute();
         }
         this.removeAttribute("muted");
-        BrowserUITelemetry.countTabMutingEvent("unmute", aMuteReason);
         hist.add(1 /* unmute */ );
       } else {
         if (this.linkedPanel) {
@@ -285,7 +284,6 @@ class FirefoxTabbrowserTab extends FirefoxTab {
           browser.mute();
         }
         this.setAttribute("muted", "true");
-        BrowserUITelemetry.countTabMutingEvent("mute", aMuteReason);
         hist.add(0 /* mute */ );
       }
       this.muteReason = aMuteReason || null;
