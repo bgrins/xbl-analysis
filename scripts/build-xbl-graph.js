@@ -5,6 +5,46 @@ var {allSortedBindings} = require('./sorted-bindings');
 var prettier = require("prettier");
 var data = {};
 
+const inContentBindings = {
+  "builtin-mac-browser": 1,
+  "builtin-mac-editor": 1,
+  "builtin-unix-inputFields": 1,
+  "builtin-unix-textAreas": 1,
+  "builtin-unix-browser": 1,
+  "builtin-unix-editor": 1,
+  "builtin-win-inputFields": 1,
+  "builtin-win-textAreas": 1,
+  "builtin-win-browser": 1,
+  "builtin-win-editor": 1,
+  "builtin-android-inputFields": 1,
+  "builtin-android-textAreas": 1,
+  "builtin-android-browser": 1,
+  "builtin-android-editor": 1,
+  "builtin-emacs-inputFields": 1,
+  "builtin-emacs-textAreas": 1,
+  "builtin-emacs-browser": 1,
+  "builtin-emacs-editor": 1,
+  "builtin-mac-inputFields": 1,
+  "builtin-mac-textAreas": 1,
+  "marquee": 1,
+  "marquee-horizontal": 1,
+  "marquee-vertical": 1,
+  "marquee-horizontal-editable": 1,
+  "marquee-vertical-editable": 1,
+  "scrollbar-base": 1,
+  "scrollbar": 1,
+  "thumb": 1,
+  "replacement": 1,
+  "videoControls": 1,
+  "touchControls": 1,
+  "noControls": 1,
+  "prettyprint": 1,
+  "suppressChangeEvent": 1,
+  "date-input": 1,
+  "time-input": 1,
+  "datetime-input-base": 1,
+};
+
 function processSequential(list, cb) {
   list = list.slice();
   return list.reduce(function (chain, item, i) {
@@ -32,6 +72,7 @@ function countForRev(rev) {
       'layout': 0,
       'xpfe': 0,
     };
+    let numInContentBindings = 0;
     let numBindings = files.map(file => {
       let bucketedInDir = null;
       for (let dir in directoryLOC) {
@@ -53,7 +94,10 @@ function countForRev(rev) {
         directoryLOC[bucketedInDir] += loc;
         directoryBindings[bucketedInDir]++;
         bindingsLOC.set(binding.attrs.id, loc);
-      })
+        if (inContentBindings[binding.attrs.id]) {
+          numInContentBindings++;
+        }
+      });
       return docBindings.length;
     }).reduce((a, b) => { return a + b; });
     let loc = [...bindingsLOC.values()].reduce((a, b) => { return a + b; });
@@ -61,6 +105,7 @@ function countForRev(rev) {
     console.log(loc);
     data[rev] = {
       numBindings,
+      numInContentBindings,
       loc,
       directoryLOC,
       directoryBindings,
