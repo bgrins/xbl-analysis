@@ -241,6 +241,7 @@ let locs = [];
 let directoryLOC = {};
 let directoryBindings = {};
 let bindings = [];
+let inContentBindings = [];
 let labels = [];
 
 for (var i in DATA[FIRST_REV].directoryLOC) {
@@ -254,11 +255,13 @@ for (var rev in DATA) {
     directoryBindings[i].push(DATA[rev].directoryBindings[i]);
   }
   bindings.push(DATA[rev].numBindings);
+  inContentBindings.push(DATA[rev].numInContentBindings);
   labels.push(DATA[rev].label);
 }
 
 let maxLoc = Math.max.apply(null, locs);
 let maxBinding = Math.max.apply(null, bindings);
+let maxInContentBinding = Math.max.apply(null, inContentBindings);
 
 new Chart(
   document.querySelector("#burndown-container canvas").getContext("2d"),
@@ -275,10 +278,17 @@ new Chart(
           fill: false,
         },
         {
-          label: "Percentage of number of Bindings",
+          label: "Percentage of # of bindings",
           backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
           data: bindings.map(binding => +((binding / maxBinding * 100).toFixed(2))),
+          fill: false
+        },
+        {
+          label: "Percentage of # of in-content bindings",
+          backgroundColor: window.chartColors.lightgreen,
+          borderColor: window.chartColors.lightgreen,
+          data: inContentBindings.map(binding => +((binding / maxInContentBinding * 100).toFixed(2))),
           fill: false
         }
       ]
@@ -555,6 +565,12 @@ new Chart(
           backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
           data: bindings,
+          fill: false
+        },
+        {
+          backgroundColor: window.chartColors.lightgreen,
+          borderColor: window.chartColors.lightgreen,
+          data: inContentBindings,
           fill: false
         }
       ],
