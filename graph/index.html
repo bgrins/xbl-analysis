@@ -271,21 +271,21 @@ new Chart(
       labels: labels,
       datasets: [
         {
-          label: "Percentage of lines of XBL",
+          label: "% of lines of XBL code left",
           backgroundColor: window.chartColors.red,
           borderColor: window.chartColors.red,
           data: locs.map(loc =>  +((loc / maxLoc * 100).toFixed(2))),
           fill: false,
         },
         {
-          label: "Percentage of # of bindings",
+          label: "% of bindings left",
           backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
           data: bindings.map(binding => +((binding / maxBinding * 100).toFixed(2))),
           fill: false
         },
         {
-          label: "Percentage of # of in-content bindings",
+          label: "% of in-content bindings left",
           backgroundColor: window.chartColors.lightgreen,
           borderColor: window.chartColors.lightgreen,
           data: inContentBindings.map(binding => +((binding / maxInContentBinding * 100).toFixed(2))),
