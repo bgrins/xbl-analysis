@@ -14,7 +14,7 @@ class FirefoxPopupNotification extends XULElement {
                 <html:span inherits="text=endlabel,popupid"></html:span>
               </xul:description>
             </xul:vbox>
-            <xul:toolbarbutton anonid="closebutton" class="messageCloseButton close-icon popup-notification-closebutton tabbable" inherits="oncommand=closebuttoncommand,hidden=closebuttonhidden" tooltiptext="FROM-DTD-closeNotification-tooltip"></xul:toolbarbutton>
+            <xul:toolbarbutton anonid="closebutton" class="messageCloseButton close-icon popup-notification-closebutton tabbable" inherits="oncommand=closebuttoncommand,hidden=closebuttonhidden" tooltiptext="FROM-DTD.closeNotification.tooltip;"></xul:toolbarbutton>
           </xul:hbox>
           <children includes="popupnotificationcontent"></children>
           <xul:label class="text-link popup-notification-learnmore-link" inherits="onclick=learnmoreclick,href=learnmoreurl"></xul:label>
@@ -31,7 +31,7 @@ class FirefoxPopupNotification extends XULElement {
             <children></children>
           </xul:menupopup>
         </xul:button>
-        <xul:button anonid="button" class="popup-notification-button" default="true" label="FROM-DTD-defaultButton-label" accesskey="FROM-DTD-defaultButton-accesskey" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled"></xul:button>
+        <xul:button anonid="button" class="popup-notification-button" default="true" label="FROM-DTD.defaultButton.label;" accesskey="FROM-DTD.defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled"></xul:button>
       </xul:hbox>
     `;
     this.checkbox = document.getAnonymousElementByAttribute(this, "anonid", "checkbox");

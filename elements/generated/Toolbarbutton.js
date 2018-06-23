@@ -3,7 +3,7 @@ class FirefoxToolbarbutton extends FirefoxButtonBase {
     super.connectedCallback()
     this.innerHTML = `
       <children includes="observes|template|menupopup|panel|tooltip"></children>
-      <xul:image class="toolbarbutton-icon" inherits="validate,src=image,label,type,consumeanchor"></xul:image>
+      <xul:image class="toolbarbutton-icon" inherits="validate,src=image,label,type,consumeanchor,triggeringprincipal=iconloadingprincipal"></xul:image>
       <xul:label class="toolbarbutton-text" crop="right" flex="1" inherits="value=label,accesskey,crop,dragover-top,wrap"></xul:label>
       <xul:label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap"></xul:label>
       <children includes="box"></children>

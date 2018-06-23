@@ -374,15 +374,20 @@ class FirefoxTabbrowserTab extends FirefoxTab {
           // Ctrl (Cmd for mac) key is pressed
           if (this.multiselected) {
             gBrowser.removeFromMultiSelectedTabs(this);
-          } else {
-            gBrowser.addToMultiSelectedTabs(this);
+            if (this == gBrowser.selectedTab) {
+              gBrowser.selectedTab = gBrowser.lastMultiSelectedTab;
+            }
+          } else if (this != gBrowser.selectedTab) {
+            for (let tab of [this, gBrowser.selectedTab]) {
+              gBrowser.addToMultiSelectedTabs(tab);
+            }
             gBrowser.lastMultiSelectedTab = this;
           }
           return;
         }
 
         const overCloseButton = event.originalTarget.getAttribute("anonid") == "close-button";
-        if (gBrowser.multiSelectedTabsCount > 0 && !overCloseButton) {
+        if (gBrowser.multiSelectedTabsCount > 0 && !overCloseButton && !this._overPlayingIcon) {
           // Tabs were previously multi-selected and user clicks on a tab
           // without holding Ctrl/Cmd Key
 
@@ -395,7 +400,11 @@ class FirefoxTabbrowserTab extends FirefoxTab {
       }
 
       if (this._overPlayingIcon) {
-        this.toggleMuteAudio();
+        if (this.multiselected) {
+          gBrowser.toggleMuteAudioOnMultiSelectedTabs(this);
+        } else {
+          this.toggleMuteAudio();
+        }
         return;
       }
 

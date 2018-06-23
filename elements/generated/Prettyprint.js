@@ -13,7 +13,12 @@ class FirefoxPrettyprint extends XULElement {
 
   _setupEventListeners() {
     this.addEventListener("prettyprint-dom-created", (event) => {
-      document.getAnonymousNodes(this).item(0).appendChild(event.detail);
+      let container = document.getAnonymousNodes(this).item(0);
+      // Take the child nodes from the passed <div id="top">
+      // and append them to our own.
+      for (let el of event.detail.childNodes) {
+        container.appendChild(el);
+      }
     });
 
   }

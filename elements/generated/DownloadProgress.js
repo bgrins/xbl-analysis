@@ -12,7 +12,7 @@ class FirefoxDownloadProgress extends XULElement {
           <xul:spacer flex="1"></xul:spacer>
           <xul:label anonid="status" class="status"></xul:label>
           <xul:spacer flex="1"></xul:spacer>
-          <xul:button anonid="cancel-btn" class="cancel" tooltiptext="FROM-DTD-progress-cancel-tooltip" oncommand="document.getBindingParent(this).cancel();"></xul:button>
+          <xul:button anonid="cancel-btn" class="cancel" tooltiptext="FROM-DTD.progress.cancel.tooltip;" oncommand="document.getBindingParent(this).cancel();"></xul:button>
         </xul:hbox>
       </xul:stack>
     `;

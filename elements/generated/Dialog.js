@@ -15,7 +15,7 @@ class FirefoxDialog extends XULElement {
         <xul:button dlgtype="disclosure" class="dialog-button" hidden="true"></xul:button>
       </xul:hbox>
       <xul:keyset>
-        <xul:key phase="capturing" oncommand="document.documentElement.openHelp(event)" keycode="FROM-DTD-openHelp-commandkey"></xul:key>
+        <xul:key phase="capturing" oncommand="document.documentElement.openHelp(event)" keycode="FROM-DTD.openHelp.commandkey;"></xul:key>
       </xul:keyset>
     `;
     this._mStrBundle = null;

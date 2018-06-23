@@ -8,8 +8,8 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
           <children></children>
           <html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
         </xul:hbox>
-        <xul:image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD-goEndCap-tooltip" inherits="pageproxystate,parentfocused=focused,usertyping"></xul:image>
-        <xul:dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD-urlbar-openHistoryPopup-tooltip" allowevents="true" inherits="open,parentfocused=focused,usertyping"></xul:dropmarker>
+        <xul:image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD.goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping"></xul:image>
+        <xul:dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD.urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping"></xul:dropmarker>
         <children includes="hbox"></children>
       </xul:hbox>
       <xul:popupset anonid="popupset" class="autocomplete-result-popupset"></xul:popupset>
@@ -790,6 +790,7 @@ class FirefoxUrlbar extends FirefoxAutocomplete {
       // set value and try to confirm it. UnifiedComplete should always
       // resolve to a valid url.
       try {
+        url = url.trim();
         new URL(url);
       } catch (ex) {
         let lastLocationChange = browser.lastLocationChange;

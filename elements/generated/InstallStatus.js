@@ -4,7 +4,7 @@ class FirefoxInstallStatus extends XULElement {
     this.innerHTML = `
       <xul:label anonid="message"></xul:label>
       <xul:progressmeter anonid="progress" class="download-progress"></xul:progressmeter>
-      <xul:button anonid="install-remote-btn" hidden="true" class="addon-control install" label="FROM-DTD-addon-install-label" tooltiptext="FROM-DTD-addon-install-tooltip" oncommand="document.getBindingParent(this).installRemote();"></xul:button>
+      <xul:button anonid="install-remote-btn" hidden="true" class="addon-control install" label="FROM-DTD.addon.install.label;" tooltiptext="FROM-DTD.addon.install.tooltip;" oncommand="document.getBindingParent(this).installRemote();"></xul:button>
     `;
     this._message = document.getAnonymousElementByAttribute(this, "anonid", "message");
 

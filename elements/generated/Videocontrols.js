@@ -18,7 +18,7 @@ class FirefoxVideocontrols extends XULElement {
             <div anonid="clickToPlay" class="clickToPlay" hidden="true"></div>
           </div>
           <div anonid="controlBar" class="controlBar" hidden="true">
-            <button anonid="playButton" class="button playButton" playlabel="FROM-DTD-playButton-playLabel" pauselabel="FROM-DTD-playButton-pauseLabel" tabindex="-1"></button>
+            <button anonid="playButton" class="button playButton" playlabel="FROM-DTD.playButton.playLabel;" pauselabel="FROM-DTD.playButton.pauseLabel;" tabindex="-1"></button>
             <div anonid="scrubberStack" class="scrubberStack progressContainer" role="none">
               <div class="progressBackgroundBar stackItem" role="none">
                 <div class="progressStack" role="none">
@@ -32,15 +32,15 @@ class FirefoxVideocontrols extends XULElement {
             <span anonid="durationLabel" class="durationLabel" role="presentation"></span>
             <span anonid="positionDurationBox" class="positionDurationBox" aria-hidden="true"></span>
             <div anonid="controlBarSpacer" class="controlBarSpacer" hidden="true" role="none"></div>
-            <button anonid="muteButton" class="button muteButton" mutelabel="FROM-DTD-muteButton-muteLabel" unmutelabel="FROM-DTD-muteButton-unmuteLabel" tabindex="-1"></button>
+            <button anonid="muteButton" class="button muteButton" mutelabel="FROM-DTD.muteButton.muteLabel;" unmutelabel="FROM-DTD.muteButton.unmuteLabel;" tabindex="-1"></button>
             <div anonid="volumeStack" class="volumeStack progressContainer" role="none">
               <input type="range" anonid="volumeControl" class="volumeControl" min="0" max="100" step="1" tabindex="-1"></input>
             </div>
-            <button anonid="castingButton" class="button castingButton" aria-label="FROM-DTD-castingButton-castingLabel"></button>
+            <button anonid="castingButton" class="button castingButton" aria-label="FROM-DTD.castingButton.castingLabel;"></button>
             <button anonid="closedCaptionButton" class="button closedCaptionButton"></button>
-            <button anonid="fullscreenButton" class="button fullscreenButton" enterfullscreenlabel="FROM-DTD-fullscreenButton-enterfullscreenlabel" exitfullscreenlabel="FROM-DTD-fullscreenButton-exitfullscreenlabel"></button>
+            <button anonid="fullscreenButton" class="button fullscreenButton" enterfullscreenlabel="FROM-DTD.fullscreenButton.enterfullscreenlabel;" exitfullscreenlabel="FROM-DTD.fullscreenButton.exitfullscreenlabel;"></button>
           </div>
-          <div anonid="textTrackList" class="textTrackList" hidden="true" offlabel="FROM-DTD-closedCaption-off"></div>
+          <div anonid="textTrackList" class="textTrackList" hidden="true" offlabel="FROM-DTD.closedCaption.off;"></div>
         </div>
       </div>
     `;

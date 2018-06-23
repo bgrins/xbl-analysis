@@ -5,7 +5,7 @@ class FirefoxColumnpicker extends FirefoxTreeBase {
       <xul:image class="tree-columnpicker-icon"></xul:image>
       <xul:menupopup anonid="popup">
         <xul:menuseparator anonid="menuseparator"></xul:menuseparator>
-        <xul:menuitem anonid="menuitem" label="FROM-DTD-restoreColumnOrder-label"></xul:menuitem>
+        <xul:menuitem anonid="menuitem" label="FROM-DTD.restoreColumnOrder.label;"></xul:menuitem>
       </xul:menupopup>
     `;
 

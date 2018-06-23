@@ -4,7 +4,7 @@ class FirefoxUpdate extends FirefoxRichlistitem {
     this.innerHTML = `
       <xul:hbox>
         <xul:label class="update-name" inherits="value=name" flex="1" crop="right"></xul:label>
-        <xul:label inherits="href=detailsURL,hidden=hideDetailsURL" class="text-link" value="FROM-DTD-update-details-label"></xul:label>
+        <xul:label inherits="href=detailsURL,hidden=hideDetailsURL" class="text-link" value="FROM-DTD.update.details.label;"></xul:label>
       </xul:hbox>
       <xul:grid>
         <xul:columns>

@@ -10,7 +10,7 @@ class FirefoxHardblockedaddon extends XULElement {
         </xul:hbox>
         <xul:hbox>
           <xul:spacer flex="1"></xul:spacer>
-          <xul:label class="blockedLabel" value="FROM-DTD-blocklist-blocked-label"></xul:label>
+          <xul:label class="blockedLabel" value="FROM-DTD.blocklist.blocked.label;"></xul:label>
         </xul:hbox>
       </xul:vbox>
     `;

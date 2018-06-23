@@ -2,7 +2,7 @@ class FirefoxPluginproblem extends XULElement {
   connectedCallback() {
 
     this.innerHTML = `
-      <html:div class="mainBox" anonid="main" chromedir="FROM-DTD-locale-dir">
+      <html:div class="mainBox" anonid="main" chromedir="FROM-DTD.locale.dir;">
         <html:div class="hoverBox">
           <html:label>
             <html:button class="icon" anonid="icon"></html:button>
@@ -22,7 +22,7 @@ class FirefoxPluginproblem extends XULElement {
           </html:div>
           <html:div class="submitStatus" anonid="submitStatus">
             <html:div class="msg msgPleaseSubmit" anonid="pleaseSubmit">
-              <html:textarea class="submitComment" anonid="submitComment" placeholder="FROM-DTD-report-comment"></html:textarea>
+              <html:textarea class="submitComment" anonid="submitComment" placeholder="FROM-DTD.report.comment;"></html:textarea>
               <html:div class="submitURLOptInBox">
                 <html:label>
                   <html:input class="submitURLOptIn" anonid="submitURLOptIn" type="checkbox"></html:input>
@@ -30,7 +30,7 @@ class FirefoxPluginproblem extends XULElement {
               </html:div>
               <html:div class="submitButtonBox">
                 <html:span class="helpIcon" anonid="helpIcon" role="link"></html:span>
-                <html:input class="submitButton" type="button" anonid="submitButton" value="FROM-DTD-report-please"></html:input>
+                <html:input class="submitButton" type="button" anonid="submitButton" value="FROM-DTD.report.please;"></html:input>
               </html:div>
             </html:div>
             <html:div class="msg msgSubmitting">
@@ -45,7 +45,7 @@ class FirefoxPluginproblem extends XULElement {
             <html:a class="action-link" anonid="checkForUpdatesLink" href=""></html:a>
           </html:div>
         </html:div>
-        <html:button class="closeIcon" anonid="closeIcon" title="FROM-DTD-hidePluginBtn-label"></html:button>
+        <html:button class="closeIcon" anonid="closeIcon" title="FROM-DTD.hidePluginBtn.label;"></html:button>
       </html:div>
       <html:div style="display:none;">
         <children></children>

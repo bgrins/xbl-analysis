@@ -2,7 +2,7 @@ class FirefoxCreatorLink extends XULElement {
   connectedCallback() {
 
     this.innerHTML = `
-      <xul:label anonid="label" value="FROM-DTD-addon-createdBy-label"></xul:label>
+      <xul:label anonid="label" value="FROM-DTD.addon.createdBy.label;"></xul:label>
       <xul:label anonid="creator-link" class="creator-link text-link"></xul:label>
       <xul:label anonid="creator-name" class="creator-name"></xul:label>
     `;

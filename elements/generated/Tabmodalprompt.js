@@ -16,11 +16,11 @@ class FirefoxTabmodalprompt extends XULElement {
                 <description anonid="infoBody" class="infoBody"></description>
               </vbox>
               <row anonid="loginContainer" hidden="true" align="center">
-                <label anonid="loginLabel" value="FROM-DTD-editfield0-label" control="loginTextbox"></label>
+                <label anonid="loginLabel" value="FROM-DTD.editfield0.label;" control="loginTextbox"></label>
                 <textbox anonid="loginTextbox"></textbox>
               </row>
               <row anonid="password1Container" hidden="true" align="center">
-                <label anonid="password1Label" value="FROM-DTD-editfield1-label" control="password1Textbox"></label>
+                <label anonid="password1Label" value="FROM-DTD.editfield1.label;" control="password1Textbox"></label>
                 <textbox anonid="password1Textbox" type="password"></textbox>
               </row>
               <row anonid="checkboxContainer" hidden="true">
@@ -34,9 +34,9 @@ class FirefoxTabmodalprompt extends XULElement {
           <hbox class="buttonContainer">
             <button anonid="button3" hidden="true"></button>
             <spacer anonid="buttonSpacer" flex="1"></spacer>
-            <button anonid="button0" label="FROM-DTD-okButton-label"></button>
+            <button anonid="button0" label="FROM-DTD.okButton.label;"></button>
             <button anonid="button2" hidden="true"></button>
-            <button anonid="button1" label="FROM-DTD-cancelButton-label"></button>
+            <button anonid="button1" label="FROM-DTD.cancelButton.label;"></button>
           </hbox>
         </vbox>
       </hbox>

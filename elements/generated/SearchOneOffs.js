@@ -3,26 +3,26 @@ class FirefoxSearchOneOffs extends XULElement {
 
     this.innerHTML = `
       <xul:deck anonid="search-panel-one-offs-header" selectedIndex="0" class="search-panel-header search-panel-current-input">
-        <xul:label anonid="searchbar-oneoffheader-search" value="FROM-DTD-searchWithHeader-label"></xul:label>
+        <xul:label anonid="searchbar-oneoffheader-search" value="FROM-DTD.searchWithHeader.label;"></xul:label>
         <xul:hbox anonid="search-panel-searchforwith" class="search-panel-current-input">
-          <xul:label anonid="searchbar-oneoffheader-before" value="FROM-DTD-searchFor-label"></xul:label>
+          <xul:label anonid="searchbar-oneoffheader-before" value="FROM-DTD.searchFor.label;"></xul:label>
           <xul:label anonid="searchbar-oneoffheader-searchtext" class="search-panel-input-value" flex="1" crop="end"></xul:label>
-          <xul:label anonid="searchbar-oneoffheader-after" flex="10000" value="FROM-DTD-searchWith-label"></xul:label>
+          <xul:label anonid="searchbar-oneoffheader-after" flex="10000" value="FROM-DTD.searchWith.label;"></xul:label>
         </xul:hbox>
         <xul:hbox anonid="search-panel-searchonengine" class="search-panel-current-input">
-          <xul:label anonid="searchbar-oneoffheader-beforeengine" value="FROM-DTD-search-label"></xul:label>
+          <xul:label anonid="searchbar-oneoffheader-beforeengine" value="FROM-DTD.search.label;"></xul:label>
           <xul:label anonid="searchbar-oneoffheader-engine" class="search-panel-input-value" flex="1" crop="end"></xul:label>
-          <xul:label anonid="searchbar-oneoffheader-afterengine" flex="10000" value="FROM-DTD-searchAfter-label"></xul:label>
+          <xul:label anonid="searchbar-oneoffheader-afterengine" flex="10000" value="FROM-DTD.searchAfter.label;"></xul:label>
         </xul:hbox>
       </xul:deck>
       <xul:description anonid="search-panel-one-offs" role="group" class="search-panel-one-offs" inherits="compact">
-        <xul:button anonid="search-settings-compact" oncommand="showSettings();" class="searchbar-engine-one-off-item search-setting-button-compact" tooltiptext="FROM-DTD-changeSearchSettings-tooltip" inherits="compact"></xul:button>
+        <xul:button anonid="search-settings-compact" oncommand="showSettings();" class="searchbar-engine-one-off-item search-setting-button-compact" tooltiptext="FROM-DTD.changeSearchSettings.tooltip;" inherits="compact"></xul:button>
       </xul:description>
       <xul:vbox anonid="add-engines" class="search-add-engines"></xul:vbox>
-      <xul:button anonid="search-settings" oncommand="showSettings();" class="search-setting-button search-panel-header" label="FROM-DTD-changeSearchSettings-button" inherits="compact"></xul:button>
+      <xul:button anonid="search-settings" oncommand="showSettings();" class="search-setting-button search-panel-header" label="FROM-DTD.changeSearchSettings.button;" inherits="compact"></xul:button>
       <xul:menupopup anonid="search-one-offs-context-menu">
-        <xul:menuitem anonid="search-one-offs-context-open-in-new-tab" label="FROM-DTD-searchInNewTab-label" accesskey="FROM-DTD-searchInNewTab-accesskey"></xul:menuitem>
-        <xul:menuitem anonid="search-one-offs-context-set-default" label="FROM-DTD-searchSetAsDefault-label" accesskey="FROM-DTD-searchSetAsDefault-accesskey"></xul:menuitem>
+        <xul:menuitem anonid="search-one-offs-context-open-in-new-tab" label="FROM-DTD.searchInNewTab.label;" accesskey="FROM-DTD.searchInNewTab.accesskey;"></xul:menuitem>
+        <xul:menuitem anonid="search-one-offs-context-set-default" label="FROM-DTD.searchSetAsDefault.label;" accesskey="FROM-DTD.searchSetAsDefault.accesskey;"></xul:menuitem>
       </xul:menupopup>
     `;
     this._popup = null;
@@ -78,6 +78,10 @@ class FirefoxSearchOneOffs extends XULElement {
     this._addEngineMenuTimeout = null;
 
     this._addEngineMenuShouldBeOpen = false;
+
+    // Force the <deck> Custom Element to be constructed. This can be removed
+    // once Bug 1470242 makes this happen behind the scenes.
+    customElements.upgrade(this.header);
 
     // Prevent popup events from the context menu from reaching the autocomplete
     // binding (or other listeners).

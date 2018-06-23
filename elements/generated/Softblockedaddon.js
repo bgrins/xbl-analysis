@@ -10,7 +10,7 @@ class FirefoxSoftblockedaddon extends XULElement {
         </xul:hbox>
         <xul:hbox>
           <xul:spacer flex="1"></xul:spacer>
-          <xul:checkbox class="disableCheckbox" checked="true" label="FROM-DTD-blocklist-checkbox-label"></xul:checkbox>
+          <xul:checkbox class="disableCheckbox" checked="true" label="FROM-DTD.blocklist.checkbox.label;"></xul:checkbox>
         </xul:hbox>
       </xul:vbox>
     `;

@@ -191,10 +191,10 @@ function parseBody(body, file) {
   body = preprocessFile(body);
   body = body.replace(/^#(.*)/gm, ''); // This one is a special case for preferences.xml which has many lines starting with #
   body = body.replace(/\&amp\;\&amp\;/g, 'RESETTHISBACK'); // See https://dxr.mozilla.org/mozilla-central/source/xpfe/components/autocomplete/resources/content/autocomplete.xml#1325
-  body = body.replace(/\&([a-z0-9\-]+)\;/gi, "FROM-DTD-$1"); // Replace DTD entities
-  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2"); // Replace DTD entities
-  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3"); // Replace DTD entities
-  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD-$1-$2-$3-$4"); // Replace DTD entities
+  body = body.replace(/\&([a-z0-9\-]+)\;/gi, "FROM-DTD.$1;"); // Replace DTD entities
+  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD.$1.$2;"); // Replace DTD entities
+  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD.$1.$2.$3;"); // Replace DTD entities
+  body = body.replace(/\&([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\.([a-z0-9\-]+)\;/gi, "FROM-DTD.$1.$2.$3.$4;"); // Replace DTD entities
   body = body.replace(/RESETTHISBACK/g, '&amp;&amp;');
   // This file creates a binding with a duplicate ID from the base binding
 

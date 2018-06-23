@@ -5,7 +5,7 @@ class FirefoxAddonUninstalled extends FirefoxAddonBase {
       <xul:hbox class="pending">
         <xul:image class="pending-icon"></xul:image>
         <xul:label anonid="notice" flex="1"></xul:label>
-        <xul:button anonid="undo-btn" class="button-link" label="FROM-DTD-addon-undoRemove-label" tooltiptext="FROM-DTD-addon-undoRemove-tooltip" oncommand="document.getBindingParent(this).cancelUninstall();"></xul:button>
+        <xul:button anonid="undo-btn" class="button-link" label="FROM-DTD.addon.undoRemove.label;" tooltiptext="FROM-DTD.addon.undoRemove.tooltip;" oncommand="document.getBindingParent(this).cancelUninstall();"></xul:button>
         <xul:spacer flex="5000"></xul:spacer>
       </xul:hbox>
     `;

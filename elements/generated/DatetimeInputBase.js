@@ -4,7 +4,7 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.innerHTML = `
       <html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly" role="presentation">
         <html:span class="datetime-input-edit-wrapper" anonid="edit-wrapper"></html:span>
-        <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled" aria-label="FROM-DTD-datetime-reset-label"></html:button>
+        <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled" aria-label="FROM-DTD.datetime.reset.label;"></html:button>
       </html:div>
     `;
 
