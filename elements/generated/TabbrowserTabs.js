@@ -143,6 +143,12 @@ class FirefoxTabbrowserTabs extends FirefoxTabs {
             }
             popup.className = "new-tab-popup";
             popup.setAttribute("position", "after_end");
+            popup.addEventListener("popupshowing", event => {
+              createUserContextMenu(event, {
+                useAccessKeys: false,
+                showDefaultTab: Services.prefs.getIntPref("privacy.userContext.longPressBehavior") == 1
+              });
+            });
             parent.appendChild(popup);
 
             // longPressBehavior == 2 means that the menu is shown after X

@@ -61,6 +61,9 @@ class FirefoxFindbar extends XULElement {
           case "accessibility.typeaheadfind":
             this._self._findAsYouType = prefsvc.getBoolPref(aPrefName);
             break;
+          case "accessibility.typeaheadfind.manual":
+            this._self._manualFAYT = prefsvc.getBoolPref(aPrefName);
+            break;
           case "accessibility.typeaheadfind.linksonly":
             this._self._typeAheadLinksOnly = prefsvc.getBoolPref(aPrefName);
             break;
@@ -109,6 +112,8 @@ class FirefoxFindbar extends XULElement {
 
     prefsvc.addObserver("accessibility.typeaheadfind",
       this._observer);
+    prefsvc.addObserver("accessibility.typeaheadfind.manual",
+      this._observer);
     prefsvc.addObserver("accessibility.typeaheadfind.linksonly",
       this._observer);
     prefsvc.addObserver("accessibility.typeaheadfind.casesensitive",
@@ -119,6 +124,8 @@ class FirefoxFindbar extends XULElement {
 
     this._findAsYouType =
       prefsvc.getBoolPref("accessibility.typeaheadfind");
+    this._manualFAYT =
+      prefsvc.getBoolPref("accessibility.typeaheadfind.manual");
     this._typeAheadLinksOnly =
       prefsvc.getBoolPref("accessibility.typeaheadfind.linksonly");
     this._typeAheadCaseSensitive =
@@ -257,6 +264,8 @@ class FirefoxFindbar extends XULElement {
 
     let prefsvc = this._prefsvc;
     prefsvc.removeObserver("accessibility.typeaheadfind",
+      this._observer);
+    prefsvc.removeObserver("accessibility.typeaheadfind.manual",
       this._observer);
     prefsvc.removeObserver("accessibility.typeaheadfind.linksonly",
       this._observer);
@@ -610,7 +619,8 @@ class FirefoxFindbar extends XULElement {
     }
 
     let key = aFakeEvent.charCode ? String.fromCharCode(aFakeEvent.charCode) : null;
-    let manualstartFAYT = (key == FAYT_LINKS_KEY || key == FAYT_TEXT_KEY);
+    let manualstartFAYT = (key == FAYT_LINKS_KEY || key == FAYT_TEXT_KEY) &&
+      this._manualFAYT;
     let autostartFAYT = !manualstartFAYT && this._findAsYouType &&
       key && key != " ";
     if (manualstartFAYT || autostartFAYT) {

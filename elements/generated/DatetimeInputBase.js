@@ -4,7 +4,11 @@ class FirefoxDatetimeInputBase extends XULElement {
     this.innerHTML = `
       <html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly" role="presentation">
         <html:span class="datetime-input-edit-wrapper" anonid="edit-wrapper"></html:span>
-        <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled" aria-label="FROM-DTD.datetime.reset.label;"></html:button>
+        <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled" aria-label="FROM-DTD.datetime.reset.label;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12">
+            <path d="M 3.9,3 3,3.9 5.1,6 3,8.1 3.9,9 6,6.9 8.1,9 9,8.1 6.9,6 9,3.9 8.1,3 6,5.1 Z M 12,6 A 6,6 0 0 1 6,12 6,6 0 0 1 0,6 6,6 0 0 1 6,0 6,6 0 0 1 12,6 Z"></path>
+          </svg>
+        </html:button>
       </html:div>
     `;
 
