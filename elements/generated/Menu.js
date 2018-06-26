@@ -1,4 +1,4 @@
-class FirefoxMenu extends FirefoxToolbarbutton {
+class Menu extends Toolbarbutton {
   connectedCallback() {
     super.connectedCallback()
 

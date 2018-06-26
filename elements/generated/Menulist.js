@@ -1,15 +1,15 @@
-class FirefoxMenulist extends FirefoxBasecontrol {
+class Menulist extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox class="menulist-label-box" flex="1">
-        <xul:image class="menulist-icon" inherits="src=image,src"></xul:image>
-        <xul:label class="menulist-label" inherits="value=label,crop,accesskey,highlightable" crop="right" flex="1"></xul:label>
-        <xul:label class="menulist-highlightable-label" inherits="text=label,crop,accesskey,highlightable" crop="right" flex="1"></xul:label>
-      </xul:hbox>
-      <xul:dropmarker class="menulist-dropmarker" type="menu" inherits="disabled,open"></xul:dropmarker>
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="menulist-label-box" flex="1">
+        <image class="menulist-icon" inherits="src=image,src"></image>
+        <label class="menulist-label" inherits="value=label,crop,accesskey,highlightable" crop="right" flex="1"></label>
+        <label class="menulist-highlightable-label" inherits="text=label,crop,accesskey,highlightable" crop="right" flex="1"></label>
+      </hbox>
+      <dropmarker class="menulist-dropmarker" type="menu" inherits="disabled,open"></dropmarker>
       <children includes="menupopup"></children>
-    `;
+    `));
 
     this.mInputField = null;
     this.mSelectedInternal = null;

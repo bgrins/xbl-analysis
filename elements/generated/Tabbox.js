@@ -1,4 +1,4 @@
-class FirefoxTabbox extends FirefoxTabBase {
+class Tabbox extends TabBase {
   connectedCallback() {
     super.connectedCallback()
 

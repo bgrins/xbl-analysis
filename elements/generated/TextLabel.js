@@ -1,4 +1,4 @@
-class FirefoxTextLabel extends FirefoxTextBase {
+class TextLabel extends TextBase {
   connectedCallback() {
     super.connectedCallback()
 

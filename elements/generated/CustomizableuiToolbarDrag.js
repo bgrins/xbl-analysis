@@ -1,4 +1,4 @@
-class FirefoxCustomizableuiToolbarDrag extends FirefoxCustomizableuiToolbar {
+class CustomizableuiToolbarDrag extends CustomizableuiToolbar {
   connectedCallback() {
     super.connectedCallback()
 

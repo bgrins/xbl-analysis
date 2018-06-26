@@ -1,9 +1,9 @@
-class FirefoxRichlistitem extends FirefoxListitem {
+class Richlistitem extends Listitem {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
-    `;
+    `));
     this.selectedByMouseOver = false;
 
     this._setupEventListeners();

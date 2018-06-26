@@ -1,4 +1,4 @@
-class FirefoxEditor extends XULElement {
+class Editor extends MozXULElement {
   connectedCallback() {
 
     this._editorContentListener = {

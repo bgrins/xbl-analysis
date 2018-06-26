@@ -1,4 +1,4 @@
-class FirefoxTextLink extends FirefoxTextLabel {
+class TextLink extends TextLabel {
   connectedCallback() {
     super.connectedCallback()
 

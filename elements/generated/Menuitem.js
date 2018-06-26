@@ -1,12 +1,12 @@
-class FirefoxMenuitem extends FirefoxMenuitemBase {
+class Menuitem extends MenuitemBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:label class="menu-text" inherits="value=label,accesskey,crop,highlightable" crop="right"></xul:label>
-      <xul:hbox class="menu-accel-container" anonid="accel">
-        <xul:label class="menu-accel" inherits="value=acceltext"></xul:label>
-      </xul:hbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <label class="menu-text" inherits="value=label,accesskey,crop,highlightable" crop="right"></label>
+      <hbox class="menu-accel-container" anonid="accel">
+        <label class="menu-accel" inherits="value=acceltext"></label>
+      </hbox>
+    `));
 
     this._setupEventListeners();
   }

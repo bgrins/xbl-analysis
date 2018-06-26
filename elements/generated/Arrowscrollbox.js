@@ -1,15 +1,15 @@
-class FirefoxArrowscrollbox extends FirefoxBasecontrol {
+class Arrowscrollbox extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" onmouseover="_startScroll(-1);" onmouseout="_stopScroll();"></xul:toolbarbutton>
-      <xul:spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></xul:spacer>
-      <xul:scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" onmouseover="_startScroll(-1);" onmouseout="_stopScroll();"></toolbarbutton>
+      <spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></spacer>
+      <scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
         <children></children>
-      </xul:scrollbox>
-      <xul:spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></xul:spacer>
-      <xul:toolbarbutton class="scrollbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" onmouseover="_startScroll(1);" onmouseout="_stopScroll();"></xul:toolbarbutton>
-    `;
+      </scrollbox>
+      <spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></spacer>
+      <toolbarbutton class="scrollbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" onmouseover="_startScroll(1);" onmouseout="_stopScroll();"></toolbarbutton>
+    `));
     this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "scrollbox");
 
     this._scrollButtonUp = document.getAnonymousElementByAttribute(this, "anonid", "scrollbutton-up");

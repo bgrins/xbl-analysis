@@ -1,13 +1,13 @@
-class FirefoxRating extends XULElement {
+class Rating extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:image class="star" onmouseover="document.getBindingParent(this)._hover(1);" onclick="document.getBindingParent(this).userRating = 1;"></xul:image>
-      <xul:image class="star" onmouseover="document.getBindingParent(this)._hover(2);" onclick="document.getBindingParent(this).userRating = 2;"></xul:image>
-      <xul:image class="star" onmouseover="document.getBindingParent(this)._hover(3);" onclick="document.getBindingParent(this).userRating = 3;"></xul:image>
-      <xul:image class="star" onmouseover="document.getBindingParent(this)._hover(4);" onclick="document.getBindingParent(this).userRating = 4;"></xul:image>
-      <xul:image class="star" onmouseover="document.getBindingParent(this)._hover(5);" onclick="document.getBindingParent(this).userRating = 5;"></xul:image>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <image class="star" onmouseover="document.getBindingParent(this)._hover(1);" onclick="document.getBindingParent(this).userRating = 1;"></image>
+      <image class="star" onmouseover="document.getBindingParent(this)._hover(2);" onclick="document.getBindingParent(this).userRating = 2;"></image>
+      <image class="star" onmouseover="document.getBindingParent(this)._hover(3);" onclick="document.getBindingParent(this).userRating = 3;"></image>
+      <image class="star" onmouseover="document.getBindingParent(this)._hover(4);" onclick="document.getBindingParent(this).userRating = 4;"></image>
+      <image class="star" onmouseover="document.getBindingParent(this)._hover(5);" onclick="document.getBindingParent(this).userRating = 5;"></image>
+    `));
 
     this._updateStars();
 

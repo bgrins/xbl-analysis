@@ -1,14 +1,14 @@
-class FirefoxWizard extends XULElement {
+class Wizard extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:hbox class="wizard-header" anonid="Header"></xul:hbox>
-      <xul:deck class="wizard-page-box" flex="1" anonid="Deck">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="wizard-header" anonid="Header"></hbox>
+      <deck class="wizard-page-box" flex="1" anonid="Deck">
         <children includes="wizardpage"></children>
-      </xul:deck>
+      </deck>
       <children></children>
-      <xul:hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage"></xul:hbox>
-    `;
+      <hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage"></hbox>
+    `));
     this.pageCount = 0;
 
     this._accessMethod = null;

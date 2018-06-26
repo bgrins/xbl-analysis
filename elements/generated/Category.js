@@ -1,11 +1,11 @@
-class FirefoxCategory extends FirefoxRichlistitem {
+class Category extends Richlistitem {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:image anonid="icon" class="category-icon"></xul:image>
-      <xul:label anonid="name" class="category-name" crop="end" flex="1" inherits="value=name"></xul:label>
-      <xul:label anonid="badge" class="category-badge" inherits="value=count"></xul:label>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <image anonid="icon" class="category-icon"></image>
+      <label anonid="name" class="category-name" crop="end" flex="1" inherits="value=name"></label>
+      <label anonid="badge" class="category-badge" inherits="value=count"></label>
+    `));
 
     if (!this.hasAttribute("count"))
       this.setAttribute("count", 0);

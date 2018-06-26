@@ -1,4 +1,4 @@
-class FirefoxPanel extends FirefoxPopupBase {
+class Panel extends PopupBase {
   connectedCallback() {
     super.connectedCallback()
 

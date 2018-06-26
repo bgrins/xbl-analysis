@@ -1,20 +1,20 @@
-class FirefoxSearchbar extends XULElement {
+class Searchbar extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:stringbundle src="chrome://browser/locale/search.properties" anonid="searchbar-stringbundle"></xul:stringbundle>
-      <xul:textbox class="searchbar-textbox" anonid="searchbar-textbox" type="autocomplete" inputtype="search" placeholder="FROM-DTD.searchInput.placeholder;" flex="1" autocompletepopup="PopupSearchAutoComplete" autocompletesearch="search-autocomplete" autocompletesearchparam="searchbar-history" maxrows="10" completeselectedindex="true" minresultsforpopup="0" inherits="disabled,disableautocomplete,searchengine,src,newlines">
-        <xul:box>
-          <xul:hbox class="searchbar-search-button" anonid="searchbar-search-button" inherits="addengines" tooltiptext="FROM-DTD.searchIcon.tooltip;">
-            <xul:image class="searchbar-search-icon"></xul:image>
-            <xul:image class="searchbar-search-icon-overlay"></xul:image>
-          </xul:hbox>
-        </xul:box>
-        <xul:hbox class="search-go-container">
-          <xul:image class="search-go-button urlbar-icon" hidden="true" anonid="search-go-button" onclick="handleSearchCommand(event);" tooltiptext="FROM-DTD.contentSearchSubmit.tooltip;"></xul:image>
-        </xul:hbox>
-      </xul:textbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <stringbundle src="chrome://browser/locale/search.properties" anonid="searchbar-stringbundle"></stringbundle>
+      <textbox class="searchbar-textbox" anonid="searchbar-textbox" type="autocomplete" inputtype="search" placeholder="FROM-DTD.searchInput.placeholder;" flex="1" autocompletepopup="PopupSearchAutoComplete" autocompletesearch="search-autocomplete" autocompletesearchparam="searchbar-history" maxrows="10" completeselectedindex="true" minresultsforpopup="0" inherits="disabled,disableautocomplete,searchengine,src,newlines">
+        <box>
+          <hbox class="searchbar-search-button" anonid="searchbar-search-button" inherits="addengines" tooltiptext="FROM-DTD.searchIcon.tooltip;">
+            <image class="searchbar-search-icon"></image>
+            <image class="searchbar-search-icon-overlay"></image>
+          </hbox>
+        </box>
+        <hbox class="search-go-container">
+          <image class="search-go-button urlbar-icon" hidden="true" anonid="search-go-button" onclick="handleSearchCommand(event);" tooltiptext="FROM-DTD.contentSearchSubmit.tooltip;"></image>
+        </hbox>
+      </textbox>
+    `));
     this._ignoreFocus = false;
 
     this._clickClosedPopup = false;

@@ -1,19 +1,19 @@
-class FirefoxHardblockedaddon extends XULElement {
+class Hardblockedaddon extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:image inherits="src=icon"></xul:image>
-      <xul:vbox flex="1">
-        <xul:hbox class="addon-name-version">
-          <xul:label class="addonName" crop="end" inherits="value=name"></xul:label>
-          <xul:label class="addonVersion" inherits="value=version"></xul:label>
-        </xul:hbox>
-        <xul:hbox>
-          <xul:spacer flex="1"></xul:spacer>
-          <xul:label class="blockedLabel" value="FROM-DTD.blocklist.blocked.label;"></xul:label>
-        </xul:hbox>
-      </xul:vbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <image inherits="src=icon"></image>
+      <vbox flex="1">
+        <hbox class="addon-name-version">
+          <label class="addonName" crop="end" inherits="value=name"></label>
+          <label class="addonVersion" inherits="value=version"></label>
+        </hbox>
+        <hbox>
+          <spacer flex="1"></spacer>
+          <label class="blockedLabel" value="FROM-DTD.blocklist.blocked.label;"></label>
+        </hbox>
+      </vbox>
+    `));
 
     this._setupEventListeners();
   }

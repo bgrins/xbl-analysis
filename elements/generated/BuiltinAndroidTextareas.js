@@ -1,4 +1,4 @@
-class FirefoxBuiltinAndroidTextareas extends XULElement {
+class BuiltinAndroidTextareas extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

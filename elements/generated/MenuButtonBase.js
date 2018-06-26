@@ -1,4 +1,4 @@
-class FirefoxMenuButtonBase extends FirefoxButtonBase {
+class MenuButtonBase extends ButtonBase {
   connectedCallback() {
     super.connectedCallback()
 

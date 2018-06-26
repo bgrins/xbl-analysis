@@ -1,13 +1,13 @@
-class FirefoxMarqueeVertical extends FirefoxMarquee {
+class MarqueeVertical extends Marquee {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <html:div style="overflow: hidden; width: -moz-available;">
         <html:div class="innerDiv">
           <children></children>
         </html:div>
       </html:div>
-    `;
+    `));
 
     this._setupEventListeners();
   }

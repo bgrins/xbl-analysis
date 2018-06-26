@@ -1,23 +1,23 @@
-class FirefoxInputBox extends XULElement {
+class InputBox extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
-      <xul:menupopup anonid="input-box-contextmenu" class="textbox-contextmenu" onpopupshowing="var input =
+      <menupopup anonid="input-box-contextmenu" class="textbox-contextmenu" onpopupshowing="var input =
                                        this.parentNode.getElementsByAttribute('anonid', 'input')[0];
                                      if (document.commandDispatcher.focusedElement != input)
                                        input.focus();
                                      this.parentNode._doPopupItemEnabling(this);" oncommand="var cmd = event.originalTarget.getAttribute('cmd'); if(cmd) { this.parentNode.doCommand(cmd); event.stopPropagation(); }">
-        <xul:menuitem label="FROM-DTD.undoCmd.label;" accesskey="FROM-DTD.undoCmd.accesskey;" cmd="cmd_undo"></xul:menuitem>
-        <xul:menuseparator></xul:menuseparator>
-        <xul:menuitem label="FROM-DTD.cutCmd.label;" accesskey="FROM-DTD.cutCmd.accesskey;" cmd="cmd_cut"></xul:menuitem>
-        <xul:menuitem label="FROM-DTD.copyCmd.label;" accesskey="FROM-DTD.copyCmd.accesskey;" cmd="cmd_copy"></xul:menuitem>
-        <xul:menuitem label="FROM-DTD.pasteCmd.label;" accesskey="FROM-DTD.pasteCmd.accesskey;" cmd="cmd_paste"></xul:menuitem>
-        <xul:menuitem label="FROM-DTD.deleteCmd.label;" accesskey="FROM-DTD.deleteCmd.accesskey;" cmd="cmd_delete"></xul:menuitem>
-        <xul:menuseparator></xul:menuseparator>
-        <xul:menuitem label="FROM-DTD.selectAllCmd.label;" accesskey="FROM-DTD.selectAllCmd.accesskey;" cmd="cmd_selectAll"></xul:menuitem>
-      </xul:menupopup>
-    `;
+        <menuitem label="FROM-DTD.undoCmd.label;" accesskey="FROM-DTD.undoCmd.accesskey;" cmd="cmd_undo"></menuitem>
+        <menuseparator></menuseparator>
+        <menuitem label="FROM-DTD.cutCmd.label;" accesskey="FROM-DTD.cutCmd.accesskey;" cmd="cmd_cut"></menuitem>
+        <menuitem label="FROM-DTD.copyCmd.label;" accesskey="FROM-DTD.copyCmd.accesskey;" cmd="cmd_copy"></menuitem>
+        <menuitem label="FROM-DTD.pasteCmd.label;" accesskey="FROM-DTD.pasteCmd.accesskey;" cmd="cmd_paste"></menuitem>
+        <menuitem label="FROM-DTD.deleteCmd.label;" accesskey="FROM-DTD.deleteCmd.accesskey;" cmd="cmd_delete"></menuitem>
+        <menuseparator></menuseparator>
+        <menuitem label="FROM-DTD.selectAllCmd.label;" accesskey="FROM-DTD.selectAllCmd.accesskey;" cmd="cmd_selectAll"></menuitem>
+      </menupopup>
+    `));
 
     this._setupEventListeners();
   }

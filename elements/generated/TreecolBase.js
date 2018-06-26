@@ -1,4 +1,4 @@
-class FirefoxTreecolBase extends FirefoxTreeBase {
+class TreecolBase extends TreeBase {
   connectedCallback() {
     super.connectedCallback()
 

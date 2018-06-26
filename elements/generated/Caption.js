@@ -1,12 +1,12 @@
-class FirefoxCaption extends FirefoxBasetext {
+class Caption extends Basetext {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
-        <xul:image class="caption-icon" inherits="src=image"></xul:image>
-        <xul:label class="caption-text" flex="1" inherits="default,value=label,crop,accesskey"></xul:label>
+        <image class="caption-icon" inherits="src=image"></image>
+        <label class="caption-text" flex="1" inherits="default,value=label,crop,accesskey"></label>
       </children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

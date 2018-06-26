@@ -1,4 +1,4 @@
-class FirefoxCategoriesList extends FirefoxRichlistbox {
+class CategoriesList extends Richlistbox {
   connectedCallback() {
     super.connectedCallback()
 

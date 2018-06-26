@@ -1,4 +1,4 @@
-class FirefoxBuiltinAndroidInputfields extends XULElement {
+class BuiltinAndroidInputfields extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

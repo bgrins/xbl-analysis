@@ -1,4 +1,4 @@
-class FirefoxDateInput extends FirefoxDatetimeInputBase {
+class DateInput extends DatetimeInputBase {
   connectedCallback() {
     super.connectedCallback()
 

@@ -1,94 +1,94 @@
-class FirefoxColorpicker extends FirefoxBasecontrol {
+class Colorpicker extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:vbox flex="1">
-        <xul:hbox>
-          <xul:image class="colorpickertile cp-light" color="#FFFFFF"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#FFCCCC"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#FFCC99"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#FFFF99"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#FFFFCC"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#99FF99"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#99FFFF"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#CCFFFF"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#CCCCFF"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#FFCCFF"></xul:image>
-        </xul:hbox>
-        <xul:hbox>
-          <xul:image class="colorpickertile" color="#CCCCCC"></xul:image>
-          <xul:image class="colorpickertile" color="#FF6666"></xul:image>
-          <xul:image class="colorpickertile" color="#FF9966"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#FFFF66"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#FFFF33"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#66FF99"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#33FFFF"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#66FFFF"></xul:image>
-          <xul:image class="colorpickertile" color="#9999FF"></xul:image>
-          <xul:image class="colorpickertile" color="#FF99FF"></xul:image>
-        </xul:hbox>
-        <xul:hbox>
-          <xul:image class="colorpickertile" color="#C0C0C0"></xul:image>
-          <xul:image class="colorpickertile" color="#FF0000"></xul:image>
-          <xul:image class="colorpickertile" color="#FF9900"></xul:image>
-          <xul:image class="colorpickertile" color="#FFCC66"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#FFFF00"></xul:image>
-          <xul:image class="colorpickertile cp-light" color="#33FF33"></xul:image>
-          <xul:image class="colorpickertile" color="#66CCCC"></xul:image>
-          <xul:image class="colorpickertile" color="#33CCFF"></xul:image>
-          <xul:image class="colorpickertile" color="#6666CC"></xul:image>
-          <xul:image class="colorpickertile" color="#CC66CC"></xul:image>
-        </xul:hbox>
-        <xul:hbox>
-          <xul:image class="colorpickertile" color="#999999"></xul:image>
-          <xul:image class="colorpickertile" color="#CC0000"></xul:image>
-          <xul:image class="colorpickertile" color="#FF6600"></xul:image>
-          <xul:image class="colorpickertile" color="#FFCC33"></xul:image>
-          <xul:image class="colorpickertile" color="#FFCC00"></xul:image>
-          <xul:image class="colorpickertile" color="#33CC00"></xul:image>
-          <xul:image class="colorpickertile" color="#00CCCC"></xul:image>
-          <xul:image class="colorpickertile" color="#3366FF"></xul:image>
-          <xul:image class="colorpickertile" color="#6633FF"></xul:image>
-          <xul:image class="colorpickertile" color="#CC33CC"></xul:image>
-        </xul:hbox>
-        <xul:hbox>
-          <xul:image class="colorpickertile" color="#666666"></xul:image>
-          <xul:image class="colorpickertile" color="#990000"></xul:image>
-          <xul:image class="colorpickertile" color="#CC6600"></xul:image>
-          <xul:image class="colorpickertile" color="#CC9933"></xul:image>
-          <xul:image class="colorpickertile" color="#999900"></xul:image>
-          <xul:image class="colorpickertile" color="#009900"></xul:image>
-          <xul:image class="colorpickertile" color="#339999"></xul:image>
-          <xul:image class="colorpickertile" color="#3333FF"></xul:image>
-          <xul:image class="colorpickertile" color="#6600CC"></xul:image>
-          <xul:image class="colorpickertile" color="#993399"></xul:image>
-        </xul:hbox>
-        <xul:hbox>
-          <xul:image class="colorpickertile" color="#333333"></xul:image>
-          <xul:image class="colorpickertile" color="#660000"></xul:image>
-          <xul:image class="colorpickertile" color="#993300"></xul:image>
-          <xul:image class="colorpickertile" color="#996633"></xul:image>
-          <xul:image class="colorpickertile" color="#666600"></xul:image>
-          <xul:image class="colorpickertile" color="#006600"></xul:image>
-          <xul:image class="colorpickertile" color="#336666"></xul:image>
-          <xul:image class="colorpickertile" color="#000099"></xul:image>
-          <xul:image class="colorpickertile" color="#333399"></xul:image>
-          <xul:image class="colorpickertile" color="#663366"></xul:image>
-        </xul:hbox>
-        <xul:hbox>
-          <xul:image class="colorpickertile" color="#000000"></xul:image>
-          <xul:image class="colorpickertile" color="#330000"></xul:image>
-          <xul:image class="colorpickertile" color="#663300"></xul:image>
-          <xul:image class="colorpickertile" color="#663333"></xul:image>
-          <xul:image class="colorpickertile" color="#333300"></xul:image>
-          <xul:image class="colorpickertile" color="#003300"></xul:image>
-          <xul:image class="colorpickertile" color="#003333"></xul:image>
-          <xul:image class="colorpickertile" color="#000066"></xul:image>
-          <xul:image class="colorpickertile" color="#330099"></xul:image>
-          <xul:image class="colorpickertile" color="#330033"></xul:image>
-        </xul:hbox>
-      </xul:vbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <vbox flex="1">
+        <hbox>
+          <image class="colorpickertile cp-light" color="#FFFFFF"></image>
+          <image class="colorpickertile cp-light" color="#FFCCCC"></image>
+          <image class="colorpickertile cp-light" color="#FFCC99"></image>
+          <image class="colorpickertile cp-light" color="#FFFF99"></image>
+          <image class="colorpickertile cp-light" color="#FFFFCC"></image>
+          <image class="colorpickertile cp-light" color="#99FF99"></image>
+          <image class="colorpickertile cp-light" color="#99FFFF"></image>
+          <image class="colorpickertile cp-light" color="#CCFFFF"></image>
+          <image class="colorpickertile cp-light" color="#CCCCFF"></image>
+          <image class="colorpickertile cp-light" color="#FFCCFF"></image>
+        </hbox>
+        <hbox>
+          <image class="colorpickertile" color="#CCCCCC"></image>
+          <image class="colorpickertile" color="#FF6666"></image>
+          <image class="colorpickertile" color="#FF9966"></image>
+          <image class="colorpickertile cp-light" color="#FFFF66"></image>
+          <image class="colorpickertile cp-light" color="#FFFF33"></image>
+          <image class="colorpickertile cp-light" color="#66FF99"></image>
+          <image class="colorpickertile cp-light" color="#33FFFF"></image>
+          <image class="colorpickertile cp-light" color="#66FFFF"></image>
+          <image class="colorpickertile" color="#9999FF"></image>
+          <image class="colorpickertile" color="#FF99FF"></image>
+        </hbox>
+        <hbox>
+          <image class="colorpickertile" color="#C0C0C0"></image>
+          <image class="colorpickertile" color="#FF0000"></image>
+          <image class="colorpickertile" color="#FF9900"></image>
+          <image class="colorpickertile" color="#FFCC66"></image>
+          <image class="colorpickertile cp-light" color="#FFFF00"></image>
+          <image class="colorpickertile cp-light" color="#33FF33"></image>
+          <image class="colorpickertile" color="#66CCCC"></image>
+          <image class="colorpickertile" color="#33CCFF"></image>
+          <image class="colorpickertile" color="#6666CC"></image>
+          <image class="colorpickertile" color="#CC66CC"></image>
+        </hbox>
+        <hbox>
+          <image class="colorpickertile" color="#999999"></image>
+          <image class="colorpickertile" color="#CC0000"></image>
+          <image class="colorpickertile" color="#FF6600"></image>
+          <image class="colorpickertile" color="#FFCC33"></image>
+          <image class="colorpickertile" color="#FFCC00"></image>
+          <image class="colorpickertile" color="#33CC00"></image>
+          <image class="colorpickertile" color="#00CCCC"></image>
+          <image class="colorpickertile" color="#3366FF"></image>
+          <image class="colorpickertile" color="#6633FF"></image>
+          <image class="colorpickertile" color="#CC33CC"></image>
+        </hbox>
+        <hbox>
+          <image class="colorpickertile" color="#666666"></image>
+          <image class="colorpickertile" color="#990000"></image>
+          <image class="colorpickertile" color="#CC6600"></image>
+          <image class="colorpickertile" color="#CC9933"></image>
+          <image class="colorpickertile" color="#999900"></image>
+          <image class="colorpickertile" color="#009900"></image>
+          <image class="colorpickertile" color="#339999"></image>
+          <image class="colorpickertile" color="#3333FF"></image>
+          <image class="colorpickertile" color="#6600CC"></image>
+          <image class="colorpickertile" color="#993399"></image>
+        </hbox>
+        <hbox>
+          <image class="colorpickertile" color="#333333"></image>
+          <image class="colorpickertile" color="#660000"></image>
+          <image class="colorpickertile" color="#993300"></image>
+          <image class="colorpickertile" color="#996633"></image>
+          <image class="colorpickertile" color="#666600"></image>
+          <image class="colorpickertile" color="#006600"></image>
+          <image class="colorpickertile" color="#336666"></image>
+          <image class="colorpickertile" color="#000099"></image>
+          <image class="colorpickertile" color="#333399"></image>
+          <image class="colorpickertile" color="#663366"></image>
+        </hbox>
+        <hbox>
+          <image class="colorpickertile" color="#000000"></image>
+          <image class="colorpickertile" color="#330000"></image>
+          <image class="colorpickertile" color="#663300"></image>
+          <image class="colorpickertile" color="#663333"></image>
+          <image class="colorpickertile" color="#333300"></image>
+          <image class="colorpickertile" color="#003300"></image>
+          <image class="colorpickertile" color="#003333"></image>
+          <image class="colorpickertile" color="#000066"></image>
+          <image class="colorpickertile" color="#330099"></image>
+          <image class="colorpickertile" color="#330033"></image>
+        </hbox>
+      </vbox>
+    `));
 
     this.initialize();
 

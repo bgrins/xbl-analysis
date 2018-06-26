@@ -1,4 +1,4 @@
-class FirefoxTabbrowserTabpanels extends FirefoxTabpanels {
+class TabbrowserTabpanels extends Tabpanels {
   connectedCallback() {
     super.connectedCallback()
 

@@ -1,4 +1,4 @@
-class FirefoxTabbrowserBrowser extends FirefoxBrowser {
+class TabbrowserBrowser extends Browser {
   connectedCallback() {
     super.connectedCallback()
 

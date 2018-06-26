@@ -1,15 +1,15 @@
-class FirefoxArrowscrollboxClicktoscroll extends FirefoxArrowscrollbox {
+class ArrowscrollboxClicktoscroll extends Arrowscrollbox {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:toolbarbutton class="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" anonid="scrollbutton-up" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(-1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(-1);" onmouseout="_pauseScroll();"></xul:toolbarbutton>
-      <xul:spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></xul:spacer>
-      <xul:scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <toolbarbutton class="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" anonid="scrollbutton-up" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(-1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(-1);" onmouseout="_pauseScroll();"></toolbarbutton>
+      <spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></spacer>
+      <scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
         <children></children>
-      </xul:scrollbox>
-      <xul:spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></xul:spacer>
-      <xul:toolbarbutton class="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" anonid="scrollbutton-down" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(1);" onmouseout="_pauseScroll();"></xul:toolbarbutton>
-    `;
+      </scrollbox>
+      <spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></spacer>
+      <toolbarbutton class="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" anonid="scrollbutton-down" onclick="_distanceScroll(event);" onmousedown="if (event.button == 0) _startScroll(1);" onmouseup="if (event.button == 0) _stopScroll();" onmouseover="_continueScroll(1);" onmouseout="_pauseScroll();"></toolbarbutton>
+    `));
     this._scrollIndex = 0;
 
     this._scrollDelay = 150;

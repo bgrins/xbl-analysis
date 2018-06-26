@@ -1,13 +1,13 @@
-class FirefoxCheckbox extends FirefoxBasetext {
+class Checkbox extends Basetext {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:image class="checkbox-check" inherits="checked,disabled"></xul:image>
-      <xul:hbox class="checkbox-label-box" flex="1">
-        <xul:image class="checkbox-icon" inherits="src"></xul:image>
-        <xul:label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1"></xul:label>
-      </xul:hbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <image class="checkbox-check" inherits="checked,disabled"></image>
+      <hbox class="checkbox-label-box" flex="1">
+        <image class="checkbox-icon" inherits="src"></image>
+        <label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1"></label>
+      </hbox>
+    `));
 
     this._setupEventListeners();
   }

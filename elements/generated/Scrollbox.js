@@ -1,11 +1,11 @@
-class FirefoxScrollbox extends FirefoxBasecontrol {
+class Scrollbox extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:box class="box-inherit scrollbox-innerbox" inherits="orient,align,pack,dir" flex="1">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <box class="box-inherit scrollbox-innerbox" inherits="orient,align,pack,dir" flex="1">
         <children></children>
-      </xul:box>
-    `;
+      </box>
+    `));
 
     this._setupEventListeners();
   }

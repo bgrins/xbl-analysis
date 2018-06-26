@@ -28,14 +28,14 @@ function formatComment(comment, spaces = 2) {
 
 function getJSForBinding(binding) {
   let js = [];
-  let elementName = 'firefox-' + binding.attrs.id;
+  let elementName = binding.attrs.id;
   let className = titleCase(elementName);
   let hasExtends = !!formatExtends(binding.attrs.extends);
   js.push(`class ${className} `);
   if (hasExtends) {
-    js.push(`extends Firefox${formatExtends(binding.attrs.extends)} `);
+    js.push(`extends ${formatExtends(binding.attrs.extends)} `);
   } else {
-    js.push(`extends XULElement `);
+    js.push(`extends MozXULElement `);
   }
 
   js.push('{')
@@ -53,11 +53,12 @@ function getJSForBinding(binding) {
       for (var attr in child.attrs) {
         attrs += ' ' + attr.replace('xbl:', '') + '="' + child.attrs[attr].replace('"', '\"').replace(/xbl\:/g, '') + '"';
       }
+      let name = child.name.replace('xul:', '');
       let padding = (new Array(depth + 3)).join("  ");
-      childMarkup.push(`\n${padding}<${child.name}${attrs}>`);
+      childMarkup.push(`\n${padding}<${name}${attrs}>`);
       child.children.forEach(c => printChild(c, depth+1));
       let closePadding = child.children.length ? `\n${padding}` : '';
-      childMarkup.push(`${closePadding}</${child.name}>`);
+      childMarkup.push(`${closePadding}</${name}>`);
     }
     content[0].children.forEach(c => printChild(c, 1));
   } else {
@@ -65,7 +66,7 @@ function getJSForBinding(binding) {
   }
 
   let innerHTML = content.length ?
-        "this.innerHTML = `" + childMarkup.join('') + "\n    `;" :
+        "this.appendChild(MozXULElement.parseXULToFragment(`" + childMarkup.join('') + "\n    `));" :
         "";
 
   let xblconstructor = (binding.find("constructor") || [])[0];

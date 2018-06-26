@@ -1,4 +1,4 @@
-class FirefoxFindbarTextbox extends FirefoxTextbox {
+class FindbarTextbox extends Textbox {
   connectedCallback() {
     super.connectedCallback()
 

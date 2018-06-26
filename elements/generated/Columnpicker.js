@@ -1,13 +1,13 @@
-class FirefoxColumnpicker extends FirefoxTreeBase {
+class Columnpicker extends TreeBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:image class="tree-columnpicker-icon"></xul:image>
-      <xul:menupopup anonid="popup">
-        <xul:menuseparator anonid="menuseparator"></xul:menuseparator>
-        <xul:menuitem anonid="menuitem" label="FROM-DTD.restoreColumnOrder.label;"></xul:menuitem>
-      </xul:menupopup>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <image class="tree-columnpicker-icon"></image>
+      <menupopup anonid="popup">
+        <menuseparator anonid="menuseparator"></menuseparator>
+        <menuitem anonid="menuitem" label="FROM-DTD.restoreColumnOrder.label;"></menuitem>
+      </menupopup>
+    `));
 
     this._setupEventListeners();
   }

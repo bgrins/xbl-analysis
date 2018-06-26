@@ -1,7 +1,7 @@
-class FirefoxPluginproblem extends XULElement {
+class Pluginproblem extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <html:div class="mainBox" anonid="main" chromedir="FROM-DTD.locale.dir;">
         <html:div class="hoverBox">
           <html:label>
@@ -50,7 +50,7 @@ class FirefoxPluginproblem extends XULElement {
       <html:div style="display:none;">
         <children></children>
       </html:div>
-    `;
+    `));
 
     // Notify browser-plugins.js that we were attached, on a delay because
     // this binding doesn't complete layout until the constructor

@@ -1,4 +1,4 @@
-class FirefoxRemoteBrowser extends FirefoxBrowser {
+class RemoteBrowser extends Browser {
   connectedCallback() {
     super.connectedCallback()
 

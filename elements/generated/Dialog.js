@@ -1,23 +1,23 @@
-class FirefoxDialog extends XULElement {
+class Dialog extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:vbox class="box-inherit dialog-content-box" flex="1">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <vbox class="box-inherit dialog-content-box" flex="1">
         <children></children>
-      </xul:vbox>
-      <xul:hbox class="dialog-button-box" anonid="buttons" inherits="pack=buttonpack,align=buttonalign,dir=buttondir,orient=buttonorient" pack="end">
-        <xul:button dlgtype="extra2" class="dialog-button" hidden="true"></xul:button>
-        <xul:spacer anonid="spacer" flex="1" hidden="true"></xul:spacer>
-        <xul:button dlgtype="accept" class="dialog-button" inherits="disabled=buttondisabledaccept"></xul:button>
-        <xul:button dlgtype="extra1" class="dialog-button" hidden="true"></xul:button>
-        <xul:button dlgtype="cancel" class="dialog-button"></xul:button>
-        <xul:button dlgtype="help" class="dialog-button" hidden="true"></xul:button>
-        <xul:button dlgtype="disclosure" class="dialog-button" hidden="true"></xul:button>
-      </xul:hbox>
-      <xul:keyset>
-        <xul:key phase="capturing" oncommand="document.documentElement.openHelp(event)" keycode="FROM-DTD.openHelp.commandkey;"></xul:key>
-      </xul:keyset>
-    `;
+      </vbox>
+      <hbox class="dialog-button-box" anonid="buttons" inherits="pack=buttonpack,align=buttonalign,dir=buttondir,orient=buttonorient" pack="end">
+        <button dlgtype="extra2" class="dialog-button" hidden="true"></button>
+        <spacer anonid="spacer" flex="1" hidden="true"></spacer>
+        <button dlgtype="accept" class="dialog-button" inherits="disabled=buttondisabledaccept"></button>
+        <button dlgtype="extra1" class="dialog-button" hidden="true"></button>
+        <button dlgtype="cancel" class="dialog-button"></button>
+        <button dlgtype="help" class="dialog-button" hidden="true"></button>
+        <button dlgtype="disclosure" class="dialog-button" hidden="true"></button>
+      </hbox>
+      <keyset>
+        <key phase="capturing" oncommand="document.documentElement.openHelp(event)" keycode="FROM-DTD.openHelp.commandkey;"></key>
+      </keyset>
+    `));
     this._mStrBundle = null;
 
     this._closeHandler = function(event) {

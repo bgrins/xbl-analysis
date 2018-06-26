@@ -1,4 +1,4 @@
-class FirefoxCustomizableuiToolbarMenubarAutohide extends FirefoxCustomizableuiToolbar {
+class CustomizableuiToolbarMenubarAutohide extends CustomizableuiToolbar {
   connectedCallback() {
     super.connectedCallback()
 

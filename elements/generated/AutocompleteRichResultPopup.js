@@ -1,12 +1,12 @@
-class FirefoxAutocompleteRichResultPopup extends FirefoxPopup {
+class AutocompleteRichResultPopup extends Popup {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></xul:richlistbox>
-      <xul:hbox>
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></richlistbox>
+      <hbox>
         <children></children>
-      </xul:hbox>
-    `;
+      </hbox>
+    `));
     this.mInput = null;
 
     this.mPopupOpen = false;

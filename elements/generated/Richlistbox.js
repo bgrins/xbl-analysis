@@ -1,12 +1,12 @@
-class FirefoxRichlistbox extends FirefoxListboxBase {
+class Richlistbox extends ListboxBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="listheader"></children>
-      <xul:scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
+      <scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
         <children></children>
-      </xul:scrollbox>
-    `;
+      </scrollbox>
+    `));
     this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "main-box");
 
     this.scrollBoxObject = this._scrollbox.boxObject;

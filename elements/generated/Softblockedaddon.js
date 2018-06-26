@@ -1,19 +1,19 @@
-class FirefoxSoftblockedaddon extends XULElement {
+class Softblockedaddon extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:image inherits="src=icon"></xul:image>
-      <xul:vbox flex="1">
-        <xul:hbox class="addon-name-version">
-          <xul:label class="addonName" crop="end" inherits="value=name"></xul:label>
-          <xul:label class="addonVersion" inherits="value=version"></xul:label>
-        </xul:hbox>
-        <xul:hbox>
-          <xul:spacer flex="1"></xul:spacer>
-          <xul:checkbox class="disableCheckbox" checked="true" label="FROM-DTD.blocklist.checkbox.label;"></xul:checkbox>
-        </xul:hbox>
-      </xul:vbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <image inherits="src=icon"></image>
+      <vbox flex="1">
+        <hbox class="addon-name-version">
+          <label class="addonName" crop="end" inherits="value=name"></label>
+          <label class="addonVersion" inherits="value=version"></label>
+        </hbox>
+        <hbox>
+          <spacer flex="1"></spacer>
+          <checkbox class="disableCheckbox" checked="true" label="FROM-DTD.blocklist.checkbox.label;"></checkbox>
+        </hbox>
+      </vbox>
+    `));
     this._checkbox = document.getAnonymousElementByAttribute(this, "class", "disableCheckbox");
 
     this._setupEventListeners();

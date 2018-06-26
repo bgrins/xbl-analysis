@@ -1,9 +1,9 @@
-class FirefoxAutocompleteCreditcardInsecureField extends FirefoxAutocompleteProfileListitemBase {
+class AutocompleteCreditcardInsecureField extends AutocompleteProfileListitemBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="autofill-item-box" class="autofill-insecure-item"></div>
-    `;
+    `));
 
     this._itemBox = document.getAnonymousElementByAttribute(
       this, "anonid", "autofill-item-box"

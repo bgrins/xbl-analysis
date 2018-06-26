@@ -1,4 +1,4 @@
-class FirefoxToolbarDrag extends XULElement {
+class ToolbarDrag extends MozXULElement {
   connectedCallback() {
 
     this._dragBindingAlive = true;

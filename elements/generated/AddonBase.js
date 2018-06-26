@@ -1,4 +1,4 @@
-class FirefoxAddonBase extends FirefoxRichlistitem {
+class AddonBase extends Richlistitem {
   connectedCallback() {
     super.connectedCallback()
 

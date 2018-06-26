@@ -1,19 +1,19 @@
-class FirefoxListbox extends FirefoxListboxBase {
+class Listbox extends ListboxBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="listcols">
-        <xul:listcols>
-          <xul:listcol flex="1"></xul:listcol>
-        </xul:listcols>
+        <listcols>
+          <listcol flex="1"></listcol>
+        </listcols>
       </children>
-      <xul:listrows>
+      <listrows>
         <children includes="listhead"></children>
-        <xul:listboxbody inherits="rows,size,minheight">
+        <listboxbody inherits="rows,size,minheight">
           <children includes="listitem"></children>
-        </xul:listboxbody>
-      </xul:listrows>
-    `;
+        </listboxbody>
+      </listrows>
+    `));
     /**
      * ///////////////// private listbox members /////////////////
      */

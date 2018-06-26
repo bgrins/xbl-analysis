@@ -1,10 +1,10 @@
-class FirefoxLabelControl extends FirefoxTextLabel {
+class LabelControl extends TextLabel {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
       <html:span anonid="accessKeyParens"></html:span>
-    `;
+    `));
     this.mUnderlineAccesskey = !/Mac/.test(navigator.platform);
 
     this.mInsertSeparator = "";

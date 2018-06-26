@@ -1,9 +1,9 @@
-class FirefoxTreecolImage extends FirefoxTreecolBase {
+class TreecolImage extends TreecolBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:image class="treecol-icon" inherits="src"></xul:image>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <image class="treecol-icon" inherits="src"></image>
+    `));
 
     this._setupEventListeners();
   }

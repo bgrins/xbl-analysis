@@ -1,11 +1,11 @@
-class FirefoxListcell extends FirefoxBasecontrol {
+class Listcell extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
-        <xul:label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right"></xul:label>
+        <label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right"></label>
       </children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

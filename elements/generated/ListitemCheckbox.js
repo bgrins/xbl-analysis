@@ -1,11 +1,11 @@
-class FirefoxListitemCheckbox extends FirefoxListitem {
+class ListitemCheckbox extends Listitem {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
-        <xul:listcell type="checkbox" inherits="label,crop,checked,disabled,flexlabel"></xul:listcell>
+        <listcell type="checkbox" inherits="label,crop,checked,disabled,flexlabel"></listcell>
       </children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

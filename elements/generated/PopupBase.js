@@ -1,4 +1,4 @@
-class FirefoxPopupBase extends XULElement {
+class PopupBase extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

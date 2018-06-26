@@ -1,16 +1,16 @@
-class FirefoxArrowpanel extends FirefoxPanel {
+class Arrowpanel extends Panel {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
-        <xul:box anonid="arrowbox" class="panel-arrowbox">
-          <xul:image anonid="arrow" class="panel-arrow" inherits="side"></xul:image>
-        </xul:box>
-        <xul:box class="panel-arrowcontent" inherits="side,align,dir,orient,pack" flex="1">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
+        <box anonid="arrowbox" class="panel-arrowbox">
+          <image anonid="arrow" class="panel-arrow" inherits="side"></image>
+        </box>
+        <box class="panel-arrowcontent" inherits="side,align,dir,orient,pack" flex="1">
           <children></children>
-        </xul:box>
-      </xul:vbox>
-    `;
+        </box>
+      </vbox>
+    `));
     this._fadeTimer = null;
 
     this._setupEventListeners();

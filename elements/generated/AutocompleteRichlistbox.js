@@ -1,4 +1,4 @@
-class FirefoxAutocompleteRichlistbox extends FirefoxRichlistbox {
+class AutocompleteRichlistbox extends Richlistbox {
   connectedCallback() {
     super.connectedCallback()
 

@@ -1,4 +1,4 @@
-class FirefoxTextBase extends XULElement {
+class TextBase extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

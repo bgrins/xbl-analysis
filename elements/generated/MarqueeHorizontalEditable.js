@@ -1,11 +1,11 @@
-class FirefoxMarqueeHorizontalEditable extends XULElement {
+class MarqueeHorizontalEditable extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <html:div style="display: inline-block; overflow: auto; width: -moz-available;">
         <children></children>
       </html:div>
-    `;
+    `));
 
     this._setupEventListeners();
   }

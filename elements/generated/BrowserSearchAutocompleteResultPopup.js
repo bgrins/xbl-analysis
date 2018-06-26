@@ -1,14 +1,14 @@
-class FirefoxBrowserSearchAutocompleteResultPopup extends FirefoxAutocompleteRichResultPopup {
+class BrowserSearchAutocompleteResultPopup extends AutocompleteRichResultPopup {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox anonid="searchbar-engine" inherits="showonlysettings" class="search-panel-header search-panel-current-engine">
-        <xul:image class="searchbar-engine-image" inherits="src"></xul:image>
-        <xul:label anonid="searchbar-engine-name" flex="1" crop="end" role="presentation"></xul:label>
-      </xul:hbox>
-      <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox search-panel-tree" flex="1"></xul:richlistbox>
-      <xul:vbox anonid="search-one-off-buttons" class="search-one-offs"></xul:vbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox anonid="searchbar-engine" inherits="showonlysettings" class="search-panel-header search-panel-current-engine">
+        <image class="searchbar-engine-image" inherits="src"></image>
+        <label anonid="searchbar-engine-name" flex="1" crop="end" role="presentation"></label>
+      </hbox>
+      <richlistbox anonid="richlistbox" class="autocomplete-richlistbox search-panel-tree" flex="1"></richlistbox>
+      <vbox anonid="search-one-off-buttons" class="search-one-offs"></vbox>
+    `));
     /**
      * Popup rollup is triggered by native events before the mousedown event
      * reaches the DOM. The will be set to true by the popuphiding event and

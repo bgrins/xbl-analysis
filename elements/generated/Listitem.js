@@ -1,11 +1,11 @@
-class FirefoxListitem extends FirefoxBasetext {
+class Listitem extends Basetext {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
-        <xul:listcell inherits="label,crop,disabled,flexlabel"></xul:listcell>
+        <listcell inherits="label,crop,disabled,flexlabel"></listcell>
       </children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

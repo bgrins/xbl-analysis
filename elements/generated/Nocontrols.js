@@ -1,7 +1,7 @@
-class FirefoxNocontrols extends XULElement {
+class Nocontrols extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="controlsContainer" class="controlsContainer" role="none" hidden="true">
         <div class="controlsOverlay stackItem">
           <div class="controlsSpacerStack">
@@ -9,7 +9,7 @@ class FirefoxNocontrols extends XULElement {
           </div>
         </div>
       </div>
-    `;
+    `));
 
     this.randomID = 0;
     this.Utils = {

@@ -1,15 +1,15 @@
-class FirefoxNotification extends XULElement {
+class Notification extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:hbox anonid="details" align="center" flex="1" oncommand="this.parentNode._doButtonCommand(event);">
-        <xul:image anonid="messageImage" class="messageImage" inherits="src=image,type,value"></xul:image>
-        <xul:description anonid="messageText" class="messageText" flex="1" inherits="text=label"></xul:description>
-        <xul:spacer flex="1"></xul:spacer>
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox anonid="details" align="center" flex="1" oncommand="this.parentNode._doButtonCommand(event);">
+        <image anonid="messageImage" class="messageImage" inherits="src=image,type,value"></image>
+        <description anonid="messageText" class="messageText" flex="1" inherits="text=label"></description>
+        <spacer flex="1"></spacer>
         <children></children>
-      </xul:hbox>
-      <xul:toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" anonid="close-button" inherits="hidden=hideclose" tooltiptext="FROM-DTD.closeNotification.tooltip;" oncommand="document.getBindingParent(this).dismiss();"></xul:toolbarbutton>
-    `;
+      </hbox>
+      <toolbarbutton ondblclick="event.stopPropagation();" class="messageCloseButton close-icon tabbable" anonid="close-button" inherits="hidden=hideclose" tooltiptext="FROM-DTD.closeNotification.tooltip;" oncommand="document.getBindingParent(this).dismiss();"></toolbarbutton>
+    `));
     this.timeout = 0;
 
     this._setupEventListeners();

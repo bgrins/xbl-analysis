@@ -1,11 +1,11 @@
-class FirefoxTooltip extends FirefoxPopupBase {
+class Tooltip extends PopupBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
-        <xul:label class="tooltip-label" inherits="text=label" flex="1"></xul:label>
+        <label class="tooltip-label" inherits="text=label" flex="1"></label>
       </children>
-    `;
+    `));
     this._mouseOutCount = 0;
 
     this._isMouseOver = false;

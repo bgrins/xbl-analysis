@@ -1,4 +1,4 @@
-class FirefoxBasecontrol extends XULElement {
+class Basecontrol extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class FirefoxDatetimePopup extends FirefoxArrowpanel {
+class DatetimePopup extends Arrowpanel {
   connectedCallback() {
     super.connectedCallback()
 

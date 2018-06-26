@@ -1,4 +1,4 @@
-class FirefoxBuiltinWinInputfields extends XULElement {
+class BuiltinWinInputfields extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,15 +1,15 @@
-class FirefoxHandler extends FirefoxRichlistitem {
+class Handler extends Richlistitem {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:vbox pack="center">
-        <xul:image inherits="src=image" height="32" width="32"></xul:image>
-      </xul:vbox>
-      <xul:vbox flex="1">
-        <xul:label class="name" inherits="value=name"></xul:label>
-        <xul:label class="description" inherits="value=description"></xul:label>
-      </xul:vbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <vbox pack="center">
+        <image inherits="src=image" height="32" width="32"></image>
+      </vbox>
+      <vbox flex="1">
+        <label class="name" inherits="value=name"></label>
+        <label class="description" inherits="value=description"></label>
+      </vbox>
+    `));
 
     this._setupEventListeners();
   }

@@ -1,14 +1,14 @@
-class FirefoxGroupbox extends XULElement {
+class Groupbox extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:hbox class="groupbox-title" align="center" pack="start">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="groupbox-title" align="center" pack="start">
         <children includes="caption"></children>
-      </xul:hbox>
-      <xul:box flex="1" class="groupbox-body" inherits="orient,align,pack">
+      </hbox>
+      <box flex="1" class="groupbox-body" inherits="orient,align,pack">
         <children></children>
-      </xul:box>
-    `;
+      </box>
+    `));
 
     this._setupEventListeners();
   }

@@ -1,12 +1,12 @@
-class FirefoxListcellCheckbox extends FirefoxListcell {
+class ListcellCheckbox extends Listcell {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
-        <xul:image class="listcell-check" inherits="checked,disabled"></xul:image>
-        <xul:label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right"></xul:label>
+        <image class="listcell-check" inherits="checked,disabled"></image>
+        <label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right"></label>
       </children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

@@ -1,11 +1,11 @@
-class FirefoxMenuMenubarIconic extends FirefoxMenuBase {
+class MenuMenubarIconic extends MenuBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:image class="menubar-left" inherits="src=image"></xul:image>
-      <xul:label class="menubar-text" inherits="value=label,accesskey,crop" crop="right"></xul:label>
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <image class="menubar-left" inherits="src=image"></image>
+      <label class="menubar-text" inherits="value=label,accesskey,crop" crop="right"></label>
       <children includes="menupopup"></children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

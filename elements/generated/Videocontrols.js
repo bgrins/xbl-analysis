@@ -1,7 +1,7 @@
-class FirefoxVideocontrols extends XULElement {
+class Videocontrols extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="controlsContainer" class="controlsContainer" role="none">
         <div anonid="statusOverlay" class="statusOverlay stackItem" hidden="true">
           <div anonid="statusIcon" class="statusIcon"></div>
@@ -43,7 +43,7 @@ class FirefoxVideocontrols extends XULElement {
           <div anonid="textTrackList" class="textTrackList" hidden="true" offlabel="FROM-DTD.closedCaption.off;"></div>
         </div>
       </div>
-    `;
+    `));
 
     this.randomID = 0;
 

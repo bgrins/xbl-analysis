@@ -1,4 +1,4 @@
-class FirefoxMarquee extends XULElement {
+class Marquee extends MozXULElement {
   connectedCallback() {
 
     // Set up state.

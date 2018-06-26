@@ -1,4 +1,4 @@
-class FirefoxTabBase extends XULElement {
+class TabBase extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

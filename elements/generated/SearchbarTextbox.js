@@ -1,4 +1,4 @@
-class FirefoxSearchbarTextbox extends FirefoxAutocomplete {
+class SearchbarTextbox extends Autocomplete {
   connectedCallback() {
     super.connectedCallback()
 

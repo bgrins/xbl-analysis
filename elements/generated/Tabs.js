@@ -1,11 +1,11 @@
-class FirefoxTabs extends FirefoxBasecontrol {
+class Tabs extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:spacer class="tabs-left"></xul:spacer>
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <spacer class="tabs-left"></spacer>
       <children></children>
-      <xul:spacer class="tabs-right" flex="1"></xul:spacer>
-    `;
+      <spacer class="tabs-right" flex="1"></spacer>
+    `));
     this._tabbox = null;
 
     /**

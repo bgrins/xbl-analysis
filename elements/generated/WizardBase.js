@@ -1,4 +1,4 @@
-class FirefoxWizardBase extends XULElement {
+class WizardBase extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class FirefoxListrows extends XULElement {
+class Listrows extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

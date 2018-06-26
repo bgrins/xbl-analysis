@@ -1,7 +1,7 @@
-class FirefoxMarqueeHorizontal extends FirefoxMarquee {
+class MarqueeHorizontal extends Marquee {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <html:div style="display: -moz-box; overflow: hidden; width: -moz-available;">
         <html:div style="display: -moz-box;">
           <html:div class="innerDiv" style="display: table; border-spacing: 0;">
@@ -11,7 +11,7 @@ class FirefoxMarqueeHorizontal extends FirefoxMarquee {
           </html:div>
         </html:div>
       </html:div>
-    `;
+    `));
 
     this._setupEventListeners();
   }

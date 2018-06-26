@@ -1,4 +1,4 @@
-class FirefoxButtonBase extends FirefoxBasetext {
+class ButtonBase extends Basetext {
   connectedCallback() {
     super.connectedCallback()
 

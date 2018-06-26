@@ -1,11 +1,11 @@
-class FirefoxProgressmeterUndetermined extends FirefoxProgressmeter {
+class ProgressmeterUndetermined extends Progressmeter {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:stack class="progress-remainder" flex="1" anonid="stack" style="overflow: -moz-hidden-unscrollable;">
-        <xul:spacer class="progress-bar" anonid="spacer" top="0" style="margin-right: -1000px;"></xul:spacer>
-      </xul:stack>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <stack class="progress-remainder" flex="1" anonid="stack" style="overflow: -moz-hidden-unscrollable;">
+        <spacer class="progress-bar" anonid="spacer" top="0" style="margin-right: -1000px;"></spacer>
+      </stack>
+    `));
     this._alive = true;
 
     this._init();

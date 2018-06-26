@@ -1,14 +1,14 @@
-class FirefoxAddonUninstalled extends FirefoxAddonBase {
+class AddonUninstalled extends AddonBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox class="pending">
-        <xul:image class="pending-icon"></xul:image>
-        <xul:label anonid="notice" flex="1"></xul:label>
-        <xul:button anonid="undo-btn" class="button-link" label="FROM-DTD.addon.undoRemove.label;" tooltiptext="FROM-DTD.addon.undoRemove.tooltip;" oncommand="document.getBindingParent(this).cancelUninstall();"></xul:button>
-        <xul:spacer flex="5000"></xul:spacer>
-      </xul:hbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="pending">
+        <image class="pending-icon"></image>
+        <label anonid="notice" flex="1"></label>
+        <button anonid="undo-btn" class="button-link" label="FROM-DTD.addon.undoRemove.label;" tooltiptext="FROM-DTD.addon.undoRemove.tooltip;" oncommand="document.getBindingParent(this).cancelUninstall();"></button>
+        <spacer flex="5000"></spacer>
+      </hbox>
+    `));
     this._notice = document.getAnonymousElementByAttribute(this, "anonid", "notice");
 
     this._notice.textContent = gStrings.ext.formatStringFromName("uninstallNotice", [this.mAddon.name],

@@ -1,7 +1,7 @@
-class FirefoxTabmodalprompt extends XULElement {
+class Tabmodalprompt extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <spacer flex="1"></spacer>
       <hbox pack="center">
         <vbox anonid="mainContainer" class="mainContainer">
@@ -41,7 +41,7 @@ class FirefoxTabmodalprompt extends XULElement {
         </vbox>
       </hbox>
       <spacer flex="2"></spacer>
-    `;
+    `));
     this.ui = "";
 
     this.args = "";

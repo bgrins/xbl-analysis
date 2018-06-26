@@ -1,4 +1,4 @@
-class FirefoxBuiltinAndroidBrowser extends XULElement {
+class BuiltinAndroidBrowser extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

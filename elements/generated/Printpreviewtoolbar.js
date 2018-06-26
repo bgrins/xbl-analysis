@@ -1,57 +1,57 @@
-class FirefoxPrintpreviewtoolbar extends XULElement {
+class Printpreviewtoolbar extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:button label="FROM-DTD.print.label;" accesskey="FROM-DTD.print.accesskey;" oncommand="this.parentNode.print();" icon="print"></xul:button>
-      <xul:button anonid="pageSetup" label="FROM-DTD.pageSetup.label;" accesskey="FROM-DTD.pageSetup.accesskey;" oncommand="this.parentNode.doPageSetup();"></xul:button>
-      <xul:vbox align="center" pack="center">
-        <xul:label value="FROM-DTD.page.label;" accesskey="FROM-DTD.page.accesskey;" control="pageNumber"></xul:label>
-      </xul:vbox>
-      <xul:toolbarbutton anonid="navigateHome" class="navigate-button tabbable" oncommand="parentNode.navigate(0, 0, 'home');" tooltiptext="FROM-DTD.homearrow.tooltip;"></xul:toolbarbutton>
-      <xul:toolbarbutton anonid="navigatePrevious" class="navigate-button tabbable" oncommand="parentNode.navigate(-1, 0, 0);" tooltiptext="FROM-DTD.previousarrow.tooltip;"></xul:toolbarbutton>
-      <xul:hbox align="center" pack="center">
-        <xul:textbox id="pageNumber" value="1" min="1" type="number" hidespinbuttons="true" onchange="navigate(0, this.valueNumber, 0);"></xul:textbox>
-        <xul:label value="FROM-DTD.of.label;"></xul:label>
-        <xul:label value="1"></xul:label>
-      </xul:hbox>
-      <xul:toolbarbutton anonid="navigateNext" class="navigate-button tabbable" oncommand="parentNode.navigate(1, 0, 0);" tooltiptext="FROM-DTD.nextarrow.tooltip;"></xul:toolbarbutton>
-      <xul:toolbarbutton anonid="navigateEnd" class="navigate-button tabbable" oncommand="parentNode.navigate(0, 0, 'end');" tooltiptext="FROM-DTD.endarrow.tooltip;"></xul:toolbarbutton>
-      <xul:toolbarseparator class="toolbarseparator-primary"></xul:toolbarseparator>
-      <xul:vbox align="center" pack="center">
-        <xul:label value="FROM-DTD.scale.label;" accesskey="FROM-DTD.scale.accesskey;" control="scale"></xul:label>
-      </xul:vbox>
-      <xul:hbox align="center" pack="center">
-        <xul:menulist id="scale" crop="none" oncommand="parentNode.parentNode.scale(this.selectedItem.value);">
-          <xul:menupopup>
-            <xul:menuitem value="0.3" label="FROM-DTD.p30.label;"></xul:menuitem>
-            <xul:menuitem value="0.4" label="FROM-DTD.p40.label;"></xul:menuitem>
-            <xul:menuitem value="0.5" label="FROM-DTD.p50.label;"></xul:menuitem>
-            <xul:menuitem value="0.6" label="FROM-DTD.p60.label;"></xul:menuitem>
-            <xul:menuitem value="0.7" label="FROM-DTD.p70.label;"></xul:menuitem>
-            <xul:menuitem value="0.8" label="FROM-DTD.p80.label;"></xul:menuitem>
-            <xul:menuitem value="0.9" label="FROM-DTD.p90.label;"></xul:menuitem>
-            <xul:menuitem value="1" label="FROM-DTD.p100.label;"></xul:menuitem>
-            <xul:menuitem value="1.25" label="FROM-DTD.p125.label;"></xul:menuitem>
-            <xul:menuitem value="1.5" label="FROM-DTD.p150.label;"></xul:menuitem>
-            <xul:menuitem value="1.75" label="FROM-DTD.p175.label;"></xul:menuitem>
-            <xul:menuitem value="2" label="FROM-DTD.p200.label;"></xul:menuitem>
-            <xul:menuseparator></xul:menuseparator>
-            <xul:menuitem flex="1" value="ShrinkToFit" label="FROM-DTD.ShrinkToFit.label;"></xul:menuitem>
-            <xul:menuitem value="Custom" label="FROM-DTD.Custom.label;"></xul:menuitem>
-          </xul:menupopup>
-        </xul:menulist>
-      </xul:hbox>
-      <xul:toolbarseparator class="toolbarseparator-primary"></xul:toolbarseparator>
-      <xul:hbox align="center" pack="center">
-        <xul:toolbarbutton label="FROM-DTD.portrait.label;" checked="true" accesskey="FROM-DTD.portrait.accesskey;" type="radio" group="orient" class="toolbar-portrait-page tabbable" oncommand="parentNode.parentNode.orient('portrait');"></xul:toolbarbutton>
-        <xul:toolbarbutton label="FROM-DTD.landscape.label;" accesskey="FROM-DTD.landscape.accesskey;" type="radio" group="orient" class="toolbar-landscape-page tabbable" oncommand="parentNode.parentNode.orient('landscape');"></xul:toolbarbutton>
-      </xul:hbox>
-      <xul:toolbarseparator class="toolbarseparator-primary"></xul:toolbarseparator>
-      <xul:checkbox label="FROM-DTD.simplifyPage.label;" checked="false" disabled="true" accesskey="FROM-DTD.simplifyPage.accesskey;" tooltiptext-disabled="FROM-DTD.simplifyPage.disabled.tooltip;" tooltiptext-enabled="FROM-DTD.simplifyPage.enabled.tooltip;" oncommand="this.parentNode.simplify();"></xul:checkbox>
-      <xul:toolbarseparator class="toolbarseparator-primary"></xul:toolbarseparator>
-      <xul:button label="FROM-DTD.close.label;" accesskey="FROM-DTD.close.accesskey;" oncommand="PrintUtils.exitPrintPreview();" icon="close"></xul:button>
-      <xul:data value="FROM-DTD.customPrompt.title;"></xul:data>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <button label="FROM-DTD.print.label;" accesskey="FROM-DTD.print.accesskey;" oncommand="this.parentNode.print();" icon="print"></button>
+      <button anonid="pageSetup" label="FROM-DTD.pageSetup.label;" accesskey="FROM-DTD.pageSetup.accesskey;" oncommand="this.parentNode.doPageSetup();"></button>
+      <vbox align="center" pack="center">
+        <label value="FROM-DTD.page.label;" accesskey="FROM-DTD.page.accesskey;" control="pageNumber"></label>
+      </vbox>
+      <toolbarbutton anonid="navigateHome" class="navigate-button tabbable" oncommand="parentNode.navigate(0, 0, 'home');" tooltiptext="FROM-DTD.homearrow.tooltip;"></toolbarbutton>
+      <toolbarbutton anonid="navigatePrevious" class="navigate-button tabbable" oncommand="parentNode.navigate(-1, 0, 0);" tooltiptext="FROM-DTD.previousarrow.tooltip;"></toolbarbutton>
+      <hbox align="center" pack="center">
+        <textbox id="pageNumber" value="1" min="1" type="number" hidespinbuttons="true" onchange="navigate(0, this.valueNumber, 0);"></textbox>
+        <label value="FROM-DTD.of.label;"></label>
+        <label value="1"></label>
+      </hbox>
+      <toolbarbutton anonid="navigateNext" class="navigate-button tabbable" oncommand="parentNode.navigate(1, 0, 0);" tooltiptext="FROM-DTD.nextarrow.tooltip;"></toolbarbutton>
+      <toolbarbutton anonid="navigateEnd" class="navigate-button tabbable" oncommand="parentNode.navigate(0, 0, 'end');" tooltiptext="FROM-DTD.endarrow.tooltip;"></toolbarbutton>
+      <toolbarseparator class="toolbarseparator-primary"></toolbarseparator>
+      <vbox align="center" pack="center">
+        <label value="FROM-DTD.scale.label;" accesskey="FROM-DTD.scale.accesskey;" control="scale"></label>
+      </vbox>
+      <hbox align="center" pack="center">
+        <menulist id="scale" crop="none" oncommand="parentNode.parentNode.scale(this.selectedItem.value);">
+          <menupopup>
+            <menuitem value="0.3" label="FROM-DTD.p30.label;"></menuitem>
+            <menuitem value="0.4" label="FROM-DTD.p40.label;"></menuitem>
+            <menuitem value="0.5" label="FROM-DTD.p50.label;"></menuitem>
+            <menuitem value="0.6" label="FROM-DTD.p60.label;"></menuitem>
+            <menuitem value="0.7" label="FROM-DTD.p70.label;"></menuitem>
+            <menuitem value="0.8" label="FROM-DTD.p80.label;"></menuitem>
+            <menuitem value="0.9" label="FROM-DTD.p90.label;"></menuitem>
+            <menuitem value="1" label="FROM-DTD.p100.label;"></menuitem>
+            <menuitem value="1.25" label="FROM-DTD.p125.label;"></menuitem>
+            <menuitem value="1.5" label="FROM-DTD.p150.label;"></menuitem>
+            <menuitem value="1.75" label="FROM-DTD.p175.label;"></menuitem>
+            <menuitem value="2" label="FROM-DTD.p200.label;"></menuitem>
+            <menuseparator></menuseparator>
+            <menuitem flex="1" value="ShrinkToFit" label="FROM-DTD.ShrinkToFit.label;"></menuitem>
+            <menuitem value="Custom" label="FROM-DTD.Custom.label;"></menuitem>
+          </menupopup>
+        </menulist>
+      </hbox>
+      <toolbarseparator class="toolbarseparator-primary"></toolbarseparator>
+      <hbox align="center" pack="center">
+        <toolbarbutton label="FROM-DTD.portrait.label;" checked="true" accesskey="FROM-DTD.portrait.accesskey;" type="radio" group="orient" class="toolbar-portrait-page tabbable" oncommand="parentNode.parentNode.orient('portrait');"></toolbarbutton>
+        <toolbarbutton label="FROM-DTD.landscape.label;" accesskey="FROM-DTD.landscape.accesskey;" type="radio" group="orient" class="toolbar-landscape-page tabbable" oncommand="parentNode.parentNode.orient('landscape');"></toolbarbutton>
+      </hbox>
+      <toolbarseparator class="toolbarseparator-primary"></toolbarseparator>
+      <checkbox label="FROM-DTD.simplifyPage.label;" checked="false" disabled="true" accesskey="FROM-DTD.simplifyPage.accesskey;" tooltiptext-disabled="FROM-DTD.simplifyPage.disabled.tooltip;" tooltiptext-enabled="FROM-DTD.simplifyPage.enabled.tooltip;" oncommand="this.parentNode.simplify();"></checkbox>
+      <toolbarseparator class="toolbarseparator-primary"></toolbarseparator>
+      <button label="FROM-DTD.close.label;" accesskey="FROM-DTD.close.accesskey;" oncommand="PrintUtils.exitPrintPreview();" icon="close"></button>
+      <data value="FROM-DTD.customPrompt.title;"></data>
+    `));
     this.mPrintButton = document.getAnonymousNodes(this)[0];
 
     this.mPageSetupButton = document.getAnonymousElementByAttribute(this, "anonid", "pageSetup");

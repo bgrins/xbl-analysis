@@ -1,7 +1,7 @@
-class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListitemBase {
+class AutocompleteProfileListitem extends AutocompleteProfileListitemBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="autofill-item-box" class="autofill-item-box" inherits="ac-image">
         <div class="profile-label-col profile-item-col">
           <span anonid="profile-label-affix" class="profile-label-affix"></span>
@@ -11,7 +11,7 @@ class FirefoxAutocompleteProfileListitem extends FirefoxAutocompleteProfileListi
           <span anonid="profile-comment" class="profile-comment"></span>
         </div>
       </div>
-    `;
+    `));
 
     this._itemBox = document.getAnonymousElementByAttribute(
       this, "anonid", "autofill-item-box"

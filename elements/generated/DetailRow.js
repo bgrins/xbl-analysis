@@ -1,10 +1,10 @@
-class FirefoxDetailRow extends XULElement {
+class DetailRow extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:label class="detail-row-label" inherits="value=label"></xul:label>
-      <xul:label class="detail-row-value" inherits="value"></xul:label>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <label class="detail-row-label" inherits="value=label"></label>
+      <label class="detail-row-value" inherits="value"></label>
+    `));
 
     this._setupEventListeners();
   }

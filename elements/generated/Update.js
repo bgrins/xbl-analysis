@@ -1,28 +1,28 @@
-class FirefoxUpdate extends FirefoxRichlistitem {
+class Update extends Richlistitem {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox>
-        <xul:label class="update-name" inherits="value=name" flex="1" crop="right"></xul:label>
-        <xul:label inherits="href=detailsURL,hidden=hideDetailsURL" class="text-link" value="FROM-DTD.update.details.label;"></xul:label>
-      </xul:hbox>
-      <xul:grid>
-        <xul:columns>
-          <xul:column class="update-label-column"></xul:column>
-          <xul:column flex="1"></xul:column>
-        </xul:columns>
-        <xul:rows>
-          <xul:row>
-            <xul:label class="update-installedOn-label"></xul:label>
-            <xul:label class="update-installedOn-value" inherits="value=installDate" flex="1" crop="right"></xul:label>
-          </xul:row>
-          <xul:row>
-            <xul:label class="update-status-label"></xul:label>
-            <xul:description class="update-status-value" flex="1"></xul:description>
-          </xul:row>
-        </xul:rows>
-      </xul:grid>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox>
+        <label class="update-name" inherits="value=name" flex="1" crop="right"></label>
+        <label inherits="href=detailsURL,hidden=hideDetailsURL" class="text-link" value="FROM-DTD.update.details.label;"></label>
+      </hbox>
+      <grid>
+        <columns>
+          <column class="update-label-column"></column>
+          <column flex="1"></column>
+        </columns>
+        <rows>
+          <row>
+            <label class="update-installedOn-label"></label>
+            <label class="update-installedOn-value" inherits="value=installDate" flex="1" crop="right"></label>
+          </row>
+          <row>
+            <label class="update-status-label"></label>
+            <description class="update-status-value" flex="1"></description>
+          </row>
+        </rows>
+      </grid>
+    `));
 
     this._setupEventListeners();
   }

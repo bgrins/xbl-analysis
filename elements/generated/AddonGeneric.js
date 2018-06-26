@@ -1,92 +1,92 @@
-class FirefoxAddonGeneric extends FirefoxAddonBase {
+class AddonGeneric extends AddonBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox anonid="warning-container" class="warning">
-        <xul:image class="warning-icon"></xul:image>
-        <xul:label anonid="warning" flex="1"></xul:label>
-        <xul:label anonid="warning-link" class="text-link"></xul:label>
-        <xul:button anonid="warning-btn" class="button-link" hidden="true"></xul:button>
-        <xul:spacer flex="5000"></xul:spacer>
-      </xul:hbox>
-      <xul:hbox anonid="error-container" class="error">
-        <xul:image class="error-icon"></xul:image>
-        <xul:label anonid="error" flex="1"></xul:label>
-        <xul:label anonid="error-link" class="text-link" hidden="true"></xul:label>
-        <xul:spacer flex="5000"></xul:spacer>
-      </xul:hbox>
-      <xul:hbox anonid="pending-container" class="pending">
-        <xul:image class="pending-icon"></xul:image>
-        <xul:label anonid="pending" flex="1"></xul:label>
-        <xul:button anonid="undo-btn" class="button-link" label="FROM-DTD.addon.undoAction.label;" tooltipText="FROM-DTD.addon.undoAction.tooltip;" oncommand="document.getBindingParent(this).undo();"></xul:button>
-        <xul:spacer flex="5000"></xul:spacer>
-      </xul:hbox>
-      <xul:hbox class="content-container" align="center">
-        <xul:vbox class="icon-container">
-          <xul:image anonid="icon" class="icon"></xul:image>
-        </xul:vbox>
-        <xul:vbox class="content-inner-container" flex="1">
-          <xul:hbox class="basicinfo-container">
-            <xul:hbox class="name-container">
-              <xul:label anonid="name" class="name" crop="end" flex="1" tooltip="addonitem-tooltip" inherits="value=name"></xul:label>
-              <xul:label anonid="legacy" class="legacy-warning text-link" value="FROM-DTD.addon.legacy.label;"></xul:label>
-              <xul:label class="disabled-postfix" value="FROM-DTD.addon.disabled.postfix;"></xul:label>
-              <xul:label class="update-postfix" value="FROM-DTD.addon.update.postfix;"></xul:label>
-              <xul:spacer flex="5000"></xul:spacer>
-            </xul:hbox>
-            <xul:label anonid="date-updated" class="date-updated" unknown="FROM-DTD.addon.unknownDate;"></xul:label>
-          </xul:hbox>
-          <xul:hbox class="advancedinfo-container" flex="1">
-            <xul:vbox class="description-outer-container" flex="1">
-              <xul:hbox class="description-container">
-                <xul:label anonid="description" class="description" crop="end" flex="1"></xul:label>
-                <xul:button anonid="details-btn" class="details button-link" label="FROM-DTD.addon.details.label;" tooltiptext="FROM-DTD.addon.details.tooltip;" oncommand="document.getBindingParent(this).showInDetailView();"></xul:button>
-                <xul:spacer flex="5000"></xul:spacer>
-              </xul:hbox>
-              <xul:vbox anonid="relnotes-container" class="relnotes-container">
-                <xul:label class="relnotes-header" value="FROM-DTD.addon.releaseNotes.label;"></xul:label>
-                <xul:label anonid="relnotes-loading" value="FROM-DTD.addon.loadingReleaseNotes.label;"></xul:label>
-                <xul:label anonid="relnotes-error" hidden="true" value="FROM-DTD.addon.errorLoadingReleaseNotes.label;"></xul:label>
-                <xul:vbox anonid="relnotes" class="relnotes"></xul:vbox>
-              </xul:vbox>
-              <xul:hbox class="relnotes-toggle-container">
-                <xul:button anonid="relnotes-toggle-btn" class="relnotes-toggle" hidden="true" label="FROM-DTD.cmd.showReleaseNotes.label;" tooltiptext="FROM-DTD.cmd.showReleaseNotes.tooltip;" showlabel="FROM-DTD.cmd.showReleaseNotes.label;" showtooltip="FROM-DTD.cmd.showReleaseNotes.tooltip;" hidelabel="FROM-DTD.cmd.hideReleaseNotes.label;" hidetooltip="FROM-DTD.cmd.hideReleaseNotes.tooltip;" oncommand="document.getBindingParent(this).toggleReleaseNotes();"></xul:button>
-              </xul:hbox>
-            </xul:vbox>
-          </xul:hbox>
-        </xul:vbox>
-        <xul:vbox class="status-control-wrapper">
-          <xul:hbox class="status-container">
-            <xul:hbox anonid="checking-update" hidden="true">
-              <xul:image class="spinner"></xul:image>
-              <xul:label value="FROM-DTD.addon.checkingForUpdates.label;"></xul:label>
-            </xul:hbox>
-            <xul:vbox anonid="update-available" class="update-available" hidden="true">
-              <xul:checkbox anonid="include-update" class="include-update" label="FROM-DTD.addon.includeUpdate.label;" checked="true" oncommand="document.getBindingParent(this).onIncludeUpdateChanged();"></xul:checkbox>
-              <xul:hbox class="update-info-container">
-                <xul:label class="update-available-notice" value="FROM-DTD.addon.updateAvailable.label;"></xul:label>
-                <xul:button anonid="update-btn" class="addon-control update" label="FROM-DTD.addon.updateNow.label;" tooltiptext="FROM-DTD.addon.updateNow.tooltip;" oncommand="document.getBindingParent(this).upgrade();"></xul:button>
-              </xul:hbox>
-            </xul:vbox>
-            <xul:hbox anonid="install-status" class="install-status" hidden="true"></xul:hbox>
-          </xul:hbox>
-          <xul:hbox anonid="control-container" class="control-container">
-            <xul:button anonid="preferences-btn" class="addon-control preferences" label="FROM-DTD.cmd.showPreferencesWin.label;" tooltiptext="FROM-DTD.cmd.showPreferencesWin.tooltip;" oncommand="document.getBindingParent(this).showPreferences();"></xul:button>
-            <xul:button anonid="enable-btn" class="addon-control enable" label="FROM-DTD.cmd.enableAddon.label;" oncommand="document.getBindingParent(this).userDisabled = false;"></xul:button>
-            <xul:button anonid="disable-btn" class="addon-control disable" label="FROM-DTD.cmd.disableAddon.label;" oncommand="document.getBindingParent(this).userDisabled = true;"></xul:button>
-            <xul:button anonid="replacement-btn" class="addon-control replacement" label="FROM-DTD.cmd.findReplacement.label;" oncommand="document.getBindingParent(this).findReplacement();"></xul:button>
-            <xul:button anonid="remove-btn" class="addon-control remove" label="FROM-DTD.cmd.uninstallAddon.label;" oncommand="document.getBindingParent(this).uninstall();"></xul:button>
-            <xul:menulist anonid="state-menulist" class="addon-control state" tooltiptext="FROM-DTD.cmd.stateMenu.tooltip;">
-              <xul:menupopup>
-                <xul:menuitem anonid="ask-to-activate-menuitem" class="addon-control" label="FROM-DTD.cmd.askToActivate.label;" tooltiptext="FROM-DTD.cmd.askToActivate.tooltip;" oncommand="document.getBindingParent(this).userDisabled = AddonManager.STATE_ASK_TO_ACTIVATE;"></xul:menuitem>
-                <xul:menuitem anonid="always-activate-menuitem" class="addon-control" label="FROM-DTD.cmd.alwaysActivate.label;" tooltiptext="FROM-DTD.cmd.alwaysActivate.tooltip;" oncommand="document.getBindingParent(this).userDisabled = false;"></xul:menuitem>
-                <xul:menuitem anonid="never-activate-menuitem" class="addon-control" label="FROM-DTD.cmd.neverActivate.label;" tooltiptext="FROM-DTD.cmd.neverActivate.tooltip;" oncommand="document.getBindingParent(this).userDisabled = true;"></xul:menuitem>
-              </xul:menupopup>
-            </xul:menulist>
-          </xul:hbox>
-        </xul:vbox>
-      </xul:hbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox anonid="warning-container" class="warning">
+        <image class="warning-icon"></image>
+        <label anonid="warning" flex="1"></label>
+        <label anonid="warning-link" class="text-link"></label>
+        <button anonid="warning-btn" class="button-link" hidden="true"></button>
+        <spacer flex="5000"></spacer>
+      </hbox>
+      <hbox anonid="error-container" class="error">
+        <image class="error-icon"></image>
+        <label anonid="error" flex="1"></label>
+        <label anonid="error-link" class="text-link" hidden="true"></label>
+        <spacer flex="5000"></spacer>
+      </hbox>
+      <hbox anonid="pending-container" class="pending">
+        <image class="pending-icon"></image>
+        <label anonid="pending" flex="1"></label>
+        <button anonid="undo-btn" class="button-link" label="FROM-DTD.addon.undoAction.label;" tooltipText="FROM-DTD.addon.undoAction.tooltip;" oncommand="document.getBindingParent(this).undo();"></button>
+        <spacer flex="5000"></spacer>
+      </hbox>
+      <hbox class="content-container" align="center">
+        <vbox class="icon-container">
+          <image anonid="icon" class="icon"></image>
+        </vbox>
+        <vbox class="content-inner-container" flex="1">
+          <hbox class="basicinfo-container">
+            <hbox class="name-container">
+              <label anonid="name" class="name" crop="end" flex="1" tooltip="addonitem-tooltip" inherits="value=name"></label>
+              <label anonid="legacy" class="legacy-warning text-link" value="FROM-DTD.addon.legacy.label;"></label>
+              <label class="disabled-postfix" value="FROM-DTD.addon.disabled.postfix;"></label>
+              <label class="update-postfix" value="FROM-DTD.addon.update.postfix;"></label>
+              <spacer flex="5000"></spacer>
+            </hbox>
+            <label anonid="date-updated" class="date-updated" unknown="FROM-DTD.addon.unknownDate;"></label>
+          </hbox>
+          <hbox class="advancedinfo-container" flex="1">
+            <vbox class="description-outer-container" flex="1">
+              <hbox class="description-container">
+                <label anonid="description" class="description" crop="end" flex="1"></label>
+                <button anonid="details-btn" class="details button-link" label="FROM-DTD.addon.details.label;" tooltiptext="FROM-DTD.addon.details.tooltip;" oncommand="document.getBindingParent(this).showInDetailView();"></button>
+                <spacer flex="5000"></spacer>
+              </hbox>
+              <vbox anonid="relnotes-container" class="relnotes-container">
+                <label class="relnotes-header" value="FROM-DTD.addon.releaseNotes.label;"></label>
+                <label anonid="relnotes-loading" value="FROM-DTD.addon.loadingReleaseNotes.label;"></label>
+                <label anonid="relnotes-error" hidden="true" value="FROM-DTD.addon.errorLoadingReleaseNotes.label;"></label>
+                <vbox anonid="relnotes" class="relnotes"></vbox>
+              </vbox>
+              <hbox class="relnotes-toggle-container">
+                <button anonid="relnotes-toggle-btn" class="relnotes-toggle" hidden="true" label="FROM-DTD.cmd.showReleaseNotes.label;" tooltiptext="FROM-DTD.cmd.showReleaseNotes.tooltip;" showlabel="FROM-DTD.cmd.showReleaseNotes.label;" showtooltip="FROM-DTD.cmd.showReleaseNotes.tooltip;" hidelabel="FROM-DTD.cmd.hideReleaseNotes.label;" hidetooltip="FROM-DTD.cmd.hideReleaseNotes.tooltip;" oncommand="document.getBindingParent(this).toggleReleaseNotes();"></button>
+              </hbox>
+            </vbox>
+          </hbox>
+        </vbox>
+        <vbox class="status-control-wrapper">
+          <hbox class="status-container">
+            <hbox anonid="checking-update" hidden="true">
+              <image class="spinner"></image>
+              <label value="FROM-DTD.addon.checkingForUpdates.label;"></label>
+            </hbox>
+            <vbox anonid="update-available" class="update-available" hidden="true">
+              <checkbox anonid="include-update" class="include-update" label="FROM-DTD.addon.includeUpdate.label;" checked="true" oncommand="document.getBindingParent(this).onIncludeUpdateChanged();"></checkbox>
+              <hbox class="update-info-container">
+                <label class="update-available-notice" value="FROM-DTD.addon.updateAvailable.label;"></label>
+                <button anonid="update-btn" class="addon-control update" label="FROM-DTD.addon.updateNow.label;" tooltiptext="FROM-DTD.addon.updateNow.tooltip;" oncommand="document.getBindingParent(this).upgrade();"></button>
+              </hbox>
+            </vbox>
+            <hbox anonid="install-status" class="install-status" hidden="true"></hbox>
+          </hbox>
+          <hbox anonid="control-container" class="control-container">
+            <button anonid="preferences-btn" class="addon-control preferences" label="FROM-DTD.cmd.showPreferencesWin.label;" tooltiptext="FROM-DTD.cmd.showPreferencesWin.tooltip;" oncommand="document.getBindingParent(this).showPreferences();"></button>
+            <button anonid="enable-btn" class="addon-control enable" label="FROM-DTD.cmd.enableAddon.label;" oncommand="document.getBindingParent(this).userDisabled = false;"></button>
+            <button anonid="disable-btn" class="addon-control disable" label="FROM-DTD.cmd.disableAddon.label;" oncommand="document.getBindingParent(this).userDisabled = true;"></button>
+            <button anonid="replacement-btn" class="addon-control replacement" label="FROM-DTD.cmd.findReplacement.label;" oncommand="document.getBindingParent(this).findReplacement();"></button>
+            <button anonid="remove-btn" class="addon-control remove" label="FROM-DTD.cmd.uninstallAddon.label;" oncommand="document.getBindingParent(this).uninstall();"></button>
+            <menulist anonid="state-menulist" class="addon-control state" tooltiptext="FROM-DTD.cmd.stateMenu.tooltip;">
+              <menupopup>
+                <menuitem anonid="ask-to-activate-menuitem" class="addon-control" label="FROM-DTD.cmd.askToActivate.label;" tooltiptext="FROM-DTD.cmd.askToActivate.tooltip;" oncommand="document.getBindingParent(this).userDisabled = AddonManager.STATE_ASK_TO_ACTIVATE;"></menuitem>
+                <menuitem anonid="always-activate-menuitem" class="addon-control" label="FROM-DTD.cmd.alwaysActivate.label;" tooltiptext="FROM-DTD.cmd.alwaysActivate.tooltip;" oncommand="document.getBindingParent(this).userDisabled = false;"></menuitem>
+                <menuitem anonid="never-activate-menuitem" class="addon-control" label="FROM-DTD.cmd.neverActivate.label;" tooltiptext="FROM-DTD.cmd.neverActivate.tooltip;" oncommand="document.getBindingParent(this).userDisabled = true;"></menuitem>
+              </menupopup>
+            </menulist>
+          </hbox>
+        </vbox>
+      </hbox>
+    `));
     this._warningContainer = document.getAnonymousElementByAttribute(this, "anonid",
       "warning-container");
 

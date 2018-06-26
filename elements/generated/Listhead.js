@@ -1,11 +1,11 @@
-class FirefoxListhead extends XULElement {
+class Listhead extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:listheaditem>
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <listheaditem>
         <children includes="listheader"></children>
-      </xul:listheaditem>
-    `;
+      </listheaditem>
+    `));
 
     this._setupEventListeners();
   }

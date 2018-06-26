@@ -1,4 +1,4 @@
-class FirefoxAddonProgressNotification extends FirefoxPopupNotification {
+class AddonProgressNotification extends PopupNotification {
   connectedCallback() {
     super.connectedCallback()
 

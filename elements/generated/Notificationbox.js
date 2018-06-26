@@ -1,13 +1,13 @@
-class FirefoxNotificationbox extends XULElement {
+class Notificationbox extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:stack inherits="hidden=notificationshidden" class="notificationbox-stack">
-        <xul:spacer></xul:spacer>
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <stack inherits="hidden=notificationshidden" class="notificationbox-stack">
+        <spacer></spacer>
         <children includes="notification"></children>
-      </xul:stack>
+      </stack>
       <children></children>
-    `;
+    `));
     this.PRIORITY_INFO_LOW = 1;
 
     this.PRIORITY_INFO_MEDIUM = 2;

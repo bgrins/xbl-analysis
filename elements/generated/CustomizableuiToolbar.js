@@ -1,4 +1,4 @@
-class FirefoxCustomizableuiToolbar extends XULElement {
+class CustomizableuiToolbar extends MozXULElement {
   connectedCallback() {
 
     this.overflowedDuringConstruction = null;

@@ -1,9 +1,9 @@
-class FirefoxBrowser extends XULElement {
+class Browser extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
-    `;
+    `));
     /**
      * Weak reference to an optional frame loader that can be used to influence
      * process selection for this browser.

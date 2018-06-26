@@ -1,11 +1,11 @@
-class FirefoxAutocompleteProfileListitemClearButton extends FirefoxAutocompleteProfileListitemBase {
+class AutocompleteProfileListitemClearButton extends AutocompleteProfileListitemBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="autofill-item-box" class="autofill-item-box autofill-footer">
         <div anonid="autofill-clear-button" class="autofill-footer-row autofill-button"></div>
       </div>
-    `;
+    `));
 
     this._itemBox = document.getAnonymousElementByAttribute(
       this, "anonid", "autofill-item-box"

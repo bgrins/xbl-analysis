@@ -1,28 +1,28 @@
-class FirefoxTabbrowserTab extends FirefoxTab {
+class TabbrowserTab extends Tab {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:stack class="tab-stack" flex="1">
-        <xul:vbox inherits="selected=visuallyselected,fadein" class="tab-background">
-          <xul:hbox inherits="selected=visuallyselected,multiselected,before-multiselected" class="tab-line"></xul:hbox>
-          <xul:spacer flex="1"></xul:spacer>
-          <xul:hbox class="tab-bottom-line"></xul:hbox>
-        </xul:vbox>
-        <xul:hbox inherits="pinned,bursting,notselectedsinceload" anonid="tab-loading-burst" class="tab-loading-burst"></xul:hbox>
-        <xul:hbox inherits="pinned,selected=visuallyselected,titlechanged,attention" class="tab-content" align="center">
-          <xul:hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected" anonid="tab-throbber" class="tab-throbber" layer="true"></xul:hbox>
-          <xul:image inherits="fadein,pinned,busy,progress,selected=visuallyselected" class="tab-throbber-fallback" role="presentation" layer="true"></xul:image>
-          <xul:image inherits="src=image,triggeringprincipal=iconloadingprincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing" anonid="tab-icon-image" class="tab-icon-image" validate="never" role="presentation"></xul:image>
-          <xul:image inherits="sharing,selected=visuallyselected,pinned" anonid="sharing-icon" class="tab-sharing-icon-overlay" role="presentation"></xul:image>
-          <xul:image inherits="crashed,busy,soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="overlay-icon" class="tab-icon-overlay" role="presentation"></xul:image>
-          <xul:hbox class="tab-label-container" inherits="pinned,selected=visuallyselected,labeldirection" onoverflow="this.setAttribute('textoverflow', 'true');" onunderflow="this.removeAttribute('textoverflow');" flex="1">
-            <xul:label class="tab-text tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation"></xul:label>
-          </xul:hbox>
-          <xul:image inherits="soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="soundplaying-icon" class="tab-icon-sound" role="presentation"></xul:image>
-          <xul:image anonid="close-button" inherits="fadein,pinned,selected=visuallyselected" class="tab-close-button close-icon" role="presentation"></xul:image>
-        </xul:hbox>
-      </xul:stack>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <stack class="tab-stack" flex="1">
+        <vbox inherits="selected=visuallyselected,fadein" class="tab-background">
+          <hbox inherits="selected=visuallyselected,multiselected,before-multiselected" class="tab-line"></hbox>
+          <spacer flex="1"></spacer>
+          <hbox class="tab-bottom-line"></hbox>
+        </vbox>
+        <hbox inherits="pinned,bursting,notselectedsinceload" anonid="tab-loading-burst" class="tab-loading-burst"></hbox>
+        <hbox inherits="pinned,selected=visuallyselected,titlechanged,attention" class="tab-content" align="center">
+          <hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected" anonid="tab-throbber" class="tab-throbber" layer="true"></hbox>
+          <image inherits="fadein,pinned,busy,progress,selected=visuallyselected" class="tab-throbber-fallback" role="presentation" layer="true"></image>
+          <image inherits="src=image,triggeringprincipal=iconloadingprincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing" anonid="tab-icon-image" class="tab-icon-image" validate="never" role="presentation"></image>
+          <image inherits="sharing,selected=visuallyselected,pinned" anonid="sharing-icon" class="tab-sharing-icon-overlay" role="presentation"></image>
+          <image inherits="crashed,busy,soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="overlay-icon" class="tab-icon-overlay" role="presentation"></image>
+          <hbox class="tab-label-container" inherits="pinned,selected=visuallyselected,labeldirection" onoverflow="this.setAttribute('textoverflow', 'true');" onunderflow="this.removeAttribute('textoverflow');" flex="1">
+            <label class="tab-text tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation"></label>
+          </hbox>
+          <image inherits="soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="soundplaying-icon" class="tab-icon-sound" role="presentation"></image>
+          <image anonid="close-button" inherits="fadein,pinned,selected=visuallyselected" class="tab-close-button close-icon" role="presentation"></image>
+        </hbox>
+      </stack>
+    `));
     this._selectedOnFirstMouseDown = false;
 
     /**

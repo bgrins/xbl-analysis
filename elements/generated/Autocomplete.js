@@ -1,16 +1,16 @@
-class FirefoxAutocomplete extends FirefoxTextbox {
+class Autocomplete extends Textbox {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="image|deck|stack|box"></children>
-      <xul:hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
+      <hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
         <children></children>
         <html:input anonid="input" class="autocomplete-textbox textbox-input" allowevents="true" inherits="tooltiptext=inputtooltiptext,value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
-      </xul:hbox>
+      </hbox>
       <children includes="hbox"></children>
-      <xul:popupset anonid="popupset" class="autocomplete-result-popupset"></xul:popupset>
+      <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>
       <children includes="toolbarbutton"></children>
-    `;
+    `));
     this.mController = null;
 
     this.mSearchNames = null;

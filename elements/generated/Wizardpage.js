@@ -1,4 +1,4 @@
-class FirefoxWizardpage extends FirefoxWizardBase {
+class Wizardpage extends WizardBase {
   connectedCallback() {
     super.connectedCallback()
 

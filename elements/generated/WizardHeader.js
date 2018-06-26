@@ -1,15 +1,15 @@
-class FirefoxWizardHeader extends FirefoxWizardBase {
+class WizardHeader extends WizardBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox class="wizard-header-box-1" flex="1">
-        <xul:vbox class="wizard-header-box-text" flex="1">
-          <xul:label class="wizard-header-label" inherits="text=label"></xul:label>
-          <xul:label class="wizard-header-description" inherits="text=description"></xul:label>
-        </xul:vbox>
-        <xul:image class="wizard-header-icon" inherits="src=iconsrc"></xul:image>
-      </xul:hbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="wizard-header-box-1" flex="1">
+        <vbox class="wizard-header-box-text" flex="1">
+          <label class="wizard-header-label" inherits="text=label"></label>
+          <label class="wizard-header-description" inherits="text=description"></label>
+        </vbox>
+        <image class="wizard-header-icon" inherits="src=iconsrc"></image>
+      </hbox>
+    `));
 
     this._setupEventListeners();
   }

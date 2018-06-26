@@ -1,4 +1,4 @@
-class FirefoxTreeBase extends FirefoxBasecontrol {
+class TreeBase extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
 

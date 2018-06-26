@@ -1,29 +1,29 @@
-class FirefoxAddonInstalling extends FirefoxAddonBase {
+class AddonInstalling extends AddonBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox anonid="warning-container" class="warning">
-        <xul:image class="warning-icon"></xul:image>
-        <xul:label anonid="warning" flex="1"></xul:label>
-        <xul:button anonid="warning-link" class="button-link" oncommand="document.getBindingParent(this).retryInstall();"></xul:button>
-        <xul:spacer flex="5000"></xul:spacer>
-      </xul:hbox>
-      <xul:hbox class="content-container">
-        <xul:vbox class="icon-outer-container">
-          <xul:vbox class="icon-container">
-            <xul:image anonid="icon" class="icon"></xul:image>
-          </xul:vbox>
-        </xul:vbox>
-        <xul:vbox class="fade name-outer-container" flex="1">
-          <xul:hbox class="name-container">
-            <xul:label anonid="name" class="name" crop="end" tooltip="addonitem-tooltip"></xul:label>
-          </xul:hbox>
-        </xul:vbox>
-        <xul:vbox class="install-status-container">
-          <xul:hbox anonid="install-status" class="install-status"></xul:hbox>
-        </xul:vbox>
-      </xul:hbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox anonid="warning-container" class="warning">
+        <image class="warning-icon"></image>
+        <label anonid="warning" flex="1"></label>
+        <button anonid="warning-link" class="button-link" oncommand="document.getBindingParent(this).retryInstall();"></button>
+        <spacer flex="5000"></spacer>
+      </hbox>
+      <hbox class="content-container">
+        <vbox class="icon-outer-container">
+          <vbox class="icon-container">
+            <image anonid="icon" class="icon"></image>
+          </vbox>
+        </vbox>
+        <vbox class="fade name-outer-container" flex="1">
+          <hbox class="name-container">
+            <label anonid="name" class="name" crop="end" tooltip="addonitem-tooltip"></label>
+          </hbox>
+        </vbox>
+        <vbox class="install-status-container">
+          <hbox anonid="install-status" class="install-status"></hbox>
+        </vbox>
+      </hbox>
+    `));
     this._icon = document.getAnonymousElementByAttribute(this, "anonid", "icon");
 
     this._name = document.getAnonymousElementByAttribute(this, "anonid", "name");

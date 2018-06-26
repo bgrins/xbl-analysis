@@ -1,4 +1,4 @@
-class FirefoxPlacesTree extends FirefoxTree {
+class PlacesTree extends Tree {
   connectedCallback() {
     super.connectedCallback()
 

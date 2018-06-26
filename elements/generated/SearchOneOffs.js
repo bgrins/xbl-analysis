@@ -1,30 +1,30 @@
-class FirefoxSearchOneOffs extends XULElement {
+class SearchOneOffs extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:deck anonid="search-panel-one-offs-header" selectedIndex="0" class="search-panel-header search-panel-current-input">
-        <xul:label anonid="searchbar-oneoffheader-search" value="FROM-DTD.searchWithHeader.label;"></xul:label>
-        <xul:hbox anonid="search-panel-searchforwith" class="search-panel-current-input">
-          <xul:label anonid="searchbar-oneoffheader-before" value="FROM-DTD.searchFor.label;"></xul:label>
-          <xul:label anonid="searchbar-oneoffheader-searchtext" class="search-panel-input-value" flex="1" crop="end"></xul:label>
-          <xul:label anonid="searchbar-oneoffheader-after" flex="10000" value="FROM-DTD.searchWith.label;"></xul:label>
-        </xul:hbox>
-        <xul:hbox anonid="search-panel-searchonengine" class="search-panel-current-input">
-          <xul:label anonid="searchbar-oneoffheader-beforeengine" value="FROM-DTD.search.label;"></xul:label>
-          <xul:label anonid="searchbar-oneoffheader-engine" class="search-panel-input-value" flex="1" crop="end"></xul:label>
-          <xul:label anonid="searchbar-oneoffheader-afterengine" flex="10000" value="FROM-DTD.searchAfter.label;"></xul:label>
-        </xul:hbox>
-      </xul:deck>
-      <xul:description anonid="search-panel-one-offs" role="group" class="search-panel-one-offs" inherits="compact">
-        <xul:button anonid="search-settings-compact" oncommand="showSettings();" class="searchbar-engine-one-off-item search-setting-button-compact" tooltiptext="FROM-DTD.changeSearchSettings.tooltip;" inherits="compact"></xul:button>
-      </xul:description>
-      <xul:vbox anonid="add-engines" class="search-add-engines"></xul:vbox>
-      <xul:button anonid="search-settings" oncommand="showSettings();" class="search-setting-button search-panel-header" label="FROM-DTD.changeSearchSettings.button;" inherits="compact"></xul:button>
-      <xul:menupopup anonid="search-one-offs-context-menu">
-        <xul:menuitem anonid="search-one-offs-context-open-in-new-tab" label="FROM-DTD.searchInNewTab.label;" accesskey="FROM-DTD.searchInNewTab.accesskey;"></xul:menuitem>
-        <xul:menuitem anonid="search-one-offs-context-set-default" label="FROM-DTD.searchSetAsDefault.label;" accesskey="FROM-DTD.searchSetAsDefault.accesskey;"></xul:menuitem>
-      </xul:menupopup>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <deck anonid="search-panel-one-offs-header" selectedIndex="0" class="search-panel-header search-panel-current-input">
+        <label anonid="searchbar-oneoffheader-search" value="FROM-DTD.searchWithHeader.label;"></label>
+        <hbox anonid="search-panel-searchforwith" class="search-panel-current-input">
+          <label anonid="searchbar-oneoffheader-before" value="FROM-DTD.searchFor.label;"></label>
+          <label anonid="searchbar-oneoffheader-searchtext" class="search-panel-input-value" flex="1" crop="end"></label>
+          <label anonid="searchbar-oneoffheader-after" flex="10000" value="FROM-DTD.searchWith.label;"></label>
+        </hbox>
+        <hbox anonid="search-panel-searchonengine" class="search-panel-current-input">
+          <label anonid="searchbar-oneoffheader-beforeengine" value="FROM-DTD.search.label;"></label>
+          <label anonid="searchbar-oneoffheader-engine" class="search-panel-input-value" flex="1" crop="end"></label>
+          <label anonid="searchbar-oneoffheader-afterengine" flex="10000" value="FROM-DTD.searchAfter.label;"></label>
+        </hbox>
+      </deck>
+      <description anonid="search-panel-one-offs" role="group" class="search-panel-one-offs" inherits="compact">
+        <button anonid="search-settings-compact" oncommand="showSettings();" class="searchbar-engine-one-off-item search-setting-button-compact" tooltiptext="FROM-DTD.changeSearchSettings.tooltip;" inherits="compact"></button>
+      </description>
+      <vbox anonid="add-engines" class="search-add-engines"></vbox>
+      <button anonid="search-settings" oncommand="showSettings();" class="search-setting-button search-panel-header" label="FROM-DTD.changeSearchSettings.button;" inherits="compact"></button>
+      <menupopup anonid="search-one-offs-context-menu">
+        <menuitem anonid="search-one-offs-context-open-in-new-tab" label="FROM-DTD.searchInNewTab.label;" accesskey="FROM-DTD.searchInNewTab.accesskey;"></menuitem>
+        <menuitem anonid="search-one-offs-context-set-default" label="FROM-DTD.searchSetAsDefault.label;" accesskey="FROM-DTD.searchSetAsDefault.accesskey;"></menuitem>
+      </menupopup>
+    `));
     this._popup = null;
 
     this._textbox = null;

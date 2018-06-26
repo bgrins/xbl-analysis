@@ -1,4 +1,4 @@
-class FirefoxBuiltinMacBrowser extends XULElement {
+class BuiltinMacBrowser extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

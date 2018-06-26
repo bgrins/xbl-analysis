@@ -1,12 +1,12 @@
-class FirefoxTab extends FirefoxBasetext {
+class Tab extends Basetext {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
-        <xul:image class="tab-icon" inherits="validate,src=image" role="presentation"></xul:image>
-        <xul:label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation"></xul:label>
-      </xul:hbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
+        <image class="tab-icon" inherits="validate,src=image" role="presentation"></image>
+        <label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation"></label>
+      </hbox>
+    `));
     this.arrowKeysShouldWrap = /Mac/.test(navigator.platform);
 
     this._setupEventListeners();

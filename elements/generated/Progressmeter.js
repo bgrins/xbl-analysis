@@ -1,10 +1,10 @@
-class FirefoxProgressmeter extends XULElement {
+class Progressmeter extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:spacer class="progress-bar" inherits="mode"></xul:spacer>
-      <xul:spacer class="progress-remainder" inherits="mode"></xul:spacer>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <spacer class="progress-bar" inherits="mode"></spacer>
+      <spacer class="progress-remainder" inherits="mode"></spacer>
+    `));
 
     this._setupEventListeners();
   }

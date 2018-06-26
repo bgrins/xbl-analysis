@@ -1,19 +1,19 @@
-class FirefoxTree extends FirefoxTreeBase {
+class Tree extends TreeBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="treecols"></children>
-      <xul:stack class="tree-stack" flex="1">
-        <xul:treerows class="tree-rows" flex="1" inherits="hidevscroll">
+      <stack class="tree-stack" flex="1">
+        <treerows class="tree-rows" flex="1" inherits="hidevscroll">
           <children></children>
-        </xul:treerows>
-        <xul:textbox anonid="input" class="tree-input" left="0" top="0" hidden="true"></xul:textbox>
-      </xul:stack>
-      <xul:hbox inherits="collapsed=hidehscroll">
-        <xul:scrollbar orient="horizontal" flex="1" increment="16" style="position:relative; z-index:2147483647;" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></xul:scrollbar>
-        <xul:scrollcorner inherits="collapsed=hidevscroll" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></xul:scrollcorner>
-      </xul:hbox>
-    `;
+        </treerows>
+        <textbox anonid="input" class="tree-input" left="0" top="0" hidden="true"></textbox>
+      </stack>
+      <hbox inherits="collapsed=hidehscroll">
+        <scrollbar orient="horizontal" flex="1" increment="16" style="position:relative; z-index:2147483647;" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></scrollbar>
+        <scrollcorner inherits="collapsed=hidevscroll" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></scrollcorner>
+      </hbox>
+    `));
     this.pageUpOrDownMovesSelection = !/Mac/.test(navigator.platform);
 
     this._inputField = null;

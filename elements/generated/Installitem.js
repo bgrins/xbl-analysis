@@ -1,21 +1,21 @@
-class FirefoxInstallitem extends XULElement {
+class Installitem extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:hbox flex="1">
-        <xul:vbox align="center" pack="center" class="xpinstallIconContainer">
-          <xul:image class="xpinstallItemIcon" inherits="src=icon"></xul:image>
-        </xul:vbox>
-        <xul:vbox flex="1" pack="center">
-          <xul:hbox class="xpinstallItemNameRow" align="center">
-            <xul:label class="xpinstallItemName" inherits="value=name" crop="right"></xul:label>
-          </xul:hbox>
-          <xul:hbox class="xpinstallItemDetailsRow" align="center">
-            <xul:textbox class="xpinstallItemURL" inherits="value=url" flex="1" readonly="true" crop="right"></xul:textbox>
-          </xul:hbox>
-        </xul:vbox>
-      </xul:hbox>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox flex="1">
+        <vbox align="center" pack="center" class="xpinstallIconContainer">
+          <image class="xpinstallItemIcon" inherits="src=icon"></image>
+        </vbox>
+        <vbox flex="1" pack="center">
+          <hbox class="xpinstallItemNameRow" align="center">
+            <label class="xpinstallItemName" inherits="value=name" crop="right"></label>
+          </hbox>
+          <hbox class="xpinstallItemDetailsRow" align="center">
+            <textbox class="xpinstallItemURL" inherits="value=url" flex="1" readonly="true" crop="right"></textbox>
+          </hbox>
+        </vbox>
+      </hbox>
+    `));
 
     this._setupEventListeners();
   }

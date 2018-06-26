@@ -1,11 +1,11 @@
-class FirefoxListitemIconic extends FirefoxListitem {
+class ListitemIconic extends Listitem {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
-        <xul:listcell class="listcell-iconic" inherits="label,image,crop,disabled,flexlabel"></xul:listcell>
+        <listcell class="listcell-iconic" inherits="label,image,crop,disabled,flexlabel"></listcell>
       </children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

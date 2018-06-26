@@ -1,12 +1,12 @@
-class FirefoxAutocompleteProfileListitemFooter extends FirefoxAutocompleteProfileListitemBase {
+class AutocompleteProfileListitemFooter extends AutocompleteProfileListitemBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="autofill-footer" class="autofill-item-box autofill-footer">
         <div anonid="autofill-warning" class="autofill-footer-row autofill-warning"></div>
         <div anonid="autofill-option-button" class="autofill-footer-row autofill-button"></div>
       </div>
-    `;
+    `));
 
     this._itemBox = document.getAnonymousElementByAttribute(
       this, "anonid", "autofill-footer"

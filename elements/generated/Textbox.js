@@ -1,12 +1,12 @@
-class FirefoxTextbox extends XULElement {
+class Textbox extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
-      <xul:hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
+      <hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
         <html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck"></html:input>
-      </xul:hbox>
-    `;
+      </hbox>
+    `));
     /**
      * nsIDOMXULLabeledControlElement
      */

@@ -1,4 +1,4 @@
-class FirefoxBuiltinUnixEditor extends XULElement {
+class BuiltinUnixEditor extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

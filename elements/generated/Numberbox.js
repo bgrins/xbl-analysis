@@ -1,11 +1,11 @@
-class FirefoxNumberbox extends FirefoxTextbox {
+class Numberbox extends Textbox {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:hbox class="textbox-input-box numberbox-input-box" flex="1" inherits="context,disabled,focused">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="textbox-input-box numberbox-input-box" flex="1" inherits="context,disabled,focused">
         <html:input class="numberbox-input textbox-input" type="number" anonid="input" inherits="value,min,max,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"></html:input>
-      </xul:hbox>
-    `;
+      </hbox>
+    `));
     this._valueEntered = false;
 
     this._value = 0;

@@ -1,9 +1,9 @@
-class FirefoxMenulistPopuponly extends FirefoxMenulist {
+class MenulistPopuponly extends Menulist {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="menupopup"></children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

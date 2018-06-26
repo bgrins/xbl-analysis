@@ -1,11 +1,11 @@
-class FirefoxPopup extends FirefoxPopupBase {
+class Popup extends PopupBase {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
-      <xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
         <children></children>
-      </xul:arrowscrollbox>
-    `;
+      </arrowscrollbox>
+    `));
     this.scrollBox = document.getAnonymousElementByAttribute(this, "class", "popup-internal-box");
 
     this._setupEventListeners();

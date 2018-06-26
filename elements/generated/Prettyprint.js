@@ -1,12 +1,12 @@
-class FirefoxPrettyprint extends XULElement {
+class Prettyprint extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <html:div id="top"></html:div>
       <html:span style="display: none;">
         <children></children>
       </html:span>
-    `;
+    `));
 
     this._setupEventListeners();
   }

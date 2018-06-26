@@ -1,4 +1,4 @@
-class FirefoxRadiogroup extends FirefoxBasecontrol {
+class Radiogroup extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
 

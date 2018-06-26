@@ -1,4 +1,4 @@
-class FirefoxBuiltinWinBrowser extends XULElement {
+class BuiltinWinBrowser extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

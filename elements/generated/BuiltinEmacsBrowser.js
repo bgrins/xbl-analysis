@@ -1,4 +1,4 @@
-class FirefoxBuiltinEmacsBrowser extends XULElement {
+class BuiltinEmacsBrowser extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class FirefoxAutocompleteProfileListitemBase extends FirefoxRichlistitem {
+class AutocompleteProfileListitemBase extends Richlistitem {
   connectedCallback() {
     super.connectedCallback()
 

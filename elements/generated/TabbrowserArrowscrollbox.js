@@ -1,4 +1,4 @@
-class FirefoxTabbrowserArrowscrollbox extends FirefoxArrowscrollboxClicktoscroll {
+class TabbrowserArrowscrollbox extends ArrowscrollboxClicktoscroll {
   connectedCallback() {
     super.connectedCallback()
 

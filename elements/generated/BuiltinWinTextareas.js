@@ -1,4 +1,4 @@
-class FirefoxBuiltinWinTextareas extends XULElement {
+class BuiltinWinTextareas extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

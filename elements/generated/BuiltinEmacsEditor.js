@@ -1,4 +1,4 @@
-class FirefoxBuiltinEmacsEditor extends XULElement {
+class BuiltinEmacsEditor extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

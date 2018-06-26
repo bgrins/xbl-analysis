@@ -1,7 +1,7 @@
-class FirefoxDatetimeInputBase extends XULElement {
+class DatetimeInputBase extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <html:div class="datetime-input-box-wrapper" anonid="input-box-wrapper" inherits="context,disabled,readonly" role="presentation">
         <html:span class="datetime-input-edit-wrapper" anonid="edit-wrapper"></html:span>
         <html:button class="datetime-reset-button" anonid="reset-button" tabindex="-1" inherits="disabled" aria-label="FROM-DTD.datetime.reset.label;">
@@ -10,7 +10,7 @@ class FirefoxDatetimeInputBase extends XULElement {
           </svg>
         </html:button>
       </html:div>
-    `;
+    `));
 
     this.DEBUG = false;
     this.mInputElement = this.parentNode;

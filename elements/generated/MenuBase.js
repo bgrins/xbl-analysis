@@ -1,4 +1,4 @@
-class FirefoxMenuBase extends FirefoxMenuitemBase {
+class MenuBase extends MenuitemBase {
   connectedCallback() {
     super.connectedCallback()
 

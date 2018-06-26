@@ -1,4 +1,4 @@
-class FirefoxBuiltinAndroidEditor extends XULElement {
+class BuiltinAndroidEditor extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

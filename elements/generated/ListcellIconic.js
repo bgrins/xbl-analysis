@@ -1,12 +1,12 @@
-class FirefoxListcellIconic extends FirefoxListcell {
+class ListcellIconic extends Listcell {
   connectedCallback() {
     super.connectedCallback()
-    this.innerHTML = `
+    this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
-        <xul:image class="listcell-icon" inherits="src=image"></xul:image>
-        <xul:label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right"></xul:label>
+        <image class="listcell-icon" inherits="src=image"></image>
+        <label class="listcell-label" inherits="value=label,flex=flexlabel,crop,disabled" flex="1" crop="right"></label>
       </children>
-    `;
+    `));
 
     this._setupEventListeners();
   }

@@ -1,4 +1,4 @@
-class FirefoxIframe extends XULElement {
+class Iframe extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

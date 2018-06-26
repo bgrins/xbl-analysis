@@ -1,4 +1,4 @@
-class FirefoxBuiltinMacInputfields extends XULElement {
+class BuiltinMacInputfields extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

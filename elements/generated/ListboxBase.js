@@ -1,4 +1,4 @@
-class FirefoxListboxBase extends FirefoxBasecontrol {
+class ListboxBase extends Basecontrol {
   connectedCallback() {
     super.connectedCallback()
 

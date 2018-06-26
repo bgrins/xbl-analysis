@@ -1,21 +1,21 @@
-class FirefoxDownloadProgress extends XULElement {
+class DownloadProgress extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:stack flex="1">
-        <xul:hbox flex="1">
-          <xul:hbox class="start-cap"></xul:hbox>
-          <xul:progressmeter anonid="progress" class="progress" flex="1" min="0" max="100"></xul:progressmeter>
-          <xul:hbox class="end-cap"></xul:hbox>
-        </xul:hbox>
-        <xul:hbox class="status-container">
-          <xul:spacer flex="1"></xul:spacer>
-          <xul:label anonid="status" class="status"></xul:label>
-          <xul:spacer flex="1"></xul:spacer>
-          <xul:button anonid="cancel-btn" class="cancel" tooltiptext="FROM-DTD.progress.cancel.tooltip;" oncommand="document.getBindingParent(this).cancel();"></xul:button>
-        </xul:hbox>
-      </xul:stack>
-    `;
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <stack flex="1">
+        <hbox flex="1">
+          <hbox class="start-cap"></hbox>
+          <progressmeter anonid="progress" class="progress" flex="1" min="0" max="100"></progressmeter>
+          <hbox class="end-cap"></hbox>
+        </hbox>
+        <hbox class="status-container">
+          <spacer flex="1"></spacer>
+          <label anonid="status" class="status"></label>
+          <spacer flex="1"></spacer>
+          <button anonid="cancel-btn" class="cancel" tooltiptext="FROM-DTD.progress.cancel.tooltip;" oncommand="document.getBindingParent(this).cancel();"></button>
+        </hbox>
+      </stack>
+    `));
     this._progress = document.getAnonymousElementByAttribute(this, "anonid", "progress");
 
     this._cancel = document.getAnonymousElementByAttribute(this, "anonid", "cancel-btn");

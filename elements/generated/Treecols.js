@@ -1,12 +1,12 @@
-class FirefoxTreecols extends XULElement {
+class Treecols extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:hbox class="tree-scrollable-columns" flex="1">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="tree-scrollable-columns" flex="1">
         <children includes="treecol|splitter"></children>
-      </xul:hbox>
-      <xul:treecolpicker class="treecol-image" fixed="true" inherits="tooltiptext=pickertooltiptext"></xul:treecolpicker>
-    `;
+      </hbox>
+      <treecolpicker class="treecol-image" fixed="true" inherits="tooltiptext=pickertooltiptext"></treecolpicker>
+    `));
 
     // Set resizeafter="farthest" on the splitters if nothing else has been
     // specified.

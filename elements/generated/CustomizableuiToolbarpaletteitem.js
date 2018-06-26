@@ -1,12 +1,12 @@
-class FirefoxCustomizableuiToolbarpaletteitem extends XULElement {
+class CustomizableuiToolbarpaletteitem extends MozXULElement {
   connectedCallback() {
 
-    this.innerHTML = `
-      <xul:hbox class="toolbarpaletteitem-box">
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="toolbarpaletteitem-box">
         <children></children>
-      </xul:hbox>
-      <xul:label class="toolbarpaletteitem-label" inherits="text=title"></xul:label>
-    `;
+      </hbox>
+      <label class="toolbarpaletteitem-label" inherits="text=title"></label>
+    `));
 
     this._setupEventListeners();
   }
