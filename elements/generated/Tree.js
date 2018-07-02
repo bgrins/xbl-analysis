@@ -143,13 +143,6 @@ class Tree extends TreeBase {
     return this.getAttribute('_selectDelay') || 50;
   }
 
-  get _cellSelType() {
-    var seltype = this.selType;
-    if (seltype == "cell" || seltype == "text")
-      return seltype;
-    return null;
-  }
-
   _ensureColumnOrder() {
     if (!this._columnsDirty)
       return;
@@ -405,18 +398,6 @@ class Tree extends TreeBase {
       c = edge;
     }
 
-    var cellSelType = this._cellSelType;
-    if (cellSelType) {
-      var column = this.view.selection.currentColumn;
-      if (!column)
-        return;
-
-      while ((offset > 0 ? c <= edge : c >= edge) && !this.view.isSelectable(c, column))
-        c += offset;
-      if (offset > 0 ? c > edge : c < edge)
-        return;
-    }
-
     if (!this._isAccelPressed(event))
       this.view.selection.timedSelect(c, this._selectDelay);
     else // Ctrl+Up/Down moves the anchor without selecting
@@ -595,16 +576,6 @@ class Tree extends TreeBase {
       return true;
     }
 
-    if (/Mac/.test(navigator.platform)) {
-      // See if we can edit the cell.
-      var row = this.currentIndex;
-      if (this._cellSelType) {
-        var column = this.view.selection.currentColumn;
-        var startedEditing = this.startEditing(row, column);
-        if (startedEditing)
-          return true;
-      }
-    }
     return this.changeOpenState(this.currentIndex);
   }
 
@@ -694,10 +665,6 @@ class Tree extends TreeBase {
       if (this.currentIndex == -1 && this.view.rowCount > 0) {
         this.currentIndex = this.treeBoxObject.getFirstVisibleRow();
       }
-      if (this._cellSelType && !this.view.selection.currentColumn) {
-        var col = this._getNextColumn(this.currentIndex, false);
-        this.view.selection.currentColumn = col;
-      }
     });
 
     this.addEventListener("blur", (event) => { this.treeBoxObject.focused = false; });
@@ -709,18 +676,6 @@ class Tree extends TreeBase {
         event.stopPropagation();
         event.preventDefault();
       }
-    });
-
-    /**
-     * Use F2 key to enter text editing.
-     */
-    this.addEventListener("keydown", (event) => {
-      if (!this._cellSelType)
-        return;
-      var row = this.currentIndex;
-      var column = this.view.selection.currentColumn;
-      if (this.startEditing(row, column))
-        event.preventDefault();
     });
 
     this.addEventListener("keydown", (event) => {
@@ -740,16 +695,7 @@ class Tree extends TreeBase {
       if (row < 0)
         return;
 
-      var cellSelType = this._cellSelType;
       var checkContainers = true;
-
-      var currentColumn;
-      if (cellSelType) {
-        currentColumn = this.view.selection.currentColumn;
-        if (currentColumn && !currentColumn.primary)
-          checkContainers = false;
-      }
-
       if (checkContainers) {
         if (this.changeOpenState(this.currentIndex, false)) {
           event.preventDefault();
@@ -757,21 +703,8 @@ class Tree extends TreeBase {
         }
         var parentIndex = this.view.getParentIndex(this.currentIndex);
         if (parentIndex >= 0) {
-          if (cellSelType && !this.view.isSelectable(parentIndex, currentColumn)) {
-            return;
-          }
           this.view.selection.select(parentIndex);
           this.treeBoxObject.ensureRowIsVisible(parentIndex);
-          event.preventDefault();
-          return;
-        }
-      }
-
-      if (cellSelType) {
-        var col = this._getNextColumn(row, true);
-        if (col) {
-          this.view.selection.currentColumn = col;
-          this.treeBoxObject.ensureCellIsVisible(row, col);
           event.preventDefault();
         }
       }
@@ -785,16 +718,7 @@ class Tree extends TreeBase {
       if (row < 0)
         return;
 
-      var cellSelType = this._cellSelType;
       var checkContainers = true;
-
-      var currentColumn;
-      if (cellSelType) {
-        currentColumn = this.view.selection.currentColumn;
-        if (currentColumn && !currentColumn.primary)
-          checkContainers = false;
-      }
-
       if (checkContainers) {
         if (this.changeOpenState(row, true)) {
           event.preventDefault();
@@ -807,24 +731,8 @@ class Tree extends TreeBase {
           // If already opened, select the first child.
           // The getParentIndex test above ensures that the children
           // are already populated and ready.
-          if (cellSelType && !this.view.isSelectable(c, currentColumn)) {
-            let col = this._getNextColumn(c, false);
-            if (col) {
-              this.view.selection.currentColumn = col;
-            }
-          }
           this.view.selection.timedSelect(c, this._selectDelay);
           this.treeBoxObject.ensureRowIsVisible(c);
-          event.preventDefault();
-          return;
-        }
-      }
-
-      if (cellSelType) {
-        let col = this._getNextColumn(row, false);
-        if (col) {
-          this.view.selection.currentColumn = col;
-          this.treeBoxObject.ensureCellIsVisible(row, col);
           event.preventDefault();
         }
       }

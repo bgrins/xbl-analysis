@@ -356,6 +356,10 @@ class TabbrowserTab extends Tab {
           event.stopPropagation();
         }
       }
+
+      if (event.button == 1) {
+        gBrowser.warmupTab(gBrowser._findTabToBlurTo(this));
+      }
     }, true);
 
     this.addEventListener("mouseup", (event) => {

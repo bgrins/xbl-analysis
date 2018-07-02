@@ -50,24 +50,9 @@ class Treebody extends TreeBase {
           }
         }
 
-        var cellSelType = this.parentNode._cellSelType;
-        if (cellSelType == "text" && cell.childElt != "text" && cell.childElt != "image")
-          return;
-
-        if (cellSelType) {
-          if (!cell.col.selectable ||
-            !view.isSelectable(cell.row, cell.col)) {
-            return;
-          }
-        }
-
         if (!view.selection.isSelected(cell.row)) {
           view.selection.select(cell.row);
           b.ensureRowIsVisible(cell.row);
-        }
-
-        if (cellSelType) {
-          view.selection.currentColumn = cell.col;
         }
       }
     });
@@ -94,11 +79,6 @@ class Treebody extends TreeBase {
             parentIndex = view.getParentIndex(parentIndex);
           if (parentIndex == cell.row) {
             var parentSelectable = true;
-            if (this.parentNode._cellSelType) {
-              var currentColumn = view.selection.currentColumn;
-              if (!view.isSelectable(parentIndex, currentColumn))
-                parentSelectable = false;
-            }
             if (parentSelectable)
               view.selection.select(parentIndex);
           }
@@ -134,24 +114,8 @@ class Treebody extends TreeBase {
       // see bug #92366
       if (!cell.col.cycler && this._lastSelectedRow == cell.row &&
         cell.col.type != window.TreeColumn.TYPE_CHECKBOX) {
-
-        var cellSelType = this.parentNode._cellSelType;
-        if (cellSelType == "text" && cell.childElt != "text" && cell.childElt != "image")
-          return;
-
-        if (cellSelType) {
-          if (!cell.col.selectable ||
-            !view.isSelectable(cell.row, cell.col)) {
-            return;
-          }
-        }
-
         view.selection.select(cell.row);
         b.ensureRowIsVisible(cell.row);
-
-        if (cellSelType) {
-          view.selection.currentColumn = cell.col;
-        }
       }
     });
 
