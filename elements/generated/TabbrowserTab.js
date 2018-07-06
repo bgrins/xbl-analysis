@@ -369,9 +369,10 @@ class TabbrowserTab extends Tab {
     this.addEventListener("click", (event) => {
       if (Services.prefs.getBoolPref("browser.tabs.multiselect")) {
         if (event.shiftKey) {
-          const lastSelectedTab = gBrowser.lastMultiSelectedTab || gBrowser.selectedTab;
+          const lastSelectedTab = gBrowser.lastMultiSelectedTab;
+          gBrowser.clearMultiSelectedTabs(true);
           gBrowser.addRangeToMultiSelectedTabs(lastSelectedTab, this);
-          gBrowser.lastMultiSelectedTab = this;
+          gBrowser.selectedTab = lastSelectedTab;
           return;
         }
         if (event.getModifierState("Accel")) {
@@ -379,12 +380,14 @@ class TabbrowserTab extends Tab {
           if (this.multiselected) {
             gBrowser.removeFromMultiSelectedTabs(this);
             if (this == gBrowser.selectedTab) {
-              gBrowser.selectedTab = gBrowser.lastMultiSelectedTab;
+              gBrowser.switchToNextMultiSelectedTab();
             }
+            gBrowser.updateActiveTabMultiSelectState();
           } else if (this != gBrowser.selectedTab) {
             for (let tab of [this, gBrowser.selectedTab]) {
-              gBrowser.addToMultiSelectedTabs(tab);
+              gBrowser.addToMultiSelectedTabs(tab, true);
             }
+            gBrowser.tabContainer._setPositionalAttributes();
             gBrowser.lastMultiSelectedTab = this;
           }
           return;

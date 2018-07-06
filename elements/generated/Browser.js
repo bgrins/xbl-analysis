@@ -11,11 +11,7 @@ class Browser extends MozXULElement {
      */
     this._sameProcessAsFrameLoader = null;
 
-    this._docShell = null;
-
     this._loadContext = null;
-
-    this._webNavigation = null;
 
     this._webBrowserFind = null;
 
@@ -24,8 +20,6 @@ class Browser extends MozXULElement {
     this._fastFind = null;
 
     this._lastSearchString = null;
-
-    this._contentWindow = null;
 
     this.mPrefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 
@@ -190,17 +184,6 @@ class Browser extends MozXULElement {
     return this._sameProcessAsFrameLoader && this._sameProcessAsFrameLoader.get();
   }
 
-  get docShell() {
-    if (this._docShell)
-      return this._docShell;
-
-    let { frameLoader } = this;
-    if (!frameLoader)
-      return null;
-    this._docShell = frameLoader.docShell;
-    return this._docShell;
-  }
-
   get loadContext() {
     if (this._loadContext)
       return this._loadContext;
@@ -278,16 +261,6 @@ class Browser extends MozXULElement {
     return null;
   }
 
-  get webNavigation() {
-    if (!this._webNavigation) {
-      if (!this.docShell) {
-        return null;
-      }
-      this._webNavigation = this.docShell.QueryInterface(Ci.nsIWebNavigation);
-    }
-    return this._webNavigation;
-  }
-
   get webBrowserFind() {
     if (!this._webBrowserFind)
       this._webBrowserFind = this.docShell.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIWebBrowserFind);
@@ -349,10 +322,6 @@ class Browser extends MozXULElement {
     return this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebProgress);
   }
 
-  get contentWindow() {
-    return this._contentWindow || (this._contentWindow = this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow));
-  }
-
   get contentWindowAsCPOW() {
     return this.contentWindow;
   }
@@ -363,10 +332,6 @@ class Browser extends MozXULElement {
 
   get markupDocumentViewer() {
     return this.docShell.contentViewer;
-  }
-
-  get contentDocument() {
-    return this.webNavigation.document;
   }
 
   get contentDocumentAsCPOW() {
@@ -1134,10 +1099,7 @@ class Browser extends MozXULElement {
     // because these notifications are dispatched again once the docshells
     // are swapped.
     var fieldsToSwap = [
-      "_docShell",
       "_webBrowserFind",
-      "_contentWindow",
-      "_webNavigation"
     ];
 
     if (this.isRemoteBrowser) {
