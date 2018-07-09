@@ -209,8 +209,10 @@ class Searchbar extends MozXULElement {
         where += "-background";
     } else {
       var newTabPref = Services.prefs.getBoolPref("browser.search.openintab");
-      if (((aEvent instanceof KeyboardEvent) && aEvent.altKey) ^ newTabPref)
+      if (((aEvent instanceof KeyboardEvent && aEvent.altKey) ^ newTabPref) &&
+        !isTabEmpty(gBrowser.selectedTab)) {
         where = "tab";
+      }
       if ((aEvent instanceof MouseEvent) &&
         (aEvent.button == 1 || aEvent.getModifierState("Accel"))) {
         where = "tab";

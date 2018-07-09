@@ -48,10 +48,8 @@ class TabbrowserArrowscrollbox extends ArrowscrollboxClicktoscroll {
       // Ignore overflow events:
       // - from nested scrollable elements
       // - for vertical orientation
-      // - when the window is tiny initially
       if (event.originalTarget != this._scrollbox ||
-        event.detail == 0 ||
-        window.outerWidth <= 1) {
+        event.detail == 0) {
         return;
       }
 

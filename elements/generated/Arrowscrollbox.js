@@ -474,9 +474,7 @@ class Arrowscrollbox extends Basecontrol {
     this.addEventListener("overflow", (event) => {
       // Ignore overflow events:
       // - from nested scrollable elements
-      // - when the window is tiny initially
-      if (event.target != this ||
-        window.outerWidth <= 1) {
+      if (event.target != this) {
         return;
       }
 

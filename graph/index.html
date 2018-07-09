@@ -66,7 +66,7 @@
         <canvas></canvas>
       </div>
       <div class="container" id="bindings-loc-container">
-          <a href="#bindings-loc">Show this graph only</a>
+          <a href="#bindings-loc" onclick="showBindingLOCGraph()">Show lines of code per binding graph</a>
           <canvas></canvas>
       </div>
       <div hidden class="container" id="bindings-instances-container">
@@ -329,121 +329,6 @@ new Chart(
   }
 );
 
-let bindingsLOCLabels = [];
-for (let rev in DATA) {
-  bindingsLOCLabels.push(DATA[rev].label);
-}
-let bindingsLOCData = { labels: bindingsLOCLabels, datasets: [] };
-let bindingsLOC = DATA[FIRST_REV].bindingsLOC;
-let bindingLOCColorIterator = getColorIterator();
-
-for (let bindingLOC in bindingsLOC) {
-  let data = [];
-  for (let d in DATA) {
-    data.push(DATA[d].bindingsLOC[bindingLOC]);
-  }
-  bindingsLOCData.datasets.push({
-    label: bindingLOC,
-    backgroundColor: bindingLOCColorIterator(),
-    data
-  });
-}
-
-new Chart(
-  document.querySelector("#bindings-loc-container canvas").getContext("2d"),
-  {
-    type: "bar",
-    data: bindingsLOCData,
-    options: {
-      legend: {
-        display: false,
-        boxWidth: 10,
-      },
-      title: {
-        display: true,
-        fontSize: 20,
-        text: "Lines of code per binding (sorted)"
-      },
-      tooltips: {
-        mode: "index",
-        intersect: false
-      },
-      responsive: true,
-      scales: {
-        xAxes: [
-          {
-            stacked: true
-          }
-        ],
-        yAxes: [
-          {
-            stacked: true
-          }
-        ]
-      }
-    }
-  }
-);
-
-let bindingsInstancesLabels = [];
-for (let rev in SORTED_BINDINGS) {
-  bindingsInstancesLabels.push(rev);
-}
-let bindingsInstancesData = { labels: bindingsInstancesLabels, datasets: [] };
-let bindingsInstances = SORTED_BINDINGS["2017-11-01"];
-let bindingsInstancesColorIterator = getColorIterator();
-
-for (let bindingInstance in bindingsInstances) {
-  let data = [];
-  for (let d in SORTED_BINDINGS) {
-    data.push(SORTED_BINDINGS[d][bindingInstance]);
-  }
-
-  bindingsInstancesData.datasets.push({
-    label: bindingInstance,
-    backgroundColor: bindingsInstancesColorIterator(),
-    data
-  });
-}
-
-new Chart(
-  document
-    .querySelector("#bindings-instances-container canvas")
-    .getContext("2d"),
-  {
-    type: "bar",
-    data: bindingsInstancesData,
-    options: {
-      legend: {
-        display: false,
-        boxWidth: 10
-      },
-      title: {
-        display: true,
-        fontSize: 20,
-        text: "Number of instances per binding (sorted)"
-      },
-      tooltips: {
-        mode: "index",
-        intersect: false
-      },
-      responsive: true,
-      scales: {
-        xAxes: [
-          {
-            stacked: true
-          }
-        ],
-        yAxes: [
-          {
-            stacked: true
-          }
-        ]
-      }
-    }
-  }
-);
-
 let directoryLocDatasets = [];
 let directoryLOCColorIterator = getColorIterator();
 for (var i in directoryLOC) {
@@ -613,6 +498,127 @@ new Chart(
     }
   }
 );
+
+function showBindingLOCGraph() {
+  let bindingsLOCLabels = [];
+  for (let rev in DATA) {
+    bindingsLOCLabels.push(DATA[rev].label);
+  }
+  let bindingsLOCData = { labels: bindingsLOCLabels, datasets: [] };
+  let bindingsLOC = DATA[FIRST_REV].bindingsLOC;
+  let bindingLOCColorIterator = getColorIterator();
+
+  for (let bindingLOC in bindingsLOC) {
+    let data = [];
+    for (let d in DATA) {
+      data.push(DATA[d].bindingsLOC[bindingLOC]);
+    }
+    bindingsLOCData.datasets.push({
+      label: bindingLOC,
+      backgroundColor: bindingLOCColorIterator(),
+      data
+    });
+  }
+
+  new Chart(
+    document.querySelector("#bindings-loc-container canvas").getContext("2d"),
+    {
+      type: "bar",
+      data: bindingsLOCData,
+      options: {
+        legend: {
+          display: false,
+          boxWidth: 10,
+        },
+        title: {
+          display: true,
+          fontSize: 20,
+          text: "Lines of code per binding (sorted)"
+        },
+        tooltips: {
+          mode: "index",
+          intersect: false
+        },
+        responsive: true,
+        scales: {
+          xAxes: [
+            {
+              stacked: true
+            }
+          ],
+          yAxes: [
+            {
+              stacked: true
+            }
+          ]
+        }
+      }
+    }
+  );
+
+}
+
+function showBindingsInstancesGraph() {
+  let bindingsInstancesLabels = [];
+  for (let rev in SORTED_BINDINGS) {
+    bindingsInstancesLabels.push(rev);
+  }
+  let bindingsInstancesData = { labels: bindingsInstancesLabels, datasets: [] };
+  let bindingsInstances = SORTED_BINDINGS["2017-11-01"];
+  let bindingsInstancesColorIterator = getColorIterator();
+
+  for (let bindingInstance in bindingsInstances) {
+    let data = [];
+    for (let d in SORTED_BINDINGS) {
+      data.push(SORTED_BINDINGS[d][bindingInstance]);
+    }
+
+    bindingsInstancesData.datasets.push({
+      label: bindingInstance,
+      backgroundColor: bindingsInstancesColorIterator(),
+      data
+    });
+  }
+
+  new Chart(
+    document
+      .querySelector("#bindings-instances-container canvas")
+      .getContext("2d"),
+    {
+      type: "bar",
+      data: bindingsInstancesData,
+      options: {
+        legend: {
+          display: false,
+          boxWidth: 10
+        },
+        title: {
+          display: true,
+          fontSize: 20,
+          text: "Number of instances per binding (sorted)"
+        },
+        tooltips: {
+          mode: "index",
+          intersect: false
+        },
+        responsive: true,
+        scales: {
+          xAxes: [
+            {
+              stacked: true
+            }
+          ],
+          yAxes: [
+            {
+              stacked: true
+            }
+          ]
+        }
+      }
+    }
+  );
+
+}
 
   </script>
 </body>
