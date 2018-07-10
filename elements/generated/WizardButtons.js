@@ -1,6 +1,6 @@
-class WizardButtons extends WizardBase {
+class WizardButtons extends MozXULElement {
   connectedCallback() {
-    super.connectedCallback()
+
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox class="wizard-buttons-box-1" flex="1">
         <separator class="wizard-buttons-separator groove"></separator>

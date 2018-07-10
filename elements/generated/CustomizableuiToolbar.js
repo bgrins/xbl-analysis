@@ -1,8 +1,6 @@
 class CustomizableuiToolbar extends MozXULElement {
   connectedCallback() {
 
-    this.overflowedDuringConstruction = null;
-
     let scope = {};
     ChromeUtils.import("resource:///modules/CustomizableUI.jsm", scope);
     let CustomizableUI = scope.CustomizableUI;
@@ -28,15 +26,6 @@ class CustomizableuiToolbar extends MozXULElement {
     CustomizableUI.registerToolbarNode(this, children);
 
     this._setupEventListeners();
-  }
-
-  set toolbarName(val) {
-    this.setAttribute('toolbarname', val);
-    return val;
-  }
-
-  get toolbarName() {
-    return this.getAttribute('toolbarname');
   }
 
   get customizationTarget() {

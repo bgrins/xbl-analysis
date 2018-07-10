@@ -1,6 +1,6 @@
-class WizardHeader extends WizardBase {
+class WizardHeader extends MozXULElement {
   connectedCallback() {
-    super.connectedCallback()
+
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="wizard-header-box-1" flex="1">
         <vbox class="wizard-header-box-text" flex="1">

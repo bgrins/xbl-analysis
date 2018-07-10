@@ -63,7 +63,6 @@ class TabbrowserTabs extends Tabs {
 
     var tab = this.firstChild;
     tab.label = this.emptyTabTitle;
-    tab.setAttribute("onerror", "this.removeAttribute('image');");
 
     window.addEventListener("resize", this);
 
