@@ -368,14 +368,18 @@ class TabbrowserTab extends Tab {
 
     this.addEventListener("click", (event) => {
       if (Services.prefs.getBoolPref("browser.tabs.multiselect")) {
-        if (event.shiftKey) {
+        let shiftKey = event.shiftKey;
+        let accelKey = event.getModifierState("Accel");
+        if (shiftKey) {
           const lastSelectedTab = gBrowser.lastMultiSelectedTab;
-          gBrowser.clearMultiSelectedTabs(true);
+          if (!accelKey) {
+            gBrowser.clearMultiSelectedTabs(true);
+          }
           gBrowser.addRangeToMultiSelectedTabs(lastSelectedTab, this);
           gBrowser.selectedTab = lastSelectedTab;
           return;
         }
-        if (event.getModifierState("Accel")) {
+        if (accelKey) {
           // Ctrl (Cmd for mac) key is pressed
           if (this.multiselected) {
             gBrowser.removeFromMultiSelectedTabs(this);
