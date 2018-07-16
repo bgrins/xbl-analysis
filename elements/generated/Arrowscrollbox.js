@@ -20,8 +20,6 @@ class Arrowscrollbox extends Basecontrol {
 
     this._scrollIncrement = null;
 
-    this._scrollBoxObject = null;
-
     this._startEndProps = this.orient == "vertical" ? ["top", "bottom"] : ["left", "right"];
 
     this._isRTLScrollbox = this.orient != "vertical" &&
@@ -75,13 +73,6 @@ class Arrowscrollbox extends Basecontrol {
 
   get smoothScroll() {
     return this.getAttribute("smoothscroll") == "true";
-  }
-
-  get scrollBoxObject() {
-    if (!this._scrollBoxObject) {
-      this._scrollBoxObject = this._scrollbox.boxObject;
-    }
-    return this._scrollBoxObject;
   }
 
   get scrollClientRect() {

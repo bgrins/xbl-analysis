@@ -164,7 +164,7 @@ class Urlbar extends Autocomplete {
 
     this.popup.addEventListener("popupshowing", () => {
       this._enableOrDisableOneOffSearches();
-    }, { capturing: true, once: true });
+    }, { capture: true, once: true });
 
     // history dropmarker open state
     this.popup.addEventListener("popupshowing", () => {

@@ -1,6 +1,6 @@
-class Tooltip extends MozXULElement {
+class Tooltip extends PopupBase {
   connectedCallback() {
-
+    super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children>
         <label class="tooltip-label" inherits="text=label" flex="1"></label>

@@ -1,6 +1,6 @@
-class Popup extends MozXULElement {
+class Popup extends PopupBase {
   connectedCallback() {
-
+    super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
       <arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
         <children></children>

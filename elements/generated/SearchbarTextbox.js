@@ -47,7 +47,7 @@ class SearchbarTextbox extends Autocomplete {
     var cxmenu = document.getAnonymousElementByAttribute(textBox,
       "anonid", "input-box-contextmenu");
     cxmenu.addEventListener("popupshowing",
-      () => { this.initContextMenu(cxmenu); }, { capturing: true, once: true });
+      () => { this.initContextMenu(cxmenu); }, { capture: true, once: true });
 
     this.setAttribute("aria-owns", this.popup.id);
     document.getBindingParent(this)._textboxInitialized = true;

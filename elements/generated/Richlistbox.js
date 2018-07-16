@@ -9,8 +9,6 @@ class Richlistbox extends ListboxBase {
     `));
     this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "main-box");
 
-    this.scrollBoxObject = this._scrollbox.boxObject;
-
     this._builderListener = {
       mOuter: this,
       item: null,
@@ -150,7 +148,6 @@ class Richlistbox extends ListboxBase {
   }
 
   ensureIndexIsVisible(aIndex) {
-    // work around missing implementation in scrollBoxObject
     return this.ensureElementIsVisible(this.getItemAtIndex(aIndex));
   }
 
@@ -173,7 +170,7 @@ class Richlistbox extends ListboxBase {
   scrollToIndex(aIndex) {
     var item = this.getItemAtIndex(aIndex);
     if (item)
-      this.scrollBoxObject.scrollToElement(item);
+      this._scrollbox.scrollToElement(item);
   }
 
   getNumberOfVisibleRows() {
@@ -214,12 +211,12 @@ class Richlistbox extends ListboxBase {
     // the new current item is at approximately the same position as
     // the existing current item.
     if (this._isItemVisible(this.currentItem))
-      this.scrollBoxObject.scrollBy(0, this.scrollBoxObject.height * aDirection);
+      this._scrollbox.scrollBy(0, this._scrollbox.boxObject.height * aDirection);
 
     // Figure out, how many items fully fit into the view port
     // (including the currently selected one), and determine
     // the index of the first one lying (partially) outside
-    var height = this.scrollBoxObject.height;
+    var height = this._scrollbox.boxObject.height;
     var startBorder = this.currentItem.boxObject.y;
     if (aDirection == -1)
       startBorder += this.currentItem.boxObject.height;
@@ -266,7 +263,7 @@ class Richlistbox extends ListboxBase {
         if (this.selType != "multiple" && this.selectedCount == 0)
           this.selectedItem = currentItem;
 
-        if (this.scrollBoxObject.height) {
+        if (this._scrollbox.boxObject.height) {
           this.ensureElementIsVisible(currentItem);
         } else {
           // XXX hack around a bug in ensureElementIsVisible as it will
@@ -326,11 +323,11 @@ class Richlistbox extends ListboxBase {
     if (!aItem)
       return false;
 
-    var y = this.scrollBoxObject.positionY + this.scrollBoxObject.y;
+    var y = this._scrollbox.scrollTop + this._scrollbox.boxObject.y;
 
     // Partially visible items are also considered visible
     return (aItem.boxObject.y + aItem.boxObject.height > y) &&
-      (aItem.boxObject.y < y + this.scrollBoxObject.height);
+      (aItem.boxObject.y < y + this._scrollbox.boxObject.height);
   }
 
   /**

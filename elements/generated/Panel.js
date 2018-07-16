@@ -1,5 +1,6 @@
-class Panel extends MozXULElement {
+class Panel extends PopupBase {
   connectedCallback() {
+    super.connectedCallback()
 
     this._prevFocus = 0;
 

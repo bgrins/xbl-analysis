@@ -70,7 +70,7 @@ class Searchbar extends MozXULElement {
         oneOffButtons.textbox = this.textbox;
         oneOffButtons.popup = this.textbox.popup;
       }
-    }, { capturing: true, once: true });
+    }, { capture: true, once: true });
 
     this._setupEventListeners();
   }
