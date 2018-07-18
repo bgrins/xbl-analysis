@@ -234,7 +234,7 @@ class AddonGeneric extends AddonBase {
 
     this.setAttribute("name", aAddon.name);
 
-    var iconURL = AddonManager.getPreferredIconURL(aAddon, 48, window);
+    var iconURL = AddonManager.getPreferredIconURL(aAddon, 32, window);
     if (iconURL)
       this._icon.src = iconURL;
     else

@@ -1,11 +1,6 @@
 class Listitem extends Basetext {
   connectedCallback() {
     super.connectedCallback()
-    this.appendChild(MozXULElement.parseXULToFragment(`
-      <children>
-        <listcell inherits="label,crop,disabled,flexlabel"></listcell>
-      </children>
-    `));
 
     this._setupEventListeners();
   }

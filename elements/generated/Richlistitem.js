@@ -1,9 +1,7 @@
 class Richlistitem extends Listitem {
   connectedCallback() {
     super.connectedCallback()
-    this.appendChild(MozXULElement.parseXULToFragment(`
-      <children></children>
-    `));
+
     this.selectedByMouseOver = false;
 
     this._setupEventListeners();
