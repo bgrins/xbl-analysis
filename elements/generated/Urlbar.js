@@ -6,6 +6,7 @@ class Urlbar extends Autocomplete {
         <children includes="image|deck|stack|box"></children>
         <hbox anonid="textbox-input-box" class="textbox-input-box urlbar-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
           <children></children>
+          <html:input anonid="scheme" class="urlbar-scheme textbox-input" required="required" inherits="textoverflow,focused"></html:input>
           <html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
         </hbox>
         <image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD.goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping"></image>
@@ -16,6 +17,11 @@ class Urlbar extends Autocomplete {
       <children includes="toolbarbutton"></children>
     `));
     this.ExtensionSearchHandler = (ChromeUtils.import("resource://gre/modules/ExtensionSearchHandler.jsm", {})).ExtensionSearchHandler;
+
+    this.DOMWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
+      .getInterface(Ci.nsIDOMWindowUtils);
+
+    this.scheme = document.getAnonymousElementByAttribute(this, "anonid", "scheme");
 
     this.goButton = document.getAnonymousElementByAttribute(this, "anonid", "urlbar-go-button");
 
@@ -130,6 +136,7 @@ class Urlbar extends Autocomplete {
     this.inputField.addEventListener("mouseout", this);
     this.inputField.addEventListener("overflow", this);
     this.inputField.addEventListener("underflow", this);
+    this.inputField.addEventListener("scrollend", this);
 
     var textBox = document.getAnonymousElementByAttribute(this,
       "anonid", "textbox-input-box");
@@ -512,22 +519,32 @@ class Urlbar extends Autocomplete {
   }
 
   formatValue() {
-    if (!this._formattingEnabled || !this.editor)
+    // Used to avoid re-entrance in async callbacks.
+    let instance = this._formattingInstance = {};
+
+    if (!this.editor)
       return;
 
-    let controller = this.editor.selectionController;
-    let strikeOut = controller.getSelection(controller.SELECTION_URLSTRIKEOUT);
-    strikeOut.removeAllRanges();
-
-    let selection = controller.getSelection(controller.SELECTION_URLSECONDARY);
-    selection.removeAllRanges();
-
-    if (this.focused)
-      return;
+    // Cleanup previously set styles.
+    this.scheme.value = "";
+    let controller, strikeOut, selection;
+    if (this._formattingEnabled) {
+      controller = this.editor.selectionController;
+      strikeOut = controller.getSelection(controller.SELECTION_URLSTRIKEOUT);
+      strikeOut.removeAllRanges();
+      selection = controller.getSelection(controller.SELECTION_URLSECONDARY);
+      selection.removeAllRanges();
+      this.formatScheme(controller.SELECTION_URLSTRIKEOUT, true);
+      this.formatScheme(controller.SELECTION_URLSECONDARY, true);
+      this.inputField.style.setProperty("--urlbar-scheme-size", "0px");
+    }
 
     let textNode = this.editor.rootElement.firstChild;
     let value = textNode.textContent;
     if (!value)
+      return;
+
+    if (this.focused)
       return;
 
     // Get the URL from the fixup service:
@@ -557,9 +574,40 @@ class Urlbar extends Autocomplete {
       trimmedLength = "http://".length;
     }
 
-    let matchedURL = value.match(/^((?:[a-z]+:\/\/)(?:[^\/#?]+@)?)(\S+?)(?::\d+)?\s*(?:[\/#?]|$)/);
+    let matchedURL = value.match(/^(([a-z]+:\/\/)(?:[^\/#?]+@)?)(\S+?)(?::\d+)?\s*(?:[\/#?]|$)/);
     if (!matchedURL)
       return;
+
+    let [, preDomain, schemeWSlashes, domain] = matchedURL;
+    // We strip http, so we should not show the scheme box for it.
+    if (!this._mayTrimURLs || schemeWSlashes != "http://") {
+      this.scheme.value = schemeWSlashes;
+      this.inputField.style.setProperty("--urlbar-scheme-size",
+        schemeWSlashes.length + "ch");
+    }
+
+    // Make sure the host is always visible. Since it is aligned on
+    // the first strong directional character, we set the overflow
+    // appropriately.
+    this.selectionStart = this.selectionEnd = 0;
+    window.requestAnimationFrame(() => {
+      // Check for re-entrance. On focus change this formatting code is
+      // invoked regardless, thus this should be enough.
+      if (this._formattingInstance != instance)
+        return;
+      let isDomainRTL = this.DOMWindowUtils.getDirectionFromText(domain);
+      // In the future, for example in bug 525831, we may add a forceRTL
+      // char just after the domain, and in such a case we should not
+      // scroll to the left.
+      if (isDomainRTL && value[preDomain.length + domain.length] != "\u200E") {
+        this.inputField.scrollLeft = this.inputField.scrollLeftMax;
+      }
+    });
+
+    if (!this._formattingEnabled)
+      return;
+
+    this.formatScheme(controller.SELECTION_URLSECONDARY);
 
     // Strike out the "https" part if mixed active content is loaded.
     if (this.getAttribute("pageproxystate") == "valid" &&
@@ -570,9 +618,9 @@ class Urlbar extends Autocomplete {
       range.setStart(textNode, 0);
       range.setEnd(textNode, 5);
       strikeOut.addRange(range);
+      this.formatScheme(controller.SELECTION_URLSTRIKEOUT);
     }
 
-    let [, preDomain, domain] = matchedURL;
     let baseDomain = domain;
     let subDomain = "";
     try {
@@ -602,6 +650,21 @@ class Urlbar extends Autocomplete {
       range.setStart(textNode, startRest);
       range.setEnd(textNode, value.length - trimmedLength);
       selection.addRange(range);
+    }
+  }
+
+  formatScheme(selectionType, clear) {
+    let editor = this.scheme.editor;
+    let controller = editor.selectionController;
+    let textNode = editor.rootElement.firstChild;
+    let selection = controller.getSelection(selectionType);
+    if (clear) {
+      selection.removeAllRanges();
+    } else {
+      let r = document.createRange();
+      r.setStart(textNode, 0);
+      r.setEnd(textNode, textNode.textContent.length);
+      selection.addRange(r);
     }
   }
 
@@ -862,11 +925,6 @@ class Urlbar extends Autocomplete {
       if (ex.result != Cr.NS_ERROR_LOAD_SHOWED_ERRORPAGE) {
         this.handleRevert();
       }
-    }
-
-    if (openUILinkWhere == "current") {
-      // Ensure the start of the URL is visible for usability reasons.
-      this.selectionStart = this.selectionEnd = 0;
     }
   }
 
@@ -1222,11 +1280,16 @@ class Urlbar extends Autocomplete {
           // anonymous div containing the placeholder text; bail out.
           break;
         }
-        this.setAttribute("textoverflow", "true");
+        this._inOverflow = true;
+        this.updateTextOverflow();
         break;
       case "underflow":
-        this.removeAttribute("textoverflow");
+        this._inOverflow = false;
+        this.updateTextOverflow();
         this._hideURLTooltip();
+        break;
+      case "scrollend":
+        this.updateTextOverflow();
         break;
       case "TabSelect":
         // The autocomplete controller uses heuristic on some internal caches
@@ -1237,8 +1300,23 @@ class Urlbar extends Autocomplete {
     }
   }
 
+  updateTextOverflow() {
+    if (this._inOverflow) {
+      window.promiseDocumentFlushed(() => {
+        let input = this.inputField;
+        if (input) {
+          let side = input.scrollLeft &&
+            input.scrollLeft == input.scrollLeftMax ? "start" : "end";
+          this.setAttribute("textoverflow", side);
+        }
+      });
+    } else {
+      this.removeAttribute("textoverflow");
+    }
+  }
+
   /**
-   * onBeforeTextValueSet is called by the base-binding's .textValue getter.
+   * onBeforeTextValueGet is called by the base-binding's .textValue getter.
    * It should return the value that the getter should use.
    */
   onBeforeTextValueGet() {
@@ -1436,6 +1514,7 @@ class Urlbar extends Autocomplete {
     this.inputField.removeEventListener("mouseout", this);
     this.inputField.removeEventListener("overflow", this);
     this.inputField.removeEventListener("underflow", this);
+    this.inputField.removeEventListener("scrollend", this);
 
     if (this._deferredKeyEventTimeout) {
       clearTimeout(this._deferredKeyEventTimeout);
