@@ -288,14 +288,13 @@ class TabbrowserTabs extends Tabs {
   /**
    * Try to keep the active tab's close button under the mouse cursor
    */
-  _lockTabSizing(aTab) {
+  _lockTabSizing(aTab, aTabWidth) {
     let tabs = this._getVisibleTabs();
     if (!tabs.length) {
       return;
     }
 
     var isEndTab = (aTab._tPos > tabs[tabs.length - 1]._tPos);
-    var tabWidth = aTab.getBoundingClientRect().width;
 
     if (!this._tabDefaultMaxWidth) {
       this._tabDefaultMaxWidth =
@@ -315,7 +314,7 @@ class TabbrowserTabs extends Tabs {
       if (aTab.owner) {
         return;
       }
-      this._expandSpacerBy(tabWidth);
+      this._expandSpacerBy(aTabWidth);
     } else { // non-overflow mode
       // Locking is neither in effect nor needed, so let tabs expand normally.
       if (isEndTab && !this._hasTabTempMaxWidth) {
@@ -327,18 +326,18 @@ class TabbrowserTabs extends Tabs {
       // tabbar width is the same.
       if (isEndTab) {
         let numNormalTabs = tabs.length - numPinned;
-        tabWidth = tabWidth * (numNormalTabs + 1) / numNormalTabs;
-        if (tabWidth > this._tabDefaultMaxWidth) {
-          tabWidth = this._tabDefaultMaxWidth;
+        aTabWidth = aTabWidth * (numNormalTabs + 1) / numNormalTabs;
+        if (aTabWidth > this._tabDefaultMaxWidth) {
+          aTabWidth = this._tabDefaultMaxWidth;
         }
       }
-      tabWidth += "px";
+      aTabWidth += "px";
       for (let i = numPinned; i < tabs.length; i++) {
         let tab = tabs[i];
-        tab.style.setProperty("max-width", tabWidth, "important");
+        tab.style.setProperty("max-width", aTabWidth, "important");
         if (!isEndTab) { // keep tabs the same width
           tab.style.transition = "none";
-          tab.clientTop; // flush styles to skip animation; see bug 649247
+          window.getComputedStyle(tab); // flush styles to skip animation; see bug 649247
           tab.style.transition = "";
         }
       }
