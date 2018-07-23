@@ -43,7 +43,7 @@ class Autocomplete extends Textbox {
      */
     this.valueIsTyped = false;
 
-    this._disableTrim = false;
+    this._textValueSetByCompleteDefault = false;
 
     /**
      * ::::::::::::: key handling :::::::::::::
@@ -217,8 +217,10 @@ class Autocomplete extends Textbox {
   }
 
   set textValue(val) {
-    if (typeof this.onBeforeTextValueSet == "function")
+    if (typeof this.onBeforeTextValueSet == "function" &&
+      !this._textValueSetByCompleteDefault) {
       val = this.onBeforeTextValueSet(val);
+    }
 
     this.value = val;
 
@@ -275,7 +277,8 @@ class Autocomplete extends Textbox {
     if (typeof this.onBeforeValueSet == "function")
       val = this.onBeforeValueSet(val);
 
-    if (typeof this.trimValue == "function" && !this._disableTrim)
+    if (typeof this.trimValue == "function" &&
+      !this._textValueSetByCompleteDefault)
       val = this.trimValue(val);
 
     this.valueIsTyped = false;
@@ -369,10 +372,10 @@ class Autocomplete extends Textbox {
   setTextValueWithReason(aValue, aReason) {
     if (aReason == Ci.nsIAutoCompleteInput
       .TEXTVALUE_REASON_COMPLETEDEFAULT) {
-      this._disableTrim = true;
+      this._textValueSetByCompleteDefault = true;
     }
     this.textValue = aValue;
-    this._disableTrim = false;
+    this._textValueSetByCompleteDefault = false;
   }
 
   selectTextRange(aStartIndex, aEndIndex) {

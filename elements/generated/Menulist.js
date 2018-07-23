@@ -3,7 +3,7 @@ class Menulist extends Basecontrol {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="menulist-label-box" flex="1">
-        <image class="menulist-icon" inherits="src=image,src"></image>
+        <image class="menulist-icon" inherits="src=image"></image>
         <label class="menulist-label" inherits="value=label,crop,accesskey,highlightable" crop="right" flex="1"></label>
         <label class="menulist-highlightable-label" inherits="text=label,crop,accesskey,highlightable" crop="right" flex="1"></label>
       </hbox>
