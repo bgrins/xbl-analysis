@@ -33,6 +33,11 @@ class Tabpanels extends TabBase {
   set selectedIndex(val) {
     if (val < 0 || val >= this.childNodes.length)
       return val;
+
+    // Give the tabbrowser a chance to run logic regardless of
+    // whether the panel is going to change:
+    this.dispatchEvent(new CustomEvent("preselect", { detail: this.getRelatedElement(this.childNodes[val]) }));
+
     var panel = this._selectedPanel;
     this._selectedPanel = this.childNodes[val];
     this.setAttribute("selectedIndex", val);
