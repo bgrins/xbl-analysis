@@ -389,7 +389,7 @@ class AutocompleteRichlistitem extends Richlistitem {
 
       // The popup may have changed size between now and the last
       // time the item was shown, so always handle over/underflow.
-      let dwu = window.getInterface(Ci.nsIDOMWindowUtils);
+      let dwu = window.windowUtils;
       let popupWidth = dwu.getBoundsWithoutFlushing(this.parentNode).width;
       if (!this._previousPopupWidth || this._previousPopupWidth != popupWidth) {
         this._previousPopupWidth = popupWidth;

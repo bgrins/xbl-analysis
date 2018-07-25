@@ -18,8 +18,7 @@ class Urlbar extends Autocomplete {
     `));
     this.ExtensionSearchHandler = (ChromeUtils.import("resource://gre/modules/ExtensionSearchHandler.jsm", {})).ExtensionSearchHandler;
 
-    this.DOMWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
-      .getInterface(Ci.nsIDOMWindowUtils);
+    this.DOMWindowUtils = window.windowUtils;
 
     this.scheme = document.getAnonymousElementByAttribute(this, "anonid", "scheme");
 
@@ -1649,9 +1648,7 @@ class Urlbar extends Autocomplete {
         .supportsSelectionClipboard())
         return;
 
-      if (!window.QueryInterface(Ci.nsIInterfaceRequestor)
-        .getInterface(Ci.nsIDOMWindowUtils)
-        .isHandlingUserInput)
+      if (!window.windowUtils.isHandlingUserInput)
         return;
 
       var val = this._getSelectedValueForClipboard();

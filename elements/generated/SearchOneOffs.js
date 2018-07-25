@@ -360,8 +360,7 @@ class SearchOneOffs extends MozXULElement {
     if (this._textbox) {
       // We can't get a reliable value for the popup width without flushing,
       // but the popup width won't change if the textbox width doesn't.
-      let DOMUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
-        .getInterface(Ci.nsIDOMWindowUtils);
+      let DOMUtils = window.windowUtils;
       let textboxWidth =
         DOMUtils.getBoundsWithoutFlushing(this._textbox).width;
       // We can return early if neither the list of engines nor the panel
@@ -400,9 +399,7 @@ class SearchOneOffs extends MozXULElement {
     // This is likely because the clientWidth getter rounds the value, but
     // the panel's border width is not an integer.
     // As a workaround, decrement the width if the scale is not an integer.
-    let scale = window.QueryInterface(Ci.nsIInterfaceRequestor)
-      .getInterface(Ci.nsIDOMWindowUtils)
-      .screenPixelsPerCSSPixel;
+    let scale = window.windowUtils.screenPixelsPerCSSPixel;
     if (Math.floor(scale) != scale) {
       --panelWidth;
     }

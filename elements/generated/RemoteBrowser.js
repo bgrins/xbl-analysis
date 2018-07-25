@@ -480,16 +480,14 @@ class RemoteBrowser extends Browser {
 
       case "DOMFullscreen:RequestExit":
         {
-          let windowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
-            .getInterface(Ci.nsIDOMWindowUtils);
+          let windowUtils = window.windowUtils;
           windowUtils.exitFullscreen();
           break;
         }
 
       case "DOMFullscreen:RequestRollback":
         {
-          let windowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
-            .getInterface(Ci.nsIDOMWindowUtils);
+          let windowUtils = window.windowUtils;
           windowUtils.remoteFrameFullscreenReverted();
           break;
         }

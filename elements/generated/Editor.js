@@ -124,10 +124,7 @@ class Editor extends MozXULElement {
   }
 
   get outerWindowID() {
-    return this.contentWindow
-      .QueryInterface(Ci.nsIInterfaceRequestor)
-      .getInterface(Ci.nsIDOMWindowUtils)
-      .outerWindowID;
+    return this.contentWindow.windowUtils.outerWindowID;
   }
 
   makeEditable(editortype, waitForUrlLoad) {

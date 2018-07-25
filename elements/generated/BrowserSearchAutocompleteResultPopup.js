@@ -131,8 +131,7 @@ class BrowserSearchAutocompleteResultPopup extends AutocompleteRichResultPopup {
     this.addEventListener("popupshowing", (event) => {
       // Force the panel to have the width of the searchbar rather than
       // the width of the textfield.
-      let DOMUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
-        .getInterface(Ci.nsIDOMWindowUtils);
+      let DOMUtils = window.windowUtils;
       let textboxRect = DOMUtils.getBoundsWithoutFlushing(this.mInput);
       let inputRect = DOMUtils.getBoundsWithoutFlushing(this.mInput.inputField);
 

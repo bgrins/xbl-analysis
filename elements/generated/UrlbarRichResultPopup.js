@@ -29,8 +29,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
      */
     this.textRunsMaxLen = 255;
 
-    this.DOMWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor)
-      .getInterface(Ci.nsIDOMWindowUtils);
+    this.DOMWindowUtils = window.windowUtils;
 
     this._maxResults = 0;
 

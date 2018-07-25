@@ -16,7 +16,7 @@ class TabbrowserTab extends Tab {
           <image inherits="sharing,selected=visuallyselected,pinned" anonid="sharing-icon" class="tab-sharing-icon-overlay" role="presentation"></image>
           <image inherits="crashed,busy,soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="overlay-icon" class="tab-icon-overlay" role="presentation"></image>
           <hbox class="tab-label-container" inherits="pinned,selected=visuallyselected,labeldirection" onoverflow="this.setAttribute('textoverflow', 'true');" onunderflow="this.removeAttribute('textoverflow');" flex="1">
-            <label class="tab-text tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation"></label>
+            <label class="tab-text tab-label" anonid="tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation"></label>
           </hbox>
           <image inherits="soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="soundplaying-icon" class="tab-icon-sound" role="presentation"></image>
           <image anonid="close-button" inherits="fadein,pinned,selected=visuallyselected" class="tab-close-button close-icon" role="presentation"></image>

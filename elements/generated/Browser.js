@@ -298,18 +298,12 @@ class Browser extends MozXULElement {
   }
 
   get outerWindowID() {
-    return this.contentWindow
-      .QueryInterface(Ci.nsIInterfaceRequestor)
-      .getInterface(Ci.nsIDOMWindowUtils)
-      .outerWindowID;
+    return this.contentWindow.windowUtils.outerWindowID;
   }
 
   get innerWindowID() {
     try {
-      return this.contentWindow
-        .QueryInterface(Ci.nsIInterfaceRequestor)
-        .getInterface(Ci.nsIDOMWindowUtils)
-        .currentInnerWindowID;
+      return this.contentWindow.windowUtils.currentInnerWindowID;
     } catch (e) {
       if (e.result != Cr.NS_ERROR_NOT_AVAILABLE) {
         throw e;

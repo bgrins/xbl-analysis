@@ -108,14 +108,7 @@ class Arrowscrollbox extends Basecontrol {
 
   _boundsWithoutFlushing(element) {
     if (!("_DOMWindowUtils" in this)) {
-      try {
-        this._DOMWindowUtils =
-          window.QueryInterface(Ci.nsIInterfaceRequestor)
-          .getInterface(Ci.nsIDOMWindowUtils);
-      } catch (e) {
-        // Can't access nsIDOMWindowUtils if we're unprivileged.
-        this._DOMWindowUtils = null;
-      }
+      this._DOMWindowUtils = window.windowUtils;
     }
 
     return this._DOMWindowUtils ?
