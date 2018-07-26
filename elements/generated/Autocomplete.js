@@ -30,8 +30,6 @@ class Autocomplete extends Textbox {
      */
     this._popup = null;
 
-    this.shrinkDelay = parseInt(this.getAttribute("shrinkdelay")) || 0;
-
     /**
      * This is the maximum number of drop-down rows we get when we
      * hit the drop marker beside fields that have it (like the URLbar).

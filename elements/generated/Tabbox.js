@@ -1,6 +1,5 @@
-class Tabbox extends TabBase {
+class Tabbox extends MozXULElement {
   connectedCallback() {
-    super.connectedCallback()
 
     this._handleMetaAltArrows = /Mac/.test(navigator.platform);
 

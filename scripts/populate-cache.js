@@ -50,6 +50,9 @@ function populateBindingCache(rev) {
 }
 
 async function populateUsageData(rev) {
+  // Skip usage data for now since we aren't showing it in the tree until
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1443328.
+  return;
   if (!rev) {
     throw "Need a rev";
   }

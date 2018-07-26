@@ -1,6 +1,5 @@
-class Tabpanels extends TabBase {
+class Tabpanels extends MozXULElement {
   connectedCallback() {
-    super.connectedCallback()
 
     /**
      * public
