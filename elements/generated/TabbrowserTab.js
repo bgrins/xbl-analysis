@@ -373,10 +373,12 @@ class TabbrowserTab extends Tab {
         if (shiftKey) {
           const lastSelectedTab = gBrowser.lastMultiSelectedTab;
           if (!accelKey) {
-            gBrowser.clearMultiSelectedTabs(true);
+            gBrowser.selectedTab = lastSelectedTab;
+
+            // Make sure selection is cleared when tab-switch doesn't happen.
+            gBrowser.clearMultiSelectedTabs(false);
           }
           gBrowser.addRangeToMultiSelectedTabs(lastSelectedTab, this);
-          gBrowser.selectedTab = lastSelectedTab;
           return;
         }
         if (accelKey) {

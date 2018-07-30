@@ -774,7 +774,10 @@ class TabbrowserTabs extends Tabs {
   }
 
   _setupEventListeners() {
-    this.addEventListener("TabSelect", (event) => { this._handleTabSelect(); });
+    this.addEventListener("TabSelect", (event) => {
+      this._handleTabSelect();
+      gBrowser.clearMultiSelectedTabs(true);
+    });
 
     this.addEventListener("TabClose", (event) => {
       this._hiddenSoundPlayingStatusChanged(event.target, { closed: true });

@@ -1302,8 +1302,9 @@ class Urlbar extends Autocomplete {
   updateTextOverflow() {
     if (this._inOverflow) {
       window.promiseDocumentFlushed(() => {
+        // Check overflow again to ensure it didn't change in the meanwhile.
         let input = this.inputField;
-        if (input) {
+        if (input && this._inOverflow) {
           let side = input.scrollLeft &&
             input.scrollLeft == input.scrollLeftMax ? "start" : "end";
           this.setAttribute("textoverflow", side);
