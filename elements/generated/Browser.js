@@ -135,6 +135,7 @@ class Browser extends MozXULElement {
       this.messageManager.addMessageListener("AudioPlayback:ActiveMediaBlockStart", this);
       this.messageManager.addMessageListener("AudioPlayback:ActiveMediaBlockStop", this);
       this.messageManager.addMessageListener("UnselectedTabHover:Toggle", this);
+      this.messageManager.addMessageListener("AudibleAutoplayMediaOccurred", this);
 
       if (this.hasAttribute("selectmenulist")) {
         this.messageManager.addMessageListener("Forms:ShowDropDown", this);
@@ -604,6 +605,12 @@ class Browser extends MozXULElement {
     this.dispatchEvent(event);
   }
 
+  notifyAudibleAutoplayMediaOccurred() {
+    let event = document.createEvent("Events");
+    event.initEvent("AudibleAutoplayMediaOccurred", true, false);
+    this.dispatchEvent(event);
+  }
+
   /**
    * When the pref "media.block-autoplay-until-in-foreground" is on,
    * Gecko delays starting playback of media resources in tabs until the
@@ -790,6 +797,9 @@ class Browser extends MozXULElement {
         this._shouldSendUnselectedTabHover = data.enable ?
           ++this._unselectedTabHoverMessageListenerCount > 0 :
           --this._unselectedTabHoverMessageListenerCount == 0;
+        break;
+      case "AudibleAutoplayMediaOccurred":
+        this.notifyAudibleAutoplayMediaOccurred();
         break;
       case "Forms:ShowDropDown":
         {

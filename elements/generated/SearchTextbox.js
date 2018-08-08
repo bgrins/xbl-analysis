@@ -3,14 +3,14 @@ class SearchTextbox extends Textbox {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
-      <hbox class="textbox-input-box" flex="1" inherits="context,spellcheck" align="center">
+      <moz-input-box anonid="moz-input-box" flex="1" inherits="context,spellcheck" align="center">
         <image class="textbox-search-sign"></image>
         <html:input class="textbox-input" anonid="input" mozactionhint="search" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint,spellcheck"></html:input>
         <deck class="textbox-search-icons" anonid="search-icons">
           <image class="textbox-search-icon" anonid="searchbutton-icon" inherits="src=image,label=searchbuttonlabel,searchbutton,disabled"></image>
           <image class="textbox-search-clear" onclick="document.getBindingParent(this)._clearSearch();" label="FROM-DTD.searchTextBox.clear.label;" inherits="disabled"></image>
         </deck>
-      </hbox>
+      </moz-input-box>
     `));
     this._timer = null;
 

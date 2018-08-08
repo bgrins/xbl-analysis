@@ -3,7 +3,7 @@ class InstallStatus extends MozXULElement {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
       <label anonid="message"></label>
-      <progressmeter anonid="progress" class="download-progress"></progressmeter>
+      <box anonid="progress" class="download-progress"></box>
       <button anonid="install-remote-btn" hidden="true" class="addon-control install" label="FROM-DTD.addon.install.label;" tooltiptext="FROM-DTD.addon.install.tooltip;" oncommand="document.getBindingParent(this).installRemote();"></button>
     `));
     this._message = document.getAnonymousElementByAttribute(this, "anonid", "message");
@@ -122,8 +122,7 @@ class InstallStatus extends MozXULElement {
         }
         let subject = {
           wrappedJSObject: {
-            target: window.QueryInterface(Ci.nsIInterfaceRequestor)
-              .getInterface(Ci.nsIDocShell).chromeEventHandler,
+            target: window.docShell.chromeEventHandler,
             info: {
               addon: info.addon,
               source: "AMO",

@@ -3,10 +3,10 @@ class Autocomplete extends Textbox {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="image|deck|stack|box"></children>
-      <hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
+      <moz-input-box anonid="moz-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
         <children></children>
         <html:input anonid="input" class="autocomplete-textbox textbox-input" allowevents="true" inherits="tooltiptext=inputtooltiptext,value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
-      </hbox>
+      </moz-input-box>
       <children includes="hbox"></children>
       <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>
       <children includes="toolbarbutton"></children>

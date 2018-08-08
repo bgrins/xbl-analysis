@@ -336,6 +336,10 @@ class TabbrowserTab extends Tab {
     });
 
     this.addEventListener("mousedown", (event) => {
+      if (event.button == 0 && !this.selected && this.multiselected) {
+        gBrowser.lockClearMultiSelectionOnce();
+      }
+
       let tabContainer = this.parentNode;
       if (tabContainer._closeTabByDblclick &&
         event.button == 0 &&
@@ -384,11 +388,11 @@ class TabbrowserTab extends Tab {
         if (accelKey) {
           // Ctrl (Cmd for mac) key is pressed
           if (this.multiselected) {
-            gBrowser.removeFromMultiSelectedTabs(this);
+            gBrowser.removeFromMultiSelectedTabs(this, true);
             if (this == gBrowser.selectedTab) {
               gBrowser.switchToNextMultiSelectedTab();
             }
-            gBrowser.updateActiveTabMultiSelectState();
+            gBrowser.avoidSingleSelectedTab();
           } else if (this != gBrowser.selectedTab) {
             for (let tab of [this, gBrowser.selectedTab]) {
               gBrowser.addToMultiSelectedTabs(tab, true);

@@ -2,9 +2,9 @@ class Numberbox extends Textbox {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <hbox class="textbox-input-box numberbox-input-box" flex="1" inherits="context,disabled,focused">
+      <moz-input-box anonid="moz-input-box" class="numberbox-input-box" flex="1" inherits="context,disabled,focused">
         <html:input class="numberbox-input textbox-input" type="number" anonid="input" inherits="value,min,max,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"></html:input>
-      </hbox>
+      </moz-input-box>
     `));
     this._valueEntered = false;
 

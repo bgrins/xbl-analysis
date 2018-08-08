@@ -29,8 +29,6 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
      */
     this.textRunsMaxLen = 255;
 
-    this.DOMWindowUtils = window.windowUtils;
-
     this._maxResults = 0;
 
     this._bundle = Cc["@mozilla.org/intl/stringbundle;1"].
@@ -238,7 +236,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
 
     // Make the popup span the width of the window.  First, set its width.
     let documentRect =
-      this.DOMWindowUtils
+      window.windowUtils
       .getBoundsWithoutFlushing(window.document.documentElement);
     let width = documentRect.right - documentRect.left;
     this.setAttribute("width", width);
@@ -246,7 +244,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
     // Now make its starting margin negative so that its leading edge
     // aligns with the window border.
     let elementRect =
-      this.DOMWindowUtils.getBoundsWithoutFlushing(aElement);
+      window.windowUtils.getBoundsWithoutFlushing(aElement);
     if (popupDirection == "rtl") {
       let offset = elementRect.right - documentRect.right;
       this.style.marginRight = offset + "px";
@@ -263,7 +261,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
     // and underflow must be handled for each item already in the popup.
     let needsHandleOverUnderflow = false;
     let boundToCheck = popupDirection == "rtl" ? "right" : "left";
-    let inputRect = this.DOMWindowUtils.getBoundsWithoutFlushing(aInput);
+    let inputRect = window.windowUtils.getBoundsWithoutFlushing(aInput);
     let startOffset = Math.abs(inputRect[boundToCheck] - documentRect[boundToCheck]);
     let alignSiteIcons = startOffset / width <= 0.3 || startOffset <= 250;
     if (alignSiteIcons) {
@@ -279,7 +277,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
       }
       let identityIcon = document.getElementById("identity-icon");
       let identityRect =
-        this.DOMWindowUtils.getBoundsWithoutFlushing(identityIcon);
+        window.windowUtils.getBoundsWithoutFlushing(identityIcon);
       let start = popupDirection == "rtl" ?
         documentRect.right - identityRect.right :
         identityRect.left;
@@ -327,8 +325,8 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
     // which is an offset from the bottom of the input, subtract the
     // bottom of the navbar from the buttom of the input.
     let yOffset = Math.round(
-      this.DOMWindowUtils.getBoundsWithoutFlushing(document.getElementById("nav-bar")).bottom -
-      this.DOMWindowUtils.getBoundsWithoutFlushing(aInput).bottom);
+      window.windowUtils.getBoundsWithoutFlushing(document.getElementById("nav-bar")).bottom -
+      window.windowUtils.getBoundsWithoutFlushing(aInput).bottom);
 
     this.openPopup(aElement, "after_start", 0, yOffset, false, false);
 

@@ -2,9 +2,9 @@ class MenulistEditable extends Menulist {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <hbox class="menulist-editable-box textbox-input-box" inherits="context,disabled,readonly,focused" flex="1">
+      <moz-input-box class="menulist-editable-box moz-input-box" inherits="context,disabled,readonly,focused" flex="1">
         <html:input class="menulist-editable-input" anonid="input" allowevents="true" inherits="value=label,value,disabled,tabindex,readonly,placeholder"></html:input>
-      </hbox>
+      </moz-input-box>
       <dropmarker class="menulist-dropmarker" type="menu" inherits="open,disabled,parentfocused=focused"></dropmarker>
       <children includes="menupopup"></children>
     `));

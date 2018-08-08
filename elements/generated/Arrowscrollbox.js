@@ -25,7 +25,7 @@ class Arrowscrollbox extends Basecontrol {
     this._isRTLScrollbox = this.orient != "vertical" &&
       document.defaultView.getComputedStyle(this._scrollbox).direction == "rtl";
 
-    this._scrollTarget = null;
+    this._ensureElementIsVisibleAnimationFrame = 0;
 
     this._prevMouseScrolls = [null, null];
 
@@ -133,22 +133,18 @@ class Arrowscrollbox extends Basecontrol {
     if (!this._canScrollToElement(element))
       return;
 
-    element.scrollIntoView({ behavior: aInstant ? "instant" : "auto" });
+    if (this._ensureElementIsVisibleAnimationFrame) {
+      window.cancelAnimationFrame(this._ensureElementIsVisibleAnimationFrame);
+    }
+    this._ensureElementIsVisibleAnimationFrame = window.requestAnimationFrame(() => {
+      element.scrollIntoView({ behavior: aInstant ? "instant" : "auto" });
+      this._ensureElementIsVisibleAnimationFrame = 0;
+    });
   }
 
   scrollByIndex(index, aInstant) {
     if (index == 0)
       return;
-
-    // Each scrollByIndex call is expected to scroll the given number of
-    // items. If a previous call is still in progress because of smooth
-    // scrolling, we need to complete it before starting a new one.
-    if (this._scrollTarget) {
-      let elements = this._getScrollableElements();
-      if (this._scrollTarget != elements[0] &&
-        this._scrollTarget != elements[elements.length - 1])
-        this.ensureElementIsVisible(this._scrollTarget, true);
-    }
 
     var rect = this.scrollClientRect;
     var [start, end] = this._startEndProps;

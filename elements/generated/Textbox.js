@@ -3,9 +3,9 @@ class Textbox extends MozXULElement {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
-      <hbox class="textbox-input-box" flex="1" inherits="context,spellcheck">
+      <moz-input-box anonid="moz-input-box" flex="1" inherits="context,spellcheck">
         <html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck"></html:input>
-      </hbox>
+      </moz-input-box>
     `));
     /**
      * nsIDOMXULLabeledControlElement

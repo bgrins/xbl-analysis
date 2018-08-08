@@ -20,7 +20,7 @@ class Findbar extends MozXULElement {
       <toolbarbutton anonid="find-closebutton" class="findbar-closebutton close-icon" tooltiptext="FROM-DTD.findCloseButton.tooltip;" oncommand="close();"></toolbarbutton>
     `));
     /**
-     * Please keep in sync with toolkit/content/browser-content.js
+     * Please keep in sync with toolkit/modules/FindBarChild.jsm
      */
     this.FIND_NORMAL = 0;
 
@@ -559,9 +559,7 @@ class Findbar extends MozXULElement {
     if (!this._xulBrowserWindow) {
       try {
         this._xulBrowserWindow =
-          window.QueryInterface(Ci.nsIInterfaceRequestor)
-          .getInterface(Ci.nsIWebNavigation)
-          .QueryInterface(Ci.nsIDocShellTreeItem)
+          window.docShell
           .treeOwner
           .QueryInterface(Ci.nsIInterfaceRequestor)
           .getInterface(Ci.nsIXULWindow)

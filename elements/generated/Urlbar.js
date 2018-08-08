@@ -4,11 +4,11 @@ class Urlbar extends Autocomplete {
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox flex="1" class="urlbar-textbox-container">
         <children includes="image|deck|stack|box"></children>
-        <hbox anonid="textbox-input-box" class="textbox-input-box urlbar-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
+        <moz-input-box anonid="moz-input-box" class="urlbar-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
           <children></children>
           <html:input anonid="scheme" class="urlbar-scheme textbox-input" required="required" inherits="textoverflow,focused"></html:input>
           <html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
-        </hbox>
+        </moz-input-box>
         <image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD.goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping"></image>
         <dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD.urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping"></dropmarker>
         <children includes="hbox"></children>
@@ -17,8 +17,6 @@ class Urlbar extends Autocomplete {
       <children includes="toolbarbutton"></children>
     `));
     this.ExtensionSearchHandler = (ChromeUtils.import("resource://gre/modules/ExtensionSearchHandler.jsm", {})).ExtensionSearchHandler;
-
-    this.DOMWindowUtils = window.windowUtils;
 
     this.scheme = document.getAnonymousElementByAttribute(this, "anonid", "scheme");
 
@@ -136,11 +134,13 @@ class Urlbar extends Autocomplete {
     this.inputField.addEventListener("overflow", this);
     this.inputField.addEventListener("underflow", this);
     this.inputField.addEventListener("scrollend", this);
+    window.addEventListener("resize", this);
 
     var textBox = document.getAnonymousElementByAttribute(this,
-      "anonid", "textbox-input-box");
-    var cxmenu = document.getAnonymousElementByAttribute(textBox,
-      "anonid", "input-box-contextmenu");
+      "anonid", "moz-input-box");
+    // Force the Custom Element to upgrade until Bug 1470242 handles this:
+    customElements.upgrade(textBox);
+    var cxmenu = textBox.menupopup;
     var pasteAndGo;
     cxmenu.addEventListener("popupshowing", function() {
       if (!pasteAndGo)
@@ -158,7 +158,7 @@ class Urlbar extends Autocomplete {
       insertLocation.getAttribute("cmd") != "cmd_paste")
       insertLocation = insertLocation.nextSibling;
     if (insertLocation) {
-      pasteAndGo = document.createElement("menuitem");
+      pasteAndGo = document.createXULElement("menuitem");
       let label = Services.strings.createBundle("chrome://browser/locale/browser.properties").
       GetStringFromName("pasteAndGo.label");
       pasteAndGo.setAttribute("label", label);
@@ -594,7 +594,7 @@ class Urlbar extends Autocomplete {
       // invoked regardless, thus this should be enough.
       if (this._formattingInstance != instance)
         return;
-      let isDomainRTL = this.DOMWindowUtils.getDirectionFromText(domain);
+      let isDomainRTL = window.windowUtils.getDirectionFromText(domain);
       // In the future, for example in bug 525831, we may add a forceRTL
       // char just after the domain, and in such a case we should not
       // scroll to the left.
@@ -1296,6 +1296,25 @@ class Urlbar extends Autocomplete {
         // Ensure to clear those internal caches when switching tabs.
         this.controller.resetInternalState();
         break;
+      case "resize":
+        // Throttle resize handling for performance reasons.
+        if (aEvent.target == window && !this._resizeThrottleTimeout) {
+          this._resizeThrottleTimeout = setTimeout(() => {
+            window.requestAnimationFrame(() => {
+              delete this._resizeThrottleTimeout;
+
+              // Close the popup since it would be wrongly sized, we'll
+              // recalculate a proper size on reopening. For example, this may
+              // happen when using special OS resize functions like Win+Arrow.
+              this.closePopup();
+
+              // Ensure the host remains visible when the input field is not
+              // focused.
+              this.formatValue();
+            });
+          }, 30);
+        }
+        break;
     }
   }
 
@@ -1515,6 +1534,7 @@ class Urlbar extends Autocomplete {
     this.inputField.removeEventListener("overflow", this);
     this.inputField.removeEventListener("underflow", this);
     this.inputField.removeEventListener("scrollend", this);
+    window.removeEventListener("resize", this);
 
     if (this._deferredKeyEventTimeout) {
       clearTimeout(this._deferredKeyEventTimeout);
