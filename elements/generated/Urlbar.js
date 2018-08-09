@@ -134,7 +134,6 @@ class Urlbar extends Autocomplete {
     this.inputField.addEventListener("overflow", this);
     this.inputField.addEventListener("underflow", this);
     this.inputField.addEventListener("scrollend", this);
-    window.addEventListener("resize", this);
 
     var textBox = document.getAnonymousElementByAttribute(this,
       "anonid", "moz-input-box");
@@ -1224,8 +1223,8 @@ class Urlbar extends Autocomplete {
   }
 
   _enableOrDisableOneOffSearches() {
-    let enable = this._prefs.getBoolPref("oneOffSearches");
-    this.popup.enableOneOffSearches(enable);
+    this.popup.oneOffSearchesEnabled =
+      this._prefs.getBoolPref("oneOffSearches");
   }
 
   handleEvent(aEvent) {
@@ -1295,25 +1294,6 @@ class Urlbar extends Autocomplete {
         // to handle cases like backspace, autofill or repeated searches.
         // Ensure to clear those internal caches when switching tabs.
         this.controller.resetInternalState();
-        break;
-      case "resize":
-        // Throttle resize handling for performance reasons.
-        if (aEvent.target == window && !this._resizeThrottleTimeout) {
-          this._resizeThrottleTimeout = setTimeout(() => {
-            window.requestAnimationFrame(() => {
-              delete this._resizeThrottleTimeout;
-
-              // Close the popup since it would be wrongly sized, we'll
-              // recalculate a proper size on reopening. For example, this may
-              // happen when using special OS resize functions like Win+Arrow.
-              this.closePopup();
-
-              // Ensure the host remains visible when the input field is not
-              // focused.
-              this.formatValue();
-            });
-          }, 30);
-        }
         break;
     }
   }
@@ -1517,6 +1497,48 @@ class Urlbar extends Autocomplete {
     }
   }
 
+  /**
+   * Sets the input's value, starts a search, and opens the popup.
+   *
+   * @param  value
+   * The input's value will be set to this value, and the search will
+   * use it as its query.
+   * @param  options
+   * An optional object with the following optional properties:
+   * * disableOneOffButtons: Set to true to hide the one-off search
+   * buttons.
+   * * disableSearchSuggestionsNotification: Set to true to hide the
+   * onboarding opt-out search suggestions notification.
+   */
+  search(value, options) {
+    this.focus();
+    this.textValue = value;
+
+    options = options || {};
+
+    if (options.disableOneOffButtons) {
+      this.popup.addEventListener("popupshowing", () => {
+        if (this.popup.oneOffSearchesEnabled) {
+          this.popup.oneOffSearchesEnabled = false;
+          this.popup.addEventListener("popuphidden", () => {
+            this.popup.oneOffSearchesEnabled = true;
+          }, { once: true });
+        }
+      }, { once: true });
+    }
+
+    if (options.disableSearchSuggestionsNotification &&
+      this.whichSearchSuggestionsNotification != "none") {
+      let which = this.whichSearchSuggestionsNotification;
+      this._whichSearchSuggestionsNotification = "none";
+      this.popup.addEventListener("popuphidden", () => {
+        this._whichSearchSuggestionsNotification = which;
+      }, { once: true });
+    }
+
+    this.controller.startSearch(value);
+  }
+
   disconnectedCallback() {
     // Somehow, it's possible for the XBL destructor to fire without the
     // constructor ever having fired. Fix:
@@ -1534,7 +1556,6 @@ class Urlbar extends Autocomplete {
     this.inputField.removeEventListener("overflow", this);
     this.inputField.removeEventListener("underflow", this);
     this.inputField.removeEventListener("scrollend", this);
-    window.removeEventListener("resize", this);
 
     if (this._deferredKeyEventTimeout) {
       clearTimeout(this._deferredKeyEventTimeout);

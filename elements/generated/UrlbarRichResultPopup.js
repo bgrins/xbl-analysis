@@ -85,6 +85,28 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
     return this._overrideValue;
   }
 
+  set oneOffSearchesEnabled(val) {
+    this._oneOffSearchesEnabled = !!val;
+    if (val) {
+      this.oneOffSearchButtons.telemetryOrigin = "urlbar";
+      this.oneOffSearchButtons.style.display = "-moz-box";
+      // Set .textbox first, since the popup setter will cause
+      // a _rebuild call that uses it.
+      this.oneOffSearchButtons.textbox = this.input;
+      this.oneOffSearchButtons.popup = this;
+    } else {
+      this.oneOffSearchButtons.telemetryOrigin = null;
+      this.oneOffSearchButtons.style.display = "none";
+      this.oneOffSearchButtons.textbox = null;
+      this.oneOffSearchButtons.popup = null;
+    }
+    return this._oneOffSearchesEnabled;
+  }
+
+  get oneOffSearchesEnabled() {
+    return this._oneOffSearchesEnabled;
+  }
+
   get _isFirstResultHeuristic() {
     // The popup usually has a special "heuristic" first result (added
     // by UnifiedComplete.js) that is automatically selected when the
@@ -155,23 +177,6 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
     }
     // Otherwise "call super" -- do what autocomplete-base-popup does.
     this.input.controller.handleEnter(true, aEvent);
-  }
-
-  enableOneOffSearches(enable) {
-    this._oneOffSearchesEnabled = enable;
-    if (enable) {
-      this.oneOffSearchButtons.telemetryOrigin = "urlbar";
-      this.oneOffSearchButtons.style.display = "-moz-box";
-      // Set .textbox first, since the popup setter will cause
-      // a _rebuild call that uses it.
-      this.oneOffSearchButtons.textbox = this.input;
-      this.oneOffSearchButtons.popup = this;
-    } else {
-      this.oneOffSearchButtons.telemetryOrigin = null;
-      this.oneOffSearchButtons.style.display = "none";
-      this.oneOffSearchButtons.textbox = null;
-      this.oneOffSearchButtons.popup = null;
-    }
   }
 
   /**

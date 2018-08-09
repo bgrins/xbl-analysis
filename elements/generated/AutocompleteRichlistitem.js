@@ -436,7 +436,7 @@ class AutocompleteRichlistitem extends Richlistitem {
     }
 
     this.removeAttribute("actiontype");
-    this.classList.remove("overridable-action");
+    this.classList.remove("overridable-action", "emptySearchQuery");
 
     // If the type includes an action, set up the item appropriately.
     if (initialTypes.has("action") || action) {
@@ -505,6 +505,11 @@ class AutocompleteRichlistitem extends Richlistitem {
                 ];
               }
             } else {
+              // Add the emptySearchQuery class if the search query is the
+              // empty string.  We use it to hide .ac-separator in CSS.
+              if (!searchQuery) {
+                this.classList.add("emptySearchQuery");
+              }
               pairs = [
                 [searchQuery, ""],
               ];

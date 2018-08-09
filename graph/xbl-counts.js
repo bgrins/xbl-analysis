@@ -37832,14 +37832,14 @@ var DATA = {
     },
     label: "2018-08-07"
   },
-  "master@{2018-08-08}": {
+  "master@{2018-08-09}": {
     numBindings: 163,
     numInContentBindings: 31,
-    loc: 33436,
+    loc: 33469,
     directoryLOC: {
-      browser: 9960,
+      browser: 9988,
       dom: 710,
-      toolkit: 22083,
+      toolkit: 22088,
       mobile: 0,
       layout: 726,
       xpfe: 0
@@ -37854,16 +37854,16 @@ var DATA = {
     },
     bindingsLOC: {
       videoControls: 2151,
-      urlbar: 1834,
+      urlbar: 1859,
       browser: 1588,
       "tabbrowser-tabs": 1548,
       "search-one-offs": 1264,
       findbar: 1185,
       richlistbox: 959,
       "addon-generic": 946,
-      "autocomplete-richlistitem": 931,
+      "autocomplete-richlistitem": 936,
       tree: 903,
-      "urlbar-rich-result-popup": 838,
+      "urlbar-rich-result-popup": 841,
       "places-tree": 791,
       "time-input": 769,
       marquee: 660,
@@ -38015,7 +38015,7 @@ var DATA = {
       menu: 5,
       "toolbarbutton-badged-menu": 5
     },
-    label: "2018-08-08"
+    label: "2018-08-09"
   }
 };
 var SORTED_BINDINGS = {
