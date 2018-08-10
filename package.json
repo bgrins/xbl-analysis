@@ -14,10 +14,10 @@
   "author": "",
   "dependencies": {
     "js-beautify": "^1.7.5",
-    "moment": "^2.19.1",
+    "moment": "^2.22.2",
     "prettier": "^1.4.4",
-    "request": "^2.81.0",
-    "request-promise-native": "^1.0.4",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
     "xmlom": "^3.3.0"
   }
 }

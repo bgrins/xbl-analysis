@@ -70,8 +70,6 @@ class RemoteBrowser extends Browser {
     this.messageManager.addMessageListener("FullZoomChange", this);
     this.messageManager.addMessageListener("TextZoomChange", this);
     this.messageManager.addMessageListener("ZoomChangeUsingMouseWheel", this);
-    this.messageManager.addMessageListener("DOMFullscreen:RequestExit", this);
-    this.messageManager.addMessageListener("DOMFullscreen:RequestRollback", this);
     this.messageManager.addMessageListener("MozApplicationManifest", this);
 
     // browser-child messages, such as Content:LocationChange, are handled in
@@ -475,20 +473,6 @@ class RemoteBrowser extends Browser {
           let event = document.createEvent("Events");
           event.initEvent("ZoomChangeUsingMouseWheel", true, false);
           this.dispatchEvent(event);
-          break;
-        }
-
-      case "DOMFullscreen:RequestExit":
-        {
-          let windowUtils = window.windowUtils;
-          windowUtils.exitFullscreen();
-          break;
-        }
-
-      case "DOMFullscreen:RequestRollback":
-        {
-          let windowUtils = window.windowUtils;
-          windowUtils.remoteFrameFullscreenReverted();
           break;
         }
 
