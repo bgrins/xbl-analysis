@@ -105,21 +105,21 @@ class Menulist extends Basecontrol {
   }
 
   get itemCount() {
-    return this.menupopup ? this.menupopup.childNodes.length : 0
+    return this.menupopup ? this.menupopup.children.length : 0
   }
 
   get menupopup() {
-    var popup = this.firstChild;
+    var popup = this.firstElementChild;
     while (popup && popup.localName != "menupopup")
-      popup = popup.nextSibling;
+      popup = popup.nextElementSibling;
     return popup;
   }
 
   set selectedIndex(val) {
     var popup = this.menupopup;
     if (popup && 0 <= val) {
-      if (val < popup.childNodes.length)
-        this.selectedItem = popup.childNodes[val];
+      if (val < popup.children.length)
+        this.selectedItem = popup.children[val];
     } else
       this.selectedItem = null;
     return val;
@@ -132,7 +132,7 @@ class Menulist extends Basecontrol {
       this.mSelectedInternal.parentNode.parentNode != this)
       return -1;
 
-    var children = this.mSelectedInternal.parentNode.childNodes;
+    var children = this.mSelectedInternal.parentNode.children;
     var i = children.length;
     while (i--)
       if (children[i] == this.mSelectedInternal)
@@ -237,7 +237,7 @@ class Menulist extends Basecontrol {
   getIndexOfItem(item) {
     var popup = this.menupopup;
     if (popup) {
-      var children = popup.childNodes;
+      var children = popup.children;
       var i = children.length;
       while (i--)
         if (children[i] == item)
@@ -249,7 +249,7 @@ class Menulist extends Basecontrol {
   getItemAtIndex(index) {
     var popup = this.menupopup;
     if (popup) {
-      var children = popup.childNodes;
+      var children = popup.children;
       if (index >= 0 && index < children.length)
         return children[index];
     }

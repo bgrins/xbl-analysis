@@ -152,10 +152,10 @@ class Urlbar extends Autocomplete {
         pasteAndGo.setAttribute("disabled", "true");
     });
 
-    var insertLocation = cxmenu.firstChild;
-    while (insertLocation.nextSibling &&
+    var insertLocation = cxmenu.firstElementChild;
+    while (insertLocation.nextElementSibling &&
       insertLocation.getAttribute("cmd") != "cmd_paste")
-      insertLocation = insertLocation.nextSibling;
+      insertLocation = insertLocation.nextElementSibling;
     if (insertLocation) {
       pasteAndGo = document.createXULElement("menuitem");
       let label = Services.strings.createBundle("chrome://browser/locale/browser.properties").
@@ -164,7 +164,7 @@ class Urlbar extends Autocomplete {
       pasteAndGo.setAttribute("anonid", "paste-and-go");
       pasteAndGo.setAttribute("oncommand",
         "gURLBar.select(); goDoCommand('cmd_paste'); gURLBar.handleCommand();");
-      cxmenu.insertBefore(pasteAndGo, insertLocation.nextSibling);
+      cxmenu.insertBefore(pasteAndGo, insertLocation.nextElementSibling);
     }
 
     this.popup.addEventListener("popupshowing", () => {

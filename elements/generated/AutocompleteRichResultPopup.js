@@ -67,7 +67,7 @@ class AutocompleteRichResultPopup extends Popup {
       // when clearing the selection (val == -1, so selectedItem will be
       // null), we want to scroll back to the top.  see bug #406194
       this.richlistbox.ensureElementIsVisible(
-        this.richlistbox.selectedItem || this.richlistbox.firstChild);
+        this.richlistbox.selectedItem || this.richlistbox.firstElementChild);
     }
     return val;
   }
@@ -200,9 +200,9 @@ class AutocompleteRichResultPopup extends Popup {
   }
 
   _collapseUnusedItems() {
-    let existingItemsCount = this.richlistbox.childNodes.length;
+    let existingItemsCount = this.richlistbox.children.length;
     for (let i = this.matchCount; i < existingItemsCount; ++i) {
-      let item = this.richlistbox.childNodes[i];
+      let item = this.richlistbox.children[i];
 
       item.collapsed = true;
       if (typeof item._onCollapse == "function") {
@@ -213,7 +213,7 @@ class AutocompleteRichResultPopup extends Popup {
 
   adjustHeight() {
     // Figure out how many rows to show
-    let rows = this.richlistbox.childNodes;
+    let rows = this.richlistbox.children;
     let numRows = Math.min(this.matchCount, this.maxRows, rows.length);
 
     // Default the height to 0 if we have no rows to show
@@ -253,7 +253,7 @@ class AutocompleteRichResultPopup extends Popup {
   _appendCurrentResult(invalidateReason) {
     var controller = this.mInput.controller;
     var matchCount = this.matchCount;
-    var existingItemsCount = this.richlistbox.childNodes.length;
+    var existingItemsCount = this.richlistbox.children.length;
 
     // Process maxRows per chunk to improve performance and user experience
     for (let i = 0; i < this.maxRows; i++) {
@@ -279,7 +279,7 @@ class AutocompleteRichResultPopup extends Popup {
       let trimmedSearchString = controller.searchString.replace(/^\s+/, "").replace(/\s+$/, "");
 
       if (itemExists) {
-        item = this.richlistbox.childNodes[this._currentIndex];
+        item = this.richlistbox.children[this._currentIndex];
 
         // Url may be a modified version of value, see _adjustAcItem().
         originalValue = item.getAttribute("url") || item.getAttribute("ac-value");

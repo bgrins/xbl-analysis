@@ -326,9 +326,9 @@ class SearchOneOffs extends MozXULElement {
     if (this.selectedButton && !isOneOffSelected)
       this.selectedButton = null;
     if (this.query) {
-      groupText = headerSearchText.previousSibling.value +
+      groupText = headerSearchText.previousElementSibling.value +
         '"' + headerSearchText.value + '"' +
-        headerSearchText.nextSibling.value;
+        headerSearchText.nextElementSibling.value;
       if (!isOneOffSelected)
         this.header.selectedIndex = 1;
     } else {
@@ -372,12 +372,12 @@ class SearchOneOffs extends MozXULElement {
     }
 
     // Finally, build the list of one-off buttons.
-    while (this.buttons.firstChild != this.settingsButtonCompact)
-      this.buttons.firstChild.remove();
+    while (this.buttons.firstElementChild != this.settingsButtonCompact)
+      this.buttons.firstElementChild.remove();
     // Remove the trailing empty text node introduced by the binding's
     // content markup above.
-    if (this.settingsButtonCompact.nextSibling)
-      this.settingsButtonCompact.nextSibling.remove();
+    if (this.settingsButtonCompact.nextElementSibling)
+      this.settingsButtonCompact.nextElementSibling.remove();
 
     let engines = this.engines;
     let oneOffCount = engines.length;
@@ -477,7 +477,7 @@ class SearchOneOffs extends MozXULElement {
         // width of the last dummy item by the remainder.
         let remainder = panelWidth - (enginesPerRow * buttonWidth);
         let width = remainder + buttonWidth;
-        let lastDummyItem = this.settingsButtonCompact.previousSibling;
+        let lastDummyItem = this.settingsButtonCompact.previousElementSibling;
         lastDummyItem.setAttribute("width", width);
       }
     }
@@ -635,7 +635,7 @@ class SearchOneOffs extends MozXULElement {
 
   getSelectableButtons(aIncludeNonEngineButtons) {
     let buttons = [];
-    for (let oneOff = this.buttons.firstChild; oneOff; oneOff = oneOff.nextSibling) {
+    for (let oneOff = this.buttons.firstElementChild; oneOff; oneOff = oneOff.nextElementSibling) {
       // oneOff may be a text node since the list xul:description contains
       // whitespace and the compact settings button.  See the markup
       // above.  _rebuild removes text nodes, but it may not have been
@@ -649,7 +649,7 @@ class SearchOneOffs extends MozXULElement {
     }
 
     if (aIncludeNonEngineButtons) {
-      for (let addEngine = this.addEngines.firstChild; addEngine; addEngine = addEngine.nextSibling) {
+      for (let addEngine = this.addEngines.firstElementChild; addEngine; addEngine = addEngine.nextElementSibling) {
         buttons.push(addEngine);
       }
       buttons.push(this.compact ? this.settingsButtonCompact : this.settingsButton);

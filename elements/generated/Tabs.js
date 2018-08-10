@@ -22,7 +22,7 @@ class Tabs extends Basecontrol {
       return;
     }
 
-    var children = this.childNodes;
+    var children = this.children;
     var length = children.length;
     for (var i = 0; i < length; i++) {
       if (children[i].getAttribute("selected") == "true") {
@@ -43,12 +43,12 @@ class Tabs extends Basecontrol {
    * nsIDOMXULSelectControlElement
    */
   get itemCount() {
-    return this.childNodes.length
+    return this.children.length
   }
 
   set value(val) {
     this.setAttribute("value", val);
-    var children = this.childNodes;
+    var children = this.children;
     for (var c = children.length - 1; c >= 0; c--) {
       if (children[c].value == val) {
         this.selectedIndex = c;
@@ -83,7 +83,7 @@ class Tabs extends Basecontrol {
   set selectedIndex(val) {
     var tab = this.getItemAtIndex(val);
     if (tab) {
-      Array.forEach(this.childNodes, function(aTab) {
+      Array.forEach(this.children, function(aTab) {
         if (aTab.selected && aTab != tab)
           aTab._selected = false;
       });
@@ -104,7 +104,7 @@ class Tabs extends Basecontrol {
   }
 
   get selectedIndex() {
-    const tabs = this.childNodes;
+    const tabs = this.children;
     for (var i = 0; i < tabs.length; i++) {
       if (tabs[i].selected)
         return i;
@@ -121,7 +121,7 @@ class Tabs extends Basecontrol {
   }
 
   get selectedItem() {
-    const tabs = this.childNodes;
+    const tabs = this.children;
     for (var i = 0; i < tabs.length; i++) {
       if (tabs[i].selected)
         return tabs[i];
@@ -169,24 +169,24 @@ class Tabs extends Basecontrol {
     // otherwise linked tabpanel element has the same index as the given
     // tab element.
     let tabElmIdx = this.getIndexOfItem(aTabElm);
-    return tabpanelsElm.childNodes[tabElmIdx];
+    return tabpanelsElm.children[tabElmIdx];
   }
 
   getIndexOfItem(item) {
-    return Array.indexOf(this.childNodes, item);
+    return Array.indexOf(this.children, item);
   }
 
   getItemAtIndex(index) {
-    return this.childNodes.item(index);
+    return this.children.item(index);
   }
 
   _selectNewTab(aNewTab, aFallbackDir, aWrap) {
     var requestedTab = aNewTab;
     while (aNewTab.hidden || aNewTab.disabled || !this._canAdvanceToTab(aNewTab)) {
-      aNewTab = aFallbackDir == -1 ? aNewTab.previousSibling : aNewTab.nextSibling;
+      aNewTab = aFallbackDir == -1 ? aNewTab.previousElementSibling : aNewTab.nextElementSibling;
       if (!aNewTab && aWrap)
-        aNewTab = aFallbackDir == -1 ? this.childNodes[this.childNodes.length - 1] :
-        this.childNodes[0];
+        aNewTab = aFallbackDir == -1 ? this.children[this.children.length - 1] :
+        this.children[0];
       if (!aNewTab || aNewTab == requestedTab)
         return;
     }
@@ -226,8 +226,8 @@ class Tabs extends Basecontrol {
     var startTab = this.selectedItem;
     var next = startTab[aDir == -1 ? "previousSibling" : "nextSibling"];
     if (!next && aWrap) {
-      next = aDir == -1 ? this.childNodes[this.childNodes.length - 1] :
-        this.childNodes[0];
+      next = aDir == -1 ? this.children[this.children.length - 1] :
+        this.children[0];
     }
     if (next && next != startTab) {
       this._selectNewTab(next, aDir, aWrap);

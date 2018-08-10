@@ -338,7 +338,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
     // Do this immediately after we've requested the popup to open. This
     // will cause sync reflows but prevents flickering.
     if (needsHandleOverUnderflow) {
-      for (let item of this.richlistbox.childNodes) {
+      for (let item of this.richlistbox.children) {
         item.handleOverUnderflow();
       }
     }
@@ -352,7 +352,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
     }
     let lastRowCount = this._lastRowCount;
     // Figure out how many rows to show
-    let rows = this.richlistbox.childNodes;
+    let rows = this.richlistbox.children;
     this._lastRowCount = rows.length;
     let numRows = Math.min(this.matchCount, this.maxRows, rows.length);
 
@@ -478,7 +478,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
   _selectedOneOffChanged() {
     // Update all searchengine result items to use the newly selected
     // engine.
-    for (let item of this.richlistbox.childNodes) {
+    for (let item of this.richlistbox.children) {
       if (item.collapsed) {
         break;
       }

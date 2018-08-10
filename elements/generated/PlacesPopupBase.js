@@ -85,8 +85,8 @@ class PlacesPopupBase extends Popup {
 
         if (aTimer == this._folder.openTimer) {
           // Timer to open a submenu that's being dragged over.
-          this._folder.elt.lastChild.setAttribute("autoopened", "true");
-          this._folder.elt.lastChild.openPopup();
+          this._folder.elt.lastElementChild.setAttribute("autoopened", "true");
+          this._folder.elt.lastElementChild.openPopup();
           this._folder.openTimer = null;
         } else if (aTimer == this._folder.closeTimer) {
           // Timer to close a submenu that's been dragged off of.
@@ -140,9 +140,9 @@ class PlacesPopupBase extends Popup {
       //  Close the menubutton, clear out drag styles, and clear all
       //  timers for opening/closing it.
       clear: function OF__clear() {
-        if (this._folder.elt && this._folder.elt.lastChild) {
-          if (!this._folder.elt.lastChild.hasAttribute("dragover"))
-            this._folder.elt.lastChild.hidePopup();
+        if (this._folder.elt && this._folder.elt.lastElementChild) {
+          if (!this._folder.elt.lastElementChild.hasAttribute("dragover"))
+            this._folder.elt.lastElementChild.hidePopup();
           // remove menuactive style
           this._folder.elt.removeAttribute("_moz-menuactive");
           this._folder.elt = null;
@@ -215,8 +215,8 @@ class PlacesPopupBase extends Popup {
       let isMenu = elt.localName == "menu" ||
         (elt.localName == "toolbarbutton" &&
           elt.getAttribute("type") == "menu");
-      if (isMenu && elt.lastChild &&
-        elt.lastChild.hasAttribute("placespopup"))
+      if (isMenu && elt.lastElementChild &&
+        elt.lastElementChild.hasAttribute("placespopup"))
         dropPoint.folderElt = elt;
       return dropPoint;
     }
@@ -416,10 +416,10 @@ class PlacesPopupBase extends Popup {
       let scrollbox = this._scrollBox.boxObject;
       let newMarginTop = 0;
       if (scrollDir == 0) {
-        let elt = this.firstChild;
+        let elt = this.firstElementChild;
         while (elt && event.screenY > elt.boxObject.screenY +
           elt.boxObject.height / 2)
-          elt = elt.nextSibling;
+          elt = elt.nextElementSibling;
         newMarginTop = elt ? elt.boxObject.screenY - scrollbox.screenY :
           scrollbox.height;
       } else if (scrollDir == 1)
@@ -427,7 +427,7 @@ class PlacesPopupBase extends Popup {
 
       // Set the new marginTop based on arrowscrollbox.
       newMarginTop += scrollbox.y - this._scrollBox.boxObject.y;
-      this._indicatorBar.firstChild.style.marginTop = newMarginTop + "px";
+      this._indicatorBar.firstElementChild.style.marginTop = newMarginTop + "px";
       this._indicatorBar.hidden = false;
 
       event.preventDefault();

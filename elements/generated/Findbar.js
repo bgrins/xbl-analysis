@@ -142,8 +142,10 @@ class Findbar extends MozXULElement {
 
     // Make sure the FAYT keypress listener is attached by initializing the
     // browser property
-    if (this.getAttribute("browserid"))
+    if (this.getAttribute("browserid")) {
+      // eslint-disable-next-line no-self-assign
       setTimeout(function(aSelf) { aSelf.browser = aSelf.browser; }, 0, this);
+    }
 
     this._setupEventListeners();
   }
@@ -683,7 +685,7 @@ class Findbar extends MozXULElement {
   _updateFindUI() {
     let showMinimalUI = this._findMode != this.FIND_NORMAL;
 
-    let nodes = this.getElement("findbar-container").childNodes;
+    let nodes = this.getElement("findbar-container").children;
     let wrapper = this.getElement("findbar-textbox-wrapper");
     let foundMatches = this._foundMatches;
     for (let node of nodes) {

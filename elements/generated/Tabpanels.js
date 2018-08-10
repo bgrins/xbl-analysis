@@ -6,7 +6,7 @@ class Tabpanels extends MozXULElement {
      */
     this._tabbox = null;
 
-    this._selectedPanel = this.childNodes.item(this.selectedIndex);
+    this._selectedPanel = this.children.item(this.selectedIndex);
 
     this._setupEventListeners();
   }
@@ -30,15 +30,15 @@ class Tabpanels extends MozXULElement {
   }
 
   set selectedIndex(val) {
-    if (val < 0 || val >= this.childNodes.length)
+    if (val < 0 || val >= this.children.length)
       return val;
 
     // Give the tabbrowser a chance to run logic regardless of
     // whether the panel is going to change:
-    this.dispatchEvent(new CustomEvent("preselect", { detail: this.getRelatedElement(this.childNodes[val]) }));
+    this.dispatchEvent(new CustomEvent("preselect", { detail: this.getRelatedElement(this.children[val]) }));
 
     var panel = this._selectedPanel;
-    this._selectedPanel = this.childNodes[val];
+    this._selectedPanel = this.children[val];
     this.setAttribute("selectedIndex", val);
     if (this._selectedPanel != panel) {
       var event = document.createEvent("Events");
@@ -55,7 +55,7 @@ class Tabpanels extends MozXULElement {
 
   set selectedPanel(val) {
     var selectedIndex = -1;
-    for (var panel = val; panel != null; panel = panel.previousSibling)
+    for (var panel = val; panel != null; panel = panel.previousElementSibling)
       ++selectedIndex;
     this.selectedIndex = selectedIndex;
     return val;
@@ -82,11 +82,11 @@ class Tabpanels extends MozXULElement {
 
     // Return tab element having 'linkedpanel' attribute equal to the id
     // of the tab panel or the same index as the tab panel element.
-    let tabpanelIdx = Array.indexOf(this.childNodes, aTabPanelElm);
+    let tabpanelIdx = Array.indexOf(this.children, aTabPanelElm);
     if (tabpanelIdx == -1)
       return null;
 
-    let tabElms = tabsElm.childNodes;
+    let tabElms = tabsElm.children;
     let tabElmFromIndex = tabElms[tabpanelIdx];
 
     let tabpanelId = aTabPanelElm.id;

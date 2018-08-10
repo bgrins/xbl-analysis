@@ -122,11 +122,11 @@ class Tab extends Basetext {
     });
 
     this.addEventListener("keydown", (event) => {
-      this.parentNode._selectNewTab(this.parentNode.childNodes[0]);
+      this.parentNode._selectNewTab(this.parentNode.children[0]);
     });
 
     this.addEventListener("keydown", (event) => {
-      var tabs = this.parentNode.childNodes;
+      var tabs = this.parentNode.children;
       this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
     });
 

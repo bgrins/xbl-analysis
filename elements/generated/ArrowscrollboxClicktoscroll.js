@@ -133,8 +133,8 @@ class ArrowscrollboxClicktoscroll extends Arrowscrollbox {
       // so don't scroll too far
       if (targetElement)
         targetElement = scrollBack ?
-        targetElement.nextSibling :
-        targetElement.previousSibling;
+        targetElement.nextElementSibling :
+        targetElement.previousElementSibling;
     }
 
     if (!targetElement) {

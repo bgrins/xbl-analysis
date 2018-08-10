@@ -159,13 +159,13 @@ class Arrowscrollbox extends Basecontrol {
     while (index < 0 && nextElement) {
       if (this._canScrollToElement(nextElement))
         targetElement = nextElement;
-      nextElement = nextElement.previousSibling;
+      nextElement = nextElement.previousElementSibling;
       index++;
     }
     while (index > 0 && nextElement) {
       if (this._canScrollToElement(nextElement))
         targetElement = nextElement;
-      nextElement = nextElement.nextSibling;
+      nextElement = nextElement.nextElementSibling;
       index--;
     }
     if (!targetElement)
@@ -175,11 +175,11 @@ class Arrowscrollbox extends Basecontrol {
   }
 
   _getScrollableElements() {
-    var nodes = this.childNodes;
+    var nodes = this.children;
     if (nodes.length == 1 &&
       nodes[0].localName == "children" &&
       nodes[0].namespaceURI == "http://www.mozilla.org/xbl") {
-      nodes = document.getBindingParent(this).childNodes;
+      nodes = document.getBindingParent(this).children;
     }
 
     return Array.filter(nodes, this._canScrollToElement, this);

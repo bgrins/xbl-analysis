@@ -20,7 +20,7 @@ class CustomizableuiToolbar extends MozXULElement {
     }
 
     // pass the current set of children for comparison with placements:
-    let children = Array.from(this.childNodes)
+    let children = Array.from(this.children)
       .filter(node => node.getAttribute("skipintoolbarset") != "true" && node.id)
       .map(node => node.id);
     CustomizableUI.registerToolbarNode(this, children);
@@ -103,7 +103,7 @@ class CustomizableuiToolbar extends MozXULElement {
   get currentSet() {
     let currentWidgets = new Set();
     for (let node of this.customizationTarget.children) {
-      let realNode = node.localName == "toolbarpaletteitem" ? node.firstChild : node;
+      let realNode = node.localName == "toolbarpaletteitem" ? node.firstElementChild : node;
       if (realNode.getAttribute("skipintoolbarset") != "true") {
         currentWidgets.add(realNode.id);
       }
@@ -112,7 +112,7 @@ class CustomizableuiToolbar extends MozXULElement {
       let overflowTarget = this.getAttribute("overflowtarget");
       let overflowList = this.ownerDocument.getElementById(overflowTarget);
       for (let node of overflowList.children) {
-        let realNode = node.localName == "toolbarpaletteitem" ? node.firstChild : node;
+        let realNode = node.localName == "toolbarpaletteitem" ? node.firstElementChild : node;
         if (realNode.getAttribute("skipintoolbarset") != "true") {
           currentWidgets.add(realNode.id);
         }

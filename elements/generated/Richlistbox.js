@@ -146,7 +146,7 @@ class Richlistbox extends Basecontrol {
   get children() {
     let iface = Ci.nsIDOMXULSelectControlItemElement;
     let children = Array.from(this.childNodes)
-      .filter(node => node instanceof iface);
+      .filter(node => node.nodeType == 1 && node instanceof iface);
     if (this.dir == "reverse" && this._mayReverse) {
       children.reverse();
     }
@@ -581,8 +581,8 @@ class Richlistbox extends Basecontrol {
         } else {
           // XXX hack around a bug in ensureElementIsVisible as it will
           // scroll beyond the last element, bug 493645.
-          var previousElement = this.dir == "reverse" ? currentItem.nextSibling :
-            currentItem.previousSibling;
+          var previousElement = this.dir == "reverse" ? currentItem.nextElementSibling :
+            currentItem.previousElementSibling;
           this.ensureElementIsVisible(previousElement);
         }
       }

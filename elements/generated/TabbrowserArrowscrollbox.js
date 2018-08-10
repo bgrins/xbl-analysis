@@ -10,7 +10,7 @@ class TabbrowserArrowscrollbox extends ArrowscrollboxClicktoscroll {
    * inherited from the binding parent
    */
   _getScrollableElements() {
-    return Array.filter(document.getBindingParent(this).childNodes,
+    return Array.filter(document.getBindingParent(this).children,
       this._canScrollToElement, this);
   }
 

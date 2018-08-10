@@ -15,7 +15,7 @@ class Popup extends MozXULElement {
     this.addEventListener("popupshowing", (event) => {
       var array = [];
       var width = 0;
-      for (var menuitem = this.firstChild; menuitem; menuitem = menuitem.nextSibling) {
+      for (var menuitem = this.firstElementChild; menuitem; menuitem = menuitem.nextElementSibling) {
         if (menuitem.localName == "menuitem" && menuitem.hasAttribute("acceltext")) {
           var accel = document.getAnonymousElementByAttribute(menuitem, "anonid", "accel");
           if (accel && accel.boxObject) {

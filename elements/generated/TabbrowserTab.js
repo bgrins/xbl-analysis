@@ -367,6 +367,10 @@ class TabbrowserTab extends Tab {
     }, true);
 
     this.addEventListener("mouseup", (event) => {
+      // Make sure that clear-selection is released.
+      // Otherwise selection using Shift key may be broken.
+      gBrowser.unlockClearMultiSelection();
+
       this.style.MozUserFocus = "";
     });
 

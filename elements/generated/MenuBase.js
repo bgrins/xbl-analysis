@@ -20,14 +20,14 @@ class MenuBase extends MenuitemBase {
 
   get itemCount() {
     var menupopup = this.menupopup;
-    return menupopup ? menupopup.childNodes.length : 0;
+    return menupopup ? menupopup.children.length : 0;
   }
 
   get menupopup() {
     const XUL_NS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
-    for (var child = this.firstChild; child; child = child.nextSibling) {
+    for (var child = this.firstElementChild; child; child = child.nextElementSibling) {
       if (child.namespaceURI == XUL_NS && child.localName == "menupopup")
         return child;
     }
@@ -57,7 +57,7 @@ class MenuBase extends MenuitemBase {
   getIndexOfItem(aItem) {
     var menupopup = this.menupopup;
     if (menupopup) {
-      var items = menupopup.childNodes;
+      var items = menupopup.children;
       var length = items.length;
       for (var index = 0; index < length; ++index) {
         if (items[index] == aItem)
@@ -69,10 +69,10 @@ class MenuBase extends MenuitemBase {
 
   getItemAtIndex(aIndex) {
     var menupopup = this.menupopup;
-    if (!menupopup || aIndex < 0 || aIndex >= menupopup.childNodes.length)
+    if (!menupopup || aIndex < 0 || aIndex >= menupopup.children.length)
       return null;
 
-    return menupopup.childNodes[aIndex];
+    return menupopup.children[aIndex];
   }
 
   _setupEventListeners() {

@@ -61,7 +61,7 @@ class TabbrowserTabs extends Tabs {
       "emptyPrivateTabTitle" : "emptyTabTitle";
     this.emptyTabTitle = gTabBrowserBundle.GetStringFromName("tabs." + strId);
 
-    var tab = this.firstChild;
+    var tab = this.firstElementChild;
     tab.label = this.emptyTabTitle;
 
     window.addEventListener("resize", this);
@@ -127,8 +127,8 @@ class TabbrowserTabs extends Tabs {
 
           gClickAndHoldListenersOnElement.remove(parent);
           parent.removeAttribute("type");
-          if (parent.firstChild) {
-            parent.firstChild.remove();
+          if (parent.firstElementChild) {
+            parent.firstElementChild.remove();
           }
 
           if (containersEnabled) {
@@ -167,7 +167,7 @@ class TabbrowserTabs extends Tabs {
   _getVisibleTabs() {
     // Cannot access gBrowser before it's initialized.
     if (!gBrowser) {
-      return [this.firstChild];
+      return [this.firstElementChild];
     }
 
     return gBrowser.visibleTabs;
@@ -330,15 +330,26 @@ class TabbrowserTabs extends Tabs {
         }
       }
       aTabWidth += "px";
+      let tabsToReset = [];
       for (let i = numPinned; i < tabs.length; i++) {
         let tab = tabs[i];
         tab.style.setProperty("max-width", aTabWidth, "important");
         if (!isEndTab) { // keep tabs the same width
           tab.style.transition = "none";
-          window.getComputedStyle(tab); // flush styles to skip animation; see bug 649247
-          tab.style.transition = "";
+          tabsToReset.push(tab);
         }
       }
+
+      if (tabsToReset.length) {
+        window.promiseDocumentFlushed(() => {}).then(() => {
+          window.requestAnimationFrame(() => {
+            for (let tab of tabsToReset) {
+              tab.style.transition = "";
+            }
+          });
+        });
+      }
+
       this._hasTabTempMaxWidth = true;
       gBrowser.addEventListener("mousemove", this);
       window.addEventListener("mouseout", this);
@@ -393,14 +404,14 @@ class TabbrowserTabs extends Tabs {
         let arrowScrollbox = this.arrowScrollbox;
         layoutData = this._pinnedTabsLayoutCache = {
           uiDensity,
-          pinnedTabWidth: this.childNodes[0].getBoundingClientRect().width,
+          pinnedTabWidth: this.children[0].getBoundingClientRect().width,
           scrollButtonWidth: arrowScrollbox._scrollButtonDown.getBoundingClientRect().width
         };
       }
 
       let width = 0;
       for (let i = numPinned - 1; i >= 0; i--) {
-        let tab = this.childNodes[i];
+        let tab = this.children[i];
         width += layoutData.pinnedTabWidth;
         tab.style.marginInlineStart = -(width + layoutData.scrollButtonWidth) + "px";
         tab._pinnedUnscrollable = true;
@@ -410,7 +421,7 @@ class TabbrowserTabs extends Tabs {
       this.removeAttribute("positionpinnedtabs");
 
       for (let i = 0; i < numPinned; i++) {
-        let tab = this.childNodes[i];
+        let tab = this.children[i];
         tab.style.marginInlineStart = "";
         tab._pinnedUnscrollable = false;
       }
@@ -632,7 +643,7 @@ class TabbrowserTabs extends Tabs {
   }
 
   _getDropIndex(event, isLink) {
-    var tabs = this.childNodes;
+    var tabs = this.children;
     var tab = this._getDragTargetTab(event, isLink);
     if (window.getComputedStyle(this).direction == "ltr") {
       for (let i = tab ? tab._tPos : 0; i < tabs.length; i++)
@@ -716,7 +727,7 @@ class TabbrowserTabs extends Tabs {
 
     // Cannot access gBrowser before it's initialized.
     if (!gBrowser) {
-      return this.tabbox.tabpanels.firstChild;
+      return this.tabbox.tabpanels.firstElementChild;
     }
 
     // If the tab's browser is lazy, we need to `_insertBrowser` in order
@@ -1182,14 +1193,14 @@ class TabbrowserTabs extends Tabs {
         newMargin = (pixelsToScroll > 0) ? maxMargin : minMargin;
       } else {
         let newIndex = this._getDropIndex(event, effects == "link");
-        if (newIndex == this.childNodes.length) {
-          let tabRect = this.childNodes[newIndex - 1].getBoundingClientRect();
+        if (newIndex == this.children.length) {
+          let tabRect = this.children[newIndex - 1].getBoundingClientRect();
           if (ltr)
             newMargin = tabRect.right - rect.left;
           else
             newMargin = rect.right - tabRect.left;
         } else {
-          let tabRect = this.childNodes[newIndex].getBoundingClientRect();
+          let tabRect = this.children[newIndex].getBoundingClientRect();
           if (ltr)
             newMargin = tabRect.left - rect.left;
           else
@@ -1291,7 +1302,14 @@ class TabbrowserTabs extends Tabs {
         }
       } else if (draggedTab) {
         let newIndex = this._getDropIndex(event, false);
-        gBrowser.adoptTab(draggedTab, newIndex, true);
+        let newTabs = [];
+        for (let tab of movingTabs) {
+          let newTab = gBrowser.adoptTab(tab, newIndex++, tab == draggedTab);
+          newTabs.push(newTab);
+        }
+
+        // Restore tab selection
+        gBrowser.addRangeToMultiSelectedTabs(newTabs[0], newTabs[newTabs.length - 1]);
       } else {
         // Pass true to disallow dropping javascript: or data: urls
         let links;
@@ -1424,7 +1442,7 @@ class TabbrowserTabs extends Tabs {
           props.outerWidth = winWidth;
           props.outerHeight = winHeight;
         }
-        gBrowser.replaceTabWithWindow(draggedTab, props);
+        gBrowser.replaceTabsWithWindow(draggedTab, props);
       }
       event.stopPropagation();
     });

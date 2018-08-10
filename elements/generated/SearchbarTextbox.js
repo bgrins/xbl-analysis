@@ -94,17 +94,17 @@ class SearchbarTextbox extends Autocomplete {
     element = document.createElementNS(kXULNS, "menuseparator");
     aMenu.appendChild(element);
 
-    let insertLocation = aMenu.firstChild;
-    while (insertLocation.nextSibling &&
+    let insertLocation = aMenu.firstElementChild;
+    while (insertLocation.nextElementSibling &&
       insertLocation.getAttribute("cmd") != "cmd_paste")
-      insertLocation = insertLocation.nextSibling;
+      insertLocation = insertLocation.nextElementSibling;
     if (insertLocation) {
       element = document.createElementNS(kXULNS, "menuitem");
       label = stringBundle.getString("cmd_pasteAndSearch");
       element.setAttribute("label", label);
       element.setAttribute("anonid", "paste-and-search");
       element.setAttribute("oncommand", "BrowserSearch.pasteAndSearch(event)");
-      aMenu.insertBefore(element, insertLocation.nextSibling);
+      aMenu.insertBefore(element, insertLocation.nextElementSibling);
       pasteAndSearch = element;
     }
 
