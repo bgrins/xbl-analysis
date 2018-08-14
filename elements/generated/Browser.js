@@ -894,8 +894,7 @@ class Browser extends MozXULElement {
   }
 
   _createAutoScrollPopup() {
-    const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var popup = document.createElementNS(XUL_NS, "panel");
+    var popup = document.createXULElement("panel");
     popup.className = "autoscroller";
     // We set this attribute on the element so that mousemove
     // events can be handled by browser-content.js.

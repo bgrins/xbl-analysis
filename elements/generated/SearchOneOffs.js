@@ -425,13 +425,10 @@ class SearchOneOffs extends MozXULElement {
     this.settingsButton.id = origin + "-anon-search-settings";
     this.settingsButtonCompact.id = origin + "-anon-search-settings-compact";
 
-    const kXULNS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-
     let dummyItems = enginesPerRow - (oneOffCount % enginesPerRow || enginesPerRow);
     for (let i = 0; i < engines.length; ++i) {
       let engine = engines[i];
-      let button = document.createElementNS(kXULNS, "button");
+      let button = document.createXULElement("button");
       button.id = this._buttonIDForEngine(engine);
       let uri = "chrome://browser/skin/search-engine-placeholder.png";
       if (engine.iconURI) {
@@ -457,7 +454,7 @@ class SearchOneOffs extends MozXULElement {
 
     let hasDummyItems = !!dummyItems;
     while (dummyItems) {
-      let button = document.createElementNS(kXULNS, "button");
+      let button = document.createXULElement("button");
       button.setAttribute("class", "searchbar-engine-one-off-item dummy last-row");
       button.setAttribute("width", buttonWidth);
 
@@ -499,15 +496,12 @@ class SearchOneOffs extends MozXULElement {
       return;
     }
 
-    const kXULNS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-
     let engines = gBrowser.selectedBrowser.engines;
     let tooManyEngines = engines.length > this._addEngineMenuThreshold;
 
     if (tooManyEngines) {
       // Make the top-level menu button.
-      let button = document.createElementNS(kXULNS, "toolbarbutton");
+      let button = document.createXULElement("toolbarbutton");
       list.appendChild(button);
       button.classList.add("addengine-item", "badged-button");
       button.setAttribute("anonid", "addengine-menu-button");
@@ -526,7 +520,7 @@ class SearchOneOffs extends MozXULElement {
       }
 
       // Now make the button's child menupopup.
-      list = document.createElementNS(kXULNS, "menupopup");
+      list = document.createXULElement("menupopup");
       button.appendChild(list);
       list.setAttribute("anonid", "addengine-menu");
       list.setAttribute("position", "topright topleft");
@@ -553,7 +547,7 @@ class SearchOneOffs extends MozXULElement {
     // handling for free inside menupopups.
     let eltType = tooManyEngines ? "menuitem" : "toolbarbutton";
     for (let engine of engines) {
-      let button = document.createElementNS(kXULNS, eltType);
+      let button = document.createXULElement(eltType);
       button.classList.add("addengine-item");
       if (!tooManyEngines) {
         button.classList.add("badged-button");

@@ -235,8 +235,7 @@ class Tabs extends Basecontrol {
   }
 
   appendItem(label, value) {
-    var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var tab = document.createElementNS(XULNS, "tab");
+    var tab = document.createXULElement("tab");
     tab.setAttribute("label", label);
     tab.setAttribute("value", value);
     this.appendChild(tab);

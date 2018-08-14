@@ -301,7 +301,7 @@ class AutocompleteRichResultPopup extends Popup {
 
       } else {
         // need to create a new item
-        item = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "richlistitem");
+        item = document.createXULElement("richlistitem");
       }
 
       item.setAttribute("dir", this.style.direction);

@@ -257,10 +257,9 @@ class Menulist extends Basecontrol {
   }
 
   appendItem(label, value, description) {
-    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     var popup = this.menupopup ||
-      this.appendChild(document.createElementNS(XULNS, "menupopup"));
-    var item = document.createElementNS(XULNS, "menuitem");
+      this.appendChild(document.createXULElement("menupopup"));
+    var item = document.createXULElement("menuitem");
     item.setAttribute("label", label);
     item.setAttribute("value", value);
     if (description)

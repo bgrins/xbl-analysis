@@ -352,7 +352,7 @@ class TabbrowserTab extends Tab {
       } else {
         // When browser.tabs.multiselect config is set to false,
         // then we ignore the state of multi-selection keys (Ctrl/Cmd).
-        const tabSelectionToggled = Services.prefs.getBoolPref("browser.tabs.multiselect") &&
+        const tabSelectionToggled = tabContainer._multiselectEnabled &&
           (event.getModifierState("Accel") || event.shiftKey);
 
         if (this.mOverCloseButton || this._overPlayingIcon || tabSelectionToggled) {
@@ -375,7 +375,8 @@ class TabbrowserTab extends Tab {
     });
 
     this.addEventListener("click", (event) => {
-      if (Services.prefs.getBoolPref("browser.tabs.multiselect")) {
+      let tabContainer = this.parentNode;
+      if (tabContainer._multiselectEnabled) {
         let shiftKey = event.shiftKey;
         let accelKey = event.getModifierState("Accel");
         if (shiftKey) {

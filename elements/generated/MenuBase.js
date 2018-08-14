@@ -38,16 +38,13 @@ class MenuBase extends MenuitemBase {
    * nsIDOMXULContainerElement interface
    */
   appendItem(aLabel, aValue) {
-    const XUL_NS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-
     var menupopup = this.menupopup;
     if (!menupopup) {
-      menupopup = this.ownerDocument.createElementNS(XUL_NS, "menupopup");
+      menupopup = this.ownerDocument.createXULElement("menupopup");
       this.appendChild(menupopup);
     }
 
-    var menuitem = this.ownerDocument.createElementNS(XUL_NS, "menuitem");
+    var menuitem = this.ownerDocument.createXULElement("menuitem");
     menuitem.setAttribute("label", aLabel);
     menuitem.setAttribute("value", aValue);
 

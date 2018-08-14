@@ -253,8 +253,7 @@ class Radiogroup extends Basecontrol {
   }
 
   appendItem(label, value) {
-    var XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var radio = document.createElementNS(XULNS, "radio");
+    var radio = document.createXULElement("radio");
     radio.setAttribute("label", label);
     radio.setAttribute("value", value);
     this.appendChild(radio);

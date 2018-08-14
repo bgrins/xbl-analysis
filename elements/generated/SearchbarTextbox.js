@@ -84,14 +84,12 @@ class SearchbarTextbox extends Autocomplete {
   }
 
   initContextMenu(aMenu) {
-    const kXULNS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     let stringBundle = document.getBindingParent(this)._stringBundle;
 
     let pasteAndSearch, suggestMenuItem;
     let element, label, akey;
 
-    element = document.createElementNS(kXULNS, "menuseparator");
+    element = document.createXULElement("menuseparator");
     aMenu.appendChild(element);
 
     let insertLocation = aMenu.firstElementChild;
@@ -99,7 +97,7 @@ class SearchbarTextbox extends Autocomplete {
       insertLocation.getAttribute("cmd") != "cmd_paste")
       insertLocation = insertLocation.nextElementSibling;
     if (insertLocation) {
-      element = document.createElementNS(kXULNS, "menuitem");
+      element = document.createXULElement("menuitem");
       label = stringBundle.getString("cmd_pasteAndSearch");
       element.setAttribute("label", label);
       element.setAttribute("anonid", "paste-and-search");
@@ -108,7 +106,7 @@ class SearchbarTextbox extends Autocomplete {
       pasteAndSearch = element;
     }
 
-    element = document.createElementNS(kXULNS, "menuitem");
+    element = document.createXULElement("menuitem");
     label = stringBundle.getString("cmd_clearHistory");
     akey = stringBundle.getString("cmd_clearHistory_accesskey");
     element.setAttribute("label", label);
@@ -116,7 +114,7 @@ class SearchbarTextbox extends Autocomplete {
     element.setAttribute("cmd", "cmd_clearhistory");
     aMenu.appendChild(element);
 
-    element = document.createElementNS(kXULNS, "menuitem");
+    element = document.createXULElement("menuitem");
     label = stringBundle.getString("cmd_showSuggestions");
     akey = stringBundle.getString("cmd_showSuggestions_accesskey");
     element.setAttribute("anonid", "toggle-suggest-item");

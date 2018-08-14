@@ -894,7 +894,7 @@ class Urlbar extends Autocomplete {
       params.targetBrowser = browser;
       params.indicateErrorPageLoad = true;
       params.allowPinnedTabHostChange = true;
-      params.disallowInheritPrincipal = !mayInheritPrincipal;
+      params.allowInheritPrincipal = mayInheritPrincipal;
       params.allowPopups = url.startsWith("javascript:");
     } else {
       params.initiatingDoc = document;

@@ -80,6 +80,11 @@ class TabbrowserTabs extends Tabs {
 
     this._tabMinWidth = this._tabMinWidthPref;
 
+    XPCOMUtils.defineLazyPreferenceGetter(this, "_multiselectEnabledPref",
+      "browser.tabs.multiselect", null,
+      (pref, prevValue, newValue) => this._multiselectEnabled = newValue);
+    this._multiselectEnabled = this._multiselectEnabledPref;
+
     this._setPositionalAttributes();
 
     CustomizableUI.addListener(this);
@@ -94,6 +99,16 @@ class TabbrowserTabs extends Tabs {
   set _tabMinWidth(val) {
     this.style.setProperty("--tab-min-width", val + "px");
     return val;
+  }
+
+  set _multiselectEnabled(val) {
+    // Unlike boolean HTML attributes, the value of boolean ARIA attributes actually matters.
+    this.setAttribute("aria-multiselectable", !!val);
+    return val;
+  }
+
+  get _multiselectEnabled() {
+    return this.getAttribute("aria-multiselectable") == "true";
   }
 
   get _isCustomizing() {

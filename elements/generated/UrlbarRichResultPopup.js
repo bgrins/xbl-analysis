@@ -674,9 +674,7 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
         child.style.display;
       child.style.display = "none";
     }
-    let XUL_NS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    let iframe = document.createElementNS(XUL_NS, "iframe");
+    let iframe = document.createXULElement("iframe");
     iframe.setAttribute("type", "content");
     iframe.setAttribute("flex", "1");
     iframe.style.transition = "height 100ms";

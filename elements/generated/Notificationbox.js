@@ -86,8 +86,7 @@ class Notificationbox extends MozXULElement {
       insertPos = notifications[n];
     }
 
-    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    var newitem = document.createElementNS(XULNS, "notification");
+    var newitem = document.createXULElement("notification");
     // Can't use instanceof in case this was created from a different document:
     let labelIsDocFragment = aLabel && typeof aLabel == "object" && aLabel.nodeType &&
       aLabel.nodeType == aLabel.DOCUMENT_FRAGMENT_NODE;
@@ -107,7 +106,7 @@ class Notificationbox extends MozXULElement {
 
       for (var b = 0; b < aButtons.length; b++) {
         var button = aButtons[b];
-        var buttonElem = document.createElementNS(XULNS, "button");
+        var buttonElem = document.createXULElement("button");
         buttonElem.setAttribute("label", button.label);
         if (typeof button.accessKey == "string")
           buttonElem.setAttribute("accesskey", button.accessKey);

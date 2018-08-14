@@ -247,14 +247,11 @@ class Richlistbox extends Basecontrol {
   }
 
   appendItem(aLabel, aValue) {
-    const XULNS =
-      "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-
     var item =
-      this.ownerDocument.createElementNS(XULNS, "richlistitem");
+      this.ownerDocument.createXULElement("richlistitem");
     item.setAttribute("value", aValue);
 
-    var label = this.ownerDocument.createElementNS(XULNS, "label");
+    var label = this.ownerDocument.createXULElement("label");
     label.setAttribute("value", aLabel);
     label.setAttribute("flex", "1");
     label.setAttribute("crop", "end");
