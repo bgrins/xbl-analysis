@@ -134,9 +134,9 @@ class RemoteBrowser extends Browser {
       if (!this.messageManager)
         return null;
 
-      let jsm = "resource://gre/modules/RemoteFinder.jsm";
-      let { RemoteFinder } = ChromeUtils.import(jsm, {});
-      this._remoteFinder = new RemoteFinder(this);
+      let jsm = "resource://gre/modules/FinderParent.jsm";
+      let { FinderParent } = ChromeUtils.import(jsm, {});
+      this._remoteFinder = new FinderParent(this);
     }
     return this._remoteFinder;
   }
@@ -197,12 +197,12 @@ class RemoteBrowser extends Browser {
   set fullZoom(val) {
     let changed = val.toFixed(2) != this._fullZoom.toFixed(2);
 
-    this._fullZoom = val;
-    try {
-      this.messageManager.sendAsyncMessage("FullZoom", { value: val });
-    } catch (ex) {}
-
     if (changed) {
+      this._fullZoom = val;
+      try {
+        this.messageManager.sendAsyncMessage("FullZoom", { value: val });
+      } catch (ex) {}
+
       let event = new Event("FullZoomChange", { bubbles: true });
       this.dispatchEvent(event);
     }
@@ -215,12 +215,12 @@ class RemoteBrowser extends Browser {
   set textZoom(val) {
     let changed = val.toFixed(2) != this._textZoom.toFixed(2);
 
-    this._textZoom = val;
-    try {
-      this.messageManager.sendAsyncMessage("TextZoom", { value: val });
-    } catch (ex) {}
-
     if (changed) {
+      this._textZoom = val;
+      try {
+        this.messageManager.sendAsyncMessage("TextZoom", { value: val });
+      } catch (ex) {}
+
       let event = new Event("TextZoomChange", { bubbles: true });
       this.dispatchEvent(event);
     }

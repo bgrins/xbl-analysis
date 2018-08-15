@@ -38387,7 +38387,7 @@ var DATA = {
     },
     label: "2018-08-13"
   },
-  "master@{2018-08-14}": {
+  "master@{2018-08-15}": {
     numBindings: 161,
     numInContentBindings: 31,
     loc: 33436,
@@ -38568,7 +38568,7 @@ var DATA = {
       "toolbarbutton-badged-menu": 5,
       menu: 5
     },
-    label: "2018-08-14"
+    label: "2018-08-15"
   }
 };
 var SORTED_BINDINGS = {
