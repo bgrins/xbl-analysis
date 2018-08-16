@@ -1513,6 +1513,8 @@ class Urlbar extends Autocomplete {
   search(value, options) {
     this.focus();
     this.textValue = value;
+    // Avoid selecting the url bar text if `search` is called twice in a row
+    this.selectionStart = -1;
 
     options = options || {};
 

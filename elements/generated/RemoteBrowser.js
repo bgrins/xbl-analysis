@@ -487,7 +487,7 @@ class RemoteBrowser extends Browser {
     return undefined;
   }
 
-  enableDisableCommands(aAction, aEnabledLength, aEnabledCommands, aDisabledLength, aDisabledCommands) {
+  enableDisableCommandsRemoteOnly(aAction, aEnabledLength, aEnabledCommands, aDisabledLength, aDisabledCommands) {
     if (this._controller) {
       this._controller.enableDisableCommands(aAction,
         aEnabledLength, aEnabledCommands,
