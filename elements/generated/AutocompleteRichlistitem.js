@@ -507,7 +507,7 @@ class AutocompleteRichlistitem extends Richlistitem {
             } else {
               // Add the emptySearchQuery class if the search query is the
               // empty string.  We use it to hide .ac-separator in CSS.
-              if (!searchQuery) {
+              if (!searchQuery.trim()) {
                 this.classList.add("emptySearchQuery");
               }
               pairs = [

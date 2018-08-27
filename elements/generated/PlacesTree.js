@@ -501,7 +501,7 @@ class PlacesTree extends Tree {
       index,
       orientation,
       tagName,
-      dropNearNode
+      dropNearNode,
     });
   }
 

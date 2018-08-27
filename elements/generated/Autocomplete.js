@@ -93,7 +93,7 @@ class Autocomplete extends Textbox {
       popup = document.getElementById(popupId);
     }
     if (!popup) {
-      popup = document.createElement("panel");
+      popup = document.createXULElement("panel");
       popup.setAttribute("type", "autocomplete-richlistbox");
       popup.setAttribute("noautofocus", "true");
 

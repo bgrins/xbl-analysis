@@ -21,7 +21,7 @@ class DatetimePopup extends Arrowpanel {
   get dateTimePopupFrame() {
     let frame = this.querySelector("#dateTimePopupFrame");
     if (!frame) {
-      frame = this.ownerDocument.createElement("iframe");
+      frame = this.ownerDocument.createXULElement("iframe");
       frame.id = "dateTimePopupFrame";
       this.appendChild(frame);
     }

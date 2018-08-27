@@ -64,6 +64,9 @@ class Findbar extends MozXULElement {
           case "accessibility.typeaheadfind.manual":
             this._self._manualFAYT = prefsvc.getBoolPref(aPrefName);
             break;
+          case "accessibility.typeaheadfind.timeout":
+            this._self.quickFindTimeoutLength = prefsvc.getIntPref(aPrefName);
+            break;
           case "accessibility.typeaheadfind.linksonly":
             this._self._typeAheadLinksOnly = prefsvc.getBoolPref(aPrefName);
             break;
@@ -104,7 +107,7 @@ class Findbar extends MozXULElement {
 
     let prefsvc = this._prefsvc;
 
-    this._quickFindTimeoutLength =
+    this.quickFindTimeoutLength =
       prefsvc.getIntPref("accessibility.typeaheadfind.timeout");
     this._flashFindBar =
       prefsvc.getIntPref("accessibility.typeaheadfind.flashBar");
@@ -308,11 +311,15 @@ class Findbar extends MozXULElement {
       return;
     }
 
-    this._quickFindTimeout = setTimeout(() => {
-      if (this._findMode != this.FIND_NORMAL)
-        this.close();
+    if (this.quickFindTimeoutLength < 1) {
       this._quickFindTimeout = null;
-    }, this._quickFindTimeoutLength);
+    } else {
+      this._quickFindTimeout = setTimeout(() => {
+        if (this._findMode != this.FIND_NORMAL)
+          this.close();
+        this._quickFindTimeout = null;
+      }, this.quickFindTimeoutLength);
+    }
     this._updateBrowserWithState();
   }
 

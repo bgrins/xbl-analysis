@@ -155,7 +155,7 @@ class PlacesPopupBase extends Popup {
           this._folder.closeTimer.cancel();
           this._folder.closeTimer = null;
         }
-      }
+      },
     };
 
     this._setupEventListeners();
@@ -208,7 +208,7 @@ class PlacesPopupBase extends Popup {
       // If we are dragging over a non places node drop at the end.
       dropPoint.ip = new PlacesInsertionPoint({
         parentId: PlacesUtils.getConcreteItemId(resultNode),
-        parentGuid: PlacesUtils.getConcreteItemGuid(resultNode)
+        parentGuid: PlacesUtils.getConcreteItemGuid(resultNode),
       });
       // We can set folderElt if we are dropping over a static menu that
       // has an internal placespopup.
@@ -234,7 +234,7 @@ class PlacesPopupBase extends Popup {
           parentGuid: PlacesUtils.getConcreteItemGuid(resultNode),
           orientation: Ci.nsITreeView.DROP_BEFORE,
           tagName,
-          dropNearNode: elt._placesNode
+          dropNearNode: elt._placesNode,
         });
         return dropPoint;
       } else if (eventY - eltY < eltHeight * 0.80) {
@@ -242,7 +242,7 @@ class PlacesPopupBase extends Popup {
         dropPoint.ip = new PlacesInsertionPoint({
           parentId: PlacesUtils.getConcreteItemId(elt._placesNode),
           parentGuid: PlacesUtils.getConcreteItemGuid(elt._placesNode),
-          tagName
+          tagName,
         });
         dropPoint.folderElt = elt;
         return dropPoint;
@@ -255,7 +255,7 @@ class PlacesPopupBase extends Popup {
         parentGuid: PlacesUtils.getConcreteItemGuid(resultNode),
         orientation: Ci.nsITreeView.DROP_BEFORE,
         tagName,
-        dropNearNode: elt._placesNode
+        dropNearNode: elt._placesNode,
       });
       return dropPoint;
     }

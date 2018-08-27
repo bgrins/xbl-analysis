@@ -555,6 +555,14 @@ class UrlbarRichResultPopup extends AutocompleteRichResultPopup {
   }
 
   onResultsAdded() {
+    // Highlight the search alias in the input if one is present, or
+    // clear the highlight otherwise.  highlightSearchAlias examines
+    // only the first result, so as an optimzation, call it only when
+    // this is the first result.
+    if (!this.input.gotResultForCurrentQuery) {
+      this.input.highlightSearchAlias();
+    }
+
     // If nothing is selected yet, select the first result if it is a
     // pre-selected "heuristic" result.  (See UnifiedComplete.js.)
     if (this.selectedIndex == -1 && this._isFirstResultHeuristic) {

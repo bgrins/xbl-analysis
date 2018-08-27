@@ -593,11 +593,12 @@ class Urlbar extends Autocomplete {
       // invoked regardless, thus this should be enough.
       if (this._formattingInstance != instance)
         return;
-      let isDomainRTL = window.windowUtils.getDirectionFromText(domain);
+      let directionality = window.windowUtils.getDirectionFromText(domain);
       // In the future, for example in bug 525831, we may add a forceRTL
       // char just after the domain, and in such a case we should not
       // scroll to the left.
-      if (isDomainRTL && value[preDomain.length + domain.length] != "\u200E") {
+      if (directionality == window.windowUtils.DIRECTION_RTL &&
+        value[preDomain.length + domain.length] != "\u200E") {
         this.inputField.scrollLeft = this.inputField.scrollLeftMax;
       }
     });
@@ -1538,7 +1539,82 @@ class Urlbar extends Autocomplete {
       }, { once: true });
     }
 
+    this.gotResultForCurrentQuery = false;
     this.controller.startSearch(value);
+  }
+
+  /**
+   * Highlights the search alias in the input, or clears the highlight if
+   * there is no alias.  To determine in an efficient manner whether the
+   * input contains an alias, this method looks at the first (heuristic)
+   * result.  If it's a searchengine result with an alias, then it looks for
+   * that alias in the input.  Otherwise it clears the highlight.  That means
+   * that if the input contains an alias but the alias result is not first,
+   * the alias will not be highlighted.
+   */
+  highlightSearchAlias() {
+    if (!this.editor) {
+      return;
+    }
+
+    // We abuse the SELECTION_FIND selection type to do our highlighting.
+    // It's the only type that works with Selection.setColors().
+    let selection = this.editor.selectionController.getSelection(
+      Ci.nsISelectionController.SELECTION_FIND
+    );
+    selection.removeAllRanges();
+
+    let textNode = this.editor.rootElement.firstChild;
+    let value = textNode.textContent;
+    if (!value) {
+      return;
+    }
+
+    // Alias results have the searchengine style.  Check that first to
+    // avoid the more expensive regexp in _parseActionUrl when possible
+    // since this method is called by the popup every time you start a
+    // search.
+    let alias =
+      this.mController.matchCount &&
+      this.mController.getStyleAt(0).includes("searchengine") &&
+      this._parseActionUrl(this.mController.getFinalCompleteValueAt(0)).params.alias;
+    if (!alias) {
+      return;
+    }
+
+    let index = value.indexOf(alias);
+    if (index < 0) {
+      return;
+    }
+
+    let range = document.createRange();
+    range.setStart(textNode, index);
+    range.setEnd(textNode, index + alias.length);
+    selection.addRange(range);
+
+    let fg = "#2362d7";
+    let bg = "#d2e6fd";
+
+    // Selection.setColors() will swap the given foreground and background
+    // colors if it detects that the contrast between the background
+    // color and the frame color is too low.  Normally we don't want that
+    // to happen; we want it to use our colors as given (even if setColors
+    // thinks the contrast is too low).  But it's a nice feature for non-
+    // default themes, where the contrast between our background color and
+    // the input's frame color might actually be too low.  We can
+    // (hackily) force setColors to use our colors as given by passing
+    // them as the alternate colors.  Otherwise, allow setColors to swap
+    // them, which we can do by passing "currentColor".  See
+    // nsTextPaintStyle::GetHighlightColors for details.
+    if (this.querySelector(":-moz-lwtheme") ||
+      (AppConstants.platform == "win" &&
+        window.matchMedia("(-moz-windows-default-theme: 0)").matches)) {
+      // non-default theme(s)
+      selection.setColors(fg, bg, "currentColor", "currentColor");
+    } else {
+      // default themes
+      selection.setColors(fg, bg, fg, bg);
+    }
   }
 
   disconnectedCallback() {
