@@ -672,6 +672,7 @@ class Tree extends TreeBase {
     this.addEventListener("blur", (event) => { if (event.originalTarget == this.inputField.inputField) this.stopEditing(true); }, true);
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_RETURN) { return; }
       if (this._handleEnter(event)) {
         event.stopPropagation();
         event.preventDefault();
@@ -679,6 +680,7 @@ class Tree extends TreeBase {
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; }
       if (this._editingColumn) {
         this.stopEditing(false);
         this.focus();
@@ -688,6 +690,7 @@ class Tree extends TreeBase {
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_LEFT) { return; }
       if (this._editingColumn)
         return;
 
@@ -711,6 +714,7 @@ class Tree extends TreeBase {
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_RIGHT) { return; }
       if (this._editingColumn)
         return;
 
@@ -739,72 +743,84 @@ class Tree extends TreeBase {
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_UP) { return; }
       if (this._editingColumn)
         return;
       this._moveByOffset(-1, 0, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
       if (this._editingColumn)
         return;
       this._moveByOffset(1, this.view.rowCount - 1, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_UP) { return; }
       if (this._editingColumn)
         return;
       this._moveByOffsetShift(-1, 0, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
       if (this._editingColumn)
         return;
       this._moveByOffsetShift(1, this.view.rowCount - 1, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_PAGE_UP) { return; }
       if (this._editingColumn)
         return;
       this._moveByPage(-1, 0, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_PAGE_DOWN) { return; }
       if (this._editingColumn)
         return;
       this._moveByPage(1, this.view.rowCount - 1, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_PAGE_UP) { return; }
       if (this._editingColumn)
         return;
       this._moveByPageShift(-1, 0, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_PAGE_DOWN) { return; }
       if (this._editingColumn)
         return;
       this._moveByPageShift(1, this.view.rowCount - 1, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_HOME) { return; }
       if (this._editingColumn)
         return;
       this._moveToEdge(0, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_END) { return; }
       if (this._editingColumn)
         return;
       this._moveToEdge(this.view.rowCount - 1, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_HOME) { return; }
       if (this._editingColumn)
         return;
       this._moveToEdgeShift(0, event);
     });
 
     this.addEventListener("keydown", (event) => {
+      if (!e.keyCode != KeyEvent.DOM_VK_END) { return; }
       if (this._editingColumn)
         return;
       this._moveToEdgeShift(this.view.rowCount - 1, event);

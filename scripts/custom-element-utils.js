@@ -97,7 +97,7 @@ function getJSForBinding(binding) {
     if (comment) {
       handlers.push(comment);
     }
-    // XXX: Handle: <handler event="keypress" keycode="VK_END" command="cmd_endLine"/>
+
     let secondParam = "";
     let isCapturing = handler.attrs.phase === "capturing";
     if (handler.attrs.group === "system") {
