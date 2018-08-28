@@ -1272,7 +1272,7 @@ class Browser extends MozXULElement {
       try {
         this.mPrefs.setBoolPref(kPrefCaretBrowsingOn, !browseWithCaretOn);
       } catch (ex) {}
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("dragover", (event) => {
       if (!this.droppedLinkHandler || event.defaultPrevented)
@@ -1297,7 +1297,7 @@ class Browser extends MozXULElement {
       getService(Ci.nsIDroppedLinkHandler);
       if (linkHandler.canDropLink(event, false))
         event.preventDefault();
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("drop", (event) => {
       // No need to handle "drop" in e10s, since nsDocShellTreeOwner.cpp in the child process
@@ -1318,7 +1318,7 @@ class Browser extends MozXULElement {
         let triggeringPrincipal = linkHandler.getTriggeringPrincipal(event);
         this.droppedLinkHandler(event, links, triggeringPrincipal);
       }
-    });
+    }, { mozSystemGroup: true });
 
   }
 }

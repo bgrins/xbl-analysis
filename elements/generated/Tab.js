@@ -106,29 +106,29 @@ class Tab extends Basetext {
     this.addEventListener("keydown", (event) => {
       var direction = window.getComputedStyle(this.parentNode).direction;
       this.parentNode.advanceSelectedTab(direction == "ltr" ? -1 : 1, this.arrowKeysShouldWrap);
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
       var direction = window.getComputedStyle(this.parentNode).direction;
       this.parentNode.advanceSelectedTab(direction == "ltr" ? 1 : -1, this.arrowKeysShouldWrap);
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
       this.parentNode.advanceSelectedTab(-1, this.arrowKeysShouldWrap);
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
       this.parentNode.advanceSelectedTab(1, this.arrowKeysShouldWrap);
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
       this.parentNode._selectNewTab(this.parentNode.children[0]);
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
       var tabs = this.parentNode.children;
       this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
-    });
+    }, { mozSystemGroup: true });
 
   }
 }

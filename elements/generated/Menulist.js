@@ -312,7 +312,7 @@ class Menulist extends Basecontrol {
           event.preventDefault();
         }
       }
-    });
+    }, { mozSystemGroup: true });
 
   }
 }

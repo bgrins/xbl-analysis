@@ -393,12 +393,12 @@ class Wizard extends MozXULElement {
   }
 
   _setupEventListeners() {
-    this.addEventListener("keypress", (event) => { this._hitEnter(event) });
+    this.addEventListener("keypress", (event) => { this._hitEnter(event) }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       if (!event.defaultPrevented)
         this.cancel();
-    });
+    }, { mozSystemGroup: true });
 
   }
 }

@@ -717,33 +717,33 @@ class Richlistbox extends Basecontrol {
   }
 
   _setupEventListeners() {
-    this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(-1, event); });
+    this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(-1, event); }, { mozSystemGroup: true });
 
-    this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(1, event); });
+    this.addEventListener("keypress", (event) => { this._moveByOffsetFromUserEvent(1, event); }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(-this.currentIndex, event);
       this._mayReverse = false;
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.getRowCount() - this.currentIndex - 1, event);
       this._mayReverse = false;
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.scrollOnePage(-1), event);
       this._mayReverse = false;
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.scrollOnePage(1), event);
       this._mayReverse = false;
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       if (this.currentItem && this.selType == "multiple")

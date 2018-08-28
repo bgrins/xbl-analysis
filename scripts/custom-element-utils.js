@@ -98,8 +98,20 @@ function getJSForBinding(binding) {
       handlers.push(comment);
     }
     // XXX: Handle: <handler event="keypress" keycode="VK_END" command="cmd_endLine"/>
-    let capturing = handler.attrs.phase === "capturing" ? ", true" : "";
-    handlers.push(`this.addEventListener("${handler.attrs.event}", (event) => {${handler.cdata || handler.value || handler.attrs.action}}${capturing});\n`);
+    let secondParam = "";
+    let isCapturing = handler.attrs.phase === "capturing";
+    if (handler.attrs.group === "system") {
+      if (isCapturing) {
+        secondParam = `, { capture: true, mozSystemGroup: true }`;
+      } else {
+        secondParam = `, { mozSystemGroup: true }`;
+      }
+    } else if (isCapturing) {
+      secondParam = ", true";
+    }
+
+    let keycode = handler.attrs.keycode ? `if (!e.keyCode != KeyEvent.DOM_${handler.attrs.keycode}) { return; }` : "";
+    handlers.push(`this.addEventListener("${handler.attrs.event}", (event) => {${keycode} ${handler.cdata || handler.value || handler.attrs.action}}${secondParam});\n`);
   }
 
 

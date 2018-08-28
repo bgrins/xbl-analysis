@@ -4,10 +4,10 @@ class Urlbar extends Autocomplete {
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox flex="1" class="urlbar-textbox-container">
         <children includes="image|deck|stack|box"></children>
-        <moz-input-box anonid="moz-input-box" class="urlbar-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
+        <moz-input-box anonid="moz-input-box" class="urlbar-input-box" flex="1">
           <children></children>
           <html:input anonid="scheme" class="urlbar-scheme textbox-input" required="required" inherits="textoverflow,focused"></html:input>
-          <html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="tooltiptext=inputtooltiptext,value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
+          <html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
         </moz-input-box>
         <image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD.goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping"></image>
         <dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD.urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping"></dropmarker>
@@ -1006,11 +1006,15 @@ class Urlbar extends Autocomplete {
   _initURLTooltip() {
     if (this.focused || !this.hasAttribute("textoverflow"))
       return;
-    this.inputField.setAttribute("tooltiptext", this.value);
+    // We set the tooltip text on the parent node instead of the input
+    // field because XUL tooltips only work on XUL elements.
+    //
+    // FIXME(bug 1486716): title should work on chrome documents instead.
+    this.inputField.parentNode.setAttribute("tooltiptext", this.value);
   }
 
   _hideURLTooltip() {
-    this.inputField.removeAttribute("tooltiptext");
+    this.inputField.parentNode.removeAttribute("tooltiptext");
   }
 
   /**

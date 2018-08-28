@@ -1012,7 +1012,7 @@ class TabbrowserTabs extends Tabs {
           return;
       }
       event.preventDefault();
-    });
+    }, { mozSystemGroup: true });
 
     this.addEventListener("dragstart", (event) => {
       var tab = this._getDragTargetTab(event, false);

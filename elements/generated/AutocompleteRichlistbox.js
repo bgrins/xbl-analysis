@@ -11,14 +11,11 @@ class AutocompleteRichlistbox extends Richlistbox {
 
   _setupEventListeners() {
     this.addEventListener("mouseup", (event) => {
-      // don't call onPopupClick for the scrollbar buttons, thumb, slider, etc.
-      let item = event.originalTarget;
-      while (item && item.localName != "richlistitem") {
-        item = item.parentNode;
-      }
-
-      if (!item)
+      // Don't call onPopupClick for the scrollbar buttons, thumb, slider, etc.
+      // If we hit the richlistbox and not a richlistitem, we ignore the event.
+      if (event.originalTarget.closest("richlistbox,richlistitem").localName == "richlistbox") {
         return;
+      }
 
       this.parentNode.onPopupClick(event);
     });
@@ -28,12 +25,10 @@ class AutocompleteRichlistbox extends Richlistbox {
         return;
       }
 
-      let item = event.target;
-      while (item && item.localName != "richlistitem") {
-        item = item.parentNode;
-      }
+      let item = event.target.closest("richlistbox,richlistitem");
 
-      if (!item) {
+      // If we hit the richlistbox and not a richlistitem, we ignore the event.
+      if (item.localName == "richlistbox") {
         return;
       }
 
