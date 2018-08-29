@@ -11,7 +11,6 @@ class Menulist extends Basecontrol {
       <children includes="menupopup"></children>
     `));
 
-    this.mInputField = null;
     this.mSelectedInternal = null;
     this.mAttributeObserver = null;
     this.menuBoxObject = this.boxObject;
@@ -44,10 +43,6 @@ class Menulist extends Basecontrol {
     return this.getAttribute('value');
   }
 
-  get inputField() {
-    return null;
-  }
-
   set crop(val) {
     this.setAttribute('crop', val);
     return val;
@@ -77,22 +72,6 @@ class Menulist extends Basecontrol {
 
   get description() {
     return this.getAttribute('description');
-  }
-
-  set editable(val) {
-    if (!val && this.editable) {
-      // If we were focused and transition from editable to not editable,
-      // focus the parent menulist so that the focus does not get stuck.
-      if (this.inputField == document.activeElement)
-        window.setTimeout(() => this.focus(), 0);
-    }
-
-    this.setAttribute("editable", val);
-    return val;
-  }
-
-  get editable() {
-    return this.getAttribute('editable') == 'true';
   }
 
   set open(val) {
