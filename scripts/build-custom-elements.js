@@ -6,6 +6,40 @@ var jsFiles = [];
 var extendsMap = new Map();
 var sampleElements = [];
 
+function getFormattedJSForBinding(binding) {
+  let js = [];
+  js.push(
+`/* This Source Code Form is subject to the terms of the Mozilla Public
+  * License, v. 2.0. If a copy of the MPL was not distributed with this
+  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+"use strict";
+
+// This is loaded into all XUL windows. Wrap in a block to prevent
+// leaking to window scope.
+{
+
+`);
+
+  js.push(js_beautify(
+    getJSForBinding(binding),
+    {
+      indent_size: 2,
+      // preserve_newlines: false,
+      max_preserve_newlines: 2,
+      brace_style: "preserve-inline"
+      // keep_array_indentation: true
+    }
+  ));
+
+  js.push(`
+
+}
+`);
+
+  return js.join("");
+}
+
 getParsedFiles().then(files => {
   files.forEach(file => {
     file.doc.find("binding").forEach(binding => {
@@ -18,16 +52,7 @@ getParsedFiles().then(files => {
 
       sampleElements.push(binding.attrs.id);
       jsFiles.push(fileName);
-      fs.writeFileSync(`elements/generated/${fileName}`, js_beautify(
-          getJSForBinding(binding),
-          {
-            indent_size: 2,
-            // preserve_newlines: false,
-            max_preserve_newlines: 2,
-            brace_style: "preserve-inline"
-            // keep_array_indentation: true
-          }
-        ));
+      fs.writeFileSync(`elements/generated/${fileName}`, getFormattedJSForBinding(binding));
     });
   });
 

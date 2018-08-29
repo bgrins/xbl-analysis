@@ -242,9 +242,10 @@ function getJSForBinding(binding) {
 
   js.push('}');
 
-  // js.push(`
-  //   customElements.define("${elementName}", ${className});
-  // `)
+  js.push(`
+
+customElements.define("${elementName}", ${className});
+  `)
   return js.join(' ');
 }
 
