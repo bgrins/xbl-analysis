@@ -1,4 +1,4 @@
-class WizardHeader extends MozXULElement {
+class MozWizardHeader extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

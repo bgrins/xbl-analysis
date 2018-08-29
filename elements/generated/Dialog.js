@@ -1,4 +1,4 @@
-class Dialog extends MozXULElement {
+class MozDialog extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

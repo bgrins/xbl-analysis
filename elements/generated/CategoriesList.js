@@ -1,4 +1,4 @@
-class CategoriesList extends Richlistbox {
+class MozCategoriesList extends MozRichlistbox {
   connectedCallback() {
     super.connectedCallback()
 

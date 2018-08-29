@@ -1,4 +1,4 @@
-class MenulistPopuponly extends Menulist {
+class MozMenulistPopuponly extends MozMenulist {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

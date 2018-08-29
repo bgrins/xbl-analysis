@@ -1,4 +1,4 @@
-class PopupScrollbars extends Popup {
+class MozPopupScrollbars extends MozPopup {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

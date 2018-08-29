@@ -1,4 +1,4 @@
-class TextLabel extends TextBase {
+class MozTextLabel extends MozTextBase {
   connectedCallback() {
     super.connectedCallback()
 

@@ -1,4 +1,4 @@
-class Treerows extends TreeBase {
+class MozTreerows extends MozTreeBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

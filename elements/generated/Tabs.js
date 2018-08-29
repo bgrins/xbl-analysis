@@ -1,4 +1,4 @@
-class Tabs extends Basecontrol {
+class MozTabs extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

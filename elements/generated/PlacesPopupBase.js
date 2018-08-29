@@ -1,4 +1,4 @@
-class PlacesPopupBase extends Popup {
+class MozPlacesPopupBase extends MozPopup {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

@@ -1,4 +1,4 @@
-class BuiltinWinEditor extends MozXULElement {
+class MozBuiltinWinEditor extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class CustomizableuiToolbar extends MozXULElement {
+class MozCustomizableuiToolbar extends MozXULElement {
   connectedCallback() {
 
     let scope = {};

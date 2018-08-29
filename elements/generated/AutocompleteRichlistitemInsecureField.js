@@ -1,4 +1,4 @@
-class AutocompleteRichlistitemInsecureField extends AutocompleteRichlistitem {
+class MozAutocompleteRichlistitemInsecureField extends MozAutocompleteRichlistitem {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

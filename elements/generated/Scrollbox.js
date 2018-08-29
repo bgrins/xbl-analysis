@@ -1,4 +1,4 @@
-class Scrollbox extends Basecontrol {
+class MozScrollbox extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

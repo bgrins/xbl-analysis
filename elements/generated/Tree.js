@@ -1,4 +1,4 @@
-class Tree extends TreeBase {
+class MozTree extends MozTreeBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

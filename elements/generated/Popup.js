@@ -1,4 +1,4 @@
-class Popup extends MozXULElement {
+class MozPopup extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

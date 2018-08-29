@@ -1,4 +1,4 @@
-class Basetext extends Basecontrol {
+class MozBasetext extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
 

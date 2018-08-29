@@ -1,4 +1,4 @@
-class SearchbarTextbox extends Autocomplete {
+class MozSearchbarTextbox extends MozAutocomplete {
   connectedCallback() {
     super.connectedCallback()
 

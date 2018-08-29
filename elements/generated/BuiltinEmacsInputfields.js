@@ -1,4 +1,4 @@
-class BuiltinEmacsInputfields extends MozXULElement {
+class MozBuiltinEmacsInputfields extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class DatetimeInputBase extends MozXULElement {
+class MozDatetimeInputBase extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

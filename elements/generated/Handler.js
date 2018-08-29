@@ -1,4 +1,4 @@
-class Handler extends Richlistitem {
+class MozHandler extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

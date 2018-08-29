@@ -1,4 +1,4 @@
-class WizardButtons extends MozXULElement {
+class MozWizardButtons extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

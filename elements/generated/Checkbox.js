@@ -1,4 +1,4 @@
-class Checkbox extends Basetext {
+class MozCheckbox extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

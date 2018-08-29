@@ -1,4 +1,4 @@
-class Groupbox extends MozXULElement {
+class MozGroupbox extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

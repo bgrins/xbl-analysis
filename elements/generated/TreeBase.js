@@ -1,4 +1,4 @@
-class TreeBase extends Basecontrol {
+class MozTreeBase extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
 

@@ -1,4 +1,4 @@
-class AutocompleteProfileListitemBase extends Richlistitem {
+class MozAutocompleteProfileListitemBase extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
 

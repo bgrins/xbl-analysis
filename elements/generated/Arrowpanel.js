@@ -1,4 +1,4 @@
-class Arrowpanel extends Panel {
+class MozArrowpanel extends MozPanel {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

@@ -1,4 +1,4 @@
-class Rating extends MozXULElement {
+class MozRating extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

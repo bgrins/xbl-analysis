@@ -1,4 +1,4 @@
-class CustomizableuiToolbarMenubarAutohide extends CustomizableuiToolbar {
+class MozCustomizableuiToolbarMenubarAutohide extends MozCustomizableuiToolbar {
   connectedCallback() {
     super.connectedCallback()
 

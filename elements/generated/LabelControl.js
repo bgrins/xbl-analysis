@@ -1,4 +1,4 @@
-class LabelControl extends TextLabel {
+class MozLabelControl extends MozTextLabel {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

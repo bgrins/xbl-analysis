@@ -1,4 +1,4 @@
-class BrowserSearchAutocompleteResultPopup extends AutocompleteRichResultPopup {
+class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultPopup {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

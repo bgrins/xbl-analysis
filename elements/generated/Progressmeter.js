@@ -1,4 +1,4 @@
-class Progressmeter extends MozXULElement {
+class MozProgressmeter extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

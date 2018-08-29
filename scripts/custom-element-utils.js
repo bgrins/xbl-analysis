@@ -29,11 +29,11 @@ function formatComment(comment, spaces = 2) {
 function getJSForBinding(binding) {
   let js = [];
   let elementName = binding.attrs.id;
-  let className = titleCase(elementName);
+  let className = 'Moz' + titleCase(elementName);
   let hasExtends = !!formatExtends(binding.attrs.extends);
   js.push(`class ${className} `);
   if (hasExtends) {
-    js.push(`extends ${formatExtends(binding.attrs.extends)} `);
+    js.push(`extends Moz${formatExtends(binding.attrs.extends)} `);
   } else {
     js.push(`extends MozXULElement `);
   }

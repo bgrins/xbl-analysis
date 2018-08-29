@@ -1,4 +1,4 @@
-class Tab extends Basetext {
+class MozTab extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

@@ -1,4 +1,4 @@
-class MenuButton extends MenuButtonBase {
+class MozMenuButton extends MozMenuButtonBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

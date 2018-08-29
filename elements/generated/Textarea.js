@@ -1,4 +1,4 @@
-class Textarea extends Textbox {
+class MozTextarea extends MozTextbox {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

@@ -1,4 +1,4 @@
-class AddonProgressNotification extends PopupNotification {
+class MozAddonProgressNotification extends MozPopupNotification {
   connectedCallback() {
     super.connectedCallback()
 

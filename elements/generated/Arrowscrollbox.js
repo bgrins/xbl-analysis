@@ -1,4 +1,4 @@
-class Arrowscrollbox extends Basecontrol {
+class MozArrowscrollbox extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

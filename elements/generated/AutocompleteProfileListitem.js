@@ -1,4 +1,4 @@
-class AutocompleteProfileListitem extends AutocompleteProfileListitemBase {
+class MozAutocompleteProfileListitem extends MozAutocompleteProfileListitemBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

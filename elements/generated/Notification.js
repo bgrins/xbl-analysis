@@ -1,4 +1,4 @@
-class Notification extends MozXULElement {
+class MozNotification extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

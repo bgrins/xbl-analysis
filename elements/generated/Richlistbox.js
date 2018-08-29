@@ -1,4 +1,4 @@
-class Richlistbox extends Basecontrol {
+class MozRichlistbox extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

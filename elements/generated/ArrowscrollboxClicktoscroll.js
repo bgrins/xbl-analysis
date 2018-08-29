@@ -1,4 +1,4 @@
-class ArrowscrollboxClicktoscroll extends Arrowscrollbox {
+class MozArrowscrollboxClicktoscroll extends MozArrowscrollbox {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

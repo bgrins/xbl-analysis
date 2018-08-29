@@ -1,4 +1,4 @@
-class Panel extends MozXULElement {
+class MozPanel extends MozXULElement {
   connectedCallback() {
 
     this._prevFocus = 0;

@@ -1,4 +1,4 @@
-class TreecolImage extends TreecolBase {
+class MozTreecolImage extends MozTreecolBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

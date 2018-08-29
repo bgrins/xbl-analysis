@@ -1,4 +1,4 @@
-class BuiltinAndroidBrowser extends MozXULElement {
+class MozBuiltinAndroidBrowser extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

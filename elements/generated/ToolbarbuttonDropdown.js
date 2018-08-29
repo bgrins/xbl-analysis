@@ -1,4 +1,4 @@
-class ToolbarbuttonDropdown extends MenuBase {
+class MozToolbarbuttonDropdown extends MozMenuBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

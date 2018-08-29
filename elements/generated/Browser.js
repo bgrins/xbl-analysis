@@ -1,4 +1,4 @@
-class Browser extends MozXULElement {
+class MozBrowser extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

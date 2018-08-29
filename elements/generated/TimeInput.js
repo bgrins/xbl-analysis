@@ -1,4 +1,4 @@
-class TimeInput extends DatetimeInputBase {
+class MozTimeInput extends MozDatetimeInputBase {
   connectedCallback() {
     super.connectedCallback()
 

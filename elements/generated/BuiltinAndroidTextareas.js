@@ -1,4 +1,4 @@
-class BuiltinAndroidTextareas extends MozXULElement {
+class MozBuiltinAndroidTextareas extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

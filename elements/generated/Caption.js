@@ -1,4 +1,4 @@
-class Caption extends Basetext {
+class MozCaption extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

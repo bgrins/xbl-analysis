@@ -1,4 +1,4 @@
-class AutocompleteRichlistitem extends Richlistitem {
+class MozAutocompleteRichlistitem extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

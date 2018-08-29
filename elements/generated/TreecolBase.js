@@ -1,4 +1,4 @@
-class TreecolBase extends TreeBase {
+class MozTreecolBase extends MozTreeBase {
   connectedCallback() {
     super.connectedCallback()
 

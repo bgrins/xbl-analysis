@@ -1,4 +1,4 @@
-class Textbox extends MozXULElement {
+class MozTextbox extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

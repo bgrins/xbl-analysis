@@ -1,4 +1,4 @@
-class CustomizableuiToolbarDrag extends CustomizableuiToolbar {
+class MozCustomizableuiToolbarDrag extends MozCustomizableuiToolbar {
   connectedCallback() {
     super.connectedCallback()
 

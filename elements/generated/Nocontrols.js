@@ -1,4 +1,4 @@
-class Nocontrols extends MozXULElement {
+class MozNocontrols extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

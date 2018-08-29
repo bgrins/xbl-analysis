@@ -1,4 +1,4 @@
-class ToolbarbuttonBadgedMenu extends ToolbarbuttonBadged {
+class MozToolbarbuttonBadgedMenu extends MozToolbarbuttonBadged {
   connectedCallback() {
     super.connectedCallback()
 

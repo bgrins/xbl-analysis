@@ -1,4 +1,4 @@
-class Menucaption extends MenuBase {
+class MozMenucaption extends MozMenuBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

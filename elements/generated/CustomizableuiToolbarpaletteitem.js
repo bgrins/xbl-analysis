@@ -1,4 +1,4 @@
-class CustomizableuiToolbarpaletteitem extends MozXULElement {
+class MozCustomizableuiToolbarpaletteitem extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

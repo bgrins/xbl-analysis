@@ -1,4 +1,4 @@
-class DetailRow extends MozXULElement {
+class MozDetailRow extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

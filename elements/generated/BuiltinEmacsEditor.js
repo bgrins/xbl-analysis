@@ -1,4 +1,4 @@
-class BuiltinEmacsEditor extends MozXULElement {
+class MozBuiltinEmacsEditor extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

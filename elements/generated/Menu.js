@@ -1,4 +1,4 @@
-class Menu extends Toolbarbutton {
+class MozMenu extends MozToolbarbutton {
   connectedCallback() {
     super.connectedCallback()
 

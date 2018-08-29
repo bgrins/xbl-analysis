@@ -1,4 +1,4 @@
-class Menulist extends Basecontrol {
+class MozMenulist extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

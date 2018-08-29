@@ -1,4 +1,4 @@
-class Radiogroup extends Basecontrol {
+class MozRadiogroup extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
 

@@ -1,4 +1,4 @@
-class MenuitemIconic extends Menuitem {
+class MozMenuitemIconic extends MozMenuitem {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

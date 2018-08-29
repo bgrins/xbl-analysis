@@ -1,4 +1,4 @@
-class Videocontrols extends MozXULElement {
+class MozVideocontrols extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

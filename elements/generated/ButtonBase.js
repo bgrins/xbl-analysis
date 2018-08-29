@@ -1,4 +1,4 @@
-class ButtonBase extends Basetext {
+class MozButtonBase extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
 

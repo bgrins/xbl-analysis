@@ -1,4 +1,4 @@
-class Columnpicker extends TreeBase {
+class MozColumnpicker extends MozTreeBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

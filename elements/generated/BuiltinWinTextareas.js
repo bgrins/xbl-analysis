@@ -1,4 +1,4 @@
-class BuiltinWinTextareas extends MozXULElement {
+class MozBuiltinWinTextareas extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

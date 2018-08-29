@@ -1,4 +1,4 @@
-class PopupNotification extends MozXULElement {
+class MozPopupNotification extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

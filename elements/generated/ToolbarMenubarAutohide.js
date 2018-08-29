@@ -1,4 +1,4 @@
-class ToolbarMenubarAutohide extends MozXULElement {
+class MozToolbarMenubarAutohide extends MozXULElement {
   connectedCallback() {
 
     this._inactiveTimeout = null;

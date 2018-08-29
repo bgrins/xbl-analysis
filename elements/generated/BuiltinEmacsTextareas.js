@@ -1,4 +1,4 @@
-class BuiltinEmacsTextareas extends MozXULElement {
+class MozBuiltinEmacsTextareas extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

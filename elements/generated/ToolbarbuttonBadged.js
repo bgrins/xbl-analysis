@@ -1,4 +1,4 @@
-class ToolbarbuttonBadged extends Toolbarbutton {
+class MozToolbarbuttonBadged extends MozToolbarbutton {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

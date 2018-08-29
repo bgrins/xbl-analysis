@@ -1,4 +1,4 @@
-class DownloadProgress extends MozXULElement {
+class MozDownloadProgress extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

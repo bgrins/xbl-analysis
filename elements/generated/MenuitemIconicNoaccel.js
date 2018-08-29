@@ -1,4 +1,4 @@
-class MenuitemIconicNoaccel extends Menuitem {
+class MozMenuitemIconicNoaccel extends MozMenuitem {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

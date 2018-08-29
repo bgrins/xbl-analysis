@@ -1,4 +1,4 @@
-class MenuitemBase extends Basetext {
+class MozMenuitemBase extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
 

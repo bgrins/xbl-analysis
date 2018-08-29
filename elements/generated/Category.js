@@ -1,4 +1,4 @@
-class Category extends Richlistitem {
+class MozCategory extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

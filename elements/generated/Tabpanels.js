@@ -1,4 +1,4 @@
-class Tabpanels extends MozXULElement {
+class MozTabpanels extends MozXULElement {
   connectedCallback() {
 
     /**

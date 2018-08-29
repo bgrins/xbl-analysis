@@ -1,4 +1,4 @@
-class PlacesTree extends Tree {
+class MozPlacesTree extends MozTree {
   connectedCallback() {
     super.connectedCallback()
 

@@ -1,4 +1,4 @@
-class AddonBase extends Richlistitem {
+class MozAddonBase extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
 

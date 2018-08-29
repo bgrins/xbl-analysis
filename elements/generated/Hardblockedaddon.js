@@ -1,4 +1,4 @@
-class Hardblockedaddon extends MozXULElement {
+class MozHardblockedaddon extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

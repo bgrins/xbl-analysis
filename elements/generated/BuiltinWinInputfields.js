@@ -1,4 +1,4 @@
-class BuiltinWinInputfields extends MozXULElement {
+class MozBuiltinWinInputfields extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

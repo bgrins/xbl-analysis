@@ -1,4 +1,4 @@
-class ColorpickerButton extends Basecontrol {
+class MozColorpickerButton extends MozBasecontrol {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

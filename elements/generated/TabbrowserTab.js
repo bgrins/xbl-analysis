@@ -1,4 +1,4 @@
-class TabbrowserTab extends Tab {
+class MozTabbrowserTab extends MozTab {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

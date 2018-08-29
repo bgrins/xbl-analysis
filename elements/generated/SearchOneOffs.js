@@ -1,4 +1,4 @@
-class SearchOneOffs extends MozXULElement {
+class MozSearchOneOffs extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

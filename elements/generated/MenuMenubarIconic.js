@@ -1,4 +1,4 @@
-class MenuMenubarIconic extends MenuBase {
+class MozMenuMenubarIconic extends MozMenuBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

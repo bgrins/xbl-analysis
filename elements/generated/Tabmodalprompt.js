@@ -1,4 +1,4 @@
-class Tabmodalprompt extends MozXULElement {
+class MozTabmodalprompt extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

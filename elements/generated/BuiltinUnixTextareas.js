@@ -1,4 +1,4 @@
-class BuiltinUnixTextareas extends MozXULElement {
+class MozBuiltinUnixTextareas extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class CreatorLink extends MozXULElement {
+class MozCreatorLink extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

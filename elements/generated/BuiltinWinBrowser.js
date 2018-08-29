@@ -1,4 +1,4 @@
-class BuiltinWinBrowser extends MozXULElement {
+class MozBuiltinWinBrowser extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

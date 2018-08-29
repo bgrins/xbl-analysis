@@ -1,4 +1,4 @@
-class DatetimePopup extends Arrowpanel {
+class MozDatetimePopup extends MozArrowpanel {
   connectedCallback() {
     super.connectedCallback()
 

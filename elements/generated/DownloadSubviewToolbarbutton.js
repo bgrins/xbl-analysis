@@ -1,4 +1,4 @@
-class DownloadSubviewToolbarbutton extends MenuButtonBase {
+class MozDownloadSubviewToolbarbutton extends MozMenuButtonBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

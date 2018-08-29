@@ -1,4 +1,4 @@
-class AutocompleteProfileListitemClearButton extends AutocompleteProfileListitemBase {
+class MozAutocompleteProfileListitemClearButton extends MozAutocompleteProfileListitemBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

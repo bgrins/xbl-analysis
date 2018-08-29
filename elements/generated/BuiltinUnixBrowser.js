@@ -1,4 +1,4 @@
-class BuiltinUnixBrowser extends MozXULElement {
+class MozBuiltinUnixBrowser extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

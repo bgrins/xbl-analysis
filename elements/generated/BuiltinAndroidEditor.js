@@ -1,4 +1,4 @@
-class BuiltinAndroidEditor extends MozXULElement {
+class MozBuiltinAndroidEditor extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class RemoteBrowser extends Browser {
+class MozRemoteBrowser extends MozBrowser {
   connectedCallback() {
     super.connectedCallback()
 

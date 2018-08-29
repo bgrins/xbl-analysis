@@ -1,4 +1,4 @@
-class Translationbar extends Notification {
+class MozTranslationbar extends MozNotification {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

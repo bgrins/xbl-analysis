@@ -1,4 +1,4 @@
-class Wizardpage extends MozXULElement {
+class MozWizardpage extends MozXULElement {
   connectedCallback() {
 
     this.pageIndex = -1;

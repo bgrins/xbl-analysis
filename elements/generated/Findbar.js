@@ -1,4 +1,4 @@
-class Findbar extends MozXULElement {
+class MozFindbar extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

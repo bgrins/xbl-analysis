@@ -1,4 +1,4 @@
-class Tooltip extends MozXULElement {
+class MozTooltip extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

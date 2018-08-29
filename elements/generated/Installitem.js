@@ -1,4 +1,4 @@
-class Installitem extends MozXULElement {
+class MozInstallitem extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

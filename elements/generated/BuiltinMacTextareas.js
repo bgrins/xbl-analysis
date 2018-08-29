@@ -1,4 +1,4 @@
-class BuiltinMacTextareas extends MozXULElement {
+class MozBuiltinMacTextareas extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

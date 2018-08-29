@@ -1,4 +1,4 @@
-class Richlistitem extends Basetext {
+class MozRichlistitem extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
 

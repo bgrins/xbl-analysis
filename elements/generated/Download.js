@@ -1,4 +1,4 @@
-class Download extends Richlistitem {
+class MozDownload extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

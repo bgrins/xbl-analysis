@@ -1,4 +1,4 @@
-class BuiltinUnixEditor extends MozXULElement {
+class MozBuiltinUnixEditor extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class MarqueeVerticalEditable extends MozXULElement {
+class MozMarqueeVerticalEditable extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

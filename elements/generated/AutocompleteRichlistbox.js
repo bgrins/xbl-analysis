@@ -1,4 +1,4 @@
-class AutocompleteRichlistbox extends Richlistbox {
+class MozAutocompleteRichlistbox extends MozRichlistbox {
   connectedCallback() {
     super.connectedCallback()
 

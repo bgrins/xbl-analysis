@@ -1,4 +1,4 @@
-class Urlbar extends Autocomplete {
+class MozUrlbar extends MozAutocomplete {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -1004,7 +1004,7 @@ class Urlbar extends Autocomplete {
   }
 
   _initURLTooltip() {
-    if (this.focused || !this.hasAttribute("textoverflow"))
+    if (this.focused || !this._inOverflow)
       return;
     // We set the tooltip text on the parent node instead of the input
     // field because XUL tooltips only work on XUL elements.
@@ -1278,19 +1278,30 @@ class Urlbar extends Autocomplete {
         this._hideURLTooltip();
         break;
       case "overflow":
-        if (!this.value) {
-          // We initially get a spurious overflow event from the
-          // anonymous div containing the placeholder text; bail out.
+        {
+          const targetIsPlaceholder = !aEvent.originalTarget.classList.contains("anonymous-div");
+          // We only care about the non-placeholder text.
+          // This shouldn't be needed, see bug 1487036.
+          if (targetIsPlaceholder) {
+            break;
+          }
+          this._inOverflow = true;
+          this.updateTextOverflow();
           break;
         }
-        this._inOverflow = true;
-        this.updateTextOverflow();
-        break;
       case "underflow":
-        this._inOverflow = false;
-        this.updateTextOverflow();
-        this._hideURLTooltip();
-        break;
+        {
+          const targetIsPlaceholder = !aEvent.originalTarget.classList.contains("anonymous-div");
+          // We only care about the non-placeholder text.
+          // This shouldn't be needed, see bug 1487036.
+          if (targetIsPlaceholder) {
+            break;
+          }
+          this._inOverflow = false;
+          this.updateTextOverflow();
+          this._hideURLTooltip();
+          break;
+        }
       case "scrollend":
         this.updateTextOverflow();
         break;

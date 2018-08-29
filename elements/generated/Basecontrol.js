@@ -1,4 +1,4 @@
-class Basecontrol extends MozXULElement {
+class MozBasecontrol extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

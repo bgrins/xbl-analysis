@@ -1,4 +1,4 @@
-class AutocompleteCreditcardInsecureField extends AutocompleteProfileListitemBase {
+class MozAutocompleteCreditcardInsecureField extends MozAutocompleteProfileListitemBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

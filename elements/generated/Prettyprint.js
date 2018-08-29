@@ -1,4 +1,4 @@
-class Prettyprint extends MozXULElement {
+class MozPrettyprint extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

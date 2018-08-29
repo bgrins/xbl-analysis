@@ -1,4 +1,4 @@
-class Update extends Richlistitem {
+class MozUpdate extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

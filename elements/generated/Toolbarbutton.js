@@ -1,4 +1,4 @@
-class Toolbarbutton extends ButtonBase {
+class MozToolbarbutton extends MozButtonBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

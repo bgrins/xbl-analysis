@@ -1,4 +1,4 @@
-class MenuButtonBase extends ButtonBase {
+class MozMenuButtonBase extends MozButtonBase {
   connectedCallback() {
     super.connectedCallback()
 

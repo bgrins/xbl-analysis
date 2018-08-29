@@ -1,4 +1,4 @@
-class Pluginproblem extends MozXULElement {
+class MozPluginproblem extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`

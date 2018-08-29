@@ -1,4 +1,4 @@
-class AddonGeneric extends AddonBase {
+class MozAddonGeneric extends MozAddonBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

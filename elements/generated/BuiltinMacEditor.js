@@ -1,4 +1,4 @@
-class BuiltinMacEditor extends MozXULElement {
+class MozBuiltinMacEditor extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

@@ -1,4 +1,4 @@
-class TextBase extends MozXULElement {
+class MozTextBase extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

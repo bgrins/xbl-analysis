@@ -1,4 +1,4 @@
-class CustomizableuiToolbarMenubarStub extends MozXULElement {
+class MozCustomizableuiToolbarMenubarStub extends MozXULElement {
   connectedCallback() {
 
     this._setupEventListeners();

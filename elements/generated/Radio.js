@@ -1,4 +1,4 @@
-class Radio extends Basetext {
+class MozRadio extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

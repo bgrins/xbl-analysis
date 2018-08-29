@@ -1,4 +1,4 @@
-class MarqueeVertical extends Marquee {
+class MozMarqueeVertical extends MozMarquee {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

@@ -1,4 +1,4 @@
-class FindbarTextbox extends Textbox {
+class MozFindbarTextbox extends MozTextbox {
   connectedCallback() {
     super.connectedCallback()
 

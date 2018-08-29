@@ -1,4 +1,4 @@
-class Updateheader extends WizardHeader {
+class MozUpdateheader extends MozWizardHeader {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
