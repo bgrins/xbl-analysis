@@ -104,34 +104,34 @@ class Tab extends Basetext {
     });
 
     this.addEventListener("keydown", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_LEFT) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_LEFT) { return; }
       var direction = window.getComputedStyle(this.parentNode).direction;
       this.parentNode.advanceSelectedTab(direction == "ltr" ? -1 : 1, this.arrowKeysShouldWrap);
     }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_RIGHT) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_RIGHT) { return; }
       var direction = window.getComputedStyle(this.parentNode).direction;
       this.parentNode.advanceSelectedTab(direction == "ltr" ? 1 : -1, this.arrowKeysShouldWrap);
     }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_UP) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_UP) { return; }
       this.parentNode.advanceSelectedTab(-1, this.arrowKeysShouldWrap);
     }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
       this.parentNode.advanceSelectedTab(1, this.arrowKeysShouldWrap);
     }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_HOME) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_HOME) { return; }
       this.parentNode._selectNewTab(this.parentNode.children[0]);
     }, { mozSystemGroup: true });
 
     this.addEventListener("keydown", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_END) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_END) { return; }
       var tabs = this.parentNode.children;
       this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
     }, { mozSystemGroup: true });

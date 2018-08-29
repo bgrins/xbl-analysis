@@ -71,7 +71,7 @@ class MenuButtonBase extends ButtonBase {
 
   _setupEventListeners() {
     this.addEventListener("keypress", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_RETURN) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_RETURN) { return; }
       if (event.originalTarget == this)
         this.open = true;
     });

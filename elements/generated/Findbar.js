@@ -1051,7 +1051,7 @@ class Findbar extends MozXULElement {
      * - We have to guard against `this.close` being |null| due to an unknown
      * - issue, which is tracked in bug 957999.
      */
-    this.addEventListener("keypress", (event) => { if (!e.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; } if (this.close) this.close(); }, true);
+    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; } if (this.close) this.close(); }, true);
 
   }
 }

@@ -1227,7 +1227,7 @@ class Browser extends MozXULElement {
 
   _setupEventListeners() {
     this.addEventListener("keypress", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_F7) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_F7) { return; }
       if (event.defaultPrevented || !event.isTrusted)
         return;
 

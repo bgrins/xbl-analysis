@@ -717,33 +717,33 @@ class Richlistbox extends Basecontrol {
   }
 
   _setupEventListeners() {
-    this.addEventListener("keypress", (event) => { if (!e.keyCode != KeyEvent.DOM_VK_UP) { return; } this._moveByOffsetFromUserEvent(-1, event); }, { mozSystemGroup: true });
+    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_UP) { return; } this._moveByOffsetFromUserEvent(-1, event); }, { mozSystemGroup: true });
 
-    this.addEventListener("keypress", (event) => { if (!e.keyCode != KeyEvent.DOM_VK_DOWN) { return; } this._moveByOffsetFromUserEvent(1, event); }, { mozSystemGroup: true });
+    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_DOWN) { return; } this._moveByOffsetFromUserEvent(1, event); }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_HOME) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_HOME) { return; }
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(-this.currentIndex, event);
       this._mayReverse = false;
     }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_END) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_END) { return; }
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.getRowCount() - this.currentIndex - 1, event);
       this._mayReverse = false;
     }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_PAGE_UP) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_PAGE_UP) { return; }
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.scrollOnePage(-1), event);
       this._mayReverse = false;
     }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
-      if (!e.keyCode != KeyEvent.DOM_VK_PAGE_DOWN) { return; }
+      if (e.keyCode != KeyEvent.DOM_VK_PAGE_DOWN) { return; }
       this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.scrollOnePage(1), event);
       this._mayReverse = false;

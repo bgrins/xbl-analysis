@@ -293,13 +293,13 @@ class SearchbarTextbox extends Autocomplete {
 
     this.addEventListener("keypress", (event) => { return this.handleKeyboardNavigation(event); }, true);
 
-    this.addEventListener("keypress", (event) => { if (!e.keyCode != KeyEvent.DOM_VK_UP) { return; } document.getBindingParent(this).selectEngine(event, false); }, true);
+    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_UP) { return; } document.getBindingParent(this).selectEngine(event, false); }, true);
 
-    this.addEventListener("keypress", (event) => { if (!e.keyCode != KeyEvent.DOM_VK_DOWN) { return; } document.getBindingParent(this).selectEngine(event, true); }, true);
+    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_DOWN) { return; } document.getBindingParent(this).selectEngine(event, true); }, true);
 
-    this.addEventListener("keypress", (event) => { if (!e.keyCode != KeyEvent.DOM_VK_DOWN) { return; } return this.openSearch(); }, true);
+    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_DOWN) { return; } return this.openSearch(); }, true);
 
-    this.addEventListener("keypress", (event) => { if (!e.keyCode != KeyEvent.DOM_VK_UP) { return; } return this.openSearch(); }, true);
+    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_UP) { return; } return this.openSearch(); }, true);
 
     this.addEventListener("dragover", (event) => {
       var types = event.dataTransfer.types;
