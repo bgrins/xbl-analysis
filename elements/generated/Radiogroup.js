@@ -283,14 +283,14 @@ class Radiogroup extends Basecontrol {
     });
 
     this.addEventListener("keypress", (event) => {
-      if (e.keyCode != KeyEvent.DOM_VK_UP) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_UP) { return; }
       this.checkAdjacentElement(false);
       event.stopPropagation();
       event.preventDefault();
     });
 
     this.addEventListener("keypress", (event) => {
-      if (e.keyCode != KeyEvent.DOM_VK_LEFT) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_LEFT) { return; }
       // left arrow goes back when we are ltr, forward when we are rtl
       this.checkAdjacentElement(document.defaultView.getComputedStyle(
         this).direction == "rtl");
@@ -299,14 +299,14 @@ class Radiogroup extends Basecontrol {
     });
 
     this.addEventListener("keypress", (event) => {
-      if (e.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
       this.checkAdjacentElement(true);
       event.stopPropagation();
       event.preventDefault();
     });
 
     this.addEventListener("keypress", (event) => {
-      if (e.keyCode != KeyEvent.DOM_VK_RIGHT) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_RIGHT) { return; }
       // right arrow goes forward when we are ltr, back when we are rtl
       this.checkAdjacentElement(document.defaultView.getComputedStyle(
         this).direction == "ltr");

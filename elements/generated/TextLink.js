@@ -94,7 +94,7 @@ class TextLink extends TextLabel {
 
     this.addEventListener("click", (event) => { this.open(event) }, true);
 
-    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this.click() });
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this.click() });
 
   }
 }

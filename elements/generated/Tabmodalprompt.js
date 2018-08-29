@@ -249,9 +249,9 @@ class Tabmodalprompt extends MozXULElement {
     /**
      * Based on dialog.xml handlers
      */
-    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this.onKeyAction('default', event); }, { mozSystemGroup: true });
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this.onKeyAction('default', event); }, { mozSystemGroup: true });
 
-    this.addEventListener("keypress", (event) => { if (e.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; } this.onKeyAction('cancel', event); }, { mozSystemGroup: true });
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; } this.onKeyAction('cancel', event); }, { mozSystemGroup: true });
 
     this.addEventListener("focus", (event) => {
       let bnum = this.args.defaultButtonNum || 0;

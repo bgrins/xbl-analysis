@@ -110,7 +110,7 @@ function getJSForBinding(binding) {
       secondParam = ", true";
     }
 
-    let keycode = handler.attrs.keycode ? `if (e.keyCode != KeyEvent.DOM_${handler.attrs.keycode}) { return; }` : "";
+    let keycode = handler.attrs.keycode ? `if (event.keyCode != KeyEvent.DOM_${handler.attrs.keycode}) { return; }` : "";
     handlers.push(`this.addEventListener("${handler.attrs.event}", (event) => {${keycode} ${handler.cdata || handler.value || handler.attrs.action}}${secondParam});\n`);
   }
 
