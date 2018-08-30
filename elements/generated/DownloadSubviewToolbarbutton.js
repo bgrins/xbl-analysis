@@ -8,11 +8,10 @@
 // leaking to window scope.
 {
 
-class MozDownloadSubviewToolbarbutton extends MozMenuButtonBase {
+class MozDownloadSubviewToolbarbutton extends MozButtonBase {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <children includes="observes|template|menupopup|panel|tooltip"></children>
       <image class="toolbarbutton-icon" inherits="validate,src=image,label,consumeanchor"></image>
       <vbox class="toolbarbutton-text" flex="1">
         <label crop="end" inherits="value=label,accesskey,crop,wrap"></label>

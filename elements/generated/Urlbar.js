@@ -595,9 +595,9 @@ class MozUrlbar extends MozAutocomplete {
     }
 
     // Make sure the host is always visible. Since it is aligned on
-    // the first strong directional character, we set the overflow
-    // appropriately.
-    this.selectionStart = this.selectionEnd = 0;
+    // the first strong directional character, we set scrollLeft
+    // appropriately to ensure the domain stays visible in case of an
+    // overflow.
     window.requestAnimationFrame(() => {
       // Check for re-entrance. On focus change this formatting code is
       // invoked regardless, thus this should be enough.
@@ -934,6 +934,11 @@ class MozUrlbar extends MozAutocomplete {
       if (ex.result != Cr.NS_ERROR_LOAD_SHOWED_ERRORPAGE) {
         this.handleRevert();
       }
+    }
+
+    if (openUILinkWhere == "current") {
+      // Ensure the start of the URL is visible for usability reasons.
+      this.selectionStart = this.selectionEnd = 0;
     }
   }
 
