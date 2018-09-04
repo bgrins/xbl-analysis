@@ -42,7 +42,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
           default:
             // do nothing with unrecognized command
         }
-      }
+      },
     };
 
     if (document.getBindingParent(this).parentNode.parentNode.localName ==

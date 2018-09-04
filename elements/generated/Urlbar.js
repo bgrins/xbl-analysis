@@ -109,7 +109,7 @@ class MozUrlbar extends MozAutocomplete {
           (aCommand != "cmd_cut" || !this.urlbar.readOnly) &&
           this.urlbar.selectionStart < this.urlbar.selectionEnd;
       },
-      onEvent(aEventName) {}
+      onEvent(aEventName) {},
     };
 
     this._pressedNoActionKeys = new Set();
@@ -144,6 +144,7 @@ class MozUrlbar extends MozAutocomplete {
     this.inputField.addEventListener("overflow", this);
     this.inputField.addEventListener("underflow", this);
     this.inputField.addEventListener("scrollend", this);
+    window.addEventListener("resize", this);
 
     var textBox = document.getAnonymousElementByAttribute(this,
       "anonid", "moz-input-box");
@@ -526,25 +527,38 @@ class MozUrlbar extends MozAutocomplete {
     return this._mayTrimURLs ? trimURL(aURL) : aURL;
   }
 
-  formatValue() {
+  /**
+   * If the input value is a URL, the input is not focused, and formatting is
+   * enabled, this method highlights the domain, and if mixed content is
+   * present, it crosses out the https scheme.  It also ensures that the host
+   * is visible (not scrolled out of sight).  Otherwise it removes formatting.
+   *
+   * @param  onlyEnsureFormattedHostVisible
+   * Pass true to skip formatting and instead only ensure that the
+   * host is visible.
+   */
+  formatValue(onlyEnsureFormattedHostVisible) {
     // Used to avoid re-entrance in async callbacks.
     let instance = this._formattingInstance = {};
 
     if (!this.editor)
       return;
 
-    // Cleanup previously set styles.
-    this.scheme.value = "";
     let controller, strikeOut, selection;
-    if (this._formattingEnabled) {
-      controller = this.editor.selectionController;
-      strikeOut = controller.getSelection(controller.SELECTION_URLSTRIKEOUT);
-      strikeOut.removeAllRanges();
-      selection = controller.getSelection(controller.SELECTION_URLSECONDARY);
-      selection.removeAllRanges();
-      this.formatScheme(controller.SELECTION_URLSTRIKEOUT, true);
-      this.formatScheme(controller.SELECTION_URLSECONDARY, true);
-      this.inputField.style.setProperty("--urlbar-scheme-size", "0px");
+
+    if (!onlyEnsureFormattedHostVisible) {
+      // Cleanup previously set styles.
+      this.scheme.value = "";
+      if (this._formattingEnabled) {
+        controller = this.editor.selectionController;
+        strikeOut = controller.getSelection(controller.SELECTION_URLSTRIKEOUT);
+        strikeOut.removeAllRanges();
+        selection = controller.getSelection(controller.SELECTION_URLSECONDARY);
+        selection.removeAllRanges();
+        this.formatScheme(controller.SELECTION_URLSTRIKEOUT, true);
+        this.formatScheme(controller.SELECTION_URLSECONDARY, true);
+        this.inputField.style.setProperty("--urlbar-scheme-size", "0px");
+      }
     }
 
     let textNode = this.editor.rootElement.firstChild;
@@ -613,7 +627,7 @@ class MozUrlbar extends MozAutocomplete {
       }
     });
 
-    if (!this._formattingEnabled)
+    if (onlyEnsureFormattedHostVisible || !this._formattingEnabled)
       return;
 
     this.formatScheme(controller.SELECTION_URLSECONDARY);
@@ -838,7 +852,7 @@ class MozUrlbar extends MozAutocomplete {
           }
           const actionDetails = {
             isSuggestion: !!action.params.searchSuggestion,
-            isAlias: !!action.params.alias
+            isAlias: !!action.params.alias,
           };
           [url, postData] = this._parseAndRecordSearchEngineLoad(
             action.params.engineName,
@@ -1326,6 +1340,26 @@ class MozUrlbar extends MozAutocomplete {
         // Ensure to clear those internal caches when switching tabs.
         this.controller.resetInternalState();
         break;
+      case "resize":
+        if (aEvent.target == window) {
+          // Close the popup since it would be wrongly sized, we'll
+          // recalculate a proper size on reopening. For example, this may
+          // happen when using special OS resize functions like Win+Arrow.
+          this.closePopup();
+
+          // Make sure the host remains visible in the input field (via
+          // formatValue) when the window is resized.  We don't want to
+          // hurt resize performance though, so do this only after resize
+          // events have stopped and a small timeout has elapsed.
+          if (this._resizeThrottleTimeout) {
+            clearTimeout(this._resizeThrottleTimeout);
+          }
+          this._resizeThrottleTimeout = setTimeout(() => {
+            this._resizeThrottleTimeout = null;
+            this.formatValue(true);
+          }, 100);
+        }
+        break;
     }
   }
 
@@ -1664,6 +1698,7 @@ class MozUrlbar extends MozAutocomplete {
     this.inputField.removeEventListener("overflow", this);
     this.inputField.removeEventListener("underflow", this);
     this.inputField.removeEventListener("scrollend", this);
+    window.removeEventListener("resize", this);
 
     if (this._deferredKeyEventTimeout) {
       clearTimeout(this._deferredKeyEventTimeout);

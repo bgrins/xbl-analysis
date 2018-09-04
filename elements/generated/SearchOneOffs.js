@@ -1125,7 +1125,7 @@ class MozSearchOneOffs extends MozXULElement {
             prompt.QueryInterface(Ci.nsIWritablePropertyBag2);
             prompt.setPropertyAsBool("allowTabModal", true);
             prompt.alert(title, text);
-          }
+          },
         };
         Services.search.addEngine(target.getAttribute("uri"), null,
           target.getAttribute("image"), false,

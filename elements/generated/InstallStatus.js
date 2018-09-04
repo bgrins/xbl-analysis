@@ -111,7 +111,7 @@ class MozInstallStatus extends MozXULElement {
     if (this.mControl.mAddon.eula) {
       var data = {
         addon: this.mControl.mAddon,
-        accepted: false
+        accepted: false,
       };
       window.openDialog("chrome://mozapps/content/extensions/eula.xul", "_blank",
         "chrome,dialog,modal,centerscreen,resizable=no", data);

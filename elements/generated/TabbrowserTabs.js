@@ -170,7 +170,7 @@ class MozTabbrowserTabs extends MozTabs {
             popup.addEventListener("popupshowing", event => {
               createUserContextMenu(event, {
                 useAccessKeys: false,
-                showDefaultTab: Services.prefs.getIntPref("privacy.userContext.longPressBehavior") == 1
+                showDefaultTab: Services.prefs.getIntPref("privacy.userContext.longPressBehavior") == 1,
               });
             });
             parent.appendChild(popup);
@@ -430,7 +430,7 @@ class MozTabbrowserTabs extends MozTabs {
         layoutData = this._pinnedTabsLayoutCache = {
           uiDensity,
           pinnedTabWidth: this.children[0].getBoundingClientRect().width,
-          scrollButtonWidth: arrowScrollbox._scrollButtonDown.getBoundingClientRect().width
+          scrollButtonWidth: arrowScrollbox._scrollButtonDown.getBoundingClientRect().width,
         };
       }
 
@@ -1143,7 +1143,7 @@ class MozTabbrowserTabs extends MozTabs {
         scrollX: this.arrowScrollbox._scrollbox.scrollLeft,
         screenX: event.screenX,
         movingTabs: (tab.multiselected ? gBrowser.selectedTabs : [tab])
-          .filter(t => t.pinned == tab.pinned)
+          .filter(t => t.pinned == tab.pinned),
       };
 
       event.stopPropagation();

@@ -153,8 +153,22 @@ class MozTranslationbar extends MozNotification {
     // Show attribution for the preferred translator.
     let engineIndex = Object.keys(Translation.supportedEngines)
       .indexOf(Translation.translationEngine);
+    // We currently only have attribution for the Bing and Yandex engines.
+    if (engineIndex >= 0) {
+      --engineIndex;
+    }
+    let attributionNode = this._getAnonElt("translationEngine");
     if (engineIndex != -1) {
-      this._getAnonElt("translationEngine").selectedIndex = engineIndex;
+      attributionNode.selectedIndex = engineIndex;
+    } else {
+      // Hide the attribution menuitem
+      let footer = attributionNode.parentNode;
+      footer.hidden = true;
+      // Make the 'Translation preferences' item the new footer.
+      footer = footer.previousSibling;
+      footer.setAttribute("class", "subviewbutton panel-subview-footer");
+      // And hide the menuseparator.
+      footer.previousSibling.hidden = true;
     }
 
     const kWelcomePref = "browser.translation.ui.welcomeMessageShown";
@@ -195,7 +209,7 @@ class MozTranslationbar extends MozNotification {
           "Gi\u1EDD \u0111\xE2y ch\xFAng ta c\xF3 th\u1EC3 ti\u1EBFp c\u1EADn web d\u1EC5 d\xE0ng h\u01A1n n\u1EEFa v\u1EDBi t\xEDnh n\u0103ng d\u1ECBch ngay trong trang.  Hay nh\u1EA5n n\xFAt d\u1ECBch \u0111\u1EC3 th\u1EED!",
           "T\xECm hi\u1EC3u th\xEAm.",
           "C\u1EA3m \u01A1n"
-        ]
+        ],
       };
 
       let locale = Services.locale.getAppLocaleAsLangTag();

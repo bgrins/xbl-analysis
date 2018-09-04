@@ -12,6 +12,9 @@ class MozPopupNotification extends MozXULElement {
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="popup-notification-header-container">
+        <children includes="popupnotificationheader"></children>
+      </hbox>
       <hbox align="start" class="popup-notification-body-container">
         <image class="popup-notification-icon" inherits="popupid,src=icon,class=iconclass"></image>
         <vbox flex="1" pack="start" class="popup-notification-body" inherits="popupid">
@@ -31,6 +34,9 @@ class MozPopupNotification extends MozXULElement {
           <checkbox anonid="checkbox" inherits="hidden=checkboxhidden,checked=checkboxchecked,label=checkboxlabel,oncommand=checkboxcommand"></checkbox>
           <description class="popup-notification-warning" inherits="hidden=warninghidden,text=warninglabel"></description>
         </vbox>
+      </hbox>
+      <hbox class="popup-notification-footer-container">
+        <children includes="popupnotificationfooter"></children>
       </hbox>
       <hbox class="popup-notification-button-container">
         <children includes="button"></children>

@@ -436,7 +436,7 @@ class MozRemoteBrowser extends MozBrowser {
       case "ImageDocumentLoaded":
         this._imageDocument = {
           width: data.width,
-          height: data.height
+          height: data.height,
         };
         break;
 

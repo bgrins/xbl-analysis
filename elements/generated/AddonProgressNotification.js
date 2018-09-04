@@ -41,7 +41,7 @@ class MozAddonProgressNotification extends MozPopupNotification {
       configurable: true,
       enumerable: true,
       writable: true,
-      value: module.DownloadUtils
+      value: module.DownloadUtils,
     });
     return module.DownloadUtils;
   }

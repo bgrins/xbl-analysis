@@ -66,7 +66,7 @@ class MozRichlistbox extends MozBasecontrol {
       // widgets) won't loop the children.
       this._selecting = {
         item: this.getItemAtIndex(val),
-        index: val
+        index: val,
       };
       this.selectItem(this._selecting.item);
       delete this._selecting;

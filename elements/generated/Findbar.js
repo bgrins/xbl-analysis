@@ -96,7 +96,7 @@ class MozFindbar extends MozXULElement {
               this._self.browser.finder.onModalHighlightChange(this._self._useModalHighlight);
             break;
         }
-      }
+      },
     };
 
     this._destroyed = false;
@@ -842,7 +842,7 @@ class MozFindbar extends MozXULElement {
       caseSensitive: !!this._typeAheadCaseSensitive,
       entireWord: this._entireWord,
       highlightAll: this._highlightAll,
-      findPrevious: aFindPrevious
+      findPrevious: aFindPrevious,
     });
     return this.dispatchEvent(event);
   }

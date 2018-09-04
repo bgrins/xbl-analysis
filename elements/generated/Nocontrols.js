@@ -33,7 +33,7 @@ class MozNocontrols extends MozXULElement {
           try {
             this.video.removeEventListener(event, this, {
               capture: true,
-              mozSystemGroup: true
+              mozSystemGroup: true,
             });
           } catch (ex) {}
         }
@@ -119,10 +119,10 @@ class MozNocontrols extends MozXULElement {
         for (let event of this.videoEvents) {
           this.video.addEventListener(event, this, {
             capture: true,
-            mozSystemGroup: true
+            mozSystemGroup: true,
           });
         }
-      }
+      },
     };
     this.Utils.init(this);
     this.Utils.video.dispatchEvent(new CustomEvent("MozNoControlsVideoBindingAttached"));

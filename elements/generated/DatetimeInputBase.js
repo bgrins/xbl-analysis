@@ -55,7 +55,7 @@ class MozDatetimeInputBase extends MozXULElement {
     // Handle keypress separately since we need to catch it on capturing.
     this.addEventListener("keypress", this, {
       capture: true,
-      mozSystemGroup: true
+      mozSystemGroup: true,
     }, false);
     // This is to open the picker when input element is clicked (this
     // includes padding area).
@@ -513,7 +513,7 @@ class MozDatetimeInputBase extends MozXULElement {
     });
     this.removeEventListener("keypress", this, {
       capture: true,
-      mozSystemGroup: true
+      mozSystemGroup: true,
     });
     this.mInputElement.removeEventListener("click", this, { mozSystemGroup: true });
 

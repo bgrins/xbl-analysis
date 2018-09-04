@@ -70,7 +70,7 @@ class MozTab extends MozBasetext {
       configurable: true,
       enumerable: true,
       writable: true,
-      value: module.TelemetryStopwatch
+      value: module.TelemetryStopwatch,
     });
     return module.TelemetryStopwatch;
   }

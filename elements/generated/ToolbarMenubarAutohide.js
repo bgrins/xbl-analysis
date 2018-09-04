@@ -55,7 +55,7 @@ class MozToolbarMenubarAutohide extends MozXULElement {
             this.contextMenu = null;
             break;
         }
-      }
+      },
     };
 
     this._setInactive();

@@ -57,7 +57,7 @@ class MozDateInput extends MozDatetimeInputBase {
     let formatter = Intl.DateTimeFormat(this.mLocales, {
       year: "numeric",
       month: "numeric",
-      day: "numeric"
+      day: "numeric",
     });
     formatter.formatToParts(Date.now()).map(part => {
       switch (part.type) {
@@ -328,7 +328,7 @@ class MozDateInput extends MozDatetimeInputBase {
     let minDigits = aField.getAttribute("mindigits");
     let formatted = value.toLocaleString(this.mLocales, {
       minimumIntegerDigits: minDigits,
-      useGrouping: false
+      useGrouping: false,
     });
 
     aField.textContent = formatted;

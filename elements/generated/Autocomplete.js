@@ -73,7 +73,7 @@ class MozAutocomplete extends MozTextbox {
         return this._autocomplete.editor.isSelectionEditable &&
           this._autocomplete.editor.canPaste(this._kGlobalClipboard);
       },
-      onEvent() {}
+      onEvent() {},
     };
 
     this.mController = Cc["@mozilla.org/autocomplete/controller;1"].
@@ -211,7 +211,7 @@ class MozAutocomplete extends MozTextbox {
       configurable: true,
       enumerable: true,
       writable: true,
-      value: module.PrivateBrowsingUtils
+      value: module.PrivateBrowsingUtils,
     });
     return module.PrivateBrowsingUtils;
   }
@@ -549,7 +549,7 @@ class MozAutocomplete extends MozTextbox {
         if (this.popup.selectedIndex >= 0) {
           this._selectionDetails = {
             index: this.popup.selectedIndex,
-            kind: "key"
+            kind: "key",
           };
         }
         cancel = this.handleEnter(aEvent);

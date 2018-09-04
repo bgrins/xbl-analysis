@@ -309,7 +309,7 @@ class MozSearchbar extends MozXULElement {
     const details = {
       isOneOff: aOneOff,
       isSuggestion: (!aOneOff && telemetrySearchDetails),
-      selection: telemetrySearchDetails
+      selection: telemetrySearchDetails,
     };
     BrowserSearch.recordSearchInTelemetry(engine, "searchbar", details);
     // null parameter below specifies HTML response for search
@@ -336,7 +336,7 @@ class MozSearchbar extends MozXULElement {
       } else if (target.classList.contains("addengine-item")) {
         // Select the installed engine if the installation succeeds
         var installCallback = {
-          onSuccess: engine => this.currentEngine = engine
+          onSuccess: engine => this.currentEngine = engine,
         };
         Services.search.addEngine(target.getAttribute("uri"), null,
           target.getAttribute("src"), false,

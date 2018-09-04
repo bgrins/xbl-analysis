@@ -56,7 +56,7 @@ class MozCustomizableuiToolbarMenubarAutohide extends MozCustomizableuiToolbar {
             this.contextMenu = null;
             break;
         }
-      }
+      },
     };
 
     this._setInactive();

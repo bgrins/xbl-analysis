@@ -83,7 +83,7 @@ class MozDatetimePopup extends MozArrowpanel {
         {
           this.postMessageToPicker({
             name: "PickerSetValue",
-            detail: data.value
+            detail: data.value,
           });
           break;
         }
@@ -96,8 +96,8 @@ class MozDatetimePopup extends MozArrowpanel {
               year,
               // Month value from input box starts from 1 instead of 0
               month: month == undefined ? undefined : month - 1,
-              day
-            }
+              day,
+            },
           });
           break;
         }
@@ -126,7 +126,7 @@ class MozDatetimePopup extends MozArrowpanel {
               min: detail.min,
               max: detail.max,
               step: detail.step,
-            }
+            },
           });
           break;
         }
@@ -178,7 +178,7 @@ class MozDatetimePopup extends MozArrowpanel {
               max: detail.max,
               step: detail.step,
               stepBase: detail.stepBase,
-            }
+            },
           });
           break;
         }
@@ -199,7 +199,7 @@ class MozDatetimePopup extends MozArrowpanel {
           } else {
             this.sendPickerValueChanged({
               hour: isHourSet || isDayPeriodSet ? hour : undefined,
-              minute: isMinuteSet ? minute : undefined
+              minute: isMinuteSet ? minute : undefined,
             });
           }
           break;
@@ -219,8 +219,8 @@ class MozDatetimePopup extends MozArrowpanel {
           this.dispatchEvent(new CustomEvent("DateTimePickerValueChanged", {
             detail: {
               hour: value.hour,
-              minute: value.minute
-            }
+              minute: value.minute,
+            },
           }));
           break;
         }
@@ -231,8 +231,8 @@ class MozDatetimePopup extends MozArrowpanel {
               year: value.year,
               // Month value from input box starts from 1 instead of 0
               month: value.month == undefined ? undefined : value.month + 1,
-              day: value.day
-            }
+              day: value.day,
+            },
           }));
           break;
         }
@@ -264,7 +264,7 @@ class MozDatetimePopup extends MozArrowpanel {
 
     return {
       firstDayOfWeek,
-      weekends
+      weekends,
     };
   }
 

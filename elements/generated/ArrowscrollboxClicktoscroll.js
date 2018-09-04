@@ -45,7 +45,7 @@ class MozArrowscrollboxClicktoscroll extends MozArrowscrollbox {
         const scrollDelta = 0.5 * timePassed * scrollIndex;
         this.scrollbox.scrollByPixels(scrollDelta, true);
         this.requestHandle = window.requestAnimationFrame(this.sample.bind(this));
-      }
+      },
     };
 
     this._scrollDelay =

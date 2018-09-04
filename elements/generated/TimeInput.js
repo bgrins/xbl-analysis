@@ -150,7 +150,7 @@ class MozTimeInput extends MozDatetimeInputBase {
     let options = {
       hour: "numeric",
       minute: "numeric",
-      hour12: this.mHour12
+      hour12: this.mHour12,
     };
 
     this.mHourField = this.createEditField(this.mHourPlaceHolder,
@@ -233,7 +233,7 @@ class MozTimeInput extends MozDatetimeInputBase {
 
     let result = intlUtils.getDisplayNames(this.mLocales, {
       style: "short",
-      keys
+      keys,
     });
 
     [amString, pmString] = keys.map(key => result.values[key]);
@@ -243,7 +243,7 @@ class MozTimeInput extends MozDatetimeInputBase {
 
   is12HourTime(aLocales) {
     let options = (new Intl.DateTimeFormat(aLocales, {
-      hour: "numeric"
+      hour: "numeric",
     })).resolvedOptions();
 
     return options.hour12;
@@ -565,7 +565,7 @@ class MozTimeInput extends MozDatetimeInputBase {
     let minDigits = aField.getAttribute("mindigits");
     let formatted = value.toLocaleString(this.mLocales, {
       minimumIntegerDigits: minDigits,
-      useGrouping: false
+      useGrouping: false,
     });
 
     aField.textContent = formatted;

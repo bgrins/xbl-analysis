@@ -62,7 +62,7 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
     if (popupForSearchBar) {
       searchBar.telemetrySearchDetails = {
         index: this.selectedIndex,
-        kind: "mouse"
+        kind: "mouse",
       };
     }
 
