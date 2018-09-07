@@ -17,7 +17,7 @@ class MozUrlbar extends MozAutocomplete {
         <moz-input-box anonid="moz-input-box" class="urlbar-input-box" flex="1">
           <children></children>
           <html:input anonid="scheme" class="urlbar-scheme textbox-input" required="required" inherits="textoverflow,focused"></html:input>
-          <html:input anonid="input" class="autocomplete-textbox urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
+          <html:input anonid="input" class="urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
         </moz-input-box>
         <image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD.goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping"></image>
         <dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD.urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping"></dropmarker>
@@ -69,6 +69,12 @@ class MozUrlbar extends MozAutocomplete {
     this._mayTrimURLs = true;
 
     this._formattingEnabled = true;
+
+    /**
+     * This is used only as an optimization to avoid removing formatting in
+     * the _remove* format methods when no formatting is actually applied.
+     */
+    this._formattingApplied = false;
 
     this._copyCutController = {
       urlbar: this,
@@ -136,6 +142,7 @@ class MozUrlbar extends MozAutocomplete {
     this._formattingEnabled = this._prefs.getBoolPref("formatting.enabled");
     this._mayTrimURLs = this._prefs.getBoolPref("trimURLs");
     this._adoptIntoActiveWindow = this._prefs.getBoolPref("switchTabs.adoptIntoActiveWindow");
+    this._ctrlCanonizesURLs = this._prefs.getBoolPref("ctrlCanonizesURLs");
     this.inputField.controllers.insertControllerAt(0, this._copyCutController);
     this.inputField.addEventListener("paste", this);
     this.inputField.addEventListener("mousedown", this);
@@ -528,46 +535,64 @@ class MozUrlbar extends MozAutocomplete {
   }
 
   /**
-   * If the input value is a URL, the input is not focused, and formatting is
-   * enabled, this method highlights the domain, and if mixed content is
-   * present, it crosses out the https scheme.  It also ensures that the host
-   * is visible (not scrolled out of sight).  Otherwise it removes formatting.
+   * This method tries to apply styling to the text in the input, depending
+   * on the text.  See the _format* methods.
+   */
+  formatValue() {
+    if (!this.editor || !this.editor.rootElement.firstChild.textContent) {
+      return;
+    }
+
+    // Remove the current formatting.
+    this._removeURLFormat();
+    this._removeSearchAliasFormat();
+    this._formattingApplied = false;
+
+    // Apply new formatting.  Formatter methods should return true if they
+    // successfully formatted the value and false if not.  We apply only
+    // one formatter at a time, so we stop at the first successful one.
+    let formatterMethods = [
+      "_formatURL",
+      "_formatSearchAlias",
+    ];
+    this._formattingApplied = formatterMethods.some(m => this[m]());
+  }
+
+  _removeURLFormat() {
+    this.scheme.value = "";
+    if (!this._formattingApplied) {
+      return;
+    }
+    let controller = this.editor.selectionController;
+    let strikeOut =
+      controller.getSelection(controller.SELECTION_URLSTRIKEOUT);
+    strikeOut.removeAllRanges();
+    let selection =
+      controller.getSelection(controller.SELECTION_URLSECONDARY);
+    selection.removeAllRanges();
+    this._formatScheme(controller.SELECTION_URLSTRIKEOUT, true);
+    this._formatScheme(controller.SELECTION_URLSECONDARY, true);
+    this.inputField.style.setProperty("--urlbar-scheme-size", "0px");
+  }
+
+  /**
+   * If the input value is a URL and the input is not focused, this
+   * formatter method highlights the domain, and if mixed content is present,
+   * it crosses out the https scheme.  It also ensures that the host is
+   * visible (not scrolled out of sight).
    *
    * @param  onlyEnsureFormattedHostVisible
    * Pass true to skip formatting and instead only ensure that the
    * host is visible.
+   * @return True if formatting was applied and false if not.
    */
-  formatValue(onlyEnsureFormattedHostVisible) {
-    // Used to avoid re-entrance in async callbacks.
-    let instance = this._formattingInstance = {};
-
-    if (!this.editor)
-      return;
-
-    let controller, strikeOut, selection;
-
-    if (!onlyEnsureFormattedHostVisible) {
-      // Cleanup previously set styles.
-      this.scheme.value = "";
-      if (this._formattingEnabled) {
-        controller = this.editor.selectionController;
-        strikeOut = controller.getSelection(controller.SELECTION_URLSTRIKEOUT);
-        strikeOut.removeAllRanges();
-        selection = controller.getSelection(controller.SELECTION_URLSECONDARY);
-        selection.removeAllRanges();
-        this.formatScheme(controller.SELECTION_URLSTRIKEOUT, true);
-        this.formatScheme(controller.SELECTION_URLSECONDARY, true);
-        this.inputField.style.setProperty("--urlbar-scheme-size", "0px");
-      }
+  _formatURL(onlyEnsureFormattedHostVisible) {
+    if (this.focused) {
+      return false;
     }
 
     let textNode = this.editor.rootElement.firstChild;
     let value = textNode.textContent;
-    if (!value)
-      return;
-
-    if (this.focused)
-      return;
 
     // Get the URL from the fixup service:
     let flags = Services.uriFixup.FIXUP_FLAG_FIX_SCHEME_TYPOS |
@@ -582,7 +607,7 @@ class MozUrlbar extends MozAutocomplete {
       !uriInfo.fixedURI ||
       uriInfo.keywordProviderName ||
       !["http", "https", "ftp"].includes(uriInfo.fixedURI.scheme)) {
-      return;
+      return false;
     }
 
     // If we trimmed off the http scheme, ensure we stick it back on before
@@ -597,8 +622,9 @@ class MozUrlbar extends MozAutocomplete {
     }
 
     let matchedURL = value.match(/^(([a-z]+:\/\/)(?:[^\/#?]+@)?)(\S+?)(?::\d+)?\s*(?:[\/#?]|$)/);
-    if (!matchedURL)
-      return;
+    if (!matchedURL) {
+      return false;
+    }
 
     let [, preDomain, schemeWSlashes, domain] = matchedURL;
     // We strip http, so we should not show the scheme box for it.
@@ -608,6 +634,9 @@ class MozUrlbar extends MozAutocomplete {
         schemeWSlashes.length + "ch");
     }
 
+    // Used to avoid re-entrance in the requestAnimationFrame callback.
+    let instance = this._formatURLInstance = {};
+
     // Make sure the host is always visible. Since it is aligned on
     // the first strong directional character, we set scrollLeft
     // appropriately to ensure the domain stays visible in case of an
@@ -615,8 +644,9 @@ class MozUrlbar extends MozAutocomplete {
     window.requestAnimationFrame(() => {
       // Check for re-entrance. On focus change this formatting code is
       // invoked regardless, thus this should be enough.
-      if (this._formattingInstance != instance)
+      if (this._formatURLInstance != instance) {
         return;
+      }
       let directionality = window.windowUtils.getDirectionFromText(domain);
       // In the future, for example in bug 525831, we may add a forceRTL
       // char just after the domain, and in such a case we should not
@@ -627,10 +657,13 @@ class MozUrlbar extends MozAutocomplete {
       }
     });
 
-    if (onlyEnsureFormattedHostVisible || !this._formattingEnabled)
-      return;
+    if (onlyEnsureFormattedHostVisible || !this._formattingEnabled) {
+      return false;
+    }
 
-    this.formatScheme(controller.SELECTION_URLSECONDARY);
+    let controller = this.editor.selectionController;
+
+    this._formatScheme(controller.SELECTION_URLSECONDARY);
 
     // Strike out the "https" part if mixed active content is loaded.
     if (this.getAttribute("pageproxystate") == "valid" &&
@@ -640,8 +673,10 @@ class MozUrlbar extends MozAutocomplete {
       let range = document.createRange();
       range.setStart(textNode, 0);
       range.setEnd(textNode, 5);
+      let strikeOut =
+        controller.getSelection(controller.SELECTION_URLSTRIKEOUT);
       strikeOut.addRange(range);
-      this.formatScheme(controller.SELECTION_URLSTRIKEOUT);
+      this._formatScheme(controller.SELECTION_URLSTRIKEOUT);
     }
 
     let baseDomain = domain;
@@ -659,6 +694,9 @@ class MozUrlbar extends MozAutocomplete {
       subDomain = domain.slice(0, -baseDomain.length);
     }
 
+    let selection =
+      controller.getSelection(controller.SELECTION_URLSECONDARY);
+
     let rangeLength = preDomain.length + subDomain.length - trimmedLength;
     if (rangeLength) {
       let range = document.createRange();
@@ -674,9 +712,11 @@ class MozUrlbar extends MozAutocomplete {
       range.setEnd(textNode, value.length - trimmedLength);
       selection.addRange(range);
     }
+
+    return true;
   }
 
-  formatScheme(selectionType, clear) {
+  _formatScheme(selectionType, clear) {
     let editor = this.scheme.editor;
     let controller = editor.selectionController;
     let textNode = editor.rootElement.firstChild;
@@ -689,6 +729,80 @@ class MozUrlbar extends MozAutocomplete {
       r.setEnd(textNode, textNode.textContent.length);
       selection.addRange(r);
     }
+  }
+
+  _removeSearchAliasFormat() {
+    if (!this._formattingApplied) {
+      return;
+    }
+    let selection = this.editor.selectionController.getSelection(
+      Ci.nsISelectionController.SELECTION_FIND
+    );
+    selection.removeAllRanges();
+  }
+
+  /**
+   * If the input value starts with a search alias, this formatter method
+   * highlights it.
+   *
+   * @return True if formatting was applied and false if not.
+   */
+  _formatSearchAlias() {
+    if (!this._formattingEnabled) {
+      return false;
+    }
+
+    let textNode = this.editor.rootElement.firstChild;
+    let value = textNode.textContent;
+    let trimmedValue = value.trimStart();
+
+    // If there's no alias in the results or the first word in the input
+    // value is not that alias, then there's no formatting to do.
+    if (!this.popup.searchAlias ||
+      (trimmedValue.length != this.popup.searchAlias.length &&
+        trimmedValue[this.popup.searchAlias.length] != " ") ||
+      !trimmedValue.startsWith(this.popup.searchAlias)) {
+      return false;
+    }
+
+    let index = value.indexOf(this.popup.searchAlias);
+
+    // We abuse the SELECTION_FIND selection type to do our highlighting.
+    // It's the only type that works with Selection.setColors().
+    let selection = this.editor.selectionController.getSelection(
+      Ci.nsISelectionController.SELECTION_FIND
+    );
+
+    let range = document.createRange();
+    range.setStart(textNode, index);
+    range.setEnd(textNode, index + this.popup.searchAlias.length);
+    selection.addRange(range);
+
+    let fg = "#2362d7";
+    let bg = "#d2e6fd";
+
+    // Selection.setColors() will swap the given foreground and background
+    // colors if it detects that the contrast between the background
+    // color and the frame color is too low.  Normally we don't want that
+    // to happen; we want it to use our colors as given (even if setColors
+    // thinks the contrast is too low).  But it's a nice feature for non-
+    // default themes, where the contrast between our background color and
+    // the input's frame color might actually be too low.  We can
+    // (hackily) force setColors to use our colors as given by passing
+    // them as the alternate colors.  Otherwise, allow setColors to swap
+    // them, which we can do by passing "currentColor".  See
+    // nsTextPaintStyle::GetHighlightColors for details.
+    if (this.querySelector(":-moz-lwtheme") ||
+      (AppConstants.platform == "win" &&
+        window.matchMedia("(-moz-windows-default-theme: 0)").matches)) {
+      // non-default theme(s)
+      selection.setColors(fg, bg, "currentColor", "currentColor");
+    } else {
+      // default themes
+      selection.setColors(fg, bg, fg, bg);
+    }
+
+    return true;
   }
 
   handleRevert() {
@@ -715,11 +829,16 @@ class MozUrlbar extends MozAutocomplete {
     let isMouseEvent = event instanceof MouseEvent;
     let reuseEmpty = !isMouseEvent;
     let where = undefined;
-    if (isMouseEvent) {
-      where = whereToOpenLink(event, false, false);
+    if (!isMouseEvent && event && event.altKey) {
+      // We support using 'alt' to open in a tab, because ctrl/shift
+      // might be used for canonizing URLs:
+      where = event.shiftKey ? "tabshifted" : "tab";
+    } else if (!isMouseEvent && this._ctrlCanonizesURLs && event && event.ctrlKey) {
+      // If we're allowing canonization, and this is a key event with ctrl
+      // pressed, open in current tab to allow ctrl-enter to canonize URL.
+      where = "current";
     } else {
-      let altEnter = event && event.altKey;
-      where = altEnter ? "tab" : "current";
+      where = whereToOpenLink(event, false, false);
     }
     if (this.openInTab) {
       if (where == "current") {
@@ -844,6 +963,12 @@ class MozUrlbar extends MozAutocomplete {
             }
             return;
           }
+
+          // Once we get here, we got a switchtab action but the user
+          // bypassed it by pressing shift/meta/ctrl. Those modifiers
+          // might otherwise affect where we open - we always want to
+          // open in the current tab.
+          where = "current";
           break;
         case "searchengine":
           if (selectedOneOff && selectedOneOff.engine) {
@@ -984,40 +1109,19 @@ class MozUrlbar extends MozAutocomplete {
     // Only add the suffix when the URL bar value isn't already "URL-like",
     // and only if we get a keyboard event, to match user expectations.
     if (!/^\s*[^.:\/\s]+(?:\/.*|\s*)$/i.test(aUrl) ||
-      !(aTriggeringEvent instanceof KeyboardEvent)) {
+      !this._ctrlCanonizesURLs ||
+      !(aTriggeringEvent instanceof KeyboardEvent) ||
+      !aTriggeringEvent.ctrlKey) {
       return;
     }
 
-    let url = aUrl;
-    let accel = AppConstants.platform == "macosx" ?
-      aTriggeringEvent.metaKey :
-      aTriggeringEvent.ctrlKey;
-    let shift = aTriggeringEvent.shiftKey;
-    let suffix = "";
-
-    switch (true) {
-      case (accel && shift):
-        suffix = ".org/";
-        break;
-      case (shift):
-        suffix = ".net/";
-        break;
-      case (accel):
-        try {
-          suffix = Services.prefs.getCharPref("browser.fixup.alternate.suffix");
-          if (suffix.charAt(suffix.length - 1) != "/")
-            suffix += "/";
-        } catch (e) {
-          suffix = ".com/";
-        }
-        break;
+    let suffix = Services.prefs.getCharPref("browser.fixup.alternate.suffix", ".com/");
+    if (!suffix.endsWith("/")) {
+      suffix += "/";
     }
-
-    if (!suffix)
-      return;
 
     // trim leading/trailing spaces (bug 233205)
-    url = url.trim();
+    let url = aUrl.trim();
 
     // Tack www. and suffix on.  If user has appended directories, insert
     // suffix before them (bug 279035).  Be careful not to get two slashes.
@@ -1220,6 +1324,9 @@ class MozUrlbar extends MozAutocomplete {
         case "formatting.enabled":
           this._formattingEnabled = this._prefs.getBoolPref(aData);
           break;
+        case "ctrlCanonizesURLs":
+          this._ctrlCanonizesURLs = this._prefs.getBoolPref(aData);
+          break;
         case "speculativeConnect.enabled":
           this.speculativeConnectEnabled = this._prefs.getBoolPref(aData);
           break;
@@ -1348,7 +1455,7 @@ class MozUrlbar extends MozAutocomplete {
           this.closePopup();
 
           // Make sure the host remains visible in the input field (via
-          // formatValue) when the window is resized.  We don't want to
+          // _formatURL) when the window is resized.  We don't want to
           // hurt resize performance though, so do this only after resize
           // events have stopped and a small timeout has elapsed.
           if (this._resizeThrottleTimeout) {
@@ -1356,7 +1463,7 @@ class MozUrlbar extends MozAutocomplete {
           }
           this._resizeThrottleTimeout = setTimeout(() => {
             this._resizeThrottleTimeout = null;
-            this.formatValue(true);
+            this._formatURL(true);
           }, 100);
         }
         break;
@@ -1501,9 +1608,7 @@ class MozUrlbar extends MozAutocomplete {
     }
 
     let canonizeValue = this.value;
-    if (event.shiftKey || (AppConstants.platform === "macosx" ?
-        event.metaKey :
-        event.ctrlKey)) {
+    if (event.ctrlKey) {
       let action = this._parseActionUrl(canonizeValue);
       if (action && "searchSuggestion" in action.params) {
         canonizeValue = action.params.searchSuggestion;
@@ -1605,80 +1710,6 @@ class MozUrlbar extends MozAutocomplete {
 
     this.gotResultForCurrentQuery = false;
     this.controller.startSearch(value);
-  }
-
-  /**
-   * Highlights the search alias in the input, or clears the highlight if
-   * there is no alias.  To determine in an efficient manner whether the
-   * input contains an alias, this method looks at the first (heuristic)
-   * result.  If it's a searchengine result with an alias, then it looks for
-   * that alias in the input.  Otherwise it clears the highlight.  That means
-   * that if the input contains an alias but the alias result is not first,
-   * the alias will not be highlighted.
-   */
-  highlightSearchAlias() {
-    if (!this.editor) {
-      return;
-    }
-
-    // We abuse the SELECTION_FIND selection type to do our highlighting.
-    // It's the only type that works with Selection.setColors().
-    let selection = this.editor.selectionController.getSelection(
-      Ci.nsISelectionController.SELECTION_FIND
-    );
-    selection.removeAllRanges();
-
-    let textNode = this.editor.rootElement.firstChild;
-    let value = textNode.textContent;
-    if (!value) {
-      return;
-    }
-
-    // Alias results have the searchengine style.  Check that first to
-    // avoid the more expensive regexp in _parseActionUrl when possible
-    // since this method is called by the popup every time you start a
-    // search.
-    let alias =
-      this.mController.matchCount &&
-      this.mController.getStyleAt(0).includes("searchengine") &&
-      this._parseActionUrl(this.mController.getFinalCompleteValueAt(0)).params.alias;
-    if (!alias) {
-      return;
-    }
-
-    let index = value.indexOf(alias);
-    if (index < 0) {
-      return;
-    }
-
-    let range = document.createRange();
-    range.setStart(textNode, index);
-    range.setEnd(textNode, index + alias.length);
-    selection.addRange(range);
-
-    let fg = "#2362d7";
-    let bg = "#d2e6fd";
-
-    // Selection.setColors() will swap the given foreground and background
-    // colors if it detects that the contrast between the background
-    // color and the frame color is too low.  Normally we don't want that
-    // to happen; we want it to use our colors as given (even if setColors
-    // thinks the contrast is too low).  But it's a nice feature for non-
-    // default themes, where the contrast between our background color and
-    // the input's frame color might actually be too low.  We can
-    // (hackily) force setColors to use our colors as given by passing
-    // them as the alternate colors.  Otherwise, allow setColors to swap
-    // them, which we can do by passing "currentColor".  See
-    // nsTextPaintStyle::GetHighlightColors for details.
-    if (this.querySelector(":-moz-lwtheme") ||
-      (AppConstants.platform == "win" &&
-        window.matchMedia("(-moz-windows-default-theme: 0)").matches)) {
-      // non-default theme(s)
-      selection.setColors(fg, bg, "currentColor", "currentColor");
-    } else {
-      // default themes
-      selection.setColors(fg, bg, fg, bg);
-    }
   }
 
   disconnectedCallback() {

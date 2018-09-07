@@ -218,10 +218,24 @@ class MozLabelControl extends MozTextLabel {
 
   _setupEventListeners() {
     this.addEventListener("click", (event) => {
-      if (this.disabled) return;
+      if (this.disabled) {
+        return;
+      }
       var controlElement = this.labeledControlElement;
-      if (controlElement)
-        controlElement.focus();
+      if (!controlElement) {
+        return;
+      }
+      controlElement.focus();
+      const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+      if (controlElement.namespaceURI != XUL_NS) {
+        return;
+      }
+      if (controlElement.localName == "checkbox") {
+        controlElement.checked = !controlElement.checked;
+      } else if (controlElement.localName == "radio") {
+        controlElement.control.selectedItem = controlElement;
+      }
     });
 
   }

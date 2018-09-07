@@ -60,6 +60,11 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
 
     this._overrideValue = null;
 
+    /**
+     * The search alias of the first (heuristic) result in the popup, if any.
+     */
+    this.searchAlias = null;
+
     this._addonIframe = null;
 
     this._addonIframeOwner = null;
@@ -565,12 +570,23 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
   }
 
   onResultsAdded() {
-    // Highlight the search alias in the input if one is present, or
-    // clear the highlight otherwise.  highlightSearchAlias examines
-    // only the first result, so as an optimzation, call it only when
-    // this is the first result.
     if (!this.input.gotResultForCurrentQuery) {
-      this.input.highlightSearchAlias();
+      // This is the first result of a new search.  Cache its search
+      // alias, if any.  Do this now, when we get the first result, so
+      // that the cached alias remains available between the time the
+      // previous search ended and now.
+      //
+      // Calling _parseActionUrl and getting params.alias would be
+      // sufficient here, but as an optimization, first check whether
+      // the result is a searchengine result, which is a simple
+      // substring check, to avoid the more expensive _parseActionUrl.
+      let alias =
+        this.input.mController.getStyleAt(0).includes("searchengine") &&
+        this.input._parseActionUrl(this.input.mController.getFinalCompleteValueAt(0)).params.alias;
+      this.searchAlias = alias || null;
+
+      // Format the alias or remove the formatting of the previous alias.
+      this.input.formatValue();
     }
 
     // If nothing is selected yet, select the first result if it is a

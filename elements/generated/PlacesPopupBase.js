@@ -210,7 +210,8 @@ class MozPlacesPopupBase extends MozPopup {
     // Calculate positions taking care of arrowscrollbox
     let scrollbox = this._scrollBox;
     let eventY = aEvent.layerY + (scrollbox.boxObject.y - this.boxObject.y);
-    let scrollboxOffset = this.boxObject.y;
+    let scrollboxOffset = scrollbox.scrollBoxObject.y -
+      (scrollbox.boxObject.y - this.boxObject.y);
     let eltY = elt.boxObject.y - scrollboxOffset;
     let eltHeight = elt.boxObject.height;
 
@@ -423,7 +424,7 @@ class MozPlacesPopupBase extends MozPopup {
       }
 
       // We should display the drop indicator relative to the arrowscrollbox.
-      let scrollbox = this._scrollBox.boxObject;
+      let scrollbox = this._scrollBox.scrollBoxObject;
       let newMarginTop = 0;
       if (scrollDir == 0) {
         let elt = this.firstElementChild;

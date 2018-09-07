@@ -357,11 +357,9 @@ class MozTree extends MozTreeBase {
     input.hidden = false;
 
     input.value = this.view.getCellText(row, column);
-    var selectText = function selectText() {
-      input.select();
-      input.inputField.focus();
-    };
-    setTimeout(selectText, 0);
+
+    input.select();
+    input.inputField.focus();
 
     this._editingRow = row;
     this._editingColumn = column;
