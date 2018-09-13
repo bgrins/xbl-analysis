@@ -234,7 +234,7 @@ class MozTabs extends MozBasecontrol {
 
   advanceSelectedTab(aDir, aWrap) {
     var startTab = this.selectedItem;
-    var next = startTab[aDir == -1 ? "previousSibling" : "nextSibling"];
+    var next = startTab[(aDir == -1 ? "previous" : "next") + "ElementSibling"];
     if (!next && aWrap) {
       next = aDir == -1 ? this.children[this.children.length - 1] :
         this.children[0];

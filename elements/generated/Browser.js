@@ -1134,7 +1134,6 @@ class MozBrowser extends MozXULElement {
         "_textZoom",
         "_isSyntheticDocument",
         "_innerWindowID",
-        "_manifestURI",
       ]);
     }
 

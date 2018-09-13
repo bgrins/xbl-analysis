@@ -12,7 +12,7 @@ class MozUrlbar extends MozAutocomplete {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <hbox flex="1" class="urlbar-textbox-container">
+      <hbox flex="1" class="urlbar-textbox-container" tooltip="aHTMLTooltip">
         <children includes="image|deck|stack|box"></children>
         <moz-input-box anonid="moz-input-box" class="urlbar-input-box" flex="1">
           <children></children>
@@ -813,7 +813,7 @@ class MozUrlbar extends MozAutocomplete {
     // don't revert to last valid url unless page is NOT loading
     // and user is NOT key-scrolling through autocomplete list
     if (!XULBrowserWindow.isBusy && !isScrolling) {
-      URLBarSetURI();
+      URLBarSetURI(null, true);
 
       // If the value isn't empty and the urlbar has focus, select the value.
       if (this.value && this.hasAttribute("focused"))
@@ -1075,10 +1075,8 @@ class MozUrlbar extends MozAutocomplete {
       }
     }
 
-    if (openUILinkWhere == "current") {
-      // Ensure the start of the URL is visible for usability reasons.
-      this.selectionStart = this.selectionEnd = 0;
-    }
+    // Ensure the start of the URL is visible for usability reasons.
+    this.selectionStart = this.selectionEnd = 0;
   }
 
   _parseAndRecordSearchEngineLoad(engineOrEngineName, query, event, openUILinkWhere, openUILinkParams, searchActionDetails) {
@@ -1139,15 +1137,11 @@ class MozUrlbar extends MozAutocomplete {
   _initURLTooltip() {
     if (this.focused || !this._inOverflow)
       return;
-    // We set the tooltip text on the parent node instead of the input
-    // field because XUL tooltips only work on XUL elements.
-    //
-    // FIXME(bug 1486716): title should work on chrome documents instead.
-    this.inputField.parentNode.setAttribute("tooltiptext", this.value);
+    this.inputField.setAttribute("title", this.value);
   }
 
   _hideURLTooltip() {
-    this.inputField.parentNode.removeAttribute("tooltiptext");
+    this.inputField.removeAttribute("title");
   }
 
   /**
@@ -1217,7 +1211,7 @@ class MozUrlbar extends MozAutocomplete {
       this.handleCommand(null, undefined, undefined, triggeringPrincipal);
       // Force not showing the dropped URI immediately.
       gBrowser.userTypedValue = null;
-      URLBarSetURI();
+      URLBarSetURI(null, true);
     }
   }
 

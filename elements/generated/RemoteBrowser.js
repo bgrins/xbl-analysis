@@ -80,7 +80,6 @@ class MozRemoteBrowser extends MozBrowser {
     this.messageManager.addMessageListener("FullZoomChange", this);
     this.messageManager.addMessageListener("TextZoomChange", this);
     this.messageManager.addMessageListener("ZoomChangeUsingMouseWheel", this);
-    this.messageManager.addMessageListener("MozApplicationManifest", this);
 
     // browser-child messages, such as Content:LocationChange, are handled in
     // RemoteWebProgress, ensure it is loaded and ready.
@@ -485,10 +484,6 @@ class MozRemoteBrowser extends MozBrowser {
           this.dispatchEvent(event);
           break;
         }
-
-      case "MozApplicationManifest":
-        this._manifestURI = aMessage.data.manifest;
-        break;
 
       default:
         // Delegate to browser.xml.

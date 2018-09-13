@@ -616,10 +616,10 @@ class MozAddonGeneric extends MozAddonBase {
 
       // We must set userDisabled to true first, this will call
       // _updateState which will clear any pending attribute set.
-      this.mAddon.disable();
-
-      // This won't update any other add-on manager views (bug 582002)
-      this.setAttribute("pending", "uninstall");
+      this.mAddon.disable().then(() => {
+        // This won't update any other add-on manager views (bug 582002)
+        this.setAttribute("pending", "uninstall");
+      });
     }
   }
 
