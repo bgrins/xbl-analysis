@@ -13,9 +13,9 @@ class MozAutocomplete extends MozTextbox {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="image|deck|stack|box"></children>
-      <moz-input-box anonid="moz-input-box" flex="1" inherits="tooltiptext=inputtooltiptext">
+      <moz-input-box anonid="moz-input-box" flex="1">
         <children></children>
-        <html:input anonid="input" class="textbox-input" allowevents="true" inherits="tooltiptext=inputtooltiptext,value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
+        <html:input anonid="input" class="textbox-input" allowevents="true" inherits="value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
       </moz-input-box>
       <children includes="hbox"></children>
       <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>

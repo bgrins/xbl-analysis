@@ -40,14 +40,7 @@ class MozLabelControl extends MozTextLabel {
   }
 
   get accessKey() {
-    var accessKey = null;
-    var labeledEl = this.labeledControlElement;
-    if (labeledEl) {
-      accessKey = labeledEl.getAttribute("accesskey");
-    }
-    if (!accessKey) {
-      accessKey = this.getAttribute("accesskey");
-    }
+    var accessKey = this.getAttribute("accesskey");
     return accessKey ? accessKey[0] : null;
   }
 
@@ -80,6 +73,10 @@ class MozLabelControl extends MozTextLabel {
     }
     if (control) {
       control.labelElement = this;
+      var controlAccessKey = control.getAttribute("accesskey");
+      if (controlAccessKey) {
+        this.setAttribute("accesskey", controlAccessKey);
+      }
     }
 
     var accessKey = this.accessKey;

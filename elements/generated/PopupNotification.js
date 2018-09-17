@@ -42,8 +42,8 @@ class MozPopupNotification extends MozXULElement {
         <children includes="button"></children>
         <button anonid="secondarybutton" class="popup-notification-button" inherits="oncommand=secondarybuttoncommand,label=secondarybuttonlabel,accesskey=secondarybuttonaccesskey,hidden=secondarybuttonhidden"></button>
         <toolbarseparator inherits="hidden=dropmarkerhidden"></toolbarseparator>
-        <button anonid="menubutton" type="menu" class="popup-notification-button popup-notification-dropmarker" inherits="onpopupshown=dropmarkerpopupshown,hidden=dropmarkerhidden">
-          <menupopup anonid="menupopup" position="after_end" inherits="oncommand=menucommand">
+        <button anonid="menubutton" type="menu" class="popup-notification-button popup-notification-dropmarker" aria-label="FROM-DTD.moreActionsButton.accessibleLabel;" inherits="onpopupshown=dropmarkerpopupshown,hidden=dropmarkerhidden">
+          <menupopup anonid="menupopup" position="after_end" aria-label="FROM-DTD.moreActionsButton.accessibleLabel;" inherits="oncommand=menucommand">
             <children></children>
           </menupopup>
         </button>
