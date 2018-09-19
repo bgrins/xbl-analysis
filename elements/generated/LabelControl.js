@@ -9,6 +9,32 @@
 {
 
 class MozLabelControl extends MozTextLabel {
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event) => {
+      if (this.disabled) {
+        return;
+      }
+      var controlElement = this.labeledControlElement;
+      if (!controlElement) {
+        return;
+      }
+      controlElement.focus();
+      const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+      if (controlElement.namespaceURI != XUL_NS) {
+        return;
+      }
+      if (controlElement.localName == "checkbox") {
+        controlElement.checked = !controlElement.checked;
+      } else if (controlElement.localName == "radio") {
+        controlElement.control.selectedItem = controlElement;
+      }
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -23,7 +49,6 @@ class MozLabelControl extends MozTextLabel {
 
     this.formatAccessKey(true);
 
-    this._setupEventListeners();
   }
 
   set accessKey(val) {
@@ -67,7 +92,7 @@ class MozLabelControl extends MozTextLabel {
     var control = this.labeledControlElement;
     if (!control) {
       var bindingParent = document.getBindingParent(this);
-      if (bindingParent instanceof Ci.nsIDOMXULLabeledControlElement) {
+      if ("accessKey" in bindingParent) {
         control = bindingParent; // For controls that make the <label> an anon child
       }
     }
@@ -211,30 +236,6 @@ class MozLabelControl extends MozTextLabel {
       element.parentNode.insertBefore(element.firstChild, element);
     }
     element.remove();
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("click", (event) => {
-      if (this.disabled) {
-        return;
-      }
-      var controlElement = this.labeledControlElement;
-      if (!controlElement) {
-        return;
-      }
-      controlElement.focus();
-      const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-
-      if (controlElement.namespaceURI != XUL_NS) {
-        return;
-      }
-      if (controlElement.localName == "checkbox") {
-        controlElement.checked = !controlElement.checked;
-      } else if (controlElement.localName == "radio") {
-        controlElement.control.selectedItem = controlElement;
-      }
-    });
-
   }
 }
 

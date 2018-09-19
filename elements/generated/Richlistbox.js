@@ -9,6 +9,122 @@
 {
 
 class MozRichlistbox extends MozBasecontrol {
+  constructor() {
+    super();
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } this._moveByOffsetFromUserEvent(-1, event); }, { mozSystemGroup: true });
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } this._moveByOffsetFromUserEvent(1, event); }, { mozSystemGroup: true });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_HOME) { return; }
+      this._mayReverse = true;
+      this._moveByOffsetFromUserEvent(-this.currentIndex, event);
+      this._mayReverse = false;
+    }, { mozSystemGroup: true });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_END) { return; }
+      this._mayReverse = true;
+      this._moveByOffsetFromUserEvent(this.getRowCount() - this.currentIndex - 1, event);
+      this._mayReverse = false;
+    }, { mozSystemGroup: true });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_PAGE_UP) { return; }
+      this._mayReverse = true;
+      this._moveByOffsetFromUserEvent(this.scrollOnePage(-1), event);
+      this._mayReverse = false;
+    }, { mozSystemGroup: true });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_PAGE_DOWN) { return; }
+      this._mayReverse = true;
+      this._moveByOffsetFromUserEvent(this.scrollOnePage(1), event);
+      this._mayReverse = false;
+    }, { mozSystemGroup: true });
+
+    this.addEventListener("keypress", (event) => {
+      if (this.currentItem && this.selType == "multiple")
+        this.toggleItemSelection(this.currentItem);
+    });
+
+    this.addEventListener("focus", (event) => {
+      if (this.getRowCount() > 0) {
+        if (this.currentIndex == -1) {
+          this.currentIndex = this.getIndexOfFirstVisibleRow();
+        } else {
+          this.currentItem._fireEvent("DOMMenuItemActive");
+        }
+      }
+      this._lastKeyTime = 0;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (this.disableKeyNavigation || !event.charCode ||
+        event.altKey || event.ctrlKey || event.metaKey)
+        return;
+
+      if (event.timeStamp - this._lastKeyTime > 1000)
+        this._incrementalString = "";
+
+      var key = String.fromCharCode(event.charCode).toLowerCase();
+      this._incrementalString += key;
+      this._lastKeyTime = event.timeStamp;
+
+      // If all letters in the incremental string are the same, just
+      // try to match the first one
+      var incrementalString = /^(.)\1+$/.test(this._incrementalString) ?
+        RegExp.$1 : this._incrementalString;
+      var length = incrementalString.length;
+
+      var rowCount = this.getRowCount();
+      var l = this.selectedItems.length;
+      var start = l > 0 ? this.getIndexOfItem(this.selectedItems[l - 1]) : -1;
+      // start from the first element if none was selected or from the one
+      // following the selected one if it's a new or a repeated-letter search
+      if (start == -1 || length == 1)
+        start++;
+
+      for (var i = 0; i < rowCount; i++) {
+        var k = (start + i) % rowCount;
+        var listitem = this.getItemAtIndex(k);
+        if (!this._canUserSelect(listitem))
+          continue;
+        // allow richlistitems to specify the string being searched for
+        var searchText = "searchLabel" in listitem ? listitem.searchLabel :
+          listitem.getAttribute("label"); // (see also bug 250123)
+        searchText = searchText.substring(0, length).toLowerCase();
+        if (searchText == incrementalString) {
+          this.ensureIndexIsVisible(k);
+          this.timedSelect(listitem, this._selectDelay);
+          break;
+        }
+      }
+    });
+
+    this.addEventListener("click", (event) => {
+      // clicking into nothing should unselect
+      if (event.originalTarget == this._scrollbox) {
+        this.clearSelection();
+        this.currentItem = null;
+      }
+    });
+
+    this.addEventListener("MozSwipeGesture", (event) => {
+      // Only handle swipe gestures up and down
+      switch (event.direction) {
+        case event.DIRECTION_DOWN:
+          this._scrollbox.scrollTop = this._scrollbox.scrollHeight;
+          break;
+        case event.DIRECTION_UP:
+          this._scrollbox.scrollTop = 0;
+          break;
+      }
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -44,7 +160,6 @@ class MozRichlistbox extends MozBasecontrol {
 
     this._refreshSelection();
 
-    this._setupEventListeners();
   }
   /**
    * nsIDOMXULSelectControlElement
@@ -725,122 +840,9 @@ class MozRichlistbox extends MozBasecontrol {
   ensureSelectedElementIsVisible() {
     return this.ensureElementIsVisible(this.selectedItem);
   }
-
-  _setupEventListeners() {
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } this._moveByOffsetFromUserEvent(-1, event); }, { mozSystemGroup: true });
-
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } this._moveByOffsetFromUserEvent(1, event); }, { mozSystemGroup: true });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_HOME) { return; }
-      this._mayReverse = true;
-      this._moveByOffsetFromUserEvent(-this.currentIndex, event);
-      this._mayReverse = false;
-    }, { mozSystemGroup: true });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_END) { return; }
-      this._mayReverse = true;
-      this._moveByOffsetFromUserEvent(this.getRowCount() - this.currentIndex - 1, event);
-      this._mayReverse = false;
-    }, { mozSystemGroup: true });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_PAGE_UP) { return; }
-      this._mayReverse = true;
-      this._moveByOffsetFromUserEvent(this.scrollOnePage(-1), event);
-      this._mayReverse = false;
-    }, { mozSystemGroup: true });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_PAGE_DOWN) { return; }
-      this._mayReverse = true;
-      this._moveByOffsetFromUserEvent(this.scrollOnePage(1), event);
-      this._mayReverse = false;
-    }, { mozSystemGroup: true });
-
-    this.addEventListener("keypress", (event) => {
-      if (this.currentItem && this.selType == "multiple")
-        this.toggleItemSelection(this.currentItem);
-    });
-
-    this.addEventListener("focus", (event) => {
-      if (this.getRowCount() > 0) {
-        if (this.currentIndex == -1) {
-          this.currentIndex = this.getIndexOfFirstVisibleRow();
-        } else {
-          this.currentItem._fireEvent("DOMMenuItemActive");
-        }
-      }
-      this._lastKeyTime = 0;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (this.disableKeyNavigation || !event.charCode ||
-        event.altKey || event.ctrlKey || event.metaKey)
-        return;
-
-      if (event.timeStamp - this._lastKeyTime > 1000)
-        this._incrementalString = "";
-
-      var key = String.fromCharCode(event.charCode).toLowerCase();
-      this._incrementalString += key;
-      this._lastKeyTime = event.timeStamp;
-
-      // If all letters in the incremental string are the same, just
-      // try to match the first one
-      var incrementalString = /^(.)\1+$/.test(this._incrementalString) ?
-        RegExp.$1 : this._incrementalString;
-      var length = incrementalString.length;
-
-      var rowCount = this.getRowCount();
-      var l = this.selectedItems.length;
-      var start = l > 0 ? this.getIndexOfItem(this.selectedItems[l - 1]) : -1;
-      // start from the first element if none was selected or from the one
-      // following the selected one if it's a new or a repeated-letter search
-      if (start == -1 || length == 1)
-        start++;
-
-      for (var i = 0; i < rowCount; i++) {
-        var k = (start + i) % rowCount;
-        var listitem = this.getItemAtIndex(k);
-        if (!this._canUserSelect(listitem))
-          continue;
-        // allow richlistitems to specify the string being searched for
-        var searchText = "searchLabel" in listitem ? listitem.searchLabel :
-          listitem.getAttribute("label"); // (see also bug 250123)
-        searchText = searchText.substring(0, length).toLowerCase();
-        if (searchText == incrementalString) {
-          this.ensureIndexIsVisible(k);
-          this.timedSelect(listitem, this._selectDelay);
-          break;
-        }
-      }
-    });
-
-    this.addEventListener("click", (event) => {
-      // clicking into nothing should unselect
-      if (event.originalTarget == this._scrollbox) {
-        this.clearSelection();
-        this.currentItem = null;
-      }
-    });
-
-    this.addEventListener("MozSwipeGesture", (event) => {
-      // Only handle swipe gestures up and down
-      switch (event.direction) {
-        case event.DIRECTION_DOWN:
-          this._scrollbox.scrollTop = this._scrollbox.scrollHeight;
-          break;
-        case event.DIRECTION_UP:
-          this._scrollbox.scrollTop = 0;
-          break;
-      }
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozRichlistbox, [Ci.nsIDOMXULMultiSelectControlElement]);
 customElements.define("richlistbox", MozRichlistbox);
 
 }

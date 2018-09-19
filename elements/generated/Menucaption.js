@@ -19,11 +19,6 @@ class MozMenucaption extends MozMenuBase {
       <label class="menu-iconic-highlightable-text" inherits="text=label,crop,highlightable" crop="right"></label>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

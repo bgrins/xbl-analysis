@@ -17,7 +17,7 @@ class MozCustomizableuiToolbar extends MozXULElement {
 
     // Searching for the toolbox palette in the toolbar binding because
     // toolbars are constructed first.
-    let toolbox = this.toolbox;
+    let toolbox = this.closest("toolbox");
     if (toolbox && !toolbox.palette) {
       for (let node of toolbox.children) {
         if (node.localName == "toolbarpalette") {
@@ -35,7 +35,6 @@ class MozCustomizableuiToolbar extends MozXULElement {
       .map(node => node.id);
     CustomizableUI.registerToolbarNode(this, children);
 
-    this._setupEventListeners();
   }
 
   get customizationTarget() {
@@ -52,26 +51,6 @@ class MozCustomizableuiToolbar extends MozXULElement {
       this._customizationTarget = this;
 
     return this._customizationTarget;
-  }
-
-  get toolbox() {
-    if (this._toolbox)
-      return this._toolbox;
-
-    let toolboxId = this.getAttribute("toolboxid");
-    if (toolboxId) {
-      let toolbox = document.getElementById(toolboxId);
-      if (toolbox) {
-        this._toolbox = toolbox;
-      }
-    }
-
-    if (!this._toolbox && this.parentNode &&
-      this.parentNode.localName == "toolbox") {
-      this._toolbox = this.parentNode;
-    }
-
-    return this._toolbox;
   }
 
   set currentSet(val) {
@@ -154,10 +133,6 @@ class MozCustomizableuiToolbar extends MozXULElement {
 
     CustomizableUI.addWidgetToArea(aId, this.id, pos);
     return this.ownerDocument.getElementById(aId);
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

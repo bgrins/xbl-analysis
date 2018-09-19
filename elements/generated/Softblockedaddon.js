@@ -26,15 +26,10 @@ class MozSoftblockedaddon extends MozXULElement {
     `));
     this._checkbox = document.getAnonymousElementByAttribute(this, "class", "disableCheckbox");
 
-    this._setupEventListeners();
   }
 
   get checked() {
     return this._checkbox.checked;
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

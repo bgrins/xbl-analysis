@@ -9,6 +9,43 @@
 {
 
 class MozSearchbarTextbox extends MozAutocomplete {
+  constructor() {
+    super();
+
+    this.addEventListener("input", (event) => {
+      this.popup.removeAttribute("showonlysettings");
+    });
+
+    this.addEventListener("keypress", (event) => { return this.handleKeyboardNavigation(event); }, true);
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } document.getBindingParent(this).selectEngine(event, false); }, true);
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } document.getBindingParent(this).selectEngine(event, true); }, true);
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } return this.openSearch(); }, true);
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } return this.openSearch(); }, true);
+
+    this.addEventListener("dragover", (event) => {
+      var types = event.dataTransfer.types;
+      if (types.includes("text/plain") || types.includes("text/x-moz-text-internal"))
+        event.preventDefault();
+    });
+
+    this.addEventListener("drop", (event) => {
+      var dataTransfer = event.dataTransfer;
+      var data = dataTransfer.getData("text/plain");
+      if (!data)
+        data = dataTransfer.getData("text/x-moz-text-internal");
+      if (data) {
+        event.preventDefault();
+        this.value = data;
+        document.getBindingParent(this).openSuggestionsPanel();
+      }
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
 
@@ -64,7 +101,6 @@ class MozSearchbarTextbox extends MozAutocomplete {
     this.setAttribute("aria-owns", this.popup.id);
     document.getBindingParent(this)._textboxInitialized = true;
 
-    this._setupEventListeners();
   }
   /**
    * This overrides the searchParam property in autocomplete.xml.  We're
@@ -286,7 +322,6 @@ class MozSearchbarTextbox extends MozAutocomplete {
     let numItems = suggestionsHidden ? 0 : this.popup.matchCount;
     this.popup.oneOffButtons.handleKeyPress(aEvent, numItems, true);
   }
-
   disconnectedCallback() {
     // If the context menu has never been opened, there won't be anything
     // to remove here.
@@ -294,41 +329,6 @@ class MozSearchbarTextbox extends MozAutocomplete {
     try {
       this.controllers.removeController(this.searchbarController);
     } catch (ex) {}
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("input", (event) => {
-      this.popup.removeAttribute("showonlysettings");
-    });
-
-    this.addEventListener("keypress", (event) => { return this.handleKeyboardNavigation(event); }, true);
-
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } document.getBindingParent(this).selectEngine(event, false); }, true);
-
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } document.getBindingParent(this).selectEngine(event, true); }, true);
-
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } return this.openSearch(); }, true);
-
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } return this.openSearch(); }, true);
-
-    this.addEventListener("dragover", (event) => {
-      var types = event.dataTransfer.types;
-      if (types.includes("text/plain") || types.includes("text/x-moz-text-internal"))
-        event.preventDefault();
-    });
-
-    this.addEventListener("drop", (event) => {
-      var dataTransfer = event.dataTransfer;
-      var data = dataTransfer.getData("text/plain");
-      if (!data)
-        data = dataTransfer.getData("text/x-moz-text-internal");
-      if (data) {
-        event.preventDefault();
-        this.value = data;
-        document.getBindingParent(this).openSuggestionsPanel();
-      }
-    });
-
   }
 }
 

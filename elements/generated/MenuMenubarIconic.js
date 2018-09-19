@@ -17,11 +17,6 @@ class MozMenuMenubarIconic extends MozMenuBase {
       <children includes="menupopup"></children>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

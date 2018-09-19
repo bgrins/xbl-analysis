@@ -34,7 +34,6 @@ class MozDateInput extends MozDatetimeInputBase {
       this.setFieldsFromInputValue();
     }
 
-    this._setupEventListeners();
   }
 
   buildEditFields() {
@@ -348,10 +347,6 @@ class MozDateInput extends MozDatetimeInputBase {
 
     return (this.isEmpty(year) || this.isEmpty(month) ||
       this.isEmpty(day));
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

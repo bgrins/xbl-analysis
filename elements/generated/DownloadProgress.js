@@ -37,7 +37,6 @@ class MozDownloadProgress extends MozXULElement {
       progress = parseInt(this.getAttribute("progress"));
     this.progress = progress;
 
-    this._setupEventListeners();
   }
 
   set progress(val) {
@@ -76,10 +75,6 @@ class MozDownloadProgress extends MozXULElement {
 
   cancel() {
     this.mInstall.cancel();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

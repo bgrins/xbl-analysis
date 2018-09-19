@@ -39,7 +39,6 @@ class MozTimeInput extends MozDatetimeInputBase {
       this.setFieldsFromInputValue();
     }
 
-    this._setupEventListeners();
   }
 
   get kMsPerSecond() {
@@ -644,10 +643,6 @@ class MozTimeInput extends MozDatetimeInputBase {
 
     this.log("getCurrentValue: " + JSON.stringify(time));
     return time;
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

@@ -9,6 +9,74 @@
 {
 
 class MozAutocompleteRichResultPopup extends MozPopup {
+  constructor() {
+    super();
+
+    this.addEventListener("popupshowing", (event) => {
+      // If normalMaxRows wasn't already set by the input, then set it here
+      // so that we restore the correct number when the popup is hidden.
+
+      // Null-check this.mInput; see bug 1017914
+      if (this._normalMaxRows < 0 && this.mInput) {
+        this._normalMaxRows = this.mInput.maxRows;
+      }
+
+      // Set an attribute for styling the popup based on the input.
+      let inputID = "";
+      if (this.mInput && this.mInput.ownerDocument &&
+        this.mInput.ownerDocument.documentURIObject.schemeIs("chrome")) {
+        inputID = this.mInput.id;
+        // Take care of elements with no id that are inside xbl bindings
+        if (!inputID) {
+          let bindingParent = this.mInput.ownerDocument.getBindingParent(this.mInput);
+          if (bindingParent) {
+            inputID = bindingParent.id;
+          }
+        }
+      }
+      this.setAttribute("autocompleteinput", inputID);
+
+      this.mPopupOpen = true;
+    });
+
+    this.addEventListener("popupshown", (event) => {
+      if (this._adjustHeightOnPopupShown) {
+        delete this._adjustHeightOnPopupShown;
+        this.adjustHeight();
+      }
+    });
+
+    this.addEventListener("popuphiding", (event) => {
+      var isListActive = true;
+      if (this.selectedIndex == -1)
+        isListActive = false;
+      this.input.controller.stopSearch();
+
+      this.removeAttribute("autocompleteinput");
+      this.mPopupOpen = false;
+
+      // Reset the maxRows property to the cached "normal" value (if there's
+      // any), and reset normalMaxRows so that we can detect whether it was set
+      // by the input when the popupshowing handler runs.
+
+      // Null-check this.mInput; see bug 1017914
+      if (this.mInput && this._normalMaxRows > 0) {
+        this.mInput.maxRows = this._normalMaxRows;
+      }
+      this._normalMaxRows = -1;
+      // If the list was being navigated and then closed, make sure
+      // we fire accessible focus event back to textbox
+
+      // Null-check this.mInput; see bug 1017914
+      if (isListActive && this.mInput) {
+        this.mInput.mIgnoreFocus = true;
+        this.mInput._focus();
+        this.mInput.mIgnoreFocus = false;
+      }
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -45,7 +113,6 @@ class MozAutocompleteRichResultPopup extends MozPopup {
 
     this.richlistbox = document.getAnonymousElementByAttribute(this, "anonid", "richlistbox");
 
-    this._setupEventListeners();
   }
   /**
    * =================== nsIAutoCompletePopup ===================
@@ -390,74 +457,9 @@ class MozAutocompleteRichResultPopup extends MozPopup {
       // navigation key before this popup has opened
     }
   }
-
-  _setupEventListeners() {
-    this.addEventListener("popupshowing", (event) => {
-      // If normalMaxRows wasn't already set by the input, then set it here
-      // so that we restore the correct number when the popup is hidden.
-
-      // Null-check this.mInput; see bug 1017914
-      if (this._normalMaxRows < 0 && this.mInput) {
-        this._normalMaxRows = this.mInput.maxRows;
-      }
-
-      // Set an attribute for styling the popup based on the input.
-      let inputID = "";
-      if (this.mInput && this.mInput.ownerDocument &&
-        this.mInput.ownerDocument.documentURIObject.schemeIs("chrome")) {
-        inputID = this.mInput.id;
-        // Take care of elements with no id that are inside xbl bindings
-        if (!inputID) {
-          let bindingParent = this.mInput.ownerDocument.getBindingParent(this.mInput);
-          if (bindingParent) {
-            inputID = bindingParent.id;
-          }
-        }
-      }
-      this.setAttribute("autocompleteinput", inputID);
-
-      this.mPopupOpen = true;
-    });
-
-    this.addEventListener("popupshown", (event) => {
-      if (this._adjustHeightOnPopupShown) {
-        delete this._adjustHeightOnPopupShown;
-        this.adjustHeight();
-      }
-    });
-
-    this.addEventListener("popuphiding", (event) => {
-      var isListActive = true;
-      if (this.selectedIndex == -1)
-        isListActive = false;
-      this.input.controller.stopSearch();
-
-      this.removeAttribute("autocompleteinput");
-      this.mPopupOpen = false;
-
-      // Reset the maxRows property to the cached "normal" value (if there's
-      // any), and reset normalMaxRows so that we can detect whether it was set
-      // by the input when the popupshowing handler runs.
-
-      // Null-check this.mInput; see bug 1017914
-      if (this.mInput && this._normalMaxRows > 0) {
-        this.mInput.maxRows = this._normalMaxRows;
-      }
-      this._normalMaxRows = -1;
-      // If the list was being navigated and then closed, make sure
-      // we fire accessible focus event back to textbox
-
-      // Null-check this.mInput; see bug 1017914
-      if (isListActive && this.mInput) {
-        this.mInput.mIgnoreFocus = true;
-        this.mInput._focus();
-        this.mInput.mIgnoreFocus = false;
-      }
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozAutocompleteRichResultPopup, [Ci.nsIAutoCompletePopup]);
 customElements.define("autocomplete-rich-result-popup", MozAutocompleteRichResultPopup);
 
 }

@@ -9,6 +9,167 @@
 {
 
 class MozSearchOneOffs extends MozXULElement {
+  constructor() {
+    super();
+
+    this.addEventListener("mousedown", (event) => {
+      let target = event.originalTarget;
+      if (target.getAttribute("anonid") == "addengine-menu-button") {
+        return;
+      }
+      // Required to receive click events from the buttons on Linux.
+      event.preventDefault();
+    });
+
+    this.addEventListener("mousemove", (event) => {
+      let target = event.originalTarget;
+
+      // Handle mouseover on the add-engine menu button and its popup items.
+      if (target.getAttribute("anonid") == "addengine-menu-button" ||
+        (target.localName == "menuitem" &&
+          target.classList.contains("addengine-item"))) {
+        let menuButton = document.getAnonymousElementByAttribute(
+          this, "anonid", "addengine-menu-button"
+        );
+        this._updateStateForButton(menuButton);
+        this._addEngineMenuShouldBeOpen = true;
+        this._resetAddEngineMenuTimeout();
+        return;
+      }
+
+      if (target.localName != "button")
+        return;
+
+      // Ignore mouse events when the context menu is open.
+      if (this._ignoreMouseEvents)
+        return;
+
+      let isOneOff =
+        target.classList.contains("searchbar-engine-one-off-item") &&
+        !target.classList.contains("dummy");
+      if (isOneOff ||
+        target.classList.contains("addengine-item") ||
+        target.classList.contains("search-setting-button")) {
+        this._updateStateForButton(target);
+      }
+    });
+
+    this.addEventListener("mouseout", (event) => {
+
+      let target = event.originalTarget;
+
+      // Handle mouseout on the add-engine menu button and its popup items.
+      if (target.getAttribute("anonid") == "addengine-menu-button" ||
+        (target.localName == "menuitem" &&
+          target.classList.contains("addengine-item"))) {
+        this._updateStateForButton(null);
+        this._addEngineMenuShouldBeOpen = false;
+        this._resetAddEngineMenuTimeout();
+        return;
+      }
+
+      if (target.localName != "button") {
+        return;
+      }
+
+      // Don't update the mouseover state if the context menu is open.
+      if (this._ignoreMouseEvents)
+        return;
+
+      this._updateStateForButton(null);
+    });
+
+    this.addEventListener("click", (event) => {
+      if (event.button == 2)
+        return; // ignore right clicks.
+
+      let button = event.originalTarget;
+      let engine = button.engine;
+
+      if (!engine)
+        return;
+
+      // Select the clicked button so that consumers can easily tell which
+      // button was acted on.
+      this.selectedButton = button;
+      this.handleSearchCommand(event, engine);
+    });
+
+    this.addEventListener("command", (event) => {
+      let target = event.originalTarget;
+      if (target.classList.contains("addengine-item")) {
+        // On success, hide the panel and tell event listeners to reshow it to
+        // show the new engine.
+        let installCallback = {
+          onSuccess: engine => {
+            this._rebuild();
+          },
+          onError(errorCode) {
+            if (errorCode != Ci.nsISearchInstallCallback.ERROR_DUPLICATE_ENGINE) {
+              // Download error is shown by the search service
+              return;
+            }
+            const kSearchBundleURI = "chrome://global/locale/search/search.properties";
+            let searchBundle = Services.strings.createBundle(kSearchBundleURI);
+            let brandBundle = document.getElementById("bundle_brand");
+            let brandName = brandBundle.getString("brandShortName");
+            let title = searchBundle.GetStringFromName("error_invalid_engine_title");
+            let text = searchBundle.formatStringFromName("error_duplicate_engine_msg", [brandName, target.getAttribute("uri")], 2);
+            Services.prompt.QueryInterface(Ci.nsIPromptFactory);
+            let prompt = Services.prompt.getPrompt(gBrowser.contentWindow, Ci.nsIPrompt);
+            prompt.QueryInterface(Ci.nsIWritablePropertyBag2);
+            prompt.setPropertyAsBool("allowTabModal", true);
+            prompt.alert(title, text);
+          },
+        };
+        Services.search.addEngine(target.getAttribute("uri"), null,
+          target.getAttribute("image"), false,
+          installCallback);
+      }
+      let anonid = target.getAttribute("anonid");
+      if (anonid == "search-one-offs-context-open-in-new-tab") {
+        // Select the context-clicked button so that consumers can easily
+        // tell which button was acted on.
+        this.selectedButton = this._buttonForEngine(this._contextEngine);
+        this.handleSearchCommand(event, this._contextEngine, true);
+      }
+      if (anonid == "search-one-offs-context-set-default") {
+        let currentEngine = Services.search.currentEngine;
+
+        if (!this.getAttribute("includecurrentengine")) {
+          // Make the target button of the context menu reflect the current
+          // search engine first. Doing this as opposed to rebuilding all the
+          // one-off buttons avoids flicker.
+          let button = this._buttonForEngine(this._contextEngine);
+          button.id = this._buttonIDForEngine(currentEngine);
+          let uri = "chrome://browser/skin/search-engine-placeholder.png";
+          if (currentEngine.iconURI)
+            uri = currentEngine.iconURI.spec;
+          button.setAttribute("image", uri);
+          button.setAttribute("tooltiptext", currentEngine.name);
+          button.engine = currentEngine;
+        }
+
+        Services.search.currentEngine = this._contextEngine;
+      }
+    });
+
+    this.addEventListener("contextmenu", (event) => {
+      let target = event.originalTarget;
+      // Prevent the context menu from appearing except on the one off buttons.
+      if (!target.classList.contains("searchbar-engine-one-off-item") ||
+        target.classList.contains("dummy")) {
+        event.preventDefault();
+        return;
+      }
+      document.getAnonymousElementByAttribute(this, "anonid", "search-one-offs-context-set-default")
+        .setAttribute("disabled", target.engine == Services.search.currentEngine);
+
+      this._contextEngine = target.engine;
+    });
+
+  }
+
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -118,7 +279,6 @@ class MozSearchOneOffs extends MozXULElement {
     // of buttons to disappear.
     Services.obs.addObserver(this, "lightweight-theme-changed", true);
 
-    this._setupEventListeners();
   }
   /**
    * Width in pixels of the one-off buttons.  49px is the min-width of
@@ -1015,167 +1175,9 @@ class MozSearchOneOffs extends MozXULElement {
       button.open = this._addEngineMenuShouldBeOpen;
     }, this._addEngineMenuTimeoutMs);
   }
-
-  _setupEventListeners() {
-    this.addEventListener("mousedown", (event) => {
-      let target = event.originalTarget;
-      if (target.getAttribute("anonid") == "addengine-menu-button") {
-        return;
-      }
-      // Required to receive click events from the buttons on Linux.
-      event.preventDefault();
-    });
-
-    this.addEventListener("mousemove", (event) => {
-      let target = event.originalTarget;
-
-      // Handle mouseover on the add-engine menu button and its popup items.
-      if (target.getAttribute("anonid") == "addengine-menu-button" ||
-        (target.localName == "menuitem" &&
-          target.classList.contains("addengine-item"))) {
-        let menuButton = document.getAnonymousElementByAttribute(
-          this, "anonid", "addengine-menu-button"
-        );
-        this._updateStateForButton(menuButton);
-        this._addEngineMenuShouldBeOpen = true;
-        this._resetAddEngineMenuTimeout();
-        return;
-      }
-
-      if (target.localName != "button")
-        return;
-
-      // Ignore mouse events when the context menu is open.
-      if (this._ignoreMouseEvents)
-        return;
-
-      let isOneOff =
-        target.classList.contains("searchbar-engine-one-off-item") &&
-        !target.classList.contains("dummy");
-      if (isOneOff ||
-        target.classList.contains("addengine-item") ||
-        target.classList.contains("search-setting-button")) {
-        this._updateStateForButton(target);
-      }
-    });
-
-    this.addEventListener("mouseout", (event) => {
-
-      let target = event.originalTarget;
-
-      // Handle mouseout on the add-engine menu button and its popup items.
-      if (target.getAttribute("anonid") == "addengine-menu-button" ||
-        (target.localName == "menuitem" &&
-          target.classList.contains("addengine-item"))) {
-        this._updateStateForButton(null);
-        this._addEngineMenuShouldBeOpen = false;
-        this._resetAddEngineMenuTimeout();
-        return;
-      }
-
-      if (target.localName != "button") {
-        return;
-      }
-
-      // Don't update the mouseover state if the context menu is open.
-      if (this._ignoreMouseEvents)
-        return;
-
-      this._updateStateForButton(null);
-    });
-
-    this.addEventListener("click", (event) => {
-      if (event.button == 2)
-        return; // ignore right clicks.
-
-      let button = event.originalTarget;
-      let engine = button.engine;
-
-      if (!engine)
-        return;
-
-      // Select the clicked button so that consumers can easily tell which
-      // button was acted on.
-      this.selectedButton = button;
-      this.handleSearchCommand(event, engine);
-    });
-
-    this.addEventListener("command", (event) => {
-      let target = event.originalTarget;
-      if (target.classList.contains("addengine-item")) {
-        // On success, hide the panel and tell event listeners to reshow it to
-        // show the new engine.
-        let installCallback = {
-          onSuccess: engine => {
-            this._rebuild();
-          },
-          onError(errorCode) {
-            if (errorCode != Ci.nsISearchInstallCallback.ERROR_DUPLICATE_ENGINE) {
-              // Download error is shown by the search service
-              return;
-            }
-            const kSearchBundleURI = "chrome://global/locale/search/search.properties";
-            let searchBundle = Services.strings.createBundle(kSearchBundleURI);
-            let brandBundle = document.getElementById("bundle_brand");
-            let brandName = brandBundle.getString("brandShortName");
-            let title = searchBundle.GetStringFromName("error_invalid_engine_title");
-            let text = searchBundle.formatStringFromName("error_duplicate_engine_msg", [brandName, target.getAttribute("uri")], 2);
-            Services.prompt.QueryInterface(Ci.nsIPromptFactory);
-            let prompt = Services.prompt.getPrompt(gBrowser.contentWindow, Ci.nsIPrompt);
-            prompt.QueryInterface(Ci.nsIWritablePropertyBag2);
-            prompt.setPropertyAsBool("allowTabModal", true);
-            prompt.alert(title, text);
-          },
-        };
-        Services.search.addEngine(target.getAttribute("uri"), null,
-          target.getAttribute("image"), false,
-          installCallback);
-      }
-      let anonid = target.getAttribute("anonid");
-      if (anonid == "search-one-offs-context-open-in-new-tab") {
-        // Select the context-clicked button so that consumers can easily
-        // tell which button was acted on.
-        this.selectedButton = this._buttonForEngine(this._contextEngine);
-        this.handleSearchCommand(event, this._contextEngine, true);
-      }
-      if (anonid == "search-one-offs-context-set-default") {
-        let currentEngine = Services.search.currentEngine;
-
-        if (!this.getAttribute("includecurrentengine")) {
-          // Make the target button of the context menu reflect the current
-          // search engine first. Doing this as opposed to rebuilding all the
-          // one-off buttons avoids flicker.
-          let button = this._buttonForEngine(this._contextEngine);
-          button.id = this._buttonIDForEngine(currentEngine);
-          let uri = "chrome://browser/skin/search-engine-placeholder.png";
-          if (currentEngine.iconURI)
-            uri = currentEngine.iconURI.spec;
-          button.setAttribute("image", uri);
-          button.setAttribute("tooltiptext", currentEngine.name);
-          button.engine = currentEngine;
-        }
-
-        Services.search.currentEngine = this._contextEngine;
-      }
-    });
-
-    this.addEventListener("contextmenu", (event) => {
-      let target = event.originalTarget;
-      // Prevent the context menu from appearing except on the one off buttons.
-      if (!target.classList.contains("searchbar-engine-one-off-item") ||
-        target.classList.contains("dummy")) {
-        event.preventDefault();
-        return;
-      }
-      document.getAnonymousElementByAttribute(this, "anonid", "search-one-offs-context-set-default")
-        .setAttribute("disabled", target.engine == Services.search.currentEngine);
-
-      this._contextEngine = target.engine;
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozSearchOneOffs, [Ci.nsIObserver, Ci.nsIWeakReference]);
 customElements.define("search-one-offs", MozSearchOneOffs);
 
 }

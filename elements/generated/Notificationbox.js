@@ -9,6 +9,17 @@
 {
 
 class MozNotificationbox extends MozXULElement {
+  constructor() {
+    super();
+
+    this.addEventListener("transitionend", (event) => {
+      if (event.target.localName == "notification" &&
+        event.propertyName == "margin-top")
+        this._finishAnimation();
+    });
+
+  }
+
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -46,7 +57,6 @@ class MozNotificationbox extends MozXULElement {
 
     this._animating = false;
 
-    this._setupEventListeners();
   }
 
   get _allowAnimation() {
@@ -316,15 +326,6 @@ class MozNotificationbox extends MozXULElement {
       if (content)
         content.collapsed = false;
     }
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("transitionend", (event) => {
-      if (event.target.localName == "notification" &&
-        event.propertyName == "margin-top")
-        this._finishAnimation();
-    });
-
   }
 }
 

@@ -38,7 +38,6 @@ class MozAutocompleteProfileListitem extends MozAutocompleteProfileListitemBase 
 
     this._adjustAcItem();
 
-    this._setupEventListeners();
   }
 
   set selected(val) {
@@ -71,12 +70,9 @@ class MozAutocompleteProfileListitem extends MozAutocompleteProfileListitemBase 
     this._label.textContent = primary;
     this._comment.textContent = secondary;
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozAutocompleteProfileListitem, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("autocomplete-profile-listitem", MozAutocompleteProfileListitem);
 
 }

@@ -9,26 +9,9 @@
 {
 
 class MozTabbrowserArrowscrollbox extends MozArrowscrollboxClicktoscroll {
-  connectedCallback() {
-    super.connectedCallback()
+  constructor() {
+    super();
 
-    this._setupEventListeners();
-  }
-
-  /**
-   * Override scrollbox.xml method, since our scrollbox's children are
-   * inherited from the binding parent
-   */
-  _getScrollableElements() {
-    return Array.filter(document.getBindingParent(this).children,
-      this._canScrollToElement, this);
-  }
-
-  _canScrollToElement(tab) {
-    return !tab._pinnedUnscrollable && !tab.hidden;
-  }
-
-  _setupEventListeners() {
     this.addEventListener("underflow", (event) => {
       // Ignore underflow events:
       // - from nested scrollable elements
@@ -69,6 +52,24 @@ class MozTabbrowserArrowscrollbox extends MozArrowscrollboxClicktoscroll {
       tabs._handleTabSelect(true);
     });
 
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+
+  }
+
+  /**
+   * Override scrollbox.xml method, since our scrollbox's children are
+   * inherited from the binding parent
+   */
+  _getScrollableElements() {
+    return Array.filter(document.getBindingParent(this).children,
+      this._canScrollToElement, this);
+  }
+
+  _canScrollToElement(tab) {
+    return !tab._pinnedUnscrollable && !tab.hidden;
   }
 }
 

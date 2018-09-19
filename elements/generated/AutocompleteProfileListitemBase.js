@@ -20,7 +20,6 @@ class MozAutocompleteProfileListitemBase extends MozRichlistitem {
      */
     this.selectedByMouseOver = true;
 
-    this._setupEventListeners();
   }
 
   get _stringBundle() {
@@ -60,12 +59,9 @@ class MozAutocompleteProfileListitemBase extends MozRichlistitem {
       this._itemBox.removeAttribute("size");
     }
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozAutocompleteProfileListitemBase, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("autocomplete-profile-listitem-base", MozAutocompleteProfileListitemBase);
 
 }

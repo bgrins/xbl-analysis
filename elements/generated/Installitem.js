@@ -27,7 +27,6 @@ class MozInstallitem extends MozXULElement {
       </hbox>
     `));
 
-    this._setupEventListeners();
   }
 
   set name(val) {
@@ -82,10 +81,6 @@ class MozInstallitem extends MozXULElement {
 
   get type() {
     return this.getAttribute('type');
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

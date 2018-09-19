@@ -9,6 +9,37 @@
 {
 
 class MozColumnpicker extends MozTreeBase {
+  constructor() {
+    super();
+
+    this.addEventListener("command", (event) => {
+      if (event.originalTarget == this) {
+        var popup = document.getAnonymousElementByAttribute(this, "anonid", "popup");
+        this.buildPopup(popup);
+        popup.openPopup(this, "after_end");
+      } else {
+        var tree = this.parentNode.parentNode;
+        tree.stopEditing(true);
+        var menuitem = document.getAnonymousElementByAttribute(this, "anonid", "menuitem");
+        if (event.originalTarget == menuitem) {
+          tree.columns.restoreNaturalOrder();
+          tree._ensureColumnOrder();
+        } else {
+          var colindex = event.originalTarget.getAttribute("colindex");
+          var column = tree.columns[colindex];
+          if (column) {
+            var element = column.element;
+            if (element.getAttribute("hidden") == "true")
+              element.setAttribute("hidden", "false");
+            else
+              element.setAttribute("hidden", "true");
+          }
+        }
+      }
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -19,7 +50,6 @@ class MozColumnpicker extends MozTreeBase {
       </menupopup>
     `));
 
-    this._setupEventListeners();
   }
 
   buildPopup(aPopup) {
@@ -55,35 +85,6 @@ class MozColumnpicker extends MozTreeBase {
       var element = document.getAnonymousElementByAttribute(this, "anonid", anonids[i]);
       element.hidden = hidden;
     }
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("command", (event) => {
-      if (event.originalTarget == this) {
-        var popup = document.getAnonymousElementByAttribute(this, "anonid", "popup");
-        this.buildPopup(popup);
-        popup.openPopup(this, "after_end");
-      } else {
-        var tree = this.parentNode.parentNode;
-        tree.stopEditing(true);
-        var menuitem = document.getAnonymousElementByAttribute(this, "anonid", "menuitem");
-        if (event.originalTarget == menuitem) {
-          tree.columns.restoreNaturalOrder();
-          tree._ensureColumnOrder();
-        } else {
-          var colindex = event.originalTarget.getAttribute("colindex");
-          var column = tree.columns[colindex];
-          if (column) {
-            var element = column.element;
-            if (element.getAttribute("hidden") == "true")
-              element.setAttribute("hidden", "false");
-            else
-              element.setAttribute("hidden", "true");
-          }
-        }
-      }
-    });
-
   }
 }
 

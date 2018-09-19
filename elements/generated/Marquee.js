@@ -56,7 +56,6 @@ class MozMarquee extends MozXULElement {
       window.addEventListener("load", lambda);
     }
 
-    this._setupEventListeners();
   }
 
   set scrollAmount(val) {
@@ -570,10 +569,6 @@ class MozMarquee extends MozXULElement {
         }
       }
     }
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

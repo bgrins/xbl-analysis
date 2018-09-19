@@ -19,7 +19,6 @@ class MozProgressmeterUndetermined extends MozProgressmeter {
     this._alive = true;
 
     this._init();
-    this._setupEventListeners();
   }
 
   _init() {
@@ -60,10 +59,6 @@ class MozProgressmeterUndetermined extends MozProgressmeter {
       } catch (e) {}
     }
     requestAnimationFrame(nextStep);
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

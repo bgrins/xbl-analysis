@@ -52,7 +52,6 @@ class MozArrowscrollboxClicktoscroll extends MozArrowscrollbox {
       this._prefBranch.getIntPref("toolkit.scrollbox.clickToScroll.scrollDelay",
         this._scrollDelay);
 
-    this._setupEventListeners();
   }
 
   notify(aTimer) {
@@ -157,7 +156,6 @@ class MozArrowscrollboxClicktoscroll extends MozArrowscrollbox {
 
     this.ensureElementIsVisible(targetElement);
   }
-
   disconnectedCallback() {
     // Release timer to avoid reference cycles.
     if (this._scrollTimer) {
@@ -165,12 +163,9 @@ class MozArrowscrollboxClicktoscroll extends MozArrowscrollbox {
       this._scrollTimer = null;
     }
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozArrowscrollboxClicktoscroll, [Ci.nsITimerCallback]);
 customElements.define("arrowscrollbox-clicktoscroll", MozArrowscrollboxClicktoscroll);
 
 }

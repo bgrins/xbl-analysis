@@ -21,15 +21,10 @@ class MozHandler extends MozRichlistitem {
       </vbox>
     `));
 
-    this._setupEventListeners();
   }
 
   get label() {
     return this.getAttribute('name') + ' ' + this.getAttribute('description');
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

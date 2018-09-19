@@ -18,7 +18,6 @@ class MozTabpanels extends MozXULElement {
 
     this._selectedPanel = this.children.item(this.selectedIndex);
 
-    this._setupEventListeners();
   }
 
   get tabbox() {
@@ -106,12 +105,9 @@ class MozTabpanels extends MozXULElement {
 
     return tabElmFromIndex;
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozTabpanels, [Ci.nsIDOMXULRelatedElement]);
 customElements.define("tabpanels", MozTabpanels);
 
 }

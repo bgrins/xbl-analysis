@@ -20,7 +20,6 @@ class MozCategory extends MozRichlistitem {
     if (!this.hasAttribute("count"))
       this.setAttribute("count", 0);
 
-    this._setupEventListeners();
   }
 
   set badgeCount(val) {
@@ -35,10 +34,6 @@ class MozCategory extends MozRichlistitem {
 
   get badgeCount() {
     return this.getAttribute("count");
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

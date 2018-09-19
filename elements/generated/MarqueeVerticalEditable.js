@@ -17,11 +17,6 @@ class MozMarqueeVerticalEditable extends MozXULElement {
       </html:div>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

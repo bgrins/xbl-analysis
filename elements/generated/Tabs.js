@@ -47,7 +47,6 @@ class MozTabs extends MozBasecontrol {
     else
       this.selectedIndex = 0;
 
-    this._setupEventListeners();
   }
   /**
    * nsIDOMXULSelectControlElement
@@ -251,12 +250,9 @@ class MozTabs extends MozBasecontrol {
     this.appendChild(tab);
     return tab;
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozTabs, [Ci.nsIDOMXULSelectControlElement, Ci.nsIDOMXULRelatedElement]);
 customElements.define("tabs", MozTabs);
 
 }

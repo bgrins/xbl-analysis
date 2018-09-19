@@ -9,19 +9,9 @@
 {
 
 class MozPrettyprint extends MozXULElement {
-  connectedCallback() {
+  constructor() {
+    super();
 
-    this.appendChild(MozXULElement.parseXULToFragment(`
-      <html:div id="top"></html:div>
-      <html:span style="display: none;">
-        <children></children>
-      </html:span>
-    `));
-
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
     this.addEventListener("prettyprint-dom-created", (event) => {
       let container = document.getAnonymousNodes(this).item(0);
       // Take the child nodes from the passed <div id="top">
@@ -30,6 +20,17 @@ class MozPrettyprint extends MozXULElement {
         container.appendChild(el);
       }
     });
+
+  }
+
+  connectedCallback() {
+
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <html:div id="top"></html:div>
+      <html:span style="display: none;">
+        <children></children>
+      </html:span>
+    `));
 
   }
 }

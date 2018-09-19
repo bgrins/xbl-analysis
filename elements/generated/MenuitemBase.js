@@ -12,7 +12,6 @@ class MozMenuitemBase extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
 
-    this._setupEventListeners();
   }
 
   set value(val) {
@@ -47,12 +46,9 @@ class MozMenuitemBase extends MozBasetext {
     }
     return null;
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozMenuitemBase, [Ci.nsIDOMXULSelectControlItemElement, Ci.nsIDOMXULContainerItemElement]);
 customElements.define("menuitem-base", MozMenuitemBase);
 
 }

@@ -84,7 +84,6 @@ class MozTranslationbar extends MozNotification {
       <toolbarbutton ondblclick="event.stopPropagation();" anonid="closeButton" class="messageCloseButton close-icon tabbable" inherits="hidden=hideclose" tooltiptext="FROM-DTD.closeNotification.tooltip;" oncommand="document.getBindingParent(this).closeCommand();"></toolbarbutton>
     `));
 
-    this._setupEventListeners();
   }
 
   set state(val) {
@@ -335,10 +334,6 @@ class MozTranslationbar extends MozNotification {
 
   openProviderAttribution() {
     Translation.openProviderAttribution();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

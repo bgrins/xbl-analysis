@@ -9,17 +9,9 @@
 {
 
 class MozAutocompleteRichlistbox extends MozRichlistbox {
-  connectedCallback() {
-    super.connectedCallback()
+  constructor() {
+    super();
 
-    this.mLastMoveTime = Date.now();
-
-    this.mousedOverIndex = -1;
-
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
     this.addEventListener("mouseup", (event) => {
       // Don't call onPopupClick for the scrollbar buttons, thumb, slider, etc.
       // If we hit the richlistbox and not a richlistitem, we ignore the event.
@@ -52,6 +44,15 @@ class MozAutocompleteRichlistbox extends MozRichlistbox {
 
       this.mLastMoveTime = Date.now();
     });
+
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+
+    this.mLastMoveTime = Date.now();
+
+    this.mousedOverIndex = -1;
 
   }
 }

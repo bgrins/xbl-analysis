@@ -9,18 +9,9 @@
 {
 
 class MozTreebody extends MozTreeBase {
-  connectedCallback() {
-    super.connectedCallback()
+  constructor() {
+    super();
 
-    this._lastSelectedRow = -1;
-
-    if ("_ensureColumnOrder" in this.parentNode)
-      this.parentNode._ensureColumnOrder();
-
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
     /**
      * If there is no modifier key, we select on mousedown, not
      * click, so that drags work correctly.
@@ -156,6 +147,16 @@ class MozTreebody extends MozTreeBase {
       if (cell.col && !cell.col.cycler && cell.childElt != "twisty")
         this.parentNode.changeOpenState(row);
     });
+
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+
+    this._lastSelectedRow = -1;
+
+    if ("_ensureColumnOrder" in this.parentNode)
+      this.parentNode._ensureColumnOrder();
 
   }
 }

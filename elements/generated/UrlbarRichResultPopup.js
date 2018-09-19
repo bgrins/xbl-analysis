@@ -9,6 +9,74 @@
 {
 
 class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
+  constructor() {
+    super();
+
+    this.addEventListener("SelectedOneOffButtonChanged", (event) => {
+      this._selectedOneOffChanged();
+    });
+
+    this.addEventListener("mousedown", (event) => {
+      // Required to make the xul:label.text-link elements in the search
+      // suggestions notification work correctly when clicked on Linux.
+      // This is copied from the mousedown handler in
+      // browser-search-autocomplete-result-popup, which apparently had a
+      // similar problem.
+      event.preventDefault();
+
+      if (event.button == 2) {
+        // Right mouse button currently allows to select.
+        this.input.userSelectionBehavior = "rightClick";
+        // Ignore right-clicks.
+        return;
+      }
+
+      if (!this.input.speculativeConnectEnabled) {
+        return;
+      }
+
+      // Ensure the user is clicking on an url instead of other buttons
+      // on the popup.
+      let elt = event.originalTarget;
+      while (elt && elt.localName != "richlistitem" && elt != this) {
+        elt = elt.parentNode;
+      }
+      if (!elt || elt.localName != "richlistitem") {
+        return;
+      }
+      // The user might click on a ghost entry which was removed because of
+      // the coming new results.
+      if (this.input.controller.matchCount <= this.selectedIndex) {
+        return;
+      }
+
+      let url = this.input.controller.getFinalCompleteValueAt(this.selectedIndex);
+
+      // Whitelist the cases that we want to speculative connect, and ignore
+      // other moz-action uris or fancy protocols.
+      // Note that it's likely we've speculatively connected to the first
+      // url because it is a heuristic "autofill" result (see bug 1348275).
+      // "moz-action:searchengine" is also the same case. (see bug 1355443)
+      // So we won't duplicate the effort here.
+      if (url.startsWith("http") && this.selectedIndex > 0) {
+        this.maybeSetupSpeculativeConnect(url);
+      } else if (url.startsWith("moz-action:remotetab")) {
+        // URL is in the format moz-action:ACTION,PARAMS
+        // Where PARAMS is a JSON encoded object.
+        const MOZ_ACTION_REGEX = /^moz-action:([^,]+),(.*)$/;
+        if (!MOZ_ACTION_REGEX.test(url))
+          return;
+
+        let params = JSON.parse(url.match(MOZ_ACTION_REGEX)[2]);
+        if (params.url) {
+          this.maybeSetupSpeculativeConnect(decodeURIComponent(params.url));
+        }
+      }
+
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -88,7 +156,6 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
 
     this._addonIframeHiddenDisplaysByAnonid = {};
 
-    this._setupEventListeners();
   }
 
   set overrideValue(val) {
@@ -348,6 +415,15 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       window.windowUtils.getBoundsWithoutFlushing(document.getElementById("nav-bar")).bottom -
       window.windowUtils.getBoundsWithoutFlushing(aInput).bottom);
 
+    if (!this.richlistbox.suppressMenuItemEvent && this.richlistbox.currentItem) {
+      // The richlistbox fired a DOMMenuItemActive for accessibility,
+      // but because the popup isn't open yet, accessibility will ignore
+      // it. Therefore, fire it again once the popup opens.
+      this.addEventListener("popupshown", () => {
+        this.richlistbox.currentItem._fireEvent("DOMMenuItemActive");
+      }, { once: true });
+    }
+
     this.openPopup(aElement, "after_start", 0, yOffset, false, false);
 
     // Do this immediately after we've requested the popup to open. This
@@ -592,11 +668,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     // If nothing is selected yet, select the first result if it is a
     // pre-selected "heuristic" result.  (See UnifiedComplete.js.)
     if (this.selectedIndex == -1 && this._isFirstResultHeuristic) {
-      // Don't fire DOMMenuItemActive so that screen readers still see
-      // the input as being focused.
-      this.richlistbox.suppressMenuItemEvent = true;
       this.input.controller.setInitiallySelectedIndex(0);
-      this.richlistbox.suppressMenuItemEvent = false;
     }
     // If this is the first time we get the result from the current
     // search and we are not in the private context, we can speculatively
@@ -714,72 +786,6 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     iframe.style.transition = "height 100ms";
     this.appendChild(iframe);
     return iframe;
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("SelectedOneOffButtonChanged", (event) => {
-      this._selectedOneOffChanged();
-    });
-
-    this.addEventListener("mousedown", (event) => {
-      // Required to make the xul:label.text-link elements in the search
-      // suggestions notification work correctly when clicked on Linux.
-      // This is copied from the mousedown handler in
-      // browser-search-autocomplete-result-popup, which apparently had a
-      // similar problem.
-      event.preventDefault();
-
-      if (event.button == 2) {
-        // Right mouse button currently allows to select.
-        this.input.userSelectionBehavior = "rightClick";
-        // Ignore right-clicks.
-        return;
-      }
-
-      if (!this.input.speculativeConnectEnabled) {
-        return;
-      }
-
-      // Ensure the user is clicking on an url instead of other buttons
-      // on the popup.
-      let elt = event.originalTarget;
-      while (elt && elt.localName != "richlistitem" && elt != this) {
-        elt = elt.parentNode;
-      }
-      if (!elt || elt.localName != "richlistitem") {
-        return;
-      }
-      // The user might click on a ghost entry which was removed because of
-      // the coming new results.
-      if (this.input.controller.matchCount <= this.selectedIndex) {
-        return;
-      }
-
-      let url = this.input.controller.getFinalCompleteValueAt(this.selectedIndex);
-
-      // Whitelist the cases that we want to speculative connect, and ignore
-      // other moz-action uris or fancy protocols.
-      // Note that it's likely we've speculatively connected to the first
-      // url because it is a heuristic "autofill" result (see bug 1348275).
-      // "moz-action:searchengine" is also the same case. (see bug 1355443)
-      // So we won't duplicate the effort here.
-      if (url.startsWith("http") && this.selectedIndex > 0) {
-        this.maybeSetupSpeculativeConnect(url);
-      } else if (url.startsWith("moz-action:remotetab")) {
-        // URL is in the format moz-action:ACTION,PARAMS
-        // Where PARAMS is a JSON encoded object.
-        const MOZ_ACTION_REGEX = /^moz-action:([^,]+),(.*)$/;
-        if (!MOZ_ACTION_REGEX.test(url))
-          return;
-
-        let params = JSON.parse(url.match(MOZ_ACTION_REGEX)[2]);
-        if (params.url) {
-          this.maybeSetupSpeculativeConnect(decodeURIComponent(params.url));
-        }
-      }
-
-    });
-
   }
 }
 

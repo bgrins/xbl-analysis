@@ -34,7 +34,6 @@ class MozUpdate extends MozRichlistitem {
       </grid>
     `));
 
-    this._setupEventListeners();
   }
 
   set name(val) {
@@ -84,10 +83,6 @@ class MozUpdate extends MozRichlistitem {
 
   get status() {
     return this.getAttribute('status');
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

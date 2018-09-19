@@ -9,6 +9,29 @@
 {
 
 class MozVideocontrols extends MozXULElement {
+  constructor() {
+    super();
+
+    this.addEventListener("mouseover", (event) => {
+      if (!this.isTouchControls) {
+        this.Utils.onMouseInOut(event);
+      }
+    });
+
+    this.addEventListener("mouseout", (event) => {
+      if (!this.isTouchControls) {
+        this.Utils.onMouseInOut(event);
+      }
+    });
+
+    this.addEventListener("mousemove", (event) => {
+      if (!this.isTouchControls) {
+        this.Utils.onMouseMove(event);
+      }
+    });
+
+  }
+
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -2084,9 +2107,7 @@ class MozVideocontrols extends MozXULElement {
     }
     this.dispatchEvent(new CustomEvent("VideoBindingAttached"));
 
-    this._setupEventListeners();
   }
-
   disconnectedCallback() {
     this.Utils.terminate();
     this.TouchUtils.terminate();
@@ -2096,27 +2117,6 @@ class MozVideocontrols extends MozXULElement {
     // this file actually depends on this, so now that randomID is an
     // expando, we need to make sure to explicitly delete it.
     delete this.randomID;
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("mouseover", (event) => {
-      if (!this.isTouchControls) {
-        this.Utils.onMouseInOut(event);
-      }
-    });
-
-    this.addEventListener("mouseout", (event) => {
-      if (!this.isTouchControls) {
-        this.Utils.onMouseInOut(event);
-      }
-    });
-
-    this.addEventListener("mousemove", (event) => {
-      if (!this.isTouchControls) {
-        this.Utils.onMouseMove(event);
-      }
-    });
-
   }
 }
 

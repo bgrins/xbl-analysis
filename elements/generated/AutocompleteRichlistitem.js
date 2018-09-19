@@ -9,6 +9,48 @@
 {
 
 class MozAutocompleteRichlistitem extends MozRichlistitem {
+  constructor() {
+    super();
+
+    /**
+     * This overrides listitem's mousedown handler because we want to set the
+     * selected item even when the shift or accel keys are pressed.
+     */
+    this.addEventListener("mousedown", (event) => {
+      // Call this.control only once since it's not a simple getter.
+      let control = this.control;
+      if (!control || control.disabled) {
+        return;
+      }
+      if (!this.selected) {
+        control.selectItem(this);
+      }
+      control.currentItem = this;
+    });
+
+    this.addEventListener("mouseover", (event) => {
+      // The point of implementing this handler is to allow drags to change
+      // the selected item.  If the user mouses down on an item, it becomes
+      // selected.  If they then drag the mouse to another item, select it.
+      // Handle all three primary mouse buttons: right, left, and wheel, since
+      // all three change the selection on mousedown.
+      let mouseDown = event.buttons & 0b111;
+      if (!mouseDown) {
+        return;
+      }
+      // Call this.control only once since it's not a simple getter.
+      let control = this.control;
+      if (!control || control.disabled) {
+        return;
+      }
+      if (!this.selected) {
+        control.selectItem(this);
+      }
+      control.currentItem = this;
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -68,7 +110,6 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
     );
     this._adjustAcItem();
 
-    this._setupEventListeners();
   }
 
   get label() {
@@ -784,48 +825,9 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
 
     return action;
   }
-
-  _setupEventListeners() {
-    /**
-     * This overrides listitem's mousedown handler because we want to set the
-     * selected item even when the shift or accel keys are pressed.
-     */
-    this.addEventListener("mousedown", (event) => {
-      // Call this.control only once since it's not a simple getter.
-      let control = this.control;
-      if (!control || control.disabled) {
-        return;
-      }
-      if (!this.selected) {
-        control.selectItem(this);
-      }
-      control.currentItem = this;
-    });
-
-    this.addEventListener("mouseover", (event) => {
-      // The point of implementing this handler is to allow drags to change
-      // the selected item.  If the user mouses down on an item, it becomes
-      // selected.  If they then drag the mouse to another item, select it.
-      // Handle all three primary mouse buttons: right, left, and wheel, since
-      // all three change the selection on mousedown.
-      let mouseDown = event.buttons & 0b111;
-      if (!mouseDown) {
-        return;
-      }
-      // Call this.control only once since it's not a simple getter.
-      let control = this.control;
-      if (!control || control.disabled) {
-        return;
-      }
-      if (!this.selected) {
-        control.selectItem(this);
-      }
-      control.currentItem = this;
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozAutocompleteRichlistitem, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("autocomplete-richlistitem", MozAutocompleteRichlistitem);
 
 }

@@ -9,6 +9,42 @@
 {
 
 class MozMenulist extends MozBasecontrol {
+  constructor() {
+    super();
+
+    this.addEventListener("command", (event) => { if (event.target.parentNode.parentNode == this) this.selectedItem = event.target; }, true);
+
+    this.addEventListener("popupshowing", (event) => {
+      if (event.target.parentNode == this) {
+        this.activeChild = null;
+        if (this.selectedItem)
+          // Not ready for auto-setting the active child in hierarchies yet.
+          // For now, only do this when the outermost menupopup opens.
+          this.activeChild = this.mSelectedInternal;
+      }
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (!event.defaultPrevented &&
+        (event.keyCode == KeyEvent.DOM_VK_UP ||
+          event.keyCode == KeyEvent.DOM_VK_DOWN ||
+          event.keyCode == KeyEvent.DOM_VK_PAGE_UP ||
+          event.keyCode == KeyEvent.DOM_VK_PAGE_DOWN ||
+          event.keyCode == KeyEvent.DOM_VK_HOME ||
+          event.keyCode == KeyEvent.DOM_VK_END ||
+          event.keyCode == KeyEvent.DOM_VK_BACK_SPACE ||
+          event.charCode > 0)) {
+        // Moving relative to an item: start from the currently selected item
+        this.activeChild = this.mSelectedInternal;
+        if (this.handleKeyPress(event)) {
+          this.activeChild.doCommand();
+          event.preventDefault();
+        }
+      }
+    }, { mozSystemGroup: true });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -23,10 +59,8 @@ class MozMenulist extends MozBasecontrol {
 
     this.mSelectedInternal = null;
     this.mAttributeObserver = null;
-    this.menuBoxObject = this.boxObject;
     this.setInitialSelection();
 
-    this._setupEventListeners();
   }
 
   set value(val) {
@@ -85,7 +119,7 @@ class MozMenulist extends MozBasecontrol {
   }
 
   set open(val) {
-    this.menuBoxObject.openMenu(val);
+    this.openMenu(val);
     return val;
   }
 
@@ -264,48 +298,14 @@ class MozMenulist extends MozBasecontrol {
     if (popup)
       this.removeChild(popup);
   }
-
   disconnectedCallback() {
     if (this.mAttributeObserver) {
       this.mAttributeObserver.disconnect();
     }
   }
-
-  _setupEventListeners() {
-    this.addEventListener("command", (event) => { if (event.target.parentNode.parentNode == this) this.selectedItem = event.target; }, true);
-
-    this.addEventListener("popupshowing", (event) => {
-      if (event.target.parentNode == this) {
-        this.menuBoxObject.activeChild = null;
-        if (this.selectedItem)
-          // Not ready for auto-setting the active child in hierarchies yet.
-          // For now, only do this when the outermost menupopup opens.
-          this.menuBoxObject.activeChild = this.mSelectedInternal;
-      }
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (!event.defaultPrevented &&
-        (event.keyCode == KeyEvent.DOM_VK_UP ||
-          event.keyCode == KeyEvent.DOM_VK_DOWN ||
-          event.keyCode == KeyEvent.DOM_VK_PAGE_UP ||
-          event.keyCode == KeyEvent.DOM_VK_PAGE_DOWN ||
-          event.keyCode == KeyEvent.DOM_VK_HOME ||
-          event.keyCode == KeyEvent.DOM_VK_END ||
-          event.keyCode == KeyEvent.DOM_VK_BACK_SPACE ||
-          event.charCode > 0)) {
-        // Moving relative to an item: start from the currently selected item
-        this.menuBoxObject.activeChild = this.mSelectedInternal;
-        if (this.menuBoxObject.handleKeyPress(event)) {
-          this.menuBoxObject.activeChild.doCommand();
-          event.preventDefault();
-        }
-      }
-    }, { mozSystemGroup: true });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozMenulist, [Ci.nsIDOMXULMenuListElement]);
 customElements.define("menulist", MozMenulist);
 
 }

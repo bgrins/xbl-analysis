@@ -15,11 +15,6 @@ class MozMenulistPopuponly extends MozMenulist {
       <children includes="menupopup"></children>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

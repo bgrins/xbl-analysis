@@ -9,6 +9,25 @@
 {
 
 class MozDialog extends MozXULElement {
+  constructor() {
+    super();
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this._hitEnter(event); }, { mozSystemGroup: true });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; }
+      if (!event.defaultPrevented)
+        this.cancelDialog();
+    }, { mozSystemGroup: true });
+
+    this.addEventListener("focus", (event) => {
+      var btn = this.getButton(this.defaultButton);
+      if (btn)
+        btn.setAttribute("default", event.originalTarget == btn || !(event.originalTarget instanceof Ci.nsIDOMXULButtonElement));
+    }, true);
+
+  }
+
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -46,7 +65,6 @@ class MozDialog extends MozXULElement {
     window.moveToAlertPosition = this.moveToAlertPosition;
     window.centerWindowOnScreen = this.centerWindowOnScreen;
 
-    this._setupEventListeners();
   }
 
   set buttons(val) {
@@ -355,23 +373,6 @@ class MozDialog extends MozXULElement {
     var btn = this.getButton(this.defaultButton);
     if (btn)
       this._doButtonCommand(this.defaultButton);
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this._hitEnter(event); }, { mozSystemGroup: true });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; }
-      if (!event.defaultPrevented)
-        this.cancelDialog();
-    }, { mozSystemGroup: true });
-
-    this.addEventListener("focus", (event) => {
-      var btn = this.getButton(this.defaultButton);
-      if (btn)
-        btn.setAttribute("default", event.originalTarget == btn || !(event.originalTarget instanceof Ci.nsIDOMXULButtonElement));
-    }, true);
-
   }
 }
 

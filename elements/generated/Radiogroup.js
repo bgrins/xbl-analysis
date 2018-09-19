@@ -9,6 +9,92 @@
 {
 
 class MozRadiogroup extends MozBasecontrol {
+  constructor() {
+    super();
+
+    this.addEventListener("mousedown", (event) => {
+      if (this.disabled)
+        event.preventDefault();
+    });
+
+    /**
+     * keyboard navigation  Here's how keyboard navigation works in radio groups on Windows:
+     * The group takes 'focus'
+     * The user is then free to navigate around inside the group
+     * using the arrow keys. Accessing previous or following radio buttons
+     * is done solely through the arrow keys and not the tab button. Tab
+     * takes you to the next widget in the tab order
+     */
+    this.addEventListener("keypress", (event) => {
+      this.selectedItem = this.focusedItem;
+      this.selectedItem.doCommand();
+      // Prevent page from scrolling on the space key.
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_UP) { return; }
+      this.checkAdjacentElement(false);
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_LEFT) { return; }
+      // left arrow goes back when we are ltr, forward when we are rtl
+      this.checkAdjacentElement(document.defaultView.getComputedStyle(
+        this).direction == "rtl");
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
+      this.checkAdjacentElement(true);
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_RIGHT) { return; }
+      // right arrow goes forward when we are ltr, back when we are rtl
+      this.checkAdjacentElement(document.defaultView.getComputedStyle(
+        this).direction == "ltr");
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+    /**
+     * set a focused attribute on the selected item when the group
+     * receives focus so that we can style it as if it were focused even though
+     * it is not (Windows platform behaviour is for the group to receive focus,
+     * not the item
+     */
+    this.addEventListener("focus", (event) => {
+      this.setAttribute("focused", "true");
+      if (this.focusedItem)
+        return;
+
+      var val = this.selectedItem;
+      if (!val || val.disabled || val.hidden || val.collapsed) {
+        var children = this._getRadioChildren();
+        for (var i = 0; i < children.length; ++i) {
+          if (!children[i].hidden && !children[i].collapsed && !children[i].disabled) {
+            val = children[i];
+            break;
+          }
+        }
+      }
+      this.focusedItem = val;
+    });
+
+    this.addEventListener("blur", (event) => {
+      this.removeAttribute("focused");
+      this.focusedItem = null;
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
 
@@ -32,7 +118,6 @@ class MozRadiogroup extends MozBasecontrol {
     else
       this.selectedIndex = 0;
 
-    this._setupEventListeners();
   }
 
   set value(val) {
@@ -270,92 +355,9 @@ class MozRadiogroup extends MozBasecontrol {
     this._radioChildren = null;
     return radio;
   }
-
-  _setupEventListeners() {
-    this.addEventListener("mousedown", (event) => {
-      if (this.disabled)
-        event.preventDefault();
-    });
-
-    /**
-     * keyboard navigation  Here's how keyboard navigation works in radio groups on Windows:
-     * The group takes 'focus'
-     * The user is then free to navigate around inside the group
-     * using the arrow keys. Accessing previous or following radio buttons
-     * is done solely through the arrow keys and not the tab button. Tab
-     * takes you to the next widget in the tab order
-     */
-    this.addEventListener("keypress", (event) => {
-      this.selectedItem = this.focusedItem;
-      this.selectedItem.doCommand();
-      // Prevent page from scrolling on the space key.
-      event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_UP) { return; }
-      this.checkAdjacentElement(false);
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_LEFT) { return; }
-      // left arrow goes back when we are ltr, forward when we are rtl
-      this.checkAdjacentElement(document.defaultView.getComputedStyle(
-        this).direction == "rtl");
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
-      this.checkAdjacentElement(true);
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_RIGHT) { return; }
-      // right arrow goes forward when we are ltr, back when we are rtl
-      this.checkAdjacentElement(document.defaultView.getComputedStyle(
-        this).direction == "ltr");
-      event.stopPropagation();
-      event.preventDefault();
-    });
-
-    /**
-     * set a focused attribute on the selected item when the group
-     * receives focus so that we can style it as if it were focused even though
-     * it is not (Windows platform behaviour is for the group to receive focus,
-     * not the item
-     */
-    this.addEventListener("focus", (event) => {
-      this.setAttribute("focused", "true");
-      if (this.focusedItem)
-        return;
-
-      var val = this.selectedItem;
-      if (!val || val.disabled || val.hidden || val.collapsed) {
-        var children = this._getRadioChildren();
-        for (var i = 0; i < children.length; ++i) {
-          if (!children[i].hidden && !children[i].collapsed && !children[i].disabled) {
-            val = children[i];
-            break;
-          }
-        }
-      }
-      this.focusedItem = val;
-    });
-
-    this.addEventListener("blur", (event) => {
-      this.removeAttribute("focused");
-      this.focusedItem = null;
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozRadiogroup, [Ci.nsIDOMXULSelectControlElement]);
 customElements.define("radiogroup", MozRadiogroup);
 
 }

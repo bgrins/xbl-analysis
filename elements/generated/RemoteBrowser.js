@@ -9,6 +9,18 @@
 {
 
 class MozRemoteBrowser extends MozBrowser {
+  constructor() {
+    super();
+
+    this.addEventListener("dragstart", (event) => {
+      // If we're a remote browser dealing with a dragstart, stop it
+      // from propagating up, since our content process should be dealing
+      // with the mouse movement.
+      event.stopPropagation();
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
 
@@ -106,7 +118,6 @@ class MozRemoteBrowser extends MozBrowser {
     this._controller = new RemoteController(this);
     this.controllers.appendController(this._controller);
 
-    this._setupEventListeners();
   }
 
   get securityUI() {
@@ -523,19 +534,8 @@ class MozRemoteBrowser extends MozBrowser {
     // Create the about blank content viewer in the content process
     this.messageManager.sendAsyncMessage("Browser:CreateAboutBlank", aPrincipal);
   }
-
   disconnectedCallback() {
     this.destroy();
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("dragstart", (event) => {
-      // If we're a remote browser dealing with a dragstart, stop it
-      // from propagating up, since our content process should be dealing
-      // with the mouse movement.
-      event.stopPropagation();
-    });
-
   }
 }
 

@@ -25,11 +25,6 @@ class MozHardblockedaddon extends MozXULElement {
       </vbox>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

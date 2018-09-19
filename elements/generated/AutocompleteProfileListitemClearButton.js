@@ -9,6 +9,18 @@
 {
 
 class MozAutocompleteProfileListitemClearButton extends MozAutocompleteProfileListitemBase {
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event) => {
+      /* global Cu */
+      let { AutoCompletePopup } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm", {});
+
+      AutoCompletePopup.sendMessageToBrowser("FormAutofill:ClearForm");
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -26,7 +38,6 @@ class MozAutocompleteProfileListitemClearButton extends MozAutocompleteProfileLi
 
     this._adjustAcItem();
 
-    this._setupEventListeners();
   }
 
   _adjustAcItem() {
@@ -36,18 +47,9 @@ class MozAutocompleteProfileListitemClearButton extends MozAutocompleteProfileLi
     let clearFormBtnLabel = this._stringBundle.GetStringFromName("clearFormBtnLabel2");
     this._clearBtn.textContent = clearFormBtnLabel;
   }
-
-  _setupEventListeners() {
-    this.addEventListener("click", (event) => {
-      /* global Cu */
-      let { AutoCompletePopup } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm", {});
-
-      AutoCompletePopup.sendMessageToBrowser("FormAutofill:ClearForm");
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozAutocompleteProfileListitemClearButton, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("autocomplete-profile-listitem-clear-button", MozAutocompleteProfileListitemClearButton);
 
 }

@@ -9,6 +9,37 @@
 {
 
 class MozSearchTextbox extends MozTextbox {
+  constructor() {
+    super();
+
+    this.addEventListener("input", (event) => {
+      if (this.searchButton) {
+        this._searchIcons.selectedIndex = 0;
+        return;
+      }
+      if (this._timer)
+        clearTimeout(this._timer);
+      this._timer = this.timeout && setTimeout(this._fireCommand, this.timeout, this);
+      this._searchIcons.selectedIndex = this.value ? 1 : 0;
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; }
+      if (this._clearSearch()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; }
+      this._enterSearch();
+      event.preventDefault();
+      event.stopPropagation();
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -32,7 +63,6 @@ class MozSearchTextbox extends MozTextbox {
     this.searchButton = this.searchButton;
     this._searchButtonIcon.addEventListener("click", (e) => this._iconClick(e));
 
-    this._setupEventListeners();
   }
 
   set timeout(val) {
@@ -110,35 +140,6 @@ class MozSearchTextbox extends MozTextbox {
       return true;
     }
     return false;
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("input", (event) => {
-      if (this.searchButton) {
-        this._searchIcons.selectedIndex = 0;
-        return;
-      }
-      if (this._timer)
-        clearTimeout(this._timer);
-      this._timer = this.timeout && setTimeout(this._fireCommand, this.timeout, this);
-      this._searchIcons.selectedIndex = this.value ? 1 : 0;
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; }
-      if (this._clearSearch()) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; }
-      this._enterSearch();
-      event.preventDefault();
-      event.stopPropagation();
-    });
-
   }
 }
 

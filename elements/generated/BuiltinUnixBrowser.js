@@ -9,12 +9,9 @@
 {
 
 class MozBuiltinUnixBrowser extends MozXULElement {
-  connectedCallback() {
+  constructor() {
+    super();
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
     this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_PAGE_UP) { return; } undefined });
 
     this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_PAGE_DOWN) { return; } undefined });
@@ -70,6 +67,10 @@ class MozBuiltinUnixBrowser extends MozXULElement {
     this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } undefined });
 
     this.addEventListener("keypress", (event) => { undefined });
+
+  }
+
+  connectedCallback() {
 
   }
 }

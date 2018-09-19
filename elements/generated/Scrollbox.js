@@ -17,11 +17,6 @@ class MozScrollbox extends MozBasecontrol {
       </box>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

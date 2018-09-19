@@ -49,7 +49,6 @@ class MozAddonInstalling extends MozAddonBase {
     this._installStatus.mInstall = this.mInstall;
     this.refreshInfo();
 
-    this._setupEventListeners();
   }
 
   onInstallCompleted() {
@@ -103,10 +102,6 @@ class MozAddonInstalling extends MozAddonBase {
 
   retryInstall() {
     this.mInstall.install();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

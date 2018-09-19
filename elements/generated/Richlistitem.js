@@ -9,12 +9,63 @@
 {
 
 class MozRichlistitem extends MozBasetext {
+  constructor() {
+    super();
+
+    /**
+     * If there is no modifier key, we select on mousedown, not
+     * click, so that drags work correctly.
+     */
+    this.addEventListener("mousedown", (event) => {
+      var control = this.control;
+      if (!control || control.disabled)
+        return;
+      if ((!event.ctrlKey || (/Mac/.test(navigator.platform) && event.button == 2)) &&
+        !event.shiftKey && !event.metaKey) {
+        if (!this.selected) {
+          control.selectItem(this);
+        }
+        control.currentItem = this;
+      }
+    });
+
+    /**
+     * On a click (up+down on the same item), deselect everything
+     * except this item.
+     */
+    this.addEventListener("click", (event) => {
+      var control = this.control;
+      if (!control || control.disabled)
+        return;
+      control._userSelecting = true;
+      if (control.selType != "multiple") {
+        control.selectItem(this);
+      } else if (event.ctrlKey || event.metaKey) {
+        control.toggleItemSelection(this);
+        control.currentItem = this;
+      } else if (event.shiftKey) {
+        control.selectItemRange(null, this);
+        control.currentItem = this;
+      } else {
+        /* We want to deselect all the selected items except what was
+          clicked, UNLESS it was a right-click.  We have to do this
+          in click rather than mousedown so that you can drag a
+          selected group of items */
+
+        // use selectItemRange instead of selectItem, because this
+        // doesn't de- and reselect this item if it is selected
+        control.selectItemRange(this, this);
+      }
+      control._userSelecting = false;
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
 
     this.selectedByMouseOver = false;
 
-    this._setupEventListeners();
   }
   /**
    * nsIDOMXULSelectControlItemElement
@@ -102,7 +153,6 @@ class MozRichlistitem extends MozBasetext {
     event.initEvent(name, true, true);
     this.dispatchEvent(event);
   }
-
   disconnectedCallback() {
     var control = this.control;
     if (!control)
@@ -119,58 +169,9 @@ class MozRichlistitem extends MozBasetext {
     if (this.current)
       control.currentItem = null;
   }
-
-  _setupEventListeners() {
-    /**
-     * If there is no modifier key, we select on mousedown, not
-     * click, so that drags work correctly.
-     */
-    this.addEventListener("mousedown", (event) => {
-      var control = this.control;
-      if (!control || control.disabled)
-        return;
-      if ((!event.ctrlKey || (/Mac/.test(navigator.platform) && event.button == 2)) &&
-        !event.shiftKey && !event.metaKey) {
-        if (!this.selected) {
-          control.selectItem(this);
-        }
-        control.currentItem = this;
-      }
-    });
-
-    /**
-     * On a click (up+down on the same item), deselect everything
-     * except this item.
-     */
-    this.addEventListener("click", (event) => {
-      var control = this.control;
-      if (!control || control.disabled)
-        return;
-      control._userSelecting = true;
-      if (control.selType != "multiple") {
-        control.selectItem(this);
-      } else if (event.ctrlKey || event.metaKey) {
-        control.toggleItemSelection(this);
-        control.currentItem = this;
-      } else if (event.shiftKey) {
-        control.selectItemRange(null, this);
-        control.currentItem = this;
-      } else {
-        /* We want to deselect all the selected items except what was
-          clicked, UNLESS it was a right-click.  We have to do this
-          in click rather than mousedown so that you can drag a
-          selected group of items */
-
-        // use selectItemRange instead of selectItem, because this
-        // doesn't de- and reselect this item if it is selected
-        control.selectItemRange(this, this);
-      }
-      control._userSelecting = false;
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozRichlistitem, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("richlistitem", MozRichlistitem);
 
 }

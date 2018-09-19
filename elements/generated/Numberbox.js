@@ -9,6 +9,31 @@
 {
 
 class MozNumberbox extends MozTextbox {
+  constructor() {
+    super();
+
+    this.addEventListener("input", (event) => {
+      this._valueEntered = true;
+    }, true);
+
+    this.addEventListener("keypress", (event) => {
+      if (!event.ctrlKey && !event.metaKey && !event.altKey && event.charCode) {
+        if (event.charCode == 45 && this.min < 0)
+          return;
+
+        if (event.charCode < 48 || event.charCode > 57)
+          event.preventDefault();
+      }
+    });
+
+    this.addEventListener("change", (event) => {
+      if (event.originalTarget == this.inputField) {
+        this._validateValue(this.inputField.value);
+      }
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -26,7 +51,6 @@ class MozNumberbox extends MozTextbox {
     var value = this.inputField.value || 0;
     this._validateValue(value);
 
-    this._setupEventListeners();
   }
 
   set value(val) {
@@ -103,29 +127,6 @@ class MozNumberbox extends MozTextbox {
     var evt = document.createEvent("Events");
     evt.initEvent("change", true, true);
     this.dispatchEvent(evt);
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("input", (event) => {
-      this._valueEntered = true;
-    }, true);
-
-    this.addEventListener("keypress", (event) => {
-      if (!event.ctrlKey && !event.metaKey && !event.altKey && event.charCode) {
-        if (event.charCode == 45 && this.min < 0)
-          return;
-
-        if (event.charCode < 48 || event.charCode > 57)
-          event.preventDefault();
-      }
-    });
-
-    this.addEventListener("change", (event) => {
-      if (event.originalTarget == this.inputField) {
-        this._validateValue(this.inputField.value);
-      }
-    });
-
   }
 }
 

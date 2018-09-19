@@ -21,11 +21,6 @@ class MozUpdateheader extends MozWizardHeader {
       </hbox>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

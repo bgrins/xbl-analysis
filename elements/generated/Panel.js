@@ -9,14 +9,9 @@
 {
 
 class MozPanel extends MozXULElement {
-  connectedCallback() {
+  constructor() {
+    super();
 
-    this._prevFocus = 0;
-
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
     this.addEventListener("popupshowing", (event) => {
       // Capture the previous focus before has a chance to get set inside the panel
       try {
@@ -93,6 +88,12 @@ class MozPanel extends MozXULElement {
         }
       }
     });
+
+  }
+
+  connectedCallback() {
+
+    this._prevFocus = 0;
 
   }
 }

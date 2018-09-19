@@ -9,6 +9,19 @@
 {
 
 class MozColorpickerButton extends MozBasecontrol {
+  constructor() {
+    super();
+
+    this.addEventListener("keydown", (event) => {
+      // open popup if key is space/up/left/right/down and popup is closed
+      if ((event.keyCode == 32 || (event.keyCode > 36 && event.keyCode < 41)) && !this.open)
+        this.showPopup();
+      else if ((event.keyCode == 27) && this.open)
+        this.hidePopup();
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -20,7 +33,6 @@ class MozColorpickerButton extends MozBasecontrol {
 
     this.initialize();
 
-    this._setupEventListeners();
   }
 
   set open(val) {
@@ -104,17 +116,6 @@ class MozColorpickerButton extends MozBasecontrol {
     setTimeout(function(aPopup) { aPopup.hidePopup(); }, 1, this.mPicker.parentNode);
 
     this._fireEvent(this, "change");
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("keydown", (event) => {
-      // open popup if key is space/up/left/right/down and popup is closed
-      if ((event.keyCode == 32 || (event.keyCode > 36 && event.keyCode < 41)) && !this.open)
-        this.showPopup();
-      else if ((event.keyCode == 27) && this.open)
-        this.hidePopup();
-    });
-
   }
 }
 

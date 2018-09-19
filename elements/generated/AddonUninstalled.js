@@ -26,7 +26,6 @@ class MozAddonUninstalled extends MozAddonBase {
 
     gEventManager.registerAddonListener(this, this.mAddon.id);
 
-    this._setupEventListeners();
   }
 
   cancelUninstall() {
@@ -74,13 +73,8 @@ class MozAddonUninstalled extends MozAddonBase {
 
     this.removeAttribute("pending");
   }
-
   disconnectedCallback() {
     gEventManager.unregisterAddonListener(this, this.mAddon.id);
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

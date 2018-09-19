@@ -9,6 +9,39 @@
 {
 
 class MozColorpicker extends MozBasecontrol {
+  constructor() {
+    super();
+
+    this.addEventListener("mouseover", (event) => {
+      this.hoverCell(event.originalTarget);
+    });
+
+    this.addEventListener("click", (event) => {
+      if (event.originalTarget.hasAttribute("color")) {
+        this.selectCell(event.originalTarget);
+        this.hoverCell(this.mSelectedCell);
+      }
+    });
+
+    this.addEventListener("focus", (event) => {
+      if (!this.mIsPopup && this.getAttribute("focused") != "true") {
+        this.setAttribute("focused", "true");
+        document.addEventListener("keydown", this, true);
+        if (this.mSelectedCell)
+          this.hoverCell(this.mSelectedCell);
+      }
+    }, true);
+
+    this.addEventListener("blur", (event) => {
+      if (!this.mIsPopup && this.getAttribute("focused") == "true") {
+        document.removeEventListener("keydown", this, true);
+        this.removeAttribute("focused");
+        this.resetHover();
+      }
+    }, true);
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -102,7 +135,6 @@ class MozColorpicker extends MozBasecontrol {
 
     this.initialize();
 
-    this._setupEventListeners();
   }
 
   set color(val) {
@@ -330,37 +362,6 @@ class MozColorpicker extends MozBasecontrol {
         this.selectHoverCell();
         break;
     }
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("mouseover", (event) => {
-      this.hoverCell(event.originalTarget);
-    });
-
-    this.addEventListener("click", (event) => {
-      if (event.originalTarget.hasAttribute("color")) {
-        this.selectCell(event.originalTarget);
-        this.hoverCell(this.mSelectedCell);
-      }
-    });
-
-    this.addEventListener("focus", (event) => {
-      if (!this.mIsPopup && this.getAttribute("focused") != "true") {
-        this.setAttribute("focused", "true");
-        document.addEventListener("keydown", this, true);
-        if (this.mSelectedCell)
-          this.hoverCell(this.mSelectedCell);
-      }
-    }, true);
-
-    this.addEventListener("blur", (event) => {
-      if (!this.mIsPopup && this.getAttribute("focused") == "true") {
-        document.removeEventListener("keydown", this, true);
-        this.removeAttribute("focused");
-        this.resetHover();
-      }
-    }, true);
-
   }
 }
 

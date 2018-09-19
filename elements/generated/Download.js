@@ -29,11 +29,6 @@ class MozDownload extends MozRichlistitem {
       <button class="downloadButton" inherits="class=buttonclass,aria-label=buttonarialabel,tooltiptext=buttontooltiptext" oncommand="DownloadsView.onDownloadButton(event);"></button>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

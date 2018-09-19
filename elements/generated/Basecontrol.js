@@ -11,7 +11,6 @@
 class MozBasecontrol extends MozXULElement {
   connectedCallback() {
 
-    this._setupEventListeners();
   }
   /**
    * public implementation
@@ -35,12 +34,9 @@ class MozBasecontrol extends MozXULElement {
   get tabIndex() {
     return parseInt(this.getAttribute('tabindex')) || 0
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozBasecontrol, [Ci.nsIDOMXULControlElement]);
 customElements.define("basecontrol", MozBasecontrol);
 
 }

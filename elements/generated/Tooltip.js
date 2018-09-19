@@ -9,65 +9,9 @@
 {
 
 class MozTooltip extends MozXULElement {
-  connectedCallback() {
+  constructor() {
+    super();
 
-    this.appendChild(MozXULElement.parseXULToFragment(`
-      <children>
-        <label class="tooltip-label" inherits="text=label" flex="1"></label>
-      </children>
-    `));
-    this._mouseOutCount = 0;
-
-    this._isMouseOver = false;
-
-    this._setupEventListeners();
-  }
-
-  set label(val) {
-    this.setAttribute('label', val);
-    return val;
-  }
-
-  get label() {
-    return this.getAttribute('label');
-  }
-
-  set page(val) {
-    if (val) this.setAttribute('page', 'true');
-    else this.removeAttribute('page');
-    return val;
-  }
-
-  get page() {
-    return this.getAttribute('page') == 'true';
-  }
-
-  get textProvider() {
-    if (!this._textProvider) {
-      this._textProvider = Cc["@mozilla.org/embedcomp/default-tooltiptextprovider;1"]
-        .getService(Ci.nsITooltipTextProvider);
-    }
-    return this._textProvider;
-  }
-
-  /**
-   * Given the supplied element within a page, set the tooltip's text to the text
-   * for that element. Returns true if text was assigned, and false if the no text
-   * is set, which normally would be used to cancel tooltip display.
-   */
-  fillInPageTooltip(tipElement) {
-    let tttp = this.textProvider;
-    let textObj = {},
-      dirObj = {};
-    let shouldChangeText = tttp.getNodeText(tipElement, textObj, dirObj);
-    if (shouldChangeText) {
-      this.style.direction = dirObj.value;
-      this.label = textObj.value;
-    }
-    return shouldChangeText;
-  }
-
-  _setupEventListeners() {
     this.addEventListener("mouseover", (event) => {
       var rel = event.relatedTarget;
       if (!rel)
@@ -124,6 +68,63 @@ class MozTooltip extends MozXULElement {
       this._mouseOutCount = 0;
     });
 
+  }
+
+  connectedCallback() {
+
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <children>
+        <label class="tooltip-label" inherits="text=label" flex="1"></label>
+      </children>
+    `));
+    this._mouseOutCount = 0;
+
+    this._isMouseOver = false;
+
+  }
+
+  set label(val) {
+    this.setAttribute('label', val);
+    return val;
+  }
+
+  get label() {
+    return this.getAttribute('label');
+  }
+
+  set page(val) {
+    if (val) this.setAttribute('page', 'true');
+    else this.removeAttribute('page');
+    return val;
+  }
+
+  get page() {
+    return this.getAttribute('page') == 'true';
+  }
+
+  get textProvider() {
+    if (!this._textProvider) {
+      this._textProvider = Cc["@mozilla.org/embedcomp/default-tooltiptextprovider;1"]
+        .getService(Ci.nsITooltipTextProvider);
+    }
+    return this._textProvider;
+  }
+
+  /**
+   * Given the supplied element within a page, set the tooltip's text to the text
+   * for that element. Returns true if text was assigned, and false if the no text
+   * is set, which normally would be used to cancel tooltip display.
+   */
+  fillInPageTooltip(tipElement) {
+    let tttp = this.textProvider;
+    let textObj = {},
+      dirObj = {};
+    let shouldChangeText = tttp.getNodeText(tipElement, textObj, dirObj);
+    if (shouldChangeText) {
+      this.style.direction = dirObj.value;
+      this.label = textObj.value;
+    }
+    return shouldChangeText;
   }
 }
 

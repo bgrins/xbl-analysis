@@ -9,6 +9,21 @@
 {
 
 class MozRadio extends MozBasetext {
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event) => {
+      if (!this.disabled)
+        this.control.selectedItem = this;
+    });
+
+    this.addEventListener("mousedown", (event) => {
+      if (!this.disabled)
+        this.control.focusedItem = this;
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -24,7 +39,6 @@ class MozRadio extends MozBasetext {
     if (control)
       control._radioChildren = null;
 
-    this._setupEventListeners();
   }
 
   set value(val) {
@@ -69,7 +83,6 @@ class MozRadio extends MozBasetext {
     }
     return parent;
   }
-
   disconnectedCallback() {
     if (!this.control)
       return;
@@ -84,21 +97,9 @@ class MozRadio extends MozBasetext {
       }
     }
   }
-
-  _setupEventListeners() {
-    this.addEventListener("click", (event) => {
-      if (!this.disabled)
-        this.control.selectedItem = this;
-    });
-
-    this.addEventListener("mousedown", (event) => {
-      if (!this.disabled)
-        this.control.focusedItem = this;
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozRadio, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("radio", MozRadio);
 
 }

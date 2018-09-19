@@ -9,19 +9,9 @@
 {
 
 class MozPopup extends MozXULElement {
-  connectedCallback() {
+  constructor() {
+    super();
 
-    this.appendChild(MozXULElement.parseXULToFragment(`
-      <arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
-        <children></children>
-      </arrowscrollbox>
-    `));
-    this.scrollBox = document.getAnonymousElementByAttribute(this, "class", "popup-internal-box");
-
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
     this.addEventListener("popupshowing", (event) => {
       var array = [];
       var width = 0;
@@ -38,6 +28,17 @@ class MozPopup extends MozXULElement {
       for (var i = 0; i < array.length; i++)
         array[i].width = width;
     });
+
+  }
+
+  connectedCallback() {
+
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+        <children></children>
+      </arrowscrollbox>
+    `));
+    this.scrollBox = document.getAnonymousElementByAttribute(this, "class", "popup-internal-box");
 
   }
 }

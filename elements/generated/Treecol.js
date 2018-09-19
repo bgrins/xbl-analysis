@@ -16,11 +16,6 @@ class MozTreecol extends MozTreecolBase {
       <image class="treecol-sortdirection" inherits="sortDirection,hidden=hideheader"></image>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

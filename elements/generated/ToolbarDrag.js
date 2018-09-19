@@ -27,11 +27,6 @@ class MozToolbarDrag extends MozXULElement {
       } catch (e) {}
     }
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

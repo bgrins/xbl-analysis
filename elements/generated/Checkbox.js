@@ -9,6 +9,24 @@
 {
 
 class MozCheckbox extends MozBasetext {
+  constructor() {
+    super();
+
+    /**
+     * While it would seem we could do this by handling oncommand, we need can't
+     * because any external oncommand handlers might get called before ours, and
+     * then they would see the incorrect value of checked.
+     */
+    this.addEventListener("click", (event) => { if (!this.disabled) this.checked = !this.checked; });
+
+    this.addEventListener("keypress", (event) => {
+      this.checked = !this.checked;
+      // Prevent page from scrolling on the space key.
+      event.preventDefault();
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -19,7 +37,6 @@ class MozCheckbox extends MozBasetext {
       </hbox>
     `));
 
-    this._setupEventListeners();
   }
   /**
    * public implementation
@@ -44,22 +61,6 @@ class MozCheckbox extends MozBasetext {
       this.dispatchEvent(event);
     }
     return aValue;
-  }
-
-  _setupEventListeners() {
-    /**
-     * While it would seem we could do this by handling oncommand, we need can't
-     * because any external oncommand handlers might get called before ours, and
-     * then they would see the incorrect value of checked.
-     */
-    this.addEventListener("click", (event) => { if (!this.disabled) this.checked = !this.checked; });
-
-    this.addEventListener("keypress", (event) => {
-      this.checked = !this.checked;
-      // Prevent page from scrolling on the space key.
-      event.preventDefault();
-    });
-
   }
 }
 

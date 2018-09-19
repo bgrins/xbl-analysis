@@ -14,7 +14,6 @@ class MozBasetext extends MozBasecontrol {
 
     this.labelElement = "";
 
-    this._setupEventListeners();
   }
   /**
    * public implementation
@@ -68,10 +67,6 @@ class MozBasetext extends MozBasecontrol {
 
   get accessKey() {
     return this.labelElement ? this.labelElement.accessKey : this.getAttribute("accesskey");
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

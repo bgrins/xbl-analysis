@@ -18,11 +18,6 @@ class MozCaption extends MozBasetext {
       </children>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

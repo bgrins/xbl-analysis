@@ -9,12 +9,52 @@
 {
 
 class MozTreecolBase extends MozTreeBase {
+  constructor() {
+    super();
+
+    this.addEventListener("mousedown", (event) => {
+      if (this.parentNode.parentNode.enableColumnDrag) {
+        var xulns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+        var cols = this.parentNode.getElementsByTagNameNS(xulns, "treecol");
+
+        // only start column drag operation if there are at least 2 visible columns
+        var visible = 0;
+        for (var i = 0; i < cols.length; ++i)
+          if (cols[i].boxObject.width > 0) ++visible;
+
+        if (visible > 1) {
+          window.addEventListener("mousemove", this._onDragMouseMove, true);
+          window.addEventListener("mouseup", this._onDragMouseUp, true);
+          document.treecolDragging = this;
+          this.mDragGesturing = true;
+          this.mStartDragX = event.clientX;
+          this.mStartDragY = event.clientY;
+        }
+      }
+    });
+
+    this.addEventListener("click", (event) => {
+      if (event.target != event.originalTarget)
+        return;
+
+      // On Windows multiple clicking on tree columns only cycles one time
+      // every 2 clicks.
+      if (/Win/.test(navigator.platform) && event.detail % 2 == 0)
+        return;
+
+      var tree = this.parentNode.parentNode;
+      if (tree.columns) {
+        tree.view.cycleHeader(tree.columns.getColumnFor(this));
+      }
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
 
     this.parentNode.parentNode._columnsDirty = true;
 
-    this._setupEventListeners();
   }
 
   set ordinal(val) {
@@ -160,45 +200,6 @@ class MozTreecolBase extends MozTreeBase {
     // prevent click event from firing after column drag and drop
     aEvent.stopPropagation();
     aEvent.preventDefault();
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("mousedown", (event) => {
-      if (this.parentNode.parentNode.enableColumnDrag) {
-        var xulns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-        var cols = this.parentNode.getElementsByTagNameNS(xulns, "treecol");
-
-        // only start column drag operation if there are at least 2 visible columns
-        var visible = 0;
-        for (var i = 0; i < cols.length; ++i)
-          if (cols[i].boxObject.width > 0) ++visible;
-
-        if (visible > 1) {
-          window.addEventListener("mousemove", this._onDragMouseMove, true);
-          window.addEventListener("mouseup", this._onDragMouseUp, true);
-          document.treecolDragging = this;
-          this.mDragGesturing = true;
-          this.mStartDragX = event.clientX;
-          this.mStartDragY = event.clientY;
-        }
-      }
-    });
-
-    this.addEventListener("click", (event) => {
-      if (event.target != event.originalTarget)
-        return;
-
-      // On Windows multiple clicking on tree columns only cycles one time
-      // every 2 clicks.
-      if (/Win/.test(navigator.platform) && event.detail % 2 == 0)
-        return;
-
-      var tree = this.parentNode.parentNode;
-      if (tree.columns) {
-        tree.view.cycleHeader(tree.columns.getColumnFor(this));
-      }
-    });
-
   }
 }
 

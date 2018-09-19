@@ -12,20 +12,15 @@ class MozMenuBase extends MozMenuitemBase {
   connectedCallback() {
     super.connectedCallback()
 
-    this._setupEventListeners();
   }
 
   set open(val) {
-    this.boxObject.openMenu(val);
+    this.openMenu(val);
     return val;
   }
 
   get open() {
     return this.hasAttribute('open');
-  }
-
-  get openedWithKey() {
-    return this.boxObject.openedWithKey;
   }
 
   get itemCount() {
@@ -81,12 +76,9 @@ class MozMenuBase extends MozMenuitemBase {
 
     return menupopup.children[aIndex];
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozMenuBase, [Ci.nsIDOMXULContainerElement]);
 customElements.define("menu-base", MozMenuBase);
 
 }

@@ -12,7 +12,6 @@ class MozAddonBase extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
 
-    this._setupEventListeners();
   }
 
   get isLegacy() {
@@ -41,10 +40,6 @@ class MozAddonBase extends MozRichlistitem {
 
   onUninstalled() {
     this.remove();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

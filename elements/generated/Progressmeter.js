@@ -16,7 +16,6 @@ class MozProgressmeter extends MozXULElement {
       <spacer class="progress-remainder" inherits="mode"></spacer>
     `));
 
-    this._setupEventListeners();
   }
 
   set mode(val) {
@@ -64,10 +63,6 @@ class MozProgressmeter extends MozXULElement {
 
   get max() {
     return this.getAttribute('max') || '100';
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

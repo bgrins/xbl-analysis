@@ -18,22 +18,21 @@ class MozWizardButtons extends MozXULElement {
           <button class="wizard-button" dlgtype="extra1" hidden="true"></button>
           <button class="wizard-button" dlgtype="extra2" hidden="true"></button>
           <spacer flex="1" anonid="spacer"></spacer>
-          <button label="FROM-DTD.button-back-win.label;" accesskey="FROM-DTD.button-back-win.accesskey;" class="wizard-button" dlgtype="back" icon="go-back"></button>
+          <button label="FROM-DTD.button-back-win.label;" accesskey="FROM-DTD.button-back-win.accesskey;" class="wizard-button" dlgtype="back"></button>
           <deck class="wizard-next-deck" anonid="WizardButtonDeck">
             <hbox>
               <button label="FROM-DTD.button-finish-win.label;" class="wizard-button" dlgtype="finish" default="true" flex="1"></button>
             </hbox>
             <hbox>
-              <button label="FROM-DTD.button-next-win.label;" accesskey="FROM-DTD.button-next-win.accesskey;" class="wizard-button" dlgtype="next" icon="go-forward" default="true" flex="1"></button>
+              <button label="FROM-DTD.button-next-win.label;" accesskey="FROM-DTD.button-next-win.accesskey;" class="wizard-button" dlgtype="next" default="true" flex="1"></button>
             </hbox>
           </deck>
-          <button label="FROM-DTD.button-cancel-win.label;" class="wizard-button" dlgtype="cancel" icon="cancel"></button>
+          <button label="FROM-DTD.button-cancel-win.label;" class="wizard-button" dlgtype="cancel"></button>
         </hbox>
       </vbox>
     `));
     this._wizardButtonDeck = document.getAnonymousElementByAttribute(this, "anonid", "WizardButtonDeck");
 
-    this._setupEventListeners();
   }
 
   get defaultButton() {
@@ -55,10 +54,6 @@ class MozWizardButtons extends MozXULElement {
     } else {
       this._wizardButtonDeck.setAttribute("selectedIndex", 1);
     }
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

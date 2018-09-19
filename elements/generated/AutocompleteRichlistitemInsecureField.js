@@ -9,6 +9,18 @@
 {
 
 class MozAutocompleteRichlistitemInsecureField extends MozAutocompleteRichlistitem {
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event) => {
+      let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
+      window.openTrustedLinkIn(baseURL + "insecure-password", "tab", {
+        relatedToCurrent: true,
+      });
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -44,7 +56,6 @@ class MozAutocompleteRichlistitemInsecureField extends MozAutocompleteRichlistit
     // recalculate an item's height and width.
     this.classList.add("forceHandleUnderflow");
 
-    this._setupEventListeners();
   }
 
   get _learnMoreString() {
@@ -61,16 +72,6 @@ class MozAutocompleteRichlistitemInsecureField extends MozAutocompleteRichlistit
    */
   _getSearchTokens(aSearch) {
     return [this._learnMoreString.toLowerCase()];
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("click", (event) => {
-      let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
-      window.openTrustedLinkIn(baseURL + "insecure-password", "tab", {
-        relatedToCurrent: true,
-      });
-    });
-
   }
 }
 

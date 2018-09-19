@@ -23,11 +23,6 @@ class MozMenuitemIconic extends MozMenuitem {
       </hbox>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

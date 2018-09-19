@@ -9,12 +9,9 @@
 {
 
 class MozBuiltinEmacsTextareas extends MozXULElement {
-  connectedCallback() {
+  constructor() {
+    super();
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
     /**
      * Emacsish single-line motion and delete keys
      */
@@ -94,6 +91,10 @@ class MozBuiltinEmacsTextareas extends MozXULElement {
     this.addEventListener("keypress", (event) => { undefined });
 
     this.addEventListener("keypress", (event) => { undefined });
+
+  }
+
+  connectedCallback() {
 
   }
 }

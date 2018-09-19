@@ -31,7 +31,6 @@ class MozAddonProgressNotification extends MozPopupNotification {
     this.setProgress(0, -1);
     this._updateProgressTimeout = setTimeout(this.updateProgress.bind(this), 0);
 
-    this._setupEventListeners();
   }
 
   get DownloadUtils() {
@@ -154,13 +153,8 @@ class MozAddonProgressNotification extends MozPopupNotification {
   onDownloadEnded() {
     this.updateProgress();
   }
-
   disconnectedCallback() {
     this.destroy();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

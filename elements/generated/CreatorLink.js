@@ -27,7 +27,6 @@ class MozCreatorLink extends MozXULElement {
       this._label.hidden = true;
     }
 
-    this._setupEventListeners();
   }
 
   setCreator(aCreator, aHomepageURL) {
@@ -46,10 +45,6 @@ class MozCreatorLink extends MozXULElement {
     }
     this._creatorLink.hidden = !showLink;
     this._creatorName.hidden = showLink;
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

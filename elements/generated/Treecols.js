@@ -25,11 +25,6 @@ class MozTreecols extends MozXULElement {
         splitter.setAttribute("resizeafter", "farthest");
     });
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

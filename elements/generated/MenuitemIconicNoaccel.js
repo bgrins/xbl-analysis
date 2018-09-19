@@ -19,11 +19,6 @@ class MozMenuitemIconicNoaccel extends MozMenuitem {
       <label class="menu-iconic-highlightable-text" inherits="text=label,crop,accesskey,highlightable" crop="right"></label>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

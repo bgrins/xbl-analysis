@@ -12,7 +12,6 @@ class MozCategoriesList extends MozRichlistbox {
   connectedCallback() {
     super.connectedCallback()
 
-    this._setupEventListeners();
   }
 
   /**
@@ -25,10 +24,6 @@ class MozCategoriesList extends MozRichlistbox {
       return false;
     var style = document.defaultView.getComputedStyle(aItem);
     return style.display != "none" && style.visibility == "visible";
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

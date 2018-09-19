@@ -22,7 +22,6 @@ class MozNotification extends MozXULElement {
     `));
     this.timeout = 0;
 
-    this._setupEventListeners();
   }
 
   set label(val) {
@@ -128,10 +127,6 @@ class MozNotification extends MozXULElement {
         aEvent.stopPropagation();
       }
     }
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

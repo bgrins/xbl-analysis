@@ -20,11 +20,6 @@ class MozButton extends MozButtonBase {
       </hbox>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

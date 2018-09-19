@@ -9,6 +9,95 @@
 {
 
 class MozSearchbar extends MozXULElement {
+  constructor() {
+    super();
+
+    this.addEventListener("command", (event) => {
+      const target = event.originalTarget;
+      if (target.engine) {
+        this.currentEngine = target.engine;
+      } else if (target.classList.contains("addengine-item")) {
+        // Select the installed engine if the installation succeeds
+        var installCallback = {
+          onSuccess: engine => this.currentEngine = engine,
+        };
+        Services.search.addEngine(target.getAttribute("uri"), null,
+          target.getAttribute("src"), false,
+          installCallback);
+      } else
+        return;
+
+      this.focus();
+      this.select();
+    });
+
+    this.addEventListener("DOMMouseScroll", (event) => { this.selectEngine(event, (event.detail > 0)); }, true);
+
+    this.addEventListener("input", (event) => { this.updateGoButtonVisibility(); });
+
+    this.addEventListener("drop", (event) => { this.updateGoButtonVisibility(); });
+
+    this.addEventListener("blur", (event) => {
+      // If the input field is still focused then a different window has
+      // received focus, ignore the next focus event.
+      this._ignoreFocus = (document.activeElement == this._textbox.inputField);
+    });
+
+    this.addEventListener("focus", (event) => {
+      // Speculatively connect to the current engine's search URI (and
+      // suggest URI, if different) to reduce request latency
+      this.currentEngine.speculativeConnect({
+        window,
+        originAttributes: gBrowser.contentPrincipal
+          .originAttributes
+      });
+
+      if (this._ignoreFocus) {
+        // This window has been re-focused, don't show the suggestions
+        this._ignoreFocus = false;
+        return;
+      }
+
+      // Don't open the suggestions if there is no text in the textbox.
+      if (!this._textbox.value)
+        return;
+
+      // Don't open the suggestions if the mouse was used to focus the
+      // textbox, that will be taken care of in the click handler.
+      if (Services.focus.getLastFocusMethod(window) & Services.focus.FLAG_BYMOUSE)
+        return;
+
+      this.openSuggestionsPanel();
+    });
+
+    this.addEventListener("mousedown", (event) => {
+      if (event.originalTarget.getAttribute("anonid") == "searchbar-search-button") {
+        this._clickClosedPopup = this._textbox.popup._isHiding;
+      }
+    }, true);
+
+    this.addEventListener("mousedown", (event) => {
+      // Ignore clicks on the search go button.
+      if (event.originalTarget.getAttribute("anonid") == "search-go-button") {
+        return;
+      }
+
+      let isIconClick = event.originalTarget.getAttribute("anonid") == "searchbar-search-button";
+
+      // Ignore clicks on the icon if they were made to close the popup
+      if (isIconClick && this._clickClosedPopup) {
+        return;
+      }
+
+      // Open the suggestions whenever clicking on the search icon or if there
+      // is text in the textbox.
+      if (isIconClick || this._textbox.value) {
+        this.openSuggestionsPanel(true);
+      }
+    });
+
+  }
+
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -82,7 +171,6 @@ class MozSearchbar extends MozXULElement {
       }
     }, { capture: true, once: true });
 
-    this._setupEventListeners();
   }
 
   get engines() {
@@ -323,99 +411,12 @@ class MozSearchbar extends MozXULElement {
     }
     openTrustedLinkIn(submission.uri.spec, aWhere, params);
   }
-
   disconnectedCallback() {
     this.destroy();
   }
-
-  _setupEventListeners() {
-    this.addEventListener("command", (event) => {
-      const target = event.originalTarget;
-      if (target.engine) {
-        this.currentEngine = target.engine;
-      } else if (target.classList.contains("addengine-item")) {
-        // Select the installed engine if the installation succeeds
-        var installCallback = {
-          onSuccess: engine => this.currentEngine = engine,
-        };
-        Services.search.addEngine(target.getAttribute("uri"), null,
-          target.getAttribute("src"), false,
-          installCallback);
-      } else
-        return;
-
-      this.focus();
-      this.select();
-    });
-
-    this.addEventListener("DOMMouseScroll", (event) => { this.selectEngine(event, (event.detail > 0)); }, true);
-
-    this.addEventListener("input", (event) => { this.updateGoButtonVisibility(); });
-
-    this.addEventListener("drop", (event) => { this.updateGoButtonVisibility(); });
-
-    this.addEventListener("blur", (event) => {
-      // If the input field is still focused then a different window has
-      // received focus, ignore the next focus event.
-      this._ignoreFocus = (document.activeElement == this._textbox.inputField);
-    });
-
-    this.addEventListener("focus", (event) => {
-      // Speculatively connect to the current engine's search URI (and
-      // suggest URI, if different) to reduce request latency
-      this.currentEngine.speculativeConnect({
-        window,
-        originAttributes: gBrowser.contentPrincipal
-          .originAttributes
-      });
-
-      if (this._ignoreFocus) {
-        // This window has been re-focused, don't show the suggestions
-        this._ignoreFocus = false;
-        return;
-      }
-
-      // Don't open the suggestions if there is no text in the textbox.
-      if (!this._textbox.value)
-        return;
-
-      // Don't open the suggestions if the mouse was used to focus the
-      // textbox, that will be taken care of in the click handler.
-      if (Services.focus.getLastFocusMethod(window) & Services.focus.FLAG_BYMOUSE)
-        return;
-
-      this.openSuggestionsPanel();
-    });
-
-    this.addEventListener("mousedown", (event) => {
-      if (event.originalTarget.getAttribute("anonid") == "searchbar-search-button") {
-        this._clickClosedPopup = this._textbox.popup._isHiding;
-      }
-    }, true);
-
-    this.addEventListener("mousedown", (event) => {
-      // Ignore clicks on the search go button.
-      if (event.originalTarget.getAttribute("anonid") == "search-go-button") {
-        return;
-      }
-
-      let isIconClick = event.originalTarget.getAttribute("anonid") == "searchbar-search-button";
-
-      // Ignore clicks on the icon if they were made to close the popup
-      if (isIconClick && this._clickClosedPopup) {
-        return;
-      }
-
-      // Open the suggestions whenever clicking on the search icon or if there
-      // is text in the textbox.
-      if (isIconClick || this._textbox.value) {
-        this.openSuggestionsPanel(true);
-      }
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozSearchbar, [Ci.nsIObserver]);
 customElements.define("searchbar", MozSearchbar);
 
 }

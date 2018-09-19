@@ -26,11 +26,6 @@ class MozCustomizableuiToolbarDrag extends MozCustomizableuiToolbar {
       } catch (e) {}
     }
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

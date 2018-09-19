@@ -16,7 +16,6 @@ class MozDetailRow extends MozXULElement {
       <label class="detail-row-value" inherits="value"></label>
     `));
 
-    this._setupEventListeners();
   }
 
   set value(val) {
@@ -28,10 +27,6 @@ class MozDetailRow extends MozXULElement {
 
   get value() {
     return this.getAttribute("value");
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

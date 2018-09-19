@@ -33,7 +33,6 @@ class MozInstallStatus extends MozXULElement {
     else
       this.refreshState();
 
-    this._setupEventListeners();
   }
 
   initWithInstall(aInstall) {
@@ -180,14 +179,9 @@ class MozInstallStatus extends MozXULElement {
   onInstallFailed() {
     this.refreshState();
   }
-
   disconnectedCallback() {
     if (this.mInstall)
       this.mInstall.removeListener(this);
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

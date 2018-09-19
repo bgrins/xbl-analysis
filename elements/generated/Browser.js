@@ -9,6 +9,106 @@
 {
 
 class MozBrowser extends MozXULElement {
+  constructor() {
+    super();
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_F7) { return; }
+      if (event.defaultPrevented || !event.isTrusted)
+        return;
+
+      const kPrefShortcutEnabled = "accessibility.browsewithcaret_shortcut.enabled";
+      const kPrefWarnOnEnable = "accessibility.warn_on_browsewithcaret";
+      const kPrefCaretBrowsingOn = "accessibility.browsewithcaret";
+
+      var isEnabled = this.mPrefs.getBoolPref(kPrefShortcutEnabled);
+      if (!isEnabled)
+        return;
+
+      // Toggle browse with caret mode
+      var browseWithCaretOn = this.mPrefs.getBoolPref(kPrefCaretBrowsingOn, false);
+      var warn = this.mPrefs.getBoolPref(kPrefWarnOnEnable, true);
+      if (warn && !browseWithCaretOn) {
+        var checkValue = { value: false };
+        var promptService = Cc["@mozilla.org/embedcomp/prompt-service;1"]
+          .getService(Ci.nsIPromptService);
+
+        var buttonPressed = promptService.confirmEx(window,
+          this.mStrBundle.GetStringFromName("browsewithcaret.checkWindowTitle"),
+          this.mStrBundle.GetStringFromName("browsewithcaret.checkLabel"),
+          // Make "No" the default:
+          promptService.STD_YES_NO_BUTTONS | promptService.BUTTON_POS_1_DEFAULT,
+          null, null, null, this.mStrBundle.GetStringFromName("browsewithcaret.checkMsg"),
+          checkValue);
+        if (buttonPressed != 0) {
+          if (checkValue.value) {
+            try {
+              this.mPrefs.setBoolPref(kPrefShortcutEnabled, false);
+            } catch (ex) {}
+          }
+          return;
+        }
+        if (checkValue.value) {
+          try {
+            this.mPrefs.setBoolPref(kPrefWarnOnEnable, false);
+          } catch (ex) {}
+        }
+      }
+
+      // Toggle the pref
+      try {
+        this.mPrefs.setBoolPref(kPrefCaretBrowsingOn, !browseWithCaretOn);
+      } catch (ex) {}
+    }, { mozSystemGroup: true });
+
+    this.addEventListener("dragover", (event) => {
+      if (!this.droppedLinkHandler || event.defaultPrevented)
+        return;
+
+      // For drags that appear to be internal text (for example, tab drags),
+      // set the dropEffect to 'none'. This prevents the drop even if some
+      // other listener cancelled the event.
+      var types = event.dataTransfer.types;
+      if (types.includes("text/x-moz-text-internal") && !types.includes("text/plain")) {
+        event.dataTransfer.dropEffect = "none";
+        event.stopPropagation();
+        event.preventDefault();
+      }
+
+      // No need to handle "dragover" in e10s, since nsDocShellTreeOwner.cpp in the child process
+      // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
+      if (this.isRemoteBrowser)
+        return;
+
+      let linkHandler = Cc["@mozilla.org/content/dropped-link-handler;1"].
+      getService(Ci.nsIDroppedLinkHandler);
+      if (linkHandler.canDropLink(event, false))
+        event.preventDefault();
+    }, { mozSystemGroup: true });
+
+    this.addEventListener("drop", (event) => {
+      // No need to handle "drop" in e10s, since nsDocShellTreeOwner.cpp in the child process
+      // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
+      if (!this.droppedLinkHandler || event.defaultPrevented || this.isRemoteBrowser)
+        return;
+
+      let linkHandler = Cc["@mozilla.org/content/dropped-link-handler;1"].
+      getService(Ci.nsIDroppedLinkHandler);
+      try {
+        // Pass true to prevent the dropping of javascript:/data: URIs
+        var links = linkHandler.dropLinks(event, true);
+      } catch (ex) {
+        return;
+      }
+
+      if (links.length) {
+        let triggeringPrincipal = linkHandler.getTriggeringPrincipal(event);
+        this.droppedLinkHandler(event, links, triggeringPrincipal);
+      }
+    }, { mozSystemGroup: true });
+
+  }
+
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -154,7 +254,6 @@ class MozBrowser extends MozXULElement {
 
     }
 
-    this._setupEventListeners();
   }
 
   get autoscrollEnabled() {
@@ -564,10 +663,6 @@ class MozBrowser extends MozXULElement {
   }
 
   onPageHide(aEvent) {
-    // Delete the feeds cache if we're hiding the topmost page
-    // (as opposed to one of its iframes).
-    if (this.feeds && aEvent.target == this.contentDocument)
-      this.feeds = null;
     if (!this.docShell || !this.fastFind)
       return;
     var tabBrowser = this.getTabBrowser();
@@ -727,9 +822,6 @@ class MozBrowser extends MozXULElement {
 
     this._fastFind = null;
     this._webBrowserFind = null;
-
-    // The feeds cache can keep the document inside this browser alive.
-    this.feeds = null;
 
     this.lastURI = null;
 
@@ -1229,110 +1321,12 @@ class MozBrowser extends MozXULElement {
     this.droppedLinkHandler(null, links, aTriggeringPrincipal);
     return true;
   }
-
   disconnectedCallback() {
     this.destroy();
   }
-
-  _setupEventListeners() {
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_F7) { return; }
-      if (event.defaultPrevented || !event.isTrusted)
-        return;
-
-      const kPrefShortcutEnabled = "accessibility.browsewithcaret_shortcut.enabled";
-      const kPrefWarnOnEnable = "accessibility.warn_on_browsewithcaret";
-      const kPrefCaretBrowsingOn = "accessibility.browsewithcaret";
-
-      var isEnabled = this.mPrefs.getBoolPref(kPrefShortcutEnabled);
-      if (!isEnabled)
-        return;
-
-      // Toggle browse with caret mode
-      var browseWithCaretOn = this.mPrefs.getBoolPref(kPrefCaretBrowsingOn, false);
-      var warn = this.mPrefs.getBoolPref(kPrefWarnOnEnable, true);
-      if (warn && !browseWithCaretOn) {
-        var checkValue = { value: false };
-        var promptService = Cc["@mozilla.org/embedcomp/prompt-service;1"]
-          .getService(Ci.nsIPromptService);
-
-        var buttonPressed = promptService.confirmEx(window,
-          this.mStrBundle.GetStringFromName("browsewithcaret.checkWindowTitle"),
-          this.mStrBundle.GetStringFromName("browsewithcaret.checkLabel"),
-          // Make "No" the default:
-          promptService.STD_YES_NO_BUTTONS | promptService.BUTTON_POS_1_DEFAULT,
-          null, null, null, this.mStrBundle.GetStringFromName("browsewithcaret.checkMsg"),
-          checkValue);
-        if (buttonPressed != 0) {
-          if (checkValue.value) {
-            try {
-              this.mPrefs.setBoolPref(kPrefShortcutEnabled, false);
-            } catch (ex) {}
-          }
-          return;
-        }
-        if (checkValue.value) {
-          try {
-            this.mPrefs.setBoolPref(kPrefWarnOnEnable, false);
-          } catch (ex) {}
-        }
-      }
-
-      // Toggle the pref
-      try {
-        this.mPrefs.setBoolPref(kPrefCaretBrowsingOn, !browseWithCaretOn);
-      } catch (ex) {}
-    }, { mozSystemGroup: true });
-
-    this.addEventListener("dragover", (event) => {
-      if (!this.droppedLinkHandler || event.defaultPrevented)
-        return;
-
-      // For drags that appear to be internal text (for example, tab drags),
-      // set the dropEffect to 'none'. This prevents the drop even if some
-      // other listener cancelled the event.
-      var types = event.dataTransfer.types;
-      if (types.includes("text/x-moz-text-internal") && !types.includes("text/plain")) {
-        event.dataTransfer.dropEffect = "none";
-        event.stopPropagation();
-        event.preventDefault();
-      }
-
-      // No need to handle "dragover" in e10s, since nsDocShellTreeOwner.cpp in the child process
-      // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
-      if (this.isRemoteBrowser)
-        return;
-
-      let linkHandler = Cc["@mozilla.org/content/dropped-link-handler;1"].
-      getService(Ci.nsIDroppedLinkHandler);
-      if (linkHandler.canDropLink(event, false))
-        event.preventDefault();
-    }, { mozSystemGroup: true });
-
-    this.addEventListener("drop", (event) => {
-      // No need to handle "drop" in e10s, since nsDocShellTreeOwner.cpp in the child process
-      // handles that case using "@mozilla.org/content/dropped-link-handler;1" service.
-      if (!this.droppedLinkHandler || event.defaultPrevented || this.isRemoteBrowser)
-        return;
-
-      let linkHandler = Cc["@mozilla.org/content/dropped-link-handler;1"].
-      getService(Ci.nsIDroppedLinkHandler);
-      try {
-        // Pass true to prevent the dropping of javascript:/data: URIs
-        var links = linkHandler.dropLinks(event, true);
-      } catch (ex) {
-        return;
-      }
-
-      if (links.length) {
-        let triggeringPrincipal = linkHandler.getTriggeringPrincipal(event);
-        this.droppedLinkHandler(event, links, triggeringPrincipal);
-      }
-    }, { mozSystemGroup: true });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozBrowser, [Ci.nsIObserver, Ci.nsIBrowser]);
 customElements.define("browser", MozBrowser);
 
 }

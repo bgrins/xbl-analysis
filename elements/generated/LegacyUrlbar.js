@@ -9,6 +9,143 @@
 {
 
 class MozLegacyUrlbar extends MozAutocomplete {
+  constructor() {
+    super();
+
+    this.addEventListener("keydown", (event) => {
+      if (this._noActionKeys.has(event.keyCode) &&
+        this.popup.selectedIndex >= 0 &&
+        !this._pressedNoActionKeys.has(event.keyCode)) {
+        if (this._pressedNoActionKeys.size == 0) {
+          this.popup.setAttribute("noactions", "true");
+          this.removeAttribute("actiontype");
+        }
+        this._pressedNoActionKeys.add(event.keyCode);
+      }
+    });
+
+    this.addEventListener("keyup", (event) => {
+      if (this._noActionKeys.has(event.keyCode) &&
+        this._pressedNoActionKeys.has(event.keyCode)) {
+        this._pressedNoActionKeys.delete(event.keyCode);
+        if (this._pressedNoActionKeys.size == 0)
+          this._clearNoActions();
+      }
+    });
+
+    this.addEventListener("mousedown", (event) => {
+      if (event.button == 0) {
+        if (event.originalTarget.getAttribute("anonid") == "historydropmarker") {
+          this.toggleHistoryPopup();
+        }
+
+        // Eventually show the opt-out notification even if the location bar is
+        // empty, focused, and the user clicks on it.
+        if (this.focused && this.textValue == "") {
+          this.maybeShowSearchSuggestionsNotificationOnFocus(true);
+        }
+      }
+    });
+
+    this.addEventListener("focus", (event) => {
+      if (event.originalTarget == this.inputField) {
+        this._hideURLTooltip();
+        this.formatValue();
+        if (this.getAttribute("pageproxystate") != "valid") {
+          UpdatePopupNotificationsVisibility();
+        }
+
+        // We show the opt-out notification when the mouse/keyboard focus the
+        // urlbar, but in any case we want to enforce at least one
+        // notification when the user focuses it with the mouse.
+        let whichNotification = this.whichSearchSuggestionsNotification;
+        if (whichNotification == "opt-out" &&
+          this._showSearchSuggestionNotificationOnMouseFocus === undefined) {
+          this._showSearchSuggestionNotificationOnMouseFocus = true;
+        }
+
+        // Check whether the focus change came from a keyboard/mouse action.
+        let focusMethod = Services.focus.getLastFocusMethod(window);
+        // If it's a focus started by code and the primary user intention was
+        // not to go to the location bar, don't show a notification.
+        if (!focusMethod && !this.userInitiatedFocus) {
+          return;
+        }
+
+        let mouseFocused = !!(focusMethod & Services.focus.FLAG_BYMOUSE);
+        this.maybeShowSearchSuggestionsNotificationOnFocus(mouseFocused);
+      }
+    });
+
+    this.addEventListener("blur", (event) => {
+      if (event.originalTarget == this.inputField) {
+        this._clearNoActions();
+        this.formatValue();
+        if (this.getAttribute("pageproxystate") != "valid") {
+          UpdatePopupNotificationsVisibility();
+        }
+      }
+      if (this.ExtensionSearchHandler.hasActiveInputSession()) {
+        this.ExtensionSearchHandler.handleInputCancelled();
+      }
+      if (this._deferredKeyEventTimeout) {
+        clearTimeout(this._deferredKeyEventTimeout);
+        this._deferredKeyEventTimeout = null;
+      }
+      this._deferredKeyEventQueue = [];
+    });
+
+    this.addEventListener("dragstart", (event) => {
+      // Drag only if the gesture starts from the input field.
+      if (this.inputField != event.originalTarget &&
+        !(this.inputField.compareDocumentPosition(event.originalTarget) &
+          Node.DOCUMENT_POSITION_CONTAINED_BY))
+        return;
+
+      // Drag only if the entire value is selected and it's a valid URI.
+      var isFullSelection = this.selectionStart == 0 &&
+        this.selectionEnd == this.textLength;
+      if (!isFullSelection ||
+        this.getAttribute("pageproxystate") != "valid")
+        return;
+
+      var urlString = gBrowser.selectedBrowser.currentURI.displaySpec;
+      var title = gBrowser.selectedBrowser.contentTitle || urlString;
+      var htmlString = "<a href=\"" + urlString + "\">" + urlString + "</a>";
+
+      var dt = event.dataTransfer;
+      dt.setData("text/x-moz-url", urlString + "\n" + title);
+      dt.setData("text/unicode", urlString);
+      dt.setData("text/html", htmlString);
+
+      dt.effectAllowed = "copyLink";
+      event.stopPropagation();
+    }, true);
+
+    this.addEventListener("dragover", (event) => { this.onDragOver(event, this); }, true);
+
+    this.addEventListener("drop", (event) => { this.onDrop(event, this); }, true);
+
+    this.addEventListener("select", (event) => {
+      if (!Cc["@mozilla.org/widget/clipboard;1"]
+        .getService(Ci.nsIClipboard)
+        .supportsSelectionClipboard())
+        return;
+
+      if (!window.windowUtils.isHandlingUserInput)
+        return;
+
+      var val = this._getSelectedValueForClipboard();
+      if (!val)
+        return;
+
+      Cc["@mozilla.org/widget/clipboardhelper;1"]
+        .getService(Ci.nsIClipboardHelper)
+        .copyStringToClipboard(val, Ci.nsIClipboard.kSelectionClipboard);
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -199,7 +336,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
       });
     });
 
-    this._setupEventListeners();
   }
   /**
    * Since we never want scrollbars, we always use the maxResults value.
@@ -329,6 +465,9 @@ class MozLegacyUrlbar extends MozAutocomplete {
         break;
       case KeyEvent.DOM_VK_TAB:
         this.userSelectionBehavior = "tab";
+        // The user is explicitly making a selection, so the popup
+        // should get accessibility focus.
+        this.popup.richlistbox.suppressMenuItemEvent = false;
         break;
       case KeyEvent.DOM_VK_UP:
       case KeyEvent.DOM_VK_DOWN:
@@ -336,6 +475,9 @@ class MozLegacyUrlbar extends MozAutocomplete {
       case KeyEvent.DOM_VK_PAGE_DOWN:
         if (this.userSelectionBehavior != "tab")
           this.userSelectionBehavior = "arrow";
+        // The user is explicitly making a selection, so the popup
+        // should get accessibility focus.
+        this.popup.richlistbox.suppressMenuItemEvent = false;
         break;
     }
     if (!this.popup.disableKeyNavigation) {
@@ -1560,6 +1702,15 @@ class MozLegacyUrlbar extends MozAutocomplete {
       } else {
         this.removeAttribute("usertyping");
       }
+      // If the popup already had accessibility focus, bring it back to
+      // the input, since the user is editing.
+      if (!this.popup.richlistbox.suppressMenuItemEvent &&
+        this.popup.richlistbox.currentItem) {
+        this.popup.richlistbox.currentItem._fireEvent("DOMMenuItemInactive");
+      }
+      // The user is typing, so don't give accessibility focus to the
+      // popup, even if an item gets automatically selected.
+      this.popup.richlistbox.suppressMenuItemEvent = true;
       // Only wait for a result when we are sure to get one.  In some
       // cases, like when pasting the same exact text, we may not fire
       // a new search and we won't get a result.
@@ -1705,7 +1856,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.gotResultForCurrentQuery = false;
     this.controller.startSearch(value);
   }
-
   disconnectedCallback() {
     // Somehow, it's possible for the XBL destructor to fire without the
     // constructor ever having fired. Fix:
@@ -1736,143 +1886,9 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.popup.oneOffSearchButtons.popup = null;
     this.popup.oneOffSearchButtons.textbox = null;
   }
-
-  _setupEventListeners() {
-    this.addEventListener("keydown", (event) => {
-      if (this._noActionKeys.has(event.keyCode) &&
-        this.popup.selectedIndex >= 0 &&
-        !this._pressedNoActionKeys.has(event.keyCode)) {
-        if (this._pressedNoActionKeys.size == 0) {
-          this.popup.setAttribute("noactions", "true");
-          this.removeAttribute("actiontype");
-        }
-        this._pressedNoActionKeys.add(event.keyCode);
-      }
-    });
-
-    this.addEventListener("keyup", (event) => {
-      if (this._noActionKeys.has(event.keyCode) &&
-        this._pressedNoActionKeys.has(event.keyCode)) {
-        this._pressedNoActionKeys.delete(event.keyCode);
-        if (this._pressedNoActionKeys.size == 0)
-          this._clearNoActions();
-      }
-    });
-
-    this.addEventListener("mousedown", (event) => {
-      if (event.button == 0) {
-        if (event.originalTarget.getAttribute("anonid") == "historydropmarker") {
-          this.toggleHistoryPopup();
-        }
-
-        // Eventually show the opt-out notification even if the location bar is
-        // empty, focused, and the user clicks on it.
-        if (this.focused && this.textValue == "") {
-          this.maybeShowSearchSuggestionsNotificationOnFocus(true);
-        }
-      }
-    });
-
-    this.addEventListener("focus", (event) => {
-      if (event.originalTarget == this.inputField) {
-        this._hideURLTooltip();
-        this.formatValue();
-        if (this.getAttribute("pageproxystate") != "valid") {
-          UpdatePopupNotificationsVisibility();
-        }
-
-        // We show the opt-out notification when the mouse/keyboard focus the
-        // urlbar, but in any case we want to enforce at least one
-        // notification when the user focuses it with the mouse.
-        let whichNotification = this.whichSearchSuggestionsNotification;
-        if (whichNotification == "opt-out" &&
-          this._showSearchSuggestionNotificationOnMouseFocus === undefined) {
-          this._showSearchSuggestionNotificationOnMouseFocus = true;
-        }
-
-        // Check whether the focus change came from a keyboard/mouse action.
-        let focusMethod = Services.focus.getLastFocusMethod(window);
-        // If it's a focus started by code and the primary user intention was
-        // not to go to the location bar, don't show a notification.
-        if (!focusMethod && !this.userInitiatedFocus) {
-          return;
-        }
-
-        let mouseFocused = !!(focusMethod & Services.focus.FLAG_BYMOUSE);
-        this.maybeShowSearchSuggestionsNotificationOnFocus(mouseFocused);
-      }
-    });
-
-    this.addEventListener("blur", (event) => {
-      if (event.originalTarget == this.inputField) {
-        this._clearNoActions();
-        this.formatValue();
-        if (this.getAttribute("pageproxystate") != "valid") {
-          UpdatePopupNotificationsVisibility();
-        }
-      }
-      if (this.ExtensionSearchHandler.hasActiveInputSession()) {
-        this.ExtensionSearchHandler.handleInputCancelled();
-      }
-      if (this._deferredKeyEventTimeout) {
-        clearTimeout(this._deferredKeyEventTimeout);
-        this._deferredKeyEventTimeout = null;
-      }
-      this._deferredKeyEventQueue = [];
-    });
-
-    this.addEventListener("dragstart", (event) => {
-      // Drag only if the gesture starts from the input field.
-      if (this.inputField != event.originalTarget &&
-        !(this.inputField.compareDocumentPosition(event.originalTarget) &
-          Node.DOCUMENT_POSITION_CONTAINED_BY))
-        return;
-
-      // Drag only if the entire value is selected and it's a valid URI.
-      var isFullSelection = this.selectionStart == 0 &&
-        this.selectionEnd == this.textLength;
-      if (!isFullSelection ||
-        this.getAttribute("pageproxystate") != "valid")
-        return;
-
-      var urlString = gBrowser.selectedBrowser.currentURI.displaySpec;
-      var title = gBrowser.selectedBrowser.contentTitle || urlString;
-      var htmlString = "<a href=\"" + urlString + "\">" + urlString + "</a>";
-
-      var dt = event.dataTransfer;
-      dt.setData("text/x-moz-url", urlString + "\n" + title);
-      dt.setData("text/unicode", urlString);
-      dt.setData("text/html", htmlString);
-
-      dt.effectAllowed = "copyLink";
-      event.stopPropagation();
-    }, true);
-
-    this.addEventListener("dragover", (event) => { this.onDragOver(event, this); }, true);
-
-    this.addEventListener("drop", (event) => { this.onDrop(event, this); }, true);
-
-    this.addEventListener("select", (event) => {
-      if (!Cc["@mozilla.org/widget/clipboard;1"]
-        .getService(Ci.nsIClipboard)
-        .supportsSelectionClipboard())
-        return;
-
-      if (!window.windowUtils.isHandlingUserInput)
-        return;
-
-      var val = this._getSelectedValueForClipboard();
-      if (!val)
-        return;
-
-      Cc["@mozilla.org/widget/clipboardhelper;1"]
-        .getService(Ci.nsIClipboardHelper)
-        .copyStringToClipboard(val, Ci.nsIClipboard.kSelectionClipboard);
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozLegacyUrlbar, [Ci.nsIObserver]);
 customElements.define("legacy-urlbar", MozLegacyUrlbar);
 
 }

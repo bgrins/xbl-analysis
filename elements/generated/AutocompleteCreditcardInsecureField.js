@@ -21,7 +21,6 @@ class MozAutocompleteCreditcardInsecureField extends MozAutocompleteProfileListi
 
     this._adjustAcItem();
 
-    this._setupEventListeners();
   }
 
   set selected(val) {
@@ -40,12 +39,9 @@ class MozAutocompleteCreditcardInsecureField extends MozAutocompleteProfileListi
     let value = this.getAttribute("ac-value");
     this._itemBox.textContent = value;
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozAutocompleteCreditcardInsecureField, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("autocomplete-creditcard-insecure-field", MozAutocompleteCreditcardInsecureField);
 
 }

@@ -18,11 +18,6 @@ class MozCustomizableuiToolbarpaletteitem extends MozXULElement {
       <label class="toolbarpaletteitem-label" inherits="text=title"></label>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

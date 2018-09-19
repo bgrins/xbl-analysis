@@ -62,7 +62,6 @@ class MozDatetimeInputBase extends MozXULElement {
     this.mInputElement.addEventListener("click", this, { mozSystemGroup: true },
       false);
 
-    this._setupEventListeners();
   }
 
   get EVENTS() {
@@ -506,7 +505,6 @@ class MozDatetimeInputBase extends MozXULElement {
       this.mInputElement.openDateTimePicker(this.getCurrentValue());
     }
   }
-
   disconnectedCallback() {
     this.EVENTS.forEach((eventName) => {
       this.removeEventListener(eventName, this, { mozSystemGroup: true });
@@ -519,12 +517,9 @@ class MozDatetimeInputBase extends MozXULElement {
 
     this.mInputElement = null;
   }
-
-  _setupEventListeners() {
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozDatetimeInputBase, [Ci.nsIDateTimeInputArea]);
 customElements.define("datetime-input-base", MozDatetimeInputBase);
 
 }

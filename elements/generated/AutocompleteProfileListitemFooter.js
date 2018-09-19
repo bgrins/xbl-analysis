@@ -9,6 +9,19 @@
 {
 
 class MozAutocompleteProfileListitemFooter extends MozAutocompleteProfileListitemBase {
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event) => {
+      if (this._warningTextBox.contains(event.originalTarget)) {
+        return;
+      }
+
+      window.openPreferences("panePrivacy", { origin: "autofillFooter" });
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -68,7 +81,6 @@ class MozAutocompleteProfileListitemFooter extends MozAutocompleteProfileListite
 
     this._adjustAcItem();
 
-    this._setupEventListeners();
   }
 
   _onCollapse() {
@@ -108,19 +120,9 @@ class MozAutocompleteProfileListitemFooter extends MozAutocompleteProfileListite
       this._itemBox.setAttribute("no-warning", "true");
     }
   }
-
-  _setupEventListeners() {
-    this.addEventListener("click", (event) => {
-      if (this._warningTextBox.contains(event.originalTarget)) {
-        return;
-      }
-
-      window.openPreferences("panePrivacy", { origin: "autofillFooter" });
-    });
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozAutocompleteProfileListitemFooter, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("autocomplete-profile-listitem-footer", MozAutocompleteProfileListitemFooter);
 
 }

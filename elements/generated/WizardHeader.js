@@ -21,11 +21,6 @@ class MozWizardHeader extends MozXULElement {
       </hbox>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

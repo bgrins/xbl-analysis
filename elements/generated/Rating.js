@@ -9,6 +9,15 @@
 {
 
 class MozRating extends MozXULElement {
+  constructor() {
+    super();
+
+    this.addEventListener("mouseout", (event) => {
+      this._updateStars();
+    });
+
+  }
+
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -21,7 +30,6 @@ class MozRating extends MozXULElement {
 
     this._updateStars();
 
-    this._setupEventListeners();
   }
 
   get stars() {
@@ -83,13 +91,6 @@ class MozRating extends MozXULElement {
     var stars = this.stars;
     for (let i = 0; i < stars.length; i++)
       stars[i].setAttribute("on", i <= (aScore - 1));
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("mouseout", (event) => {
-      this._updateStars();
-    });
-
   }
 }
 

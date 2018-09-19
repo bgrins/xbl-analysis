@@ -18,11 +18,6 @@ class MozMenuitem extends MozMenuitemBase {
       </hbox>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

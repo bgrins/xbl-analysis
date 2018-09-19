@@ -67,11 +67,6 @@ class MozPluginproblem extends MozXULElement {
     // completes.
     this.dispatchEvent(new CustomEvent("PluginBindingAttached"));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

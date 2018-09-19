@@ -62,11 +62,6 @@ class MozPopupNotification extends MozXULElement {
 
     this.menupopup = document.getAnonymousElementByAttribute(this, "anonid", "menupopup");
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

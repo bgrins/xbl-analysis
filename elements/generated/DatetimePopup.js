@@ -25,7 +25,6 @@ class MozDatetimePopup extends MozArrowpanel {
     // Notify DateTimePickerParent.jsm that binding is ready.
     this.dispatchEvent(new CustomEvent("DateTimePickerBindingReady"));
 
-    this._setupEventListeners();
   }
 
   get dateTimePopupFrame() {
@@ -321,10 +320,6 @@ class MozDatetimePopup extends MozArrowpanel {
     if (this.dateTimePopupFrame.contentDocument.nodePrincipal.isSystemPrincipal) {
       this.dateTimePopupFrame.contentWindow.postMessage(data, "*");
     }
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

@@ -9,73 +9,9 @@
 {
 
 class MozTab extends MozBasetext {
-  connectedCallback() {
-    super.connectedCallback()
-    this.appendChild(MozXULElement.parseXULToFragment(`
-      <hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
-        <image class="tab-icon" inherits="validate,src=image" role="presentation"></image>
-        <label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation"></label>
-      </hbox>
-    `));
-    this.arrowKeysShouldWrap = /Mac/.test(navigator.platform);
+  constructor() {
+    super();
 
-    this._setupEventListeners();
-  }
-
-  set value(val) {
-    this.setAttribute('value', val);
-    return val;
-  }
-
-  get value() {
-    return this.getAttribute('value');
-  }
-
-  get control() {
-    var parent = this.parentNode;
-    if (parent instanceof Ci.nsIDOMXULSelectControlElement)
-      return parent;
-    return null;
-  }
-
-  get selected() {
-    return this.getAttribute('selected') == 'true';
-  }
-
-  set _selected(val) {
-    if (val) {
-      this.setAttribute("selected", "true");
-      this.setAttribute("visuallyselected", "true");
-    } else {
-      this.removeAttribute("selected");
-      this.removeAttribute("visuallyselected");
-    }
-
-    return val;
-  }
-
-  set linkedPanel(val) {
-    this.setAttribute('linkedpanel', val);
-    return val;
-  }
-
-  get linkedPanel() {
-    return this.getAttribute('linkedpanel')
-  }
-
-  get TelemetryStopwatch() {
-    let module = {};
-    ChromeUtils.import("resource://gre/modules/TelemetryStopwatch.jsm", module);
-    Object.defineProperty(this, "TelemetryStopwatch", {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: module.TelemetryStopwatch,
-    });
-    return module.TelemetryStopwatch;
-  }
-
-  _setupEventListeners() {
     this.addEventListener("mousedown", (event) => {
       if (this.disabled)
         return;
@@ -147,8 +83,74 @@ class MozTab extends MozBasetext {
     });
 
   }
+
+  connectedCallback() {
+    super.connectedCallback()
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
+        <image class="tab-icon" inherits="validate,src=image" role="presentation"></image>
+        <label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation"></label>
+      </hbox>
+    `));
+    this.arrowKeysShouldWrap = /Mac/.test(navigator.platform);
+
+  }
+
+  set value(val) {
+    this.setAttribute('value', val);
+    return val;
+  }
+
+  get value() {
+    return this.getAttribute('value');
+  }
+
+  get control() {
+    var parent = this.parentNode;
+    if (parent instanceof Ci.nsIDOMXULSelectControlElement)
+      return parent;
+    return null;
+  }
+
+  get selected() {
+    return this.getAttribute('selected') == 'true';
+  }
+
+  set _selected(val) {
+    if (val) {
+      this.setAttribute("selected", "true");
+      this.setAttribute("visuallyselected", "true");
+    } else {
+      this.removeAttribute("selected");
+      this.removeAttribute("visuallyselected");
+    }
+
+    return val;
+  }
+
+  set linkedPanel(val) {
+    this.setAttribute('linkedpanel', val);
+    return val;
+  }
+
+  get linkedPanel() {
+    return this.getAttribute('linkedpanel')
+  }
+
+  get TelemetryStopwatch() {
+    let module = {};
+    ChromeUtils.import("resource://gre/modules/TelemetryStopwatch.jsm", module);
+    Object.defineProperty(this, "TelemetryStopwatch", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: module.TelemetryStopwatch,
+    });
+    return module.TelemetryStopwatch;
+  }
 }
 
+MozXULElement.implementCustomInterface(MozTab, [Ci.nsIDOMXULSelectControlItemElement]);
 customElements.define("tab", MozTab);
 
 }

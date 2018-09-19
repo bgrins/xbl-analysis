@@ -9,43 +9,9 @@
 {
 
 class MozPopupScrollbars extends MozPopup {
-  connectedCallback() {
-    super.connectedCallback()
-    this.appendChild(MozXULElement.parseXULToFragment(`
-      <scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
-        <children></children>
-      </scrollbox>
-    `));
-    this.AUTOSCROLL_INTERVAL = 25;
+  constructor() {
+    super();
 
-    this.NOT_DRAGGING = 0;
-
-    this.DRAG_OVER_BUTTON = -1;
-
-    this.DRAG_OVER_POPUP = 1;
-
-    this._draggingState = this.NOT_DRAGGING;
-
-    this._scrollTimer = 0;
-
-    this._setupEventListeners();
-  }
-
-  enableDragScrolling(overItem) {
-    if (!this._draggingState) {
-      this.setCaptureAlways();
-      this._draggingState = overItem ? this.DRAG_OVER_POPUP : this.DRAG_OVER_BUTTON;
-    }
-  }
-
-  _clearScrollTimer() {
-    if (this._scrollTimer) {
-      this.ownerGlobal.clearInterval(this._scrollTimer);
-      this._scrollTimer = 0;
-    }
-  }
-
-  _setupEventListeners() {
     this.addEventListener("popupshown", (event) => {
       // Enable drag scrolling even when the mouse wasn't used. The mousemove
       // handler will remove it if the mouse isn't down.
@@ -115,6 +81,41 @@ class MozPopupScrollbars extends MozPopup {
       }
     });
 
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
+        <children></children>
+      </scrollbox>
+    `));
+    this.AUTOSCROLL_INTERVAL = 25;
+
+    this.NOT_DRAGGING = 0;
+
+    this.DRAG_OVER_BUTTON = -1;
+
+    this.DRAG_OVER_POPUP = 1;
+
+    this._draggingState = this.NOT_DRAGGING;
+
+    this._scrollTimer = 0;
+
+  }
+
+  enableDragScrolling(overItem) {
+    if (!this._draggingState) {
+      this.setCaptureAlways();
+      this._draggingState = overItem ? this.DRAG_OVER_POPUP : this.DRAG_OVER_BUTTON;
+    }
+  }
+
+  _clearScrollTimer() {
+    if (this._scrollTimer) {
+      this.ownerGlobal.clearInterval(this._scrollTimer);
+      this._scrollTimer = 0;
+    }
   }
 }
 

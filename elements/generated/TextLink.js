@@ -9,10 +9,20 @@
 {
 
 class MozTextLink extends MozTextLabel {
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event) => { this.open(event) }, true);
+
+    this.addEventListener("click", (event) => { this.open(event) }, true);
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this.click() });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
 
-    this._setupEventListeners();
   }
 
   set href(val) {
@@ -97,15 +107,6 @@ class MozTextLink extends MozTextLabel {
         win = win.opener;
     }
     win.open(href);
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("click", (event) => { this.open(event) }, true);
-
-    this.addEventListener("click", (event) => { this.open(event) }, true);
-
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this.click() });
-
   }
 }
 

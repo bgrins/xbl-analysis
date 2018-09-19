@@ -127,9 +127,7 @@ class MozNocontrols extends MozXULElement {
     this.Utils.init(this);
     this.Utils.video.dispatchEvent(new CustomEvent("MozNoControlsVideoBindingAttached"));
 
-    this._setupEventListeners();
   }
-
   disconnectedCallback() {
     this.Utils.terminate();
     // randomID used to be a <field>, which meant that the XBL machinery
@@ -137,10 +135,6 @@ class MozNocontrols extends MozXULElement {
     // this file actually depends on this, so now that randomID is an
     // expando, we need to make sure to explicitly delete it.
     delete this.randomID;
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

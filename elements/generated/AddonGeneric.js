@@ -9,6 +9,27 @@
 {
 
 class MozAddonGeneric extends MozAddonBase {
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event) => {
+      switch (event.detail) {
+        case 1:
+          // Prevent double-click where the UI changes on the first click
+          this._lastClickTarget = event.originalTarget;
+          break;
+        case 2:
+          if (event.originalTarget.localName != "button" &&
+            !event.originalTarget.classList.contains("text-link") &&
+            event.originalTarget == this._lastClickTarget) {
+            this.showInDetailView();
+          }
+          break;
+      }
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -208,7 +229,6 @@ class MozAddonGeneric extends MozAddonBase {
 
     gEventManager.registerAddonListener(this, this.mAddon.id);
 
-    this._setupEventListeners();
   }
 
   set userDisabled(val) {
@@ -749,28 +769,8 @@ class MozAddonGeneric extends MozAddonBase {
   onInstallCancelled() {
     this._updateState();
   }
-
   disconnectedCallback() {
     gEventManager.unregisterAddonListener(this, this.mAddon.id);
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("click", (event) => {
-      switch (event.detail) {
-        case 1:
-          // Prevent double-click where the UI changes on the first click
-          this._lastClickTarget = event.originalTarget;
-          break;
-        case 2:
-          if (event.originalTarget.localName != "button" &&
-            !event.originalTarget.classList.contains("text-link") &&
-            event.originalTarget == this._lastClickTarget) {
-            this.showInDetailView();
-          }
-          break;
-      }
-    });
-
   }
 }
 

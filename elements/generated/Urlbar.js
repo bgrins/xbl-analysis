@@ -27,11 +27,6 @@ class MozUrlbar extends MozTextbox {
       <children includes="toolbarbutton"></children>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

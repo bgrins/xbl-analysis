@@ -23,11 +23,6 @@ class MozDownloadSubviewToolbarbutton extends MozButtonBase {
       <toolbarbutton anonid="button" class="action-button"></toolbarbutton>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

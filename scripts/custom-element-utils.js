@@ -177,6 +177,16 @@ function getJSForBinding(binding) {
     // })`);
   }
 
+  if (handlers.length) {
+    js.push(`
+      constructor() {
+        super();
+
+        ${handlers.join("\n")}
+      }
+    `)
+  }
+
   js.push(`
     connectedCallback() {
       ${hasExtends ? "super.connectedCallback()" : ""}
@@ -184,7 +194,6 @@ function getJSForBinding(binding) {
       ${fields.join("\n")}
 
       ${xblconstructor}
-      this._setupEventListeners();
     }
   `);
 
@@ -232,19 +241,21 @@ function getJSForBinding(binding) {
     js.push(`}\n`);
   }
 
-  js.push(`
-    ${xbldestructor}
+  js.push(`${xbldestructor}`);
 
-    _setupEventListeners() {
-      ${handlers.join("\n")}
-    }
-  `);
+  js.push("}\n\n");
 
-  js.push('}');
+  let implements =
+    binding.find("implementation").length &&
+    binding.find("implementation")[0].attrs.implements
+  if (implements) {
+    implements = implements.split(",").map(i=>"Ci." + i.trim()).join(", ");
+    js.push(`MozXULElement.implementCustomInterface(${className}, [${implements}]);`)
+  }
 
-  js.push(`
 
-customElements.define("${elementName}", ${className});
+
+  js.push(`customElements.define("${elementName}", ${className});
   `)
   return js.join(' ');
 }

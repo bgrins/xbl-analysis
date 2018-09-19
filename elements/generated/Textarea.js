@@ -19,11 +19,6 @@ class MozTextarea extends MozTextbox {
       </moz-input-box>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

@@ -9,6 +9,19 @@
 {
 
 class MozWizard extends MozXULElement {
+  constructor() {
+    super();
+
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this._hitEnter(event) }, { mozSystemGroup: true });
+
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; }
+      if (!event.defaultPrevented)
+        this.cancel();
+    }, { mozSystemGroup: true });
+
+  }
+
   connectedCallback() {
 
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -103,7 +116,6 @@ class MozWizard extends MozXULElement {
     // give focus to the first focusable element in the dialog
     window.addEventListener("load", this._setInitialFocus);
 
-    this._setupEventListeners();
   }
 
   set title(val) {
@@ -400,17 +412,6 @@ class MozWizard extends MozXULElement {
     }
 
     return noCancel;
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this._hitEnter(event) }, { mozSystemGroup: true });
-
-    this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; }
-      if (!event.defaultPrevented)
-        this.cancel();
-    }, { mozSystemGroup: true });
-
   }
 }
 

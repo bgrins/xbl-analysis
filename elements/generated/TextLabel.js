@@ -12,7 +12,6 @@ class MozTextLabel extends MozTextBase {
   connectedCallback() {
     super.connectedCallback()
 
-    this._setupEventListeners();
   }
 
   set accessKey(val) {
@@ -33,10 +32,6 @@ class MozTextLabel extends MozTextBase {
 
   get control() {
     return getAttribute('control');
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

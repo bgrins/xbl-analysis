@@ -13,7 +13,6 @@ class MozWizardpage extends MozXULElement {
 
     this.pageIndex = -1;
 
-    this._setupEventListeners();
   }
 
   set pageid(val) {
@@ -32,10 +31,6 @@ class MozWizardpage extends MozXULElement {
 
   get next() {
     return this.getAttribute('next');
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

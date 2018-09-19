@@ -9,6 +9,22 @@
 {
 
 class MozCustomizableuiToolbarMenubarAutohide extends MozCustomizableuiToolbar {
+  constructor() {
+    super();
+
+    this.addEventListener("DOMMenuBarActive", (event) => { this._setActive(); });
+
+    this.addEventListener("popupshowing", (event) => { this._setActive(); });
+
+    this.addEventListener("mousedown", (event) => { this._contextMenuListener.init(event); });
+
+    this.addEventListener("DOMMenuBarInactive", (event) => {
+      if (!this._contextMenuListener.active)
+        this._setInactiveAsync();
+    });
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
 
@@ -61,7 +77,6 @@ class MozCustomizableuiToolbarMenubarAutohide extends MozCustomizableuiToolbar {
 
     this._setInactive();
 
-    this._setupEventListeners();
   }
 
   _setInactive() {
@@ -84,23 +99,8 @@ class MozCustomizableuiToolbarMenubarAutohide extends MozCustomizableuiToolbar {
     }
     this.removeAttribute("inactive");
   }
-
   disconnectedCallback() {
     this._setActive();
-  }
-
-  _setupEventListeners() {
-    this.addEventListener("DOMMenuBarActive", (event) => { this._setActive(); });
-
-    this.addEventListener("popupshowing", (event) => { this._setActive(); });
-
-    this.addEventListener("mousedown", (event) => { this._contextMenuListener.init(event); });
-
-    this.addEventListener("DOMMenuBarInactive", (event) => {
-      if (!this._contextMenuListener.active)
-        this._setInactiveAsync();
-    });
-
   }
 }
 

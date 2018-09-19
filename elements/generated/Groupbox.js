@@ -20,11 +20,6 @@ class MozGroupbox extends MozXULElement {
       </box>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

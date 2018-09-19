@@ -9,19 +9,20 @@
 {
 
 class MozBuiltinUnixTextareas extends MozXULElement {
-  connectedCallback() {
+  constructor() {
+    super();
 
-    this._setupEventListeners();
+    this.addEventListener("keypress", (event) => { undefined });
+
+    this.addEventListener("keypress", (event) => { undefined });
+
+    this.addEventListener("keypress", (event) => { undefined });
+
+    this.addEventListener("keypress", (event) => { undefined });
+
   }
 
-  _setupEventListeners() {
-    this.addEventListener("keypress", (event) => { undefined });
-
-    this.addEventListener("keypress", (event) => { undefined });
-
-    this.addEventListener("keypress", (event) => { undefined });
-
-    this.addEventListener("keypress", (event) => { undefined });
+  connectedCallback() {
 
   }
 }

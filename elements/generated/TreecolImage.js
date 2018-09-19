@@ -15,11 +15,6 @@ class MozTreecolImage extends MozTreecolBase {
       <image class="treecol-icon" inherits="src"></image>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

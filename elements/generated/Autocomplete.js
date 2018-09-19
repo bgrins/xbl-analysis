@@ -9,6 +9,44 @@
 {
 
 class MozAutocomplete extends MozTextbox {
+  constructor() {
+    super();
+
+    this.addEventListener("input", (event) => {
+      this.onInput(event);
+    });
+
+    this.addEventListener("keypress", (event) => { return this.onKeyPress(event); }, { capture: true, mozSystemGroup: true });
+
+    this.addEventListener("compositionstart", (event) => { if (this.mController.input == this) this.mController.handleStartComposition(); }, true);
+
+    this.addEventListener("compositionend", (event) => { if (this.mController.input == this) this.mController.handleEndComposition(); }, true);
+
+    this.addEventListener("focus", (event) => {
+      this.attachController();
+      if (window.gBrowser && window.gBrowser.selectedBrowser.hasAttribute("usercontextid")) {
+        this.userContextId = parseInt(window.gBrowser.selectedBrowser.getAttribute("usercontextid"));
+      } else {
+        this.userContextId = 0;
+      }
+    }, true);
+
+    this.addEventListener("blur", (event) => {
+      if (!this._dontBlur) {
+        if (this.forceComplete && this.mController.matchCount >= 1) {
+          // If forceComplete is requested, we need to call the enter processing
+          // on blur so the input will be forced to the closest match.
+          // Thunderbird is the only consumer of forceComplete and this is used
+          // to force an recipient's email to the exact address book entry.
+          this.mController.handleEnter(true);
+        }
+        if (!this.ignoreBlurWhileSearching)
+          this.detachController();
+      }
+    }, true);
+
+  }
+
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
@@ -87,7 +125,6 @@ class MozAutocomplete extends MozTextbox {
     // For security reasons delay searches on pasted values.
     this.inputField.controllers.insertControllerAt(0, this._pasteController);
 
-    this._setupEventListeners();
   }
 
   get popup() {
@@ -625,48 +662,12 @@ class MozAutocomplete extends MozTextbox {
     }
     this.resetActionType();
   }
-
   disconnectedCallback() {
     this.inputField.controllers.removeController(this._pasteController);
   }
-
-  _setupEventListeners() {
-    this.addEventListener("input", (event) => {
-      this.onInput(event);
-    });
-
-    this.addEventListener("keypress", (event) => { return this.onKeyPress(event); }, { capture: true, mozSystemGroup: true });
-
-    this.addEventListener("compositionstart", (event) => { if (this.mController.input == this) this.mController.handleStartComposition(); }, true);
-
-    this.addEventListener("compositionend", (event) => { if (this.mController.input == this) this.mController.handleEndComposition(); }, true);
-
-    this.addEventListener("focus", (event) => {
-      this.attachController();
-      if (window.gBrowser && window.gBrowser.selectedBrowser.hasAttribute("usercontextid")) {
-        this.userContextId = parseInt(window.gBrowser.selectedBrowser.getAttribute("usercontextid"));
-      } else {
-        this.userContextId = 0;
-      }
-    }, true);
-
-    this.addEventListener("blur", (event) => {
-      if (!this._dontBlur) {
-        if (this.forceComplete && this.mController.matchCount >= 1) {
-          // If forceComplete is requested, we need to call the enter processing
-          // on blur so the input will be forced to the closest match.
-          // Thunderbird is the only consumer of forceComplete and this is used
-          // to force an recipient's email to the exact address book entry.
-          this.mController.handleEnter(true);
-        }
-        if (!this.ignoreBlurWhileSearching)
-          this.detachController();
-      }
-    }, true);
-
-  }
 }
 
+MozXULElement.implementCustomInterface(MozAutocomplete, [Ci.nsIAutoCompleteInput, Ci.nsIDOMXULMenuListElement]);
 customElements.define("autocomplete", MozAutocomplete);
 
 }

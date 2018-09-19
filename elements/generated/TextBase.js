@@ -11,7 +11,6 @@
 class MozTextBase extends MozXULElement {
   connectedCallback() {
 
-    this._setupEventListeners();
   }
 
   set disabled(val) {
@@ -40,10 +39,6 @@ class MozTextBase extends MozXULElement {
 
   get crop() {
     return this.getAttribute('crop');
-  }
-
-  _setupEventListeners() {
-
   }
 }
 

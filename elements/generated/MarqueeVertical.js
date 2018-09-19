@@ -19,11 +19,6 @@ class MozMarqueeVertical extends MozMarquee {
       </html:div>
     `));
 
-    this._setupEventListeners();
-  }
-
-  _setupEventListeners() {
-
   }
 }
 
