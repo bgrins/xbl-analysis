@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozColorpickerButton extends MozBasecontrol {
+class MozColorpickerButton extends MozBaseControl {
   constructor() {
     super();
 

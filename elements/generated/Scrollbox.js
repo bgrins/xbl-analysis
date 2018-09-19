@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozScrollbox extends MozBasecontrol {
+class MozScrollbox extends MozBaseControl {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`

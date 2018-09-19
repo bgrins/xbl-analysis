@@ -7,6 +7,10 @@ function formatExtends(ext) {
 }
 
 function titleCase(str) {
+  if (str == "basecontrol") {
+    // Special case so we don't end up with Basecontrol:
+    return "BaseControl";
+  }
   return str[0].toUpperCase() + str.substr(1).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
 }
 

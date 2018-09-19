@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozBasecontrol extends MozXULElement {
+class MozBaseControl extends MozXULElement {
   connectedCallback() {
 
   }
@@ -36,7 +36,7 @@ class MozBasecontrol extends MozXULElement {
   }
 }
 
-MozXULElement.implementCustomInterface(MozBasecontrol, [Ci.nsIDOMXULControlElement]);
-customElements.define("basecontrol", MozBasecontrol);
+MozXULElement.implementCustomInterface(MozBaseControl, [Ci.nsIDOMXULControlElement]);
+customElements.define("basecontrol", MozBaseControl);
 
 }

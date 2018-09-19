@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozMenulist extends MozBasecontrol {
+class MozMenulist extends MozBaseControl {
   constructor() {
     super();
 

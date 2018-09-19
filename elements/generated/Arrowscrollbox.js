@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozArrowscrollbox extends MozBasecontrol {
+class MozArrowscrollbox extends MozBaseControl {
   constructor() {
     super();
 

@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozBasetext extends MozBasecontrol {
+class MozBasetext extends MozBaseControl {
   connectedCallback() {
     super.connectedCallback()
 

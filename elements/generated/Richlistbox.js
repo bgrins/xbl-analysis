@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozRichlistbox extends MozBasecontrol {
+class MozRichlistbox extends MozBaseControl {
   constructor() {
     super();
 

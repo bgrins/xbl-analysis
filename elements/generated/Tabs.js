@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozTabs extends MozBasecontrol {
+class MozTabs extends MozBaseControl {
   connectedCallback() {
     super.connectedCallback()
     this.appendChild(MozXULElement.parseXULToFragment(`
