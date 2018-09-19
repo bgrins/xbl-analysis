@@ -27,7 +27,6 @@ var allFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/mac/platformHTMLBindings.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/unix/platformHTMLBindings.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/win/platformHTMLBindings.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xml/resources/XMLPrettyPrint.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/components/prompts/content/tabprompts.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml',
@@ -56,7 +55,6 @@ var allFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbar.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbarbutton.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tree.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/blocklist.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml',
@@ -93,6 +91,8 @@ var deletedFiles = {
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/listbox.xml': '2018-07-26',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/editor.xml': '2018-08-08',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/findbar.xml': '2018-09-14',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml': '2018-09-19',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xml/resources/XMLPrettyPrint.xml': '2018-09-19',
 };
 
 var exportedFiles = allFiles.slice();

@@ -971,10 +971,11 @@ class MozTabbrowserTabs extends MozTabs {
   }
 
   _handleTabSelect(aInstant) {
+    let selectedTab = this.selectedItem;
     if (this.getAttribute("overflow") == "true")
-      this.arrowScrollbox.ensureElementIsVisible(this.selectedItem, aInstant);
+      this.arrowScrollbox.ensureElementIsVisible(selectedTab, aInstant);
 
-    this.selectedItem._notselectedsinceload = false;
+    selectedTab._notselectedsinceload = false;
   }
 
   /**
