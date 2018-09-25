@@ -17,8 +17,8 @@ class MozDownload extends MozRichlistitem {
           <image class="downloadTypeIcon" validate="always" inherits="src=image"></image>
           <image class="downloadBlockedBadge"></image>
         </stack>
-        <vbox pack="center" flex="1" class="downloadContainer" style="width: FROM-DTD.downloadDetails.width;">
-          <description class="downloadTarget" crop="center" style="min-width: FROM-DTD.downloadsSummary.minWidth2;" inherits="value=displayName,tooltiptext=displayName"></description>
+        <vbox pack="center" flex="1" class="downloadContainer">
+          <description class="downloadTarget" crop="center" inherits="value=displayName,tooltiptext=displayName"></description>
           <progressmeter anonid="progressmeter" class="downloadProgress" min="0" max="100" inherits="mode=progressmode,value=progress,paused=progresspaused"></progressmeter>
           <description class="downloadDetails downloadDetailsNormal" crop="end" inherits="value=status,tooltiptext=fullStatus"></description>
           <description class="downloadDetails downloadDetailsHover" crop="end" inherits="value=hoverStatus"></description>

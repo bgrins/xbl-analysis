@@ -23,6 +23,8 @@ class MozTabs extends MozBaseControl {
      */
     this._tabbox = this.tabbox;
 
+    this.ACTIVE_DESCENDANT_ID = "keyboard-focused-tab-" + Math.trunc(Math.random() * 1000000);
+
     if (!this.hasAttribute("orient"))
       this.setAttribute("orient", "horizontal");
 
@@ -138,6 +140,39 @@ class MozTabs extends MozBaseControl {
     return null;
   }
 
+  get ariaFocusedIndex() {
+    const tabs = this.children;
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].id == this.ACTIVE_DESCENDANT_ID)
+        return i;
+    }
+    return -1;
+  }
+
+  set ariaFocusedItem(val) {
+    let setNewItem = val && this.getIndexOfItem(val) != -1;
+    let clearExistingItem = this.ariaFocusedItem && (!val || setNewItem);
+    if (clearExistingItem) {
+      let ariaFocusedItem = this.ariaFocusedItem;
+      ariaFocusedItem.classList.remove("keyboard-focused-tab");
+      ariaFocusedItem.id = "";
+      this.selectedItem.removeAttribute("aria-activedescendant");
+    }
+
+    if (setNewItem) {
+      this.ariaFocusedItem = null;
+      val.id = this.ACTIVE_DESCENDANT_ID;
+      val.classList.add("keyboard-focused-tab");
+      this.selectedItem.setAttribute("aria-activedescendant", this.ACTIVE_DESCENDANT_ID);
+    }
+
+    return val;
+  }
+
+  get ariaFocusedItem() {
+    return document.getElementById(this.ACTIVE_DESCENDANT_ID);
+  }
+
   /**
    * nsIDOMXULRelatedElement
    */
@@ -190,6 +225,8 @@ class MozTabs extends MozBaseControl {
   }
 
   _selectNewTab(aNewTab, aFallbackDir, aWrap) {
+    this.ariaFocusedItem = null;
+
     var requestedTab = aNewTab;
     while (aNewTab.hidden || aNewTab.disabled || !this._canAdvanceToTab(aNewTab)) {
       aNewTab = aFallbackDir == -1 ? aNewTab.previousElementSibling : aNewTab.nextElementSibling;
@@ -232,7 +269,7 @@ class MozTabs extends MozBaseControl {
   }
 
   advanceSelectedTab(aDir, aWrap) {
-    var startTab = this.selectedItem;
+    var startTab = this.ariaFocusedItem || this.selectedItem;
     var next = startTab[(aDir == -1 ? "previous" : "next") + "ElementSibling"];
     if (!next && aWrap) {
       next = aDir == -1 ? this.children[this.children.length - 1] :

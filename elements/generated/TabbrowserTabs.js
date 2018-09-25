@@ -166,44 +166,96 @@ class MozTabbrowserTabs extends MozTabs {
     });
 
     this.addEventListener("keydown", (event) => {
-      if (event.altKey || event.shiftKey)
-        return;
+      let { altKey, shiftKey } = event;
+      let [accel, nonAccel] = AppConstants.platform == "macosx" ? [event.metaKey, event.ctrlKey] : [event.ctrlKey, event.metaKey];
 
-      let wrongModifiers;
-      if (AppConstants.platform == "macosx") {
-        wrongModifiers = !event.metaKey;
-      } else {
-        wrongModifiers = !event.ctrlKey || event.metaKey;
+      let keyComboForMove = accel && shiftKey && !altKey && !nonAccel;
+      let keyComboForFocus = accel && !shiftKey && !altKey && !nonAccel;
+
+      if (!keyComboForMove && !keyComboForFocus) {
+        return;
       }
-
-      if (wrongModifiers)
-        return;
 
       // Don't check if the event was already consumed because tab navigation
       // should work always for better user experience.
-
+      let { visibleTabs, selectedTab } = gBrowser;
+      let { arrowKeysShouldWrap } = this;
+      let focusedTabIndex = this.ariaFocusedIndex;
+      if (focusedTabIndex == -1) {
+        focusedTabIndex = visibleTabs.indexOf(selectedTab);
+      }
+      let lastFocusedTabIndex = focusedTabIndex;
       switch (event.keyCode) {
         case KeyEvent.DOM_VK_UP:
-          gBrowser.moveTabBackward();
+          if (keyComboForMove) {
+            gBrowser.moveTabBackward();
+          } else {
+            focusedTabIndex--;
+          }
           break;
         case KeyEvent.DOM_VK_DOWN:
-          gBrowser.moveTabForward();
+          if (keyComboForMove) {
+            gBrowser.moveTabForward();
+          } else {
+            focusedTabIndex++;
+          }
           break;
         case KeyEvent.DOM_VK_RIGHT:
         case KeyEvent.DOM_VK_LEFT:
-          gBrowser.moveTabOver(event);
+          if (keyComboForMove) {
+            gBrowser.moveTabOver(event);
+          } else {
+            let isRTL = Services.locale.isAppLocaleRTL;
+            if ((!isRTL && event.keyCode == KeyEvent.DOM_VK_RIGHT) ||
+              (isRTL && event.keyCode == KeyEvent.DOM_VK_LEFT)) {
+              focusedTabIndex++;
+            } else {
+              focusedTabIndex--;
+            }
+          }
           break;
         case KeyEvent.DOM_VK_HOME:
-          gBrowser.moveTabToStart();
+          if (keyComboForMove) {
+            gBrowser.moveTabToStart();
+          } else {
+            focusedTabIndex = 0;
+          }
           break;
         case KeyEvent.DOM_VK_END:
-          gBrowser.moveTabToEnd();
+          if (keyComboForMove) {
+            gBrowser.moveTabToEnd();
+          } else {
+            focusedTabIndex = visibleTabs.length - 1;
+          }
+          break;
+        case KeyEvent.DOM_VK_SPACE:
+          if (visibleTabs[lastFocusedTabIndex].multiselected) {
+            gBrowser.removeFromMultiSelectedTabs(visibleTabs[lastFocusedTabIndex]);
+          } else {
+            gBrowser.addToMultiSelectedTabs(visibleTabs[lastFocusedTabIndex], false);
+          }
           break;
         default:
           // Consume the keydown event for the above keyboard
           // shortcuts only.
           return;
       }
+
+      if (arrowKeysShouldWrap) {
+        if (focusedTabIndex >= visibleTabs.length) {
+          focusedTabIndex = 0;
+        } else if (focusedTabIndex < 0) {
+          focusedTabIndex = visibleTabs.length - 1;
+        }
+      } else {
+        focusedTabIndex = Math.min(visibleTabs.length - 1, Math.max(0, focusedTabIndex));
+      }
+
+      if (keyComboForFocus &&
+        focusedTabIndex != lastFocusedTabIndex) {
+        this.ariaFocusedItem = visibleTabs[focusedTabIndex];
+      }
+
       event.preventDefault();
     }, { mozSystemGroup: true });
 
@@ -773,6 +825,10 @@ class MozTabbrowserTabs extends MozTabs {
     XPCOMUtils.defineLazyPreferenceGetter(this, "_closeTabByDblclick",
       "browser.tabs.closeTabByDblclick", false);
 
+    if (gMultiProcessBrowser) {
+      this.tabbox.tabpanels.setAttribute("async", "true");
+    }
+
   }
 
   set _tabMinWidth(val) {
@@ -1302,8 +1358,9 @@ class MozTabbrowserTabs extends MozTabs {
       return;
 
     if (this.arrowScrollbox.smoothScroll) {
-      let selected = !this.selectedItem.pinned &&
-        this.selectedItem.getBoundingClientRect();
+      let selectedTab = this.selectedItem;
+      let selected = !selectedTab.pinned &&
+        selectedTab.getBoundingClientRect();
 
       // Can we make both the new tab and the selected tab completely visible?
       if (!selected ||

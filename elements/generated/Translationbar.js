@@ -211,7 +211,7 @@ class MozTranslationbar extends MozNotification {
         ],
       };
 
-      let locale = Services.locale.getAppLocaleAsLangTag();
+      let locale = Services.locale.appLocaleAsLangTag;
       if (!(locale in localizedStrings))
         locale = "en";
       let strings = localizedStrings[locale];

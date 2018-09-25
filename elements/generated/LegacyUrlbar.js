@@ -1714,7 +1714,8 @@ class MozLegacyUrlbar extends MozAutocomplete {
       // Only wait for a result when we are sure to get one.  In some
       // cases, like when pasting the same exact text, we may not fire
       // a new search and we won't get a result.
-      if (this.mController.handleText()) {
+      this._onInputHandledText = this.mController.handleText();
+      if (this._onInputHandledText) {
         this.gotResultForCurrentQuery = false;
         this._searchStartDate = Cu.now();
         this._deferredKeyEventQueue = [];
@@ -1826,11 +1827,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
    * onboarding opt-out search suggestions notification.
    */
   search(value, options) {
-    this.focus();
-    this.textValue = value;
-    // Avoid selecting the url bar text if `search` is called twice in a row
-    this.selectionStart = -1;
-
     options = options || {};
 
     if (options.disableOneOffButtons) {
@@ -1853,8 +1849,31 @@ class MozLegacyUrlbar extends MozAutocomplete {
       }, { once: true });
     }
 
-    this.gotResultForCurrentQuery = false;
-    this.controller.startSearch(value);
+    // We want the value to be treated as text that the user typed.  It
+    // should go through the controller.handleText() path in onInput() so
+    // that gBrowser.userTypedValue, this.valueIsTyped, etc. are set and
+    // nsAutoCompleteController::HandleText() is called.  Set this.value
+    // and fire an input event to do that.  (If we set this.textValue we'd
+    // get an input event for free, but it would also set mIgnoreInput,
+    // skipping all of the above requirements.)
+    this.focus();
+    this.value = value;
+
+    // Avoid selecting the text if this method is called twice in a row.
+    this.selectionStart = -1;
+
+    let event = document.createEvent("Events");
+    event.initEvent("input", true, true);
+    this.dispatchEvent(event);
+
+    // handleText() ignores the value if it's the same as the previous
+    // value, but we want consecutive searches with the same value to be
+    // possible.  If handleText() returned false, then manually start a
+    // new search here.
+    if (!this._onInputHandledText) {
+      this.gotResultForCurrentQuery = false;
+      this.controller.startSearch(value);
+    }
   }
   disconnectedCallback() {
     // Somehow, it's possible for the XBL destructor to fire without the

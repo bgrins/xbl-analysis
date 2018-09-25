@@ -16,6 +16,8 @@ class MozTab extends MozBasetext {
       if (this.disabled)
         return;
 
+      this.parentNode.ariaFocusedItem = null;
+
       if (this != this.parentNode.selectedItem) { // Not selected yet
         let stopwatchid = this.parentNode.getAttribute("stopwatchid");
         if (stopwatchid) {
