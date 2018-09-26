@@ -125,14 +125,10 @@ class MozAddonProgressNotification extends MozPopupNotification {
 
     if (downloadingCount == 0) {
       this.destroy();
-      if (Services.prefs.getBoolPref("xpinstall.customConfirmationUI", false)) {
-        this.progressmeter.setAttribute("mode", "undetermined");
-        let status = gNavigatorBundle.getString("addonDownloadVerifying");
-        this.progresstext.setAttribute("value", status);
-        this.progresstext.setAttribute("tooltiptext", status);
-      } else {
-        PopupNotifications.remove(this.notification);
-      }
+      this.progressmeter.setAttribute("mode", "undetermined");
+      let status = gNavigatorBundle.getString("addonDownloadVerifying");
+      this.progresstext.setAttribute("value", status);
+      this.progresstext.setAttribute("tooltiptext", status);
     } else {
       this.setProgress(progress, maxProgress);
     }

@@ -57,7 +57,6 @@ var allFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/blocklist.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/xpinstallItem.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/handling/content/handler.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/update/content/updates.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/pluginproblem/content/pluginProblem.xml',
@@ -93,6 +92,7 @@ var deletedFiles = {
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/videocontrols.xml': '2018-09-19',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xml/resources/XMLPrettyPrint.xml': '2018-09-19',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/remote-browser.xml': '2018-09-25',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/xpinstallItem.xml': '2018-09-26',
 };
 
 var exportedFiles = allFiles.slice();
