@@ -63,6 +63,7 @@ class MozTreebody extends MozTreeBase {
      * except this item.
      */
     this.addEventListener("click", (event) => {
+      if (event.button != 0) { return; }
       if (this.parentNode.disabled)
         return;
       var b = this.parentNode.treeBoxObject;

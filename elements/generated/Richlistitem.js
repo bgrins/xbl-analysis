@@ -34,6 +34,7 @@ class MozRichlistitem extends MozBasetext {
      * except this item.
      */
     this.addEventListener("click", (event) => {
+      if (event.button != 0) { return; }
       var control = this.control;
       if (!control || control.disabled)
         return;

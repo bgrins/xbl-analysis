@@ -13,6 +13,7 @@ class MozAddonGeneric extends MozAddonBase {
     super();
 
     this.addEventListener("click", (event) => {
+      if (event.button != 0) { return; }
       switch (event.detail) {
         case 1:
           // Prevent double-click where the UI changes on the first click

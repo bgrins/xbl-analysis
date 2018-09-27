@@ -17,7 +17,7 @@ class MozCheckbox extends MozBasetext {
      * because any external oncommand handlers might get called before ours, and
      * then they would see the incorrect value of checked.
      */
-    this.addEventListener("click", (event) => { if (!this.disabled) this.checked = !this.checked; });
+    this.addEventListener("click", (event) => { if (event.button != 0) { return; } if (!this.disabled) this.checked = !this.checked; });
 
     this.addEventListener("keypress", (event) => {
       this.checked = !this.checked;

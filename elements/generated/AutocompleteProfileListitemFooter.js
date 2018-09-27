@@ -13,6 +13,7 @@ class MozAutocompleteProfileListitemFooter extends MozAutocompleteProfileListite
     super();
 
     this.addEventListener("click", (event) => {
+      if (event.button != 0) { return; }
       if (this._warningTextBox.contains(event.originalTarget)) {
         return;
       }

@@ -77,6 +77,7 @@ class MozSearchbar extends MozXULElement {
     }, true);
 
     this.addEventListener("mousedown", (event) => {
+      if (event.button != 0) { return; }
       // Ignore clicks on the search go button.
       if (event.originalTarget.getAttribute("anonid") == "search-go-button") {
         return;

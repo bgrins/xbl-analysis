@@ -13,6 +13,7 @@ class MozTreecolBase extends MozTreeBase {
     super();
 
     this.addEventListener("mousedown", (event) => {
+      if (event.button != 0) { return; }
       if (this.parentNode.parentNode.enableColumnDrag) {
         var xulns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
         var cols = this.parentNode.getElementsByTagNameNS(xulns, "treecol");
@@ -34,6 +35,7 @@ class MozTreecolBase extends MozTreeBase {
     });
 
     this.addEventListener("click", (event) => {
+      if (event.button != 0) { return; }
       if (event.target != event.originalTarget)
         return;
 

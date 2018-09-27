@@ -75,6 +75,7 @@ class MozTabbrowserTabs extends MozTabs {
     });
 
     this.addEventListener("click", (event) => {
+      if (event.button != 0) { return; }
       /* Catches extra clicks meant for the in-tab close button.
        * Placed here to avoid leaking (a temporary handler added from the
        * in-tab close button binding would close over the tab and leak it

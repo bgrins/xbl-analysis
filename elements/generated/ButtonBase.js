@@ -18,7 +18,7 @@ class MozButtonBase extends MozBasetext {
      * and then they would see the incorrect value of checked. Additionally
      * a command attribute would redirect the command events anyway.
      */
-    this.addEventListener("click", (event) => { this._handleClick(); });
+    this.addEventListener("click", (event) => { if (event.button != 0) { return; } this._handleClick(); });
 
     this.addEventListener("keypress", (event) => {
       this._handleClick();

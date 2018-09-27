@@ -78,6 +78,7 @@ class MozTabbrowserTab extends MozTab {
     });
 
     this.addEventListener("click", (event) => {
+      if (event.button != 0) { return; }
       let tabContainer = this.parentNode;
       if (tabContainer._multiselectEnabled) {
         let shiftKey = event.shiftKey;
@@ -142,6 +143,7 @@ class MozTabbrowserTab extends MozTab {
     });
 
     this.addEventListener("dblclick", (event) => {
+      if (event.button != 0) { return; }
       // for the one-close-button case
       if (event.originalTarget.getAttribute("anonid") == "close-button") {
         event.stopPropagation();

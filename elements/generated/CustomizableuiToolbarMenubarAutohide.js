@@ -16,7 +16,7 @@ class MozCustomizableuiToolbarMenubarAutohide extends MozCustomizableuiToolbar {
 
     this.addEventListener("popupshowing", (event) => { this._setActive(); });
 
-    this.addEventListener("mousedown", (event) => { this._contextMenuListener.init(event); });
+    this.addEventListener("mousedown", (event) => { if (event.button != 2) { return; } this._contextMenuListener.init(event); });
 
     this.addEventListener("DOMMenuBarInactive", (event) => {
       if (!this._contextMenuListener.active)

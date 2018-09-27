@@ -13,6 +13,7 @@ class MozTab extends MozBasetext {
     super();
 
     this.addEventListener("mousedown", (event) => {
+      if (event.button != 0) { return; }
       if (this.disabled)
         return;
 

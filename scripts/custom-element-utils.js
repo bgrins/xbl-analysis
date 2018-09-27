@@ -115,7 +115,9 @@ function getJSForBinding(binding) {
     }
 
     let keycode = handler.attrs.keycode ? `if (event.keyCode != KeyEvent.DOM_${handler.attrs.keycode}) { return; }` : "";
-    handlers.push(`this.addEventListener("${handler.attrs.event}", (event) => {${keycode} ${handler.cdata || handler.value || handler.attrs.action}}${secondParam});\n`);
+    let button = handler.attrs.button ? `if (event.button != ${handler.attrs.button}) { return; }` : "";
+
+    handlers.push(`this.addEventListener("${handler.attrs.event}", (event) => {${keycode}${button} ${handler.cdata || handler.value || handler.attrs.action}}${secondParam});\n`);
   }
 
 
