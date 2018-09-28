@@ -652,12 +652,9 @@ class MozBrowser extends MozXULElement {
 
     if (!this.docShell.securityUI) {
       const SECUREBROWSERUI_CONTRACTID = "@mozilla.org/secure_browser_ui;1";
-      if (!this.hasAttribute("disablesecurity") &&
-        SECUREBROWSERUI_CONTRACTID in Cc) {
-        var securityUI = Cc[SECUREBROWSERUI_CONTRACTID]
-          .createInstance(Ci.nsISecureBrowserUI);
-        securityUI.init(this.contentWindow);
-      }
+      var securityUI = Cc[SECUREBROWSERUI_CONTRACTID]
+        .createInstance(Ci.nsISecureBrowserUI);
+      securityUI.init(this.docShell);
     }
 
     return this.docShell.securityUI;

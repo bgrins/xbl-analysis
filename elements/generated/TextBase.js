@@ -31,15 +31,6 @@ class MozTextBase extends MozXULElement {
   get value() {
     return this.getAttribute('value');
   }
-
-  set crop(val) {
-    this.setAttribute('crop', val);
-    return val;
-  }
-
-  get crop() {
-    return this.getAttribute('crop');
-  }
 }
 
 customElements.define("text-base", MozTextBase);

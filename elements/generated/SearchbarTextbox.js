@@ -18,9 +18,9 @@ class MozSearchbarTextbox extends MozAutocomplete {
 
     this.addEventListener("keypress", (event) => { return this.handleKeyboardNavigation(event); }, true);
 
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } document.getBindingParent(this).selectEngine(event, false); }, true);
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } this.closest("searchbar").selectEngine(event, false); }, true);
 
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } document.getBindingParent(this).selectEngine(event, true); }, true);
+    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } this.closest("searchbar").selectEngine(event, true); }, true);
 
     this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } return this.openSearch(); }, true);
 
@@ -40,7 +40,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
       if (data) {
         event.preventDefault();
         this.value = data;
-        document.getBindingParent(this).openSuggestionsPanel();
+        this.closest("searchbar").openSuggestionsPanel();
       }
     });
 
@@ -82,7 +82,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
       },
     };
 
-    if (document.getBindingParent(this).parentNode.parentNode.localName ==
+    if (this.closest("searchbar").parentNode.parentNode.localName ==
       "toolbarpaletteitem")
       return;
 
@@ -99,7 +99,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
       () => { this.initContextMenu(cxmenu); }, { capture: true, once: true });
 
     this.setAttribute("aria-owns", this.popup.id);
-    document.getBindingParent(this)._textboxInitialized = true;
+    this.closest("searchbar")._textboxInitialized = true;
 
   }
   /**
@@ -130,7 +130,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
   }
 
   initContextMenu(aMenu) {
-    let stringBundle = document.getBindingParent(this)._stringBundle;
+    let stringBundle = this.closest("searchbar")._stringBundle;
 
     let pasteAndSearch, suggestMenuItem;
     let element, label, akey;
@@ -266,7 +266,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
 
   openSearch() {
     if (!this.popupOpen) {
-      document.getBindingParent(this).openSuggestionsPanel();
+      this.closest("searchbar").openSuggestionsPanel();
       return false;
     }
     return true;
@@ -304,7 +304,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
       BrowserSearch.searchBar.telemetrySearchDetails = this._selectionDetails;
       this._selectionDetails = null;
     }
-    document.getBindingParent(this).handleSearchCommand(aEvent, engine);
+    this.closest("searchbar").handleSearchCommand(aEvent, engine);
   }
 
   handleKeyboardNavigation(aEvent) {
