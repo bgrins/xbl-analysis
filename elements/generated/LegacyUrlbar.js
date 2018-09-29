@@ -894,20 +894,31 @@ class MozLegacyUrlbar extends MozAutocomplete {
       return false;
     }
 
-    let textNode = this.editor.rootElement.firstChild;
-    let value = textNode.textContent;
-    let trimmedValue = value.trimStart();
-
-    // If there's no alias in the results or the first word in the input
-    // value is not that alias, then there's no formatting to do.
-    if (!this.popup.searchAlias ||
-      (trimmedValue.length != this.popup.searchAlias.length &&
-        trimmedValue[this.popup.searchAlias.length] != " ") ||
-      !trimmedValue.startsWith(this.popup.searchAlias)) {
+    // There can only be an alias to highlight if the heuristic result is
+    // an alias searchengine result and it's either currently selected or
+    // was selected when the popup was closed.  We also need to check
+    // whether a one-off search button is selected because in that case
+    // there won't be a selection but the alias should not be highlighted.
+    let heuristicItem = this.popup.richlistbox.children[0] || null;
+    let alias =
+      (this.popup.selectedIndex == 0 ||
+        (this.popup.selectedIndex < 0 &&
+          this.popup._previousSelectedIndex == 0)) &&
+      !this.popup.oneOffSearchButtons.selectedButton &&
+      heuristicItem &&
+      heuristicItem.getAttribute("actiontype") == "searchengine" &&
+      this._parseActionUrl(heuristicItem.getAttribute("url")).params.alias;
+    if (!alias) {
       return false;
     }
 
-    let index = value.indexOf(this.popup.searchAlias);
+    let textNode = this.editor.rootElement.firstChild;
+    let value = textNode.textContent;
+
+    let index = value.indexOf(alias);
+    if (index < 0) {
+      return false;
+    }
 
     // We abuse the SELECTION_FIND selection type to do our highlighting.
     // It's the only type that works with Selection.setColors().
@@ -917,7 +928,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
 
     let range = document.createRange();
     range.setStart(textNode, index);
-    range.setEnd(textNode, index + this.popup.searchAlias.length);
+    range.setEnd(textNode, index + alias.length);
     selection.addRange(range);
 
     let fg = "#2362d7";

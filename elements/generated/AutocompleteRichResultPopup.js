@@ -111,6 +111,8 @@ class MozAutocompleteRichResultPopup extends MozPopup {
      */
     this._normalMaxRows = -1;
 
+    this._previousSelectedIndex = -1;
+
     this.richlistbox = document.getAnonymousElementByAttribute(this, "anonid", "richlistbox");
 
   }
@@ -134,6 +136,9 @@ class MozAutocompleteRichResultPopup extends MozPopup {
   }
 
   set selectedIndex(val) {
+    if (val != this.richlistbox.selectedIndex) {
+      this._previousSelectedIndex = this.richlistbox.selectedIndex;
+    }
     this.richlistbox.selectedIndex = val;
     // Since ensureElementIsVisible may cause an expensive Layout flush,
     // invoke it only if there may be a scrollbar, so if we could fetch

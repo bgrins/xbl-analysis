@@ -366,8 +366,9 @@ class MozSearchOneOffs extends MozXULElement {
       // Never select dummy buttons.
       val = null;
     }
-    if (this._selectedButton) {
-      this._selectedButton.removeAttribute("selected");
+    let previousButton = this._selectedButton;
+    if (previousButton) {
+      previousButton.removeAttribute("selected");
     }
     if (val) {
       val.setAttribute("selected", "true");
@@ -380,8 +381,9 @@ class MozSearchOneOffs extends MozXULElement {
       // selected will do the button's command, not search.
       this.popup.selectedIndex = -1;
     }
-    let event = document.createEvent("Events");
-    event.initEvent("SelectedOneOffButtonChanged", true, false);
+    let event = new CustomEvent("SelectedOneOffButtonChanged", {
+      previousSelectedButton: previousButton,
+    });
     this.dispatchEvent(event);
     return val;
   }

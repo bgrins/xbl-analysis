@@ -13,7 +13,33 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     super();
 
     this.addEventListener("SelectedOneOffButtonChanged", (event) => {
-      this._selectedOneOffChanged();
+      // Update all searchengine result items to use the newly selected
+      // engine.
+      for (let item of this.richlistbox.children) {
+        if (item.collapsed) {
+          break;
+        }
+        let url = item.getAttribute("url");
+        if (url) {
+          let action = item._parseActionUrl(url);
+          if (action && action.type == "searchengine") {
+            item._adjustAcItem();
+          }
+        }
+      }
+
+      // If the selection moved from the results to the one-off settings
+      // button, then call formatValue to remove the formatting of the search
+      // alias in the input, if any.  In all other cases the alias formatting
+      // is removed when the input's value setter calls formatValue, but in
+      // this specific case, at the time that formatValue is called,
+      // oneOffSearchButtons.selectedButton is still null, so the formatting
+      // is not removed.  The settings button is selected right after that.
+      if (this.oneOffSearchButtons.selectedButton ==
+        this.oneOffSearchButtons.settingsButtonCompact &&
+        (!event.detail || !event.detail.previousSelectedButton)) {
+        this.input.formatValue();
+      }
     });
 
     this.addEventListener("mousedown", (event) => {
@@ -127,11 +153,6 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     this._oneOffSearchesEnabled = false;
 
     this._overrideValue = null;
-
-    /**
-     * The search alias of the first (heuristic) result in the popup, if any.
-     */
-    this.searchAlias = null;
 
     this._addonIframe = null;
 
@@ -566,23 +587,6 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     }
   }
 
-  _selectedOneOffChanged() {
-    // Update all searchengine result items to use the newly selected
-    // engine.
-    for (let item of this.richlistbox.children) {
-      if (item.collapsed) {
-        break;
-      }
-      let url = item.getAttribute("url");
-      if (url) {
-        let action = item._parseActionUrl(url);
-        if (action && action.type == "searchengine") {
-          item._adjustAcItem();
-        }
-      }
-    }
-  }
-
   /**
    * This handles keypress changes to the selection among the one-off
    * search buttons and between the one-offs and the listbox.  It returns
@@ -646,30 +650,25 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
   }
 
   onResultsAdded() {
-    if (!this.input.gotResultForCurrentQuery) {
-      // This is the first result of a new search.  Cache its search
-      // alias, if any.  Do this now, when we get the first result, so
-      // that the cached alias remains available between the time the
-      // previous search ended and now.
-      //
-      // Calling _parseActionUrl and getting params.alias would be
-      // sufficient here, but as an optimization, first check whether
-      // the result is a searchengine result, which is a simple
-      // substring check, to avoid the more expensive _parseActionUrl.
-      let alias =
-        this.input.mController.getStyleAt(0).includes("searchengine") &&
-        this.input._parseActionUrl(this.input.mController.getFinalCompleteValueAt(0)).params.alias;
-      this.searchAlias = alias || null;
+    // If nothing is selected yet, select the first result if it is a
+    // pre-selected "heuristic" result.  (See UnifiedComplete.js.)
+    let selectHeuristic =
+      this.selectedIndex == -1 && this._isFirstResultHeuristic;
+    if (selectHeuristic) {
+      this.input.controller.setInitiallySelectedIndex(0);
+    }
 
-      // Format the alias or remove the formatting of the previous alias.
+    // If this is the heuristic result of a new search, format its
+    // search alias in the input or remove the formatting of the
+    // previous alias, as necessary.  We need to check selectHeuristic
+    // because the result may have already been added but only now is
+    // being selected, and we need to check gotResultForCurrentQuery
+    // because the result may be from the previous search and already
+    // selected and is now being reused.
+    if (selectHeuristic || !this.input.gotResultForCurrentQuery) {
       this.input.formatValue();
     }
 
-    // If nothing is selected yet, select the first result if it is a
-    // pre-selected "heuristic" result.  (See UnifiedComplete.js.)
-    if (this.selectedIndex == -1 && this._isFirstResultHeuristic) {
-      this.input.controller.setInitiallySelectedIndex(0);
-    }
     // If this is the first time we get the result from the current
     // search and we are not in the private context, we can speculatively
     // connect to the intended site as a performance optimization.
