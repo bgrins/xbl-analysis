@@ -8,9 +8,8 @@
 // leaking to window scope.
 {
 
-class MozTextLabel extends MozTextBase {
+class MozTextLabel extends MozXULElement {
   connectedCallback() {
-    super.connectedCallback()
 
   }
 
