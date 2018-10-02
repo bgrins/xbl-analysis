@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozLabelControl extends MozTextLabel {
+class MozLabelControl extends MozXULElement {
   constructor() {
     super();
 
@@ -36,7 +36,7 @@ class MozLabelControl extends MozTextLabel {
   }
 
   connectedCallback() {
-    super.connectedCallback()
+
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
       <html:span anonid="accessKeyParens"></html:span>
