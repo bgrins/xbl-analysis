@@ -769,6 +769,16 @@ class MozBrowser extends MozXULElement {
     }
   }
 
+  deprioritize() {
+    if (!this.isRemoteBrowser) {
+      return;
+    }
+    let { frameLoader } = this;
+    if (frameLoader.tabParent) {
+      frameLoader.tabParent.deprioritize();
+    }
+  }
+
   forceRepaint() {
     if (!this.isRemoteBrowser) {
       return;
