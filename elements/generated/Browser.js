@@ -160,10 +160,6 @@ class MozBrowser extends MozXULElement {
 
     this._remoteWebProgress = null;
 
-    this._contentWindow = null;
-
-    this._contentDocument = null;
-
     this._contentTitle = "";
 
     this._characterSet = "";
@@ -482,20 +478,12 @@ class MozBrowser extends MozXULElement {
     return this.isRemoteBrowser ? this._remoteWebProgress : this.docShell.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebProgress);
   }
 
-  get contentWindowAsCPOW() {
-    return this.isRemoteBrowser ? this._contentWindow : this.contentWindow;
-  }
-
   get sessionHistory() {
     return this.webNavigation.sessionHistory;
   }
 
   get markupDocumentViewer() {
     return this.docShell.contentViewer;
-  }
-
-  get contentDocumentAsCPOW() {
-    return this.isRemoteBrowser ? this._contentDocument : this.contentDocument;
   }
 
   get contentTitle() {

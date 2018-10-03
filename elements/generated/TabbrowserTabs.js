@@ -290,25 +290,7 @@ class MozTabbrowserTabs extends MozTabs {
       dt.addElement(tab);
 
       if (tab.multiselected) {
-        // Regroup all selected tabs around the dragged tab
-        // for multiple tabs dragging
-        let draggedTabPos = tab._tPos;
-
-        // Move left selected tabs
-        let insertAtPos = draggedTabPos - 1;
-        for (let i = selectedTabs.indexOf(tab) - 1; i > -1; i--) {
-          let movingTab = selectedTabs[i];
-          gBrowser.moveTabTo(movingTab, insertAtPos);
-          insertAtPos--;
-        }
-
-        // Move right selected tabs
-        insertAtPos = draggedTabPos + 1;
-        for (let i = selectedTabs.indexOf(tab) + 1; i < selectedTabs.length; i++) {
-          let movingTab = selectedTabs[i];
-          gBrowser.moveTabTo(movingTab, insertAtPos);
-          insertAtPos++;
-        }
+        this._groupSelectedTabs(tab);
       }
 
       // Create a canvas to which we capture the current tab.
@@ -425,11 +407,21 @@ class MozTabbrowserTabs extends MozTabs {
           arrowScrollbox.scrollByPixels((ltr ? 1 : -1) * pixelsToScroll, true);
       }
 
-      if (effects == "move" &&
-        this == event.dataTransfer.mozGetDataAt(TAB_DROP_TYPE, 0).parentNode) {
+      let draggedTab = event.dataTransfer.mozGetDataAt(TAB_DROP_TYPE, 0);
+      if ((effects == "move" || effects == "copy") &&
+        this == draggedTab.parentNode) {
         ind.collapsed = true;
-        this._animateTabMove(event);
-        return;
+
+        if (!this._isGroupTabsAnimationOver()) {
+          // Wait for grouping tabs animation to finish
+          return;
+        }
+        this._finishGroupSelectedTabs(draggedTab);
+
+        if (effects == "move") {
+          this._animateTabMove(event);
+          return;
+        }
       }
 
       this._finishAnimateTabMove();
@@ -498,6 +490,7 @@ class MozTabbrowserTabs extends MozTabs {
         if (!draggedTab)
           return;
         movingTabs = draggedTab._dragData.movingTabs;
+        draggedTab.parentNode._finishGroupSelectedTabs(draggedTab);
       }
 
       this._tabDropIndicator.collapsed = true;
@@ -638,6 +631,7 @@ class MozTabbrowserTabs extends MozTabs {
       if (draggedTab.hasAttribute("tabdrop-samewindow"))
         return;
 
+      this._finishGroupSelectedTabs(draggedTab);
       this._finishAnimateTabMove();
 
       if (dt.mozUserCancelled || dt.dropEffect != "none" || this._isCustomizing) {
@@ -1189,6 +1183,7 @@ class MozTabbrowserTabs extends MozTabs {
 
   _animateTabMove(event) {
     let draggedTab = event.dataTransfer.mozGetDataAt(TAB_DROP_TYPE, 0);
+    let movingTabs = draggedTab._dragData.movingTabs;
 
     if (this.getAttribute("movingtab") != "true") {
       this.setAttribute("movingtab", "true");
@@ -1215,7 +1210,7 @@ class MozTabbrowserTabs extends MozTabs {
     let tabs = this._getVisibleTabs()
       .slice(pinned ? 0 : numPinned,
         pinned ? numPinned : undefined);
-    let movingTabs = draggedTab._dragData.movingTabs;
+
     if (rtl) {
       tabs.reverse();
       // Copy moving tabs array to avoid infinite reversing.
@@ -1320,6 +1315,173 @@ class MozTabbrowserTabs extends MozTabs {
     this.parentNode.removeAttribute("movingtab");
 
     this._handleTabSelect();
+  }
+
+  /**
+   * Regroup all selected tabs around the
+   * tab in param
+   */
+  _groupSelectedTabs(tab) {
+    let draggedTabPos = tab._tPos;
+    let selectedTabs = gBrowser.selectedTabs;
+    let animate = gBrowser.animationsEnabled;
+
+    tab.groupingTabsData = {
+      finished: !animate,
+    };
+
+    // Animate left selected tabs
+
+    let insertAtPos = draggedTabPos - 1;
+    for (let i = selectedTabs.indexOf(tab) - 1; i > -1; i--) {
+      let movingTab = selectedTabs[i];
+      insertAtPos = newIndex(movingTab, insertAtPos);
+
+      if (animate) {
+        movingTab.groupingTabsData = {};
+        addAnimationData(movingTab, insertAtPos, "left");
+      } else {
+        gBrowser.moveTabTo(movingTab, insertAtPos);
+      }
+      insertAtPos--;
+    }
+
+    // Animate right selected tabs
+
+    insertAtPos = draggedTabPos + 1;
+    for (let i = selectedTabs.indexOf(tab) + 1; i < selectedTabs.length; i++) {
+      let movingTab = selectedTabs[i];
+      insertAtPos = newIndex(movingTab, insertAtPos);
+
+      if (animate) {
+        movingTab.groupingTabsData = {};
+        addAnimationData(movingTab, insertAtPos, "right");
+      } else {
+        gBrowser.moveTabTo(movingTab, insertAtPos);
+      }
+      insertAtPos++;
+    }
+
+    // Slide the relevant tabs to their new position.
+    let rtl = Services.locale.isAppLocaleRTL ? -1 : 1;
+    for (let t of this._getVisibleTabs()) {
+      if (t.groupingTabsData && t.groupingTabsData.translateX) {
+        let translateX = rtl * t.groupingTabsData.translateX;
+        t.style.transform = "translateX(" + translateX + "px)";
+      }
+    }
+
+    function newIndex(aTab, index) {
+      // Don't allow mixing pinned and unpinned tabs.
+      if (aTab.pinned) {
+        return Math.min(index, gBrowser._numPinnedTabs - 1);
+      }
+      return Math.max(index, gBrowser._numPinnedTabs);
+    }
+
+    function addAnimationData(movingTab, movingTabNewIndex, side) {
+      let movingTabOldIndex = movingTab._tPos;
+
+      if (movingTabOldIndex == movingTabNewIndex) {
+        // movingTab is already at the right position
+        // and thus don't need to be animated.
+        return;
+      }
+
+      let movingTabWidth = movingTab.boxObject.width;
+      let shift = (movingTabNewIndex - movingTabOldIndex) * movingTabWidth;
+
+      movingTab.groupingTabsData.animate = true;
+      movingTab.setAttribute("tab-grouping", "true");
+
+      movingTab.groupingTabsData.translateX = shift;
+
+      let onTransitionEnd = transitionendEvent => {
+        if (transitionendEvent.propertyName != "transform" ||
+          transitionendEvent.originalTarget != movingTab) {
+          return;
+        }
+        movingTab.removeEventListener("transitionend", onTransitionEnd);
+        movingTab.groupingTabsData.newIndex = movingTabNewIndex;
+        movingTab.groupingTabsData.animate = false;
+      };
+
+      movingTab.addEventListener("transitionend", onTransitionEnd);
+
+      // Add animation data for tabs between movingTab (selected
+      // tab moving towards the dragged tab) and draggedTab.
+      // Those tabs in the middle should move in
+      // the opposite direction of movingTab.
+
+      let lowerIndex = Math.min(movingTabOldIndex, draggedTabPos);
+      let higherIndex = Math.max(movingTabOldIndex, draggedTabPos);
+
+      for (let i = lowerIndex + 1; i < higherIndex; i++) {
+        let middleTab = gBrowser.visibleTabs[i];
+
+        if (middleTab.pinned != movingTab.pinned) {
+          // Don't mix pinned and unpinned tabs
+          break;
+        }
+
+        if (middleTab.multiselected) {
+          // Skip because this selected tab should
+          // be shifted towards the dragged Tab.
+          continue;
+        }
+
+        if (!middleTab.groupingTabsData || !middleTab.groupingTabsData.translateX) {
+          middleTab.groupingTabsData = { translateX: 0 };
+        }
+        if (side == "left") {
+          middleTab.groupingTabsData.translateX -= movingTabWidth;
+        } else {
+          middleTab.groupingTabsData.translateX += movingTabWidth;
+        }
+
+        middleTab.setAttribute("tab-grouping", "true");
+      }
+    }
+  }
+
+  _finishGroupSelectedTabs(tab) {
+    if (!tab.groupingTabsData || tab.groupingTabsData.finished)
+      return;
+
+    tab.groupingTabsData.finished = true;
+
+    let selectedTabs = gBrowser.selectedTabs;
+    let tabIndex = selectedTabs.indexOf(tab);
+
+    // Moving left tabs
+    for (let i = tabIndex - 1; i > -1; i--) {
+      let movingTab = selectedTabs[i];
+      if (movingTab.groupingTabsData.newIndex) {
+        gBrowser.moveTabTo(movingTab, movingTab.groupingTabsData.newIndex);
+      }
+    }
+
+    // Moving right tabs
+    for (let i = tabIndex + 1; i < selectedTabs.length; i++) {
+      let movingTab = selectedTabs[i];
+      if (movingTab.groupingTabsData.newIndex) {
+        gBrowser.moveTabTo(movingTab, movingTab.groupingTabsData.newIndex);
+      }
+    }
+
+    for (let t of this._getVisibleTabs()) {
+      t.style.transform = "";
+      t.removeAttribute("tab-grouping");
+      delete t.groupingTabsData;
+    }
+  }
+
+  _isGroupTabsAnimationOver() {
+    for (let tab of gBrowser.selectedTabs) {
+      if (tab.groupingTabsData && tab.groupingTabsData.animate)
+        return false;
+    }
+    return true;
   }
 
   handleEvent(aEvent) {

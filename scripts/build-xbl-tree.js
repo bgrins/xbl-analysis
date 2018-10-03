@@ -15,12 +15,15 @@ const revlinksHTML = revs
   .map(r => `<a href='${getPrettyRev(r)}.html'>${getPrettyRev(r)}</a>`)
   .join(" ");
 
+let uniqueImplements = new Set();
+
 // Get the latest data last (will be written into index.html)
 revs.push(undefined);
 
 async function run() {
   selectorMetaData = (await getBindingSelectorsData()).bindingSelectorMetadata;
   let { metadataForBindings } = await getBindingMetadata();
+
   for (var i = 0; i < revs.length; i++) {
     await treeForRev(revs[i], metadataForBindings);
   }
@@ -133,6 +136,9 @@ async function treeForRev(rev, metadataForBindings) {
         binding.find("implementation").length &&
         binding.find("implementation")[0].attrs.implements
       ) {
+        let interfaces = binding.find("implementation")[0].attrs.implements.split(",").map(s=>s.trim());
+        interfaces.forEach(i=>uniqueImplements.add(i));
+
         featureCounts["implements"]++;
         idToFeatures[binding.attrs.id].push(
           `implements (${binding.find("implementation")[0].attrs.implements})`
@@ -172,6 +178,7 @@ async function treeForRev(rev, metadataForBindings) {
     });
   });
 
+  console.log("Found the following interfaces", uniqueImplements);
   for (let id in idToBinding) {
     bindingTree[idToBinding[id]] = bindingTree[idToBinding[id]] || [];
     bindingTree[idToBinding[id]].push(id);
