@@ -19,7 +19,7 @@ class MozDownload extends MozRichlistitem {
         </stack>
         <vbox pack="center" flex="1" class="downloadContainer">
           <description class="downloadTarget" crop="center" inherits="value=displayName,tooltiptext=displayName"></description>
-          <progressmeter anonid="progressmeter" class="downloadProgress" min="0" max="100" inherits="mode=progressmode,value=progress,paused=progresspaused"></progressmeter>
+          <progressmeter anonid="progressmeter" class="downloadProgress" min="0" max="100" inherits="progress-undetermined,mode=progressmode,value=progress,paused=progresspaused"></progressmeter>
           <description class="downloadDetails downloadDetailsNormal" crop="end" inherits="value=status,tooltiptext=status"></description>
           <description class="downloadDetails downloadDetailsHover" crop="end" inherits="value=hoverStatus"></description>
           <description class="downloadDetails downloadDetailsButtonHover" crop="end" inherits="value=buttonHoverStatus"></description>
