@@ -55,8 +55,8 @@ class MozTabmodalprompt extends MozXULElement {
     this.appendChild(MozXULElement.parseXULToFragment(`
       <spacer flex="1"></spacer>
       <hbox pack="center">
-        <vbox anonid="mainContainer" class="mainContainer">
-          <grid class="topContainer" flex="1">
+        <vbox anonid="mainContainer" class="tabmodalprompt-mainContainer">
+          <grid class="tabmodalprompt-topContainer" flex="1">
             <columns>
               <column></column>
               <column flex="1"></column>
@@ -82,7 +82,7 @@ class MozTabmodalprompt extends MozXULElement {
             </rows>
           </grid>
           <xbl:children></xbl:children>
-          <hbox class="buttonContainer">
+          <hbox class="tabmodalprompt-buttonContainer">
             <button anonid="button3" hidden="true"></button>
             <spacer anonid="buttonSpacer" flex="1"></spacer>
             <button anonid="button0" label="FROM-DTD.okButton.label;"></button>
