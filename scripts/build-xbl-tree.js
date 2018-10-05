@@ -55,7 +55,7 @@ async function treeForRev(rev, metadataForBindings) {
     let selectors = (selectorMetaData[binding] || [])
       .map(b => `${b.selectors.map(s => `<code>${s}</code>`).join(', ')} (<code title="${b.cssFile.substr(58)}">${b.cssFile.match(/[^\/]+\/[^\/]+\.[^\/]+$/)[0]}</code>)`);
     let source = ` (<a href="${idToUrls[binding]}" target="_blank">source</a>)`;
-    let search = ` (<a href="https://dxr.mozilla.org/mozilla-central/search?q=${binding}">m-c search</a>)`;
+    let search = ` (<a href="https://searchfox.org/mozilla-central/search?q=${binding}">m-c search</a>)`;
     let bug = "";
     if (metadata.bug) {
       bug = ` (<a href='${metadata.bug}'>bug</a>)`;
@@ -102,7 +102,7 @@ async function treeForRev(rev, metadataForBindings) {
       idToFeatureAttrs[binding.attrs.id] = [];
       idToUrls[binding.attrs.id] = files[i]
         .replace('https://raw.githubusercontent.com/mozilla/gecko-dev/master/',
-                 'https://dxr.mozilla.org/mozilla-central/source/');
+                 'https://searchfox.org/mozilla-central/source/');
 
       // Handle the easier features to count, where we just need to detect a node:
       for (let feature of [

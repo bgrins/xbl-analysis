@@ -39,7 +39,7 @@ class MozRadio extends MozBasetext {
     // Just clear out the parent's cached list of radio children
     var control = this.control;
     if (control)
-      control._radioChildren = null;
+      control.radioChildConstructed(this);
 
   }
 
