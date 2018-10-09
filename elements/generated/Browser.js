@@ -957,7 +957,16 @@ class MozBrowser extends MozXULElement {
       // RemoteWebProgress, ensure it is loaded and ready.
       let jsm = "resource://gre/modules/RemoteWebProgress.jsm";
       let { RemoteWebProgressManager } = ChromeUtils.import(jsm, {});
+
+      let oldManager = this._remoteWebProgressManager;
       this._remoteWebProgressManager = new RemoteWebProgressManager(this);
+      if (oldManager) {
+        // We're transitioning from one remote type to another. This means that
+        // the RemoteWebProgress listener is listening to the old message manager,
+        // and needs to be pointed at the new one.
+        this._remoteWebProgressManager.swapListeners(oldManager);
+      }
+
       this._remoteWebProgress = this._remoteWebProgressManager.topLevelWebProgress;
 
       this.messageManager.loadFrameScript("chrome://global/content/browser-child.js", true);
@@ -1017,6 +1026,11 @@ class MozBrowser extends MozXULElement {
     }
 
     if (!this.isRemoteBrowser) {
+      // If we've transitioned from remote to non-remote, we'll give up trying to
+      // keep the web progress listeners persisted during the transition.
+      delete this._remoteWebProgressManager;
+      delete this._remoteWebProgress;
+
       this.addEventListener("pagehide", this.onPageHide, true);
     }
 
@@ -1746,6 +1760,14 @@ class MozBrowser extends MozXULElement {
 
     this.frameLoader.print(aOuterWindowID, aPrintSettings,
       aPrintProgressListener);
+  }
+
+  drawSnapshot(x, y, w, h, scale, backgroundColor) {
+    if (!this.frameLoader) {
+      throw Components.Exception("No frame loader.",
+        Cr.NS_ERROR_FAILURE);
+    }
+    return this.frameLoader.drawSnapshot(x, y, w, h, scale, backgroundColor);
   }
 
   dropLinks(aLinksCount, aLinks, aTriggeringPrincipal) {
