@@ -43339,14 +43339,14 @@ var DATA = {
     },
     label: "2018-10-08"
   },
-  "master@{2018-10-09}": {
+  "master@{2018-10-10}": {
     numBindings: 141,
     numInContentBindings: 28,
-    loc: 27525,
+    loc: 27515,
     directoryLOC: {
       browser: 9607,
       dom: 687,
-      toolkit: 16548,
+      toolkit: 16538,
       mobile: 0,
       layout: 726,
       xpfe: 0
@@ -43389,7 +43389,7 @@ var DATA = {
       tabmodalprompt: 324,
       menulist: 323,
       "label-control": 249,
-      textbox: 233,
+      textbox: 228,
       "install-status": 215,
       "browser-search-autocomplete-result-popup": 213,
       "treecol-base": 206,
@@ -43399,9 +43399,9 @@ var DATA = {
       richlistitem: 166,
       treebody: 152,
       tab: 151,
-      numberbox: 140,
       "customizableui-toolbar": 139,
       arrowpanel: 135,
+      numberbox: 135,
       "search-textbox": 135,
       "places-popup-arrow": 132,
       "autocomplete-profile-listitem-footer": 125,
@@ -43500,7 +43500,7 @@ var DATA = {
       menu: 5,
       "toolbarbutton-badged-menu": 5
     },
-    label: "2018-10-09"
+    label: "2018-10-10"
   }
 };
 var SORTED_BINDINGS = {

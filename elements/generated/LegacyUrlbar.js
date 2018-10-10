@@ -753,9 +753,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
       return;
     }
 
-    BrowserUsageTelemetry.recordUrlbarSelectedResultMethod(
-      event, this.userSelectionBehavior);
-
     // Determine whether to use the selected one-off search button.  In
     // one-off search buttons parlance, "selected" means that the button
     // has been navigated to via the keyboard.  So we want to use it if
@@ -773,6 +770,9 @@ class MozLegacyUrlbar extends MozAutocomplete {
       selectedOneOff.doCommand();
       return;
     }
+
+    BrowserUsageTelemetry.recordUrlbarSelectedResultMethod(
+      event, this.userSelectionBehavior);
 
     let where = openUILinkWhere || this._whereToOpen(event);
 

@@ -273,13 +273,24 @@ function preprocessFile(content) {
   return newLines.join("\n");
 }
 
-function getBindingMetadata() {
+async function getBindingMetadata() {
   var metadataForBindings = {};
   var totalMetadata = 0;
-  return request("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBOysww1PcGcB19Ew_NOUpPnQMGkP1RQGAOAoYMRvgVMWWhmcdjyOfLjvEDCC_F6nobE7Hu6ooaj7Q/pub?gid=0&single=true&output=csv").then(response => {
-    var rows = response.split("\n");
-    console.log(`Found ${rows.length} rows from spreadsheet`);
-    response.split("\n").forEach((row) => {
+
+  let bugToAssignees = {};
+  let assignees = await request("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBOysww1PcGcB19Ew_NOUpPnQMGkP1RQGAOAoYMRvgVMWWhmcdjyOfLjvEDCC_F6nobE7Hu6ooaj7Q/pub?gid=1164074255&single=true&output=csv");
+  for (let row of assignees.split("\n")) {
+    let cols = row.split(",");
+    if (cols[1] && cols[2]) {
+      bugToAssignees["https://bugzilla.mozilla.org/show_bug.cgi?id=" + cols[1]] = cols[2].trim();
+    }
+  }
+
+  let metadata = await request("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBOysww1PcGcB19Ew_NOUpPnQMGkP1RQGAOAoYMRvgVMWWhmcdjyOfLjvEDCC_F6nobE7Hu6ooaj7Q/pub?gid=0&single=true&output=csv");
+  var rows = metadata.split("\n");
+  console.log(`Found ${rows.length} rows from spreadsheet`);
+  for (let row of rows) {
+
       var cols = row.split(",");
       var id = cols[1];
       var bug = cols[2];
@@ -287,17 +298,17 @@ function getBindingMetadata() {
       if (bug) {
         metadataForBindings[id] = {
           bug,
-          type
+          type,
+          assignee: bugToAssignees[bug],
         }
       }
-    });
+  }
 
-    for (var i in metadataForBindings) {
-      totalMetadata++;
-    }
+  for (var i in metadataForBindings) {
+    totalMetadata++;
+  }
 
-    console.log("Processed metadata: ", metadataForBindings);
-    return {metadataForBindings, totalMetadata};
-  });
+  console.log("Processed metadata: ", metadataForBindings);
+  return {metadataForBindings, totalMetadata};
 }
 exports.getBindingMetadata = getBindingMetadata;
