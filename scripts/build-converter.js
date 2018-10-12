@@ -4,8 +4,10 @@ var {
   getJSForBinding,
   titleCase,
   formatExtends,
-  formatComment
+  formatComment,
+  getFormattedJSForBinding
 } = require("./custom-element-utils");
+// var js_beautify = require("js-beautify").js_beautify;
 
 getParsedFiles().then(parsedFiles => {
   var jsObj = [];
@@ -25,6 +27,7 @@ getParsedFiles().then(parsedFiles => {
     <title>XBL To Custom Element Converter</title>
     <link rel="stylesheet" href="../static/styles.css" />
     <script src="../static/xmlom.js"></script>
+    <script src="../static/beautify.js"></script>
     <style>
     main {
       display: grid;
@@ -93,8 +96,8 @@ getParsedFiles().then(parsedFiles => {
     ${titleCase.toString()}
     ${formatExtends.toString()}
     ${formatComment.toString()}
+    ${getFormattedJSForBinding.toString()}
 
-    var worker = new Worker("../static/prettier-worker.js");
     var textarea = document.querySelector("textarea");
     var pre = document.querySelector("pre");
     function createPreview() {
@@ -109,14 +112,9 @@ getParsedFiles().then(parsedFiles => {
       parsed.then(doc => {
         console.log(doc, doc.find("binding"));
         let js = doc.find("binding").map(binding => {
-          return getJSForBinding(binding);
+          return getFormattedJSForBinding(binding);
         }).join("\\n");
-        pre.textContent = "Parsing...";
-
-        worker.postMessage({text: js});
-        worker.addEventListener("message", function(message) {
-          pre.textContent = message.data.formatted;
-        }, {once: true});
+        pre.textContent = js;
       }).catch(e => {
         pre.textContent =  "Error parsing XML:\\n" + e;
       });

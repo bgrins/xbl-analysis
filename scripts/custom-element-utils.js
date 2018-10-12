@@ -1,4 +1,6 @@
 
+var js_beautify = require("js-beautify").js_beautify;
+
 function formatExtends(ext) {
   if (!ext || ext.startsWith("xul:")) {
     return null;
@@ -29,6 +31,41 @@ function formatComment(comment, spaces = 2) {
 
   return `${spacesStr}/**\n${commentFormatted}\n${spacesStr}*/`;
 }
+
+function getFormattedJSForBinding(binding) {
+  let js = [];
+  js.push(
+`/* This Source Code Form is subject to the terms of the Mozilla Public
+  * License, v. 2.0. If a copy of the MPL was not distributed with this
+  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+"use strict";
+
+// This is loaded into all XUL windows. Wrap in a block to prevent
+// leaking to window scope.
+{
+
+`);
+
+  js.push(js_beautify(
+    getJSForBinding(binding),
+    {
+      indent_size: 2,
+      // preserve_newlines: false,
+      max_preserve_newlines: 2,
+      brace_style: "preserve-inline"
+      // keep_array_indentation: true
+    }
+  ));
+
+  js.push(`
+
+}
+`);
+
+  return js.join("");
+}
+
 
 function getJSForBinding(binding) {
   let js = [];
@@ -270,3 +307,4 @@ exports.getJSForBinding = getJSForBinding;
 exports.titleCase = titleCase;
 exports.formatExtends = formatExtends;
 exports.formatComment = formatComment;
+exports.getFormattedJSForBinding = getFormattedJSForBinding;

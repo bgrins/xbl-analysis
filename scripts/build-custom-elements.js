@@ -1,44 +1,9 @@
 var fs = require('fs');
 var {getParsedFiles, files} = require('./xbl-files');
-var {getJSForBinding, titleCase, formatExtends} = require("./custom-element-utils");
-var js_beautify = require("js-beautify").js_beautify;
+var {getJSForBinding, titleCase, formatExtends, getFormattedJSForBinding} = require("./custom-element-utils");
 var jsFiles = [];
 var extendsMap = new Map();
 var sampleElements = [];
-
-function getFormattedJSForBinding(binding) {
-  let js = [];
-  js.push(
-`/* This Source Code Form is subject to the terms of the Mozilla Public
-  * License, v. 2.0. If a copy of the MPL was not distributed with this
-  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-"use strict";
-
-// This is loaded into all XUL windows. Wrap in a block to prevent
-// leaking to window scope.
-{
-
-`);
-
-  js.push(js_beautify(
-    getJSForBinding(binding),
-    {
-      indent_size: 2,
-      // preserve_newlines: false,
-      max_preserve_newlines: 2,
-      brace_style: "preserve-inline"
-      // keep_array_indentation: true
-    }
-  ));
-
-  js.push(`
-
-}
-`);
-
-  return js.join("");
-}
 
 getParsedFiles().then(files => {
   files.forEach(file => {

@@ -771,15 +771,15 @@ class MozLegacyUrlbar extends MozAutocomplete {
       return;
     }
 
-    BrowserUsageTelemetry.recordUrlbarSelectedResultMethod(
-      event, this.userSelectionBehavior);
-
     let where = openUILinkWhere || this._whereToOpen(event);
 
     let url = this.value;
     if (!url) {
       return;
     }
+
+    BrowserUsageTelemetry.recordUrlbarSelectedResultMethod(
+      event, this.userSelectionBehavior);
 
     let mayInheritPrincipal = false;
     let postData = null;
@@ -919,11 +919,11 @@ class MozLegacyUrlbar extends MozAutocomplete {
       params.targetBrowser = browser;
       params.indicateErrorPageLoad = true;
       params.allowPinnedTabHostChange = true;
-      params.allowInheritPrincipal = mayInheritPrincipal;
       params.allowPopups = url.startsWith("javascript:");
     } else {
       params.initiatingDoc = document;
     }
+    params.allowInheritPrincipal = mayInheritPrincipal;
 
     if (openUILinkParams) {
       for (let key in openUILinkParams) {
