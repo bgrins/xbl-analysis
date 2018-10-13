@@ -6841,6 +6841,8 @@ var parseString = function parseString (str, options) {
 function getParser(callback, error, options) {
   options = options || {};
 
+  var comment = '';
+
   var cur = new Node();
   cur.root = true;
 
@@ -6853,13 +6855,21 @@ function getParser(callback, error, options) {
     error(e);
   };
 
+  parser.oncomment = function (text) {
+    comment += text;
+  };
+
   parser.onopentag = function (obj) {
     var o = new Node(obj.name);
+    if (comment) {
+      o.comment = comment;
+      comment = '';
+    }
     o.attrs = {};
     if (obj.attributes) {
       for (var attr in obj.attributes) {
         var val = obj.attributes[attr];
-        if ('value' in val) {
+        if (typeof val === 'object' && 'value' in val) {
           o.attrs[attr] = val.value;
         } else {
           o.attrs[attr] = val;
