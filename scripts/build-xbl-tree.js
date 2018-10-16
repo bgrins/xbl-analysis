@@ -121,6 +121,9 @@ async function treeForRev(rev, metadataForBindings) {
         if (!foundFeature.length && feature === "content") {
           foundFeature = binding.find("xbl:content");
         }
+        if (!foundFeature.length && feature === "children") {
+          foundFeature = binding.find("xbl:children");
+        }
         if (foundFeature.length) {
           featureCounts[feature] += foundFeature.length;
           idToFeatures[binding.attrs.id].push(

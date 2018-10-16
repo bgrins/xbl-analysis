@@ -53,6 +53,10 @@ class MozRichlistbox extends MozBaseControl {
       if (this.getRowCount() > 0) {
         if (this.currentIndex == -1) {
           this.currentIndex = this.getIndexOfFirstVisibleRow();
+          let currentItem = this.getItemAtIndex(this.currentIndex);
+          if (currentItem) {
+            this.selectItem(currentItem);
+          }
         } else {
           this.currentItem._fireEvent("DOMMenuItemActive");
         }

@@ -14,18 +14,9 @@ class MozAddonGeneric extends MozAddonBase {
 
     this.addEventListener("click", (event) => {
       if (event.button != 0) { return; }
-      switch (event.detail) {
-        case 1:
-          // Prevent double-click where the UI changes on the first click
-          this._lastClickTarget = event.originalTarget;
-          break;
-        case 2:
-          if (event.originalTarget.localName != "button" &&
-            !event.originalTarget.classList.contains("text-link") &&
-            event.originalTarget == this._lastClickTarget) {
-            this.showInDetailView();
-          }
-          break;
+      if (!["button", "checkbox"].includes(event.originalTarget.localName) &&
+        !event.originalTarget.classList.contains("text-link")) {
+        this.showInDetailView();
       }
     });
 
@@ -70,10 +61,8 @@ class MozAddonGeneric extends MozAddonBase {
           </hbox>
           <hbox class="advancedinfo-container" flex="1">
             <vbox class="description-outer-container" flex="1">
-              <hbox class="description-container">
-                <label anonid="description" class="description" crop="end" flex="1"></label>
-                <button anonid="details-btn" class="details button-link" label="FROM-DTD.addon.details.label;" tooltiptext="FROM-DTD.addon.details.tooltip;" oncommand="document.getBindingParent(this).showInDetailView();"></button>
-                <spacer flex="5000"></spacer>
+              <hbox class="relnotes-toggle-container">
+                <button anonid="relnotes-toggle-btn" class="relnotes-toggle" hidden="true" label="FROM-DTD.cmd.showReleaseNotes.label;" tooltiptext="FROM-DTD.cmd.showReleaseNotes.tooltip;" showlabel="FROM-DTD.cmd.showReleaseNotes.label;" showtooltip="FROM-DTD.cmd.showReleaseNotes.tooltip;" hidelabel="FROM-DTD.cmd.hideReleaseNotes.label;" hidetooltip="FROM-DTD.cmd.hideReleaseNotes.tooltip;" oncommand="document.getBindingParent(this).toggleReleaseNotes();"></button>
               </hbox>
               <vbox anonid="relnotes-container" class="relnotes-container">
                 <label class="relnotes-header" value="FROM-DTD.addon.releaseNotes.label;"></label>
@@ -81,9 +70,6 @@ class MozAddonGeneric extends MozAddonBase {
                 <label anonid="relnotes-error" hidden="true" value="FROM-DTD.addon.errorLoadingReleaseNotes.label;"></label>
                 <vbox anonid="relnotes" class="relnotes"></vbox>
               </vbox>
-              <hbox class="relnotes-toggle-container">
-                <button anonid="relnotes-toggle-btn" class="relnotes-toggle" hidden="true" label="FROM-DTD.cmd.showReleaseNotes.label;" tooltiptext="FROM-DTD.cmd.showReleaseNotes.tooltip;" showlabel="FROM-DTD.cmd.showReleaseNotes.label;" showtooltip="FROM-DTD.cmd.showReleaseNotes.tooltip;" hidelabel="FROM-DTD.cmd.hideReleaseNotes.label;" hidetooltip="FROM-DTD.cmd.hideReleaseNotes.tooltip;" oncommand="document.getBindingParent(this).toggleReleaseNotes();"></button>
-              </hbox>
             </vbox>
           </hbox>
         </vbox>
@@ -156,9 +142,6 @@ class MozAddonGeneric extends MozAddonBase {
 
     this._dateUpdated = document.getAnonymousElementByAttribute(this, "anonid",
       "date-updated");
-
-    this._description = document.getAnonymousElementByAttribute(this, "anonid",
-      "description");
 
     this._stateMenulist = document.getAnonymousElementByAttribute(this, "anonid",
       "state-menulist");
@@ -270,11 +253,6 @@ class MozAddonGeneric extends MozAddonBase {
       this._icon.src = iconURL;
     else
       this._icon.src = "";
-
-    if (this.mAddon.description)
-      this._description.value = this.mAddon.description;
-    else
-      this._description.hidden = true;
 
     let legacyWarning = legacyExtensionsEnabled && !this.mAddon.install &&
       isLegacyExtension(this.mAddon);
