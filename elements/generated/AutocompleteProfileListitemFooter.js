@@ -18,7 +18,7 @@ class MozAutocompleteProfileListitemFooter extends MozAutocompleteProfileListite
         return;
       }
 
-      window.openPreferences("panePrivacy", { origin: "autofillFooter" });
+      window.openPreferences("privacy-form-autofill", { origin: "autofillFooter" });
     });
 
   }

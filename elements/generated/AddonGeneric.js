@@ -44,6 +44,7 @@ class MozAddonGeneric extends MozAddonBase {
         <button anonid="undo-btn" class="button-link" label="FROM-DTD.addon.undoAction.label;" tooltipText="FROM-DTD.addon.undoAction.tooltip;" oncommand="document.getBindingParent(this).undo();"></button>
         <spacer flex="5000"></spacer>
       </hbox>
+      <image class="card-heading-image" anonid="theme-screenshot" hidden="true"></image>
       <hbox class="content-container" align="center">
         <vbox class="icon-container">
           <image anonid="icon" class="icon"></image>
@@ -88,13 +89,13 @@ class MozAddonGeneric extends MozAddonBase {
             </vbox>
             <hbox anonid="install-status" class="install-status" hidden="true"></hbox>
           </hbox>
-          <hbox anonid="control-container" class="control-container">
+          <hbox anonid="control-container" class="control-container" flex="1">
             <button anonid="preferences-btn" class="addon-control preferences" label="FROM-DTD.cmd.showPreferencesWin.label;" tooltiptext="FROM-DTD.cmd.showPreferencesWin.tooltip;" oncommand="document.getBindingParent(this).showPreferences();"></button>
             <button anonid="enable-btn" class="addon-control enable" label="FROM-DTD.cmd.enableAddon.label;" oncommand="document.getBindingParent(this).userDisabled = false;"></button>
             <button anonid="disable-btn" class="addon-control disable" label="FROM-DTD.cmd.disableAddon.label;" oncommand="document.getBindingParent(this).userDisabled = true;"></button>
             <button anonid="replacement-btn" class="addon-control replacement" label="FROM-DTD.cmd.findReplacement.label;" oncommand="document.getBindingParent(this).findReplacement();"></button>
             <button anonid="remove-btn" class="addon-control remove" label="FROM-DTD.cmd.uninstallAddon.label;" oncommand="document.getBindingParent(this).uninstall();"></button>
-            <menulist anonid="state-menulist" class="addon-control state" tooltiptext="FROM-DTD.cmd.stateMenu.tooltip;">
+            <menulist anonid="state-menulist" class="addon-control state" flex="1" tooltiptext="FROM-DTD.cmd.stateMenu.tooltip;">
               <menupopup>
                 <menuitem anonid="ask-to-activate-menuitem" class="addon-control" label="FROM-DTD.cmd.askToActivate.label;" tooltiptext="FROM-DTD.cmd.askToActivate.tooltip;" oncommand="document.getBindingParent(this).userDisabled = AddonManager.STATE_ASK_TO_ACTIVATE;"></menuitem>
                 <menuitem anonid="always-activate-menuitem" class="addon-control" label="FROM-DTD.cmd.alwaysActivate.label;" tooltiptext="FROM-DTD.cmd.alwaysActivate.tooltip;" oncommand="document.getBindingParent(this).userDisabled = false;"></menuitem>

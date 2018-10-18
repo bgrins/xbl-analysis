@@ -14,7 +14,6 @@ class MozTabbrowserTabs extends MozTabs {
 
     this.addEventListener("TabSelect", (event) => {
       this._handleTabSelect();
-      gBrowser.clearMultiSelectedTabs(true);
     });
 
     this.addEventListener("TabClose", (event) => {

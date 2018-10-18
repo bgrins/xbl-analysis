@@ -122,7 +122,7 @@ class MozSearchOneOffs extends MozXULElement {
             prompt.alert(title, text);
           },
         };
-        Services.search.addEngine(target.getAttribute("uri"), null,
+        Services.search.addEngine(target.getAttribute("uri"),
           target.getAttribute("image"), false,
           installCallback);
       }
