@@ -349,9 +349,7 @@ class MozAutocompleteRichResultPopup extends MozPopup {
       let originalValue, originalText, originalType;
       let style = controller.getStyleAt(this._currentIndex);
       let value =
-        style &&
-        style.includes("autofill") &&
-        style.includes("heuristic") ?
+        style && style.includes("autofill") ?
         controller.getFinalCompleteValueAt(this._currentIndex) :
         controller.getValueAt(this._currentIndex);
       let label = controller.getLabelAt(this._currentIndex);

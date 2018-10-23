@@ -535,12 +535,13 @@ class MozAutocomplete extends MozTextbox {
       return false;
     }
 
+    const isMac = /Mac/.test(navigator.platform);
     var cancel = false;
 
     // Catch any keys that could potentially move the caret. Ctrl can be
     // used in combination with these keys on Windows and Linux; and Alt
     // can be used on OS X, so make sure the unused one isn't used.
-    let metaKey = /Mac/.test(navigator.platform) ? aEvent.ctrlKey : aEvent.altKey;
+    let metaKey = isMac ? aEvent.ctrlKey : aEvent.altKey;
     if (!this.disableKeyNavigation && !metaKey) {
       switch (aEvent.keyCode) {
         case KeyEvent.DOM_VK_LEFT:
@@ -571,6 +572,19 @@ class MozAutocomplete extends MozTextbox {
       }
     }
 
+    // Handle readline/emacs-style navigation bindings on Mac.
+    if (isMac &&
+      !this.disableKeyNavigation &&
+      this.popup.popupOpen &&
+      aEvent.ctrlKey &&
+      (aEvent.key === "n" || aEvent.key === "p")) {
+
+      const effectiveKey = (aEvent.key === "p") ?
+        KeyEvent.DOM_VK_UP :
+        KeyEvent.DOM_VK_DOWN;
+      cancel = this.mController.handleKeyNavigation(effectiveKey);
+    }
+
     // Handle keys we know aren't part of a shortcut, even with Alt or
     // Ctrl.
     switch (aEvent.keyCode) {
@@ -578,7 +592,7 @@ class MozAutocomplete extends MozTextbox {
         cancel = this.mController.handleEscape();
         break;
       case KeyEvent.DOM_VK_RETURN:
-        if (/Mac/.test(navigator.platform)) {
+        if (isMac) {
           // Prevent the default action, since it will beep on Mac
           if (aEvent.metaKey)
             aEvent.preventDefault();
@@ -592,13 +606,13 @@ class MozAutocomplete extends MozTextbox {
         cancel = this.handleEnter(aEvent);
         break;
       case KeyEvent.DOM_VK_DELETE:
-        if (/Mac/.test(navigator.platform) && !aEvent.shiftKey) {
+        if (isMac && !aEvent.shiftKey) {
           break;
         }
         cancel = this.handleDelete();
         break;
       case KeyEvent.DOM_VK_BACK_SPACE:
-        if (/Mac/.test(navigator.platform) && aEvent.shiftKey) {
+        if (isMac && aEvent.shiftKey) {
           cancel = this.handleDelete();
         }
         break;
@@ -608,7 +622,7 @@ class MozAutocomplete extends MozTextbox {
           this.toggleHistoryPopup();
         break;
       case KeyEvent.DOM_VK_F4:
-        if (!/Mac/.test(navigator.platform)) {
+        if (!isMac) {
           this.toggleHistoryPopup();
         }
         break;

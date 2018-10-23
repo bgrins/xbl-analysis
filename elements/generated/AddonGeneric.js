@@ -14,8 +14,10 @@ class MozAddonGeneric extends MozAddonBase {
 
     this.addEventListener("click", (event) => {
       if (event.button != 0) { return; }
-      if (!["button", "checkbox"].includes(event.originalTarget.localName) &&
-        !event.originalTarget.classList.contains("text-link")) {
+      if (!["button", "checkbox", "menulist", "menuitem"].includes(event.originalTarget.localName) &&
+        !event.originalTarget.classList.contains("text-link") &&
+        // Treat the relnotes container as embedded text instead of a click target.
+        !event.originalTarget.closest(".relnotes-container")) {
         this.showInDetailView();
       }
     });
@@ -52,7 +54,7 @@ class MozAddonGeneric extends MozAddonBase {
         <vbox class="content-inner-container" flex="1">
           <hbox class="basicinfo-container">
             <hbox class="name-container">
-              <label anonid="name" class="name" crop="end" flex="1" tooltip="addonitem-tooltip" inherits="value=name"></label>
+              <label anonid="name" class="name" crop="end" flex="1" tooltip="addonitem-tooltip" inherits="text=name"></label>
               <label anonid="legacy" class="legacy-warning text-link" value="FROM-DTD.addon.legacy.label;"></label>
               <label class="disabled-postfix" value="FROM-DTD.addon.disabled.postfix;"></label>
               <label class="update-postfix" value="FROM-DTD.addon.update.postfix;"></label>

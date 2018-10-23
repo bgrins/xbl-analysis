@@ -515,8 +515,12 @@ class MozLegacyUrlbar extends MozAutocomplete {
 
     // At this point, no events have been deferred for this search, and we
     // need to decide whether `event` is the first one that should be.
+    if (!this._keyCodesToDefer.has(event.keyCode) &&
+      !(/Mac/.test(navigator.platform) &&
+        event.ctrlKey &&
+        (event.key === "n" || event.key === "p") &&
+        this.popupOpen)) {
 
-    if (!this._keyCodesToDefer.has(event.keyCode)) {
       // Not a key that should trigger deferring.
       return false;
     }

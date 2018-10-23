@@ -57,9 +57,8 @@ class MozAddonProgressNotification extends MozPopupNotification {
 
   setProgress(aProgress, aMaxProgress) {
     if (aMaxProgress == -1) {
-      this.progressmeter.setAttribute("mode", "undetermined");
+      this.progressmeter.removeAttribute("value");
     } else {
-      this.progressmeter.setAttribute("mode", "determined");
       this.progressmeter.setAttribute("value", (aProgress * 100) / aMaxProgress);
     }
 
@@ -125,7 +124,7 @@ class MozAddonProgressNotification extends MozPopupNotification {
 
     if (downloadingCount == 0) {
       this.destroy();
-      this.progressmeter.setAttribute("mode", "undetermined");
+      this.progressmeter.removeAttribute("value");
       let status = gNavigatorBundle.getString("addonDownloadVerifying");
       this.progresstext.setAttribute("value", status);
       this.progresstext.setAttribute("tooltiptext", status);

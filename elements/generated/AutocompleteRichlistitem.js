@@ -478,8 +478,9 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
 
     let action;
 
-    if (initialTypes.has("autofill")) {
-      // Treat autofills as visiturl actions.
+    if (initialTypes.has("autofill") && !initialTypes.has("action")) {
+      // Treat autofills as visiturl actions, unless they are already also
+      // actions.
       action = {
         type: "visiturl",
         params: { url: title },
@@ -487,7 +488,11 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
     }
 
     this.removeAttribute("actiontype");
-    this.classList.remove("overridable-action", "emptySearchQuery");
+    this.classList.remove(
+      "overridable-action",
+      "emptySearchQuery",
+      "aliasOffer"
+    );
 
     // If the type includes an action, set up the item appropriately.
     if (initialTypes.has("action") || action) {
@@ -519,7 +524,12 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
             // properly generate emphasis pairs. That said, no localization
             // changed the order while it was possible, so doesn't look like
             // there's a strong need for that.
-            let { engineName, searchSuggestion, searchQuery } = action.params;
+            let {
+              engineName,
+              searchSuggestion,
+              searchQuery,
+              alias,
+            } = action.params;
 
             // Override the engine name if the popup defines an override.
             let override = popup.overrideSearchEngineName;
@@ -555,6 +565,19 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
                   [searchSuggestion, ""],
                 ];
               }
+            } else if (alias &&
+              !searchQuery.trim() &&
+              !initialTypes.has("heuristic")) {
+              // For non-heuristic alias results that have an empty query, we
+              // want to show "@engine -- Search with Engine" to make it clear
+              // that the user can search by selecting the result and using
+              // the alias.  Normally we hide the "Search with Engine" part
+              // until the result is selected or moused over, but not here.
+              // Add the aliasOffer class so we can detect this in the CSS.
+              this.classList.add("aliasOffer");
+              pairs = [
+                [alias, ""],
+              ];
             } else {
               // Add the emptySearchQuery class if the search query is the
               // empty string.  We use it to hide .ac-separator in CSS.
