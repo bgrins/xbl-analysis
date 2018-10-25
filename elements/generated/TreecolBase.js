@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozTreecolBase extends MozTreeBase {
+class MozTreecolBase extends MozBaseControl {
   constructor() {
     super();
 

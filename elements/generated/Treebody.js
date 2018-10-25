@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozTreebody extends MozTreeBase {
+class MozTreebody extends MozBaseControl {
   constructor() {
     super();
 
@@ -19,7 +19,7 @@ class MozTreebody extends MozTreeBase {
     this.addEventListener("mousedown", (event) => {
       if (this.parentNode.disabled)
         return;
-      if (((!this._isAccelPressed(event) ||
+      if (((!event.getModifierState("Accel") ||
             !this.parentNode.pageUpOrDownMovesSelection) &&
           !event.shiftKey && !event.metaKey) ||
         this.parentNode.view.selection.single) {
@@ -90,7 +90,7 @@ class MozTreebody extends MozTreeBase {
       }
 
       if (!view.selection.single) {
-        var augment = this._isAccelPressed(event);
+        var augment = event.getModifierState("Accel");
         if (event.shiftKey) {
           view.selection.rangedSelect(-1, cell.row, augment);
           b.ensureRowIsVisible(cell.row);

@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozTree extends MozTreeBase {
+class MozTree extends MozBaseControl {
   constructor() {
     super();
 
@@ -265,12 +265,12 @@ class MozTree extends MozTreeBase {
       if (event.charCode == " ".charCodeAt(0)) {
         var c = this.currentIndex;
         if (!this.view.selection.isSelected(c) ||
-          (!this.view.selection.single && this._isAccelPressed(event))) {
+          (!this.view.selection.single && event.getModifierState("Accel"))) {
           this.view.selection.toggleSelect(c);
           event.preventDefault();
         }
       } else if (!this.disableKeyNavigation && event.charCode > 0 &&
-        !event.altKey && !this._isAccelPressed(event) &&
+        !event.altKey && !event.getModifierState("Accel") &&
         !event.metaKey && !event.ctrlKey) {
         var l = this._keyNavigate(event);
         if (l >= 0) {
@@ -667,7 +667,7 @@ class MozTree extends MozTreeBase {
     if (this.view.rowCount == 0)
       return;
 
-    if (this._isAccelPressed(event) && this.view.selection.single) {
+    if (event.getModifierState("Accel") && this.view.selection.single) {
       this.treeBoxObject.scrollByLines(offset);
       return;
     }
@@ -679,7 +679,7 @@ class MozTree extends MozTreeBase {
       c = edge;
     }
 
-    if (!this._isAccelPressed(event))
+    if (!event.getModifierState("Accel"))
       this.view.selection.timedSelect(c, this._selectDelay);
     else // Ctrl+Up/Down moves the anchor without selecting
       this.currentIndex = c;
@@ -713,7 +713,7 @@ class MozTree extends MozTreeBase {
 
     // Extend the selection from the existing pivot, if any
     this.view.selection.rangedSelect(-1, c + offset,
-      this._isAccelPressed(event));
+      event.getModifierState("Accel"));
     this.treeBoxObject.ensureRowIsVisible(c + offset);
 
   }
@@ -724,7 +724,7 @@ class MozTree extends MozTreeBase {
     if (this.view.rowCount == 0)
       return;
 
-    if (this.pageUpOrDownMovesSelection == this._isAccelPressed(event)) {
+    if (this.pageUpOrDownMovesSelection == event.getModifierState("Accel")) {
       this.treeBoxObject.scrollByPages(offset);
       return;
     }
@@ -767,7 +767,7 @@ class MozTree extends MozTreeBase {
       return;
 
     if (this.view.rowCount == 1 && !this.view.selection.isSelected(0) &&
-      !(this.pageUpOrDownMovesSelection == this._isAccelPressed(event))) {
+      !(this.pageUpOrDownMovesSelection == event.getModifierState("Accel"))) {
       this.view.selection.timedSelect(0, this._selectDelay);
       return;
     }
@@ -792,7 +792,7 @@ class MozTree extends MozTreeBase {
         this.treeBoxObject.ensureRowIsVisible(i > edge ? edge : i);
       }
       // Extend the selection from the existing pivot, if any
-      this.view.selection.rangedSelect(-1, i > edge ? edge : i, this._isAccelPressed(event));
+      this.view.selection.rangedSelect(-1, i > edge ? edge : i, event.getModifierState("Accel"));
 
     } else {
 
@@ -801,7 +801,7 @@ class MozTree extends MozTreeBase {
         this.treeBoxObject.ensureRowIsVisible(i);
       }
       // Extend the selection from the existing pivot, if any
-      this.view.selection.rangedSelect(-1, i, this._isAccelPressed(event));
+      this.view.selection.rangedSelect(-1, i, event.getModifierState("Accel"));
     }
 
   }
@@ -818,7 +818,7 @@ class MozTree extends MozTreeBase {
     }
 
     // Normal behaviour is to select the first/last row
-    if (!this._isAccelPressed(event))
+    if (!event.getModifierState("Accel"))
       this.view.selection.timedSelect(edge, this._selectDelay);
 
     // In a multiselect tree Ctrl+Home/End moves the anchor
@@ -845,7 +845,7 @@ class MozTree extends MozTreeBase {
 
     // Extend the selection from the existing pivot, if any.
     // -1 doesn't work here, so using currentIndex instead
-    this.view.selection.rangedSelect(this.currentIndex, edge, this._isAccelPressed(event));
+    this.view.selection.rangedSelect(this.currentIndex, edge, event.getModifierState("Accel"));
 
     this.treeBoxObject.ensureRowIsVisible(edge);
   }

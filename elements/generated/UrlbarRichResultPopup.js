@@ -124,7 +124,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       <richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></richlistbox>
       <hbox anonid="footer">
         <children></children>
-        <vbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></vbox>
+        <search-one-offs anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></search-one-offs>
       </hbox>
     `));
     /**

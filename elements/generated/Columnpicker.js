@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozColumnpicker extends MozTreeBase {
+class MozColumnpicker extends MozBaseControl {
   constructor() {
     super();
 

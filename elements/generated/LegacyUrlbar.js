@@ -822,7 +822,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
           break;
         case "keyword":
           if (action.params.postData) {
-            postData = getPostDataStream(action.params.postData);
+            postData = UrlbarUtils.getPostDataStream(action.params.postData);
           }
           mayInheritPrincipal = true;
           url = action.params.url;
@@ -884,7 +884,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
         new URL(url);
       } catch (ex) {
         let lastLocationChange = browser.lastLocationChange;
-        getShortcutOrURIAndPostData(url).then(data => {
+        UrlbarUtils.getShortcutOrURIAndPostData(url).then(data => {
           if (where != "current" ||
             browser.lastLocationChange == lastLocationChange) {
             this._loadURL(data.url, browser, data.postData, where,
@@ -907,7 +907,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
       browser.initialPageLoadedFromURLBar = url;
     }
     try {
-      addToUrlbarHistory(url);
+      UrlbarUtils.addToUrlbarHistory(url, window);
     } catch (ex) {
       // Things may go wrong when adding url to session history,
       // but don't let that interfere with the loading of the url.
