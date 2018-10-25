@@ -22,11 +22,6 @@ var allFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/translation/translation-infobar.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/extensions/formautofill/content/formautofill.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/places/organizer.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/android/platformHTMLBindings.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/emacs/platformHTMLBindings.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/mac/platformHTMLBindings.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/unix/platformHTMLBindings.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/win/platformHTMLBindings.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/components/prompts/content/tabprompts.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml',
@@ -93,6 +88,11 @@ var deletedFiles = {
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/progressmeter.xml': '2018-10-03',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/colorpicker.xml': '2018-10-05',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/groupbox.xml': '2018-10-23',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/android/platformHTMLBindings.xml': '2018-10-25',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/emacs/platformHTMLBindings.xml': '2018-10-25',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/mac/platformHTMLBindings.xml': '2018-10-25',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/unix/platformHTMLBindings.xml': '2018-10-25',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/win/platformHTMLBindings.xml': '2018-10-25',
 };
 
 var exportedFiles = allFiles.slice();

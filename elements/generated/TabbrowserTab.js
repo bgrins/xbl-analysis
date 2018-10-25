@@ -39,11 +39,8 @@ class MozTabbrowserTab extends MozTab {
     });
 
     this.addEventListener("mousedown", (event) => {
-      if (event.button == 0 && !this.selected && this.multiselected) {
-        gBrowser.lockClearMultiSelectionOnce();
-      }
-
       let tabContainer = this.parentNode;
+
       if (tabContainer._closeTabByDblclick &&
         event.button == 0 &&
         event.detail == 1) {
@@ -52,20 +49,44 @@ class MozTabbrowserTab extends MozTab {
 
       if (this.selected) {
         this.style.MozUserFocus = "ignore";
-      } else {
-        // When browser.tabs.multiselect config is set to false,
-        // then we ignore the state of multi-selection keys (Ctrl/Cmd).
-        const tabSelectionToggled = tabContainer._multiselectEnabled &&
-          (event.getModifierState("Accel") || event.shiftKey);
-
-        if (this.mOverCloseButton || this._overPlayingIcon || tabSelectionToggled) {
-          // Prevent tabbox.xml from selecting the tab.
-          event.stopPropagation();
-        }
+      } else if (this.mOverCloseButton || this._overPlayingIcon) {
+        // Prevent tabbox.xml from selecting the tab.
+        event.stopPropagation();
       }
 
       if (event.button == 1) {
         gBrowser.warmupTab(gBrowser._findTabToBlurTo(this));
+      }
+
+      if (event.button == 0 && tabContainer._multiselectEnabled) {
+        let shiftKey = event.shiftKey;
+        let accelKey = event.getModifierState("Accel");
+        if (shiftKey) {
+          const lastSelectedTab = gBrowser.lastMultiSelectedTab;
+          if (!accelKey) {
+            gBrowser.selectedTab = lastSelectedTab;
+
+            // Make sure selection is cleared when tab-switch doesn't happen.
+            gBrowser.clearMultiSelectedTabs(false);
+          }
+          gBrowser.addRangeToMultiSelectedTabs(lastSelectedTab, this);
+
+          // Prevent tabbox.xml from selecting the tab.
+          event.stopPropagation();
+        } else if (accelKey) {
+          // Ctrl (Cmd for mac) key is pressed
+          if (this.multiselected) {
+            gBrowser.removeFromMultiSelectedTabs(this, true);
+          } else if (this != gBrowser.selectedTab) {
+            gBrowser.addToMultiSelectedTabs(this, false);
+            gBrowser.lastMultiSelectedTab = this;
+          }
+
+          // Prevent tabbox.xml from selecting the tab.
+          event.stopPropagation();
+        } else if (!this.selected && this.multiselected) {
+          gBrowser.lockClearMultiSelectionOnce();
+        }
       }
     }, true);
 
@@ -79,43 +100,21 @@ class MozTabbrowserTab extends MozTab {
 
     this.addEventListener("click", (event) => {
       if (event.button != 0) { return; }
-      let tabContainer = this.parentNode;
-      if (tabContainer._multiselectEnabled) {
-        let shiftKey = event.shiftKey;
-        let accelKey = event.getModifierState("Accel");
-        if (shiftKey) {
-          const lastSelectedTab = gBrowser.lastMultiSelectedTab;
-          if (!accelKey) {
-            gBrowser.selectedTab = lastSelectedTab;
+      if (event.getModifierState("Accel") || event.shiftKey) {
+        return;
+      }
 
-            // Make sure selection is cleared when tab-switch doesn't happen.
-            gBrowser.clearMultiSelectedTabs(false);
-          }
-          gBrowser.addRangeToMultiSelectedTabs(lastSelectedTab, this);
-          return;
-        }
-        if (accelKey) {
-          // Ctrl (Cmd for mac) key is pressed
-          if (this.multiselected) {
-            gBrowser.removeFromMultiSelectedTabs(this, true);
-          } else if (this != gBrowser.selectedTab) {
-            gBrowser.addToMultiSelectedTabs(this, false);
-            gBrowser.lastMultiSelectedTab = this;
-          }
-          return;
-        }
+      if (gBrowser.multiSelectedTabsCount > 0 &&
+        !this.mOverCloseButton &&
+        !this._overPlayingIcon) {
+        // Tabs were previously multi-selected and user clicks on a tab
+        // without holding Ctrl/Cmd Key
 
-        const overCloseButton = event.originalTarget.getAttribute("anonid") == "close-button";
-        if (gBrowser.multiSelectedTabsCount > 0 && !overCloseButton && !this._overPlayingIcon) {
-          // Tabs were previously multi-selected and user clicks on a tab
-          // without holding Ctrl/Cmd Key
+        // Force positional attributes to update when the
+        // target (of the click) is the "active" tab.
+        let updatePositionalAttr = gBrowser.selectedTab == this;
 
-          // Force positional attributes to update when the
-          // target (of the click) is the "active" tab.
-          let updatePositionalAttr = gBrowser.selectedTab == this;
-
-          gBrowser.clearMultiSelectedTabs(updatePositionalAttr);
-        }
+        gBrowser.clearMultiSelectedTabs(updatePositionalAttr);
       }
 
       if (this._overPlayingIcon) {
