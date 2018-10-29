@@ -727,7 +727,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
       }
       reuseEmpty = true;
     }
-    if (where == "tab" && reuseEmpty && isTabEmpty(gBrowser.selectedTab)) {
+    if (where == "tab" && reuseEmpty && gBrowser.selectedTab.isEmpty) {
       where = "current";
     }
     return where;
@@ -837,7 +837,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
             };
 
             if (switchToTabHavingURI(url, false, loadOpts) &&
-              isTabEmpty(prevTab)) {
+              prevTab.isEmpty) {
               gBrowser.removeTab(prevTab);
             }
             return;

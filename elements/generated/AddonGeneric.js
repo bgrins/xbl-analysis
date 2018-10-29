@@ -64,6 +64,10 @@ class MozAddonGeneric extends MozAddonBase {
           </hbox>
           <hbox class="advancedinfo-container" flex="1">
             <vbox class="description-outer-container" flex="1">
+              <hbox class="description-container">
+                <label anonid="description" class="description" crop="end" flex="1"></label>
+                <spacer flex="5000"></spacer>
+              </hbox>
               <hbox class="relnotes-toggle-container">
                 <button anonid="relnotes-toggle-btn" class="relnotes-toggle" hidden="true" label="FROM-DTD.cmd.showReleaseNotes.label;" tooltiptext="FROM-DTD.cmd.showReleaseNotes.tooltip;" showlabel="FROM-DTD.cmd.showReleaseNotes.label;" showtooltip="FROM-DTD.cmd.showReleaseNotes.tooltip;" hidelabel="FROM-DTD.cmd.hideReleaseNotes.label;" hidetooltip="FROM-DTD.cmd.hideReleaseNotes.tooltip;" oncommand="document.getBindingParent(this).toggleReleaseNotes();"></button>
               </hbox>
@@ -145,6 +149,9 @@ class MozAddonGeneric extends MozAddonBase {
 
     this._dateUpdated = document.getAnonymousElementByAttribute(this, "anonid",
       "date-updated");
+
+    this._description = document.getAnonymousElementByAttribute(this, "anonid",
+      "description");
 
     this._stateMenulist = document.getAnonymousElementByAttribute(this, "anonid",
       "state-menulist");
@@ -256,6 +263,11 @@ class MozAddonGeneric extends MozAddonBase {
       this._icon.src = iconURL;
     else
       this._icon.src = "";
+
+    if (this.mAddon.description)
+      this._description.value = this.mAddon.description;
+    else
+      this._description.hidden = true;
 
     let legacyWarning = legacyExtensionsEnabled && !this.mAddon.install &&
       isLegacyExtension(this.mAddon);

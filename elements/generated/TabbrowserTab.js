@@ -284,6 +284,28 @@ class MozTabbrowserTab extends MozTab {
     return this.getAttribute("activemedia-blocked") == "true";
   }
 
+  get isEmpty() {
+    // Determines if a tab is "empty", usually used in the context of determining
+    // if it's ok to close the tab.
+    if (this.hasAttribute("busy"))
+      return false;
+
+    if (this.hasAttribute("customizemode"))
+      return false;
+
+    let browser = this.linkedBrowser;
+    if (!isBlankPageURL(browser.currentURI.spec))
+      return false;
+
+    if (!checkEmptyPageOrigin(browser))
+      return false;
+
+    if (browser.canGoForward || browser.canGoBack)
+      return false;
+
+    return true;
+  }
+
   get lastAccessed() {
     return this._lastAccessed == Infinity ? Date.now() : this._lastAccessed;
   }
