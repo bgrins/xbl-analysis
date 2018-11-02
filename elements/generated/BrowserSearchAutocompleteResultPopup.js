@@ -181,7 +181,7 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
   }
 
   updateHeader() {
-    let currentEngine = Services.search.currentEngine;
+    let currentEngine = Services.search.defaultEngine;
     let uri = currentEngine.iconURI;
     if (uri) {
       this.setAttribute("src", uri.spec);

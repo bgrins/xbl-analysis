@@ -258,7 +258,7 @@ class MozAddonGeneric extends MozAddonBase {
 
     this.setAttribute("name", aAddon.name);
 
-    var iconURL = AddonManager.getPreferredIconURL(aAddon, 32, window);
+    var iconURL = AddonManager.getPreferredIconURL(aAddon, 24, window);
     if (iconURL)
       this._icon.src = iconURL;
     else

@@ -150,9 +150,9 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     this.oneOffSearchButtons = document.getAnonymousElementByAttribute(this, "anonid",
       "one-off-search-buttons");
 
-    this._oneOffSearchesEnabled = false;
-
     this._overrideValue = null;
+
+    this._oneOffSearchesEnabledByReason = new Map();
 
     this._addonIframe = null;
 
@@ -188,26 +188,8 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     return this._overrideValue;
   }
 
-  set oneOffSearchesEnabled(val) {
-    this._oneOffSearchesEnabled = !!val;
-    if (val) {
-      this.oneOffSearchButtons.telemetryOrigin = "urlbar";
-      this.oneOffSearchButtons.style.display = "-moz-box";
-      // Set .textbox first, since the popup setter will cause
-      // a _rebuild call that uses it.
-      this.oneOffSearchButtons.textbox = this.input;
-      this.oneOffSearchButtons.popup = this;
-    } else {
-      this.oneOffSearchButtons.telemetryOrigin = null;
-      this.oneOffSearchButtons.style.display = "none";
-      this.oneOffSearchButtons.textbox = null;
-      this.oneOffSearchButtons.popup = null;
-    }
-    return this._oneOffSearchesEnabled;
-  }
-
   get oneOffSearchesEnabled() {
-    return this._oneOffSearchesEnabled;
+    return this.oneOffSearchButtons.style.display != "none";
   }
 
   get _isFirstResultHeuristic() {
@@ -280,6 +262,38 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     }
     // Otherwise "call super" -- do what autocomplete-base-popup does.
     this.input.controller.handleEnter(true, aEvent);
+  }
+
+  toggleOneOffSearches(enable, reason) {
+    this._oneOffSearchesEnabledByReason.set(reason || "runtime", enable);
+    this._syncOneOffSearchesEnabled();
+  }
+
+  _syncOneOffSearchesEnabled() {
+    // If the popup hasn't ever been opened yet, then don't actually do
+    // anything.  (The popup will still be hidden in that case.)  The
+    // input adds a popupshowing listener that will call this method back
+    // and lazily initialize the one-off buttons the first time the popup
+    // opens.  There are performance tests that fail if we don't do this.
+    if (this.hidden) {
+      return;
+    }
+
+    let enable = Array.from(this._oneOffSearchesEnabledByReason.values())
+      .every(v => v);
+    if (enable) {
+      this.oneOffSearchButtons.telemetryOrigin = "urlbar";
+      this.oneOffSearchButtons.style.display = "-moz-box";
+      // Set .textbox first, since the popup setter will cause
+      // a _rebuild call that uses it.
+      this.oneOffSearchButtons.textbox = this.input;
+      this.oneOffSearchButtons.popup = this;
+    } else {
+      this.oneOffSearchButtons.telemetryOrigin = null;
+      this.oneOffSearchButtons.style.display = "none";
+      this.oneOffSearchButtons.textbox = null;
+      this.oneOffSearchButtons.popup = null;
+    }
   }
 
   /**
@@ -667,6 +681,10 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     // selected and is now being reused.
     if (selectHeuristic || !this.input.gotResultForCurrentQuery) {
       this.input.formatValue();
+
+      // Also, hide the one-off search buttons if the user is using, or
+      // starting to use, an "@engine" search engine alias.
+      this.toggleOneOffSearches(this.input.value.trim()[0] != "@");
     }
 
     // If this is the first time we get the result from the current
@@ -685,7 +703,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
         this.input.urlbarSearchSuggestEnabled) {
         // Preconnect to the current search engine only if the search
         // suggestions are enabled.
-        let engine = Services.search.currentEngine;
+        let engine = Services.search.defaultEngine;
         engine.speculativeConnect({
           window,
           originAttributes: gBrowser.contentPrincipal.originAttributes

@@ -1785,6 +1785,15 @@ class MozBrowser extends MozXULElement {
     this.droppedLinkHandler(null, links, aTriggeringPrincipal);
     return true;
   }
+
+  getContentBlockingLog() {
+    if (this.isRemoteBrowser) {
+      return this.frameLoader.tabParent.getContentBlockingLog();
+    }
+    return this.docShell ?
+      this.docShell.getContentBlockingLog() :
+      Promise.reject("docshell isn't available");
+  }
   disconnectedCallback() {
     this.destroy();
   }

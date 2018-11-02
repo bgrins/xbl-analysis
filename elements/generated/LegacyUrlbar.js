@@ -1234,8 +1234,10 @@ class MozLegacyUrlbar extends MozAutocomplete {
   }
 
   _enableOrDisableOneOffSearches() {
-    this.popup.oneOffSearchesEnabled =
-      this._prefs.getBoolPref("oneOffSearches");
+    this.popup.toggleOneOffSearches(
+      this._prefs.getBoolPref("oneOffSearches"),
+      "pref"
+    );
   }
 
   handleEvent(aEvent) {
@@ -1553,29 +1555,11 @@ class MozLegacyUrlbar extends MozAutocomplete {
    * @param  value
    * The input's value will be set to this value, and the search will
    * use it as its query.
-   * @param  options
-   * An optional object with the following optional properties:
-   * * disableOneOffButtons: Set to true to hide the one-off search
-   * buttons.
-   * * disableSearchSuggestionsNotification: Set to true to hide the
-   * onboarding opt-out search suggestions notification.
    */
-  search(value, options) {
-    options = options || {};
-
-    if (options.disableOneOffButtons) {
-      this.popup.addEventListener("popupshowing", () => {
-        if (this.popup.oneOffSearchesEnabled) {
-          this.popup.oneOffSearchesEnabled = false;
-          this.popup.addEventListener("popuphidden", () => {
-            this.popup.oneOffSearchesEnabled = true;
-          }, { once: true });
-        }
-      }, { once: true });
-    }
-
-    if (options.disableSearchSuggestionsNotification &&
-      this.whichSearchSuggestionsNotification != "none") {
+  search(value) {
+    // Hide the suggestions notification if the search uses an "@engine"
+    // search engine alias.
+    if (value.trim()[0] == "@") {
       let which = this.whichSearchSuggestionsNotification;
       this._whichSearchSuggestionsNotification = "none";
       this.popup.addEventListener("popuphidden", () => {
