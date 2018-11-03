@@ -22,7 +22,7 @@ class MozTab extends MozBasetext {
       if (this != this.parentNode.selectedItem) { // Not selected yet
         let stopwatchid = this.parentNode.getAttribute("stopwatchid");
         if (stopwatchid) {
-          this.TelemetryStopwatch.start(stopwatchid);
+          TelemetryStopwatch.start(stopwatchid);
         }
 
         // Call this before setting the 'ignorefocus' attribute because this
@@ -44,7 +44,7 @@ class MozTab extends MozBasetext {
         }
 
         if (stopwatchid) {
-          this.TelemetryStopwatch.finish(stopwatchid);
+          TelemetryStopwatch.finish(stopwatchid);
         }
       }
       // Otherwise this tab is already selected and we will fall
@@ -138,18 +138,6 @@ class MozTab extends MozBasetext {
 
   get linkedPanel() {
     return this.getAttribute('linkedpanel')
-  }
-
-  get TelemetryStopwatch() {
-    let module = {};
-    ChromeUtils.import("resource://gre/modules/TelemetryStopwatch.jsm", module);
-    Object.defineProperty(this, "TelemetryStopwatch", {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: module.TelemetryStopwatch,
-    });
-    return module.TelemetryStopwatch;
   }
 }
 
