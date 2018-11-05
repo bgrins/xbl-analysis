@@ -856,7 +856,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
           }
           const actionDetails = {
             isSuggestion: !!action.params.searchSuggestion,
-            isAlias: !!action.params.alias,
+            alias: action.params.alias,
           };
           [url, postData] = this._parseAndRecordSearchEngineLoad(
             action.params.engineName,
