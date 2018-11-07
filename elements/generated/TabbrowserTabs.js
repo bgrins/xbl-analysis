@@ -1186,7 +1186,7 @@ class MozTabbrowserTabs extends MozTabs {
 
     if (this.getAttribute("movingtab") != "true") {
       this.setAttribute("movingtab", "true");
-      this.parentNode.setAttribute("movingtab", "true");
+      gNavToolbox.setAttribute("movingtab", "true");
       if (!draggedTab.multiselected)
         this.selectedItem = draggedTab;
     }
@@ -1311,7 +1311,7 @@ class MozTabbrowserTabs extends MozTabs {
     }
 
     this.removeAttribute("movingtab");
-    this.parentNode.removeAttribute("movingtab");
+    gNavToolbox.removeAttribute("movingtab");
 
     this._handleTabSelect();
   }
@@ -1689,7 +1689,7 @@ class MozTabbrowserTabs extends MozTabs {
 
   onWidgetAfterDOMChange(aNode, aNextNode, aContainer) {
     if (aContainer.ownerDocument == document &&
-      aContainer.id == "TabsToolbar") {
+      aContainer.id == "TabsToolbar-customization-target") {
       this._updateNewTabVisibility();
     }
   }

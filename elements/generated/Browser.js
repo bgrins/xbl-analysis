@@ -451,7 +451,7 @@ class MozBrowser extends MozXULElement {
     if (this.isRemoteBrowser) {
       return this._outerWindowID;
     }
-    return this.contentWindow.windowUtils.outerWindowID;
+    return this.docShell.outerWindowID;
   }
 
   get innerWindowID() {
