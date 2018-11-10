@@ -79,13 +79,7 @@ class MozNotification extends MozXULElement {
   }
 
   get control() {
-    var parent = this.parentNode;
-    while (parent) {
-      if (parent.localName == "notificationbox")
-        return parent;
-      parent = parent.parentNode;
-    }
-    return null;
+    return this.closest(".notificationbox-stack")._notificationBox;
   }
 
   /**

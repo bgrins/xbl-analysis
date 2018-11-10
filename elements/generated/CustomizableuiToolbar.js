@@ -36,20 +36,6 @@ class MozCustomizableuiToolbar extends MozXULElement {
     CustomizableUI.registerToolbarNode(this, children);
 
   }
-
-  get customizationTarget() {
-    if (this._customizationTarget)
-      return this._customizationTarget;
-
-    let id = this.getAttribute("customizationtarget");
-    if (id)
-      this._customizationTarget = document.getElementById(id);
-
-    if (!this._customizationTarget)
-      this._customizationTarget = this;
-
-    return this._customizationTarget;
-  }
 }
 
 customElements.define("customizableui-toolbar", MozCustomizableuiToolbar);

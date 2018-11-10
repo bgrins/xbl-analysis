@@ -54,13 +54,6 @@ class MozArrowscrollboxClicktoscroll extends MozArrowscrollbox {
 
   }
 
-  notify(aTimer) {
-    if (!document)
-      aTimer.cancel();
-
-    this.scrollByIndex(this._scrollIndex);
-  }
-
   _startScroll(index) {
     if (this._isRTLScrollbox)
       index *= -1;
@@ -79,9 +72,16 @@ class MozArrowscrollboxClicktoscroll extends MozArrowscrollbox {
     else
       this._scrollTimer.cancel();
 
-    this._scrollTimer.initWithCallback(this, this._scrollDelay,
+    let callback = () => {
+      if (!document && this._scrollTimer) {
+        this._scrollTimer.cancel();
+      }
+      this.scrollByIndex(this._scrollIndex);
+    };
+
+    this._scrollTimer.initWithCallback(callback, this._scrollDelay,
       this._scrollTimer.TYPE_REPEATING_SLACK);
-    this.notify(this._scrollTimer);
+    callback();
   }
 
   _stopScroll() {
@@ -165,7 +165,6 @@ class MozArrowscrollboxClicktoscroll extends MozArrowscrollbox {
   }
 }
 
-MozXULElement.implementCustomInterface(MozArrowscrollboxClicktoscroll, [Ci.nsITimerCallback]);
 customElements.define("arrowscrollbox-clicktoscroll", MozArrowscrollboxClicktoscroll);
 
 }
