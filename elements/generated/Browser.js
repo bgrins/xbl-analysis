@@ -150,6 +150,8 @@ class MozBrowser extends MozXULElement {
 
     this._innerWindowID = null;
 
+    this._browsingContextId = null;
+
     this._lastSearchString = null;
 
     this._controller = null;
@@ -466,6 +468,14 @@ class MozBrowser extends MozXULElement {
       }
       return null;
     }
+  }
+
+  get browsingContext() {
+    if (!this.isRemoteBrowser) {
+      return this.docShell.browsingContext;
+    }
+
+    return ChromeUtils.getBrowsingContext(this._browsingContextId);
   }
   /**
    * Note that this overrides webNavigation on XULFrameElement, and duplicates the return value for the non-remote case
@@ -1219,6 +1229,7 @@ class MozBrowser extends MozXULElement {
     switch (aMessage.name) {
       case "Browser:Init":
         this._outerWindowID = data.outerWindowID;
+        this._browsingContextId = data.browsingContextId;
         break;
       case "DOMTitleChanged":
         this._contentTitle = data.title;

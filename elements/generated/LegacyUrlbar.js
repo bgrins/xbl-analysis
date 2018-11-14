@@ -476,6 +476,20 @@ class MozLegacyUrlbar extends MozAutocomplete {
         this.popup.richlistbox.suppressMenuItemEvent = false;
         break;
     }
+
+    if (AppConstants.platform == "macosx") {
+      switch (aEvent.key) {
+        case "n":
+        case "p":
+          if (aEvent.ctrlKey) {
+            // The user is explicitly making a selection, so the popup
+            // should get accessibility focus.
+            this.popup.richlistbox.suppressMenuItemEvent = false;
+          }
+          break;
+      }
+    }
+
     if (!this.popup.disableKeyNavigation) {
       if (!aNoDefer && this._shouldDeferKeyEvent(aEvent)) {
         this._deferKeyEvent(aEvent, "onKeyPress");

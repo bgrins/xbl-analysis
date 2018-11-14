@@ -219,7 +219,7 @@ class MozRichlistbox extends MozBaseControl {
    * nsIDOMXULSelectControlElement
    */
   get itemCount() {
-    return this.children.length
+    return this.itemChildren.length
   }
   /**
    * nsIDOMXULMultiSelectControlElement
@@ -272,10 +272,10 @@ class MozRichlistbox extends MozBaseControl {
     return this.selectedItems.length;
   }
 
-  get children() {
+  get itemChildren() {
     let iface = Ci.nsIDOMXULSelectControlItemElement;
-    let children = Array.from(this.childNodes)
-      .filter(node => node.nodeType == 1 && node instanceof iface);
+    let children = Array.from(this.children)
+      .filter(node => node instanceof iface);
     if (this.dir == "reverse" && this._mayReverse) {
       children.reverse();
     }
@@ -400,7 +400,7 @@ class MozRichlistbox extends MozBaseControl {
       return -1;
     if (this._selecting && this._selecting.item == aItem)
       return this._selecting.index;
-    return this.children.indexOf(aItem);
+    return this.itemChildren.indexOf(aItem);
   }
 
   /**
@@ -409,7 +409,7 @@ class MozRichlistbox extends MozBaseControl {
   getItemAtIndex(aIndex) {
     if (this._selecting && this._selecting.index == aIndex)
       return this._selecting.item;
-    return this.children[aIndex] || null;
+    return this.itemChildren[aIndex] || null;
   }
 
   /**
@@ -622,7 +622,7 @@ class MozRichlistbox extends MozBaseControl {
   }
 
   getIndexOfFirstVisibleRow() {
-    var children = this.children;
+    var children = this.itemChildren;
 
     for (var ix = 0; ix < children.length; ix++)
       if (this._isItemVisible(children[ix]))
@@ -632,11 +632,11 @@ class MozRichlistbox extends MozBaseControl {
   }
 
   getRowCount() {
-    return this.children.length;
+    return this.itemChildren.length;
   }
 
   scrollOnePage(aDirection) {
-    var children = this.children;
+    var children = this.itemChildren;
 
     if (children.length == 0)
       return 0;
@@ -747,7 +747,7 @@ class MozRichlistbox extends MozBaseControl {
 
       // cf. listbox constructor:
       // select items according to their attributes
-      var children = this.children;
+      var children = this.itemChildren;
       for (let i = 0; i < children.length; ++i) {
         if (children[i].getAttribute("selected") == "true")
           this.selectedItems.append(children[i]);
