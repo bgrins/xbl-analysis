@@ -8,9 +8,8 @@
 // leaking to window scope.
 {
 
-class MozCustomizableuiToolbarDrag extends MozCustomizableuiToolbar {
+class MozCustomizableuiToolbarDrag extends MozXULElement {
   connectedCallback() {
-    super.connectedCallback()
 
     this._dragBindingAlive = true;
 

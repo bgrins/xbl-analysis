@@ -19,7 +19,6 @@ var allFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/menu.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/tree.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/translation/translation-infobar.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/extensions/formautofill/content/formautofill.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/places/organizer.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/xbl-marquee/xbl-marquee.xml',
@@ -93,6 +92,7 @@ var deletedFiles = {
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/unix/platformHTMLBindings.xml': '2018-10-25',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/dom/xbl/builtin/win/platformHTMLBindings.xml': '2018-10-25',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/datetimebox.xml': '2018-11-03',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/translation/translation-infobar.xml': '2018-11-14',
 };
 
 var exportedFiles = allFiles.slice();
