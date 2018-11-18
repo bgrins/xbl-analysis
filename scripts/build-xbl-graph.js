@@ -39,6 +39,7 @@ const inContentBindings = {
   "touchControls": 1,
   "noControls": 1,
   "prettyprint": 1,
+  "pluginProblem": 1,
   "suppressChangeEvent": 1,
   "date-input": 1,
   "time-input": 1,

@@ -124,7 +124,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       <richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></richlistbox>
       <hbox anonid="footer">
         <children></children>
-        <search-one-offs anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></search-one-offs>
+        <hbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></hbox>
       </hbox>
     `));
     /**
@@ -147,8 +147,9 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
 
     this.shrinkDelay = 250;
 
-    this.oneOffSearchButtons = document.getAnonymousElementByAttribute(this, "anonid",
-      "one-off-search-buttons");
+    this.oneOffSearchButtons = new window.SearchOneOffs(
+      document.getAnonymousElementByAttribute(this, "anonid",
+        "one-off-search-buttons"));
 
     this._overrideValue = null;
 

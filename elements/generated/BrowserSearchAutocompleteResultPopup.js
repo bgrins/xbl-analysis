@@ -88,7 +88,7 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
         <label anonid="searchbar-engine-name" flex="1" crop="end" role="presentation"></label>
       </hbox>
       <richlistbox anonid="richlistbox" class="autocomplete-richlistbox search-panel-tree" flex="1"></richlistbox>
-      <search-one-offs anonid="search-one-off-buttons" class="search-one-offs"></search-one-offs>
+      <hbox anonid="search-one-off-buttons" class="search-one-offs"></hbox>
     `));
     /**
      * Popup rollup is triggered by native events before the mousedown event
@@ -100,8 +100,9 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
 
     this._bundle = null;
 
-    this.oneOffButtons = document.getAnonymousElementByAttribute(this, "anonid",
-      "search-one-off-buttons");
+    this.oneOffButtons = new window.SearchOneOffs(
+      document.getAnonymousElementByAttribute(this, "anonid",
+        "search-one-off-buttons"));
 
   }
 
