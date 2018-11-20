@@ -366,14 +366,6 @@ class MozTree extends MozBaseControl {
     return this.boxObject;
   }
 
-  get contentView() {
-    return this.view;
-  }
-
-  get builderView() {
-    return this.view; /*.QueryInterface(Components.interfaces.nsIXULTreeBuilder)*/
-  }
-
   set keepCurrentInView(val) {
     if (val) this.setAttribute('keepcurrentinview', 'true');
     else this.removeAttribute('keepcurrentinview');

@@ -104,6 +104,9 @@ getBindingMetadata().then(({metadataForBindings, totalMetadata}) => {
       }
       if (deleted.length) {
         newText += deleted.map(del => {
+          if (del == "customizableui-toolbarpaletteitem") {
+            del = "toolbarpaletteitem";
+          }
           if (metadataForBindings[del]) {
             metadataSeen++;
           }
