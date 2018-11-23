@@ -15,7 +15,7 @@ class MozDownloadProgress extends MozXULElement {
       <stack flex="1">
         <hbox flex="1">
           <hbox class="start-cap"></hbox>
-          <progressmeter anonid="progress" class="progress" flex="1" min="0" max="100"></progressmeter>
+          <html:progress anonid="progress" class="progress" max="100"></html:progress>
           <hbox class="end-cap"></hbox>
         </hbox>
         <hbox class="status-container">
@@ -40,29 +40,24 @@ class MozDownloadProgress extends MozXULElement {
   }
 
   set progress(val) {
-    this._progress.value = val;
+    // This property is always updated after maxProgress.
+    if (this.getAttribute("mode") == "determined") {
+      this._progress.value = val;
+    }
     if (val == this._progress.max)
       this.setAttribute("complete", true);
     else
       this.removeAttribute("complete");
   }
 
-  get progress() {
-    return this._progress.value;
-  }
-
   set maxProgress(val) {
     if (val == -1) {
-      this._progress.mode = "undetermined";
+      this.setAttribute("mode", "undetermined");
+      this._progress.removeAttribute("value");
     } else {
-      this._progress.mode = "determined";
-      this._progress.max = val;
+      this.setAttribute("mode", "determined");
+      this._progress.setAttribute("max", val);
     }
-    this.setAttribute("mode", this._progress.mode);
-  }
-
-  get maxProgress() {
-    return this._progress.max;
   }
 
   set status(val) {

@@ -267,15 +267,9 @@ class MozAutocomplete extends MozTextbox {
       val = this.onBeforeTextValueSet(val);
     }
 
-    this.value = val;
-
-    // Completing a result should simulate the user typing the result, so
-    // fire an input event.
-    let evt = document.createEvent("UIEvents");
-    evt.initUIEvent("input", true, false, window, 0);
-    this.mIgnoreInput = true;
-    this.dispatchEvent(evt);
-    this.mIgnoreInput = false;
+    // "input" event is automatically dispatched by the editor if
+    // necessary.
+    this._setValueInternal(val, true);
 
     return this.value;
   }
@@ -317,26 +311,7 @@ class MozAutocomplete extends MozTextbox {
   }
 
   set value(val) {
-    this.mIgnoreInput = true;
-
-    if (typeof this.onBeforeValueSet == "function")
-      val = this.onBeforeValueSet(val);
-
-    if (typeof this.trimValue == "function" &&
-      !this._textValueSetByCompleteDefault)
-      val = this.trimValue(val);
-
-    this.valueIsTyped = false;
-    this.inputField.value = val;
-
-    if (typeof this.formatValue == "function")
-      this.formatValue();
-
-    this.mIgnoreInput = false;
-    var event = document.createEvent("Events");
-    event.initEvent("ValueChange", true, true);
-    this.inputField.dispatchEvent(event);
-    return val;
+    return this._setValueInternal(val, false);
   }
 
   get value() {
@@ -667,6 +642,33 @@ class MozAutocomplete extends MozTextbox {
     if (this.mIgnoreInput)
       return;
     this.removeAttribute("actiontype");
+  }
+
+  _setValueInternal(aValue, aIsUserInput) {
+    this.mIgnoreInput = true;
+
+    if (typeof this.onBeforeValueSet == "function")
+      aValue = this.onBeforeValueSet(aValue);
+
+    if (typeof this.trimValue == "function" &&
+      !this._textValueSetByCompleteDefault)
+      aValue = this.trimValue(aValue);
+
+    this.valueIsTyped = false;
+    if (aIsUserInput) {
+      this.inputField.setUserInput(aValue);
+    } else {
+      this.inputField.value = aValue;
+    }
+
+    if (typeof this.formatValue == "function")
+      this.formatValue();
+
+    this.mIgnoreInput = false;
+    var event = document.createEvent("Events");
+    event.initEvent("ValueChange", true, true);
+    this.inputField.dispatchEvent(event);
+    return aValue;
   }
 
   onInput(aEvent) {

@@ -130,18 +130,15 @@ class MozTree extends MozBaseControl {
       if (row < 0)
         return;
 
-      var checkContainers = true;
-      if (checkContainers) {
-        if (this.changeOpenState(this.currentIndex, false)) {
-          event.preventDefault();
-          return;
-        }
-        var parentIndex = this.view.getParentIndex(this.currentIndex);
-        if (parentIndex >= 0) {
-          this.view.selection.select(parentIndex);
-          this.treeBoxObject.ensureRowIsVisible(parentIndex);
-          event.preventDefault();
-        }
+      if (this.changeOpenState(this.currentIndex, false)) {
+        event.preventDefault();
+        return;
+      }
+      var parentIndex = this.view.getParentIndex(this.currentIndex);
+      if (parentIndex >= 0) {
+        this.view.selection.select(parentIndex);
+        this.treeBoxObject.ensureRowIsVisible(parentIndex);
+        event.preventDefault();
       }
     });
 
@@ -154,23 +151,20 @@ class MozTree extends MozBaseControl {
       if (row < 0)
         return;
 
-      var checkContainers = true;
-      if (checkContainers) {
-        if (this.changeOpenState(row, true)) {
-          event.preventDefault();
-          return;
-        }
-        var c = row + 1;
-        var view = this.view;
-        if (c < view.rowCount &&
-          view.getParentIndex(c) == row) {
-          // If already opened, select the first child.
-          // The getParentIndex test above ensures that the children
-          // are already populated and ready.
-          this.view.selection.timedSelect(c, this._selectDelay);
-          this.treeBoxObject.ensureRowIsVisible(c);
-          event.preventDefault();
-        }
+      if (this.changeOpenState(row, true)) {
+        event.preventDefault();
+        return;
+      }
+      var c = row + 1;
+      var view = this.view;
+      if (c < view.rowCount &&
+        view.getParentIndex(c) == row) {
+        // If already opened, select the first child.
+        // The getParentIndex test above ensures that the children
+        // are already populated and ready.
+        this.view.selection.timedSelect(c, this._selectDelay);
+        this.treeBoxObject.ensureRowIsVisible(c);
+        event.preventDefault();
       }
     });
 
@@ -517,19 +511,6 @@ class MozTree extends MozBaseControl {
       return true;
     }
     return false;
-  }
-
-  _getNextColumn(row, left) {
-    var col = this.view.selection.currentColumn;
-    if (col) {
-      col = left ? col.getPrevious() : col.getNext();
-    } else {
-      col = this.columns.getKeyColumn();
-    }
-    while (col && (col.width == 0 || !col.selectable ||
-        !this.view.isSelectable(row, col)))
-      col = left ? col.getPrevious() : col.getNext();
-    return col;
   }
 
   _keyNavigate(event) {
