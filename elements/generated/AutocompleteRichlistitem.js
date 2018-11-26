@@ -112,6 +112,22 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
 
   }
 
+  get Services() {
+    let module = {};
+    if (window.Services) {
+      module.Services = window.Services;
+    } else {
+      ChromeUtils.import("resource://gre/modules/Services.jsm", module);
+    }
+    Object.defineProperty(this, "Services", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: module.Services,
+    });
+    return module.Services;
+  }
+
   get label() {
     // This property is a string that is read aloud by screen readers,
     // so it must not contain anything that should not be user-facing.
@@ -134,7 +150,7 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
 
   get _stringBundle() {
     if (!this.__stringBundle) {
-      this.__stringBundle = Services.strings.createBundle("chrome://global/locale/autocomplete.properties");
+      this.__stringBundle = this.Services.strings.createBundle("chrome://global/locale/autocomplete.properties");
     }
     return this.__stringBundle;
   }
@@ -421,7 +437,7 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
   }
 
   _unescapeUrl(url) {
-    return Services.textToSubURI.unEscapeURIForUI("UTF-8", url);
+    return this.Services.textToSubURI.unEscapeURIForUI("UTF-8", url);
   }
 
   _reuseAcItem() {
@@ -638,7 +654,7 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
     if (!title) {
       titleLooksLikeUrl = true;
       try {
-        let uri = Services.io.newURI(originalUrl);
+        let uri = this.Services.io.newURI(originalUrl);
         // Not all valid URLs have a domain.
         if (uri.host)
           title = uri.host;

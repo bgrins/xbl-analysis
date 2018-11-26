@@ -590,8 +590,7 @@ class MozPlacesTree extends MozTree {
           // If we are within a sorted view, insert at the end
           index = -1;
         } else if (queryOptions.excludeItems ||
-          queryOptions.excludeQueries ||
-          queryOptions.excludeReadOnlyFolders) {
+          queryOptions.excludeQueries) {
           // Some item may be invisible, insert near last selected one.
           // We don't replace index here to avoid requests to the db,
           // instead it will be calculated later by the controller.

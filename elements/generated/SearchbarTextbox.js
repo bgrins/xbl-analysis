@@ -247,11 +247,9 @@ class MozSearchbarTextbox extends MozAutocomplete {
 
       document.popupNode = null;
 
-      const isRTL = getComputedStyle(this, "").direction == "rtl";
-
       var outerRect = this.getBoundingClientRect();
       var innerRect = this.inputField.getBoundingClientRect();
-      let width = isRTL ?
+      let width = RTL_UI ?
         innerRect.right - outerRect.left :
         outerRect.right - innerRect.left;
       popup.setAttribute("width", width > 100 ? width : 100);

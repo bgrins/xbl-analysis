@@ -1203,14 +1203,13 @@ class MozTabbrowserTabs extends MozTabs {
 
     draggedTab._dragData.animLastScreenX = screenX;
 
-    let rtl = (window.getComputedStyle(this).direction == "rtl");
     let pinned = draggedTab.pinned;
     let numPinned = gBrowser._numPinnedTabs;
     let tabs = this._getVisibleTabs()
       .slice(pinned ? 0 : numPinned,
         pinned ? numPinned : undefined);
 
-    if (rtl) {
+    if (RTL_UI) {
       tabs.reverse();
       // Copy moving tabs array to avoid infinite reversing.
       movingTabs = [...movingTabs].reverse();
@@ -1294,9 +1293,9 @@ class MozTabbrowserTabs extends MozTabs {
 
     function getTabShift(tab, dropIndex) {
       if (tab._tPos < draggedTab._tPos && tab._tPos >= dropIndex)
-        return (rtl ? -shiftWidth : shiftWidth);
+        return (RTL_UI ? -shiftWidth : shiftWidth);
       if (tab._tPos > draggedTab._tPos && tab._tPos < dropIndex)
-        return (rtl ? shiftWidth : -shiftWidth);
+        return (RTL_UI ? shiftWidth : -shiftWidth);
       return 0;
     }
   }

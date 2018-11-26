@@ -684,8 +684,14 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       this.input.formatValue();
 
       // Also, hide the one-off search buttons if the user is using, or
-      // starting to use, an "@engine" search engine alias.
-      this.toggleOneOffSearches(this.input.value.trim()[0] != "@");
+      // starting to use, an "@engine" search engine alias, or typed
+      // only the search restriction character.
+      let trimmedValue = this.input.value.trim();
+      this.toggleOneOffSearches(
+        trimmedValue[0] != "@" &&
+        (trimmedValue[0] != UrlbarTokenizer.RESTRICT.SEARCH ||
+          trimmedValue.length != 1)
+      );
     }
 
     // If this is the first time we get the result from the current

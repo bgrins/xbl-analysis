@@ -1618,6 +1618,17 @@ class MozLegacyUrlbar extends MozAutocomplete {
       this.controller.startSearch(value);
     }
   }
+
+  typeRestrictToken(char) {
+    for (let c of [char, " "]) {
+      let code = c.charCodeAt(0);
+      gURLBar.inputField.dispatchEvent(new KeyboardEvent("keypress", {
+        keyCode: code,
+        charCode: code,
+        bubbles: true,
+      }));
+    }
+  }
   disconnectedCallback() {
     // Somehow, it's possible for the XBL destructor to fire without the
     // constructor ever having fired. Fix:

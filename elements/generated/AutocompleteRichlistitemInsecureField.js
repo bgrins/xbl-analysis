@@ -14,7 +14,7 @@ class MozAutocompleteRichlistitemInsecureField extends MozAutocompleteRichlistit
 
     this.addEventListener("click", (event) => {
       if (event.button != 0) { return; }
-      let baseURL = Services.urlFormatter.formatURLPref("app.support.baseURL");
+      let baseURL = this.Services.urlFormatter.formatURLPref("app.support.baseURL");
       window.openTrustedLinkIn(baseURL + "insecure-password", "tab", {
         relatedToCurrent: true,
       });
@@ -62,7 +62,7 @@ class MozAutocompleteRichlistitemInsecureField extends MozAutocompleteRichlistit
   get _learnMoreString() {
     if (!this.__learnMoreString) {
       this.__learnMoreString =
-        Services.strings.createBundle("chrome://passwordmgr/locale/passwordmgr.properties").
+        this.Services.strings.createBundle("chrome://passwordmgr/locale/passwordmgr.properties").
       GetStringFromName("insecureFieldWarningLearnMore");
     }
     return this.__learnMoreString;
