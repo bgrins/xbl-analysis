@@ -447,23 +447,22 @@ new Chart(
       labels: labels,
       datasets: [
         {
+          label: "Total bindings left",
           backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
           data: bindings,
           fill: false
         },
         {
-          backgroundColor: window.chartColors.lightgreen,
-          borderColor: window.chartColors.lightgreen,
+          label: "In-content bindings left",
+          backgroundColor: window.chartColors.lightblue,
+          borderColor: window.chartColors.lightblue,
           data: inContentBindings,
           fill: false
         }
       ],
     },
     options: {
-      legend: {
-        display: false,
-      },
       title: {
         display: true,
         fontSize: 20,
