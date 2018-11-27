@@ -44,6 +44,7 @@ const inContentBindings = {
   "date-input": 1,
   "time-input": 1,
   "datetime-input-base": 1,
+  "resizer": 1,
 };
 
 function processSequential(list, cb) {

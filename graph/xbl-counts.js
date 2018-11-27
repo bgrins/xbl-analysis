@@ -1,7 +1,7 @@
 var DATA = {
   "master@{2017-10-05}": {
     numBindings: 300,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49979,
     directoryLOC: {
       browser: 17027,
@@ -322,7 +322,7 @@ var DATA = {
   },
   "master@{2017-10-07}": {
     numBindings: 299,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49963,
     directoryLOC: {
       browser: 17017,
@@ -642,7 +642,7 @@ var DATA = {
   },
   "master@{2017-10-09}": {
     numBindings: 299,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49964,
     directoryLOC: {
       browser: 17018,
@@ -962,7 +962,7 @@ var DATA = {
   },
   "master@{2017-10-11}": {
     numBindings: 299,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49967,
     directoryLOC: {
       browser: 17021,
@@ -1282,7 +1282,7 @@ var DATA = {
   },
   "master@{2017-10-13}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49813,
     directoryLOC: {
       browser: 16912,
@@ -1601,7 +1601,7 @@ var DATA = {
   },
   "master@{2017-10-15}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49813,
     directoryLOC: {
       browser: 16912,
@@ -1920,7 +1920,7 @@ var DATA = {
   },
   "master@{2017-10-17}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49813,
     directoryLOC: {
       browser: 16912,
@@ -2239,7 +2239,7 @@ var DATA = {
   },
   "master@{2017-10-19}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49809,
     directoryLOC: {
       browser: 16910,
@@ -2558,7 +2558,7 @@ var DATA = {
   },
   "master@{2017-10-21}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49817,
     directoryLOC: {
       browser: 16916,
@@ -2877,7 +2877,7 @@ var DATA = {
   },
   "master@{2017-10-23}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49827,
     directoryLOC: {
       browser: 16968,
@@ -3196,7 +3196,7 @@ var DATA = {
   },
   "master@{2017-10-25}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49818,
     directoryLOC: {
       browser: 16959,
@@ -3515,7 +3515,7 @@ var DATA = {
   },
   "master@{2017-10-27}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49864,
     directoryLOC: {
       browser: 16996,
@@ -3834,7 +3834,7 @@ var DATA = {
   },
   "master@{2017-10-29}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49864,
     directoryLOC: {
       browser: 16996,
@@ -4153,7 +4153,7 @@ var DATA = {
   },
   "master@{2017-10-31}": {
     numBindings: 298,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49870,
     directoryLOC: {
       browser: 17002,
@@ -4472,7 +4472,7 @@ var DATA = {
   },
   "master@{2017-11-02}": {
     numBindings: 296,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49368,
     directoryLOC: {
       browser: 16498,
@@ -4789,7 +4789,7 @@ var DATA = {
   },
   "master@{2017-11-04}": {
     numBindings: 290,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49250,
     directoryLOC: {
       browser: 16498,
@@ -5100,7 +5100,7 @@ var DATA = {
   },
   "master@{2017-11-06}": {
     numBindings: 290,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49250,
     directoryLOC: {
       browser: 16498,
@@ -5411,7 +5411,7 @@ var DATA = {
   },
   "master@{2017-11-08}": {
     numBindings: 290,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49243,
     directoryLOC: {
       browser: 16491,
@@ -5722,7 +5722,7 @@ var DATA = {
   },
   "master@{2017-11-10}": {
     numBindings: 289,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49229,
     directoryLOC: {
       browser: 16480,
@@ -6032,7 +6032,7 @@ var DATA = {
   },
   "master@{2017-11-12}": {
     numBindings: 289,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49221,
     directoryLOC: {
       browser: 16476,
@@ -6342,7 +6342,7 @@ var DATA = {
   },
   "master@{2017-11-14}": {
     numBindings: 289,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 49214,
     directoryLOC: {
       browser: 16474,
@@ -6652,7 +6652,7 @@ var DATA = {
   },
   "master@{2017-11-16}": {
     numBindings: 275,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 48611,
     directoryLOC: {
       browser: 16482,
@@ -6948,7 +6948,7 @@ var DATA = {
   },
   "master@{2017-11-18}": {
     numBindings: 271,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 48631,
     directoryLOC: {
       browser: 16485,
@@ -7240,7 +7240,7 @@ var DATA = {
   },
   "master@{2017-11-20}": {
     numBindings: 270,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 48624,
     directoryLOC: {
       browser: 16485,
@@ -7531,7 +7531,7 @@ var DATA = {
   },
   "master@{2017-11-22}": {
     numBindings: 270,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 48703,
     directoryLOC: {
       browser: 16528,
@@ -7822,7 +7822,7 @@ var DATA = {
   },
   "master@{2017-11-24}": {
     numBindings: 267,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 48680,
     directoryLOC: {
       browser: 16502,
@@ -8110,7 +8110,7 @@ var DATA = {
   },
   "master@{2017-11-26}": {
     numBindings: 267,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 48680,
     directoryLOC: {
       browser: 16502,
@@ -8398,7 +8398,7 @@ var DATA = {
   },
   "master@{2017-11-28}": {
     numBindings: 262,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 47035,
     directoryLOC: {
       browser: 16494,
@@ -8681,7 +8681,7 @@ var DATA = {
   },
   "master@{2017-11-30}": {
     numBindings: 260,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 47004,
     directoryLOC: {
       browser: 16494,
@@ -8962,7 +8962,7 @@ var DATA = {
   },
   "master@{2017-12-02}": {
     numBindings: 260,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 47011,
     directoryLOC: {
       browser: 16501,
@@ -9243,7 +9243,7 @@ var DATA = {
   },
   "master@{2017-12-04}": {
     numBindings: 260,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 47094,
     directoryLOC: {
       browser: 16513,
@@ -9524,7 +9524,7 @@ var DATA = {
   },
   "master@{2017-12-06}": {
     numBindings: 258,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 47053,
     directoryLOC: {
       browser: 16480,
@@ -9803,7 +9803,7 @@ var DATA = {
   },
   "master@{2017-12-08}": {
     numBindings: 258,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46841,
     directoryLOC: {
       browser: 16422,
@@ -10082,7 +10082,7 @@ var DATA = {
   },
   "master@{2017-12-10}": {
     numBindings: 258,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46841,
     directoryLOC: {
       browser: 16422,
@@ -10361,7 +10361,7 @@ var DATA = {
   },
   "master@{2017-12-12}": {
     numBindings: 258,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46841,
     directoryLOC: {
       browser: 16422,
@@ -10640,7 +10640,7 @@ var DATA = {
   },
   "master@{2017-12-14}": {
     numBindings: 258,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46841,
     directoryLOC: {
       browser: 16422,
@@ -10919,7 +10919,7 @@ var DATA = {
   },
   "master@{2017-12-16}": {
     numBindings: 258,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46853,
     directoryLOC: {
       browser: 16434,
@@ -11198,7 +11198,7 @@ var DATA = {
   },
   "master@{2017-12-18}": {
     numBindings: 258,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46853,
     directoryLOC: {
       browser: 16434,
@@ -11477,7 +11477,7 @@ var DATA = {
   },
   "master@{2017-12-20}": {
     numBindings: 258,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46836,
     directoryLOC: {
       browser: 16417,
@@ -11756,7 +11756,7 @@ var DATA = {
   },
   "master@{2017-12-22}": {
     numBindings: 257,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46842,
     directoryLOC: {
       browser: 16426,
@@ -12034,7 +12034,7 @@ var DATA = {
   },
   "master@{2017-12-24}": {
     numBindings: 257,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46842,
     directoryLOC: {
       browser: 16426,
@@ -12312,7 +12312,7 @@ var DATA = {
   },
   "master@{2017-12-26}": {
     numBindings: 257,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46842,
     directoryLOC: {
       browser: 16426,
@@ -12590,7 +12590,7 @@ var DATA = {
   },
   "master@{2017-12-28}": {
     numBindings: 257,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46842,
     directoryLOC: {
       browser: 16426,
@@ -12868,7 +12868,7 @@ var DATA = {
   },
   "master@{2017-12-30}": {
     numBindings: 257,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46842,
     directoryLOC: {
       browser: 16426,
@@ -13146,7 +13146,7 @@ var DATA = {
   },
   "master@{2018-01-01}": {
     numBindings: 257,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46842,
     directoryLOC: {
       browser: 16426,
@@ -13424,7 +13424,7 @@ var DATA = {
   },
   "master@{2018-01-03}": {
     numBindings: 257,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 46842,
     directoryLOC: {
       browser: 16426,
@@ -13702,7 +13702,7 @@ var DATA = {
   },
   "master@{2018-01-05}": {
     numBindings: 250,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 45475,
     directoryLOC: {
       browser: 16444,
@@ -13973,7 +13973,7 @@ var DATA = {
   },
   "master@{2018-01-07}": {
     numBindings: 249,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 45518,
     directoryLOC: {
       browser: 16512,
@@ -14243,7 +14243,7 @@ var DATA = {
   },
   "master@{2018-01-09}": {
     numBindings: 247,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 45455,
     directoryLOC: {
       browser: 16506,
@@ -14511,7 +14511,7 @@ var DATA = {
   },
   "master@{2018-01-11}": {
     numBindings: 242,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43808,
     directoryLOC: {
       browser: 16506,
@@ -14774,7 +14774,7 @@ var DATA = {
   },
   "master@{2018-01-13}": {
     numBindings: 241,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43693,
     directoryLOC: {
       browser: 16399,
@@ -15036,7 +15036,7 @@ var DATA = {
   },
   "master@{2018-01-15}": {
     numBindings: 240,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43682,
     directoryLOC: {
       browser: 16388,
@@ -15297,7 +15297,7 @@ var DATA = {
   },
   "master@{2018-01-17}": {
     numBindings: 240,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43703,
     directoryLOC: {
       browser: 16406,
@@ -15558,7 +15558,7 @@ var DATA = {
   },
   "master@{2018-01-19}": {
     numBindings: 240,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43721,
     directoryLOC: {
       browser: 16424,
@@ -15819,7 +15819,7 @@ var DATA = {
   },
   "master@{2018-01-21}": {
     numBindings: 240,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43722,
     directoryLOC: {
       browser: 16424,
@@ -16080,7 +16080,7 @@ var DATA = {
   },
   "master@{2018-01-23}": {
     numBindings: 240,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43630,
     directoryLOC: {
       browser: 16422,
@@ -16341,7 +16341,7 @@ var DATA = {
   },
   "master@{2018-01-25}": {
     numBindings: 238,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43597,
     directoryLOC: {
       browser: 16422,
@@ -16600,7 +16600,7 @@ var DATA = {
   },
   "master@{2018-01-27}": {
     numBindings: 238,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43607,
     directoryLOC: {
       browser: 16432,
@@ -16859,7 +16859,7 @@ var DATA = {
   },
   "master@{2018-01-29}": {
     numBindings: 238,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43607,
     directoryLOC: {
       browser: 16432,
@@ -17118,7 +17118,7 @@ var DATA = {
   },
   "master@{2018-01-31}": {
     numBindings: 238,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43607,
     directoryLOC: {
       browser: 16432,
@@ -17377,7 +17377,7 @@ var DATA = {
   },
   "master@{2018-02-02}": {
     numBindings: 238,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43608,
     directoryLOC: {
       browser: 16432,
@@ -17636,7 +17636,7 @@ var DATA = {
   },
   "master@{2018-02-04}": {
     numBindings: 238,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43608,
     directoryLOC: {
       browser: 16432,
@@ -17895,7 +17895,7 @@ var DATA = {
   },
   "master@{2018-02-06}": {
     numBindings: 237,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43611,
     directoryLOC: {
       browser: 16445,
@@ -18153,7 +18153,7 @@ var DATA = {
   },
   "master@{2018-02-08}": {
     numBindings: 230,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43299,
     directoryLOC: {
       browser: 16449,
@@ -18404,7 +18404,7 @@ var DATA = {
   },
   "master@{2018-02-10}": {
     numBindings: 228,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43135,
     directoryLOC: {
       browser: 16453,
@@ -18653,7 +18653,7 @@ var DATA = {
   },
   "master@{2018-02-12}": {
     numBindings: 228,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43135,
     directoryLOC: {
       browser: 16453,
@@ -18902,7 +18902,7 @@ var DATA = {
   },
   "master@{2018-02-14}": {
     numBindings: 229,
-    numInContentBindings: 38,
+    numInContentBindings: 39,
     loc: 43138,
     directoryLOC: {
       browser: 16456,
@@ -19152,7 +19152,7 @@ var DATA = {
   },
   "master@{2018-02-16}": {
     numBindings: 223,
-    numInContentBindings: 37,
+    numInContentBindings: 38,
     loc: 43096,
     directoryLOC: {
       browser: 16455,
@@ -19396,7 +19396,7 @@ var DATA = {
   },
   "master@{2018-02-18}": {
     numBindings: 223,
-    numInContentBindings: 37,
+    numInContentBindings: 38,
     loc: 43183,
     directoryLOC: {
       browser: 16544,
@@ -19640,7 +19640,7 @@ var DATA = {
   },
   "master@{2018-02-20}": {
     numBindings: 222,
-    numInContentBindings: 37,
+    numInContentBindings: 38,
     loc: 43157,
     directoryLOC: {
       browser: 16518,
@@ -19883,7 +19883,7 @@ var DATA = {
   },
   "master@{2018-02-22}": {
     numBindings: 222,
-    numInContentBindings: 37,
+    numInContentBindings: 38,
     loc: 43154,
     directoryLOC: {
       browser: 16517,
@@ -20126,7 +20126,7 @@ var DATA = {
   },
   "master@{2018-02-24}": {
     numBindings: 222,
-    numInContentBindings: 37,
+    numInContentBindings: 38,
     loc: 43153,
     directoryLOC: {
       browser: 16516,
@@ -20369,7 +20369,7 @@ var DATA = {
   },
   "master@{2018-02-26}": {
     numBindings: 221,
-    numInContentBindings: 37,
+    numInContentBindings: 38,
     loc: 43116,
     directoryLOC: {
       browser: 16479,
@@ -20611,7 +20611,7 @@ var DATA = {
   },
   "master@{2018-02-28}": {
     numBindings: 220,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36872,
     directoryLOC: {
       browser: 10238,
@@ -20852,7 +20852,7 @@ var DATA = {
   },
   "master@{2018-03-02}": {
     numBindings: 220,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36866,
     directoryLOC: {
       browser: 10238,
@@ -21093,7 +21093,7 @@ var DATA = {
   },
   "master@{2018-03-04}": {
     numBindings: 220,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36866,
     directoryLOC: {
       browser: 10238,
@@ -21334,7 +21334,7 @@ var DATA = {
   },
   "master@{2018-03-06}": {
     numBindings: 215,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36795,
     directoryLOC: {
       browser: 10199,
@@ -21570,7 +21570,7 @@ var DATA = {
   },
   "master@{2018-03-08}": {
     numBindings: 211,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36832,
     directoryLOC: {
       browser: 10251,
@@ -21802,7 +21802,7 @@ var DATA = {
   },
   "master@{2018-03-10}": {
     numBindings: 211,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36832,
     directoryLOC: {
       browser: 10251,
@@ -22034,7 +22034,7 @@ var DATA = {
   },
   "master@{2018-03-12}": {
     numBindings: 211,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36849,
     directoryLOC: {
       browser: 10267,
@@ -22266,7 +22266,7 @@ var DATA = {
   },
   "master@{2018-03-14}": {
     numBindings: 210,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36736,
     directoryLOC: {
       browser: 10172,
@@ -22497,7 +22497,7 @@ var DATA = {
   },
   "master@{2018-03-16}": {
     numBindings: 210,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36714,
     directoryLOC: {
       browser: 10172,
@@ -22728,7 +22728,7 @@ var DATA = {
   },
   "master@{2018-03-18}": {
     numBindings: 210,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36677,
     directoryLOC: {
       browser: 10167,
@@ -22959,7 +22959,7 @@ var DATA = {
   },
   "master@{2018-03-20}": {
     numBindings: 209,
-    numInContentBindings: 36,
+    numInContentBindings: 37,
     loc: 36680,
     directoryLOC: {
       browser: 10177,
@@ -23189,7 +23189,7 @@ var DATA = {
   },
   "master@{2018-03-22}": {
     numBindings: 206,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36460,
     directoryLOC: {
       browser: 10168,
@@ -23416,7 +23416,7 @@ var DATA = {
   },
   "master@{2018-03-24}": {
     numBindings: 205,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36435,
     directoryLOC: {
       browser: 10160,
@@ -23642,7 +23642,7 @@ var DATA = {
   },
   "master@{2018-03-26}": {
     numBindings: 205,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36406,
     directoryLOC: {
       browser: 10158,
@@ -23868,7 +23868,7 @@ var DATA = {
   },
   "master@{2018-03-28}": {
     numBindings: 205,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36222,
     directoryLOC: {
       browser: 10113,
@@ -24094,7 +24094,7 @@ var DATA = {
   },
   "master@{2018-03-30}": {
     numBindings: 205,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36142,
     directoryLOC: {
       browser: 10032,
@@ -24320,7 +24320,7 @@ var DATA = {
   },
   "master@{2018-04-01}": {
     numBindings: 205,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36137,
     directoryLOC: {
       browser: 10027,
@@ -24546,7 +24546,7 @@ var DATA = {
   },
   "master@{2018-04-03}": {
     numBindings: 203,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36118,
     directoryLOC: {
       browser: 10016,
@@ -24770,7 +24770,7 @@ var DATA = {
   },
   "master@{2018-04-05}": {
     numBindings: 203,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36249,
     directoryLOC: {
       browser: 10048,
@@ -24994,7 +24994,7 @@ var DATA = {
   },
   "master@{2018-04-07}": {
     numBindings: 203,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36246,
     directoryLOC: {
       browser: 9985,
@@ -25218,7 +25218,7 @@ var DATA = {
   },
   "master@{2018-04-09}": {
     numBindings: 203,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36246,
     directoryLOC: {
       browser: 9985,
@@ -25442,7 +25442,7 @@ var DATA = {
   },
   "master@{2018-04-11}": {
     numBindings: 203,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36251,
     directoryLOC: {
       browser: 9984,
@@ -25666,7 +25666,7 @@ var DATA = {
   },
   "master@{2018-04-13}": {
     numBindings: 200,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36187,
     directoryLOC: {
       browser: 9969,
@@ -25887,7 +25887,7 @@ var DATA = {
   },
   "master@{2018-04-15}": {
     numBindings: 200,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36179,
     directoryLOC: {
       browser: 9969,
@@ -26108,7 +26108,7 @@ var DATA = {
   },
   "master@{2018-04-17}": {
     numBindings: 199,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36129,
     directoryLOC: {
       browser: 9973,
@@ -26328,7 +26328,7 @@ var DATA = {
   },
   "master@{2018-04-19}": {
     numBindings: 199,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 36128,
     directoryLOC: {
       browser: 9973,
@@ -26548,7 +26548,7 @@ var DATA = {
   },
   "master@{2018-04-21}": {
     numBindings: 198,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 35998,
     directoryLOC: {
       browser: 9981,
@@ -26767,7 +26767,7 @@ var DATA = {
   },
   "master@{2018-04-23}": {
     numBindings: 197,
-    numInContentBindings: 34,
+    numInContentBindings: 35,
     loc: 35915,
     directoryLOC: {
       browser: 9981,
@@ -26985,7 +26985,7 @@ var DATA = {
   },
   "master@{2018-04-25}": {
     numBindings: 196,
-    numInContentBindings: 33,
+    numInContentBindings: 34,
     loc: 35879,
     directoryLOC: {
       browser: 9981,
