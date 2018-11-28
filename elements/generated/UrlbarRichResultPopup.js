@@ -147,7 +147,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
 
     this.shrinkDelay = 250;
 
-    this.oneOffSearchButtons = new window.SearchOneOffs(
+    this.oneOffSearchButtons = new SearchOneOffs(
       document.getAnonymousElementByAttribute(this, "anonid",
         "one-off-search-buttons"));
 

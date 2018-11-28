@@ -100,7 +100,7 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
 
     this._bundle = null;
 
-    this.oneOffButtons = new window.SearchOneOffs(
+    this.oneOffButtons = new SearchOneOffs(
       document.getAnonymousElementByAttribute(this, "anonid",
         "search-one-off-buttons"));
 

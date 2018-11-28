@@ -25,6 +25,8 @@ class MozPopupNotification extends MozXULElement {
                 <html:span inherits="text=label,popupid"></html:span>
                 <html:b inherits="text=name,popupid"></html:b>
                 <html:span inherits="text=endlabel,popupid"></html:span>
+                <html:b inherits="text=secondname,popupid"></html:b>
+                <html:span inherits="text=secondendlabel,popupid"></html:span>
               </description>
             </vbox>
             <toolbarbutton anonid="closebutton" class="messageCloseButton close-icon popup-notification-closebutton tabbable" inherits="oncommand=closebuttoncommand,hidden=closebuttonhidden" tooltiptext="FROM-DTD.closeNotification.tooltip;"></toolbarbutton>

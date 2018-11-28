@@ -23,6 +23,7 @@ class MozColumnpicker extends MozBaseControl {
         var menuitem = document.getAnonymousElementByAttribute(this, "anonid", "menuitem");
         if (event.originalTarget == menuitem) {
           tree.columns.restoreNaturalOrder();
+          this.removeAttribute("ordinal");
           tree._ensureColumnOrder();
         } else {
           var colindex = event.originalTarget.getAttribute("colindex");
