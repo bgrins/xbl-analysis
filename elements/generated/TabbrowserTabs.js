@@ -148,11 +148,10 @@ class MozTabbrowserTabs extends MozTabs {
         // nothing.
         if (gBrowser._removingTabs.length) {
           let visibleTabs = this._getVisibleTabs();
-          let ltr = (window.getComputedStyle(this).direction == "ltr");
           let lastTab = visibleTabs[visibleTabs.length - 1];
-          let endOfTab = lastTab.getBoundingClientRect()[ltr ? "right" : "left"];
-          if ((ltr && event.clientX > endOfTab) ||
-            (!ltr && event.clientX < endOfTab)) {
+          let endOfTab = lastTab.getBoundingClientRect()[RTL_UI ? "left" : "right"];
+          if ((!RTL_UI && event.clientX > endOfTab) ||
+            (RTL_UI && event.clientX < endOfTab)) {
             BrowserOpenTab();
           }
         } else {
@@ -204,14 +203,11 @@ class MozTabbrowserTabs extends MozTabs {
         case KeyEvent.DOM_VK_LEFT:
           if (keyComboForMove) {
             gBrowser.moveTabOver(event);
+          } else if ((!RTL_UI && event.keyCode == KeyEvent.DOM_VK_RIGHT) ||
+            (RTL_UI && event.keyCode == KeyEvent.DOM_VK_LEFT)) {
+            focusedTabIndex++;
           } else {
-            let isRTL = Services.locale.isAppLocaleRTL;
-            if ((!isRTL && event.keyCode == KeyEvent.DOM_VK_RIGHT) ||
-              (isRTL && event.keyCode == KeyEvent.DOM_VK_LEFT)) {
-              focusedTabIndex++;
-            } else {
-              focusedTabIndex--;
-            }
+            focusedTabIndex--;
           }
           break;
         case KeyEvent.DOM_VK_HOME:
@@ -386,7 +382,6 @@ class MozTabbrowserTabs extends MozTabs {
       event.stopPropagation();
 
       var arrowScrollbox = this.arrowScrollbox;
-      var ltr = (window.getComputedStyle(this).direction == "ltr");
 
       // autoscroll the tab strip if we drag over the scroll
       // buttons, even if we aren't dragging a tab, but then
@@ -403,7 +398,7 @@ class MozTabbrowserTabs extends MozTabs {
             break;
         }
         if (pixelsToScroll)
-          arrowScrollbox.scrollByPixels((ltr ? 1 : -1) * pixelsToScroll, true);
+          arrowScrollbox.scrollByPixels((RTL_UI ? -1 : 1) * pixelsToScroll, true);
       }
 
       let draggedTab = event.dataTransfer.mozGetDataAt(TAB_DROP_TYPE, 0);
@@ -446,33 +441,37 @@ class MozTabbrowserTabs extends MozTabs {
         let minMargin = scrollRect.left - rect.left;
         let maxMargin = Math.min(minMargin + scrollRect.width,
           scrollRect.right);
-        if (!ltr)
+        if (RTL_UI) {
           [minMargin, maxMargin] = [this.clientWidth - maxMargin,
             this.clientWidth - minMargin
           ];
+        }
         newMargin = (pixelsToScroll > 0) ? maxMargin : minMargin;
       } else {
         let newIndex = this._getDropIndex(event, effects == "link");
         if (newIndex == this.children.length) {
           let tabRect = this.children[newIndex - 1].getBoundingClientRect();
-          if (ltr)
-            newMargin = tabRect.right - rect.left;
-          else
+          if (RTL_UI) {
             newMargin = rect.right - tabRect.left;
+          } else {
+            newMargin = tabRect.right - rect.left;
+          }
         } else {
           let tabRect = this.children[newIndex].getBoundingClientRect();
-          if (ltr)
-            newMargin = tabRect.left - rect.left;
-          else
+          if (RTL_UI) {
             newMargin = rect.right - tabRect.right;
+          } else {
+            newMargin = tabRect.left - rect.left;
+          }
         }
       }
 
       ind.collapsed = false;
 
       newMargin += ind.clientWidth / 2;
-      if (!ltr)
+      if (RTL_UI) {
         newMargin *= -1;
+      }
 
       ind.style.transform = "translate(" + Math.round(newMargin) + "px)";
       ind.style.marginInlineStart = (-ind.clientWidth) + "px";
@@ -1361,10 +1360,9 @@ class MozTabbrowserTabs extends MozTabs {
     }
 
     // Slide the relevant tabs to their new position.
-    let rtl = Services.locale.isAppLocaleRTL ? -1 : 1;
     for (let t of this._getVisibleTabs()) {
       if (t.groupingTabsData && t.groupingTabsData.translateX) {
-        let translateX = rtl * t.groupingTabsData.translateX;
+        let translateX = (RTL_UI ? -1 : 1) * t.groupingTabsData.translateX;
         t.style.transform = "translateX(" + translateX + "px)";
       }
     }
@@ -1531,7 +1529,7 @@ class MozTabbrowserTabs extends MozTabs {
         return;
       }
 
-      this.arrowScrollbox.scrollByPixels(this.arrowScrollbox._isRTLScrollbox ?
+      this.arrowScrollbox.scrollByPixels(RTL_UI ?
         selected.right - scrollRect.right :
         selected.left - scrollRect.left);
     }
@@ -1558,7 +1556,7 @@ class MozTabbrowserTabs extends MozTabs {
   _getDropIndex(event, isLink) {
     var tabs = this.children;
     var tab = this._getDragTargetTab(event, isLink);
-    if (window.getComputedStyle(this).direction == "ltr") {
+    if (!RTL_UI) {
       for (let i = tab ? tab._tPos : 0; i < tabs.length; i++)
         if (event.screenX < tabs[i].boxObject.screenX + tabs[i].boxObject.width / 2)
           return i;

@@ -49,7 +49,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
 
     this.addEventListener("focus", (event) => {
       if (event.originalTarget == this.inputField) {
-        this._hideURLTooltip();
+        this._updateUrlTooltip();
         this.formatValue();
         if (this.getAttribute("pageproxystate") != "valid") {
           UpdatePopupNotificationsVisibility();
@@ -279,8 +279,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.inputField.controllers.insertControllerAt(0, this._copyCutController);
     this.inputField.addEventListener("paste", this);
     this.inputField.addEventListener("mousedown", this);
-    this.inputField.addEventListener("mousemove", this);
-    this.inputField.addEventListener("mouseout", this);
+    this.inputField.addEventListener("mouseover", this);
     this.inputField.addEventListener("overflow", this);
     this.inputField.addEventListener("underflow", this);
     this.inputField.addEventListener("scrollend", this);
@@ -1038,14 +1037,12 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.popup.overrideValue = "http://www." + url;
   }
 
-  _initURLTooltip() {
-    if (this.focused || !this._inOverflow)
-      return;
-    this.inputField.setAttribute("title", this.value);
-  }
-
-  _hideURLTooltip() {
-    this.inputField.removeAttribute("title");
+  _updateUrlTooltip() {
+    if (this.focused || !this._inOverflow) {
+      this.inputField.removeAttribute("title");
+    } else {
+      this.inputField.setAttribute("title", this.value);
+    }
   }
 
   /**
@@ -1304,11 +1301,8 @@ class MozLegacyUrlbar extends MozAutocomplete {
           aEvent.preventDefault();
         }
         break;
-      case "mousemove":
-        this._initURLTooltip();
-        break;
-      case "mouseout":
-        this._hideURLTooltip();
+      case "mouseover":
+        this._updateUrlTooltip();
         break;
       case "overflow":
         {
@@ -1332,7 +1326,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
           }
           this._inOverflow = false;
           this.updateTextOverflow();
-          this._hideURLTooltip();
+          this._updateUrlTooltip();
           break;
         }
       case "scrollend":
@@ -1641,8 +1635,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.inputField.controllers.removeController(this._copyCutController);
     this.inputField.removeEventListener("paste", this);
     this.inputField.removeEventListener("mousedown", this);
-    this.inputField.removeEventListener("mousemove", this);
-    this.inputField.removeEventListener("mouseout", this);
+    this.inputField.removeEventListener("mouseover", this);
     this.inputField.removeEventListener("overflow", this);
     this.inputField.removeEventListener("underflow", this);
     this.inputField.removeEventListener("scrollend", this);

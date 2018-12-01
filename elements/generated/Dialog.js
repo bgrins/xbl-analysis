@@ -244,6 +244,8 @@ class MozDialog extends MozXULElement {
           var accessKey = this.mStrBundle.GetStringFromName("accesskey-" + dlgtype);
           if (accessKey)
             button.setAttribute("accesskey", accessKey);
+        } else if (this.hasAttribute("buttonid" + dlgtype)) {
+          document.l10n.setAttributes(button, this.getAttribute("buttonid" + dlgtype));
         }
       }
       // allow specifying alternate icons in the dialog header
