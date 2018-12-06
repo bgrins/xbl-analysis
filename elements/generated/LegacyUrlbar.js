@@ -148,6 +148,9 @@ class MozLegacyUrlbar extends MozAutocomplete {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox flex="1" class="urlbar-textbox-container" tooltip="aHTMLTooltip">
         <children includes="image|deck|stack|box"></children>

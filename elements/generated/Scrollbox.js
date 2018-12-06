@@ -11,6 +11,9 @@
 class MozScrollbox extends MozBaseControl {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <box class="box-inherit scrollbox-innerbox" inherits="orient,align,pack,dir" flex="1">
         <children></children>

@@ -11,6 +11,9 @@
 class MozButton extends MozButtonBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <hbox class="box-inherit button-box" inherits="align,dir,pack,orient" align="center" pack="center" flex="1" anonid="button-box">

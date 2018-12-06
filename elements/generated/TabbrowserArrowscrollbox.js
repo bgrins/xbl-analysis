@@ -56,6 +56,9 @@ class MozTabbrowserArrowscrollbox extends MozArrowscrollboxClicktoscroll {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
   }
 

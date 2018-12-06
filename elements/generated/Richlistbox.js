@@ -131,6 +131,9 @@ class MozRichlistbox extends MozBaseControl {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="listheader"></children>
       <scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">

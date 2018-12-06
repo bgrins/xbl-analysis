@@ -38,6 +38,9 @@ class MozTreerows extends MozBaseControl {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox flex="1" class="tree-bodybox">
         <children></children>

@@ -11,6 +11,9 @@
 class MozToolbarbutton extends MozButtonBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <image class="toolbarbutton-icon" inherits="validate,src=image,label,type,consumeanchor,triggeringprincipal=iconloadingprincipal"></image>

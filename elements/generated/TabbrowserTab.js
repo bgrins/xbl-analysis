@@ -170,6 +170,9 @@ class MozTabbrowserTab extends MozTab {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <stack class="tab-stack" flex="1">
         <vbox inherits="selected=visuallyselected,fadein" class="tab-background">

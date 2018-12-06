@@ -13,6 +13,11 @@ class MozArrowscrollbox extends MozBaseControl {
     super();
 
     this.addEventListener("wheel", (event) => {
+      // Don't consume the event if we can't scroll.
+      if (this.hasAttribute("notoverflowing")) {
+        return;
+      }
+
       let doScroll = false;
       let instant;
       let scrollAmount = 0;
@@ -172,6 +177,9 @@ class MozArrowscrollbox extends MozBaseControl {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" onmouseover="_startScroll(-1);" onmouseout="_stopScroll();"></toolbarbutton>
       <spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></spacer>

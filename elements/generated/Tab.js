@@ -89,6 +89,9 @@ class MozTab extends MozBasetext {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
         <image class="tab-icon" inherits="validate,src=image" role="presentation"></image>

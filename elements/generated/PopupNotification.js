@@ -11,6 +11,9 @@
 class MozPopupNotification extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="popup-notification-header-container">
         <children includes="popupnotificationheader"></children>

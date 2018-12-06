@@ -11,6 +11,9 @@
 class MozHandler extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox pack="center">
         <image inherits="src=image" height="32" width="32"></image>

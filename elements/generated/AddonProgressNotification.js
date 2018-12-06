@@ -11,6 +11,9 @@
 class MozAddonProgressNotification extends MozPopupNotification {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
     this.progressmeter = document.getElementById("addon-progress-notification-progressmeter");
 

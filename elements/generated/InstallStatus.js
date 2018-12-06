@@ -11,6 +11,9 @@
 class MozInstallStatus extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <label anonid="message"></label>
       <box anonid="progress" class="download-progress"></box>

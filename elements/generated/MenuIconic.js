@@ -11,6 +11,9 @@
 class MozMenuIconic extends MozMenuBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="menu-iconic-left" align="center" pack="center">
         <image class="menu-iconic-icon" inherits="src=image"></image>

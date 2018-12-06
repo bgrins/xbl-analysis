@@ -60,6 +60,9 @@ class MozPlacesPopupArrow extends MozPlacesPopupBase {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
         <box anonid="arrowbox" class="panel-arrowbox">

@@ -11,6 +11,9 @@
 class MozDownloadProgress extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <stack flex="1">
         <hbox flex="1">

@@ -11,6 +11,9 @@
 class MozBasetext extends MozBaseControl {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
     this.labelElement = "";
 

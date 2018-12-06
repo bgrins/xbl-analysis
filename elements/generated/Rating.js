@@ -20,6 +20,9 @@ class MozRating extends MozXULElement {
 
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="star" onmouseover="document.getBindingParent(this)._hover(1);" onclick="document.getBindingParent(this).userRating = 1;"></image>
       <image class="star" onmouseover="document.getBindingParent(this)._hover(2);" onclick="document.getBindingParent(this).userRating = 2;"></image>

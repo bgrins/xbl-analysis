@@ -11,6 +11,9 @@
 class MozDetailRow extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <label class="detail-row-label" inherits="value=label"></label>
       <label class="detail-row-value" inherits="value"></label>

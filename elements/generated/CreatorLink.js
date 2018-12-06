@@ -11,6 +11,9 @@
 class MozCreatorLink extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <label anonid="label" value="FROM-DTD.addon.createdBy.label;"></label>
       <label anonid="creator-link" class="creator-link text-link"></label>

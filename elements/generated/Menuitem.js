@@ -11,6 +11,9 @@
 class MozMenuitem extends MozMenuitemBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <label class="menu-text" inherits="value=label,accesskey,crop,highlightable" crop="right"></label>
       <hbox class="menu-accel-container" anonid="accel">

@@ -11,6 +11,9 @@
 class MozAutocompleteProfileListitemBase extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
     /**
      * For form autofill, we want to unify the selection no matter by

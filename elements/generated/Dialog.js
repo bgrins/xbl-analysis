@@ -30,6 +30,9 @@ class MozDialog extends MozXULElement {
 
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox class="box-inherit dialog-content-box" flex="1">
         <children></children>

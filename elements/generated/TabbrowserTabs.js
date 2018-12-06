@@ -726,6 +726,9 @@ class MozTabbrowserTabs extends MozTabs {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="tab-drop-indicator-box">
         <image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true"></image>
@@ -733,7 +736,7 @@ class MozTabbrowserTabs extends MozTabs {
       <arrowscrollbox anonid="arrowscrollbox" orient="horizontal" flex="1" style="min-width: 1px;" clicktoscroll="true" class="tabbrowser-arrowscrollbox">
         <children includes="tab"></children>
         <children></children>
-        <toolbarbutton class="tabs-newtab-button toolbarbutton-1" anonid="tabs-newtab-button" command="cmd_newNavigatorTab" onclick="checkForMiddleClick(this, event);" tooltip="dynamic-shortcut-tooltip"></toolbarbutton>
+        <toolbarbutton class="tabs-newtab-button toolbarbutton-1" anonid="tabs-newtab-button" command="cmd_newNavigatorTab" onclick="checkForMiddleClick(this, event);"></toolbarbutton>
         <spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;"></spacer>
       </arrowscrollbox>
     `));
@@ -788,6 +791,10 @@ class MozTabbrowserTabs extends MozTabs {
 
     var tab = this.firstElementChild;
     tab.label = this.emptyTabTitle;
+
+    let newTabButton = document.getAnonymousElementByAttribute(
+      this, "anonid", "tabs-newtab-button");
+    newTabButton.setAttribute("tooltiptext", GetDynamicShortcutTooltipText("tabs-newtab-button"));
 
     window.addEventListener("resize", this);
 

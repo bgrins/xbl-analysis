@@ -11,6 +11,9 @@
 class MozToolbarbuttonBadged extends MozToolbarbutton {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <stack class="toolbarbutton-badge-stack">

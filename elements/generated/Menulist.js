@@ -47,6 +47,9 @@ class MozMenulist extends MozBaseControl {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="menulist-label-box" flex="1">
         <image class="menulist-icon" inherits="src=image"></image>

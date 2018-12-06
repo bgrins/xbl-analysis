@@ -11,6 +11,9 @@
 class MozTabs extends MozBaseControl {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <spacer class="tabs-left"></spacer>
       <children></children>

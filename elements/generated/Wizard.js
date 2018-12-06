@@ -24,6 +24,9 @@ class MozWizard extends MozXULElement {
 
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="wizard-header" anonid="Header"></hbox>
       <deck class="wizard-page-box" flex="1" anonid="Deck">

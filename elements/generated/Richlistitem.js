@@ -64,6 +64,9 @@ class MozRichlistitem extends MozBasetext {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
     this.selectedByMouseOver = false;
 

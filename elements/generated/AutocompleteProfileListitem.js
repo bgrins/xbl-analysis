@@ -11,6 +11,9 @@
 class MozAutocompleteProfileListitem extends MozAutocompleteProfileListitemBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="autofill-item-box" class="autofill-item-box" inherits="ac-image">
         <div class="profile-label-col profile-item-col">

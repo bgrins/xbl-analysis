@@ -11,6 +11,10 @@
 class MozWizardpage extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
+
     this.pageIndex = -1;
 
   }

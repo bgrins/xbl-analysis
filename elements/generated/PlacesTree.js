@@ -117,6 +117,9 @@ class MozPlacesTree extends MozTree {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
     this._contextMenuShown = false;
 

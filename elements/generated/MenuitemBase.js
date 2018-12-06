@@ -11,6 +11,9 @@
 class MozMenuitemBase extends MozBasetext {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
   }
 

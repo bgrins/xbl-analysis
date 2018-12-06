@@ -22,6 +22,10 @@ class MozTextLink extends MozXULElement {
 
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
+
   }
 
   set href(val) {

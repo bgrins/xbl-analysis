@@ -69,6 +69,9 @@ class MozTextbox extends MozXULElement {
 
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
       <moz-input-box anonid="moz-input-box" flex="1" inherits="context,spellcheck">

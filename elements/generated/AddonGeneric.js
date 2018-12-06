@@ -26,6 +26,9 @@ class MozAddonGeneric extends MozAddonBase {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox anonid="warning-container" class="warning">
         <image class="warning-icon"></image>
@@ -46,7 +49,7 @@ class MozAddonGeneric extends MozAddonBase {
         <button anonid="undo-btn" class="button-link" label="FROM-DTD.addon.undoAction.label;" tooltipText="FROM-DTD.addon.undoAction.tooltip;" oncommand="document.getBindingParent(this).undo();"></button>
         <spacer flex="5000"></spacer>
       </hbox>
-      <image class="card-heading-image" anonid="theme-screenshot" hidden="true"></image>
+      <image class="card-heading-image" anonid="theme-screenshot" inherits="src=previewURL"></image>
       <hbox class="content-container" align="center">
         <vbox class="icon-container">
           <image anonid="icon" class="icon"></image>
@@ -268,6 +271,14 @@ class MozAddonGeneric extends MozAddonBase {
       this._description.value = this.mAddon.description;
     else
       this._description.hidden = true;
+
+    // Set a previewURL for themes if one exists.
+    let previewURL = this.mAddon.type == "theme" &&
+      this.mAddon.screenshots &&
+      this.mAddon.screenshots[0] &&
+      this.mAddon.screenshots[0].url;
+    this.setAttribute("previewURL", previewURL ? previewURL : "");
+    this.setAttribute("hasPreview", previewURL ? "true" : "fase");
 
     let legacyWarning = legacyExtensionsEnabled && !this.mAddon.install &&
       isLegacyExtension(this.mAddon);

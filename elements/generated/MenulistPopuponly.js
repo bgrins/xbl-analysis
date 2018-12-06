@@ -11,6 +11,9 @@
 class MozMenulistPopuponly extends MozMenulist {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="menupopup"></children>
     `));

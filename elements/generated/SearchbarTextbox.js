@@ -48,6 +48,9 @@ class MozSearchbarTextbox extends MozAutocomplete {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
     /**
      * nsIController

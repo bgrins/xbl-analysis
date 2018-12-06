@@ -87,6 +87,9 @@ class MozPopupScrollbars extends MozPopup {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
         <children></children>

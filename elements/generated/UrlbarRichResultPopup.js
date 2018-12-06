@@ -105,6 +105,9 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
         <hbox flex="1" align="center" anonid="search-suggestions-opt-out">

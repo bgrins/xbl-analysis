@@ -93,6 +93,10 @@ class MozPanel extends MozXULElement {
 
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
+
     this._prevFocus = 0;
 
   }

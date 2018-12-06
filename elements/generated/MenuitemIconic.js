@@ -11,6 +11,9 @@
 class MozMenuitemIconic extends MozMenuitem {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="menu-iconic-left" align="center" pack="center" inherits="selected,_moz-menuactive,disabled,checked">
         <image class="menu-iconic-icon" inherits="src=image,triggeringprincipal=iconloadingprincipal,validate,src"></image>

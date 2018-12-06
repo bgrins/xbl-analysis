@@ -28,6 +28,9 @@ class MozRadio extends MozBasetext {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="radio-check" inherits="disabled,selected"></image>
       <hbox class="radio-label-box" align="center" flex="1">

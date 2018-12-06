@@ -11,6 +11,9 @@
 class MozCategory extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image anonid="icon" class="category-icon"></image>
       <label anonid="name" class="category-name" crop="end" flex="1" inherits="value=name"></label>

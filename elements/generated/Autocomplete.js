@@ -49,6 +49,9 @@ class MozAutocomplete extends MozTextbox {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="image|deck|stack|box"></children>
       <moz-input-box anonid="moz-input-box" flex="1">

@@ -52,6 +52,9 @@ class MozTabmodalprompt extends MozXULElement {
 
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <spacer flex="1"></spacer>
       <hbox pack="center">

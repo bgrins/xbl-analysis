@@ -106,9 +106,16 @@ function getJSForBinding(binding) {
     console.log("No content for binding", binding.attrs.id);
   }
 
-  let innerHTML = content.length ?
-        "this.appendChild(MozXULElement.parseXULToFragment(`" + childMarkup.join('') + "\n    `));" :
-        "";
+  let innerHTML = "";
+
+  if (content.length) {
+    innerHTML += 'this.textContent = "";\n';
+    innerHTML += "this.appendChild(MozXULElement.parseXULToFragment(`" + childMarkup.join('') + "\n    `));\n";
+
+    if (childMarkup.join("").includes("inherits=")) {
+      innerHTML += "// XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!\n";
+    }
+  }
 
   let xblconstructor = (binding.find("constructor") || [])[0];
   let xblconstructorComment = xblconstructor ? formatComment(xblconstructor.comment) : null;
@@ -232,7 +239,9 @@ function getJSForBinding(binding) {
 
   js.push(`
     connectedCallback() {
-      ${hasExtends ? "super.connectedCallback()" : ""}
+      if (this.delayConnectedCallback()) {
+        return;
+      }
       ${innerHTML}
       ${fields.join("\n")}
 

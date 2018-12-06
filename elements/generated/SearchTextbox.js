@@ -42,6 +42,9 @@ class MozSearchTextbox extends MozTextbox {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
       <moz-input-box anonid="moz-input-box" flex="1" inherits="context,spellcheck" align="center">

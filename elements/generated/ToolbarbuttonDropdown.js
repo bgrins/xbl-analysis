@@ -11,6 +11,9 @@
 class MozToolbarbuttonDropdown extends MozMenuBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="menubar-left" inherits="src=image"></image>
       <label class="menubar-text" inherits="value=label,accesskey,crop" crop="right"></label>

@@ -11,6 +11,9 @@
 class MozUpdateheader extends MozWizardHeader {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="wizard-header update-header" flex="1">
         <vbox class="wizard-header-box-1">

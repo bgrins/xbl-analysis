@@ -11,6 +11,9 @@
 class MozAddonUninstalled extends MozAddonBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="pending">
         <image class="pending-icon"></image>

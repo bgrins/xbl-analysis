@@ -11,6 +11,9 @@
 class MozWizardButtons extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox class="wizard-buttons-box-1" flex="1">
         <separator class="wizard-buttons-separator groove"></separator>

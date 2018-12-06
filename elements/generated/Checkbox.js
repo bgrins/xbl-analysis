@@ -29,6 +29,9 @@ class MozCheckbox extends MozBasetext {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="checkbox-check" inherits="checked,disabled"></image>
       <hbox class="checkbox-label-box" flex="1">

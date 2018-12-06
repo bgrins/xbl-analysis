@@ -11,6 +11,9 @@
 class MozDatetimePopup extends MozArrowpanel {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
 
     this.TIME_PICKER_WIDTH = "12em";
 

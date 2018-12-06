@@ -11,6 +11,10 @@
 class MozToolbarDrag extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
+
     this._dragBindingAlive = true;
 
     if (!this._draggableStarted) {

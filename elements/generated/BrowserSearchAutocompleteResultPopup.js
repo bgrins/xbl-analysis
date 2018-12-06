@@ -82,6 +82,9 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox anonid="searchbar-engine" inherits="showonlysettings" class="search-panel-header search-panel-current-engine">
         <image class="searchbar-engine-image" inherits="src"></image>

@@ -203,6 +203,9 @@ class MozPlacesPopupBase extends MozPopup {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox flex="1">
         <vbox class="menupopup-drop-indicator-bar" hidden="true">

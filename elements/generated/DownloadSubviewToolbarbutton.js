@@ -11,6 +11,9 @@
 class MozDownloadSubviewToolbarbutton extends MozButtonBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="toolbarbutton-icon" validate="always" inherits="src=image"></image>
       <vbox class="toolbarbutton-text" flex="1">

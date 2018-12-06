@@ -279,6 +279,9 @@ class MozTree extends MozBaseControl {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="treecols"></children>
       <stack class="tree-stack" flex="1">

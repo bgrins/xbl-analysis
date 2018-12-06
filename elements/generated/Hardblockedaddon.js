@@ -11,6 +11,9 @@
 class MozHardblockedaddon extends MozXULElement {
   connectedCallback() {
 
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image inherits="src=icon"></image>
       <vbox flex="1">

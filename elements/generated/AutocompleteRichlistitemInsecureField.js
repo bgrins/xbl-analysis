@@ -24,6 +24,9 @@ class MozAutocompleteRichlistitemInsecureField extends MozAutocompleteRichlistit
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type"></image>
       <image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type"></image>

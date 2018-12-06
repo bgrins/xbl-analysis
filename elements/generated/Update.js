@@ -11,6 +11,9 @@
 class MozUpdate extends MozRichlistitem {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox>
         <label class="update-name" inherits="value=name" flex="1" crop="right"></label>

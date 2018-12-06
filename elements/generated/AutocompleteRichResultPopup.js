@@ -79,6 +79,9 @@ class MozAutocompleteRichResultPopup extends MozPopup {
 
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></richlistbox>
       <hbox>

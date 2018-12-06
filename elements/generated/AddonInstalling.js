@@ -11,6 +11,9 @@
 class MozAddonInstalling extends MozAddonBase {
   connectedCallback() {
     super.connectedCallback()
+    if (this.delayConnectedCallback()) {
+      return;
+    }
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox anonid="warning-container" class="warning">
         <image class="warning-icon"></image>
