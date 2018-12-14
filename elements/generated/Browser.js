@@ -119,13 +119,14 @@ class MozBrowser extends MozXULElement {
   }
 
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
     `));
+
     this._documentURI = null;
 
     this._documentContentType = null;
@@ -1203,7 +1204,6 @@ class MozBrowser extends MozXULElement {
           let menulist = document.getElementById(this.getAttribute("selectmenulist"));
           menulist.menupopup.style.direction = data.direction;
           this._selectParentHelper.populate(menulist, data.options, data.selectedIndex, this._fullZoom,
-            data.uaBackgroundColor, data.uaColor,
             data.uaSelectBackgroundColor, data.uaSelectColor,
             data.selectBackgroundColor, data.selectColor, data.selectTextShadow);
           this._selectParentHelper.open(this, menulist, data.rect, data.isOpenedViaTouch);
@@ -1257,7 +1257,7 @@ class MozBrowser extends MozXULElement {
           let zoom = Services.prefs.getBoolPref("browser.zoom.full") ||
             this.isSyntheticDocument ? this._fullZoom : this._textZoom;
           this._selectParentHelper.populate(menulist, data.options, data.selectedIndex,
-            zoom, data.uaBackgroundColor, data.uaColor,
+            zoom,
             data.uaSelectBackgroundColor, data.uaSelectColor,
             data.selectBackgroundColor, data.selectColor, data.selectTextShadow);
           this._selectParentHelper.open(this, menulist, data.rect, data.isOpenedViaTouch);

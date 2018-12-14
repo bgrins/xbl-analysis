@@ -10,16 +10,17 @@
 
 class MozMenuitem extends MozMenuitemBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <label class="menu-text" inherits="value=label,accesskey,crop,highlightable" crop="right"></label>
       <hbox class="menu-accel-container" anonid="accel">
         <label class="menu-accel" inherits="value=acceltext"></label>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

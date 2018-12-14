@@ -10,10 +10,10 @@
 
 class MozDownloadProgress extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <stack flex="1">
         <hbox flex="1">
@@ -29,6 +29,7 @@ class MozDownloadProgress extends MozXULElement {
         </hbox>
       </stack>
     `));
+
     this._progress = document.getAnonymousElementByAttribute(this, "anonid", "progress");
 
     this._cancel = document.getAnonymousElementByAttribute(this, "anonid", "cancel-btn");

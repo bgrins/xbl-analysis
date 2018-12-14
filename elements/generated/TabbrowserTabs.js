@@ -725,10 +725,10 @@ class MozTabbrowserTabs extends MozTabs {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="tab-drop-indicator-box">
         <image class="tab-drop-indicator" anonid="tab-drop-indicator" collapsed="true"></image>
@@ -740,6 +740,7 @@ class MozTabbrowserTabs extends MozTabs {
         <spacer class="closing-tabs-spacer" anonid="closing-tabs-spacer" style="width: 0;"></spacer>
       </arrowscrollbox>
     `));
+
     this.tabbox = document.getElementById("tabbrowser-tabbox");
 
     this.contextMenu = document.getElementById("tabContextMenu");
@@ -1510,42 +1511,62 @@ class MozTabbrowserTabs extends MozTabs {
   }
 
   _notifyBackgroundTab(aTab) {
-    if (aTab.pinned || aTab.hidden)
+    if (aTab.pinned || aTab.hidden || this.getAttribute("overflow") != "true")
       return;
 
-    var scrollRect = this.arrowScrollbox.scrollClientRect;
-    var tab = aTab.getBoundingClientRect();
+    this._lastTabToScrollIntoView = aTab;
+    if (!this._backgroundTabScrollPromise) {
+      this._backgroundTabScrollPromise = window.promiseDocumentFlushed(() => {
+        let lastTabRect = this._lastTabToScrollIntoView.getBoundingClientRect();
+        let selectedTab = this.selectedItem;
+        if (selectedTab.pinned) {
+          selectedTab = null;
+        } else {
+          selectedTab = selectedTab.getBoundingClientRect();
+          selectedTab = { left: selectedTab.left, right: selectedTab.right };
+        }
+        return [
+          this._lastTabToScrollIntoView,
+          this.arrowScrollbox.scrollClientRect,
+          { left: lastTabRect.left, right: lastTabRect.right },
+          selectedTab,
+        ];
+      }).then(([tabUsed, scrollRect, tabRect, selectedRect]) => {
+        // First off, remove the promise so we can re-enter if necessary.
+        delete this._backgroundTabScrollPromise;
+        // Then, if the layout info isn't for the last-scrolled-to-tab, re-run
+        // the code above to get layout info for *that* tab, and don't do
+        // anything here, as we really just want to run this for the last-opened tab.
+        if (this._lastTabToScrollIntoView != tabUsed) {
+          this._notifyBackgroundTab(this._lastTabToScrollIntoView);
+          return;
+        }
+        delete this._lastTabToScrollIntoView;
+        // Is the new tab already completely visible?
+        if (scrollRect.left <= tabRect.left && tabRect.right <= scrollRect.right)
+          return;
 
-    // DOMRect left/right properties are immutable.
-    tab = { left: tab.left, right: tab.right };
+        if (this.arrowScrollbox.smoothScroll) {
+          // Can we make both the new tab and the selected tab completely visible?
+          if (!selectedRect ||
+            Math.max(tabRect.right - selectedRect.left, selectedRect.right - tabRect.left) <=
+            scrollRect.width) {
+            this.arrowScrollbox.ensureElementIsVisible(aTab);
+            return;
+          }
 
-    // Is the new tab already completely visible?
-    if (scrollRect.left <= tab.left && tab.right <= scrollRect.right)
-      return;
+          this.arrowScrollbox.scrollByPixels(RTL_UI ?
+            selectedRect.right - scrollRect.right :
+            selectedRect.left - scrollRect.left);
+        }
 
-    if (this.arrowScrollbox.smoothScroll) {
-      let selectedTab = this.selectedItem;
-      let selected = !selectedTab.pinned &&
-        selectedTab.getBoundingClientRect();
-
-      // Can we make both the new tab and the selected tab completely visible?
-      if (!selected ||
-        Math.max(tab.right - selected.left, selected.right - tab.left) <=
-        scrollRect.width) {
-        this.arrowScrollbox.ensureElementIsVisible(aTab);
-        return;
-      }
-
-      this.arrowScrollbox.scrollByPixels(RTL_UI ?
-        selected.right - scrollRect.right :
-        selected.left - scrollRect.left);
-    }
-
-    if (!this._animateElement.hasAttribute("highlight")) {
-      this._animateElement.setAttribute("highlight", "true");
-      setTimeout(function(ele) {
-        ele.removeAttribute("highlight");
-      }, 150, this._animateElement);
+        if (!this._animateElement.hasAttribute("highlight")) {
+          this._animateElement.setAttribute("highlight", "true");
+          setTimeout(function(ele) {
+            ele.removeAttribute("highlight");
+          }, 150, this._animateElement);
+        }
+      });
     }
   }
 
@@ -1669,7 +1690,6 @@ class MozTabbrowserTabs extends MozTabs {
 
     // Starting from the tabs element, find the next sibling that:
     // - isn't hidden; and
-    // - isn't one of the titlebar placeholder elements; and
     // - isn't the all-tabs button.
     // If it's the new tab button, consider the new tab button adjacent to the tabs.
     // If the new tab button is marked as adjacent and the tabstrip doesn't
@@ -1680,7 +1700,6 @@ class MozTabbrowserTabs extends MozTabs {
     do {
       sib = unwrap(wrap(sib).nextElementSibling);
     } while (sib && (sib.hidden ||
-        sib.getAttribute("skipintoolbarset") == "true" ||
         sib.id == "alltabs-button"));
 
     const kAttr = "hasadjacentnewtabbutton";

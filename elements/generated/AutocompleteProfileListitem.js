@@ -10,10 +10,10 @@
 
 class MozAutocompleteProfileListitem extends MozAutocompleteProfileListitemBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="autofill-item-box" class="autofill-item-box" inherits="ac-image">
         <div class="profile-label-col profile-item-col">
@@ -25,6 +25,7 @@ class MozAutocompleteProfileListitem extends MozAutocompleteProfileListitemBase 
         </div>
       </div>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
     this._itemBox = document.getAnonymousElementByAttribute(
       this, "anonid", "autofill-item-box"

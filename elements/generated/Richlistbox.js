@@ -130,16 +130,18 @@ class MozRichlistbox extends MozBaseControl {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="listheader"></children>
       <scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
         <children></children>
       </scrollbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "main-box");
 
     /**
@@ -276,9 +278,8 @@ class MozRichlistbox extends MozBaseControl {
   }
 
   get itemChildren() {
-    let iface = Ci.nsIDOMXULSelectControlItemElement;
     let children = Array.from(this.children)
-      .filter(node => node instanceof iface);
+      .filter(node => node.localName == "richlistitem");
     if (this.dir == "reverse" && this._mayReverse) {
       children.reverse();
     }
@@ -352,7 +353,7 @@ class MozRichlistbox extends MozBaseControl {
       "nextSibling";
     while (aStartItem) {
       aStartItem = aStartItem[prop];
-      if (aStartItem && aStartItem instanceof Ci.nsIDOMXULSelectControlItemElement &&
+      if (aStartItem && aStartItem.localName == "richlistitem" &&
         (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
         if (aDelta == 0)
@@ -368,7 +369,7 @@ class MozRichlistbox extends MozBaseControl {
       "previousSibling";
     while (aStartItem) {
       aStartItem = aStartItem[prop];
-      if (aStartItem && aStartItem instanceof Ci.nsIDOMXULSelectControlItemElement &&
+      if (aStartItem && aStartItem.localName == "richlistitem" &&
         (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
         if (aDelta == 0)

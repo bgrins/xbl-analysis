@@ -10,7 +10,6 @@
 
 class MozAutocompleteProfileListitemBase extends MozRichlistitem {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }

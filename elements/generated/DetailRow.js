@@ -10,14 +10,15 @@
 
 class MozDetailRow extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <label class="detail-row-label" inherits="value=label"></label>
       <label class="detail-row-value" inherits="value"></label>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 

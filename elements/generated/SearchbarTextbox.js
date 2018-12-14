@@ -27,14 +27,14 @@ class MozSearchbarTextbox extends MozAutocomplete {
     this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } return this.openSearch(); }, true);
 
     this.addEventListener("dragover", (event) => {
-      var types = event.dataTransfer.types;
+      let types = event.dataTransfer.types;
       if (types.includes("text/plain") || types.includes("text/x-moz-text-internal"))
         event.preventDefault();
     });
 
     this.addEventListener("drop", (event) => {
-      var dataTransfer = event.dataTransfer;
-      var data = dataTransfer.getData("text/plain");
+      let dataTransfer = event.dataTransfer;
+      let data = dataTransfer.getData("text/plain");
       if (!data)
         data = dataTransfer.getData("text/x-moz-text-internal");
       if (data) {
@@ -47,7 +47,6 @@ class MozSearchbarTextbox extends MozAutocomplete {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
@@ -69,7 +68,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
       doCommand(aCommand) {
         switch (aCommand) {
           case "cmd_clearhistory":
-            var param = this._self.getAttribute("autocompletesearchparam");
+            let param = this._self.getAttribute("autocompletesearchparam");
 
             BrowserSearch.searchBar.FormHistory.update({ op: "remove", fieldname: param }, null);
             this._self.value = "";
@@ -92,12 +91,12 @@ class MozSearchbarTextbox extends MozAutocomplete {
     if (Services.prefs.getBoolPref("browser.urlbar.clickSelectsAll"))
       this.setAttribute("clickSelectsAll", true);
 
-    var textBox = document.getAnonymousElementByAttribute(this,
+    let textBox = document.getAnonymousElementByAttribute(this,
       "anonid", "moz-input-box");
 
     // Force the Custom Element to upgrade until Bug 1470242 handles this:
     customElements.upgrade(textBox);
-    var cxmenu = textBox.menupopup;
+    let cxmenu = textBox.menupopup;
     cxmenu.addEventListener("popupshowing",
       () => { this.initContextMenu(cxmenu); }, { capture: true, once: true });
 
@@ -228,7 +227,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
       return;
     }
 
-    var popup = this.popup;
+    let popup = this.popup;
     if (!popup.mPopupOpen) {
       // Initially the panel used for the searchbar (PopupSearchAutoComplete
       // in browser.xul) is hidden to avoid impacting startup / new
@@ -250,8 +249,8 @@ class MozSearchbarTextbox extends MozAutocomplete {
 
       document.popupNode = null;
 
-      var outerRect = this.getBoundingClientRect();
-      var innerRect = this.inputField.getBoundingClientRect();
+      let outerRect = this.getBoundingClientRect();
+      let innerRect = this.inputField.getBoundingClientRect();
       let width = RTL_UI ?
         innerRect.right - outerRect.left :
         outerRect.right - innerRect.left;
@@ -260,7 +259,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
       // invalidate() depends on the width attribute
       popup._invalidate();
 
-      var yOffset = outerRect.bottom - innerRect.bottom;
+      let yOffset = outerRect.bottom - innerRect.bottom;
       popup.openPopup(this.inputField, "after_start", 0, yOffset, false, false);
     }
   }

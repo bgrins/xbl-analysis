@@ -71,10 +71,10 @@ class MozArrowpanel extends MozPanel {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
         <box anonid="arrowbox" class="panel-arrowbox">
@@ -85,6 +85,8 @@ class MozArrowpanel extends MozPanel {
         </box>
       </vbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._fadeTimer = null;
 
   }

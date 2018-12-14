@@ -10,10 +10,10 @@
 
 class MozDownloadSubviewToolbarbutton extends MozButtonBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="toolbarbutton-icon" validate="always" inherits="src=image"></image>
       <vbox class="toolbarbutton-text" flex="1">
@@ -25,6 +25,7 @@ class MozDownloadSubviewToolbarbutton extends MozButtonBase {
       </vbox>
       <toolbarbutton anonid="button" class="action-button"></toolbarbutton>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

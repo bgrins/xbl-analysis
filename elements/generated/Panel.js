@@ -92,7 +92,6 @@ class MozPanel extends MozXULElement {
   }
 
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }

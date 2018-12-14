@@ -10,16 +10,17 @@
 
 class MozToolbarbuttonDropdown extends MozMenuBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="menubar-left" inherits="src=image"></image>
       <label class="menubar-text" inherits="value=label,accesskey,crop" crop="right"></label>
       <hbox class="menubar-right"></hbox>
       <children includes="menupopup"></children>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

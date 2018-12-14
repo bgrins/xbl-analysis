@@ -35,15 +35,17 @@ class MozNumberbox extends MozTextbox {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <moz-input-box anonid="moz-input-box" class="numberbox-input-box" flex="1" inherits="context,disabled,focused">
         <html:input class="numberbox-input textbox-input" type="number" anonid="input" inherits="value,min,max,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey"></html:input>
       </moz-input-box>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._valueEntered = false;
 
     this._value = 0;

@@ -10,15 +10,16 @@
 
 class MozTabs extends MozBaseControl {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <spacer class="tabs-left"></spacer>
       <children></children>
       <spacer class="tabs-right" flex="1"></spacer>
     `));
+
     this._tabbox = null;
 
     /**

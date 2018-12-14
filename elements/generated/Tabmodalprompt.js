@@ -35,7 +35,8 @@ class MozTabmodalprompt extends MozXULElement {
         // react to pressing enter as a command, so you can't trigger the
         // default without tabbing to it or something that isn't a button.
         let focusedDefault = (event.originalTarget == defaultButton);
-        let someButtonFocused = event.originalTarget instanceof Ci.nsIDOMXULButtonElement;
+        let someButtonFocused = event.originalTarget.localName == "button" ||
+          event.originalTarget.localName == "toolbarbutton";
         defaultButton.setAttribute("default", focusedDefault || !someButtonFocused);
       }
     }, true);
@@ -51,10 +52,10 @@ class MozTabmodalprompt extends MozXULElement {
   }
 
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <spacer flex="1"></spacer>
       <hbox pack="center">
@@ -96,6 +97,7 @@ class MozTabmodalprompt extends MozXULElement {
       </hbox>
       <spacer flex="2"></spacer>
     `));
+
     this.ui = "";
 
     this.args = "";

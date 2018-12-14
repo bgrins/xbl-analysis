@@ -10,7 +10,6 @@
 
 class MozMenuitemBase extends MozBasetext {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
@@ -34,9 +33,10 @@ class MozMenuitemBase extends MozBasetext {
 
   get control() {
     var parent = this.parentNode;
-    if (parent &&
-      parent.parentNode instanceof Ci.nsIDOMXULSelectControlElement)
+    // Return the parent if it is a menu or menulist.
+    if (parent && parent.parentNode instanceof XULMenuElement) {
       return parent.parentNode;
+    }
     return null;
   }
   /**
@@ -44,8 +44,9 @@ class MozMenuitemBase extends MozBasetext {
    */
   get parentContainer() {
     for (var parent = this.parentNode; parent; parent = parent.parentNode) {
-      if (parent instanceof Ci.nsIDOMXULContainerElement)
+      if (parent instanceof XULMenuElement) {
         return parent;
+      }
     }
     return null;
   }

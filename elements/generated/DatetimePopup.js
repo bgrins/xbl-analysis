@@ -10,7 +10,6 @@
 
 class MozDatetimePopup extends MozArrowpanel {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }

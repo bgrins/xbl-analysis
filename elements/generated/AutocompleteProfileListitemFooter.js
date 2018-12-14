@@ -24,10 +24,10 @@ class MozAutocompleteProfileListitemFooter extends MozAutocompleteProfileListite
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="autofill-footer" class="autofill-item-box autofill-footer">
         <div anonid="autofill-warning" class="autofill-footer-row autofill-warning"></div>

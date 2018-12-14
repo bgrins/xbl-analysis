@@ -10,15 +10,16 @@
 
 class MozScrollbox extends MozBaseControl {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <box class="box-inherit scrollbox-innerbox" inherits="orient,align,pack,dir" flex="1">
         <children></children>
       </box>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

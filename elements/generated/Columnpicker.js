@@ -42,10 +42,10 @@ class MozColumnpicker extends MozBaseControl {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="tree-columnpicker-icon"></image>
       <menupopup anonid="popup">

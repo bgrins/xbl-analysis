@@ -202,10 +202,10 @@ class MozPlacesPopupBase extends MozPopup {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox flex="1">
         <vbox class="menupopup-drop-indicator-bar" hidden="true">
@@ -216,6 +216,7 @@ class MozPlacesPopupBase extends MozPopup {
         </arrowscrollbox>
       </hbox>
     `));
+
     this.AppConstants = (ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {})).AppConstants;
 
     this._indicatorBar = document.getAnonymousElementByAttribute(this, "class",

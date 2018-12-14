@@ -78,16 +78,17 @@ class MozAutocompleteRichResultPopup extends MozPopup {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></richlistbox>
       <hbox>
         <children></children>
       </hbox>
     `));
+
     this.mInput = null;
 
     this.mPopupOpen = false;
@@ -438,8 +439,12 @@ class MozAutocompleteRichResultPopup extends MozPopup {
       this._currentIndex++;
     }
 
-    if (typeof this.onResultsAdded == "function")
-      this.onResultsAdded();
+    if (typeof this.onResultsAdded == "function") {
+      // The items bindings may not be attached yet, so we must delay this
+      // before we can properly handle items properly without breaking
+      // the richlistbox.
+      Services.tm.dispatchToMainThread(() => this.onResultsAdded());
+    }
 
     if (this._currentIndex < matchCount) {
       // yield after each batch of items so that typing the url bar is

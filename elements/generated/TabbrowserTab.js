@@ -169,10 +169,10 @@ class MozTabbrowserTab extends MozTab {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <stack class="tab-stack" flex="1">
         <vbox inherits="selected=visuallyselected,fadein" class="tab-background">
@@ -195,6 +195,8 @@ class MozTabbrowserTab extends MozTab {
         </hbox>
       </stack>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._selectedOnFirstMouseDown = false;
 
     /**

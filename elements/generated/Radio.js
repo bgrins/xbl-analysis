@@ -27,10 +27,10 @@ class MozRadio extends MozBasetext {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="radio-check" inherits="disabled,selected"></image>
       <hbox class="radio-label-box" align="center" flex="1">
@@ -38,6 +38,7 @@ class MozRadio extends MozBasetext {
         <label class="radio-label" inherits="text=label,accesskey,crop" flex="1"></label>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
     // Just clear out the parent's cached list of radio children
     var control = this.control;

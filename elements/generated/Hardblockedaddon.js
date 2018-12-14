@@ -10,10 +10,10 @@
 
 class MozHardblockedaddon extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image inherits="src=icon"></image>
       <vbox flex="1">
@@ -27,6 +27,7 @@ class MozHardblockedaddon extends MozXULElement {
         </hbox>
       </vbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

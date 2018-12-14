@@ -28,10 +28,10 @@ class MozCheckbox extends MozBasetext {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image class="checkbox-check" inherits="checked,disabled"></image>
       <hbox class="checkbox-label-box" flex="1">
@@ -39,6 +39,7 @@ class MozCheckbox extends MozBasetext {
         <label class="checkbox-label" inherits="text=label,accesskey,crop" flex="1"></label>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
   /**

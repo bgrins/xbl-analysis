@@ -46,10 +46,10 @@ class MozMenulist extends MozBaseControl {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="menulist-label-box" flex="1">
         <image class="menulist-icon" inherits="src=image"></image>
@@ -59,6 +59,7 @@ class MozMenulist extends MozBaseControl {
       <dropmarker class="menulist-dropmarker" type="menu" inherits="disabled,open"></dropmarker>
       <children includes="menupopup"></children>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
     this.mSelectedInternal = null;
     this.mAttributeObserver = null;

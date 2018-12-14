@@ -278,10 +278,10 @@ class MozTree extends MozBaseControl {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="treecols"></children>
       <stack class="tree-stack" flex="1">
@@ -295,6 +295,8 @@ class MozTree extends MozBaseControl {
         <scrollcorner inherits="collapsed=hidevscroll" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></scrollcorner>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this.pageUpOrDownMovesSelection = !/Mac/.test(navigator.platform);
 
     this._inputField = null;

@@ -10,10 +10,10 @@
 
 class MozHandler extends MozRichlistitem {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox pack="center">
         <image inherits="src=image" height="32" width="32"></image>
@@ -23,6 +23,7 @@ class MozHandler extends MozRichlistitem {
         <label class="description" inherits="value=description"></label>
       </vbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 

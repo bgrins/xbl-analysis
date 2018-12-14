@@ -23,10 +23,10 @@ class MozWizard extends MozXULElement {
   }
 
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="wizard-header" anonid="Header"></hbox>
       <deck class="wizard-page-box" flex="1" anonid="Deck">
@@ -35,6 +35,8 @@ class MozWizard extends MozXULElement {
       <children></children>
       <hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage"></hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this.pageCount = 0;
 
     this._accessMethod = null;

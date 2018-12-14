@@ -10,7 +10,6 @@
 
 class MozToolbarbuttonBadgedMenu extends MozToolbarbuttonBadged {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }

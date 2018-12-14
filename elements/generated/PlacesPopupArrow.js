@@ -59,10 +59,10 @@ class MozPlacesPopupArrow extends MozPlacesPopupBase {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox anonid="container" class="panel-arrowcontainer" flex="1" inherits="side,panelopen">
         <box anonid="arrowbox" class="panel-arrowbox">
@@ -78,6 +78,7 @@ class MozPlacesPopupArrow extends MozPlacesPopupBase {
         </box>
       </vbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
     this.style.pointerEvents = "none";
 
@@ -113,7 +114,7 @@ class MozPlacesPopupArrow extends MozPlacesPopupBase {
       arrowbox.style.transform = "translate(0, " + -offset + "px)";
 
       // The assigned side stays the same regardless of direction.
-      var isRTL = (window.getComputedStyle(this).direction == "rtl");
+      let isRTL = this.matches(":-moz-locale-dir(rtl)");
 
       if (position.indexOf("start_") == 0) {
         container.dir = "reverse";

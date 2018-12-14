@@ -68,16 +68,18 @@ class MozTextbox extends MozXULElement {
   }
 
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
       <moz-input-box anonid="moz-input-box" flex="1" inherits="context,spellcheck">
         <html:input class="textbox-input" anonid="input" inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck"></html:input>
       </moz-input-box>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     /**
      * nsIDOMXULLabeledControlElement
      */

@@ -10,7 +10,6 @@
 
 class MozWizardpage extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }

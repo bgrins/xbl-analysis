@@ -10,10 +10,10 @@
 
 class MozMenuIconic extends MozMenuBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="menu-iconic-left" align="center" pack="center">
         <image class="menu-iconic-icon" inherits="src=image"></image>
@@ -28,6 +28,7 @@ class MozMenuIconic extends MozMenuBase {
       </hbox>
       <children includes="menupopup|template"></children>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

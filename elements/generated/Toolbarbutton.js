@@ -10,10 +10,10 @@
 
 class MozToolbarbutton extends MozButtonBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <image class="toolbarbutton-icon" inherits="validate,src=image,label,type,consumeanchor,triggeringprincipal=iconloadingprincipal"></image>
@@ -22,6 +22,7 @@ class MozToolbarbutton extends MozButtonBase {
       <children includes="box"></children>
       <dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label"></dropmarker>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

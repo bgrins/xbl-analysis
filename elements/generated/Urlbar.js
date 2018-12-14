@@ -10,10 +10,10 @@
 
 class MozUrlbar extends MozTextbox {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox flex="1" class="urlbar-textbox-container" tooltip="aHTMLTooltip">
         <children includes="image|deck|stack|box"></children>
@@ -29,6 +29,7 @@ class MozUrlbar extends MozTextbox {
       <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>
       <children includes="toolbarbutton"></children>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

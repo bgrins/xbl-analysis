@@ -10,10 +10,10 @@
 
 class MozMenuitemIconic extends MozMenuitem {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="menu-iconic-left" align="center" pack="center" inherits="selected,_moz-menuactive,disabled,checked">
         <image class="menu-iconic-icon" inherits="src=image,triggeringprincipal=iconloadingprincipal,validate,src"></image>
@@ -25,6 +25,7 @@ class MozMenuitemIconic extends MozMenuitem {
         <label class="menu-iconic-accel" inherits="value=acceltext"></label>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

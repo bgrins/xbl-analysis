@@ -10,10 +10,10 @@
 
 class MozAddonUninstalled extends MozAddonBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="pending">
         <image class="pending-icon"></image>
@@ -22,6 +22,7 @@ class MozAddonUninstalled extends MozAddonBase {
         <spacer flex="5000"></spacer>
       </hbox>
     `));
+
     this._notice = document.getAnonymousElementByAttribute(this, "anonid", "notice");
 
     this._notice.textContent = gStrings.ext.formatStringFromName("uninstallNotice", [this.mAddon.name],

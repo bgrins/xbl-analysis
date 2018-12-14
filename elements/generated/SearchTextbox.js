@@ -41,10 +41,10 @@ class MozSearchTextbox extends MozTextbox {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children></children>
       <moz-input-box anonid="moz-input-box" flex="1" inherits="context,spellcheck" align="center">
@@ -56,6 +56,8 @@ class MozSearchTextbox extends MozTextbox {
         </deck>
       </moz-input-box>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._timer = null;
 
     this._searchIcons = document.getAnonymousElementByAttribute(this, "anonid", "search-icons");

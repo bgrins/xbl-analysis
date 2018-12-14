@@ -10,10 +10,10 @@
 
 class MozWizardHeader extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="wizard-header-box-1" flex="1">
         <vbox class="wizard-header-box-text" flex="1">
@@ -23,6 +23,7 @@ class MozWizardHeader extends MozXULElement {
         <image class="wizard-header-icon" inherits="src=iconsrc"></image>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

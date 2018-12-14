@@ -10,7 +10,6 @@
 
 class MozToolbarDrag extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }

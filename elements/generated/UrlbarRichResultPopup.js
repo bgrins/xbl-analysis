@@ -104,10 +104,10 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <deck anonid="search-suggestions-notification" align="center" role="alert" selectedIndex="0">
         <hbox flex="1" align="center" anonid="search-suggestions-opt-out">
@@ -130,6 +130,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
         <hbox anonid="one-off-search-buttons" class="search-one-offs" compact="true" includecurrentengine="true" disabletab="true" flex="1"></hbox>
       </hbox>
     `));
+
     /**
      * For performance reasons we want to limit the size of the text runs we
      * build and show to the user.
@@ -352,13 +353,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     }
 
     // Set the direction of the popup based on the textbox (bug 649840).
-    // getComputedStyle causes a layout flush, so avoid calling it if a
-    // direction has already been set.
-    if (!this.style.direction) {
-      this.style.direction =
-        aElement.ownerGlobal.getComputedStyle(aElement).direction;
-    }
-    let popupDirection = this.style.direction;
+    let popupDirection = this.style.direction = (RTL_UI ? "rtl" : "ltr");
 
     // Make the popup span the width of the window.  First, set its width.
     let documentRect =
@@ -697,34 +692,35 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       );
     }
 
-    // If this is the first time we get the result from the current
-    // search and we are not in the private context, we can speculatively
-    // connect to the intended site as a performance optimization.
-    if (!this.input.gotResultForCurrentQuery &&
-      this.input.speculativeConnectEnabled &&
-      !this.input.inPrivateContext &&
-      this.input.mController.matchCount > 0) {
-      let firstStyle = this.input.mController.getStyleAt(0);
-      if (firstStyle.includes("autofill")) {
-        let uri = this.input.mController.getFinalCompleteValueAt(0);
-        this.maybeSetupSpeculativeConnect(uri);
-      } else if (firstStyle.includes("searchengine") &&
-        this.input.browserSearchSuggestEnabled &&
-        this.input.urlbarSearchSuggestEnabled) {
-        // Preconnect to the current search engine only if the search
-        // suggestions are enabled.
-        let engine = Services.search.defaultEngine;
-        engine.speculativeConnect({
-          window,
-          originAttributes: gBrowser.contentPrincipal.originAttributes
-        });
+    if (this.matchCount > 0) {
+      // If this is the first time we get the result from the current
+      // search and we are not in the private context, we can speculatively
+      // connect to the intended site as a performance optimization.
+      if (!this.input.gotResultForCurrentQuery &&
+        this.input.speculativeConnectEnabled &&
+        !this.input.inPrivateContext) {
+        let firstStyle = this.input.mController.getStyleAt(0);
+        if (firstStyle.includes("autofill")) {
+          let uri = this.input.mController.getFinalCompleteValueAt(0);
+          this.maybeSetupSpeculativeConnect(uri);
+        } else if (firstStyle.includes("searchengine") &&
+          this.input.browserSearchSuggestEnabled &&
+          this.input.urlbarSearchSuggestEnabled) {
+          // Preconnect to the current search engine only if the search
+          // suggestions are enabled.
+          let engine = Services.search.defaultEngine;
+          engine.speculativeConnect({
+            window,
+            originAttributes: gBrowser.contentPrincipal.originAttributes
+          });
+        }
       }
+
+      // When a result is present the footer should always be visible.
+      this.footer.collapsed = false;
     }
 
-    // When a result is present the footer should always be visible.
-    this.footer.collapsed = false;
     this.input.tabScrolling = true;
-
     this.input.gotResultForCurrentQuery = true;
     this.input.replaySafeDeferredKeyEvents();
   }

@@ -176,10 +176,10 @@ class MozArrowscrollbox extends MozBaseControl {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" onmouseover="_startScroll(-1);" onmouseout="_stopScroll();"></toolbarbutton>
       <spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></spacer>
@@ -189,6 +189,8 @@ class MozArrowscrollbox extends MozBaseControl {
       <spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></spacer>
       <toolbarbutton class="scrollbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" onmouseover="_startScroll(1);" onmouseout="_stopScroll();"></toolbarbutton>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "scrollbox");
 
     this._scrollButtonUp = document.getAnonymousElementByAttribute(this, "anonid", "scrollbutton-up");

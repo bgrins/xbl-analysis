@@ -10,10 +10,10 @@
 
 class MozToolbarbuttonBadged extends MozToolbarbutton {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <stack class="toolbarbutton-badge-stack">
@@ -25,6 +25,7 @@ class MozToolbarbuttonBadged extends MozToolbarbutton {
       <label class="toolbarbutton-multiline-text" flex="1" inherits="text=label,accesskey,wrap"></label>
       <dropmarker anonid="dropmarker" type="menu" class="toolbarbutton-menu-dropmarker" inherits="disabled,label"></dropmarker>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

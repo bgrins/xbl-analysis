@@ -10,7 +10,6 @@
 
 class MozBaseControl extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }

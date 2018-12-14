@@ -10,10 +10,10 @@
 
 class MozPopupNotification extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="popup-notification-header-container">
         <children includes="popupnotificationheader"></children>
@@ -55,6 +55,8 @@ class MozPopupNotification extends MozXULElement {
         <button anonid="button" class="popup-notification-button" default="true" label="FROM-DTD.defaultButton.label;" accesskey="FROM-DTD.defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled"></button>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this.checkbox = document.getAnonymousElementByAttribute(this, "anonid", "checkbox");
 
     this.closebutton = document.getAnonymousElementByAttribute(this, "anonid", "closebutton");

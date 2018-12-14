@@ -23,16 +23,18 @@ class MozDialog extends MozXULElement {
     this.addEventListener("focus", (event) => {
       var btn = this.getButton(this.defaultButton);
       if (btn)
-        btn.setAttribute("default", event.originalTarget == btn || !(event.originalTarget instanceof Ci.nsIDOMXULButtonElement));
+        btn.setAttribute("default", event.originalTarget == btn ||
+          !(event.originalTarget.localName == "button" ||
+            event.originalTarget.localName == "toolbarbutton"));
     }, true);
 
   }
 
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox class="box-inherit dialog-content-box" flex="1">
         <children></children>
@@ -50,6 +52,8 @@ class MozDialog extends MozXULElement {
         <key phase="capturing" oncommand="document.documentElement.openHelp(event)" keycode="FROM-DTD.openHelp.commandkey;"></key>
       </keyset>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._mStrBundle = null;
 
     this._closeHandler = function(event) {

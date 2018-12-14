@@ -25,10 +25,10 @@ class MozAddonGeneric extends MozAddonBase {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox anonid="warning-container" class="warning">
         <image class="warning-icon"></image>
@@ -115,6 +115,8 @@ class MozAddonGeneric extends MozAddonBase {
         </vbox>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._warningContainer = document.getAnonymousElementByAttribute(this, "anonid",
       "warning-container");
 

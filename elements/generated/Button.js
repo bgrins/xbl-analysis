@@ -10,10 +10,10 @@
 
 class MozButton extends MozButtonBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="observes|template|menupopup|panel|tooltip"></children>
       <hbox class="box-inherit button-box" inherits="align,dir,pack,orient" align="center" pack="center" flex="1" anonid="button-box">
@@ -22,6 +22,7 @@ class MozButton extends MozButtonBase {
         <label class="button-highlightable-text" inherits="text=label,accesskey,crop,highlightable"></label>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

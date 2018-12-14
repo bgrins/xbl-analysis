@@ -81,10 +81,10 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox anonid="searchbar-engine" inherits="showonlysettings" class="search-panel-header search-panel-current-engine">
         <image class="searchbar-engine-image" inherits="src"></image>
@@ -93,6 +93,8 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
       <richlistbox anonid="richlistbox" class="autocomplete-richlistbox search-panel-tree" flex="1"></richlistbox>
       <hbox anonid="search-one-off-buttons" class="search-one-offs"></hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     /**
      * Popup rollup is triggered by native events before the mousedown event
      * reaches the DOM. The will be set to true by the popuphiding event and
@@ -131,8 +133,8 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
     if (aEvent.button == 2)
       return;
 
-    var searchBar = BrowserSearch.searchBar;
-    var popupForSearchBar = searchBar && searchBar.textbox == this.mInput;
+    let searchBar = BrowserSearch.searchBar;
+    let popupForSearchBar = searchBar && searchBar.textbox == this.mInput;
     if (popupForSearchBar) {
       searchBar.telemetrySearchDetails = {
         index: this.selectedIndex,
@@ -155,10 +157,10 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
       );
 
       // Handle search bar popup clicks
-      var search = this.input.controller.getValueAt(this.selectedIndex);
+      let search = this.input.controller.getValueAt(this.selectedIndex);
 
       // open the search results according to the clicking subtlety
-      var where = whereToOpenLink(aEvent, false, true);
+      let where = whereToOpenLink(aEvent, false, true);
       let params = {};
 
       // But open ctrl/cmd clicks on autocomplete items in a new background tab.

@@ -52,10 +52,10 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <image anonid="type-icon" class="ac-type-icon" inherits="selected,current,type"></image>
       <image anonid="site-icon" class="ac-site-icon" inherits="src=image,selected,type"></image>
@@ -83,6 +83,8 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
         </description>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this._boundaryCutoff = null;
 
     this._inOverflow = false;

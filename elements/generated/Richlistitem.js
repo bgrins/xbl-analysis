@@ -63,7 +63,6 @@ class MozRichlistitem extends MozBasetext {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
@@ -127,7 +126,7 @@ class MozRichlistitem extends MozBasetext {
   get control() {
     var parent = this.parentNode;
     while (parent) {
-      if (parent instanceof Ci.nsIDOMXULSelectControlElement)
+      if (parent.localName == "richlistbox")
         return parent;
       parent = parent.parentNode;
     }

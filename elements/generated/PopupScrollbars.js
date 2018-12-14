@@ -86,15 +86,16 @@ class MozPopupScrollbars extends MozPopup {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
         <children></children>
       </scrollbox>
     `));
+
     this.AUTOSCROLL_INTERVAL = 25;
 
     this.NOT_DRAGGING = 0;

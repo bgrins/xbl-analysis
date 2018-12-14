@@ -10,10 +10,10 @@
 
 class MozAddonInstalling extends MozAddonBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox anonid="warning-container" class="warning">
         <image class="warning-icon"></image>
@@ -37,6 +37,7 @@ class MozAddonInstalling extends MozAddonBase {
         </vbox>
       </hbox>
     `));
+
     this._icon = document.getAnonymousElementByAttribute(this, "anonid", "icon");
 
     this._name = document.getAnonymousElementByAttribute(this, "anonid", "name");

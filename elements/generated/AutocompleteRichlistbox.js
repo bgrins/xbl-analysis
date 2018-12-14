@@ -48,7 +48,6 @@ class MozAutocompleteRichlistbox extends MozRichlistbox {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }

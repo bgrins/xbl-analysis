@@ -10,7 +10,6 @@
 
 class MozAddonBase extends MozRichlistitem {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }

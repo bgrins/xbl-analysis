@@ -10,7 +10,6 @@
 
 class MozMenuBase extends MozMenuitemBase {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }

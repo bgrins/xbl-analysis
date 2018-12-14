@@ -32,15 +32,16 @@ class MozPopup extends MozXULElement {
   }
 
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
         <children></children>
       </arrowscrollbox>
     `));
+
     this.scrollBox = document.getAnonymousElementByAttribute(this, "class", "popup-internal-box");
 
   }

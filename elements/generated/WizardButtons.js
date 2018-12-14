@@ -10,10 +10,10 @@
 
 class MozWizardButtons extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox class="wizard-buttons-box-1" flex="1">
         <separator class="wizard-buttons-separator groove"></separator>
@@ -34,6 +34,7 @@ class MozWizardButtons extends MozXULElement {
         </hbox>
       </vbox>
     `));
+
     this._wizardButtonDeck = document.getAnonymousElementByAttribute(this, "anonid", "WizardButtonDeck");
 
   }

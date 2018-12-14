@@ -10,10 +10,10 @@
 
 class MozUpdate extends MozRichlistitem {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox>
         <label class="update-name" inherits="value=name" flex="1" crop="right"></label>
@@ -36,6 +36,7 @@ class MozUpdate extends MozRichlistitem {
         </rows>
       </grid>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 

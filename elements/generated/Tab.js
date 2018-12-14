@@ -88,16 +88,18 @@ class MozTab extends MozBasetext {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <hbox class="tab-middle box-inherit" inherits="align,dir,pack,orient,selected,visuallyselected" flex="1">
         <image class="tab-icon" inherits="validate,src=image" role="presentation"></image>
         <label class="tab-text" inherits="value=label,accesskey,crop,disabled" flex="1" role="presentation"></label>
       </hbox>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this.arrowKeysShouldWrap = /Mac/.test(navigator.platform);
 
   }
@@ -113,9 +115,7 @@ class MozTab extends MozBasetext {
 
   get control() {
     var parent = this.parentNode;
-    if (parent instanceof Ci.nsIDOMXULSelectControlElement)
-      return parent;
-    return null;
+    return (parent.localName == "tabs") ? parent : null;
   }
 
   get selected() {

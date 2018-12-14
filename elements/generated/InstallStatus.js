@@ -10,15 +10,16 @@
 
 class MozInstallStatus extends MozXULElement {
   connectedCallback() {
-
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <label anonid="message"></label>
       <box anonid="progress" class="download-progress"></box>
       <button anonid="install-remote-btn" hidden="true" class="addon-control install" label="FROM-DTD.addon.install.label;" tooltiptext="FROM-DTD.addon.install.tooltip;" oncommand="document.getBindingParent(this).installRemote();"></button>
     `));
+
     this._message = document.getAnonymousElementByAttribute(this, "anonid", "message");
 
     this._progress = document.getAnonymousElementByAttribute(this, "anonid", "progress");

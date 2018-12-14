@@ -48,10 +48,10 @@ class MozAutocomplete extends MozTextbox {
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="image|deck|stack|box"></children>
       <moz-input-box anonid="moz-input-box" flex="1">
@@ -62,6 +62,8 @@ class MozAutocomplete extends MozTextbox {
       <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>
       <children includes="toolbarbutton"></children>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
+
     this.mController = null;
 
     this.mSearchNames = null;

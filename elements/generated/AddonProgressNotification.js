@@ -10,7 +10,6 @@
 
 class MozAddonProgressNotification extends MozPopupNotification {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }

@@ -23,10 +23,10 @@ class MozAutocompleteProfileListitemClearButton extends MozAutocompleteProfileLi
   }
 
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <div anonid="autofill-item-box" class="autofill-item-box autofill-footer">
         <div anonid="autofill-clear-button" class="autofill-footer-row autofill-button"></div>

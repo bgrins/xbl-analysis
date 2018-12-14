@@ -10,10 +10,10 @@
 
 class MozTextarea extends MozTextbox {
   connectedCallback() {
-    super.connectedCallback()
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <moz-input-box anonid="moz-input-box" flex="1" inherits="context,spellcheck">
         <html:textarea class="textbox-textarea" anonid="input" inherits="text=value,disabled,tabindex,rows,cols,readonly,wrap,placeholder,mozactionhint,spellcheck">
@@ -21,6 +21,7 @@ class MozTextarea extends MozTextbox {
         </html:textarea>
       </moz-input-box>
     `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }
