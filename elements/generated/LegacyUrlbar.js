@@ -152,19 +152,15 @@ class MozLegacyUrlbar extends MozAutocomplete {
     }
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <hbox flex="1" class="urlbar-textbox-container" tooltip="aHTMLTooltip">
-        <children includes="image|deck|stack|box"></children>
-        <moz-input-box anonid="moz-input-box" class="urlbar-input-box" flex="1">
-          <children></children>
-          <html:input anonid="scheme" class="urlbar-scheme textbox-input" required="required" inherits="textoverflow,focused"></html:input>
-          <html:input anonid="input" class="urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
-        </moz-input-box>
-        <image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD.goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping"></image>
-        <dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD.urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping"></dropmarker>
-        <children includes="hbox"></children>
-      </hbox>
-      <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>
-      <children includes="toolbarbutton"></children>
+      <children includes="box"></children>
+      <moz-input-box anonid="moz-input-box" tooltip="aHTMLTooltip" class="urlbar-input-box" flex="1">
+        <children></children>
+        <html:input anonid="scheme" class="urlbar-scheme textbox-input" required="required" inherits="textoverflow,focused"></html:input>
+        <html:input anonid="input" class="urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
+      </moz-input-box>
+      <image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD.goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping"></image>
+      <dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD.urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping"></dropmarker>
+      <children includes="hbox"></children>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
@@ -1627,6 +1623,15 @@ class MozLegacyUrlbar extends MozAutocomplete {
         bubbles: true,
       }));
     }
+  }
+
+  removeHiddenFocus() {
+    this.classList.remove("hidden-focus");
+  }
+
+  hiddenFocus() {
+    this.classList.add("hidden-focus");
+    this.focus();
   }
   disconnectedCallback() {
     // Somehow, it's possible for the XBL destructor to fire without the
