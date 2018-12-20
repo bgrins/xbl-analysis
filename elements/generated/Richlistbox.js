@@ -65,8 +65,7 @@ class MozRichlistbox extends MozBaseControl {
     });
 
     this.addEventListener("keypress", (event) => {
-      if (this.disableKeyNavigation || !event.charCode ||
-        event.altKey || event.ctrlKey || event.metaKey)
+      if (!event.charCode || event.altKey || event.ctrlKey || event.metaKey)
         return;
 
       if (event.timeStamp - this._lastKeyTime > 1000)
@@ -284,18 +283,6 @@ class MozRichlistbox extends MozBaseControl {
       children.reverse();
     }
     return children;
-  }
-
-  set disableKeyNavigation(val) {
-    if (val)
-      this.setAttribute("disableKeyNavigation", "true");
-    else
-      this.removeAttribute("disableKeyNavigation");
-    return val;
-  }
-
-  get disableKeyNavigation() {
-    return this.hasAttribute('disableKeyNavigation');
   }
 
   set suppressOnSelect(val) {

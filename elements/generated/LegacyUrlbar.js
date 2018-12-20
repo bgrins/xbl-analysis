@@ -490,14 +490,12 @@ class MozLegacyUrlbar extends MozAutocomplete {
       }
     }
 
-    if (!this.popup.disableKeyNavigation) {
-      if (!aNoDefer && this._shouldDeferKeyEvent(aEvent)) {
-        this._deferKeyEvent(aEvent, "onKeyPress");
-        return false;
-      }
-      if (this.popup.popupOpen && this.popup.handleKeyPress(aEvent)) {
-        return true;
-      }
+    if (!aNoDefer && this._shouldDeferKeyEvent(aEvent)) {
+      this._deferKeyEvent(aEvent, "onKeyPress");
+      return false;
+    }
+    if (this.popup.popupOpen && this.popup.handleKeyPress(aEvent)) {
+      return true;
     }
     return this.handleKeyPress(aEvent);
   }
@@ -1370,7 +1368,13 @@ class MozLegacyUrlbar extends MozAutocomplete {
         if (input && this._inOverflow) {
           let side = input.scrollLeft &&
             input.scrollLeft == input.scrollLeftMax ? "start" : "end";
-          this.setAttribute("textoverflow", side);
+          window.requestAnimationFrame(() => {
+            // And check once again, since we might have stopped overflowing
+            // since the promiseDocumentFlushed callback fired.
+            if (this._inOverflow) {
+              this.setAttribute("textoverflow", side);
+            }
+          });
         }
       });
     } else {

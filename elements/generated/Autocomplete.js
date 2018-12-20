@@ -53,14 +53,13 @@ class MozAutocomplete extends MozTextbox {
     }
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <children includes="image|deck|stack|box"></children>
+      <children includes="image|box"></children>
       <moz-input-box anonid="moz-input-box" flex="1">
         <children></children>
         <html:input anonid="input" class="textbox-input" allowevents="true" inherits="value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
       </moz-input-box>
       <children includes="hbox"></children>
       <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>
-      <children includes="toolbarbutton"></children>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
@@ -367,17 +366,6 @@ class MozAutocomplete extends MozTextbox {
     return this.getAttribute('ignoreblurwhilesearching') == 'true';
   }
   /**
-   * disable key navigation handling in the popup results
-   */
-  set disableKeyNavigation(val) {
-    this.setAttribute('disablekeynavigation', val);
-    return val;
-  }
-
-  get disableKeyNavigation() {
-    return this.getAttribute('disablekeynavigation') == 'true';
-  }
-  /**
    * option to highlight entries that don't have any matches
    */
   set highlightNonMatches(val) {
@@ -522,7 +510,7 @@ class MozAutocomplete extends MozTextbox {
     // used in combination with these keys on Windows and Linux; and Alt
     // can be used on OS X, so make sure the unused one isn't used.
     let metaKey = isMac ? aEvent.ctrlKey : aEvent.altKey;
-    if (!this.disableKeyNavigation && !metaKey) {
+    if (!metaKey) {
       switch (aEvent.keyCode) {
         case KeyEvent.DOM_VK_LEFT:
         case KeyEvent.DOM_VK_RIGHT:
@@ -533,7 +521,7 @@ class MozAutocomplete extends MozTextbox {
     }
 
     // Handle keys that are not part of a keyboard shortcut (no Ctrl or Alt)
-    if (!this.disableKeyNavigation && !aEvent.ctrlKey && !aEvent.altKey) {
+    if (!aEvent.ctrlKey && !aEvent.altKey) {
       switch (aEvent.keyCode) {
         case KeyEvent.DOM_VK_TAB:
           if (this.tabScrolling && this.popup.popupOpen)
@@ -554,7 +542,6 @@ class MozAutocomplete extends MozTextbox {
 
     // Handle readline/emacs-style navigation bindings on Mac.
     if (isMac &&
-      !this.disableKeyNavigation &&
       this.popup.popupOpen &&
       aEvent.ctrlKey &&
       (aEvent.key === "n" || aEvent.key === "p")) {

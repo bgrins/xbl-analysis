@@ -263,7 +263,7 @@ class MozTree extends MozBaseControl {
           this.view.selection.toggleSelect(c);
           event.preventDefault();
         }
-      } else if (!this.disableKeyNavigation && event.charCode > 0 &&
+      } else if (event.charCode > 0 &&
         !event.altKey && !event.getModifierState("Accel") &&
         !event.metaKey && !event.ctrlKey) {
         var l = this._keyNavigate(event);
@@ -389,16 +389,6 @@ class MozTree extends MozBaseControl {
     if (!this._inputField)
       this._inputField = document.getAnonymousElementByAttribute(this, "anonid", "input");
     return this._inputField;
-  }
-
-  set disableKeyNavigation(val) {
-    if (val) this.setAttribute('disableKeyNavigation', 'true');
-    else this.removeAttribute('disableKeyNavigation');
-    return val;
-  }
-
-  get disableKeyNavigation() {
-    return this.hasAttribute('disableKeyNavigation');
   }
 
   get editingRow() {
