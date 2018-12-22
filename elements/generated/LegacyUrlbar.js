@@ -223,9 +223,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
 
           let event = document.createEvent("UIEvents");
           event.initUIEvent("input", true, false, window, 0);
-          urlbar.dispatchEvent(event);
-
-          SetPageProxyState("invalid");
+          urlbar.inputField.dispatchEvent(event);
         }
 
         Cc["@mozilla.org/widget/clipboardhelper;1"]
@@ -1606,7 +1604,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
 
     let event = document.createEvent("Events");
     event.initEvent("input", true, true);
-    this.dispatchEvent(event);
+    this.inputField.dispatchEvent(event);
 
     // handleText() ignores the value if it's the same as the previous
     // value, but we want consecutive searches with the same value to be
@@ -1619,14 +1617,11 @@ class MozLegacyUrlbar extends MozAutocomplete {
   }
 
   typeRestrictToken(char) {
-    for (let c of [char, " "]) {
-      let code = c.charCodeAt(0);
-      gURLBar.inputField.dispatchEvent(new KeyboardEvent("keypress", {
-        keyCode: code,
-        charCode: code,
-        bubbles: true,
-      }));
-    }
+    this.inputField.value = char + " ";
+
+    let event = this.document.createEvent("UIEvents");
+    event.initUIEvent("input", true, false, window, 0);
+    this.inputField.dispatchEvent(event);
   }
 
   removeHiddenFocus() {

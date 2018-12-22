@@ -43,16 +43,16 @@ class MozPopupNotification extends MozXULElement {
       <hbox class="popup-notification-footer-container">
         <children includes="popupnotificationfooter"></children>
       </hbox>
-      <hbox class="popup-notification-button-container">
+      <hbox class="popup-notification-button-container panel-footer">
         <children includes="button"></children>
-        <button anonid="secondarybutton" class="popup-notification-button" inherits="oncommand=secondarybuttoncommand,label=secondarybuttonlabel,accesskey=secondarybuttonaccesskey,hidden=secondarybuttonhidden"></button>
+        <button anonid="secondarybutton" class="popup-notification-button popup-notification-secondary-button" inherits="oncommand=secondarybuttoncommand,label=secondarybuttonlabel,accesskey=secondarybuttonaccesskey,hidden=secondarybuttonhidden"></button>
         <toolbarseparator inherits="hidden=dropmarkerhidden"></toolbarseparator>
         <button anonid="menubutton" type="menu" class="popup-notification-button popup-notification-dropmarker" aria-label="FROM-DTD.moreActionsButton.accessibleLabel;" inherits="onpopupshown=dropmarkerpopupshown,hidden=dropmarkerhidden">
           <menupopup anonid="menupopup" position="after_end" aria-label="FROM-DTD.moreActionsButton.accessibleLabel;" inherits="oncommand=menucommand">
             <children></children>
           </menupopup>
         </button>
-        <button anonid="button" class="popup-notification-button" default="true" label="FROM-DTD.defaultButton.label;" accesskey="FROM-DTD.defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,highlight=buttonhighlight,disabled=mainactiondisabled"></button>
+        <button anonid="button" class="popup-notification-button popup-notification-primary-button" label="FROM-DTD.defaultButton.label;" accesskey="FROM-DTD.defaultButton.accesskey;" inherits="oncommand=buttoncommand,label=buttonlabel,accesskey=buttonaccesskey,default=buttonhighlight,disabled=mainactiondisabled"></button>
       </hbox>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!

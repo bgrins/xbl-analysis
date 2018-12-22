@@ -48035,14 +48035,14 @@ var DATA = {
     },
     label: "2018-12-19"
   },
-  "master@{2018-12-20}": {
-    numBindings: 92,
+  "master@{2018-12-21}": {
+    numBindings: 91,
     numInContentBindings: 0,
-    loc: 21201,
+    loc: 20873,
     directoryLOC: {
-      browser: 7705,
+      browser: 7700,
       dom: 0,
-      toolkit: 13539,
+      toolkit: 13216,
       mobile: 0,
       layout: 0,
       xpfe: 0
@@ -48050,7 +48050,7 @@ var DATA = {
     directoryBindings: {
       browser: 18,
       dom: 0,
-      toolkit: 74,
+      toolkit: 73,
       mobile: 0,
       layout: 0,
       xpfe: 0
@@ -48058,12 +48058,12 @@ var DATA = {
     bindingsLOC: {
       browser: 2076,
       "tabbrowser-tabs": 1843,
-      "legacy-urlbar": 1807,
+      "legacy-urlbar": 1802,
       "autocomplete-richlistitem": 977,
       "addon-generic": 946,
       richlistbox: 945,
       "urlbar-rich-result-popup": 892,
-      tree: 866,
+      tree: 871,
       "places-tree": 790,
       autocomplete: 643,
       "tabbrowser-tab": 572,
@@ -48074,7 +48074,6 @@ var DATA = {
       wizard: 429,
       "searchbar-textbox": 351,
       tabs: 350,
-      "datetime-popup": 327,
       tabmodalprompt: 325,
       menulist: 323,
       "label-control": 249,
@@ -48097,7 +48096,7 @@ var DATA = {
       "autocomplete-richlistitem-insecure-field": 97,
       "addon-uninstalled": 95,
       "text-link": 94,
-      "popup-notification": 88,
+      "popup-notification": 87,
       "menu-base": 86,
       columnpicker: 86,
       radio: 85,
@@ -48147,7 +48146,7 @@ var DATA = {
       menu: 5,
       "toolbarbutton-badged-menu": 5
     },
-    label: "2018-12-20"
+    label: "2018-12-21"
   }
 };
 var SORTED_BINDINGS = {
