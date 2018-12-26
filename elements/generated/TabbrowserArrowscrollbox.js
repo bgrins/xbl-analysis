@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozTabbrowserArrowscrollbox extends MozArrowscrollboxClicktoscroll {
+class MozTabbrowserArrowscrollbox extends MozArrowscrollbox {
   constructor() {
     super();
 

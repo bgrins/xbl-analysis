@@ -181,13 +181,13 @@ class MozArrowscrollbox extends MozBaseControl {
     }
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" onmouseover="_startScroll(-1);" onmouseout="_stopScroll();"></toolbarbutton>
+      <toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" onclick="_onButtonClick(event);" onmousedown="_onButtonMouseDown(event, -1);" onmouseup="_onButtonMouseUp(event);" onmouseover="_onButtonMouseOver(-1);" onmouseout="_onButtonMouseOut();"></toolbarbutton>
       <spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></spacer>
       <scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
         <children></children>
       </scrollbox>
       <spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></spacer>
-      <toolbarbutton class="scrollbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" onmouseover="_startScroll(1);" onmouseout="_stopScroll();"></toolbarbutton>
+      <toolbarbutton class="scrollbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" onclick="_onButtonClick(event);" onmousedown="_onButtonMouseDown(event, 1);" onmouseup="_onButtonMouseUp(event);" onmouseover="_onButtonMouseOver(1);" onmouseout="_onButtonMouseOut();"></toolbarbutton>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
@@ -196,6 +196,32 @@ class MozArrowscrollbox extends MozBaseControl {
     this._scrollButtonUp = document.getAnonymousElementByAttribute(this, "anonid", "scrollbutton-up");
 
     this._scrollButtonDown = document.getAnonymousElementByAttribute(this, "anonid", "scrollbutton-down");
+
+    this._scrollIndex = 0;
+
+    this._arrowScrollAnim = {
+      scrollbox: this,
+      requestHandle: 0,
+      /* 0 indicates there is no pending request */
+      start: function arrowSmoothScroll_start() {
+        this.lastFrameTime = window.performance.now();
+        if (!this.requestHandle)
+          this.requestHandle = window.requestAnimationFrame(this.sample.bind(this));
+      },
+      stop: function arrowSmoothScroll_stop() {
+        window.cancelAnimationFrame(this.requestHandle);
+        this.requestHandle = 0;
+      },
+      sample: function arrowSmoothScroll_handleEvent(timeStamp) {
+        const scrollIndex = this.scrollbox._scrollIndex;
+        const timePassed = timeStamp - this.lastFrameTime;
+        this.lastFrameTime = timeStamp;
+
+        const scrollDelta = 0.5 * timePassed * scrollIndex;
+        this.scrollbox.scrollByPixels(scrollDelta, true);
+        this.requestHandle = window.requestAnimationFrame(this.sample.bind(this));
+      },
+    };
 
     this.__prefBranch = null;
 
@@ -228,6 +254,20 @@ class MozArrowscrollbox extends MozBaseControl {
     this.setAttribute("notoverflowing", "true");
     this._updateScrollButtonsDisabledState();
 
+  }
+
+  get _clickToScroll() {
+    return this.hasAttribute("clicktoscroll");
+  }
+
+  get _scrollDelay() {
+    if (this._clickToScroll) {
+      return this._prefBranch.getIntPref(
+        "toolkit.scrollbox.clickToScroll.scrollDelay", 150);
+    }
+
+    // Use the same REPEAT_DELAY as "nsRepeatService.h".
+    return /Mac/.test(navigator.platform) ? 25 : 50;
   }
 
   get _prefBranch() {
@@ -288,6 +328,40 @@ class MozArrowscrollbox extends MozBaseControl {
     return this.orient == "vertical" ?
       this._scrollbox.scrollTop :
       this._scrollbox.scrollLeft;
+  }
+
+  _onButtonClick(event) {
+    if (this._clickToScroll) {
+      this._distanceScroll(event);
+    }
+  }
+
+  _onButtonMouseDown(event, index) {
+    if (this._clickToScroll && event.button == 0) {
+      this._startScroll(index);
+    }
+  }
+
+  _onButtonMouseUp(event) {
+    if (this._clickToScroll && event.button == 0) {
+      this._stopScroll();
+    }
+  }
+
+  _onButtonMouseOver(index) {
+    if (this._clickToScroll) {
+      this._continueScroll(index);
+    } else {
+      this._startScroll(index);
+    }
+  }
+
+  _onButtonMouseOut(index) {
+    if (this._clickToScroll) {
+      this._pauseScroll();
+    } else {
+      this._stopScroll();
+    }
   }
 
   _boundsWithoutFlushing(element) {
@@ -417,25 +491,114 @@ class MozArrowscrollbox extends MozBaseControl {
       index *= -1;
     }
 
+    if (this._clickToScroll) {
+      this._scrollIndex = index;
+      this._mousedown = true;
+
+      if (this.smoothScroll) {
+        this._arrowScrollAnim.start();
+        return;
+      }
+    }
+
     if (!this._scrollTimer) {
       this._scrollTimer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
     } else {
       this._scrollTimer.cancel();
     }
 
-    let callback = () => this.scrollByPixels(this.scrollIncrement * index);
+    let callback;
+    if (this._clickToScroll) {
+      callback = () => {
+        if (!document && this._scrollTimer) {
+          this._scrollTimer.cancel();
+        }
+        this.scrollByIndex(this._scrollIndex);
+      };
+    } else {
+      callback = () => this.scrollByPixels(this.scrollIncrement * index);
+    }
 
-    // Use the same REPEAT_DELAY as "nsRepeatService.h".
-    let scrollDelay = /Mac/.test(navigator.platform) ? 25 : 50;
-
-    this._scrollTimer.initWithCallback(callback, scrollDelay,
+    this._scrollTimer.initWithCallback(callback, this._scrollDelay,
       Ci.nsITimer.TYPE_REPEATING_SLACK);
+
     callback();
   }
 
   _stopScroll() {
     if (this._scrollTimer)
       this._scrollTimer.cancel();
+
+    if (this._clickToScroll) {
+      this._mousedown = false;
+      if (!this._scrollIndex || !this.smoothScroll)
+        return;
+
+      this.scrollByIndex(this._scrollIndex);
+      this._scrollIndex = 0;
+
+      this._arrowScrollAnim.stop();
+    }
+  }
+
+  _pauseScroll() {
+    if (this._mousedown) {
+      this._stopScroll();
+      this._mousedown = true;
+      document.addEventListener("mouseup", this);
+      document.addEventListener("blur", this, true);
+    }
+  }
+
+  _continueScroll(index) {
+    if (this._mousedown)
+      this._startScroll(index);
+  }
+
+  _distanceScroll(aEvent) {
+    if (aEvent.detail < 2 || aEvent.detail > 3)
+      return;
+
+    var scrollBack = (aEvent.originalTarget == this._scrollButtonUp);
+    var scrollLeftOrUp = this._isRTLScrollbox ? !scrollBack : scrollBack;
+    var targetElement;
+
+    if (aEvent.detail == 2) {
+      // scroll by the size of the scrollbox
+      let [start, end] = this._startEndProps;
+      let x;
+      if (scrollLeftOrUp)
+        x = this.scrollClientRect[start] - this.scrollClientSize;
+      else
+        x = this.scrollClientRect[end] + this.scrollClientSize;
+      targetElement = this._elementFromPoint(x, scrollLeftOrUp ? -1 : 1);
+
+      // the next partly-hidden element will become fully visible,
+      // so don't scroll too far
+      if (targetElement)
+        targetElement = scrollBack ?
+        targetElement.nextElementSibling :
+        targetElement.previousElementSibling;
+    }
+
+    if (!targetElement) {
+      // scroll to the first resp. last element
+      let elements = this._getScrollableElements();
+      targetElement = scrollBack ?
+        elements[0] :
+        elements[elements.length - 1];
+    }
+
+    this.ensureElementIsVisible(targetElement);
+  }
+
+  handleEvent(aEvent) {
+    if (aEvent.type == "mouseup" ||
+      aEvent.type == "blur" && aEvent.target == document) {
+      this._mousedown = false;
+      document.removeEventListener("mouseup", this);
+      document.removeEventListener("blur", this, true);
+    }
   }
 
   scrollByPixels(aPixels, aInstant) {
