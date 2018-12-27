@@ -48374,7 +48374,7 @@ var DATA = {
     },
     label: "2018-12-25"
   },
-  "master@{2018-12-26}": {
+  "master@{2018-12-27}": {
     numBindings: 90,
     numInContentBindings: 0,
     loc: 20878,
@@ -48484,7 +48484,7 @@ var DATA = {
       "toolbarbutton-badged-menu": 5,
       menu: 5
     },
-    label: "2018-12-26"
+    label: "2018-12-27"
   }
 };
 var SORTED_BINDINGS = {
