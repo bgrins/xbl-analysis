@@ -117,7 +117,58 @@ class MozAutocompleteRichResultPopup extends MozPopup {
 
     this._previousSelectedIndex = -1;
 
+    this.mLastMoveTime = Date.now();
+
+    this.mousedOverIndex = -1;
+
     this.richlistbox = document.getAnonymousElementByAttribute(this, "anonid", "richlistbox");
+
+    if (!this.listEvents) {
+      this.listEvents = {
+        handleEvent: event => {
+          if (!this.parentNode) {
+            return;
+          }
+
+          switch (event.type) {
+            case "mouseup":
+              // Don't call onPopupClick for the scrollbar buttons, thumb,
+              // slider, etc. If we hit the richlistbox and not a
+              // richlistitem, we ignore the event.
+              if (event.target.closest("richlistbox,richlistitem")
+                .localName == "richlistitem") {
+                this.onPopupClick(event);
+              }
+              break;
+            case "mousemove":
+              if (Date.now() - this.mLastMoveTime <= 30) {
+                return;
+              }
+
+              let item = event.target.closest("richlistbox,richlistitem");
+
+              // If we hit the richlistbox and not a richlistitem, we ignore
+              // the event.
+              if (item.localName == "richlistbox") {
+                return;
+              }
+
+              let index = this.richlistbox.getIndexOfItem(item);
+
+              this.mousedOverIndex = index;
+
+              if (item.selectedByMouseOver) {
+                this.richlistbox.selectedIndex = index;
+              }
+
+              this.mLastMoveTime = Date.now();
+              break;
+          }
+        },
+      };
+      this.richlistbox.addEventListener("mouseup", this.listEvents);
+      this.richlistbox.addEventListener("mousemove", this.listEvents);
+    }
 
   }
   /**
@@ -220,7 +271,7 @@ class MozAutocompleteRichResultPopup extends MozPopup {
   }
 
   onSearchBegin() {
-    this.richlistbox.mousedOverIndex = -1;
+    this.mousedOverIndex = -1;
 
     if (typeof this._onSearchBegin == "function") {
       this._onSearchBegin();
@@ -404,7 +455,7 @@ class MozAutocompleteRichResultPopup extends MozPopup {
         originalText == trimmedSearchString &&
         invalidateReason == iface.INVALIDATE_REASON_NEW_RESULT &&
         (originalValue == value ||
-          this.richlistbox.mousedOverIndex === this._currentIndex)) {
+          this.mousedOverIndex === this._currentIndex)) {
 
         // try to re-use the existing item
         let reused = item._reuseAcItem();
@@ -466,6 +517,13 @@ class MozAutocompleteRichResultPopup extends MozPopup {
       // do nothing - occasionally timer-related js errors happen here
       // e.g. "this.selectedIndex has no properties", when you type fast and hit a
       // navigation key before this popup has opened
+    }
+  }
+  disconnectedCallback() {
+    if (this.listEvents) {
+      this.richlistbox.removeEventListener("mouseup", this.listEvents);
+      this.richlistbox.removeEventListener("mousemove", this.listEvents);
+      delete this.listEvents;
     }
   }
 }

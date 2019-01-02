@@ -18,30 +18,22 @@ class MozRichlistbox extends MozBaseControl {
 
     this.addEventListener("keypress", (event) => {
       if (event.keyCode != KeyEvent.DOM_VK_HOME) { return; }
-      this._mayReverse = true;
       this._moveByOffsetFromUserEvent(-this.currentIndex, event);
-      this._mayReverse = false;
     }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       if (event.keyCode != KeyEvent.DOM_VK_END) { return; }
-      this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.getRowCount() - this.currentIndex - 1, event);
-      this._mayReverse = false;
     }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       if (event.keyCode != KeyEvent.DOM_VK_PAGE_UP) { return; }
-      this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.scrollOnePage(-1), event);
-      this._mayReverse = false;
     }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
       if (event.keyCode != KeyEvent.DOM_VK_PAGE_DOWN) { return; }
-      this._mayReverse = true;
       this._moveByOffsetFromUserEvent(this.scrollOnePage(1), event);
-      this._mayReverse = false;
     }, { mozSystemGroup: true });
 
     this.addEventListener("keypress", (event) => {
@@ -108,7 +100,7 @@ class MozRichlistbox extends MozBaseControl {
 
     this.addEventListener("click", (event) => {
       // clicking into nothing should unselect
-      if (event.originalTarget == this._scrollbox) {
+      if (event.originalTarget == this) {
         this.clearSelection();
         this.currentItem = null;
       }
@@ -118,10 +110,10 @@ class MozRichlistbox extends MozBaseControl {
       // Only handle swipe gestures up and down
       switch (event.direction) {
         case event.DIRECTION_DOWN:
-          this._scrollbox.scrollTop = this._scrollbox.scrollHeight;
+          this.scrollTop = this.scrollHeight;
           break;
         case event.DIRECTION_UP:
-          this._scrollbox.scrollTop = 0;
+          this.scrollTop = 0;
           break;
       }
     });
@@ -134,14 +126,7 @@ class MozRichlistbox extends MozBaseControl {
     }
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <children includes="listheader"></children>
-      <scrollbox allowevents="true" orient="vertical" anonid="main-box" flex="1" style="overflow: auto;" inherits="dir,pack">
-        <children></children>
-      </scrollbox>
     `));
-    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
-
-    this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "main-box");
 
     /**
      * nsIDOMXULMultiSelectControlElement
@@ -157,8 +142,6 @@ class MozRichlistbox extends MozBaseControl {
     this._suppressOnSelect = false;
 
     this._userSelecting = false;
-
-    this._mayReverse = false;
 
     this._selectTimeout = null;
 
@@ -279,9 +262,6 @@ class MozRichlistbox extends MozBaseControl {
   get itemChildren() {
     let children = Array.from(this.children)
       .filter(node => node.localName == "richlistitem");
-    if (this.dir == "reverse" && this._mayReverse) {
-      children.reverse();
-    }
     return children;
   }
 
@@ -330,16 +310,9 @@ class MozRichlistbox extends MozBaseControl {
     document.commandDispatcher.updateCommands("richlistbox-select");
   }
 
-  /**
-   * We override base-listbox here because those methods don't take dir
-   * into account on listbox (which doesn't support dir yet)
-   */
   getNextItem(aStartItem, aDelta) {
-    var prop = this.dir == "reverse" && this._mayReverse ?
-      "previousSibling" :
-      "nextSibling";
     while (aStartItem) {
-      aStartItem = aStartItem[prop];
+      aStartItem = aStartItem.nextSibling;
       if (aStartItem && aStartItem.localName == "richlistitem" &&
         (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
@@ -351,11 +324,8 @@ class MozRichlistbox extends MozBaseControl {
   }
 
   getPreviousItem(aStartItem, aDelta) {
-    var prop = this.dir == "reverse" && this._mayReverse ?
-      "nextSibling" :
-      "previousSibling";
     while (aStartItem) {
-      aStartItem = aStartItem[prop];
+      aStartItem = aStartItem.previousSibling;
       if (aStartItem && aStartItem.localName == "richlistitem" &&
         (!this._userSelecting || this._canUserSelect(aStartItem))) {
         --aDelta;
@@ -590,26 +560,31 @@ class MozRichlistbox extends MozBaseControl {
     return this.ensureElementIsVisible(this.getItemAtIndex(aIndex));
   }
 
-  ensureElementIsVisible(aElement) {
-    if (!aElement)
+  ensureElementIsVisible(aElement, aAlignToTop) {
+    if (!aElement) {
       return;
+    }
+
+    // These calculations assume that there is no padding on the
+    // "richlistbox" element, although there might be a margin.
     var targetRect = aElement.getBoundingClientRect();
-    var scrollRect = this._scrollbox.getBoundingClientRect();
+    var scrollRect = this.getBoundingClientRect();
     var offset = targetRect.top - scrollRect.top;
-    if (offset >= 0) {
+    if (!aAlignToTop && offset >= 0) {
       // scrollRect.bottom wouldn't take a horizontal scroll bar into account
-      let scrollRectBottom = scrollRect.top + this._scrollbox.clientHeight;
+      let scrollRectBottom = scrollRect.top + this.clientHeight;
       offset = targetRect.bottom - scrollRectBottom;
       if (offset <= 0)
         return;
     }
-    this._scrollbox.scrollTop += offset;
+    this.scrollTop += offset;
   }
 
   scrollToIndex(aIndex) {
     var item = this.getItemAtIndex(aIndex);
-    if (item)
-      this._scrollbox.scrollToElement(item);
+    if (item) {
+      this.ensureElementIsVisible(item, true);
+    }
   }
 
   getIndexOfFirstVisibleRow() {
@@ -641,15 +616,15 @@ class MozRichlistbox extends MozBaseControl {
     // the new current item is at approximately the same position as
     // the existing current item.
     if (this._isItemVisible(this.currentItem))
-      this._scrollbox.scrollBy(0, this._scrollbox.boxObject.height * aDirection);
+      this.scrollBy(0, this.clientHeight * aDirection);
 
     // Figure out, how many items fully fit into the view port
     // (including the currently selected one), and determine
     // the index of the first one lying (partially) outside
-    var height = this._scrollbox.boxObject.height;
+    var height = this.clientHeight;
     var startBorder = this.currentItem.boxObject.y;
     if (aDirection == -1)
-      startBorder += this.currentItem.boxObject.height;
+      startBorder += this.currentItem.clientHeight;
 
     var index = this.currentIndex;
     for (var ix = index; 0 <= ix && ix < children.length; ix += aDirection) {
@@ -693,14 +668,12 @@ class MozRichlistbox extends MozBaseControl {
         if (this.selType != "multiple" && this.selectedCount == 0)
           this.selectedItem = currentItem;
 
-        if (this._scrollbox.boxObject.height) {
+        if (this.clientHeight) {
           this.ensureElementIsVisible(currentItem);
         } else {
           // XXX hack around a bug in ensureElementIsVisible as it will
           // scroll beyond the last element, bug 493645.
-          var previousElement = this.dir == "reverse" ? currentItem.nextElementSibling :
-            currentItem.previousElementSibling;
-          this.ensureElementIsVisible(previousElement);
+          this.ensureElementIsVisible(currentItem.previousElementSibling);
         }
       }
       this._suppressOnSelect = suppressSelect;
@@ -753,11 +726,11 @@ class MozRichlistbox extends MozBaseControl {
     if (!aItem)
       return false;
 
-    var y = this._scrollbox.scrollTop + this._scrollbox.boxObject.y;
+    var y = this.scrollTop + this.boxObject.y;
 
     // Partially visible items are also considered visible
-    return (aItem.boxObject.y + aItem.boxObject.height > y) &&
-      (aItem.boxObject.y < y + this._scrollbox.boxObject.height);
+    return (aItem.boxObject.y + aItem.clientHeight > y) &&
+      (aItem.boxObject.y < y + this.clientHeight);
   }
 
   moveByOffset(aOffset, aIsSelecting, aIsSelectingRange) {
@@ -793,17 +766,16 @@ class MozRichlistbox extends MozBaseControl {
   _moveByOffsetFromUserEvent(aOffset, aEvent) {
     if (!aEvent.defaultPrevented) {
       this._userSelecting = true;
-      this._mayReverse = true;
       this.moveByOffset(aOffset, !aEvent.ctrlKey, aEvent.shiftKey);
       this._userSelecting = false;
-      this._mayReverse = false;
       aEvent.preventDefault();
     }
   }
 
   _canUserSelect(aItem) {
     var style = document.defaultView.getComputedStyle(aItem);
-    return style.display != "none" && style.visibility == "visible";
+    return style.display != "none" && style.visibility == "visible" &&
+      style.MozUserInput != "none";
   }
 
   _selectTimeoutHandler(aMe) {
