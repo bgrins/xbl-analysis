@@ -494,7 +494,7 @@ class MozAutocomplete extends MozTextbox {
     return this.handleKeyPress(aEvent);
   }
 
-  handleKeyPress(aEvent) {
+  handleKeyPress(aEvent, aOptions) {
     if (aEvent.target.localName != "textbox")
       return true; // Let child buttons of autocomplete take input
 
@@ -570,7 +570,7 @@ class MozAutocomplete extends MozTextbox {
             kind: "key",
           };
         }
-        cancel = this.handleEnter(aEvent);
+        cancel = this.handleEnter(aEvent, aOptions);
         break;
       case KeyEvent.DOM_VK_DELETE:
         if (isMac && !aEvent.shiftKey) {

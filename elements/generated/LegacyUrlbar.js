@@ -448,7 +448,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
     return returnValue;
   }
 
-  onKeyPress(aEvent, aNoDefer) {
+  onKeyPress(aEvent, aOptions) {
     switch (aEvent.keyCode) {
       case KeyEvent.DOM_VK_LEFT:
       case KeyEvent.DOM_VK_RIGHT:
@@ -488,14 +488,15 @@ class MozLegacyUrlbar extends MozAutocomplete {
       }
     }
 
-    if (!aNoDefer && this._shouldDeferKeyEvent(aEvent)) {
+    let noDefer = aOptions && aOptions.noDefer;
+    if (!noDefer && this._shouldDeferKeyEvent(aEvent)) {
       this._deferKeyEvent(aEvent, "onKeyPress");
       return false;
     }
     if (this.popup.popupOpen && this.popup.handleKeyPress(aEvent)) {
       return true;
     }
-    return this.handleKeyPress(aEvent);
+    return this.handleKeyPress(aEvent, aOptions);
   }
 
   /**
@@ -603,9 +604,11 @@ class MozLegacyUrlbar extends MozAutocomplete {
    * The key event to defer.
    * @param methodName
    * The name of the method on `this` to call.  It's expected to take
-   * two arguments: the event, and a noDefer bool.  If the bool is
-   * true, then the event is being replayed and it should not be
-   * deferred.
+   * two arguments: the event, and an optional options object:
+   * {
+   * noDefer: If true, then the event is being replayed and it
+   * should not be deferred again.
+   * }
    */
   _deferKeyEvent(event, methodName) {
     // Somehow event.defaultPrevented ends up true for deferred events.
@@ -676,7 +679,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
   _replayKeyEventInstance(instance) {
     // Safety check: handle only if the search string didn't change.
     if (this.mController.searchString == instance.searchString) {
-      this[instance.methodName](instance.event, true);
+      this[instance.methodName](instance.event, { noDefer: true });
     }
   }
 
@@ -1486,7 +1489,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.resetActionType();
   }
 
-  handleEnter(event, noDefer) {
+  handleEnter(event, options) {
     // We need to ensure we're using a selected autocomplete result.
     // A result should automatically be selected by default,
     // however autocomplete is async and therefore we may not
@@ -1505,6 +1508,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
     // which will be called as a result of mController.handleEnter().
     this.handleEnterSearchString = this.mController.searchString;
 
+    let noDefer = options && options.noDefer;
     if (!noDefer && this._shouldDeferKeyEvent(event)) {
       // Defer the event until the first non-heuristic result comes in.
       this._deferKeyEvent(event, "handleEnter");
