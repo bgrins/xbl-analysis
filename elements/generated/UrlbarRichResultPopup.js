@@ -352,9 +352,6 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       return;
     }
 
-    // Set the direction of the popup based on the textbox (bug 649840).
-    let popupDirection = this.style.direction = (RTL_UI ? "rtl" : "ltr");
-
     // Make the popup span the width of the window.  First, set its width.
     let documentRect =
       window.windowUtils
@@ -366,7 +363,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     // aligns with the window border.
     let elementRect =
       window.windowUtils.getBoundsWithoutFlushing(aElement);
-    if (popupDirection == "rtl") {
+    if (RTL_UI) {
       let offset = elementRect.right - documentRect.right;
       this.style.marginRight = offset + "px";
     } else {
@@ -381,13 +378,13 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     // value of the margins are different from the previous value, over-
     // and underflow must be handled for each item already in the popup.
     let needsHandleOverUnderflow = false;
-    let boundToCheck = popupDirection == "rtl" ? "right" : "left";
+    let boundToCheck = RTL_UI ? "right" : "left";
     let inputRect = window.windowUtils.getBoundsWithoutFlushing(aInput);
     let startOffset = Math.abs(inputRect[boundToCheck] - documentRect[boundToCheck]);
     let alignSiteIcons = startOffset / width <= 0.3 || startOffset <= 250;
     if (alignSiteIcons) {
       // Calculate the end margin if we have a start margin.
-      let boundToCheckEnd = popupDirection == "rtl" ? "left" : "right";
+      let boundToCheckEnd = RTL_UI ? "left" : "right";
       let endOffset = Math.abs(inputRect[boundToCheckEnd] -
         documentRect[boundToCheckEnd]);
       if (endOffset > startOffset * 2) {
@@ -399,7 +396,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       let identityIcon = document.getElementById("identity-icon");
       let identityRect =
         window.windowUtils.getBoundsWithoutFlushing(identityIcon);
-      let start = popupDirection == "rtl" ?
+      let start = RTL_UI ?
         documentRect.right - identityRect.right :
         identityRect.left;
       if (!this.margins || start != this.margins.start ||
@@ -433,7 +430,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
           if (this._searchSuggestionsImpressionId == impressionId)
             aInput.updateSearchSuggestionsNotificationImpressions(whichNotification);
         }, { once: true });
-        this._showSearchSuggestionsNotification(whichNotification, popupDirection);
+        this._showSearchSuggestionsNotification(whichNotification);
       } else if (this.classList.contains("showSearchSuggestionsNotification")) {
         this._hideSearchSuggestionsNotification();
       }
@@ -542,7 +539,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     }
   }
 
-  _showSearchSuggestionsNotification(whichNotification, popupDirection) {
+  _showSearchSuggestionsNotification(whichNotification) {
     if (whichNotification == "opt-out") {
       if (this.margins) {
         this.searchSuggestionsNotification.style.paddingInlineStart =

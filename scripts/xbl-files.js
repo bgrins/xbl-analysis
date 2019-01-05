@@ -19,7 +19,6 @@ var allFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/extensions/formautofill/content/formautofill.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/places/organizer.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/components/prompts/content/tabprompts.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/browser.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/button.xml',
@@ -93,6 +92,7 @@ var deletedFiles = {
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/pluginproblem/content/pluginProblem.xml': '2018-11-22',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/downloads/content/download.xml': '2018-12-20',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/datetimepopup.xml': '2018-12-21',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/components/prompts/content/tabprompts.xml': '2019-01-05',
 };
 
 var exportedFiles = allFiles.slice();

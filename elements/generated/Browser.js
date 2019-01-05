@@ -859,9 +859,11 @@ class MozBrowser extends MozXULElement {
     this.dispatchEvent(event);
   }
 
-  notifyAudibleAutoplayMediaOccurred() {
-    let event = document.createEvent("Events");
-    event.initEvent("AudibleAutoplayMediaOccurred", true, false);
+  notifyGloballyAutoplayBlocked() {
+    let event = document.createEvent("CustomEvent");
+    event.initCustomEvent("GloballyAutoplayBlocked", true, false, {
+      url: this.documentURI,
+    });
     this.dispatchEvent(event);
   }
 
@@ -1057,7 +1059,7 @@ class MozBrowser extends MozXULElement {
       this.messageManager.addMessageListener("AudioPlayback:ActiveMediaBlockStart", this);
       this.messageManager.addMessageListener("AudioPlayback:ActiveMediaBlockStop", this);
       this.messageManager.addMessageListener("UnselectedTabHover:Toggle", this);
-      this.messageManager.addMessageListener("AudibleAutoplayMediaOccurred", this);
+      this.messageManager.addMessageListener("GloballyAutoplayBlocked", this);
 
       if (this.hasAttribute("selectmenulist")) {
         this.messageManager.addMessageListener("Forms:ShowDropDown", this);
@@ -1191,8 +1193,8 @@ class MozBrowser extends MozXULElement {
           ++this._unselectedTabHoverMessageListenerCount > 0 :
           --this._unselectedTabHoverMessageListenerCount == 0;
         break;
-      case "AudibleAutoplayMediaOccurred":
-        this.notifyAudibleAutoplayMediaOccurred();
+      case "GloballyAutoplayBlocked":
+        this.notifyGloballyAutoplayBlocked();
         break;
       case "Forms:ShowDropDown":
         {
