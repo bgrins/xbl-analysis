@@ -18,13 +18,33 @@ class MozSearchbarTextbox extends MozAutocomplete {
 
     this.addEventListener("keypress", (event) => { return this.handleKeyboardNavigation(event); }, true);
 
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } this.closest("searchbar").selectEngine(event, false); }, true);
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_UP) {
+        return;
+      }
+      this.closest("searchbar").selectEngine(event, false);
+    }, true);
 
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } this.closest("searchbar").selectEngine(event, true); }, true);
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_DOWN) {
+        return;
+      }
+      this.closest("searchbar").selectEngine(event, true);
+    }, true);
 
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; } return this.openSearch(); }, true);
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_DOWN) {
+        return;
+      }
+      return this.openSearch();
+    }, true);
 
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_UP) { return; } return this.openSearch(); }, true);
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_UP) {
+        return;
+      }
+      return this.openSearch();
+    }, true);
 
     this.addEventListener("dragover", (event) => {
       let types = event.dataTransfer.types;

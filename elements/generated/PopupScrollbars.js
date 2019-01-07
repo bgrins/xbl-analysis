@@ -25,7 +25,10 @@ class MozPopupScrollbars extends MozPopup {
     });
 
     this.addEventListener("mousedown", (event) => {
-      if (event.button != 0) { return; }
+      if (event.button != 0) {
+        return;
+      }
+
       if (this.state == "open" &&
         (event.target.localName == "menuitem" ||
           event.target.localName == "menu" ||
@@ -35,7 +38,10 @@ class MozPopupScrollbars extends MozPopup {
     });
 
     this.addEventListener("mouseup", (event) => {
-      if (event.button != 0) { return; }
+      if (event.button != 0) {
+        return;
+      }
+
       this._draggingState = this.NOT_DRAGGING;
       this._clearScrollTimer();
     });

@@ -12,11 +12,26 @@ class MozTextLink extends MozXULElement {
   constructor() {
     super();
 
-    this.addEventListener("click", (event) => { if (event.button != 0) { return; } this.open(event) }, true);
+    this.addEventListener("click", (event) => {
+      if (event.button != 0) {
+        return;
+      }
+      this.open(event)
+    }, true);
 
-    this.addEventListener("click", (event) => { if (event.button != 1) { return; } this.open(event) }, true);
+    this.addEventListener("click", (event) => {
+      if (event.button != 1) {
+        return;
+      }
+      this.open(event)
+    }, true);
 
-    this.addEventListener("keypress", (event) => { if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; } this.click() });
+    this.addEventListener("keypress", (event) => {
+      if (event.keyCode != KeyEvent.DOM_VK_RETURN) {
+        return;
+      }
+      this.click()
+    });
 
   }
 

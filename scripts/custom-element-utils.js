@@ -139,6 +139,10 @@ function getJSForBinding(binding) {
   }
 
   let handlers = [];
+console.log(binding.attrs.id);
+if (binding.attrs.id == "browser") {
+  console.log("BROWSER", binding.find('handler').length);
+}
   // <handler>
   for (let handler of binding.find('handler')) {
     let comment = formatComment(handler.comment);
@@ -157,10 +161,23 @@ function getJSForBinding(binding) {
     } else if (isCapturing) {
       secondParam = ", true";
     }
+    let keycode = handler.attrs.keycode ?
+`
+if (event.keyCode != KeyEvent.DOM_${handler.attrs.keycode}) {
+  return;
+}
+` : "";
+    let button = handler.attrs.button ?
+`
+if (event.button != ${handler.attrs.button}) {
+  return;
+}
+` : "";
 
-    let keycode = handler.attrs.keycode ? `if (event.keyCode != KeyEvent.DOM_${handler.attrs.keycode}) { return; }` : "";
-    let button = handler.attrs.button ? `if (event.button != ${handler.attrs.button}) { return; }` : "";
-
+// console.log("BROWSER", binding.attrs.id);
+// if (binding.attrs.id == "browser") {
+//   console.log("BROWSER", keycode);
+// }
     handlers.push(`this.addEventListener("${handler.attrs.event}", (event) => {${keycode}${button} ${handler.cdata || handler.value || handler.attrs.action}}${secondParam});\n`);
   }
 

@@ -352,6 +352,10 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       return;
     }
 
+    // Explicitly set the direction of the popup because automplete.xml
+    // expects this.
+    this.style.direction = (RTL_UI ? "rtl" : "ltr");
+
     // Make the popup span the width of the window.  First, set its width.
     let documentRect =
       window.windowUtils

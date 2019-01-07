@@ -99,7 +99,10 @@ class MozTabbrowserTab extends MozTab {
     });
 
     this.addEventListener("click", (event) => {
-      if (event.button != 0) { return; }
+      if (event.button != 0) {
+        return;
+      }
+
       if (event.getModifierState("Accel") || event.shiftKey) {
         return;
       }
@@ -142,7 +145,10 @@ class MozTabbrowserTab extends MozTab {
     });
 
     this.addEventListener("dblclick", (event) => {
-      if (event.button != 0) { return; }
+      if (event.button != 0) {
+        return;
+      }
+
       // for the one-close-button case
       if (event.originalTarget.getAttribute("anonid") == "close-button") {
         event.stopPropagation();

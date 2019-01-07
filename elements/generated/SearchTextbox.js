@@ -24,7 +24,10 @@ class MozSearchTextbox extends MozTextbox {
     });
 
     this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_ESCAPE) {
+        return;
+      }
+
       if (this._clearSearch()) {
         event.preventDefault();
         event.stopPropagation();
@@ -32,7 +35,10 @@ class MozSearchTextbox extends MozTextbox {
     });
 
     this.addEventListener("keypress", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_RETURN) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_RETURN) {
+        return;
+      }
+
       this._enterSearch();
       event.preventDefault();
       event.stopPropagation();

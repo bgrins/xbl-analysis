@@ -13,7 +13,10 @@ class MozTab extends MozBasetext {
     super();
 
     this.addEventListener("mousedown", (event) => {
-      if (event.button != 0) { return; }
+      if (event.button != 0) {
+        return;
+      }
+
       if (this.disabled)
         return;
 
@@ -53,34 +56,52 @@ class MozTab extends MozBasetext {
     });
 
     this.addEventListener("keydown", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_LEFT) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_LEFT) {
+        return;
+      }
+
       var direction = window.getComputedStyle(this.parentNode).direction;
       this.parentNode.advanceSelectedTab(direction == "ltr" ? -1 : 1, this.arrowKeysShouldWrap);
     });
 
     this.addEventListener("keydown", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_RIGHT) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_RIGHT) {
+        return;
+      }
+
       var direction = window.getComputedStyle(this.parentNode).direction;
       this.parentNode.advanceSelectedTab(direction == "ltr" ? 1 : -1, this.arrowKeysShouldWrap);
     });
 
     this.addEventListener("keydown", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_UP) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_UP) {
+        return;
+      }
+
       this.parentNode.advanceSelectedTab(-1, this.arrowKeysShouldWrap);
     });
 
     this.addEventListener("keydown", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_DOWN) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_DOWN) {
+        return;
+      }
+
       this.parentNode.advanceSelectedTab(1, this.arrowKeysShouldWrap);
     });
 
     this.addEventListener("keydown", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_HOME) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_HOME) {
+        return;
+      }
+
       this.parentNode._selectNewTab(this.parentNode.children[0]);
     });
 
     this.addEventListener("keydown", (event) => {
-      if (event.keyCode != KeyEvent.DOM_VK_END) { return; }
+      if (event.keyCode != KeyEvent.DOM_VK_END) {
+        return;
+      }
+
       var tabs = this.parentNode.children;
       this.parentNode._selectNewTab(tabs[tabs.length - 1], -1);
     });
