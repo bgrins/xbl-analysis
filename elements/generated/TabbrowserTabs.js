@@ -364,7 +364,7 @@ class MozTabbrowserTabs extends MozTabs {
       tab._dragData = {
         offsetX: event.screenX - window.screenX - tabOffsetX,
         offsetY: event.screenY - window.screenY,
-        scrollX: this.arrowScrollbox._scrollbox.scrollLeft,
+        scrollX: this.arrowScrollbox.scrollbox.scrollLeft,
         screenX: event.screenX,
         movingTabs: (tab.multiselected ? gBrowser.selectedTabs : [tab])
           .filter(t => t.pinned == tab.pinned),
@@ -1236,7 +1236,7 @@ class MozTabbrowserTabs extends MozTabs {
     let leftMovingTabScreenX = movingTabs[0].boxObject.screenX;
     let translateX = screenX - draggedTab._dragData.screenX;
     if (!pinned) {
-      translateX += this.arrowScrollbox._scrollbox.scrollLeft - draggedTab._dragData.scrollX;
+      translateX += this.arrowScrollbox.scrollbox.scrollLeft - draggedTab._dragData.scrollX;
     }
     let leftBound = leftTab.boxObject.screenX - leftMovingTabScreenX;
     let rightBound = (rightTab.boxObject.screenX + rightTab.boxObject.width) -

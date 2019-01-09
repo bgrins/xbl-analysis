@@ -49,7 +49,9 @@ class MozTabbrowserTab extends MozTab {
 
       if (this.selected) {
         this.style.MozUserFocus = "ignore";
-      } else if (this.mOverCloseButton || this._overPlayingIcon) {
+      } else if (event.originalTarget.classList.contains("tab-close-button") ||
+        event.originalTarget.classList.contains("tab-icon-sound") ||
+        event.originalTarget.classList.contains("tab-icon-overlay")) {
         // Prevent tabbox.xml from selecting the tab.
         event.stopPropagation();
       }
@@ -108,8 +110,9 @@ class MozTabbrowserTab extends MozTab {
       }
 
       if (gBrowser.multiSelectedTabsCount > 0 &&
-        !this.mOverCloseButton &&
-        !this._overPlayingIcon) {
+        !event.originalTarget.classList.contains("tab-close-button") &&
+        !event.originalTarget.classList.contains("tab-icon-sound") &&
+        !event.originalTarget.classList.contains("tab-icon-overlay")) {
         // Tabs were previously multi-selected and user clicks on a tab
         // without holding Ctrl/Cmd Key
 
@@ -120,7 +123,10 @@ class MozTabbrowserTab extends MozTab {
         gBrowser.clearMultiSelectedTabs(updatePositionalAttr);
       }
 
-      if (this._overPlayingIcon) {
+      if (event.originalTarget.classList.contains("tab-icon-sound") ||
+        (event.originalTarget.classList.contains("tab-icon-overlay") &&
+          (event.originalTarget.hasAttribute("soundplaying") ||
+            event.originalTarget.hasAttribute("muted")))) {
         if (this.multiselected) {
           gBrowser.toggleMuteAudioOnMultiSelectedTabs(this);
         } else {
@@ -158,7 +164,8 @@ class MozTabbrowserTab extends MozTab {
       if (tabContainer._closeTabByDblclick &&
         this._selectedOnFirstMouseDown &&
         this.selected &&
-        !this._overPlayingIcon) {
+        !(event.originalTarget.classList.contains("tab-icon-sound") ||
+          event.originalTarget.classList.contains("tab-icon-overlay"))) {
         gBrowser.removeTab(this, {
           animate: true,
           byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE,

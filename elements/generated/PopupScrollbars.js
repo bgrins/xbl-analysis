@@ -79,11 +79,11 @@ class MozPopupScrollbars extends MozPopup {
         if (this._draggingState == this.DRAG_OVER_POPUP &&
           (event.screenY <= popupRect.top || event.screenY >= popupRect.bottom)) {
           let scrollAmount = event.screenY <= popupRect.top ? -1 : 1;
-          this.scrollBox.scrollByIndex(scrollAmount);
+          this.scrollBox.scrollByIndex(scrollAmount, true);
 
           let win = this.ownerGlobal;
           this._scrollTimer = win.setInterval(() => {
-            this.scrollBox.scrollByIndex(scrollAmount);
+            this.scrollBox.scrollByIndex(scrollAmount, true);
           }, this.AUTOSCROLL_INTERVAL);
         }
       }
@@ -97,9 +97,9 @@ class MozPopupScrollbars extends MozPopup {
     }
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <scrollbox class="popup-internal-box" flex="1" orient="vertical" style="overflow: auto;">
+      <arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
         <children></children>
-      </scrollbox>
+      </arrowscrollbox>
     `));
 
     this.AUTOSCROLL_INTERVAL = 25;

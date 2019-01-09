@@ -191,7 +191,7 @@ class MozArrowscrollbox extends MozBaseControl {
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
-    this._scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "scrollbox");
+    this.scrollbox = document.getAnonymousElementByAttribute(this, "anonid", "scrollbox");
 
     this._scrollButtonUp = document.getAnonymousElementByAttribute(this, "anonid", "scrollbutton-up");
 
@@ -230,7 +230,7 @@ class MozArrowscrollbox extends MozBaseControl {
     this._startEndProps = this.orient == "vertical" ? ["top", "bottom"] : ["left", "right"];
 
     this._isRTLScrollbox = this.orient != "vertical" &&
-      document.defaultView.getComputedStyle(this._scrollbox).direction == "rtl";
+      document.defaultView.getComputedStyle(this.scrollbox).direction == "rtl";
 
     this._ensureElementIsVisibleAnimationFrame = 0;
 
@@ -296,23 +296,23 @@ class MozArrowscrollbox extends MozBaseControl {
   }
 
   get scrollBoxObject() {
-    return this._scrollbox.boxObject;
+    return this.scrollbox.boxObject;
   }
 
   get scrollClientRect() {
-    return this._scrollbox.getBoundingClientRect();
+    return this.scrollbox.getBoundingClientRect();
   }
 
   get scrollClientSize() {
     return this.orient == "vertical" ?
-      this._scrollbox.clientHeight :
-      this._scrollbox.clientWidth;
+      this.scrollbox.clientHeight :
+      this.scrollbox.clientWidth;
   }
 
   get scrollSize() {
     return this.orient == "vertical" ?
-      this._scrollbox.scrollHeight :
-      this._scrollbox.scrollWidth;
+      this.scrollbox.scrollHeight :
+      this.scrollbox.scrollWidth;
   }
 
   get lineScrollAmount() {
@@ -326,8 +326,8 @@ class MozArrowscrollbox extends MozBaseControl {
 
   get scrollPosition() {
     return this.orient == "vertical" ?
-      this._scrollbox.scrollTop :
-      this._scrollbox.scrollLeft;
+      this.scrollbox.scrollTop :
+      this.scrollbox.scrollLeft;
   }
 
   _onButtonClick(event) {
@@ -395,7 +395,10 @@ class MozArrowscrollbox extends MozBaseControl {
       window.cancelAnimationFrame(this._ensureElementIsVisibleAnimationFrame);
     }
     this._ensureElementIsVisibleAnimationFrame = window.requestAnimationFrame(() => {
-      element.scrollIntoView({ behavior: aInstant ? "instant" : "auto" });
+      element.scrollIntoView({
+        block: "nearest",
+        behavior: aInstant ? "instant" : "auto"
+      });
       this._ensureElementIsVisibleAnimationFrame = 0;
     });
   }
@@ -604,7 +607,7 @@ class MozArrowscrollbox extends MozBaseControl {
   scrollByPixels(aPixels, aInstant) {
     let scrollOptions = { behavior: aInstant ? "instant" : "auto" };
     scrollOptions[this._startEndProps[0]] = aPixels;
-    this._scrollbox.scrollBy(scrollOptions);
+    this.scrollbox.scrollBy(scrollOptions);
   }
 
   _updateScrollButtonsDisabledState() {
@@ -623,6 +626,11 @@ class MozArrowscrollbox extends MozBaseControl {
     // getBoundsWithoutFlushing.
     window.requestAnimationFrame(() => {
       setTimeout(() => {
+        if (!this._startEndProps) {
+          // We've been destroyed in the meantime.
+          return;
+        }
+
         this._scrollButtonUpdatePending = false;
 
         let scrolledToStart = false;
@@ -643,11 +651,11 @@ class MozArrowscrollbox extends MozBaseControl {
           }
 
           if (leftOrTopElement &&
-            leftOrTopEdge(leftOrTopElement) >= leftOrTopEdge(this._scrollbox)) {
+            leftOrTopEdge(leftOrTopElement) >= leftOrTopEdge(this.scrollbox)) {
             scrolledToStart = !this._isRTLScrollbox;
             scrolledToEnd = this._isRTLScrollbox;
           } else if (rightOrBottomElement &&
-            rightOrBottomEdge(rightOrBottomElement) <= rightOrBottomEdge(this._scrollbox)) {
+            rightOrBottomEdge(rightOrBottomElement) <= rightOrBottomEdge(this.scrollbox)) {
             scrolledToStart = this._isRTLScrollbox;
             scrolledToEnd = !this._isRTLScrollbox;
           }

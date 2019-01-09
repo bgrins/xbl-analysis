@@ -18,7 +18,7 @@ class MozTabbrowserArrowscrollbox extends MozArrowscrollbox {
       // - for vertical orientation
       // - corresponding to an overflow event that we ignored
       let tabs = document.getBindingParent(this);
-      if (event.originalTarget != this._scrollbox ||
+      if (event.originalTarget != this.scrollbox ||
         event.detail == 0 ||
         !tabs.hasAttribute("overflow")) {
         return;
@@ -41,7 +41,7 @@ class MozTabbrowserArrowscrollbox extends MozArrowscrollbox {
       // Ignore overflow events:
       // - from nested scrollable elements
       // - for vertical orientation
-      if (event.originalTarget != this._scrollbox ||
+      if (event.originalTarget != this.scrollbox ||
         event.detail == 0) {
         return;
       }
