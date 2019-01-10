@@ -9,6 +9,22 @@
 {
 
 class MozTabs extends MozBaseControl {
+  constructor() {
+    super();
+
+    this.addEventListener("DOMMouseScroll", (event) => {
+      if (this._prefService.getBoolPref("toolkit.tabbox.switchByScrolling")) {
+        if (event.detail > 0) {
+          this.advanceSelectedTab(1, false);
+        } else {
+          this.advanceSelectedTab(-1, false);
+        }
+        event.stopPropagation();
+      }
+    });
+
+  }
+
   connectedCallback() {
     if (this.delayConnectedCallback()) {
       return;
@@ -26,6 +42,8 @@ class MozTabs extends MozBaseControl {
      * _tabbox is deprecated, it exists only for backwards compatibility.
      */
     this._tabbox = this.tabbox;
+
+    this._prefService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
 
     this.ACTIVE_DESCENDANT_ID = "keyboard-focused-tab-" + Math.trunc(Math.random() * 1000000);
 
