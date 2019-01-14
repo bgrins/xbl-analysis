@@ -64,7 +64,7 @@ class MozTabbrowserTabs extends MozTabs {
         return;
 
       if (event.button != 0 ||
-        event.originalTarget.localName != "box")
+        event.originalTarget.localName != "scrollbox")
         return;
 
       if (!this._blockDblClick)
@@ -141,7 +141,7 @@ class MozTabbrowserTabs extends MozTabs {
           animate: true,
           byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE,
         });
-      } else if (event.originalTarget.localName == "box") {
+      } else if (event.originalTarget.localName == "scrollbox") {
         // The user middleclicked an open space on the tabstrip. This could
         // be because they intend to open a new tab, but it could also be
         // because they just removed a tab and they now middleclicked on the
