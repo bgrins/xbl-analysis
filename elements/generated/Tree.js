@@ -36,10 +36,10 @@ class MozTree extends MozBaseControl {
       if (event.touches.length == 1 &&
         this._touchY >= 0) {
         var deltaY = this._touchY - event.touches[0].screenY;
-        var lines = Math.trunc(deltaY / this.treeBoxObject.rowHeight);
+        var lines = Math.trunc(deltaY / this.rowHeight);
         if (Math.abs(lines) > 0) {
-          this.treeBoxObject.scrollByLines(lines);
-          deltaY -= lines * this.treeBoxObject.rowHeight;
+          this.scrollByLines(lines);
+          deltaY -= lines * this.rowHeight;
           this._touchY = event.touches[0].screenY + deltaY;
         }
         event.preventDefault();
@@ -68,11 +68,11 @@ class MozTree extends MozBaseControl {
 
       var rows = event.detail;
       if (rows == UIEvent.SCROLL_PAGE_UP)
-        this.treeBoxObject.scrollByPages(-1);
+        this.scrollByPages(-1);
       else if (rows == UIEvent.SCROLL_PAGE_DOWN)
-        this.treeBoxObject.scrollByPages(1);
+        this.scrollByPages(1);
       else
-        this.treeBoxObject.scrollByLines(rows);
+        this.scrollByLines(rows);
     });
 
     this.addEventListener("MozSwipeGesture", (event) => {
@@ -85,7 +85,7 @@ class MozTree extends MozBaseControl {
           targetRow = this.view.rowCount - 1;
           // Fall through for actual action
         case event.DIRECTION_UP:
-          this.treeBoxObject.ensureRowIsVisible(targetRow);
+          this.ensureRowIsVisible(targetRow);
           break;
       }
     });
@@ -93,13 +93,13 @@ class MozTree extends MozBaseControl {
     this.addEventListener("select", (event) => { if (event.originalTarget == this) this.stopEditing(true); });
 
     this.addEventListener("focus", (event) => {
-      this.treeBoxObject.focused = true;
+      this.focused = true;
       if (this.currentIndex == -1 && this.view.rowCount > 0) {
-        this.currentIndex = this.treeBoxObject.getFirstVisibleRow();
+        this.currentIndex = this.getFirstVisibleRow();
       }
     });
 
-    this.addEventListener("blur", (event) => { this.treeBoxObject.focused = false; });
+    this.addEventListener("blur", (event) => { this.focused = false; });
 
     this.addEventListener("blur", (event) => { if (event.originalTarget == this.inputField.inputField) this.stopEditing(true); }, true);
 
@@ -146,7 +146,7 @@ class MozTree extends MozBaseControl {
       var parentIndex = this.view.getParentIndex(this.currentIndex);
       if (parentIndex >= 0) {
         this.view.selection.select(parentIndex);
-        this.treeBoxObject.ensureRowIsVisible(parentIndex);
+        this.ensureRowIsVisible(parentIndex);
         event.preventDefault();
       }
     });
@@ -175,7 +175,7 @@ class MozTree extends MozBaseControl {
         // The getParentIndex test above ensures that the children
         // are already populated and ready.
         this.view.selection.timedSelect(c, this._selectDelay);
-        this.treeBoxObject.ensureRowIsVisible(c);
+        this.ensureRowIsVisible(c);
         event.preventDefault();
       }
     });
@@ -317,7 +317,7 @@ class MozTree extends MozBaseControl {
         var l = this._keyNavigate(event);
         if (l >= 0) {
           this.view.selection.timedSelect(l, this._selectDelay);
-          this.treeBoxObject.ensureRowIsVisible(l);
+          this.ensureRowIsVisible(l);
         }
         event.preventDefault();
       }
@@ -363,20 +363,8 @@ class MozTree extends MozBaseControl {
 
   }
 
-  get columns() {
-    return this.treeBoxObject.columns;
-  }
-
-  set view(val) {
-    return this.treeBoxObject.view = val;
-  }
-
-  get view() {
-    return this.treeBoxObject.view
-  }
-
   get body() {
-    return this.treeBoxObject.treeBody;
+    return this.treeBody;
   }
 
   set editable(val) {
@@ -407,10 +395,6 @@ class MozTree extends MozBaseControl {
 
   get currentIndex() {
     return this.view ? this.view.selection.currentIndex : -1;
-  }
-
-  get treeBoxObject() {
-    return this.boxObject;
   }
 
   set keepCurrentInView(val) {
@@ -531,7 +515,7 @@ class MozTree extends MozBaseControl {
     if (isRTL)
       columns.reverse();
     var currentX = this.boxObject.x;
-    var adjustedX = aX + this.treeBoxObject.horizontalPosition;
+    var adjustedX = aX + this.horizontalPosition;
     for (var i = 0; i < columns.length; ++i) {
       col = columns[i];
       var cw = col.element.boxObject.width;
@@ -623,14 +607,13 @@ class MozTree extends MozBaseControl {
 
     var input = this.inputField;
 
-    var box = this.treeBoxObject;
-    box.ensureCellIsVisible(row, column);
+    this.ensureCellIsVisible(row, column);
 
     // Get the coordinates of the text inside the cell.
-    var textRect = box.getCoordsForCellItem(row, column, "text");
+    var textRect = this.getCoordsForCellItem(row, column, "text");
 
     // Get the coordinates of the cell itself.
-    var cellRect = box.getCoordsForCellItem(row, column, "cell");
+    var cellRect = this.getCoordsForCellItem(row, column, "cell");
 
     // Calculate the top offset of the textbox.
     var style = window.getComputedStyle(input);
@@ -664,7 +647,7 @@ class MozTree extends MozBaseControl {
     this._editingColumn = column;
     this.setAttribute("editing", "true");
 
-    box.invalidateCell(row, column);
+    this.invalidateCell(row, column);
     return true;
   }
 
@@ -694,7 +677,7 @@ class MozTree extends MozBaseControl {
       return;
 
     if (event.getModifierState("Accel") && this.view.selection.single) {
-      this.treeBoxObject.scrollByLines(offset);
+      this.scrollByLines(offset);
       return;
     }
 
@@ -709,7 +692,7 @@ class MozTree extends MozBaseControl {
       this.view.selection.timedSelect(c, this._selectDelay);
     else // Ctrl+Up/Down moves the anchor without selecting
       this.currentIndex = c;
-    this.treeBoxObject.ensureRowIsVisible(c);
+    this.ensureRowIsVisible(c);
   }
 
   _moveByOffsetShift(offset, edge, event) {
@@ -719,7 +702,7 @@ class MozTree extends MozBaseControl {
       return;
 
     if (this.view.selection.single) {
-      this.treeBoxObject.scrollByLines(offset);
+      this.scrollByLines(offset);
       return;
     }
 
@@ -740,7 +723,7 @@ class MozTree extends MozBaseControl {
     // Extend the selection from the existing pivot, if any
     this.view.selection.rangedSelect(-1, c + offset,
       event.getModifierState("Accel"));
-    this.treeBoxObject.ensureRowIsVisible(c + offset);
+    this.ensureRowIsVisible(c + offset);
 
   }
 
@@ -751,7 +734,7 @@ class MozTree extends MozBaseControl {
       return;
 
     if (this.pageUpOrDownMovesSelection == event.getModifierState("Accel")) {
-      this.treeBoxObject.scrollByPages(offset);
+      this.scrollByPages(offset);
       return;
     }
 
@@ -765,23 +748,23 @@ class MozTree extends MozBaseControl {
       return;
 
     if (c == edge && this.view.selection.isSelected(c)) {
-      this.treeBoxObject.ensureRowIsVisible(c);
+      this.ensureRowIsVisible(c);
       return;
     }
-    var i = this.treeBoxObject.getFirstVisibleRow();
-    var p = this.treeBoxObject.getPageLength();
+    var i = this.getFirstVisibleRow();
+    var p = this.getPageLength();
 
     if (offset > 0) {
       i += p - 1;
       if (c >= i) {
         i = c + p;
-        this.treeBoxObject.ensureRowIsVisible(i > edge ? edge : i);
+        this.ensureRowIsVisible(i > edge ? edge : i);
       }
       i = i > edge ? edge : i;
 
     } else if (c <= i) {
       i = c <= p ? 0 : c - p;
-      this.treeBoxObject.ensureRowIsVisible(i);
+      this.ensureRowIsVisible(i);
     }
     this.view.selection.timedSelect(i, this._selectDelay);
   }
@@ -805,17 +788,17 @@ class MozTree extends MozBaseControl {
     if (c == -1)
       return;
     if (c == edge && this.view.selection.isSelected(c)) {
-      this.treeBoxObject.ensureRowIsVisible(edge);
+      this.ensureRowIsVisible(edge);
       return;
     }
-    var i = this.treeBoxObject.getFirstVisibleRow();
-    var p = this.treeBoxObject.getPageLength();
+    var i = this.getFirstVisibleRow();
+    var p = this.getPageLength();
 
     if (offset > 0) {
       i += p - 1;
       if (c >= i) {
         i = c + p;
-        this.treeBoxObject.ensureRowIsVisible(i > edge ? edge : i);
+        this.ensureRowIsVisible(i > edge ? edge : i);
       }
       // Extend the selection from the existing pivot, if any
       this.view.selection.rangedSelect(-1, i > edge ? edge : i, event.getModifierState("Accel"));
@@ -824,7 +807,7 @@ class MozTree extends MozBaseControl {
 
       if (c <= i) {
         i = c <= p ? 0 : c - p;
-        this.treeBoxObject.ensureRowIsVisible(i);
+        this.ensureRowIsVisible(i);
       }
       // Extend the selection from the existing pivot, if any
       this.view.selection.rangedSelect(-1, i, event.getModifierState("Accel"));
@@ -851,7 +834,7 @@ class MozTree extends MozBaseControl {
     else if (!this.view.selection.single)
       this.currentIndex = edge;
 
-    this.treeBoxObject.ensureRowIsVisible(edge);
+    this.ensureRowIsVisible(edge);
   }
 
   _moveToEdgeShift(edge, event) {
@@ -873,7 +856,7 @@ class MozTree extends MozBaseControl {
     // -1 doesn't work here, so using currentIndex instead
     this.view.selection.rangedSelect(this.currentIndex, edge, event.getModifierState("Accel"));
 
-    this.treeBoxObject.ensureRowIsVisible(edge);
+    this.ensureRowIsVisible(edge);
   }
 
   _handleEnter(event) {

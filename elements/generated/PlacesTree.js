@@ -71,7 +71,7 @@ class MozPlacesTree extends MozTree {
       if (event.target.localName != "treechildren")
         return;
 
-      let cell = this.treeBoxObject.getCellAt(event.clientX, event.clientY);
+      let cell = this.getCellAt(event.clientX, event.clientY);
       let node = cell.row != -1 ?
         this.view.nodeForTreeIndex(cell.row) :
         this.result.root;
@@ -80,10 +80,9 @@ class MozPlacesTree extends MozTree {
 
       // We have to calculate the orientation since view.canDrop will use
       // it and we want to be consistent with the dropfeedback.
-      let tbo = this.treeBoxObject;
-      let rowHeight = tbo.rowHeight;
-      let eventY = event.clientY - tbo.treeBody.boxObject.y -
-        rowHeight * (cell.row - tbo.getFirstVisibleRow());
+      let rowHeight = this.rowHeight;
+      let eventY = event.clientY - this.treeBody.boxObject.y -
+        rowHeight * (cell.row - this.getFirstVisibleRow());
 
       let orientation = Ci.nsITreeView.DROP_BEFORE;
 
@@ -147,12 +146,17 @@ class MozPlacesTree extends MozTree {
    * overriding
    */
   set view(val) {
-    return this.treeBoxObject.view = val;
+    /* eslint-disable no-undef */
+    return Object.getOwnPropertyDescriptor(XULTreeElement.prototype, "view").set.call(this, val);
+    /* eslint-enable no-undef */
   }
 
   get view() {
     try {
-      return this.treeBoxObject.view.wrappedJSObject || null;
+      /* eslint-disable no-undef */
+      return Object.getOwnPropertyDescriptor(XULTreeElement.prototype, "view").get.
+      call(this).wrappedJSObject || null;
+      /* eslint-enable no-undef */
     } catch (e) {
       return null;
     }
@@ -439,7 +443,7 @@ class MozPlacesTree extends MozTree {
     let treeView = new PlacesTreeView(this.flatList, callback, this._controller);
 
     // Observer removal is done within the view itself.  When the tree
-    // goes away, treeboxobject calls view.setTree(null), which then
+    // goes away, view.setTree(null) is called, which then
     // calls removeObserver.
     result.addObserver(treeView);
     this.view = treeView;
@@ -543,7 +547,7 @@ class MozPlacesTree extends MozTree {
 
     view.selection.select(index);
     // ... and ensure it's visible, not scrolled off somewhere.
-    this.treeBoxObject.ensureRowIsVisible(index);
+    this.ensureRowIsVisible(index);
   }
 
   toggleCutNode(aNode, aValue) {
@@ -760,7 +764,7 @@ class MozPlacesTree extends MozTree {
   disconnectedCallback() {
     // Break the treeviewer->result->treeviewer cycle.
     // Note: unsetting the result's viewer also unsets
-    // the viewer's reference to our treeBoxObject.
+    // the viewer's reference to our tree.
     var result = this.result;
     if (result) {
       result.root.containerOpen = false;

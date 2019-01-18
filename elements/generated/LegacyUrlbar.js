@@ -809,8 +809,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
       [url, postData] =
       this._parseAndRecordSearchEngineLoad(selectedOneOff.engine,
         this.oneOffSearchQuery,
-        event, where,
-        openUILinkParams);
+        event);
     } else if (action) {
       switch (action.type) {
         case "visiturl":
@@ -886,8 +885,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
             action.params.engineName,
             action.params.searchSuggestion || action.params.searchQuery,
             event,
-            where,
-            openUILinkParams,
             actionDetails
           );
           break;
@@ -982,13 +979,13 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.selectionStart = this.selectionEnd = 0;
   }
 
-  _parseAndRecordSearchEngineLoad(engineOrEngineName, query, event, openUILinkWhere, openUILinkParams, searchActionDetails) {
+  _parseAndRecordSearchEngineLoad(engineOrEngineName, query, event, searchActionDetails) {
     let engine =
       typeof(engineOrEngineName) == "string" ?
       Services.search.getEngineByName(engineOrEngineName) :
       engineOrEngineName;
     let isOneOff = this.popup.oneOffSearchButtons
-      .maybeRecordTelemetry(event, openUILinkWhere, openUILinkParams);
+      .maybeRecordTelemetry(event);
     // Infer the type of the event which triggered the search.
     let eventType = "unknown";
     if (event instanceof KeyboardEvent) {
