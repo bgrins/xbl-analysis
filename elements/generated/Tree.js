@@ -12,6 +12,30 @@ class MozTree extends MozBaseControl {
   constructor() {
     super();
 
+    this.addEventListener("underflow", (event) => {
+      // Scrollport event orientation
+      // 0: vertical
+      // 1: horizontal
+      // 2: both (not used)
+      if (event.target.tagName != "treechildren")
+        return;
+      if (event.detail == 1)
+        this.setAttribute("hidehscroll", "true");
+      else if (event.detail == 0)
+        this.setAttribute("hidevscroll", "true");
+      event.stopPropagation();
+    });
+
+    this.addEventListener("overflow", (event) => {
+      if (event.target.tagName != "treechildren")
+        return;
+      if (event.detail == 1)
+        this.removeAttribute("hidehscroll");
+      else if (event.detail == 0)
+        this.removeAttribute("hidevscroll");
+      event.stopPropagation();
+    });
+
     this.addEventListener("touchstart", (event) => {
       function isScrollbarElement(target) {
         return (target.localName == "thumb" || target.localName == "slider") &&
@@ -333,9 +357,12 @@ class MozTree extends MozBaseControl {
     this.appendChild(MozXULElement.parseXULToFragment(`
       <children includes="treecols"></children>
       <stack class="tree-stack" flex="1">
-        <treerows class="tree-rows" flex="1" inherits="hidevscroll">
-          <children></children>
-        </treerows>
+        <hbox class="tree-rows" flex="1">
+          <hbox flex="1" class="tree-bodybox">
+            <children></children>
+          </hbox>
+          <scrollbar height="0" minwidth="0" minheight="0" orient="vertical" inherits="collapsed=hidevscroll" style="position:relative; z-index:2147483647;" oncontextmenu="event.stopPropagation(); event.preventDefault();" onclick="event.stopPropagation(); event.preventDefault();" ondblclick="event.stopPropagation();" oncommand="event.stopPropagation();"></scrollbar>
+        </hbox>
         <textbox anonid="input" class="tree-input" left="0" top="0" hidden="true"></textbox>
       </stack>
       <hbox inherits="collapsed=hidehscroll">

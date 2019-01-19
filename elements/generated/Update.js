@@ -19,22 +19,14 @@ class MozUpdate extends MozRichlistitem {
         <label class="update-name" inherits="value=name" flex="1" crop="right"></label>
         <label inherits="href=detailsURL,hidden=hideDetailsURL" class="text-link" value="FROM-DTD.update.details.label;"></label>
       </hbox>
-      <grid>
-        <columns>
-          <column class="update-label-column"></column>
-          <column flex="1"></column>
-        </columns>
-        <rows>
-          <row>
-            <label class="update-installedOn-label"></label>
-            <label class="update-installedOn-value" inherits="value=installDate" flex="1" crop="right"></label>
-          </row>
-          <row>
-            <label class="update-status-label"></label>
-            <description class="update-status-value" flex="1"></description>
-          </row>
-        </rows>
-      </grid>
+      <hbox>
+        <label class="update-installedOn-label"></label>
+        <label class="update-installedOn-value" flex="1"></label>
+      </hbox>
+      <hbox>
+        <label class="update-status-label"></label>
+        <description class="update-status-value" flex="1"></description>
+      </hbox>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
@@ -59,7 +51,9 @@ class MozUpdate extends MozRichlistitem {
   }
 
   set installDate(val) {
-    this.setAttribute('installDate', val);
+    this.setAttribute("installDate", val);
+    var field = document.getAnonymousElementByAttribute(this, "class", "update-installedOn-value");
+    field.textContent = val;
     return val;
   }
 
@@ -79,9 +73,7 @@ class MozUpdate extends MozRichlistitem {
   set status(val) {
     this.setAttribute("status", val);
     var field = document.getAnonymousElementByAttribute(this, "class", "update-status-value");
-    while (field.hasChildNodes())
-      field.firstChild.remove();
-    field.appendChild(document.createTextNode(val));
+    field.textContent = val;
     return val;
   }
 

@@ -60,7 +60,7 @@ class MozTabbrowserTabs extends MozTabs {
       // When the tabbar has an unified appearance with the titlebar
       // and menubar, a double-click in it should have the same behavior
       // as double-clicking the titlebar
-      if (TabsInTitlebar.enabled || this.parentNode._dragBindingAlive)
+      if (TabsInTitlebar.enabled)
         return;
 
       if (event.button != 0 ||
