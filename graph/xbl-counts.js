@@ -49765,14 +49765,14 @@ var DATA = {
     },
     label: "2019-01-20"
   },
-  "master@{2019-01-21}": {
-    numBindings: 79,
+  "master@{2019-01-22}": {
+    numBindings: 78,
     numInContentBindings: 0,
-    loc: 17289,
+    loc: 17227,
     directoryLOC: {
-      browser: 7710,
+      browser: 7712,
       dom: 0,
-      toolkit: 9622,
+      toolkit: 9558,
       mobile: 0,
       layout: 0,
       xpfe: 0
@@ -49780,21 +49780,21 @@ var DATA = {
     directoryBindings: {
       browser: 18,
       dom: 0,
-      toolkit: 61,
+      toolkit: 60,
       mobile: 0,
       layout: 0,
       xpfe: 0
     },
     bindingsLOC: {
       "tabbrowser-tabs": 1843,
-      "legacy-urlbar": 1801,
+      "legacy-urlbar": 1802,
       "autocomplete-richlistitem": 977,
       "addon-generic": 946,
+      "urlbar-rich-result-popup": 893,
       tree: 893,
-      "urlbar-rich-result-popup": 892,
       "places-tree": 794,
       arrowscrollbox: 769,
-      autocomplete: 644,
+      autocomplete: 645,
       "tabbrowser-tab": 579,
       "autocomplete-rich-result-popup": 574,
       "places-popup-base": 482,
@@ -49809,8 +49809,8 @@ var DATA = {
       "install-status": 204,
       "button-base": 182,
       "addon-progress-notification": 168,
-      richlistitem: 166,
       popup: 164,
+      richlistitem: 149,
       tab: 136,
       "search-textbox": 135,
       arrowpanel: 135,
@@ -49833,7 +49833,6 @@ var DATA = {
       "creator-link": 52,
       checkbox: 52,
       "addon-base": 49,
-      update: 48,
       "autocomplete-profile-listitem-clear-button": 47,
       "autocomplete-creditcard-insecure-field": 40,
       basetext: 37,
@@ -49842,9 +49841,9 @@ var DATA = {
       urlbar: 33,
       softblockedaddon: 27,
       "detail-row": 23,
-      handler: 19,
       "toolbarbutton-badged": 19,
       "menu-iconic": 19,
+      handler: 19,
       wizardpage: 17,
       hardblockedaddon: 17,
       toolbarbutton: 16,
@@ -49864,7 +49863,7 @@ var DATA = {
       menu: 5,
       "toolbarbutton-badged-menu": 5
     },
-    label: "2019-01-21"
+    label: "2019-01-22"
   }
 };
 var SORTED_BINDINGS = {

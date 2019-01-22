@@ -141,23 +141,11 @@ class MozRichlistitem extends MozBasetext {
       this.setAttribute("current", "true");
     else
       this.removeAttribute("current");
-
-    let control = this.control;
-    if (!control || !control.suppressMenuItemEvent) {
-      this._fireEvent(val ? "DOMMenuItemActive" : "DOMMenuItemInactive");
-    }
-
     return val;
   }
 
   get current() {
     return this.getAttribute('current') == 'true';
-  }
-
-  _fireEvent(name) {
-    var event = document.createEvent("Events");
-    event.initEvent(name, true, true);
-    this.dispatchEvent(event);
   }
   disconnectedCallback() {
     var control = this.control;

@@ -56,7 +56,7 @@ class MozAutocomplete extends MozTextbox {
       <children includes="image|box"></children>
       <moz-input-box anonid="moz-input-box" flex="1">
         <children></children>
-        <html:input anonid="input" class="textbox-input" allowevents="true" inherits="value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
+        <html:input anonid="input" class="textbox-input" allowevents="true" autocomplete="off" inherits="value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
       </moz-input-box>
       <children includes="hbox"></children>
       <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>

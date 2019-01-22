@@ -1464,7 +1464,8 @@ class MozLegacyUrlbar extends MozAutocomplete {
       // the input, since the user is editing.
       if (!this.popup.richlistbox.suppressMenuItemEvent &&
         this.popup.richlistbox.currentItem) {
-        this.popup.richlistbox.currentItem._fireEvent("DOMMenuItemInactive");
+        this.popup.richlistbox._fireEvent(
+          this.popup.richlistbox.currentItem, "DOMMenuItemInactive");
       }
       // The user is typing, so don't give accessibility focus to the
       // popup, even if an item gets automatically selected.

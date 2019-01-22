@@ -455,7 +455,8 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       // but because the popup isn't open yet, accessibility will ignore
       // it. Therefore, fire it again once the popup opens.
       this.addEventListener("popupshown", () => {
-        this.richlistbox.currentItem._fireEvent("DOMMenuItemActive");
+        this.richlistbox._fireEvent(this.richlistbox.currentItem,
+          "DOMMenuItemActive");
       }, { once: true });
     }
 
