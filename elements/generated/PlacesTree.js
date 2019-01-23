@@ -762,14 +762,6 @@ class MozPlacesTree extends MozTree {
 
   destroyContextMenu(aPopup) {}
   disconnectedCallback() {
-    // Break the treeviewer->result->treeviewer cycle.
-    // Note: unsetting the result's viewer also unsets
-    // the viewer's reference to our tree.
-    var result = this.result;
-    if (result) {
-      result.root.containerOpen = false;
-    }
-
     // Unregister the controllber before unlinking the view, otherwise it
     // may still try to update commands on a view with a null result.
     if (this._controller) {
@@ -780,6 +772,9 @@ class MozPlacesTree extends MozTree {
     if (this.view) {
       this.view.uninit();
     }
+    // view.setTree(null) will be called upon unsetting the view, which
+    // breaks the reference cycle between the PlacesTreeView and result.
+    // See the "setTree" method of PlacesTreeView in treeView.js.
     this.view = null;
   }
 }

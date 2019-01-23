@@ -1619,6 +1619,8 @@ class MozLegacyUrlbar extends MozAutocomplete {
   }
 
   typeRestrictToken(char) {
+    focusAndSelectUrlBar();
+
     this.inputField.value = char + " ";
 
     let event = this.document.createEvent("UIEvents");
