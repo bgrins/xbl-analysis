@@ -83,6 +83,15 @@ function parseBody(body, file) {
   while ((found = mozBindingURLRegexp.exec(body)) !== null) {
     let url = stringReverse(found[1]);
     let bindingIds = [ url.substr(url.indexOf('#') + 1) ];
+
+    if (bindingIds[0] == "menu") {
+      if (url.includes("toolbarbutton.xml")) {
+        bindingIds = ["toolbarbutton-menu"];
+      } else if (url.includes("button.xml")) {
+        bindingIds = ["button-menu"];
+      }
+    }
+
     for (var i in urlIdsMap) {
       if (url.includes(i)) {
         bindingIds = [].concat(urlIdsMap[i]).map(str => str + '-' + bindingIds[0]);

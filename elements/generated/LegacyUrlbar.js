@@ -1632,7 +1632,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.classList.remove("hidden-focus");
   }
 
-  hiddenFocus() {
+  setHiddenFocus() {
     this.classList.add("hidden-focus");
     this.focus();
   }

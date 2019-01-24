@@ -8,11 +8,23 @@
 // leaking to window scope.
 {
 
-class MozMenu extends MozToolbarbutton {
+class MozMenu extends MozMenuBase {
   connectedCallback() {
     if (this.delayConnectedCallback()) {
       return;
     }
+    this.textContent = "";
+    this.appendChild(MozXULElement.parseXULToFragment(`
+      <label class="menu-text" inherits="value=label,accesskey,crop" crop="right"></label>
+      <hbox class="menu-accel-container" anonid="accel">
+        <label class="menu-accel" inherits="value=acceltext"></label>
+      </hbox>
+      <hbox align="center" class="menu-right" inherits="_moz-menuactive,disabled">
+        <image></image>
+      </hbox>
+      <children includes="menupopup"></children>
+    `));
+    // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
 }

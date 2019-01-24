@@ -214,6 +214,11 @@ function parseBody(body, file) {
 
   if (file.includes("toolkit/content/widgets/toolbarbutton.xml")) {
     body = body.replace('<binding id="menu-button"', '<binding id="toolbarbutton-menu-button"');
+    body = body.replace('<binding id="menu"', '<binding id="toolbarbutton-menu"');
+  }
+
+  if (file.includes("toolkit/content/widgets/button.xml")) {
+    body = body.replace('<binding id="menu"', '<binding id="button-menu"');
   }
 
   for (var i in replaceDuplicateIds) {
