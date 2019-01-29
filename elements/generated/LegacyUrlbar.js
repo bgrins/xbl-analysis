@@ -269,7 +269,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.clickSelectsAll = this._prefs.getBoolPref("clickSelectsAll");
     this.doubleClickSelectsAll = this._prefs.getBoolPref("doubleClickSelectsAll");
     this.completeDefaultIndex = this._prefs.getBoolPref("autoFill");
-    this.speculativeConnectEnabled = this._prefs.getBoolPref("speculativeConnect.enabled");
     this.urlbarSearchSuggestEnabled = this._prefs.getBoolPref("suggest.searches");
     this.timeout = this._prefs.getIntPref("delay");
     this._mayTrimURLs = this._prefs.getBoolPref("trimURLs");
@@ -925,7 +924,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this.value = url;
     browser.userTypedValue = url;
     if (gInitialPages.includes(url)) {
-      browser.initialPageLoadedFromURLBar = url;
+      browser.initialPageLoadedFromUserAction = url;
     }
     try {
       UrlbarUtils.addToUrlbarHistory(url, window);
@@ -1215,9 +1214,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
           break;
         case "ctrlCanonizesURLs":
           this._ctrlCanonizesURLs = this._prefs.getBoolPref(aData);
-          break;
-        case "speculativeConnect.enabled":
-          this.speculativeConnectEnabled = this._prefs.getBoolPref(aData);
           break;
         case "openintab":
           this.openInTab = this._prefs.getBoolPref(aData);

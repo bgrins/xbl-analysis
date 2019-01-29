@@ -57,7 +57,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
         return;
       }
 
-      if (!this.input.speculativeConnectEnabled) {
+      if (!UrlbarPrefs.get("speculativeConnect.enabled")) {
         return;
       }
 
@@ -76,29 +76,21 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
         return;
       }
 
-      let url = this.input.controller.getFinalCompleteValueAt(this.selectedIndex);
-
       // Whitelist the cases that we want to speculative connect, and ignore
       // other moz-action uris or fancy protocols.
       // Note that it's likely we've speculatively connected to the first
       // url because it is a heuristic "autofill" result (see bug 1348275).
       // "moz-action:searchengine" is also the same case. (see bug 1355443)
       // So we won't duplicate the effort here.
+      let url = this.input.controller.getFinalCompleteValueAt(this.selectedIndex);
       if (url.startsWith("http") && this.selectedIndex > 0) {
-        this.maybeSetupSpeculativeConnect(url);
+        UrlbarUtils.setupSpeculativeConnection(url, window);
       } else if (url.startsWith("moz-action:remotetab")) {
-        // URL is in the format moz-action:ACTION,PARAMS
-        // Where PARAMS is a JSON encoded object.
-        const MOZ_ACTION_REGEX = /^moz-action:([^,]+),(.*)$/;
-        if (!MOZ_ACTION_REGEX.test(url))
-          return;
-
-        let params = JSON.parse(url.match(MOZ_ACTION_REGEX)[2]);
-        if (params.url) {
-          this.maybeSetupSpeculativeConnect(decodeURIComponent(params.url));
+        let action = PlacesUtils.parseActionUrl(url);
+        if (action && action.params.url) {
+          UrlbarUtils.setupSpeculativeConnection(action.params.url, window);
         }
       }
-
     });
 
   }
@@ -654,16 +646,6 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
     return parts.filter(str => str).join(" ");
   }
 
-  maybeSetupSpeculativeConnect(aUriString) {
-    try {
-      let uri = makeURI(aUriString);
-      Services.io.speculativeConnect2(uri, gBrowser.contentPrincipal, null);
-    } catch (ex) {
-      // Can't setup speculative connection for this uri string for some
-      // reason, just ignore it.
-    }
-  }
-
   onResultsAdded() {
     // If nothing is selected yet, select the first result if it is a
     // pre-selected "heuristic" result.  (See UnifiedComplete.js.)
@@ -699,22 +681,18 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
       // search and we are not in the private context, we can speculatively
       // connect to the intended site as a performance optimization.
       if (!this.input.gotResultForCurrentQuery &&
-        this.input.speculativeConnectEnabled &&
         !this.input.inPrivateContext) {
         let firstStyle = this.input.mController.getStyleAt(0);
         if (firstStyle.includes("autofill")) {
           let uri = this.input.mController.getFinalCompleteValueAt(0);
-          this.maybeSetupSpeculativeConnect(uri);
+          UrlbarUtils.setupSpeculativeConnection(uri, window);
         } else if (firstStyle.includes("searchengine") &&
           this.input.browserSearchSuggestEnabled &&
           this.input.urlbarSearchSuggestEnabled) {
           // Preconnect to the current search engine only if the search
           // suggestions are enabled.
           let engine = Services.search.defaultEngine;
-          engine.speculativeConnect({
-            window,
-            originAttributes: gBrowser.contentPrincipal.originAttributes
-          });
+          UrlbarUtils.setupSpeculativeConnection(engine, window);
         }
       }
 

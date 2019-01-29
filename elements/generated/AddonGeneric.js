@@ -117,6 +117,9 @@ class MozAddonGeneric extends MozAddonBase {
           </hbox>
         </vbox>
       </hbox>
+      <hbox class="description-container privateBrowsing-notice-container">
+        <label anonid="privateBrowsing" class="description privateBrowsing-notice" value="FROM-DTD.addon.privateBrowsing.label;"></label>
+      </hbox>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
@@ -220,6 +223,8 @@ class MozAddonGeneric extends MozAddonBase {
     this._relNotes = document.getAnonymousElementByAttribute(this, "anonid",
       "relnotes");
 
+    window.customElements.upgrade(this._stateMenulist);
+
     this._installStatus = document.getAnonymousElementByAttribute(this, "anonid", "install-status");
     this._installStatus.mControl = this;
 
@@ -289,6 +294,13 @@ class MozAddonGeneric extends MozAddonBase {
       isLegacyExtension(this.mAddon);
     this.setAttribute("legacy", legacyWarning);
     document.getAnonymousElementByAttribute(this, "anonid", "legacy").href = SUPPORT_URL + "webextensions";
+
+    if (!allowPrivateBrowsingByDefault) {
+      ExtensionPermissions.get(this.mAddon.id).then((perms) => {
+        let allowed = perms.permissions.includes("internal:privateBrowsingAllowed");
+        this.setAttribute("privateBrowsing", allowed);
+      });
+    }
 
     if (!("applyBackgroundUpdates" in this.mAddon) ||
       (this.mAddon.applyBackgroundUpdates == AddonManager.AUTOUPDATE_DISABLE ||

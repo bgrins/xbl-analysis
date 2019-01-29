@@ -52,7 +52,7 @@ class MozAutocompleteProfileListitem extends MozAutocompleteProfileListitemBase 
       this.removeAttribute("selected");
     }
 
-    let { AutoCompletePopup } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm", {});
+    let { AutoCompletePopup } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm");
 
     AutoCompletePopup.sendMessageToBrowser("FormAutofill:PreviewProfile");
 

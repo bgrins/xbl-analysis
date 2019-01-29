@@ -18,7 +18,7 @@ class MozAutocompleteProfileListitemClearButton extends MozAutocompleteProfileLi
       }
 
       /* global Cu */
-      let { AutoCompletePopup } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm", {});
+      let { AutoCompletePopup } = ChromeUtils.import("resource://gre/modules/AutoCompletePopup.jsm");
 
       AutoCompletePopup.sendMessageToBrowser("FormAutofill:ClearForm");
     });

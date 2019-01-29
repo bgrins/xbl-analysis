@@ -69,13 +69,20 @@ class MozDialog extends MozXULElement {
         event.preventDefault();
     };
 
+    /**
+     * Gets set to true if document.l10n.setAttributes is
+     * used to localize the dialog buttons. Needed to properly
+     * size the dialog after the asynchronous translation.
+     */
+    this._l10nButtons = false;
+
     this._configureButtons(this.buttons);
 
     // listen for when window is closed via native close buttons
-    window.addEventListener("close", this._closeHandler);
+    window.addEventListener("close", this);
 
     // for things that we need to initialize after onload fires
-    window.addEventListener("load", this.postLoadInit);
+    window.addEventListener("load", this);
 
     window.moveToAlertPosition = this.moveToAlertPosition;
     window.centerWindowOnScreen = this.centerWindowOnScreen;
@@ -166,6 +173,21 @@ class MozDialog extends MozXULElement {
     window.moveTo(xOffset, yOffset);
   }
 
+  handleEvent(aEvent) {
+    switch (aEvent.type) {
+      case "close":
+        {
+          this._closeHandler(aEvent);
+          break;
+        }
+      case "load":
+        {
+          this.postLoadInit(aEvent);
+          break;
+        }
+    }
+  }
+
   postLoadInit(aEvent) {
     function focusInit() {
       const dialog = document.documentElement;
@@ -210,6 +232,12 @@ class MozDialog extends MozXULElement {
 
     // Give focus after onload completes, see bug 103197.
     setTimeout(focusInit, 0);
+
+    if (this._l10nButtons) {
+      requestAnimationFrame(() => {
+        window.sizeToContent();
+      });
+    }
   }
 
   openHelp(event) {
@@ -256,6 +284,7 @@ class MozDialog extends MozXULElement {
             button.setAttribute("accesskey", this.getAttribute("buttonaccesskey" + dlgtype));
         } else if (this.hasAttribute("buttonid" + dlgtype)) {
           document.l10n.setAttributes(button, this.getAttribute("buttonid" + dlgtype));
+          this._l10nButtons = true;
         } else if (dlgtype != "extra1" && dlgtype != "extra2") {
           button.setAttribute("label", this.mStrBundle.GetStringFromName("button-" + dlgtype));
           var accessKey = this.mStrBundle.GetStringFromName("accesskey-" + dlgtype);

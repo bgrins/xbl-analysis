@@ -105,7 +105,7 @@ class MozAutocompleteProfileListitemFooter extends MozAutocompleteProfileListite
     this._adjustAutofillItemLayout();
     this.setAttribute("formautofillattached", "true");
 
-    let { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm", {});
+    let { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm");
     // TODO: The "Short" suffix is pointless now as normal version string is no longer needed,
     // we should consider removing the suffix if possible when the next time locale change.
     let buttonTextBundleKey = AppConstants.platform == "macosx" ?
