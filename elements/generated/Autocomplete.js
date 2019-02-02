@@ -545,7 +545,6 @@ class MozAutocomplete extends MozTextbox {
       this.popup.popupOpen &&
       aEvent.ctrlKey &&
       (aEvent.key === "n" || aEvent.key === "p")) {
-
       const effectiveKey = (aEvent.key === "p") ?
         KeyEvent.DOM_VK_UP :
         KeyEvent.DOM_VK_DOWN;

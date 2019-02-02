@@ -398,7 +398,6 @@ class MozAutocompleteRichResultPopup extends MozPopup {
         break;
       }
       let item;
-      let reusable = false;
       let itemExists = this._currentIndex < existingItemsCount;
 
       let originalValue, originalText, originalType;
@@ -413,6 +412,7 @@ class MozAutocompleteRichResultPopup extends MozPopup {
       // trim the leading/trailing whitespace
       let trimmedSearchString = controller.searchString.replace(/^\s+/, "").replace(/\s+$/, "");
 
+      let reusable = false;
       if (itemExists) {
         item = this.richlistbox.children[this._currentIndex];
 
@@ -433,10 +433,26 @@ class MozAutocompleteRichResultPopup extends MozPopup {
         // neither of their style are in the UNREUSEABLE_STYLES.
         reusable = originalType === style ||
           !(UNREUSEABLE_STYLES.includes(style) || UNREUSEABLE_STYLES.includes(originalType));
+      }
 
-      } else {
-        // need to create a new item
-        item = document.createXULElement("richlistitem");
+      // If no reusable item available, then create a new item.
+      if (!reusable) {
+        let options = null;
+        switch (style) {
+          case "autofill-profile":
+          case "autofill-footer":
+          case "autofill-clear-button":
+          case "autofill-insecureWarning":
+            // implemented via XBL bindings, no CE for them
+            break;
+          case "insecureWarning":
+            options = { is: "autocomplete-richlistitem-insecure-warning" };
+            break;
+          default:
+            options = { is: "autocomplete-richlistitem" };
+        }
+        item = document.createXULElement("richlistitem", options);
+        item.className = "autocomplete-richlistitem";
       }
 
       item.setAttribute("dir", this.style.direction);
@@ -456,7 +472,6 @@ class MozAutocompleteRichResultPopup extends MozPopup {
         invalidateReason == iface.INVALIDATE_REASON_NEW_RESULT &&
         (originalValue == value ||
           this.mousedOverIndex === this._currentIndex)) {
-
         // try to re-use the existing item
         let reused = item._reuseAcItem();
         if (reused) {
@@ -470,20 +485,18 @@ class MozAutocompleteRichResultPopup extends MozPopup {
         item.setAttribute("originaltype", style);
       }
 
-      if (itemExists) {
+      if (reusable) {
         // Adjust only when the result's type is reusable for existing
         // item's. Otherwise, we might insensibly call old _adjustAcItem()
         // as new binding has not been attached yet.
         // We don't need to worry about switching to new binding, since
         // _adjustAcItem() will fired by its own constructor accordingly.
-        if (reusable) {
-          item._adjustAcItem();
-        }
+        item._adjustAcItem();
         item.collapsed = false;
+      } else if (itemExists) {
+        let oldItem = this.richlistbox.children[this._currentIndex];
+        this.richlistbox.replaceChild(item, oldItem);
       } else {
-        // set the class at the end so we can use the attributes
-        // in the xbl constructor
-        item.className = "autocomplete-richlistitem";
         this.richlistbox.appendChild(item);
       }
 

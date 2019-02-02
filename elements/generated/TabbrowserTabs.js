@@ -39,11 +39,19 @@ class MozTabbrowserTabs extends MozTabs {
     });
 
     this.addEventListener("transitionend", (event) => {
-      if (event.propertyName != "max-width") {
+      if (event.propertyName != "max-width" &&
+        event.propertyName != "transform") {
         return;
       }
 
-      var tab = event.target;
+      if (gBrowser.tabAnimationsInProgress == 0) {
+        return;
+      }
+
+      let tab = event.originalTarget;
+      if (tab.nodeName != "tab") {
+        return;
+      }
 
       if (tab.getAttribute("fadein") == "true") {
         if (tab._fullyOpen) {
@@ -54,6 +62,9 @@ class MozTabbrowserTabs extends MozTabs {
       } else if (tab.closing) {
         gBrowser._endRemoveTab(tab);
       }
+
+      let evt = new CustomEvent("TabAnimationEnd", { bubbles: true });
+      tab.dispatchEvent(evt);
     });
 
     this.addEventListener("dblclick", (event) => {

@@ -70,11 +70,11 @@ class MozDialog extends MozXULElement {
     };
 
     /**
-     * Gets set to true if document.l10n.setAttributes is
-     * used to localize the dialog buttons. Needed to properly
-     * size the dialog after the asynchronous translation.
+     * Gets populated by elements that are passed to document.l10n.setAttributes
+     * to localize the dialog buttons. Needed to properly size the dialog after
+     * the asynchronous translation.
      */
-    this._l10nButtons = false;
+    this._l10nButtons = [];
 
     this._configureButtons(this.buttons);
 
@@ -233,8 +233,8 @@ class MozDialog extends MozXULElement {
     // Give focus after onload completes, see bug 103197.
     setTimeout(focusInit, 0);
 
-    if (this._l10nButtons) {
-      requestAnimationFrame(() => {
+    if (this._l10nButtons.length) {
+      document.l10n.translateElements(this._l10nButtons).then(() => {
         window.sizeToContent();
       });
     }
@@ -284,7 +284,7 @@ class MozDialog extends MozXULElement {
             button.setAttribute("accesskey", this.getAttribute("buttonaccesskey" + dlgtype));
         } else if (this.hasAttribute("buttonid" + dlgtype)) {
           document.l10n.setAttributes(button, this.getAttribute("buttonid" + dlgtype));
-          this._l10nButtons = true;
+          this._l10nButtons.push(button);
         } else if (dlgtype != "extra1" && dlgtype != "extra2") {
           button.setAttribute("label", this.mStrBundle.GetStringFromName("button-" + dlgtype));
           var accessKey = this.mStrBundle.GetStringFromName("accesskey-" + dlgtype);

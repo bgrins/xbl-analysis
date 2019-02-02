@@ -788,7 +788,6 @@ class MozTree extends MozBaseControl {
         this.ensureRowIsVisible(i > edge ? edge : i);
       }
       i = i > edge ? edge : i;
-
     } else if (c <= i) {
       i = c <= p ? 0 : c - p;
       this.ensureRowIsVisible(i);
@@ -829,9 +828,7 @@ class MozTree extends MozBaseControl {
       }
       // Extend the selection from the existing pivot, if any
       this.view.selection.rangedSelect(-1, i > edge ? edge : i, event.getModifierState("Accel"));
-
     } else {
-
       if (c <= i) {
         i = c <= p ? 0 : c - p;
         this.ensureRowIsVisible(i);

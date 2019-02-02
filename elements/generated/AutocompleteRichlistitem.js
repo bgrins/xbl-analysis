@@ -456,7 +456,6 @@ class MozAutocompleteRichlistitem extends MozRichlistitem {
       action.type != "searchengine" ||
       !popup.overrideSearchEngineName ||
       action.params.engineName == popup.overrideSearchEngineName) {
-
       this.collapsed = false;
 
       // The popup may have changed size between now and the last

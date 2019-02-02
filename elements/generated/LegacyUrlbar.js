@@ -530,7 +530,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
         event.ctrlKey &&
         (event.key === "n" || event.key === "p") &&
         this.popupOpen)) {
-
       // Not a key that should trigger deferring.
       return false;
     }

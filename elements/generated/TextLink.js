@@ -96,7 +96,6 @@ class MozTextLink extends MozXULElement {
         aEvent.preventDefault();
         return;
       }
-
     } catch (ex) {
       Cu.reportError(ex);
     }

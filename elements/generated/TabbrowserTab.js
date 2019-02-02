@@ -188,9 +188,9 @@ class MozTabbrowserTab extends MozTab {
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <stack class="tab-stack" flex="1">
-        <vbox inherits="selected=visuallyselected,fadein" class="tab-background">
+        <vbox inherits="selected=visuallyselected,fadein,multiselected" class="tab-background">
           <hbox inherits="selected=visuallyselected,multiselected,before-multiselected" class="tab-line"></hbox>
-          <spacer flex="1"></spacer>
+          <spacer flex="1" class="tab-background-inner"></spacer>
           <hbox class="tab-bottom-line"></hbox>
         </vbox>
         <hbox inherits="pinned,bursting,notselectedsinceload" anonid="tab-loading-burst" class="tab-loading-burst"></hbox>

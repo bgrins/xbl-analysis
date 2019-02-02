@@ -54,7 +54,6 @@ class MozInstallStatus extends MozXULElement {
     var showInstallRemote = false;
 
     if (this.mInstall) {
-
       switch (this.mInstall.state) {
         case AddonManager.STATE_AVAILABLE:
           if (this.mControl.getAttribute("remote") != "true")
@@ -87,7 +86,6 @@ class MozInstallStatus extends MozXULElement {
           this.showMessage("installCancelled", true);
           break;
       }
-
     }
 
     this._installRemote.hidden = !showInstallRemote;
