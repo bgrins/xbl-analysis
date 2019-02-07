@@ -53,7 +53,7 @@ class MozAddonGeneric extends MozAddonBase {
         <spacer flex="5000"></spacer>
       </hbox>
       <image class="card-heading-image" anonid="theme-screenshot" inherits="src=previewURL"></image>
-      <hbox class="content-container" align="center">
+      <hbox class="content-container">
         <vbox class="icon-container">
           <image anonid="icon" class="icon"></image>
         </vbox>
@@ -594,14 +594,14 @@ class MozAddonGeneric extends MozAddonBase {
       }
     }
 
-    var dataReq = new XMLHttpRequest();
+    var dataReq = new XMLHttpRequest({ mozAnon: true });
     dataReq.open("GET", aURI.spec, true);
     dataReq.responseType = "document";
     dataReq.addEventListener("load", handleResponse);
     dataReq.addEventListener("error", handleError);
     dataReq.send(null);
 
-    var styleReq = new XMLHttpRequest();
+    var styleReq = new XMLHttpRequest({ mozAnon: true });
     styleReq.open("GET", UPDATES_RELEASENOTES_TRANSFORMFILE, true);
     styleReq.responseType = "document";
     styleReq.addEventListener("load", handleResponse);
@@ -732,6 +732,10 @@ class MozAddonGeneric extends MozAddonBase {
       aProperties.includes("signedState") ||
       aProperties.includes("userDisabled"))
       this._updateState();
+  }
+
+  onUpdateAvailable() {
+    this._showStatus("update-available");
   }
 
   onNoUpdateAvailable() {

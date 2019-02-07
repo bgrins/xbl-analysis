@@ -187,21 +187,22 @@ class MozBrowserSearchAutocompleteResultPopup extends MozAutocompleteRichResultP
   }
 
   updateHeader() {
-    let currentEngine = Services.search.defaultEngine;
-    let uri = currentEngine.iconURI;
-    if (uri) {
-      this.setAttribute("src", uri.spec);
-    } else {
-      // If the default has just been changed to a provider without icon,
-      // avoid showing the icon of the previous default provider.
-      this.removeAttribute("src");
-    }
+    Services.search.getDefault(currentEngine => {
+      let uri = currentEngine.iconURI;
+      if (uri) {
+        this.setAttribute("src", uri.spec);
+      } else {
+        // If the default has just been changed to a provider without icon,
+        // avoid showing the icon of the previous default provider.
+        this.removeAttribute("src");
+      }
 
-    let headerText = this.bundle.formatStringFromName("searchHeader", [currentEngine.name], 1);
-    document.getAnonymousElementByAttribute(this, "anonid", "searchbar-engine-name")
-      .setAttribute("value", headerText);
-    document.getAnonymousElementByAttribute(this, "anonid", "searchbar-engine")
-      .engine = currentEngine;
+      let headerText = this.bundle.formatStringFromName("searchHeader", [currentEngine.name], 1);
+      document.getAnonymousElementByAttribute(this, "anonid", "searchbar-engine-name")
+        .setAttribute("value", headerText);
+      document.getAnonymousElementByAttribute(this, "anonid", "searchbar-engine")
+        .engine = currentEngine;
+    });
   }
 
   /**

@@ -933,6 +933,13 @@ class MozLegacyUrlbar extends MozAutocomplete {
       Cu.reportError(ex);
     }
 
+    // Reset DOS mitigations for the basic auth prompt.
+    // TODO: When bug 1498553 is resolved, we should be able to
+    // remove the !triggeringPrincipal condition here.
+    if (!triggeringPrincipal || triggeringPrincipal.isSystemPrincipal) {
+      delete browser.canceledAuthenticationPromptCounter;
+    }
+
     let params = {
       postData,
       allowThirdPartyFixup: true,
@@ -1062,7 +1069,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
       let triggeringPrincipal = browserDragAndDrop.getTriggeringPrincipal(aEvent);
       aEvent.preventDefault();
       let url = links[0].url;
-      let strippedURL = stripUnsafeProtocolOnPaste(url);
+      let strippedURL = UrlbarUtils.stripUnsafeProtocolOnPaste(url);
       if (strippedURL != url) {
         aEvent.stopImmediatePropagation();
         return null;
@@ -1272,7 +1279,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
         }
         let oldEnd = oldValue.substring(this.inputField.selectionEnd);
 
-        let pasteData = stripUnsafeProtocolOnPaste(originalPasteData);
+        let pasteData = UrlbarUtils.stripUnsafeProtocolOnPaste(originalPasteData);
         if (originalPasteData != pasteData) {
           // Unfortunately we're not allowed to set the bits being pasted
           // so cancel this event:
@@ -1593,8 +1600,14 @@ class MozLegacyUrlbar extends MozAutocomplete {
     // and fire an input event to do that.  (If we set this.textValue we'd
     // get an input event for free, but it would also set mIgnoreInput,
     // skipping all of the above requirements.)
-    this.focus();
-    this.value = value;
+    focusAndSelectUrlBar();
+
+    // If the value is a restricted token, append a space.
+    if (Object.values(UrlbarTokenizer.RESTRICT).includes(value)) {
+      this.inputField.value = value + " ";
+    } else {
+      this.inputField.value = value;
+    }
 
     // Avoid selecting the text if this method is called twice in a row.
     this.selectionStart = -1;
@@ -1611,16 +1624,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
       this.gotResultForCurrentQuery = false;
       this.controller.startSearch(value);
     }
-  }
-
-  typeRestrictToken(char) {
-    focusAndSelectUrlBar();
-
-    this.inputField.value = char + " ";
-
-    let event = this.document.createEvent("UIEvents");
-    event.initUIEvent("input", true, false, window, 0);
-    this.inputField.dispatchEvent(event);
   }
 
   removeHiddenFocus() {
