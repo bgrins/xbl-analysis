@@ -458,14 +458,6 @@ class MozTabbrowserTab extends MozTab {
     }
   }
 
-  startMediaBlockTimer() {
-    TelemetryStopwatch.start("TAB_MEDIA_BLOCKING_TIME_MS", this);
-  }
-
-  finishMediaBlockTimer() {
-    TelemetryStopwatch.finish("TAB_MEDIA_BLOCKING_TIME_MS", this);
-  }
-
   toggleMuteAudio(aMuteReason) {
     let browser = this.linkedBrowser;
     let modifiedAttrs = [];
@@ -477,7 +469,6 @@ class MozTabbrowserTab extends MozTab {
 
       browser.resumeMedia();
       hist.add(3 /* unblockByClickingIcon */ );
-      this.finishMediaBlockTimer();
     } else {
       if (browser.audioMuted) {
         if (this.linkedPanel) {
