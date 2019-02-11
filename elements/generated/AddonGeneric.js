@@ -532,6 +532,12 @@ class MozAddonGeneric extends MozAddonBase {
   }
 
   _fetchReleaseNotes(aURI) {
+    let sendToggleEvent = () => {
+      var event = document.createEvent("Events");
+      event.initEvent("RelNotesToggle", true, true);
+      this.dispatchEvent(event);
+    };
+
     if (!aURI || this._relNotesLoaded) {
       sendToggleEvent();
       return;
@@ -543,12 +549,6 @@ class MozAddonGeneric extends MozAddonBase {
     this._relNotesLoaded = true;
     this._relNotesLoading.hidden = false;
     this._relNotesError.hidden = true;
-
-    let sendToggleEvent = () => {
-      var event = document.createEvent("Events");
-      event.initEvent("RelNotesToggle", true, true);
-      this.dispatchEvent(event);
-    };
 
     let showRelNotes = () => {
       if (!relNotesData || !transformData)
@@ -621,7 +621,7 @@ class MozAddonGeneric extends MozAddonBase {
         "tooltiptext",
         this._relNotesToggle.getAttribute("showtooltip")
       );
-      var event = document.createEvent("Events");
+      let event = document.createEvent("Events");
       event.initEvent("RelNotesToggle", true, true);
       this.dispatchEvent(event);
     } else {
@@ -640,6 +640,11 @@ class MozAddonGeneric extends MozAddonBase {
         this.mManualUpdate.releaseNotesURI :
         this.mAddon.releaseNotesURI;
       this._fetchReleaseNotes(uri);
+
+      // Dispatch an event so extensions.js can record telemetry.
+      let event = document.createEvent("Events");
+      event.initEvent("RelNotesShow", true, true);
+      this.dispatchEvent(event);
     }
   }
 
@@ -663,6 +668,11 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("pending", "uninstall");
       });
     }
+
+    // Dispatch an event so extensions.js can track telemetry.
+    var event = document.createEvent("Events");
+    event.initEvent("Uninstall", true, true);
+    this.dispatchEvent(event);
   }
 
   showPreferences() {

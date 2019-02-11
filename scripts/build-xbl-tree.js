@@ -1,5 +1,7 @@
 var fs = require("fs");
 var sortedBindings = require("./sorted-bindings").latest;
+var {titleCase} = require("./custom-element-utils");
+
 var { getBindingSelectorsData } = require("./css-files");
 var {
   getParsedFiles,
@@ -61,9 +63,11 @@ async function treeForRev(rev, metadataForBindings) {
       bug = ` (<a href='${metadata.bug}'>bug</a>)`;
       console.log("Got metadata " + binding + " ", metadataForBindings[binding]);
     }
+
+    var converted = `(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/${titleCase(binding)}.js">converted to JS</a>)`;
     var html = `
       <details open ${idToFeatureAttrs[binding].join(" ")}>
-      <summary><span id="${binding}">${binding}</span>${source}${search}${bug}
+      <summary><span id="${binding}">${binding}</span>${source}${converted}${search}${bug}
       <div class='metadata'>
   `;
 

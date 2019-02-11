@@ -42,6 +42,11 @@ class MozAddonUninstalled extends MozAddonBase {
     else if (this.getAttribute("wasDisabled") != "true")
       this.mAddon.enable();
 
+    // Dispatch an event so extensions.js can record telemetry.
+    var event = document.createEvent("Events");
+    event.initEvent("Undo", true, true);
+    this.dispatchEvent(event);
+
     this.removeAttribute("pending");
   }
 
