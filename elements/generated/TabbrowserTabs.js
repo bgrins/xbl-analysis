@@ -1664,8 +1664,12 @@ class MozTabbrowserTabs extends MozTabs {
     // overflowed.
     this.arrowScrollbox._updateScrollButtonsDisabledState();
 
-    // Preload the next about:newtab if there isn't one already.
-    gBrowser._createPreloadBrowser();
+    // If this browser isn't lazy (indicating it's probably created by
+    // session restore), preload the next about:newtab if we don't
+    // already have a preloaded browser.
+    if (tab.linkedPanel) {
+      gBrowser._createPreloadBrowser();
+    }
   }
 
   _canAdvanceToTab(aTab) {
