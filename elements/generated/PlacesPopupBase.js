@@ -148,10 +148,10 @@ class MozPlacesPopupBase extends MozPopup {
       let newMarginTop = 0;
       if (scrollDir == 0) {
         let elt = this.firstElementChild;
-        while (elt && event.screenY > elt.boxObject.screenY +
+        while (elt && event.screenY > elt.screenY +
           elt.boxObject.height / 2)
           elt = elt.nextElementSibling;
-        newMarginTop = elt ? elt.boxObject.screenY - scrollbox.screenY :
+        newMarginTop = elt ? elt.screenY - this._scrollBox.screenY :
           scrollbox.height;
       } else if (scrollDir == 1)
         newMarginTop = scrollbox.height;

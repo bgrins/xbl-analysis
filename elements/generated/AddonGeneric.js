@@ -36,14 +36,14 @@ class MozAddonGeneric extends MozAddonBase {
       <hbox anonid="warning-container" class="warning">
         <image class="warning-icon"></image>
         <label anonid="warning" flex="1"></label>
-        <label anonid="warning-link" class="text-link"></label>
+        <label anonid="warning-link" is="text-link"></label>
         <button anonid="warning-btn" class="button-link" hidden="true"></button>
         <spacer flex="5000"></spacer>
       </hbox>
       <hbox anonid="error-container" class="error">
         <image class="error-icon"></image>
         <label anonid="error" flex="1"></label>
-        <label anonid="error-link" class="text-link" hidden="true"></label>
+        <label anonid="error-link" hidden="true" is="text-link"></label>
         <spacer flex="5000"></spacer>
       </hbox>
       <hbox anonid="pending-container" class="pending">
@@ -61,7 +61,7 @@ class MozAddonGeneric extends MozAddonBase {
           <hbox class="basicinfo-container">
             <hbox class="name-container">
               <label anonid="name" class="name" crop="end" flex="1" tooltip="addonitem-tooltip" inherits="text=name"></label>
-              <label anonid="legacy" class="legacy-warning text-link" value="FROM-DTD.addon.legacy.label;"></label>
+              <label anonid="legacy" class="legacy-warning" value="FROM-DTD.addon.legacy.label;" is="text-link"></label>
               <label class="disabled-postfix" value="FROM-DTD.addon.disabled.postfix;"></label>
               <label class="update-postfix" value="FROM-DTD.addon.update.postfix;"></label>
               <spacer flex="5000"></spacer>

@@ -1235,14 +1235,14 @@ class MozTabbrowserTabs extends MozTabs {
 
     let leftTab = tabs[0];
     let rightTab = tabs[tabs.length - 1];
-    let rightMovingTabScreenX = movingTabs[movingTabs.length - 1].boxObject.screenX;
-    let leftMovingTabScreenX = movingTabs[0].boxObject.screenX;
+    let rightMovingTabScreenX = movingTabs[movingTabs.length - 1].screenX;
+    let leftMovingTabScreenX = movingTabs[0].screenX;
     let translateX = screenX - draggedTab._dragData.screenX;
     if (!pinned) {
       translateX += this.arrowScrollbox.scrollbox.scrollLeft - draggedTab._dragData.scrollX;
     }
-    let leftBound = leftTab.boxObject.screenX - leftMovingTabScreenX;
-    let rightBound = (rightTab.boxObject.screenX + rightTab.boxObject.width) -
+    let leftBound = leftTab.screenX - leftMovingTabScreenX;
+    let rightBound = (rightTab.screenX + rightTab.boxObject.width) -
       (rightMovingTabScreenX + tabWidth);
     translateX = Math.min(Math.max(translateX, leftBound), rightBound);
 
@@ -1277,11 +1277,10 @@ class MozTabbrowserTabs extends MozTabs {
       let mid = Math.floor((low + high) / 2);
       if (tabs[mid] == draggedTab && ++mid > high)
         break;
-      let boxObject = tabs[mid].boxObject;
-      screenX = boxObject.screenX + getTabShift(tabs[mid], oldIndex);
+      screenX = tabs[mid].screenX + getTabShift(tabs[mid], oldIndex);
       if (screenX > tabCenter) {
         high = mid - 1;
-      } else if (screenX + boxObject.width < tabCenter) {
+      } else if (screenX + tabs[mid].getBoundingClientRect().width < tabCenter) {
         low = mid + 1;
       } else {
         newIndex = tabs[mid]._tPos;
@@ -1580,8 +1579,8 @@ class MozTabbrowserTabs extends MozTabs {
     let tab = event.target.localName == "tab" ? event.target : null;
     if (tab && isLink) {
       let boxObject = tab.boxObject;
-      if (event.screenX < boxObject.screenX + boxObject.width * .25 ||
-        event.screenX > boxObject.screenX + boxObject.width * .75)
+      if (event.screenX < tab.screenX + boxObject.width * .25 ||
+        event.screenX > tab.screenX + boxObject.width * .75)
         return null;
     }
     return tab;
@@ -1592,11 +1591,11 @@ class MozTabbrowserTabs extends MozTabs {
     var tab = this._getDragTargetTab(event, isLink);
     if (!RTL_UI) {
       for (let i = tab ? tab._tPos : 0; i < tabs.length; i++)
-        if (event.screenX < tabs[i].boxObject.screenX + tabs[i].boxObject.width / 2)
+        if (event.screenX < tabs[i].screenX + tabs[i].boxObject.width / 2)
           return i;
     } else {
       for (let i = tab ? tab._tPos : 0; i < tabs.length; i++)
-        if (event.screenX > tabs[i].boxObject.screenX + tabs[i].boxObject.width / 2)
+        if (event.screenX > tabs[i].screenX + tabs[i].boxObject.width / 2)
           return i;
     }
     return tabs.length;

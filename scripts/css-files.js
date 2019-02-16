@@ -19,7 +19,7 @@ var cssFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/extensions/formautofill/content/formautofill.css',
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/browser.css',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/places/organizer.css',
+  // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/themes/linux/places/organizer.css',
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/contenteditable.css',
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/res/forms.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/res/html.css',
