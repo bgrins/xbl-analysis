@@ -432,6 +432,7 @@ class MozAutocompleteRichResultPopup extends MozPopup {
           "autofill-footer",
           "autofill-clear-button",
           "autofill-insecureWarning",
+          "insecureWarning",
         ];
         // Reuse the item when its style is exactly equal to the previous style or
         // neither of their style are in the UNREUSEABLE_STYLES.

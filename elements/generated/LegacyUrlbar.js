@@ -793,7 +793,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
       return;
     }
 
-    BrowserUsageTelemetry.recordUrlbarSelectedResultMethod(
+    BrowserUsageTelemetry.recordLegacyUrlbarSelectedResultMethod(
       event, this.userSelectionBehavior);
 
     let mayInheritPrincipal = false;
