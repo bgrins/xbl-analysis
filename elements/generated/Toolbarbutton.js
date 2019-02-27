@@ -25,6 +25,10 @@ class MozToolbarbutton extends MozButtonBase {
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
   }
+
+  get multilineLabel() {
+    return document.getAnonymousElementByAttribute(this, 'class', 'toolbarbutton-multiline-text');
+  }
 }
 
 customElements.define("toolbarbutton", MozToolbarbutton);

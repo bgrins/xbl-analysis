@@ -56,10 +56,7 @@ class MozLabelControl extends MozXULElement {
   }
 
   set accessKey(val) {
-    // If this label already has an accesskey attribute store it here as well
-    if (this.hasAttribute("accesskey")) {
-      this.setAttribute("accesskey", val);
-    }
+    this.setAttribute("accesskey", val);
     var control = this.labeledControlElement;
     if (control) {
       control.setAttribute("accesskey", val);
@@ -69,8 +66,7 @@ class MozLabelControl extends MozXULElement {
   }
 
   get accessKey() {
-    var accessKey = this.getAttribute("accesskey");
-    return accessKey ? accessKey[0] : null;
+    return this.getAttribute("accesskey");
   }
 
   get labeledControlElement() {
@@ -79,12 +75,7 @@ class MozLabelControl extends MozXULElement {
   }
 
   set control(val) {
-    var control = this.labeledControlElement;
-    if (control) {
-      control.labelElement = null; // No longer pointed to be this label
-    }
     this.setAttribute("control", val);
-    this.formatAccessKey(false);
     return val;
   }
 
@@ -93,21 +84,6 @@ class MozLabelControl extends MozXULElement {
   }
 
   formatAccessKey(firstTime) {
-    var control = this.labeledControlElement;
-    if (!control) {
-      var bindingParent = document.getBindingParent(this);
-      if ("accessKey" in bindingParent) {
-        control = bindingParent; // For controls that make the <label> an anon child
-      }
-    }
-    if (control) {
-      control.labelElement = this;
-      var controlAccessKey = control.getAttribute("accesskey");
-      if (controlAccessKey) {
-        this.setAttribute("accesskey", controlAccessKey);
-      }
-    }
-
     var accessKey = this.accessKey;
     // No need to remove existing formatting the first time.
     if (firstTime && !accessKey)
@@ -157,7 +133,7 @@ class MozLabelControl extends MozXULElement {
     }
 
     var labelText = this.textContent;
-    if (!accessKey || !labelText || !control) {
+    if (!accessKey || !labelText) {
       return;
     }
     var accessKeyIndex = -1;

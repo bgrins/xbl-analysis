@@ -140,9 +140,7 @@ class MozTextbox extends MozXULElement {
   }
 
   get label() {
-    return this.getAttribute('label') ||
-      (this.labelElement ? this.labelElement.value :
-        this.placeholder);
+    return this.getAttribute('label') || this.placeholder;
   }
 
   set placeholder(val) {

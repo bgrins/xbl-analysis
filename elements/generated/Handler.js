@@ -16,11 +16,11 @@ class MozHandler extends MozRichlistitem {
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
       <vbox pack="center">
-        <image inherits="src=image" height="32" width="32"></image>
+        <image inherits="src=image,disabled" height="32" width="32"></image>
       </vbox>
       <vbox flex="1">
-        <label class="name" inherits="value=name"></label>
-        <label class="description" inherits="value=description"></label>
+        <label class="name" inherits="value=name,disabled"></label>
+        <label class="description" inherits="value=description,disabled"></label>
       </vbox>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!

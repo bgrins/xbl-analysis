@@ -14,8 +14,6 @@ class MozBasetext extends MozBaseControl {
       return;
     }
 
-    this.labelElement = "";
-
   }
   /**
    * public implementation
@@ -61,14 +59,15 @@ class MozBasetext extends MozBaseControl {
     this.setAttribute("accesskey", val);
     // If there is a label, change the accesskey on the labelElement
     // if it's also set there
-    if (this.labelElement) {
-      this.labelElement.accessKey = val;
+    let labelElement = document.getElementsByAttribute("control", this.id)[0];
+    if (labelElement) {
+      labelElement.setAttribute("accesskey", val);
     }
     return val;
   }
 
   get accessKey() {
-    return this.labelElement ? this.labelElement.accessKey : this.getAttribute("accesskey");
+    return this.getAttribute("accesskey");
   }
 }
 

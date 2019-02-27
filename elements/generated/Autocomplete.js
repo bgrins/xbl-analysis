@@ -156,6 +156,10 @@ class MozAutocomplete extends MozTextbox {
     return this._popup = popup;
   }
 
+  get popupElement() {
+    return this.popup;
+  }
+
   get controller() {
     return this.mController;
   }

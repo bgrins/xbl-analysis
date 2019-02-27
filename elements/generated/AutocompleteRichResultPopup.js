@@ -433,6 +433,7 @@ class MozAutocompleteRichResultPopup extends MozPopup {
           "autofill-clear-button",
           "autofill-insecureWarning",
           "insecureWarning",
+          "loginsFooter",
         ];
         // Reuse the item when its style is exactly equal to the previous style or
         // neither of their style are in the UNREUSEABLE_STYLES.
@@ -458,6 +459,9 @@ class MozAutocompleteRichResultPopup extends MozPopup {
             break;
           case "insecureWarning":
             options = { is: "autocomplete-richlistitem-insecure-warning" };
+            break;
+          case "loginsFooter":
+            options = { is: "autocomplete-richlistitem-logins-footer" };
             break;
           default:
             options = { is: "autocomplete-richlistitem" };
