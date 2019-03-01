@@ -126,7 +126,8 @@ class MozTabbrowserTab extends MozTab {
       if (event.originalTarget.classList.contains("tab-icon-sound") ||
         (event.originalTarget.classList.contains("tab-icon-overlay") &&
           (event.originalTarget.hasAttribute("soundplaying") ||
-            event.originalTarget.hasAttribute("muted")))) {
+            event.originalTarget.hasAttribute("muted") ||
+            event.originalTarget.hasAttribute("activemedia-blocked")))) {
         if (this.multiselected) {
           gBrowser.toggleMuteAudioOnMultiSelectedTabs(this);
         } else {

@@ -153,8 +153,9 @@ class MozPlacesPopupBase extends MozPopup {
           elt = elt.nextElementSibling;
         newMarginTop = elt ? elt.screenY - this._scrollBox.screenY :
           scrollbox.height;
-      } else if (scrollDir == 1)
+      } else if (scrollDir == 1) {
         newMarginTop = scrollbox.height;
+      }
 
       // Set the new marginTop based on arrowscrollbox.
       newMarginTop += scrollbox.y - this._scrollBox.boxObject.y;
