@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozAutocompleteRichResultPopup extends MozPopup {
+class MozAutocompleteRichResultPopup extends MozXULElement {
   constructor() {
     super();
 

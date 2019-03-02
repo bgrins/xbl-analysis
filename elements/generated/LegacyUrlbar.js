@@ -937,7 +937,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
     // TODO: When bug 1498553 is resolved, we should be able to
     // remove the !triggeringPrincipal condition here.
     if (!triggeringPrincipal || triggeringPrincipal.isSystemPrincipal) {
-      delete browser.canceledAuthenticationPromptCounter;
+      delete browser.authPromptAbuseCounter;
     }
 
     let params = {
@@ -1643,7 +1643,13 @@ class MozLegacyUrlbar extends MozAutocomplete {
     this._prefs.removeObserver("", this);
     this._prefs = null;
     Services.prefs.removeObserver("browser.search.suggest.enabled", this);
-    this.inputField.controllers.removeController(this._copyCutController);
+    try {
+      this.inputField.controllers.removeController(this._copyCutController);
+    } catch (ex) {
+      // Sometimes this fails for unclear reasons; anyway we want to
+      // continue cleaning up.
+      Cu.reportError(ex);
+    }
     this.inputField.removeEventListener("paste", this);
     this.inputField.removeEventListener("mousedown", this);
     this.inputField.removeEventListener("mouseover", this);

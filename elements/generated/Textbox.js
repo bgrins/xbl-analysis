@@ -97,10 +97,10 @@ class MozTextbox extends MozXULElement {
 
     this.mEditor = null;
 
-    var str = this.boxObject.getProperty("value");
+    var str = this._cachedInputFieldValue;
     if (str) {
       this.inputField.value = str;
-      this.boxObject.removeProperty("value");
+      delete this._cachedInputFieldValue;
     }
 
     this._setNewlineHandling();
@@ -315,8 +315,10 @@ class MozTextbox extends MozXULElement {
   }
   disconnectedCallback() {
     var field = this.inputField;
-    if (field && field.value)
-      this.boxObject.setProperty("value", field.value);
+    if (field && field.value) {
+      this._cachedInputFieldValue = field.value;
+    }
+
     this.mInputField = null;
   }
 }

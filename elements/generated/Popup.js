@@ -18,10 +18,12 @@ class MozPopup extends MozXULElement {
       for (var menuitem = this.firstElementChild; menuitem; menuitem = menuitem.nextElementSibling) {
         if (menuitem.localName == "menuitem" && menuitem.hasAttribute("acceltext")) {
           var accel = document.getAnonymousElementByAttribute(menuitem, "anonid", "accel");
-          if (accel && accel.boxObject) {
+          if (accel) {
             array.push(accel);
-            if (accel.boxObject.width > width)
-              width = accel.boxObject.width;
+            let accelWidth = accel.getBoundingClientRect().width;
+            if (accelWidth > width) {
+              width = accelWidth;
+            }
           }
         }
       }

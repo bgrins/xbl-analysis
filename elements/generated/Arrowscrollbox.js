@@ -295,10 +295,6 @@ class MozArrowscrollbox extends MozBaseControl {
     return this.getAttribute("smoothscroll") == "true";
   }
 
-  get scrollBoxObject() {
-    return this.scrollbox.boxObject;
-  }
-
   get scrollClientRect() {
     return this.scrollbox.getBoundingClientRect();
   }

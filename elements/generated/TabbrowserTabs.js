@@ -1242,7 +1242,7 @@ class MozTabbrowserTabs extends MozTabs {
       translateX += this.arrowScrollbox.scrollbox.scrollLeft - draggedTab._dragData.scrollX;
     }
     let leftBound = leftTab.screenX - leftMovingTabScreenX;
-    let rightBound = (rightTab.screenX + rightTab.boxObject.width) -
+    let rightBound = (rightTab.screenX + rightTab.getBoundingClientRect().width) -
       (rightMovingTabScreenX + tabWidth);
     translateX = Math.min(Math.max(translateX, leftBound), rightBound);
 
@@ -1397,7 +1397,7 @@ class MozTabbrowserTabs extends MozTabs {
         return;
       }
 
-      let movingTabWidth = movingTab.boxObject.width;
+      let movingTabWidth = movingTab.getBoundingClientRect().width;
       let shift = (movingTabNewIndex - movingTabOldIndex) * movingTabWidth;
 
       movingTab.groupingTabsData.animate = true;
@@ -1578,9 +1578,9 @@ class MozTabbrowserTabs extends MozTabs {
   _getDragTargetTab(event, isLink) {
     let tab = event.target.localName == "tab" ? event.target : null;
     if (tab && isLink) {
-      let boxObject = tab.boxObject;
-      if (event.screenX < tab.screenX + boxObject.width * .25 ||
-        event.screenX > tab.screenX + boxObject.width * .75)
+      let { width } = tab.getBoundingClientRect();
+      if (event.screenX < tab.screenX + width * .25 ||
+        event.screenX > tab.screenX + width * .75)
         return null;
     }
     return tab;
@@ -1591,11 +1591,11 @@ class MozTabbrowserTabs extends MozTabs {
     var tab = this._getDragTargetTab(event, isLink);
     if (!RTL_UI) {
       for (let i = tab ? tab._tPos : 0; i < tabs.length; i++)
-        if (event.screenX < tabs[i].screenX + tabs[i].boxObject.width / 2)
+        if (event.screenX < tabs[i].screenX + tabs[i].getBoundingClientRect().width / 2)
           return i;
     } else {
       for (let i = tab ? tab._tPos : 0; i < tabs.length; i++)
-        if (event.screenX > tabs[i].screenX + tabs[i].boxObject.width / 2)
+        if (event.screenX > tabs[i].screenX + tabs[i].getBoundingClientRect().width / 2)
           return i;
     }
     return tabs.length;
