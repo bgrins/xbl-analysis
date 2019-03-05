@@ -285,8 +285,7 @@ class MozTextbox extends MozXULElement {
   setSelectionRange(aSelectionStart, aSelectionEnd) {
     // According to https://html.spec.whatwg.org/#do-not-apply,
     // setSelectionRange() is only available on a limited set of input types.
-    if (this.inputField.type == "text" ||
-      this.inputField.tagName == "html:textarea") {
+    if (this.inputField.type == "text") {
       this.inputField.setSelectionRange(aSelectionStart, aSelectionEnd);
     }
   }

@@ -197,8 +197,8 @@ class MozTabbrowserTab extends MozTab {
         <hbox inherits="pinned,bursting,notselectedsinceload" anonid="tab-loading-burst" class="tab-loading-burst"></hbox>
         <hbox inherits="pinned,selected=visuallyselected,titlechanged,attention" class="tab-content" align="center">
           <hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected" anonid="tab-throbber" class="tab-throbber" layer="true"></hbox>
-          <hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected,pendingicon" anonid="tab-icon-pending" class="tab-icon-pending"></hbox>
-          <image inherits="src=image,triggeringprincipal=iconloadingprincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing" anonid="tab-icon-image" class="tab-icon-image" validate="never" role="presentation"></image>
+          <hbox inherits="fadein,pinned,busy,progress,selected=visuallyselected,pendingicon,preopened" anonid="tab-icon-pending" class="tab-icon-pending"></hbox>
+          <image inherits="src=image,triggeringprincipal=iconloadingprincipal,requestcontextid,fadein,pinned,selected=visuallyselected,busy,crashed,sharing,preopened" anonid="tab-icon-image" class="tab-icon-image" validate="never" role="presentation"></image>
           <image inherits="sharing,selected=visuallyselected,pinned" anonid="sharing-icon" class="tab-sharing-icon-overlay" role="presentation"></image>
           <image inherits="crashed,busy,soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="overlay-icon" class="tab-icon-overlay" role="presentation"></image>
           <hbox class="tab-label-container" inherits="pinned,selected=visuallyselected,labeldirection" onoverflow="this.setAttribute('textoverflow', 'true');" onunderflow="this.removeAttribute('textoverflow');" flex="1">

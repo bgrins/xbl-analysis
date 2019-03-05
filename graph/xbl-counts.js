@@ -52117,7 +52117,7 @@ var DATA = {
     },
     label: "2019-03-01"
   },
-  "master@{2019-03-02}": {
+  "master@{2019-03-03}": {
     numBindings: 58,
     numInContentBindings: 0,
     loc: 13386,
@@ -52197,7 +52197,88 @@ var DATA = {
       "toolbarbutton-badged-menu": 5,
       "toolbarbutton-menu": 5
     },
-    label: "2019-03-02"
+    label: "2019-03-03"
+  },
+  "master@{2019-03-05}": {
+    numBindings: 57,
+    numInContentBindings: 0,
+    loc: 13375,
+    directoryLOC: {
+      browser: 6371,
+      dom: 0,
+      toolkit: 7004,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 10,
+      dom: 0,
+      toolkit: 47,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      "tabbrowser-tabs": 1849,
+      "legacy-urlbar": 1805,
+      "addon-generic": 974,
+      "urlbar-rich-result-popup": 870,
+      arrowscrollbox: 763,
+      autocomplete: 646,
+      "autocomplete-rich-result-popup": 602,
+      "tabbrowser-tab": 567,
+      "places-popup-base": 487,
+      dialog: 471,
+      wizard: 429,
+      tabs: 367,
+      "searchbar-textbox": 351,
+      textbox: 232,
+      "label-control": 225,
+      "browser-search-autocomplete-result-popup": 216,
+      "install-status": 202,
+      "button-base": 182,
+      popup: 166,
+      richlistitem: 149,
+      tab: 136,
+      "search-textbox": 135,
+      arrowpanel: 135,
+      "places-popup-arrow": 132,
+      "addon-installing": 115,
+      rating: 107,
+      "addon-uninstalled": 100,
+      "menu-base": 86,
+      radio: 86,
+      panel: 83,
+      "download-progress": 81,
+      "wizard-buttons": 64,
+      "tabbrowser-arrowscrollbox": 61,
+      "creator-link": 52,
+      "addon-base": 49,
+      basetext: 36,
+      "menuitem-base": 36,
+      category: 34,
+      urlbar: 33,
+      "button-menu": 28,
+      "detail-row": 23,
+      toolbarbutton: 20,
+      "toolbarbutton-badged": 19,
+      "menu-iconic": 19,
+      wizardpage: 17,
+      "menuitem-iconic": 15,
+      menu: 15,
+      basecontrol: 14,
+      button: 14,
+      "wizard-header": 13,
+      updateheader: 13,
+      "menuitem-iconic-noaccel": 12,
+      menuitem: 10,
+      "menu-menubar-iconic": 10,
+      "menu-menubar": 9,
+      "toolbarbutton-badged-menu": 5,
+      "toolbarbutton-menu": 5
+    },
+    label: "2019-03-05"
   }
 };
 var SORTED_BINDINGS = {
