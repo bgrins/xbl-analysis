@@ -144,7 +144,7 @@ class MozAutocomplete extends MozTextbox {
       popup = document.getElementById(popupId);
     }
     if (!popup) {
-      popup = document.createXULElement("panel");
+      popup = document.createXULElement("panel", { is: "autocomplete-richlistbox-popup" });
       popup.setAttribute("type", "autocomplete-richlistbox");
       popup.setAttribute("noautofocus", "true");
 
