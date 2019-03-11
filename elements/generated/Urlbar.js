@@ -19,7 +19,7 @@ class MozUrlbar extends MozTextbox {
       <moz-input-box anonid="moz-input-box" tooltip="aHTMLTooltip" class="urlbar-input-box" flex="1">
         <children></children>
         <html:input anonid="scheme" class="urlbar-scheme textbox-input" required="required" inherits="textoverflow,focused"></html:input>
-        <html:input anonid="input" class="urlbar-input textbox-input" allowevents="true" inputmode="mozAwesomebar" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
+        <html:input anonid="input" class="urlbar-input textbox-input" role="combobox" aria-owns="urlbarView-results" aria-controls="urlbarView-results" aria-autocomplete="both" allowevents="true" inputmode="mozAwesomebar" inherits="value,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,focused,textoverflow"></html:input>
       </moz-input-box>
       <image anonid="urlbar-go-button" class="urlbar-go-button urlbar-icon" onclick="gURLBar.handleCommand(event);" tooltiptext="FROM-DTD.goEndCap.tooltip;" inherits="pageproxystate,parentfocused=focused,usertyping"></image>
       <dropmarker anonid="historydropmarker" class="urlbar-history-dropmarker urlbar-icon chromeclass-toolbar-additional" tooltiptext="FROM-DTD.urlbar.openHistoryPopup.tooltip;" allowevents="true" inherits="open,parentfocused=focused,usertyping"></dropmarker>
