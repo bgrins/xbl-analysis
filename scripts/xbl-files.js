@@ -300,10 +300,12 @@ async function getBindingMetadata() {
       var id = cols[1];
       var bug = cols[2];
       var type = cols[3];
+      var resolvedBy = cols[4];
       if (bug) {
         metadataForBindings[id] = {
           bug,
           type,
+          resolvedBy,
           assignee: bugToAssignees[bug],
         }
       }
