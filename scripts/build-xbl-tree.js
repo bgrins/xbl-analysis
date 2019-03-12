@@ -77,7 +77,7 @@ async function treeForRev(rev, metadataForBindings) {
     let resolvedBy = "";
 
     if (metadata.resolvedBy) {
-      resolvedBy = `<b>${escapeHtml(metadata.resolvedBy)}</b>`;
+      resolvedBy = `&nbsp;<u>${escapeHtml(metadata.resolvedBy)}</u>`;
       name = `<strike>${name}</strike>`;
     }
 
