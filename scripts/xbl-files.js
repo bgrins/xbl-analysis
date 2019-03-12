@@ -295,20 +295,17 @@ async function getBindingMetadata() {
   var rows = metadata.split("\n");
   console.log(`Found ${rows.length} rows from spreadsheet`);
   for (let row of rows) {
-
-      var cols = row.split(",");
-      var id = cols[1];
-      var bug = cols[2];
-      var type = cols[3];
-      var resolvedBy = cols[4];
-      if (bug) {
-        metadataForBindings[id] = {
-          bug,
-          type,
-          resolvedBy,
-          assignee: bugToAssignees[bug],
-        }
-      }
+    var cols = row.split(",");
+    var id = cols[1];
+    var bug = cols[2];
+    var type = cols[3];
+    var resolvedBy = cols[4];
+    metadataForBindings[id] = {
+      bug,
+      type,
+      resolvedBy,
+      assignee: bug ? bugToAssignees[bug] : undefined,
+    }
   }
 
   for (var i in metadataForBindings) {

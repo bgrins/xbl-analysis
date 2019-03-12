@@ -2,6 +2,15 @@ var fs = require("fs");
 var sortedBindings = require("./sorted-bindings").latest;
 var {titleCase} = require("./custom-element-utils");
 
+function escapeHtml(unsafe) {
+  return unsafe
+       .replace(/&/g, "&amp;")
+       .replace(/</g, "&lt;")
+       .replace(/>/g, "&gt;")
+       .replace(/"/g, "&quot;")
+       .replace(/'/g, "&#039;");
+}
+
 var { getBindingSelectorsData } = require("./css-files");
 var {
   getParsedFiles,
@@ -64,10 +73,18 @@ async function treeForRev(rev, metadataForBindings) {
       console.log("Got metadata " + binding + " ", metadataForBindings[binding]);
     }
 
+    let name = `<span id="${binding}">${binding}</span>`;
+    let resolvedBy = "";
+
+    if (metadata.resolvedBy) {
+      resolvedBy = `<b>${escapeHtml(metadata.resolvedBy)}</b>`;
+      name = `<strike>${name}</strike>`;
+    }
+
     var converted = `(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/${titleCase(binding)}.js">converted to JS</a>)`;
     var html = `
       <details open ${idToFeatureAttrs[binding].join(" ")}>
-      <summary><span id="${binding}">${binding}</span>${source}${converted}${search}${bug}
+      <summary>${name}${source}${converted}${search}${bug}${resolvedBy}
       <div class='metadata'>
   `;
 
