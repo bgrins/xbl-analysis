@@ -108,6 +108,30 @@ class MozWizard extends MozXULElement {
 
     // get anonymous content references
     this._wizardHeader = document.getAnonymousElementByAttribute(this, "anonid", "Header");
+
+    this._wizardHeader.appendChild(
+      MozXULElement.parseXULToFragment(/Mac/.test(navigator.platform) ?
+        `<stack class="wizard-header-stack" flex="1">
+              <vbox class="wizard-header-box-1">
+                <vbox class="wizard-header-box-text">
+                  <label class="wizard-header-label"/>
+                </vbox>
+              </vbox>
+              <hbox class="wizard-header-box-icon">
+                <spacer flex="1"/>
+                <image class="wizard-header-icon"/>
+              </hbox>
+            </stack>` :
+        `<hbox class="wizard-header-box-1" flex="1">
+              <vbox class="wizard-header-box-text" flex="1">
+                <label class="wizard-header-label"/>
+                <label class="wizard-header-description"/>
+              </vbox>
+              <image class="wizard-header-icon"/>
+            </hbox>`
+      )
+    );
+
     this._wizardButtons = document.getAnonymousElementByAttribute(this, "anonid", "Buttons");
     this._deck = document.getAnonymousElementByAttribute(this, "anonid", "Deck");
 
@@ -399,8 +423,14 @@ class MozWizard extends MozXULElement {
         label = this._bundle.formatStringFromName("default-last-title", [this.title], 1);
       }
     }
-    this._wizardHeader.setAttribute("label", label);
-    this._wizardHeader.setAttribute("description", this.currentPage.getAttribute("description"));
+    this._wizardHeader.
+    querySelector(".wizard-header-label").textContent = label;
+    let headerDescEl =
+      this._wizardHeader.querySelector(".wizard-header-description");
+    if (headerDescEl) {
+      headerDescEl.textContent =
+        this.currentPage.getAttribute("description");
+    }
   }
 
   _hitEnter(evt) {

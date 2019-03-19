@@ -144,7 +144,7 @@ class MozPlacesPopupBase extends MozPopup {
       }
 
       // We should display the drop indicator relative to the arrowscrollbox.
-      let scrollRect = this._scrollBox.scrollbox.getBoundingClientRect();
+      let scrollRect = this._scrollBox.getBoundingClientRect();
       let newMarginTop = 0;
       if (scrollDir == 0) {
         let elt = this.firstElementChild;
@@ -403,17 +403,8 @@ class MozPlacesPopupBase extends MozPopup {
     if (elt.localName == "menupopup")
       elt = elt.parentNode;
 
-    // Calculate positions taking care of arrowscrollbox
-    let scrollbox = this._scrollBox;
-
-    let thisY = this.getBoundingClientRect().y;
-    let scrollboxY = scrollbox.getBoundingClientRect().y;
-    let innerScrollboxY = scrollbox.scrollbox.getBoundingClientRect().y;
-
-    let eventY = aEvent.layerY + (scrollboxY - thisY);
-    let scrollboxOffset = innerScrollboxY - (scrollboxY - thisY);
+    let eventY = aEvent.clientY;
     let { y: eltY, height: eltHeight } = elt.getBoundingClientRect();
-    eltY -= scrollboxOffset;
 
     if (!elt._placesNode) {
       // If we are dragging over a non places node drop at the end.

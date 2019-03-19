@@ -69,6 +69,8 @@ class MozAutocomplete extends MozTextbox {
 
     this.mIgnoreInput = false;
 
+    this.noRollupOnEmptySearch = false;
+
     this._searchBeginHandler = null;
 
     this._searchCompleteHandler = null;

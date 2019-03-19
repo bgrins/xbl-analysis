@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
 
-class MozUpdateheader extends MozWizardHeader {
+class MozUpdateheader extends MozXULElement {
   connectedCallback() {
     if (this.delayConnectedCallback()) {
       return;
