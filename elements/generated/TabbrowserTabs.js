@@ -1667,7 +1667,7 @@ class MozTabbrowserTabs extends MozTabs {
     // session restore), preload the next about:newtab if we don't
     // already have a preloaded browser.
     if (tab.linkedPanel) {
-      gBrowser._createPreloadBrowser();
+      NewTabPagePreloading.maybeCreatePreloadedBrowser(window);
     }
   }
 
