@@ -13,7 +13,7 @@ function stringReverse(str) {
 
 var cssFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/browser.css',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.css',
+  // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/downloads/content/downloads.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/places.css',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/preferences/handlers.css',

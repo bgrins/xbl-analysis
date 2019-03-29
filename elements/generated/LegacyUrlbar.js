@@ -684,7 +684,7 @@ class MozLegacyUrlbar extends MozAutocomplete {
   trimValue(aURL) {
     // This method must not modify the given URL such that calling
     // nsIURIFixup::createFixupURI with the result will produce a different URI.
-    return this._mayTrimURLs ? trimURL(aURL) : aURL;
+    return this._mayTrimURLs ? BrowserUtils.trimURL(aURL) : aURL;
   }
 
   /**

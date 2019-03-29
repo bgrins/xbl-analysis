@@ -39,19 +39,11 @@ class MozTabbrowserTabs extends MozTabs {
     });
 
     this.addEventListener("transitionend", (event) => {
-      if (event.propertyName != "max-width" &&
-        event.propertyName != "transform") {
+      if (event.propertyName != "max-width") {
         return;
       }
 
-      if (gBrowser.tabAnimationsInProgress == 0) {
-        return;
-      }
-
-      let tab = event.originalTarget;
-      if (tab.nodeName != "tab") {
-        return;
-      }
+      let tab = event.target;
 
       if (tab.getAttribute("fadein") == "true") {
         if (tab._fullyOpen) {
@@ -828,6 +820,7 @@ class MozTabbrowserTabs extends MozTabs {
 
     CustomizableUI.addListener(this);
     this._updateNewTabVisibility();
+    this._initializeArrowScrollbox();
 
     XPCOMUtils.defineLazyPreferenceGetter(this, "_closeTabByDblclick",
       "browser.tabs.closeTabByDblclick", false);
@@ -855,6 +848,56 @@ class MozTabbrowserTabs extends MozTabs {
 
   get _isCustomizing() {
     return document.documentElement.getAttribute("customizing") == "true";
+  }
+
+  _initializeArrowScrollbox() {
+    let arrowScrollbox = this.arrowScrollbox;
+    arrowScrollbox.addEventListener("underflow", event => {
+      // Ignore underflow events:
+      // - from nested scrollable elements
+      // - for vertical orientation
+      // - corresponding to an overflow event that we ignored
+      if (event.originalTarget != arrowScrollbox.scrollbox ||
+        event.detail == 0 ||
+        !this.hasAttribute("overflow")) {
+        return;
+      }
+
+      this.removeAttribute("overflow");
+
+      if (this._lastTabClosedByMouse) {
+        this._expandSpacerBy(this._scrollButtonDown.clientWidth);
+      }
+
+      for (let tab of Array.from(gBrowser._removingTabs)) {
+        gBrowser.removeTab(tab);
+      }
+
+      this._positionPinnedTabs();
+    }, true);
+
+    arrowScrollbox.addEventListener("overflow", event => {
+      // Ignore overflow events:
+      // - from nested scrollable elements
+      // - for vertical orientation
+      if (event.originalTarget != arrowScrollbox.scrollbox ||
+        event.detail == 0) {
+        return;
+      }
+
+      this.setAttribute("overflow", "true");
+      this._positionPinnedTabs();
+      this._handleTabSelect(true);
+    });
+
+    // Override scrollbox.xml method, since our scrollbox's children are
+    // inherited from the scrollbox binding parent (this).
+    arrowScrollbox._getScrollableElements = () => {
+      return Array.filter(this.children, arrowScrollbox._canScrollToElement);
+    };
+    arrowScrollbox._canScrollToElement = tab => {
+      return !tab._pinnedUnscrollable && !tab.hidden;
+    };
   }
 
   observe(aSubject, aTopic, aData) {
