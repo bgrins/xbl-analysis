@@ -1,0 +1,306 @@
+
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <title>XBL Component Tree: 2019-04-01</title>
+    <link rel="stylesheet" href="../static/styles.css" />
+    <style>
+      #resources:target ~ * [highlight=resources] { background: yellow; }
+#resources:target ~ #container details:not([resources]) > summary { opacity: .5; }
+#property:target ~ * [highlight=property] { background: yellow; }
+#property:target ~ #container details:not([property]) > summary { opacity: .5; }
+#field:target ~ * [highlight=field] { background: yellow; }
+#field:target ~ #container details:not([field]) > summary { opacity: .5; }
+#content:target ~ * [highlight=content] { background: yellow; }
+#content:target ~ #container details:not([content]) > summary { opacity: .5; }
+#handler:target ~ * [highlight=handler] { background: yellow; }
+#handler:target ~ #container details:not([handler]) > summary { opacity: .5; }
+#method:target ~ * [highlight=method] { background: yellow; }
+#method:target ~ #container details:not([method]) > summary { opacity: .5; }
+#children:target ~ * [highlight=children] { background: yellow; }
+#children:target ~ #container details:not([children]) > summary { opacity: .5; }
+#constructor:target ~ * [highlight=constructor] { background: yellow; }
+#constructor:target ~ #container details:not([constructor]) > summary { opacity: .5; }
+#destructor:target ~ * [highlight=destructor] { background: yellow; }
+#destructor:target ~ #container details:not([destructor]) > summary { opacity: .5; }
+#implements:target ~ * [highlight=implements] { background: yellow; }
+#implements:target ~ #container details:not([implements]) > summary { opacity: .5; }
+#role:target ~ * [highlight=role] { background: yellow; }
+#role:target ~ #container details:not([role]) > summary { opacity: .5; }
+#display:target ~ * [highlight=display] { background: yellow; }
+#display:target ~ #container details:not([display]) > summary { opacity: .5; }
+    </style>
+    </head>
+    <body>
+      <main>
+        <div id=resources></div>
+<div id=property></div>
+<div id=field></div>
+<div id=content></div>
+<div id=handler></div>
+<div id=method></div>
+<div id=children></div>
+<div id=constructor></div>
+<div id=destructor></div>
+<div id=implements></div>
+<div id=role></div>
+<div id=display></div>
+        <div id="links">
+          <a href="../">Home</a>
+          <a href="https://github.com/bgrins/xbl-analysis">Code</a>
+        </div>
+        <h1>XBL Component Tree: 2019-04-01</h1>
+        <p>About this data:</p>
+        <ul>
+          <li>This script processes xml files where bindings are declared in toolkit/content/widgets.
+              From these 20 files, <strong>53</strong> bindings were detected.</li>
+          <li>A child in the tree means that it extends the parent</li>
+          <li>Features used: 
+                          <code>method</code>: <strong>277</strong>,
+                          <code>field</code>: <strong>203</strong>,
+                          <code>property</code>: <strong>164</strong>,
+                          <code>handler</code>: <strong>114</strong>,
+                          <code>content</code>: <strong>42</strong>,
+                          <code>children</code>: <strong>35</strong>,
+                          <code>constructor</code>: <strong>24</strong>,
+                          <code>destructor</code>: <strong>12</strong>,
+                          <code>implements</code>: <strong>12</strong>,
+                          <code>resources</code>: <strong>1</strong>,
+                          <code>role</code>: <strong>0</strong>,
+                          <code>display</code>: <strong>0</strong></li>
+          <a href="index.html">Most recent data</a>
+        </ul>
+        <div class='highlights'>
+        Highlights: <a href='#'>clear</a> | 
+                                  <a href='#method' highlight="method">method</a> | 
+                                  <a href='#field' highlight="field">field</a> | 
+                                  <a href='#property' highlight="property">property</a> | 
+                                  <a href='#handler' highlight="handler">handler</a> | 
+                                  <a href='#content' highlight="content">content</a> | 
+                                  <a href='#children' highlight="children">children</a> | 
+                                  <a href='#constructor' highlight="constructor">constructor</a> | 
+                                  <a href='#destructor' highlight="destructor">destructor</a> | 
+                                  <a href='#implements' highlight="implements">implements</a> | 
+                                  <a href='#resources' highlight="resources">resources</a> | 
+                                  <a href='#role' highlight="role">role</a> | 
+                                  <a href='#display' highlight="display">display</a>
+        </div>
+        <div id='container'>
+        
+      <details open property implements>
+      <summary><span id="basecontrol">basecontrol</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/general.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/BaseControl.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=basecontrol">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519498'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='implements'>implements (nsIDOMXULControlElement)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+      <details open property>
+      <summary><span id="basetext">basetext</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/general.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Basetext.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=basetext">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519498'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (5)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+      <details open property implements>
+      <summary><span id="menuitem-base">menuitem-base</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/MenuitemBase.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menuitem-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519495'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement, nsIDOMXULContainerItemElement)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+      <details open content>
+      <summary><span id="menuitem">menuitem</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Menuitem.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menuitem">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519495'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code></em><br /><em>Selectors: <code>menuitem</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open content>
+      <summary><span id="menuitem-iconic">menuitem-iconic</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/MenuitemIconic.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menuitem-iconic">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519495'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code></em><br /><em>Selectors: <code>menuitem[type="checkbox"]</code>, <code>menuitem[type="radio"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>), <code>menuitem.menuitem-iconic</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>), <code>menuitem:not([type])</code> (<code title="/toolkit/themes/linux/mozapps/viewsource/viewsource.css">viewsource/viewsource.css</code>)</em></div></summary></details></li><li>
+      <details open content>
+      <summary><span id="menuitem-iconic-noaccel">menuitem-iconic-noaccel</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/MenuitemIconicNoaccel.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menuitem-iconic-noaccel">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519495'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code></em><br /><em>Selectors: <code>menulist > menupopup > menuitem</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
+      <details open property method implements>
+      <summary><span id="menu-base">menu-base</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/MenuBase.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menu-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519502'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIDOMXULContainerElement)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+      <details open content children>
+      <summary><span id="menu-menubar">menu-menubar</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/MenuMenubar.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menu-menubar">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519502'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>menubar > menu</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open content children>
+      <summary><span id="menu">menu</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Menu.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menu">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519502'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>menu</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open content children>
+      <summary><span id="menu-iconic">menu-iconic</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/MenuIconic.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menu-iconic">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519502'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>menu.menu-iconic</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open content children>
+      <summary><span id="menu-menubar-iconic">menu-menubar-iconic</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/MenuMenubarIconic.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=menu-menubar-iconic">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519502'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>menubar > menu.menu-iconic</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li></ul></details></li><li>
+      <details open property handler method implements>
+      <summary><span id="button-base">button-base</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/button.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/ButtonBase.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=button-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519577'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (5)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (3)</code>, <code highlight='implements'>implements (nsIDOMXULButtonElement)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+      <details open property content children>
+      <summary><span id="toolbarbutton">toolbarbutton</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Toolbarbutton.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=toolbarbutton">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519577'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code></em><br /><em>Selectors: <code>toolbarbutton</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open content children>
+      <summary><span id="toolbarbutton-badged">toolbarbutton-badged</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/ToolbarbuttonBadged.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=toolbarbutton-badged">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519577'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (2)</code></em><br /><em>Selectors: <code>toolbarbutton.badged-button > toolbarbutton</code>, <code>toolbarbutton.badged-button</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open >
+      <summary><span id="toolbarbutton-badged-menu">toolbarbutton-badged-menu</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/ToolbarbuttonBadgedMenu.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=toolbarbutton-badged-menu">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519577'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: </em><br /><em>Selectors: <code>toolbarbutton.badged-button[type="menu"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
+      <details open >
+      <summary><span id="toolbarbutton-menu">toolbarbutton-menu</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/toolbarbutton.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/ToolbarbuttonMenu.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=toolbarbutton-menu">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519577'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: </em><br /><em>Selectors: <code>toolbarbutton[type="menu"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li><li>
+      <details open content children>
+      <summary><span id="button">button</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/button.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Button.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=button">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1538983'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>button</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open content handler children>
+      <summary><span id="button-menu">button-menu</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/button.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/ButtonMenu.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=button-menu">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1538983'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>button[type="menu"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details></li></ul></details></li><li>
+      <details open property content handler constructor destructor implements>
+      <summary><span id="radio">radio</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/radio.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Radio.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=radio">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1495861'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code></em><br /><em>Selectors: <code>radio</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open property field content handler implements>
+      <summary><span id="tab">tab</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Tab.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=tab">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519514'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (5)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code></em><br /><em>Selectors: <code>tab</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open property field content handler method constructor>
+      <summary><span id="tabbrowser-tab">tabbrowser-tab</span> (<a href="https://searchfox.org/mozilla-central/source/browser/base/content/tabbrowser.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/TabbrowserTab.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=tabbrowser-tab">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1519514'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (13)</code>, <code highlight='field'>field (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (8)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>.tabbrowser-tab</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li><li>
+      <details open property field handler destructor implements>
+      <summary><span id="richlistitem">richlistitem</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/richlistbox.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Richlistitem.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=richlistitem">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1512432'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (6)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlItemElement)</code></em><br /><em>Selectors: <code>richlistitem</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open property content constructor>
+      <summary><strike><span id="category">category</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Category.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=category">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>.category</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details></li><li>
+      <details open property method>
+      <summary><strike><span id="addon-base">addon-base</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/AddonBase.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=addon-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='method'>method (4)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+      <details open property field content handler method constructor destructor>
+      <summary><strike><span id="addon-generic">addon-generic</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/AddonGeneric.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=addon-generic">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (34)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (33)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em><br /><em>Selectors: <code>.addon[status="installed"]</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details></li><li>
+      <details open field content method constructor destructor>
+      <summary><strike><span id="addon-uninstalled">addon-uninstalled</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/AddonUninstalled.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=addon-uninstalled">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (4)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em><br /><em>Selectors: <code>.addon[pending="uninstall"]</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details></li><li>
+      <details open field content method constructor>
+      <summary><strike><span id="addon-installing">addon-installing</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/AddonInstalling.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=addon-installing">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='field'>field (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>.addon[status="installing"]</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details></li></ul></details></li></ul></details></li></ul></details></li><li>
+      <details open property field content handler method children constructor destructor>
+      <summary><span id="arrowscrollbox">arrowscrollbox</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/scrollbox.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Arrowscrollbox.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=arrowscrollbox">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1514926'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (10)</code>, <code highlight='field'>field (16)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (19)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em><br /><em>Selectors: <code>arrowscrollbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li><li>
+      <details open property field content handler method children constructor implements>
+      <summary><span id="tabs">tabs</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/tabbox.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Tabs.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=tabs">m-c search</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (7)</code>, <code highlight='field'>field (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (7)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='implements'>implements (nsIDOMXULSelectControlElement, nsIDOMXULRelatedElement)</code></em><br /><em>Selectors: <code>tabs</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open property field content handler method children constructor destructor implements>
+      <summary><span id="tabbrowser-tabs">tabbrowser-tabs</span> (<a href="https://searchfox.org/mozilla-central/source/browser/base/content/tabbrowser.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/TabbrowserTabs.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=tabbrowser-tabs">m-c search</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (21)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (15)</code>, <code highlight='method'>method (30)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver)</code></em><br /><em>Selectors: <code>#tabbrowser-tabs</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li></ul></details>
+      <details open field content handler method children constructor>
+      <summary><span id="popup">popup</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/popup.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Popup.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=popup">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1531870'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='field'>field (7)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>menupopup</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open field content handler method children>
+      <summary><span id="places-popup-base">places-popup-base</span> (<a href="https://searchfox.org/mozilla-central/source/browser/components/places/content/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/PlacesPopupBase.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=places-popup-base">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1539651'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='field'>field (5)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (7)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>menupopup[placespopup="true"]</code> (<code title="/browser/components/places/content/places.css">content/places.css</code>)</em></div></summary><ul><li>
+      <details open content handler method children constructor>
+      <summary><span id="places-popup-arrow">places-popup-arrow</span> (<a href="https://searchfox.org/mozilla-central/source/browser/components/places/content/menu.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/PlacesPopupArrow.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=places-popup-arrow">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1539651'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>#BMB_bookmarksPopup</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li></ul></details>
+      <details open property field content handler method children constructor>
+      <summary><span id="label-control">label-control</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/text.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/LabelControl.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=label-control">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1448213'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (3)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>label[control]</code>, <code>label.radio-label</code>, <code>label.checkbox-label</code>, <code>label.toolbarbutton-multiline-text</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+      <details open field handler>
+      <summary><span id="panel">panel</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/popup.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Panel.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=panel">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1397876'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (4)</code></em><br /><em>Selectors: <code>panel</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open resources field content handler method children>
+      <summary><span id="arrowpanel">arrowpanel</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/popup.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Arrowpanel.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=arrowpanel">m-c search</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='resources'>resources (1)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (5)</code>, <code highlight='method'>method (1)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>panel[type="arrow"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details>
+      <details open property field content handler method children constructor destructor>
+      <summary><span id="textbox">textbox</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/textbox.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Textbox.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=textbox">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1513325'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (18)</code>, <code highlight='field'>field (8)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (4)</code>, <code highlight='method'>method (6)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em><br /><em>Selectors: <code>textbox</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open content children>
+      <summary><span id="urlbar">urlbar</span> (<a href="https://searchfox.org/mozilla-central/source/browser/base/content/urlbarBindings.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Urlbar.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=urlbar">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1513337'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code>, <code highlight='children'>children (3)</code></em><br /><em>Selectors: <code>#urlbar[quantumbar="true"]</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li><li>
+      <details open property field content handler method children constructor destructor implements>
+      <summary><span id="autocomplete">autocomplete</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Autocomplete.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=autocomplete">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1534455'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (25)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (6)</code>, <code highlight='method'>method (23)</code>, <code highlight='children'>children (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompleteInput, nsIDOMXULMenuListElement)</code></em><br /><em>Selectors: <code>textbox[type="autocomplete"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary><ul><li>
+      <details open property field content handler method children constructor destructor implements>
+      <summary><strike><span id="legacy-urlbar">legacy-urlbar</span></strike> (<a href="https://searchfox.org/mozilla-central/source/browser/base/content/urlbarBindings.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/LegacyUrlbar.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=legacy-urlbar">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1520800'>bug</a>)&nbsp;<u>Will be removed by QuantumBar</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (5)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (9)</code>, <code highlight='method'>method (39)</code>, <code highlight='children'>children (3)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIObserver)</code></em><br /><em>Selectors: <code>#urlbar[quantumbar="false"]</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li><li>
+      <details open property field handler method constructor destructor>
+      <summary><span id="searchbar-textbox">searchbar-textbox</span> (<a href="https://searchfox.org/mozilla-central/source/browser/components/search/content/search.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/SearchbarTextbox.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=searchbar-textbox">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1534404'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (2)</code>, <code highlight='field'>field (1)</code>, <code highlight='handler'>handler (8)</code>, <code highlight='method'>method (7)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em><br /><em>Selectors: <code>.searchbar-textbox</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details></li><li>
+      <details open property field content handler method children constructor>
+      <summary><span id="search-textbox">search-textbox</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/textbox.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/SearchTextbox.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=search-textbox">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1521280'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (4)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>textbox[type="search"]</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details></li></ul></details>
+      <details open property field content handler method children constructor destructor implements>
+      <summary><strike><span id="autocomplete-rich-result-popup">autocomplete-rich-result-popup</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/autocomplete.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/AutocompleteRichResultPopup.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=autocomplete-rich-result-popup">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1520800'>bug</a>)&nbsp;<u>Will be removed by QuantumBar</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (9)</code>, <code highlight='field'>field (9)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (12)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code>, <code highlight='implements'>implements (nsIAutoCompletePopup)</code></em><br /><em>Selectors: </em></div></summary><ul><li>
+      <details open property field content handler method children>
+      <summary><strike><span id="urlbar-rich-result-popup">urlbar-rich-result-popup</span></strike> (<a href="https://searchfox.org/mozilla-central/source/browser/base/content/urlbarBindings.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/UrlbarRichResultPopup.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=urlbar-rich-result-popup">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1520800'>bug</a>)&nbsp;<u>Will be removed by QuantumBar</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (6)</code>, <code highlight='field'>field (15)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (17)</code>, <code highlight='children'>children (1)</code></em><br /><em>Selectors: <code>#PopupAutoCompleteRichResult</code> (<code title="/browser/base/content/browser.css">content/browser.css</code>)</em></div></summary></details></li></ul></details>
+      <details open content>
+      <summary><strike><span id="updateheader">updateheader</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/update/content/updates.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Updateheader.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=updateheader">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1515484'>bug</a>)&nbsp;<u>Will be removed by updated doorhanger notification</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='content'>content (1)</code></em><br /><em>Selectors: <code>updateheader</code> (<code title="/toolkit/mozapps/update/content/updates.css">content/updates.css</code>)</em></div></summary></details>
+      <details open property field content handler method children constructor>
+      <summary><span id="dialog">dialog</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/dialog.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Dialog.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=dialog">m-c search</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (3)</code>, <code highlight='method'>method (14)</code>, <code highlight='children'>children (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>dialog</code>, <code>dialog:root</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+      <details open property field content method>
+      <summary><span id="wizard-buttons">wizard-buttons</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/wizard.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/WizardButtons.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=wizard-buttons">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1495357'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='field'>field (1)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code></em><br /><em>Selectors: <code>.wizard-buttons</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+      <details open property content handler method constructor>
+      <summary><strike><span id="rating">rating</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Rating.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=rating">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (1)</code>, <code highlight='method'>method (2)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>.meta-rating</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details>
+      <details open property field content method constructor>
+      <summary><strike><span id="download-progress">download-progress</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/DownloadProgress.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=download-progress">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (3)</code>, <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>.download-progress</code>, <code>.download-progress[mode="undetermined"]</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details>
+      <details open field content method constructor>
+      <summary><strike><span id="creator-link">creator-link</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/CreatorLink.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=creator-link">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='field'>field (3)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (1)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>.creator</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details>
+      <details open field content method constructor destructor>
+      <summary><strike><span id="install-status">install-status</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/InstallStatus.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=install-status">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='field'>field (4)</code>, <code highlight='content'>content (1)</code>, <code highlight='method'>method (11)</code>, <code highlight='constructor'>constructor (1)</code>, <code highlight='destructor'>destructor (1)</code></em><br /><em>Selectors: <code>.install-status</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details>
+      <details open property content>
+      <summary><strike><span id="detail-row">detail-row</span></strike> (<a href="https://searchfox.org/mozilla-central/source/toolkit/mozapps/extensions/content/extensions.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/DetailRow.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=detail-row">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1505924'>bug</a>)&nbsp;<u>Will be removed by new about:addons</u>
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (1)</code>, <code highlight='content'>content (1)</code></em><br /><em>Selectors: <code>.detail-row</code> (<code title="/toolkit/mozapps/extensions/content/extensions.css">content/extensions.css</code>)</em></div></summary></details>
+      <details open property field content handler method children constructor>
+      <summary><span id="wizard">wizard</span> (<a href="https://searchfox.org/mozilla-central/source/toolkit/content/widgets/wizard.xml" target="_blank">source</a>)(<a href="https://github.com/bgrins/xbl-analysis/blob/gh-pages/elements/generated/Wizard.js">converted to JS</a>) (<a href="https://searchfox.org/mozilla-central/search?q=wizard">m-c search</a>) (<a href='https://bugzilla.mozilla.org/show_bug.cgi?id=1495621'>bug</a>)
+      <div class='metadata'>
+  <em>Used features: <code highlight='property'>property (9)</code>, <code highlight='field'>field (19)</code>, <code highlight='content'>content (1)</code>, <code highlight='handler'>handler (2)</code>, <code highlight='method'>method (15)</code>, <code highlight='children'>children (2)</code>, <code highlight='constructor'>constructor (1)</code></em><br /><em>Selectors: <code>wizard</code>, <code>wizard:root</code> (<code title="/toolkit/content/xul.css">content/xul.css</code>)</em></div></summary></details>
+        </div>
+      </main>
+    </body>
+  

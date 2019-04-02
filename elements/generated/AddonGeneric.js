@@ -295,7 +295,7 @@ class MozAddonGeneric extends MozAddonBase {
     this.setAttribute("legacy", legacyWarning);
     document.getAnonymousElementByAttribute(this, "anonid", "legacy").href = SUPPORT_URL + "webextensions";
 
-    if (!allowPrivateBrowsingByDefault) {
+    if (!allowPrivateBrowsingByDefault && this.mAddon.type === "extension") {
       ExtensionPermissions.get(this.mAddon.id).then((perms) => {
         let allowed = perms.permissions.includes("internal:privateBrowsingAllowed");
         this.setAttribute("privateBrowsing", allowed);
