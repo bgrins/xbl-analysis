@@ -1106,9 +1106,10 @@ class MozLegacyUrlbar extends MozAutocomplete {
 
   onDrop(aEvent) {
     let droppedItem = this._getDroppableItem(aEvent);
-    if (droppedItem) {
+    let droppedURL = droppedItem instanceof URL ? droppedItem.href : droppedItem;
+    if (droppedURL && (droppedURL !== gBrowser.currentURI.spec)) {
       let triggeringPrincipal = browserDragAndDrop.getTriggeringPrincipal(aEvent);
-      this.value = droppedItem instanceof URL ? droppedItem.href : droppedItem;
+      this.value = droppedURL;
       SetPageProxyState("invalid");
       this.focus();
       this.handleCommand(null, undefined, undefined, triggeringPrincipal);
@@ -1343,18 +1344,6 @@ class MozLegacyUrlbar extends MozAutocomplete {
           // recalculate a proper size on reopening. For example, this may
           // happen when using special OS resize functions like Win+Arrow.
           this.closePopup();
-
-          // Make sure the host remains visible in the input field
-          // when the window is resized.  We don't want to
-          // hurt resize performance though, so do this only after resize
-          // events have stopped and a small timeout has elapsed.
-          if (this._resizeThrottleTimeout) {
-            clearTimeout(this._resizeThrottleTimeout);
-          }
-          this._resizeThrottleTimeout = setTimeout(() => {
-            this._resizeThrottleTimeout = null;
-            this.valueFormatter.ensureFormattedHostVisible();
-          }, 100);
         }
         break;
     }
@@ -1668,6 +1657,8 @@ class MozLegacyUrlbar extends MozAutocomplete {
     // listeners that it added to both.
     this.popup.oneOffSearchButtons.popup = null;
     this.popup.oneOffSearchButtons.textbox = null;
+
+    this.valueFormatter.uninit();
   }
 }
 

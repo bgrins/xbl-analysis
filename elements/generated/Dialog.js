@@ -397,19 +397,7 @@ class MozDialog extends MozXULElement {
     event.initEvent("dialog" + aDlgType, true, true);
 
     // handle dom event handlers
-    var noCancel = this.dispatchEvent(event);
-
-    // handle any xml attribute event handlers
-    var handler = this.getAttribute("ondialog" + aDlgType);
-    if (handler != "") {
-      var fn = new Function("event", handler);
-      var returned = fn(event);
-      // eslint-disable-next-line mozilla/no-compare-against-boolean-literals
-      if (returned == false)
-        noCancel = false;
-    }
-
-    return noCancel;
+    return this.dispatchEvent(event);
   }
 
   _hitEnter(evt) {

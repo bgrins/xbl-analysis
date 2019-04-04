@@ -41,7 +41,7 @@ class MozWizard extends MozXULElement {
         <children includes="wizardpage"></children>
       </deck>
       <children></children>
-      <hbox class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage"></hbox>
+      <wizard-buttons class="wizard-buttons" anonid="Buttons" inherits="pagestep,firstpage,lastpage"></wizard-buttons>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
@@ -62,32 +62,6 @@ class MozWizard extends MozXULElement {
     this._wizardButtons = "";
 
     this._deck = "";
-
-    this._backButton = "";
-
-    this._nextButton = "";
-
-    this._cancelButton = "";
-
-    /**
-     * functions to be added as oncommand listeners to the wizard buttons
-     */
-    this._backFunc = function() { document.documentElement.rewind(); };
-
-    this._nextFunc = function() { document.documentElement.advance(); };
-
-    this._finishFunc = function() { document.documentElement.advance(); };
-
-    this._cancelFunc = function() { document.documentElement.cancel(); };
-
-    this._extra1Func = function() { document.documentElement.extra1(); };
-
-    this._extra2Func = function() { document.documentElement.extra2(); };
-
-    this._closeHandler = function(event) {
-      if (document.documentElement.cancel())
-        event.preventDefault();
-    };
 
     this._canAdvance = true;
     this._canRewind = false;
@@ -133,18 +107,17 @@ class MozWizard extends MozXULElement {
     );
 
     this._wizardButtons = document.getAnonymousElementByAttribute(this, "anonid", "Buttons");
-    this._deck = document.getAnonymousElementByAttribute(this, "anonid", "Deck");
+    customElements.upgrade(this._wizardButtons);
 
-    this._initWizardButton("back");
-    this._initWizardButton("next");
-    this._initWizardButton("finish");
-    this._initWizardButton("cancel");
-    this._initWizardButton("extra1");
-    this._initWizardButton("extra2");
+    this._deck = document.getAnonymousElementByAttribute(this, "anonid", "Deck");
 
     this._initPages();
 
-    window.addEventListener("close", this._closeHandler);
+    window.addEventListener("close", (event) => {
+      if (document.documentElement.cancel()) {
+        event.preventDefault();
+      }
+    });
 
     // start off on the first page
     this.pageCount = this.wizardPages.length;
@@ -164,7 +137,7 @@ class MozWizard extends MozXULElement {
   }
 
   set canAdvance(val) {
-    this._nextButton.disabled = !val;
+    this.getButton('next').disabled = !val;
     return this._canAdvance = val;
   }
 
@@ -173,7 +146,7 @@ class MozWizard extends MozXULElement {
   }
 
   set canRewind(val) {
-    this._backButton.disabled = !val;
+    this.getButton('back').disabled = !val;
     return this._canRewind = val;
   }
 
@@ -203,13 +176,13 @@ class MozWizard extends MozXULElement {
       this.canRewind = false;
       this.setAttribute("firstpage", "true");
       if (/Linux/.test(navigator.platform)) {
-        this._backButton.setAttribute('hidden', 'true');
+        this.getButton("back").setAttribute("hidden", "true");
       }
     } else {
       this.canRewind = true;
       this.setAttribute("firstpage", "false");
       if (/Linux/.test(navigator.platform)) {
-        this._backButton.setAttribute('hidden', 'false');
+        this.getButton("back").setAttribute("hidden", "false");
       }
     }
 
@@ -261,8 +234,7 @@ class MozWizard extends MozXULElement {
   }
 
   getButton(aDlgType) {
-    var btns = this.getElementsByAttribute("dlgtype", aDlgType);
-    return btns.item(0) ? btns[0] : document.getAnonymousElementByAttribute(this._wizardButtons, "dlgtype", aDlgType);
+    return this._wizardButtons.getButton(aDlgType);
   }
 
   getPageById(aPageId) {
@@ -397,15 +369,6 @@ class MozWizard extends MozXULElement {
         meth = "random";
     }
     this._accessMethod = meth;
-  }
-
-  _initWizardButton(aName) {
-    var btn = document.getAnonymousElementByAttribute(this._wizardButtons, "dlgtype", aName);
-    if (btn) {
-      btn.addEventListener("command", this["_" + aName + "Func"]);
-      this["_" + aName + "Button"] = btn;
-    }
-    return btn;
   }
 
   _adjustWizardHeader() {
