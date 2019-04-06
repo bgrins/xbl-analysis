@@ -866,7 +866,7 @@ class MozTabbrowserTabs extends MozTabs {
       this.removeAttribute("overflow");
 
       if (this._lastTabClosedByMouse) {
-        this._expandSpacerBy(this._scrollButtonDown.clientWidth);
+        this._expandSpacerBy(this.arrowScrollbox._scrollButtonDown.clientWidth);
       }
 
       for (let tab of Array.from(gBrowser._removingTabs)) {
