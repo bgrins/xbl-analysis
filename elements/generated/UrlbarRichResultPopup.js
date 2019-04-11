@@ -113,7 +113,7 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
               <html:span></html:span>
             </description>
           </hbox>
-          <label id="search-suggestions-change-settings" is="text-link" role="link" value="FROM-DTD.urlbar.searchSuggestionsNotification.changeSettingsWin;" accesskey="FROM-DTD.urlbar.searchSuggestionsNotification.changeSettingsWin.accesskey;" onclick="openPreferences('paneSearch', {origin: 'searchChangeSettings'});" control="search-suggestions-change-settings"></label>
+          <label id="search-suggestions-change-settings" is="text-link" role="link" value="FROM-DTD.urlbar.searchSuggestionsNotification.changeSettingsWin;" accesskey="FROM-DTD.urlbar.searchSuggestionsNotification.changeSettingsWin.accesskey;" onclick="openPreferences('paneSearch');" control="search-suggestions-change-settings"></label>
         </hbox>
       </deck>
       <richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"></richlistbox>
