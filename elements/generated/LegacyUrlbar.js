@@ -692,7 +692,10 @@ class MozLegacyUrlbar extends MozAutocomplete {
    * on the text.  See the _format* methods.
    */
   formatValue() {
-    this.valueFormatter.update();
+    // The editor may not exist if the toolbar is not visible.
+    if (this.editor) {
+      this.valueFormatter.update();
+    }
   }
 
   handleRevert() {
