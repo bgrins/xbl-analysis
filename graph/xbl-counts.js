@@ -53902,14 +53902,14 @@ var DATA = {
     },
     label: "2019-04-16"
   },
-  "master@{2019-04-17}": {
+  "master@{2019-04-18}": {
     numBindings: 51,
     numInContentBindings: 0,
-    loc: 12934,
+    loc: 12940,
     directoryLOC: {
       browser: 6127,
       dom: 0,
-      toolkit: 6807,
+      toolkit: 6813,
       mobile: 0,
       layout: 0,
       xpfe: 0
@@ -53934,10 +53934,10 @@ var DATA = {
       "places-popup-base": 478,
       dialog: 459,
       wizard: 418,
-      tabs: 367,
+      tabs: 368,
       "searchbar-textbox": 351,
       textbox: 232,
-      "label-control": 225,
+      "label-control": 230,
       "install-status": 202,
       "button-base": 182,
       popup: 166,
@@ -53975,7 +53975,77 @@ var DATA = {
       "toolbarbutton-badged-menu": 5,
       "toolbarbutton-menu": 5
     },
-    label: "2019-04-17"
+    label: "2019-04-18"
+  },
+  "master@{2019-04-19}": {
+    numBindings: 46,
+    numInContentBindings: 0,
+    loc: 12803,
+    directoryLOC: {
+      browser: 6128,
+      dom: 0,
+      toolkit: 6675,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 8,
+      dom: 0,
+      toolkit: 38,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      "tabbrowser-tabs": 1894,
+      "legacy-urlbar": 1799,
+      "addon-generic": 979,
+      "urlbar-rich-result-popup": 870,
+      arrowscrollbox: 763,
+      autocomplete: 647,
+      "autocomplete-rich-result-popup": 602,
+      "tabbrowser-tab": 567,
+      "places-popup-base": 478,
+      dialog: 459,
+      wizard: 418,
+      tabs: 368,
+      "searchbar-textbox": 352,
+      textbox: 232,
+      "label-control": 230,
+      "install-status": 202,
+      "button-base": 182,
+      popup: 166,
+      richlistitem: 149,
+      tab: 136,
+      arrowpanel: 135,
+      "search-textbox": 135,
+      "places-popup-arrow": 132,
+      "addon-installing": 115,
+      rating: 107,
+      "addon-uninstalled": 100,
+      panel: 83,
+      "download-progress": 81,
+      "creator-link": 52,
+      "addon-base": 49,
+      basetext: 36,
+      urlbar: 36,
+      "menuitem-base": 36,
+      category: 34,
+      "button-menu": 28,
+      "detail-row": 23,
+      toolbarbutton: 20,
+      "toolbarbutton-badged": 19,
+      "menuitem-iconic": 15,
+      button: 14,
+      basecontrol: 14,
+      "menuitem-iconic-noaccel": 13,
+      updateheader: 13,
+      menuitem: 10,
+      "toolbarbutton-badged-menu": 5,
+      "toolbarbutton-menu": 5
+    },
+    label: "2019-04-19"
   }
 };
 var SORTED_BINDINGS = {

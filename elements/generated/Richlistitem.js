@@ -79,7 +79,7 @@ class MozRichlistitem extends MozBasetext {
   get label() {
     const XULNS =
       "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
-    return Array.map(this.getElementsByTagNameNS(XULNS, "label"),
+    return Array.from(this.getElementsByTagNameNS(XULNS, "label"),
         label => label.value)
       .join(" ");
   }

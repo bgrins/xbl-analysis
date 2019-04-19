@@ -116,10 +116,11 @@ class MozTabs extends MozBaseControl {
   set selectedIndex(val) {
     var tab = this.getItemAtIndex(val);
     if (tab) {
-      Array.forEach(this.children, function(aTab) {
-        if (aTab.selected && aTab != tab)
-          aTab._selected = false;
-      });
+      for (let otherTab of this.children) {
+        if (otherTab != tab && otherTab.selected) {
+          otherTab._selected = false;
+        }
+      }
       tab._selected = true;
 
       this.setAttribute("value", tab.value);
@@ -239,7 +240,7 @@ class MozTabs extends MozBaseControl {
   }
 
   getIndexOfItem(item) {
-    return Array.indexOf(this.children, item);
+    return Array.prototype.indexOf.call(this.children, item);
   }
 
   getItemAtIndex(index) {

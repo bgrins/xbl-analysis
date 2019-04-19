@@ -439,7 +439,7 @@ class MozArrowscrollbox extends MozBaseControl {
       nodes = document.getBindingParent(this).children;
     }
 
-    return Array.filter(nodes, this._canScrollToElement, this);
+    return Array.prototype.filter.call(nodes, this._canScrollToElement, this);
   }
 
   _elementFromPoint(aX, aPhysicalScrollDir) {

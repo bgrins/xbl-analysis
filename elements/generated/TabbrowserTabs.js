@@ -893,7 +893,7 @@ class MozTabbrowserTabs extends MozTabs {
     // Override scrollbox.xml method, since our scrollbox's children are
     // inherited from the scrollbox binding parent (this).
     arrowScrollbox._getScrollableElements = () => {
-      return Array.filter(this.children, arrowScrollbox._canScrollToElement);
+      return Array.prototype.filter.call(this.children, arrowScrollbox._canScrollToElement);
     };
     arrowScrollbox._canScrollToElement = tab => {
       return !tab._pinnedUnscrollable && !tab.hidden;

@@ -26,6 +26,11 @@ class MozLabelControl extends MozXULElement {
       if (controlElement.namespaceURI != XUL_NS) {
         return;
       }
+      if ((controlElement.localName == "checkbox" ||
+          controlElement.localName == "radio") &&
+        controlElement.getAttribute("disabled") == "true") {
+        return;
+      }
       if (controlElement.localName == "checkbox") {
         controlElement.checked = !controlElement.checked;
       } else if (controlElement.localName == "radio") {
