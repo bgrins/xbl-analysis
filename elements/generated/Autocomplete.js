@@ -102,24 +102,6 @@ class MozAutocomplete extends MozTextbox {
      */
     this._selectionDetails = null;
 
-    this._valueIsPasted = false;
-
-    this._pasteController = {
-      _autocomplete: this,
-      _kGlobalClipboard: Ci.nsIClipboard.kGlobalClipboard,
-      supportsCommand: aCommand => aCommand == "cmd_paste",
-      doCommand(aCommand) {
-        this._autocomplete._valueIsPasted = true;
-        this._autocomplete.editor.paste(this._kGlobalClipboard);
-        this._autocomplete._valueIsPasted = false;
-      },
-      isCommandEnabled(aCommand) {
-        return this._autocomplete.editor.isSelectionEditable &&
-          this._autocomplete.editor.canPaste(this._kGlobalClipboard);
-      },
-      onEvent() {},
-    };
-
     this.mController = Cc["@mozilla.org/autocomplete/controller;1"].
     getService(Ci.nsIAutoCompleteController);
 
@@ -127,9 +109,6 @@ class MozAutocomplete extends MozTextbox {
     this._searchCompleteHandler = this.initEventHandler("searchcomplete");
     this._textEnteredHandler = this.initEventHandler("textentered");
     this._textRevertedHandler = this.initEventHandler("textreverted");
-
-    // For security reasons delay searches on pasted values.
-    this.inputField.controllers.insertControllerAt(0, this._pasteController);
 
   }
 
@@ -227,13 +206,7 @@ class MozAutocomplete extends MozTextbox {
   }
 
   get timeout() {
-    // For security reasons delay searches on pasted values.
-    if (this._valueIsPasted) {
-      let t = parseInt(this.getAttribute("pastetimeout"));
-      return isNaN(t) ? 1000 : t;
-    }
-
-    let t = parseInt(this.getAttribute("timeout"));
+    var t = parseInt(this.getAttribute('timeout'));
     return isNaN(t) ? 50 : t;
   }
 
@@ -674,9 +647,6 @@ class MozAutocomplete extends MozTextbox {
       this.mController.handleText();
     }
     this.resetActionType();
-  }
-  disconnectedCallback() {
-    this.inputField.controllers.removeController(this._pasteController);
   }
 }
 
