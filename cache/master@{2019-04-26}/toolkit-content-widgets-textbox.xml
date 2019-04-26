@@ -1,0 +1,398 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!-- This files relies on these specific Chrome/XBL globals -->
+<!-- globals ChromeWindow -->
+
+
+<!DOCTYPE bindings [
+  <!ENTITY % textcontextDTD SYSTEM "chrome://global/locale/textcontext.dtd" >
+  %textcontextDTD;
+]>
+
+<bindings id="textboxBindings"
+   xmlns="http://www.mozilla.org/xbl"
+   xmlns:html="http://www.w3.org/1999/xhtml"
+   xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+   xmlns:xbl="http://www.mozilla.org/xbl">
+
+  <binding id="textbox">
+    <content>
+      <children/>
+      <xul:moz-input-box anonid="moz-input-box" flex="1" xbl:inherits="context,spellcheck">
+        <html:input class="textbox-input" anonid="input"
+                    xbl:inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,noinitialfocus,mozactionhint,spellcheck"/>
+      </xul:moz-input-box>
+    </content>
+
+    <implementation>
+      <!-- nsIDOMXULLabeledControlElement -->
+      <field name="crop">""</field>
+      <field name="image">""</field>
+      <field name="command">""</field>
+      <field name="accessKey">""</field>
+
+      <field name="mInputField">null</field>
+      <field name="mIgnoreClick">false</field>
+      <field name="mIgnoreFocus">false</field>
+      <field name="mEditor">null</field>
+
+      <property name="inputField" readonly="true">
+        <getter><![CDATA[
+          if (!this.mInputField)
+            this.mInputField = document.getAnonymousElementByAttribute(this, "anonid", "input");
+          return this.mInputField;
+        ]]></getter>
+      </property>
+
+      <property name="value"      onset="this.inputField.value = val; return val;"
+                                  onget="return this.inputField.value;"/>
+      <property name="defaultValue" onset="this.inputField.defaultValue = val; return val;"
+                                  onget="return this.inputField.defaultValue;"/>
+      <property name="label"      onset="this.setAttribute('label', val); return val;"
+                                  onget="return this.getAttribute('label') || this.placeholder;" />
+      <property name="placeholder" onset="this.inputField.placeholder = val; return val;"
+                                  onget="return this.inputField.placeholder;"/>
+      <property name="emptyText"  onset="this.placeholder = val; return val;"
+                                  onget="return this.placeholder;"/>
+      <property name="type"       onset="if (val) this.setAttribute('type', val);
+                                         else this.removeAttribute('type'); return val;"
+                                  onget="return this.getAttribute('type');"/>
+      <property name="maxLength"  onset="this.inputField.maxLength = val; return val;"
+                                  onget="return this.inputField.maxLength;"/>
+      <property name="disabled"   onset="this.inputField.disabled = val;
+                                         if (val) this.setAttribute('disabled', 'true');
+                                         else this.removeAttribute('disabled'); return val;"
+                                  onget="return this.inputField.disabled;"/>
+      <property name="tabIndex"   onget="return parseInt(this.getAttribute('tabindex'));"
+                                  onset="this.inputField.tabIndex = val;
+                                         if (val) this.setAttribute('tabindex', val);
+                                         else this.removeAttribute('tabindex'); return val;"/>
+      <property name="size"       onset="this.inputField.size = val; return val;"
+                                  onget="return this.inputField.size;"/>
+      <property name="readOnly"   onset="this.inputField.readOnly = val;
+                                         if (val) this.setAttribute('readonly', 'true');
+                                         else this.removeAttribute('readonly'); return val;"
+                                  onget="return this.inputField.readOnly;"/>
+      <property name="clickSelectsAll"
+                onget="return this.getAttribute('clickSelectsAll') == 'true';"
+                onset="if (val) this.setAttribute('clickSelectsAll', 'true');
+                       else this.removeAttribute('clickSelectsAll'); return val;" />
+
+      <property name="editor" readonly="true">
+        <getter><![CDATA[
+          if (!this.mEditor) {
+            this.mEditor = this.inputField.editor;
+          }
+          return this.mEditor;
+        ]]></getter>
+      </property>
+
+      <method name="reset">
+        <body><![CDATA[
+          this.value = this.defaultValue;
+          try {
+            this.editor.transactionManager.clear();
+            return true;
+          } catch (e) {}
+          return false;
+        ]]></body>
+      </method>
+
+      <method name="select">
+        <body>
+          this.inputField.select();
+        </body>
+      </method>
+
+      <method name="setUserInput">
+        <parameter name="value"/>
+        <body><![CDATA[
+          this.inputField.setUserInput(value);
+        ]]></body>
+      </method>
+
+      <property name="controllers"    readonly="true" onget="return this.inputField.controllers"/>
+      <property name="textLength"     readonly="true"
+                                      onget="return this.inputField.textLength;"/>
+      <property name="selectionStart" onset="this.inputField.selectionStart = val; return val;"
+                                      onget="return this.inputField.selectionStart;"/>
+      <property name="selectionEnd"   onset="this.inputField.selectionEnd = val; return val;"
+                                      onget="return this.inputField.selectionEnd;"/>
+
+      <method name="setSelectionRange">
+        <parameter name="aSelectionStart"/>
+        <parameter name="aSelectionEnd"/>
+        <body>
+          // According to https://html.spec.whatwg.org/#do-not-apply,
+          // setSelectionRange() is only available on a limited set of input types.
+          if (this.inputField.type == "text") {
+            this.inputField.setSelectionRange( aSelectionStart, aSelectionEnd );
+          }
+        </body>
+      </method>
+
+      <method name="_setNewlineHandling">
+        <body><![CDATA[
+          var str = this.getAttribute("newlines");
+          if (str && this.editor) {
+            const nsIPlaintextEditor = Ci.nsIPlaintextEditor;
+            for (var x in nsIPlaintextEditor) {
+              if (/^eNewlines/.test(x)) {
+                if (str == RegExp.rightContext.toLowerCase()) {
+                  this.editor.QueryInterface(nsIPlaintextEditor)
+                      .newlineHandling = nsIPlaintextEditor[x];
+                  break;
+                }
+              }
+            }
+          }
+        ]]></body>
+      </method>
+
+      <method name="_maybeSelectAll">
+        <body><![CDATA[
+          if (!this.mIgnoreClick && this.clickSelectsAll &&
+              document.activeElement == this.inputField &&
+              this.inputField.selectionStart == this.inputField.selectionEnd)
+            this.editor.selectAll();
+        ]]></body>
+      </method>
+
+      <constructor><![CDATA[
+        var str = this._cachedInputFieldValue;
+        if (str) {
+          this.inputField.value = str;
+          delete this._cachedInputFieldValue;
+        }
+
+        this._setNewlineHandling();
+
+        if (this.hasAttribute("emptytext"))
+          this.placeholder = this.getAttribute("emptytext");
+      ]]></constructor>
+
+      <destructor>
+        <![CDATA[
+          var field = this.inputField;
+          if (field && field.value) {
+            this._cachedInputFieldValue = field.value;
+          }
+
+          this.mInputField = null;
+        ]]>
+      </destructor>
+
+    </implementation>
+
+    <handlers>
+      <handler event="focus" phase="capturing">
+        <![CDATA[
+          if (this.hasAttribute("focused"))
+            return;
+
+          switch (event.originalTarget) {
+            case this:
+              // Forward focus to actual HTML input
+              this.inputField.focus();
+              this.setAttribute("focused", "true");
+              break;
+            case this.inputField:
+              if (this.mIgnoreFocus) {
+                this.mIgnoreFocus = false;
+              } else if (this.clickSelectsAll) {
+                try {
+                  if (!this.editor || !this.editor.composing)
+                    this.editor.selectAll();
+                } catch (e) {}
+              }
+              this.setAttribute("focused", "true");
+              break;
+            default:
+              // Otherwise, allow other children (e.g. URL bar buttons) to get focus
+              break;
+          }
+        ]]>
+      </handler>
+
+      <handler event="blur" phase="capturing">
+        <![CDATA[
+          this.removeAttribute("focused");
+
+          // don't trigger clickSelectsAll when switching application windows
+          if (window == window.top &&
+              window.isChromeWindow &&
+              document.activeElement == this.inputField)
+            this.mIgnoreFocus = true;
+        ]]>
+      </handler>
+
+      <handler event="mousedown">
+        <![CDATA[
+          this.mIgnoreClick = this.hasAttribute("focused");
+
+          if (!this.mIgnoreClick) {
+            this.mIgnoreFocus = true;
+            this.setSelectionRange(0, 0);
+            if (event.originalTarget == this ||
+                event.originalTarget == this.inputField.parentNode)
+              this.inputField.focus();
+          }
+        ]]>
+      </handler>
+
+      <handler event="click" action="this._maybeSelectAll();"/>
+
+#ifndef XP_WIN
+      <handler event="contextmenu">
+        // Only care about context clicks on the textbox itself.
+        if (event.target != this)
+          return;
+
+        if (!event.button) // context menu opened via keyboard shortcut
+          return;
+        this._maybeSelectAll();
+        // see bug 576135 comment 4
+        let box = this.inputField.parentNode;
+        box._doPopupItemEnabling(box.menupopup);
+      </handler>
+#endif
+    </handlers>
+  </binding>
+
+  <binding id="search-textbox" extends="chrome://global/content/bindings/textbox.xml#textbox">
+    <content>
+      <children/>
+      <xul:moz-input-box anonid="moz-input-box" flex="1" xbl:inherits="context,spellcheck" align="center">
+        <xul:image class="textbox-search-sign"/>
+        <html:input class="textbox-input" anonid="input" mozactionhint="search"
+                    xbl:inherits="value,type,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint,spellcheck"/>
+        <xul:deck class="textbox-search-icons" anonid="search-icons">
+          <xul:image class="textbox-search-icon" anonid="searchbutton-icon"
+                     xbl:inherits="src=image,label=searchbuttonlabel,searchbutton,disabled"/>
+          <xul:image class="textbox-search-clear"
+                     onclick="document.getBindingParent(this)._clearSearch();"
+                     label="&searchTextBox.clear.label;"
+                     xbl:inherits="disabled"/>
+        </xul:deck>
+      </xul:moz-input-box>
+    </content>
+    <implementation>
+      <field name="_timer">null</field>
+      <field name="_searchIcons">
+        document.getAnonymousElementByAttribute(this, "anonid", "search-icons");
+      </field>
+      <field name="_searchButtonIcon">
+        document.getAnonymousElementByAttribute(this, "anonid", "searchbutton-icon");
+      </field>
+      <property name="timeout"
+                onset="this.setAttribute('timeout', val); return val;"
+                onget="return parseInt(this.getAttribute('timeout')) || 500;"/>
+      <property name="searchButton"
+                onget="return this.getAttribute('searchbutton') == 'true';">
+        <setter><![CDATA[
+          if (val) {
+            this.setAttribute("searchbutton", "true");
+            this.removeAttribute("aria-autocomplete");
+            // Hack for the button to get the right accessible:
+            this._searchButtonIcon.setAttribute("onclick", "true");
+          } else {
+            this.removeAttribute("searchbutton");
+            this._searchButtonIcon.removeAttribute("onclick");
+            this.setAttribute("aria-autocomplete", "list");
+          }
+          return val;
+        ]]></setter>
+      </property>
+      <property name="value"
+                onget="return this.inputField.value;">
+        <setter><![CDATA[
+          this.inputField.value = val;
+
+          if (val)
+            this._searchIcons.selectedIndex = this.searchButton ? 0 : 1;
+          else
+            this._searchIcons.selectedIndex = 0;
+
+          if (this._timer)
+            clearTimeout(this._timer);
+
+          return val;
+        ]]></setter>
+      </property>
+      <constructor><![CDATA[
+        // Ensure the button state is up to date:
+        this.searchButton = this.searchButton;
+        this._searchButtonIcon.addEventListener("click", (e) => this._iconClick(e));
+      ]]></constructor>
+      <method name="_fireCommand">
+        <parameter name="me"/>
+        <body><![CDATA[
+          if (me._timer)
+            clearTimeout(me._timer);
+          me._timer = null;
+          me.doCommand();
+        ]]></body>
+      </method>
+      <method name="_iconClick">
+        <body><![CDATA[
+          if (this.searchButton)
+            this._enterSearch();
+          else
+            this.focus();
+        ]]></body>
+      </method>
+      <method name="_enterSearch">
+        <body><![CDATA[
+          if (this.disabled)
+            return;
+          if (this.searchButton && this.value && !this.readOnly)
+            this._searchIcons.selectedIndex = 1;
+          this._fireCommand(this);
+        ]]></body>
+      </method>
+      <method name="_clearSearch">
+        <body><![CDATA[
+          if (!this.disabled && !this.readOnly && this.value) {
+            this.value = "";
+            this._fireCommand(this);
+            this._searchIcons.selectedIndex = 0;
+            return true;
+          }
+          return false;
+        ]]></body>
+      </method>
+    </implementation>
+    <handlers>
+      <handler event="input">
+        <![CDATA[
+          if (this.searchButton) {
+            this._searchIcons.selectedIndex = 0;
+            return;
+          }
+          if (this._timer)
+            clearTimeout(this._timer);
+          this._timer = this.timeout && setTimeout(this._fireCommand, this.timeout, this);
+          this._searchIcons.selectedIndex = this.value ? 1 : 0;
+        ]]>
+      </handler>
+      <handler event="keypress" keycode="VK_ESCAPE">
+        <![CDATA[
+          if (this._clearSearch()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        ]]>
+      </handler>
+      <handler event="keypress" keycode="VK_RETURN">
+        <![CDATA[
+          this._enterSearch();
+          event.preventDefault();
+          event.stopPropagation();
+        ]]>
+      </handler>
+    </handlers>
+  </binding>
+</bindings>

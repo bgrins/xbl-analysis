@@ -224,6 +224,8 @@ class MozAddonGeneric extends MozAddonBase {
       "relnotes");
 
     window.customElements.upgrade(this._stateMenulist);
+    window.customElements.upgrade(this._enableBtn);
+    window.customElements.upgrade(this._disableBtn);
 
     this._installStatus = document.getAnonymousElementByAttribute(this, "anonid", "install-status");
     this._installStatus.mControl = this;
