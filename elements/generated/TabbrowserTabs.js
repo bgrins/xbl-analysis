@@ -775,6 +775,8 @@ class MozTabbrowserTabs extends MozTabs {
 
     this._hasTabTempMaxWidth = false;
 
+    this._scrollButtonWidth = 0;
+
     this._lastNumPinned = 0;
 
     this._pinnedTabsLayoutCache = null;
@@ -866,7 +868,7 @@ class MozTabbrowserTabs extends MozTabs {
       this.removeAttribute("overflow");
 
       if (this._lastTabClosedByMouse) {
-        this._expandSpacerBy(this.arrowScrollbox._scrollButtonDown.clientWidth);
+        this._expandSpacerBy(this._scrollButtonWidth);
       }
 
       for (let tab of Array.from(gBrowser._removingTabs)) {
@@ -1100,6 +1102,7 @@ class MozTabbrowserTabs extends MozTabs {
         parseFloat(window.getComputedStyle(aTab).maxWidth);
     }
     this._lastTabClosedByMouse = true;
+    this._scrollButtonWidth = window.windowUtils.getBoundsWithoutFlushing(this.arrowScrollbox._scrollButtonDown).width;
 
     if (this.getAttribute("overflow") == "true") {
       // Don't need to do anything if we're in overflow mode and aren't scrolled
