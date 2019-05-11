@@ -371,7 +371,8 @@ class MozAddonGeneric extends MozAddonBase {
       // They're transient, and cannot be undone.
       this.setAttribute("pending", "uninstall");
       this._pending.textContent = gStrings.ext.formatStringFromName(
-        "notification.restartless-uninstall", [this.mAddon.name], 1);
+        "notification.restartless-uninstall",
+        [this.mAddon.name], 1);
     } else {
       this.removeAttribute("pending");
 
@@ -381,7 +382,8 @@ class MozAddonGeneric extends MozAddonBase {
       if (install && install.state == AddonManager.STATE_DOWNLOAD_FAILED) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.downloadError", [this.mAddon.name], 1
+          "notification.downloadError",
+          [this.mAddon.name], 1
         );
         this._warningBtn.label = gStrings.ext.GetStringFromName("notification.downloadError.retry");
         this._warningBtn.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
@@ -391,7 +393,8 @@ class MozAddonGeneric extends MozAddonBase {
       } else if (install && install.state == AddonManager.STATE_INSTALL_FAILED) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.installError", [this.mAddon.name], 1
+          "notification.installError",
+          [this.mAddon.name], 1
         );
         this._warningBtn.label = gStrings.ext.GetStringFromName("notification.installError.retry");
         this._warningBtn.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
@@ -401,7 +404,8 @@ class MozAddonGeneric extends MozAddonBase {
       } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_BLOCKED) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.blocked", [this.mAddon.name], 1
+          "notification.blocked",
+          [this.mAddon.name], 1
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.blocked.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -420,7 +424,8 @@ class MozAddonGeneric extends MozAddonBase {
           (this.mAddon.blocklistState != Ci.nsIBlocklistService.STATE_SOFTBLOCKED))) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.incompatible", [this.mAddon.name, gStrings.brandShortName, gStrings.appVersion], 3
+          "notification.incompatible",
+          [this.mAddon.name, gStrings.brandShortName, gStrings.appVersion], 3
         );
         this._warningLink.hidden = true;
         this._warningBtn.hidden = true;
@@ -435,7 +440,8 @@ class MozAddonGeneric extends MozAddonBase {
       } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_SOFTBLOCKED) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.softblocked", [this.mAddon.name], 1
+          "notification.softblocked",
+          [this.mAddon.name], 1
         );
         this._warningLink.value = gStrings.ext.GetStringFromName("notification.softblocked.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -446,7 +452,8 @@ class MozAddonGeneric extends MozAddonBase {
       } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_OUTDATED) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.outdated", [this.mAddon.name], 1
+          "notification.outdated",
+          [this.mAddon.name], 1
         );
         this._warningLink.value = gStrings.ext.GetStringFromName("notification.outdated.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -457,7 +464,8 @@ class MozAddonGeneric extends MozAddonBase {
       } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_VULNERABLE_UPDATE_AVAILABLE) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.vulnerableUpdatable", [this.mAddon.name], 1
+          "notification.vulnerableUpdatable",
+          [this.mAddon.name], 1
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.vulnerableUpdatable.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -467,7 +475,8 @@ class MozAddonGeneric extends MozAddonBase {
       } else if (!isUpgrade && this.mAddon.blocklistState == Ci.nsIBlocklistService.STATE_VULNERABLE_NO_UPDATE) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.vulnerableNoUpdate", [this.mAddon.name], 1
+          "notification.vulnerableNoUpdate",
+          [this.mAddon.name], 1
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.vulnerableNoUpdate.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -478,7 +487,8 @@ class MozAddonGeneric extends MozAddonBase {
         this.mAddon.isActive) {
         this.setAttribute("notification", "warning");
         this._warning.textContent =
-          gStrings.ext.formatStringFromName("notification.gmpPending", [this.mAddon.name], 1);
+          gStrings.ext.formatStringFromName("notification.gmpPending",
+            [this.mAddon.name], 1);
       } else {
         this.removeAttribute("notification");
       }

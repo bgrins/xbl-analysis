@@ -88,14 +88,16 @@ class MozAddonInstalling extends MozAddonBase {
     if (this.mInstall.state == AddonManager.STATE_DOWNLOAD_FAILED) {
       this.setAttribute("notification", "warning");
       this._warning.textContent = gStrings.ext.formatStringFromName(
-        "notification.downloadError", [this._name.value], 1
+        "notification.downloadError",
+        [this._name.value], 1
       );
       this._warningLink.label = gStrings.ext.GetStringFromName("notification.downloadError.retry");
       this._warningLink.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
     } else if (this.mInstall.state == AddonManager.STATE_INSTALL_FAILED) {
       this.setAttribute("notification", "warning");
       this._warning.textContent = gStrings.ext.formatStringFromName(
-        "notification.installError", [this._name.value], 1
+        "notification.installError",
+        [this._name.value], 1
       );
       this._warningLink.label = gStrings.ext.GetStringFromName("notification.installError.retry");
       this._warningLink.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");

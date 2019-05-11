@@ -414,22 +414,19 @@ class MozLegacyUrlbar extends MozAutocomplete {
       switch (action.type) {
         case "switchtab": // Fall through.
         case "remotetab": // Fall through.
-        case "visiturl":
-          {
-            returnValue = action.params.displayUrl;
-            break;
-          }
+        case "visiturl": {
+          returnValue = action.params.displayUrl;
+          break;
+        }
         case "keyword": // Fall through.
-        case "searchengine":
-          {
-            returnValue = action.params.input;
-            break;
-          }
-        case "extension":
-          {
-            returnValue = action.params.content;
-            break;
-          }
+        case "searchengine": {
+          returnValue = action.params.input;
+          break;
+        }
+        case "extension": {
+          returnValue = action.params.content;
+          break;
+        }
       }
     } else {
       let originalUrl = ReaderMode.getOriginalUrlObjectForDisplay(aValue);
@@ -1307,31 +1304,29 @@ class MozLegacyUrlbar extends MozAutocomplete {
       case "mouseover":
         this._updateUrlTooltip();
         break;
-      case "overflow":
-        {
-          const targetIsPlaceholder = !aEvent.originalTarget.classList.contains("anonymous-div");
-          // We only care about the non-placeholder text.
-          // This shouldn't be needed, see bug 1487036.
-          if (targetIsPlaceholder) {
-            break;
-          }
-          this._inOverflow = true;
-          this.updateTextOverflow();
+      case "overflow": {
+        const targetIsPlaceholder = !aEvent.originalTarget.classList.contains("anonymous-div");
+        // We only care about the non-placeholder text.
+        // This shouldn't be needed, see bug 1487036.
+        if (targetIsPlaceholder) {
           break;
         }
-      case "underflow":
-        {
-          const targetIsPlaceholder = !aEvent.originalTarget.classList.contains("anonymous-div");
-          // We only care about the non-placeholder text.
-          // This shouldn't be needed, see bug 1487036.
-          if (targetIsPlaceholder) {
-            break;
-          }
-          this._inOverflow = false;
-          this.updateTextOverflow();
-          this._updateUrlTooltip();
+        this._inOverflow = true;
+        this.updateTextOverflow();
+        break;
+      }
+      case "underflow": {
+        const targetIsPlaceholder = !aEvent.originalTarget.classList.contains("anonymous-div");
+        // We only care about the non-placeholder text.
+        // This shouldn't be needed, see bug 1487036.
+        if (targetIsPlaceholder) {
           break;
         }
+        this._inOverflow = false;
+        this.updateTextOverflow();
+        this._updateUrlTooltip();
+        break;
+      }
       case "scrollend":
         this.updateTextOverflow();
         break;

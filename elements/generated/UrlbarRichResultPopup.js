@@ -600,7 +600,8 @@ class MozUrlbarRichResultPopup extends MozAutocompleteRichResultPopup {
    * true if the keypress was consumed and false if not.
    */
   handleKeyPress(aEvent) {
-    this.oneOffSearchButtons.handleKeyPress(aEvent, this.matchCount, !this._isFirstResultHeuristic,
+    this.oneOffSearchButtons.handleKeyPress(aEvent, this.matchCount,
+      !this._isFirstResultHeuristic,
       gBrowser.userTypedValue);
     return aEvent.defaultPrevented && !aEvent.urlbarDeferred;
   }

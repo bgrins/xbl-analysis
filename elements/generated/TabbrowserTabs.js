@@ -1217,7 +1217,8 @@ class MozTabbrowserTabs extends MozTabs {
       for (let i = numPinned - 1; i >= 0; i--) {
         let tab = this.children[i];
         width += layoutData.pinnedTabWidth;
-        tab.style.setProperty("margin-inline-start", -(width + layoutData.scrollButtonWidth) + "px", "important");
+        tab.style.setProperty("margin-inline-start",
+          -(width + layoutData.scrollButtonWidth) + "px", "important");
         tab._pinnedUnscrollable = true;
       }
       this.style.paddingInlineStart = width + "px";

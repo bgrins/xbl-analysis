@@ -175,16 +175,14 @@ class MozDialog extends MozXULElement {
 
   handleEvent(aEvent) {
     switch (aEvent.type) {
-      case "close":
-        {
-          this._closeHandler(aEvent);
-          break;
-        }
-      case "load":
-        {
-          this.postLoadInit(aEvent);
-          break;
-        }
+      case "close": {
+        this._closeHandler(aEvent);
+        break;
+      }
+      case "load": {
+        this.postLoadInit(aEvent);
+        break;
+      }
     }
   }
 

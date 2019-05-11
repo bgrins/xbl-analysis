@@ -96,7 +96,8 @@ class MozSearchbarTextbox extends MozAutocomplete {
           case "cmd_togglesuggest":
             let enabled =
               Services.prefs.getBoolPref("browser.search.suggest.enabled");
-            Services.prefs.setBoolPref("browser.search.suggest.enabled", !enabled);
+            Services.prefs.setBoolPref("browser.search.suggest.enabled",
+              !enabled);
             break;
           default:
             // do nothing with unrecognized command
