@@ -920,6 +920,9 @@ class MozTabbrowserTabs extends MozTabs {
           containersEnabled = false;
         }
 
+        // There are separate "new tab" buttons for when the tab strip
+        // is overflowed and when it is not.  Attach the long click
+        // popup to both of them.
         const newTab = document.getElementById("new-tab-button");
         const newTab2 = document.getAnonymousElementByAttribute(this, "anonid", "tabs-newtab-button");
 
@@ -929,8 +932,8 @@ class MozTabbrowserTabs extends MozTabs {
 
           gClickAndHoldListenersOnElement.remove(parent);
           parent.removeAttribute("type");
-          if (parent.firstElementChild) {
-            parent.firstElementChild.remove();
+          if (parent.menupopup) {
+            parent.menupopup.remove();
           }
 
           if (containersEnabled) {
@@ -950,7 +953,7 @@ class MozTabbrowserTabs extends MozTabs {
                 showDefaultTab: Services.prefs.getIntPref("privacy.userContext.longPressBehavior") == 1,
               });
             });
-            parent.appendChild(popup);
+            parent.prepend(popup);
 
             // longPressBehavior == 2 means that the menu is shown after X
             // millisecs. Otherwise, with 1, the menu is open immediatelly.

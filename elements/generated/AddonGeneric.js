@@ -22,6 +22,12 @@ class MozAddonGeneric extends MozAddonBase {
         // Treat the relnotes container as embedded text instead of a click target.
         !event.originalTarget.closest(".relnotes-container")) {
         this.showInDetailView();
+      } else if (event.originalTarget.localName == "a" &&
+        event.originalTarget.closest(".relnotes-container") &&
+        event.originalTarget.href) {
+        event.preventDefault();
+        event.stopPropagation();
+        openURL(event.originalTarget.href);
       }
     });
 
@@ -563,70 +569,24 @@ class MozAddonGeneric extends MozAddonBase {
       return;
     }
 
-    var relNotesData = null,
-      transformData = null;
-
     this._relNotesLoaded = true;
     this._relNotesLoading.hidden = false;
     this._relNotesError.hidden = true;
 
-    let showRelNotes = () => {
-      if (!relNotesData || !transformData)
-        return;
-
+    loadReleaseNotes(aURI).then(fragment => {
       this._relNotesLoading.hidden = true;
-
-      var processor = new XSLTProcessor();
-      processor.flags |= XSLTProcessor.DISABLE_ALL_LOADS;
-
-      processor.importStylesheet(transformData);
-      var fragment = processor.transformToFragment(relNotesData, document);
       this._relNotes.appendChild(fragment);
       if (this.hasAttribute("show-relnotes")) {
         var container = this._relNotesContainer;
         container.style.height = container.scrollHeight + "px";
       }
       sendToggleEvent();
-    };
-
-    let handleError = () => {
-      dataReq.abort();
-      styleReq.abort();
+    }, () => {
       this._relNotesLoading.hidden = true;
       this._relNotesError.hidden = false;
       this._relNotesLoaded = false; // allow loading to be re-tried
       sendToggleEvent();
-    };
-
-    function handleResponse(aEvent) {
-      var req = aEvent.target;
-      var ct = req.getResponseHeader("content-type");
-      if ((!ct || !ct.includes("text/html")) &&
-        req.responseXML &&
-        req.responseXML.documentElement.namespaceURI != XMLURI_PARSE_ERROR) {
-        if (req == dataReq)
-          relNotesData = req.responseXML;
-        else
-          transformData = req.responseXML;
-        showRelNotes();
-      } else {
-        handleError();
-      }
-    }
-
-    var dataReq = new XMLHttpRequest({ mozAnon: true });
-    dataReq.open("GET", aURI.spec, true);
-    dataReq.responseType = "document";
-    dataReq.addEventListener("load", handleResponse);
-    dataReq.addEventListener("error", handleError);
-    dataReq.send(null);
-
-    var styleReq = new XMLHttpRequest({ mozAnon: true });
-    styleReq.open("GET", UPDATES_RELEASENOTES_TRANSFORMFILE, true);
-    styleReq.responseType = "document";
-    styleReq.addEventListener("load", handleResponse);
-    styleReq.addEventListener("error", handleError);
-    styleReq.send(null);
+    });
   }
 
   toggleReleaseNotes() {

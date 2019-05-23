@@ -432,6 +432,7 @@ class MozAutocompleteRichResultPopup extends MozXULElement {
           "autofill-footer",
           "autofill-clear-button",
           "autofill-insecureWarning",
+          "generatedPassword",
           "insecureWarning",
           "loginsFooter",
           "loginWithOrigin",
@@ -464,8 +465,9 @@ class MozAutocompleteRichResultPopup extends MozXULElement {
           case "loginsFooter":
             options = { is: "autocomplete-richlistitem-logins-footer" };
             break;
+          case "generatedPassword":
           case "loginWithOrigin":
-            options = { is: "autocomplete-richlistitem-login-with-origin" };
+            options = { is: "autocomplete-two-line-richlistitem" };
             break;
           default:
             options = { is: "autocomplete-richlistitem" };

@@ -204,7 +204,8 @@ class MozTabbrowserTab extends MozTab {
           <hbox class="tab-label-container" inherits="pinned,selected=visuallyselected,labeldirection" onoverflow="this.setAttribute('textoverflow', 'true');" onunderflow="this.removeAttribute('textoverflow');" flex="1">
             <label class="tab-text tab-label" anonid="tab-label" inherits="text=label,accesskey,fadein,pinned,selected=visuallyselected,attention" role="presentation"></label>
           </hbox>
-          <image inherits="soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked" anonid="soundplaying-icon" class="tab-icon-sound" role="presentation"></image>
+          <image inherits="pictureinpicture" class="tab-icon-pip" role="presentation"></image>
+          <image inherits="soundplaying,soundplaying-scheduledremoval,pinned,muted,blocked,selected=visuallyselected,activemedia-blocked,pictureinpicture" anonid="soundplaying-icon" class="tab-icon-sound" role="presentation"></image>
           <image anonid="close-button" inherits="fadein,pinned,selected=visuallyselected" class="tab-close-button close-icon" role="presentation"></image>
         </hbox>
       </stack>
@@ -296,6 +297,10 @@ class MozTabbrowserTab extends MozTab {
 
   get soundPlaying() {
     return this.getAttribute("soundplaying") == "true";
+  }
+
+  get pictureinpicture() {
+    return this.getAttribute("pictureinpicture") == "true";
   }
 
   get activeMediaBlocked() {
