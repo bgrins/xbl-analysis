@@ -43,8 +43,7 @@ class MozTabbrowserTabs extends MozTabs {
         return;
       }
 
-      let tab = event.target;
-
+      let tab = event.target ? event.target.closest("tab") : null;
       if (tab.getAttribute("fadein") == "true") {
         if (tab._fullyOpen) {
           this._updateCloseButtons();
@@ -139,8 +138,9 @@ class MozTabbrowserTabs extends MozTabs {
         return;
       }
 
-      if (event.target.localName == "tab") {
-        gBrowser.removeTab(event.target, {
+      let tab = event.target ? event.target.closest("tab") : null;
+      if (tab) {
+        gBrowser.removeTab(tab, {
           animate: true,
           byMouse: event.mozInputSource == MouseEvent.MOZ_SOURCE_MOUSE,
         });
@@ -1626,7 +1626,10 @@ class MozTabbrowserTabs extends MozTabs {
   }
 
   _getDragTargetTab(event, isLink) {
-    let tab = event.target.localName == "tab" ? event.target : null;
+    let tab = event.target;
+    while (tab && tab.localName != "tab") {
+      tab = tab.parentNode;
+    }
     if (tab && isLink) {
       let { width } = tab.getBoundingClientRect();
       if (event.screenX < tab.screenX + width * .25 ||

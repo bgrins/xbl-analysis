@@ -459,15 +459,17 @@ class MozAutocompleteRichResultPopup extends MozXULElement {
           case "autofill-insecureWarning":
             options = { is: "autocomplete-creditcard-insecure-field" };
             break;
+          case "generatedPassword":
+            options = { is: "autocomplete-two-line-richlistitem" };
+            break;
           case "insecureWarning":
             options = { is: "autocomplete-richlistitem-insecure-warning" };
             break;
           case "loginsFooter":
             options = { is: "autocomplete-richlistitem-logins-footer" };
             break;
-          case "generatedPassword":
           case "loginWithOrigin":
-            options = { is: "autocomplete-two-line-richlistitem" };
+            options = { is: "autocomplete-login-richlistitem" };
             break;
           default:
             options = { is: "autocomplete-richlistitem" };
