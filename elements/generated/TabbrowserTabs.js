@@ -43,7 +43,11 @@ class MozTabbrowserTabs extends MozTabs {
         return;
       }
 
-      let tab = event.target ? event.target.closest("tab") : null;
+      let tab = event.target.closest("tab");
+      if (!tab) {
+        return;
+      }
+
       if (tab.getAttribute("fadein") == "true") {
         if (tab._fullyOpen) {
           this._updateCloseButtons();
@@ -138,7 +142,7 @@ class MozTabbrowserTabs extends MozTabs {
         return;
       }
 
-      let tab = event.target ? event.target.closest("tab") : null;
+      let tab = event.target.closest("tab");
       if (tab) {
         gBrowser.removeTab(tab, {
           animate: true,

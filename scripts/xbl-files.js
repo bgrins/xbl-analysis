@@ -17,7 +17,6 @@ var allFiles = [
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/menu.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/search/content/search.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/dialog.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/richlistbox.xml',
@@ -93,6 +92,7 @@ var deletedFiles = {
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/menu.xml': '2019-05-03',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/button.xml': '2019-05-23',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/toolbarbutton.xml': '2019-05-23',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/dialog.xml': '2019-06-05',
 };
 
 var exportedFiles = allFiles.slice();

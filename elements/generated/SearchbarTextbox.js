@@ -251,7 +251,7 @@ class MozSearchbarTextbox extends MozAutocomplete {
     let popup = this.popup;
     if (!popup.mPopupOpen) {
       // Initially the panel used for the searchbar (PopupSearchAutoComplete
-      // in browser.xul) is hidden to avoid impacting startup / new
+      // in browser.xhtml) is hidden to avoid impacting startup / new
       // window performance. The base binding's openPopup would normally
       // call the overriden openAutocompletePopup in
       // browser-search-autocomplete-result-popup binding to unhide the popup,
