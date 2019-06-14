@@ -89,7 +89,7 @@ class MozAddonInstalling extends MozAddonBase {
       this.setAttribute("notification", "warning");
       this._warning.textContent = gStrings.ext.formatStringFromName(
         "notification.downloadError",
-        [this._name.value], 1
+        [this._name.value]
       );
       this._warningLink.label = gStrings.ext.GetStringFromName("notification.downloadError.retry");
       this._warningLink.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
@@ -97,7 +97,7 @@ class MozAddonInstalling extends MozAddonBase {
       this.setAttribute("notification", "warning");
       this._warning.textContent = gStrings.ext.formatStringFromName(
         "notification.installError",
-        [this._name.value], 1
+        [this._name.value]
       );
       this._warningLink.label = gStrings.ext.GetStringFromName("notification.installError.retry");
       this._warningLink.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");

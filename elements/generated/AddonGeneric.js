@@ -378,7 +378,7 @@ class MozAddonGeneric extends MozAddonBase {
       this.setAttribute("pending", "uninstall");
       this._pending.textContent = gStrings.ext.formatStringFromName(
         "notification.restartless-uninstall",
-        [this.mAddon.name], 1);
+        [this.mAddon.name]);
     } else {
       this.removeAttribute("pending");
 
@@ -389,7 +389,7 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
           "notification.downloadError",
-          [this.mAddon.name], 1
+          [this.mAddon.name]
         );
         this._warningBtn.label = gStrings.ext.GetStringFromName("notification.downloadError.retry");
         this._warningBtn.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
@@ -400,7 +400,7 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
           "notification.installError",
-          [this.mAddon.name], 1
+          [this.mAddon.name]
         );
         this._warningBtn.label = gStrings.ext.GetStringFromName("notification.installError.retry");
         this._warningBtn.tooltipText = gStrings.ext.GetStringFromName("notification.downloadError.retry.tooltip");
@@ -411,7 +411,7 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
           "notification.blocked",
-          [this.mAddon.name], 1
+          [this.mAddon.name]
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.blocked.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -421,7 +421,7 @@ class MozAddonGeneric extends MozAddonBase {
       } else if (!isUpgrade && isDisabledUnsigned(this.mAddon)) {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
-          "notification.unsignedAndDisabled", [this.mAddon.name, gStrings.brandShortName], 2
+          "notification.unsignedAndDisabled", [this.mAddon.name, gStrings.brandShortName]
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.unsigned.link");
         this._errorLink.href = SUPPORT_URL + "unsigned-addons";
@@ -431,14 +431,14 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
           "notification.incompatible",
-          [this.mAddon.name, gStrings.brandShortName, gStrings.appVersion], 3
+          [this.mAddon.name, gStrings.brandShortName, gStrings.appVersion]
         );
         this._warningLink.hidden = true;
         this._warningBtn.hidden = true;
       } else if (!isUpgrade && !isCorrectlySigned(this.mAddon)) {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
-          "notification.unsigned", [this.mAddon.name, gStrings.brandShortName], 2
+          "notification.unsigned", [this.mAddon.name, gStrings.brandShortName]
         );
         this._warningLink.value = gStrings.ext.GetStringFromName("notification.unsigned.link");
         this._warningLink.href = SUPPORT_URL + "unsigned-addons";
@@ -447,7 +447,7 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
           "notification.softblocked",
-          [this.mAddon.name], 1
+          [this.mAddon.name]
         );
         this._warningLink.value = gStrings.ext.GetStringFromName("notification.softblocked.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -459,7 +459,7 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "warning");
         this._warning.textContent = gStrings.ext.formatStringFromName(
           "notification.outdated",
-          [this.mAddon.name], 1
+          [this.mAddon.name]
         );
         this._warningLink.value = gStrings.ext.GetStringFromName("notification.outdated.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -471,7 +471,7 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
           "notification.vulnerableUpdatable",
-          [this.mAddon.name], 1
+          [this.mAddon.name]
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.vulnerableUpdatable.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -482,7 +482,7 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "error");
         this._error.textContent = gStrings.ext.formatStringFromName(
           "notification.vulnerableNoUpdate",
-          [this.mAddon.name], 1
+          [this.mAddon.name]
         );
         this._errorLink.value = gStrings.ext.GetStringFromName("notification.vulnerableNoUpdate.link");
         this.mAddon.getBlocklistURL().then(url => {
@@ -494,7 +494,7 @@ class MozAddonGeneric extends MozAddonBase {
         this.setAttribute("notification", "warning");
         this._warning.textContent =
           gStrings.ext.formatStringFromName("notification.gmpPending",
-            [this.mAddon.name], 1);
+            [this.mAddon.name]);
       } else {
         this.removeAttribute("notification");
       }
@@ -506,7 +506,8 @@ class MozAddonGeneric extends MozAddonBase {
       this._enableBtn.disabled = true;
       this._disableBtn.disabled = true;
       this._askToActivateMenuitem.disabled = !this.hasPermission("ask_to_activate");
-      this._alwaysActivateMenuitem.disabled = !this.hasPermission("enable");
+      let alwaysActivateProp = this.mAddon.isFlashPlugin ? "hidden" : "disabled";
+      this._alwaysActivateMenuitem[alwaysActivateProp] = !this.hasPermission("enable");
       this._neverActivateMenuitem.disabled = !this.hasPermission("disable");
       if (!this.mAddon.isActive) {
         this._stateMenulist.selectedItem = this._neverActivateMenuitem;
@@ -518,6 +519,9 @@ class MozAddonGeneric extends MozAddonBase {
       let hasActivatePermission = ["ask_to_activate", "enable", "disable"].some(perm => this.hasPermission(perm));
       this._stateMenulist.disabled = !hasActivatePermission;
       this._stateMenulist.hidden = false;
+      this._askToActivateMenuitem.classList.add("no-auto-hide");
+      this._alwaysActivateMenuitem.classList.add("no-auto-hide");
+      this._neverActivateMenuitem.classList.add("no-auto-hide");
       this._stateMenulist.classList.add("no-auto-hide");
     } else {
       this._stateMenulist.hidden = true;

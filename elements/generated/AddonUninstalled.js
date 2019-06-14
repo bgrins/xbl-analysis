@@ -26,8 +26,7 @@ class MozAddonUninstalled extends MozAddonBase {
     this._notice = document.getAnonymousElementByAttribute(this, "anonid", "notice");
 
     this._notice.textContent = gStrings.ext.formatStringFromName("uninstallNotice",
-      [this.mAddon.name],
-      1);
+      [this.mAddon.name]);
 
     gEventManager.registerAddonListener(this, this.mAddon.id);
 

@@ -53,12 +53,9 @@ class MozAutocomplete extends MozTextbox {
     }
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <children includes="image|box"></children>
       <moz-input-box anonid="moz-input-box" flex="1">
-        <children></children>
         <html:input anonid="input" class="textbox-input" allowevents="true" autocomplete="off" inherits="value,type=inputtype,maxlength,disabled,size,readonly,placeholder,tabindex,accesskey,mozactionhint"></html:input>
       </moz-input-box>
-      <children includes="hbox"></children>
       <popupset anonid="popupset" class="autocomplete-result-popupset"></popupset>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
