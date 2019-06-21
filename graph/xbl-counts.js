@@ -55646,7 +55646,7 @@ var DATA = {
     },
     label: "2019-06-13"
   },
-  "master@{2019-06-14}": {
+  "master@{2019-06-15}": {
     numBindings: 28,
     numInContentBindings: 0,
     loc: 10515,
@@ -55696,7 +55696,163 @@ var DATA = {
       "detail-row": 23,
       basecontrol: 14
     },
-    label: "2019-06-14"
+    label: "2019-06-15"
+  },
+  "master@{2019-06-17}": {
+    numBindings: 28,
+    numInContentBindings: 0,
+    loc: 10515,
+    directoryLOC: {
+      browser: 5229,
+      dom: 0,
+      toolkit: 5286,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 6,
+      dom: 0,
+      toolkit: 22,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      "tabbrowser-tabs": 1906,
+      "legacy-urlbar": 1807,
+      "addon-generic": 949,
+      "urlbar-rich-result-popup": 870,
+      arrowscrollbox: 763,
+      "autocomplete-rich-result-popup": 610,
+      autocomplete: 606,
+      "places-popup-base": 478,
+      wizard: 418,
+      tabs: 368,
+      textbox: 232,
+      "install-status": 202,
+      popup: 166,
+      richlistitem: 149,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      "addon-installing": 115,
+      rating: 107,
+      "addon-uninstalled": 99,
+      panel: 83,
+      "download-progress": 81,
+      "creator-link": 52,
+      "addon-base": 49,
+      urlbar: 36,
+      basetext: 36,
+      category: 34,
+      "detail-row": 23,
+      basecontrol: 14
+    },
+    label: "2019-06-17"
+  },
+  "master@{2019-06-19}": {
+    numBindings: 28,
+    numInContentBindings: 0,
+    loc: 10515,
+    directoryLOC: {
+      browser: 5229,
+      dom: 0,
+      toolkit: 5286,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 6,
+      dom: 0,
+      toolkit: 22,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      "tabbrowser-tabs": 1906,
+      "legacy-urlbar": 1807,
+      "addon-generic": 949,
+      "urlbar-rich-result-popup": 870,
+      arrowscrollbox: 763,
+      "autocomplete-rich-result-popup": 610,
+      autocomplete: 606,
+      "places-popup-base": 478,
+      wizard: 418,
+      tabs: 368,
+      textbox: 232,
+      "install-status": 202,
+      popup: 166,
+      richlistitem: 149,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      "addon-installing": 115,
+      rating: 107,
+      "addon-uninstalled": 99,
+      panel: 83,
+      "download-progress": 81,
+      "creator-link": 52,
+      "addon-base": 49,
+      urlbar: 36,
+      basetext: 36,
+      category: 34,
+      "detail-row": 23,
+      basecontrol: 14
+    },
+    label: "2019-06-19"
+  },
+  "master@{2019-06-21}": {
+    numBindings: 28,
+    numInContentBindings: 0,
+    loc: 10515,
+    directoryLOC: {
+      browser: 5229,
+      dom: 0,
+      toolkit: 5286,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 6,
+      dom: 0,
+      toolkit: 22,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      "tabbrowser-tabs": 1906,
+      "legacy-urlbar": 1807,
+      "addon-generic": 949,
+      "urlbar-rich-result-popup": 870,
+      arrowscrollbox: 763,
+      "autocomplete-rich-result-popup": 610,
+      autocomplete: 606,
+      "places-popup-base": 478,
+      wizard: 418,
+      tabs: 368,
+      textbox: 232,
+      "install-status": 202,
+      popup: 166,
+      richlistitem: 149,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      "addon-installing": 115,
+      rating: 107,
+      "addon-uninstalled": 99,
+      panel: 83,
+      "download-progress": 81,
+      "creator-link": 52,
+      "addon-base": 49,
+      urlbar: 36,
+      basetext: 36,
+      category: 34,
+      "detail-row": 23,
+      basecontrol: 14
+    },
+    label: "2019-06-21"
   }
 };
 var SORTED_BINDINGS = {
