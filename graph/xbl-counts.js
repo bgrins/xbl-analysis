@@ -56304,14 +56304,14 @@ var DATA = {
     },
     label: "2019-07-09"
   },
-  "master@{2019-07-10}": {
-    numBindings: 24,
+  "master@{2019-07-11}": {
+    numBindings: 15,
     numInContentBindings: 0,
-    loc: 6016,
+    loc: 4337,
     directoryLOC: {
       browser: 1516,
       dom: 0,
-      toolkit: 4500,
+      toolkit: 2821,
       mobile: 0,
       layout: 0,
       xpfe: 0
@@ -56319,38 +56319,29 @@ var DATA = {
     directoryBindings: {
       browser: 4,
       dom: 0,
-      toolkit: 20,
+      toolkit: 11,
       mobile: 0,
       layout: 0,
       xpfe: 0
     },
     bindingsLOC: {
-      "addon-generic": 949,
       "urlbar-rich-result-popup": 870,
       arrowscrollbox: 763,
       "autocomplete-rich-result-popup": 610,
       autocomplete: 606,
       "places-popup-base": 478,
       textbox: 232,
-      "install-status": 202,
       popup: 166,
       richlistitem: 149,
       "places-popup-arrow": 132,
       arrowpanel: 130,
-      "addon-installing": 115,
-      rating: 107,
-      "addon-uninstalled": 99,
       panel: 83,
-      "download-progress": 81,
-      "creator-link": 52,
-      "addon-base": 49,
       basetext: 36,
       urlbar: 36,
-      category: 34,
-      "detail-row": 23,
+      category: 32,
       basecontrol: 14
     },
-    label: "2019-07-10"
+    label: "2019-07-11"
   }
 };
 var SORTED_BINDINGS = {
