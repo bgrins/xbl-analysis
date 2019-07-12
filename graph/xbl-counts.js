@@ -56342,6 +56342,43 @@ var DATA = {
       basecontrol: 14
     },
     label: "2019-07-11"
+  },
+  "master@{2019-07-12}": {
+    numBindings: 13,
+    numInContentBindings: 0,
+    loc: 2857,
+    directoryLOC: {
+      browser: 646,
+      dom: 0,
+      toolkit: 2211,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 3,
+      dom: 0,
+      toolkit: 10,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 606,
+      "places-popup-base": 478,
+      textbox: 232,
+      popup: 166,
+      richlistitem: 149,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basetext: 36,
+      urlbar: 36,
+      category: 32,
+      basecontrol: 14
+    },
+    label: "2019-07-12"
   }
 };
 var SORTED_BINDINGS = {
