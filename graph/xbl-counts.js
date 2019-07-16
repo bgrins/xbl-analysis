@@ -56305,11 +56305,11 @@ var DATA = {
     label: "2019-07-09"
   },
   "master@{2019-07-11}": {
-    numBindings: 15,
+    numBindings: 14,
     numInContentBindings: 0,
-    loc: 4337,
+    loc: 3467,
     directoryLOC: {
-      browser: 1516,
+      browser: 646,
       dom: 0,
       toolkit: 2821,
       mobile: 0,
@@ -56317,7 +56317,7 @@ var DATA = {
       xpfe: 0
     },
     directoryBindings: {
-      browser: 4,
+      browser: 3,
       dom: 0,
       toolkit: 11,
       mobile: 0,
@@ -56325,7 +56325,6 @@ var DATA = {
       xpfe: 0
     },
     bindingsLOC: {
-      "urlbar-rich-result-popup": 870,
       arrowscrollbox: 763,
       "autocomplete-rich-result-popup": 610,
       autocomplete: 606,
@@ -56343,7 +56342,7 @@ var DATA = {
     },
     label: "2019-07-11"
   },
-  "master@{2019-07-12}": {
+  "master@{2019-07-13}": {
     numBindings: 13,
     numInContentBindings: 0,
     loc: 2857,
@@ -56378,7 +56377,81 @@ var DATA = {
       category: 32,
       basecontrol: 14
     },
-    label: "2019-07-12"
+    label: "2019-07-13"
+  },
+  "master@{2019-07-15}": {
+    numBindings: 13,
+    numInContentBindings: 0,
+    loc: 2857,
+    directoryLOC: {
+      browser: 646,
+      dom: 0,
+      toolkit: 2211,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 3,
+      dom: 0,
+      toolkit: 10,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 606,
+      "places-popup-base": 478,
+      textbox: 232,
+      popup: 166,
+      richlistitem: 149,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basetext: 36,
+      urlbar: 36,
+      category: 32,
+      basecontrol: 14
+    },
+    label: "2019-07-15"
+  },
+  "master@{2019-07-16}": {
+    numBindings: 13,
+    numInContentBindings: 0,
+    loc: 2857,
+    directoryLOC: {
+      browser: 646,
+      dom: 0,
+      toolkit: 2211,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 3,
+      dom: 0,
+      toolkit: 10,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 606,
+      "places-popup-base": 478,
+      textbox: 232,
+      popup: 166,
+      richlistitem: 149,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basetext: 36,
+      urlbar: 36,
+      category: 32,
+      basecontrol: 14
+    },
+    label: "2019-07-16"
   }
 };
 var SORTED_BINDINGS = {
