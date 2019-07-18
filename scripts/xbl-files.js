@@ -12,7 +12,6 @@ process.on('unhandledRejection', (reason, p) => {
 //  egrep -l1 -r -n -i --include="*.xml" "<binding id" .
 
 var allFiles = [
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/urlbarBindings.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/components/places/content/menu.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml',
@@ -93,6 +92,7 @@ var deletedFiles = {
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/wizard.xml': '2019-06-29',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/tabbrowser.xml': '2019-06-29',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/tabbox.xml': '2019-06-29',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/browser/base/content/urlbarBindings.xml': '2019-07-17',
 };
 
 var exportedFiles = allFiles.slice();
