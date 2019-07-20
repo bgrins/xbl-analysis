@@ -23,14 +23,6 @@ class MozTextbox extends MozXULElement {
           this.setAttribute("focused", "true");
           break;
         case this.inputField:
-          if (this.mIgnoreFocus) {
-            this.mIgnoreFocus = false;
-          } else if (this.clickSelectsAll) {
-            try {
-              if (!this.editor || !this.editor.composing)
-                this.editor.selectAll();
-            } catch (e) {}
-          }
           this.setAttribute("focused", "true");
           break;
         default:
@@ -41,27 +33,18 @@ class MozTextbox extends MozXULElement {
 
     this.addEventListener("blur", (event) => {
       this.removeAttribute("focused");
-
-      // don't trigger clickSelectsAll when switching application windows
-      if (window == window.top &&
-        window.isChromeWindow &&
-        document.activeElement == this.inputField)
-        this.mIgnoreFocus = true;
     }, true);
 
     this.addEventListener("mousedown", (event) => {
       this.mIgnoreClick = this.hasAttribute("focused");
 
       if (!this.mIgnoreClick) {
-        this.mIgnoreFocus = true;
         this.setSelectionRange(0, 0);
         if (event.originalTarget == this ||
           event.originalTarget == this.inputField.parentNode)
           this.inputField.focus();
       }
     });
-
-    this.addEventListener("click", (event) => { this._maybeSelectAll(); });
 
   }
 
@@ -92,8 +75,6 @@ class MozTextbox extends MozXULElement {
     this.mInputField = null;
 
     this.mIgnoreClick = false;
-
-    this.mIgnoreFocus = false;
 
     this.mEditor = null;
 
@@ -222,16 +203,6 @@ class MozTextbox extends MozXULElement {
     return this.inputField.readOnly;
   }
 
-  set clickSelectsAll(val) {
-    if (val) this.setAttribute('clickSelectsAll', 'true');
-    else this.removeAttribute('clickSelectsAll');
-    return val;
-  }
-
-  get clickSelectsAll() {
-    return this.getAttribute('clickSelectsAll') == 'true';
-  }
-
   get editor() {
     if (!this.mEditor) {
       this.mEditor = this.inputField.editor;
@@ -304,13 +275,6 @@ class MozTextbox extends MozXULElement {
         }
       }
     }
-  }
-
-  _maybeSelectAll() {
-    if (!this.mIgnoreClick && this.clickSelectsAll &&
-      document.activeElement == this.inputField &&
-      this.inputField.selectionStart == this.inputField.selectionEnd)
-      this.editor.selectAll();
   }
   disconnectedCallback() {
     var field = this.inputField;
