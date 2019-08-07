@@ -68,14 +68,6 @@ class MozAutocomplete extends MozTextbox {
 
     this.noRollupOnEmptySearch = false;
 
-    this._searchBeginHandler = null;
-
-    this._searchCompleteHandler = null;
-
-    this._textEnteredHandler = null;
-
-    this._textRevertedHandler = null;
-
     /**
      * =================== nsIAutoCompleteInput ===================
      */
@@ -101,11 +93,6 @@ class MozAutocomplete extends MozTextbox {
 
     this.mController = Cc["@mozilla.org/autocomplete/controller;1"].
     getService(Ci.nsIAutoCompleteController);
-
-    this._searchBeginHandler = this.initEventHandler("searchbegin");
-    this._searchCompleteHandler = this.initEventHandler("searchcomplete");
-    this._textEnteredHandler = this.initEventHandler("textentered");
-    this._textRevertedHandler = this.initEventHandler("textreverted");
 
   }
 
@@ -374,8 +361,6 @@ class MozAutocomplete extends MozTextbox {
   onSearchBegin() {
     if (this.popup && typeof this.popup.onSearchBegin == "function")
       this.popup.onSearchBegin();
-    if (this._searchBeginHandler)
-      this._searchBeginHandler();
   }
 
   onSearchComplete() {
@@ -388,23 +373,27 @@ class MozAutocomplete extends MozTextbox {
       this.handleEnter();
       this.detachController();
     }
-
-    if (this._searchCompleteHandler)
-      this._searchCompleteHandler();
   }
 
   onTextEntered(event) {
-    let rv = false;
-    if (this._textEnteredHandler) {
-      rv = this._textEnteredHandler(event);
+    if (this.getAttribute("notifylegacyevents") === "true") {
+      let e = new CustomEvent("textEntered", {
+        bubbles: false,
+        cancelable: true,
+        detail: { rootEvent: event }
+      });
+      return !this.dispatchEvent(e);
     }
-    return rv;
   }
 
   onTextReverted() {
-    if (this._textRevertedHandler)
-      return this._textRevertedHandler();
-    return false;
+    if (this.getAttribute("notifylegacyevents") === "true") {
+      let e = new CustomEvent("textReverted", {
+        bubbles: false,
+        cancelable: true
+      });
+      return !this.dispatchEvent(e);
+    }
   }
 
   /**
@@ -453,17 +442,6 @@ class MozAutocomplete extends MozTextbox {
       this.showHistoryPopup();
     else
       this.closePopup();
-  }
-
-  /**
-   * ::::::::::::: event dispatching :::::::::::::
-   */
-  initEventHandler(aEventType) {
-    let handlerString = this.getAttribute("on" + aEventType);
-    if (handlerString) {
-      return (new Function("eventType", "param", handlerString)).bind(this, aEventType);
-    }
-    return null;
   }
 
   onKeyPress(aEvent) {

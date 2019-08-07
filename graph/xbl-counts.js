@@ -56488,7 +56488,7 @@ var DATA = {
     },
     label: "2019-07-19"
   },
-  "master@{2019-07-20}": {
+  "master@{2019-07-21}": {
     numBindings: 9,
     numInContentBindings: 0,
     loc: 2572,
@@ -56519,7 +56519,304 @@ var DATA = {
       panel: 83,
       basecontrol: 15
     },
-    label: "2019-07-20"
+    label: "2019-07-21"
+  },
+  "master@{2019-07-23}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2572,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1962,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 606,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-07-23"
+  },
+  "master@{2019-07-25}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2572,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1962,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 606,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-07-25"
+  },
+  "master@{2019-07-27}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2551,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1941,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 585,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-07-27"
+  },
+  "master@{2019-07-29}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2551,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1941,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 585,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-07-29"
+  },
+  "master@{2019-07-31}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2551,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1941,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 585,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-07-31"
+  },
+  "master@{2019-08-02}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2551,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1941,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 585,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-02"
+  },
+  "master@{2019-08-04}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2551,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1941,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 585,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-04"
+  },
+  "master@{2019-08-06}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2551,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1941,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 585,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-06"
+  },
+  "master@{2019-08-07}": {
+    numBindings: 9,
+    numInContentBindings: 0,
+    loc: 2551,
+    directoryLOC: {
+      browser: 610,
+      dom: 0,
+      toolkit: 1941,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 2,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 763,
+      autocomplete: 585,
+      "places-popup-base": 478,
+      textbox: 199,
+      popup: 166,
+      "places-popup-arrow": 132,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-07"
   }
 };
 var SORTED_BINDINGS = {
