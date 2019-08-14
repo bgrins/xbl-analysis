@@ -181,13 +181,13 @@ class MozArrowscrollbox extends MozBaseControl {
     }
     this.textContent = "";
     this.appendChild(MozXULElement.parseXULToFragment(`
-      <toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart" onclick="_onButtonClick(event);" onmousedown="_onButtonMouseDown(event, -1);" onmouseup="_onButtonMouseUp(event);" onmouseover="_onButtonMouseOver(-1);" onmouseout="_onButtonMouseOut();"></toolbarbutton>
+      <toolbarbutton class="scrollbutton-up" anonid="scrollbutton-up" inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart"></toolbarbutton>
       <spacer class="arrowscrollbox-overflow-start-indicator" inherits="collapsed=scrolledtostart"></spacer>
       <scrollbox class="arrowscrollbox-scrollbox" anonid="scrollbox" flex="1" inherits="orient,align,pack,dir,smoothscroll">
         <children></children>
       </scrollbox>
       <spacer class="arrowscrollbox-overflow-end-indicator" inherits="collapsed=scrolledtoend"></spacer>
-      <toolbarbutton class="scrollbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend" onclick="_onButtonClick(event);" onmousedown="_onButtonMouseDown(event, 1);" onmouseup="_onButtonMouseUp(event);" onmouseover="_onButtonMouseOver(1);" onmouseout="_onButtonMouseOut();"></toolbarbutton>
+      <toolbarbutton class="scrollbutton-down" anonid="scrollbutton-down" inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend"></toolbarbutton>
     `));
     // XXX: Implement `this.inheritAttribute()` for the [inherits] attribute in the markup above!
 
@@ -253,6 +253,44 @@ class MozArrowscrollbox extends MozBaseControl {
 
     this.setAttribute("notoverflowing", "true");
     this._updateScrollButtonsDisabledState();
+
+    // Ultimately Bug 1514926 will convert arrowscrollbox binding to a custom element.
+    // For the needs of Bug 1497189, where we apply a custom CSP to about:addons, we had
+    // to remove inline handlers and hence added event listeners for mouse events here.
+    this.addEventListener("click", (e) => {
+      if (e.originalTarget != this._scrollButtonUp && e.originalTarget != this._scrollButtonDown) {
+        return;
+      }
+      this._onButtonClick(e);
+    });
+    this.addEventListener("mousedown", (e) => {
+      if (e.originalTarget == this._scrollButtonUp) {
+        this._onButtonMouseDown(e, -1);
+      }
+      if (e.originalTarget == this._scrollButtonDown) {
+        this._onButtonMouseDown(e, 1);
+      }
+    });
+    this.addEventListener("mouseup", (e) => {
+      if (e.originalTarget != this._scrollButtonUp && e.originalTarget != this._scrollButtonDown) {
+        return;
+      }
+      this._onButtonMouseUp(e);
+    });
+    this.addEventListener("mouseover", (e) => {
+      if (e.originalTarget == this._scrollButtonUp) {
+        this._onButtonMouseOver(-1);
+      }
+      if (e.originalTarget == this._scrollButtonDown) {
+        this._onButtonMouseOver(1);
+      }
+    });
+    this.addEventListener("mouseout", (e) => {
+      if (e.originalTarget != this._scrollButtonUp && e.originalTarget != this._scrollButtonDown) {
+        return;
+      }
+      this._onButtonMouseOut();
+    });
 
   }
 
@@ -432,11 +470,16 @@ class MozArrowscrollbox extends MozBaseControl {
   }
 
   _getScrollableElements() {
-    var nodes = this.children;
-    if (nodes.length == 1 &&
-      nodes[0].localName == "children" &&
-      nodes[0].namespaceURI == "http://www.mozilla.org/xbl") {
-      nodes = document.getBindingParent(this).children;
+    let nodes = this.children;
+    if (nodes.length == 1) {
+      let node = nodes[0];
+      if (node.localName == "children" &&
+        node.namespaceURI == "http://www.mozilla.org/xbl") {
+        nodes = document.getBindingParent(this).children;
+      } else if (node.localName == "slot" &&
+        node.namespaceURI == "http://www.w3.org/1999/xhtml") {
+        nodes = node.getRootNode().host.children;
+      }
     }
 
     return Array.prototype.filter.call(nodes, this._canScrollToElement, this);
