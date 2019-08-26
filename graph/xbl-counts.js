@@ -56910,6 +56910,192 @@ var DATA = {
       basecontrol: 15
     },
     label: "2019-08-14"
+  },
+  "master@{2019-08-16}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-16"
+  },
+  "master@{2019-08-18}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-18"
+  },
+  "master@{2019-08-20}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-20"
+  },
+  "master@{2019-08-22}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-22"
+  },
+  "master@{2019-08-24}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-24"
+  },
+  "master@{2019-08-26}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-26"
   }
 };
 var SORTED_BINDINGS = {
