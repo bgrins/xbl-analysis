@@ -52,7 +52,7 @@ function populateBindingCache(rev) {
 async function populateUsageData(rev) {
   // Skip usage data for now since we aren't showing it in the tree until
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1443328.
-  return;
+  // return;
   if (!rev) {
     throw "Need a rev";
   }
@@ -60,27 +60,30 @@ async function populateUsageData(rev) {
 
   // Don't have data until now
   if (moment(rev) < moment("2017-11-17") || moment(rev) > moment().subtract(1, 'days')) {
+    console.log(rev);
     return;
   }
 
   console.log(`Fetching usage data for ${rev}`);
 
-  var cachedFilePath = `cache/instrumentation/${rev}/xulsummary.txt`;
-  if (fs.existsSync(cachedFilePath)) {
-    console.log(`File already exists: ${cachedFilePath}`);
-    return;
-  }
+  // var cachedFilePath = `cache/instrumentation/${rev}/xulsummary.txt`;
+  // if (fs.existsSync(cachedFilePath)) {
+  //   console.log(`File already exists: ${cachedFilePath}`);
+  //   return;
+  // }
 
   const tomorrowRev = moment(rev).add(1, 'days').format('YYYY-MM-DD');
   const query = {
     "sort": { "repo.push.date": "desc" },
-    "limit": 1,
+    "limit": 1000,
     "from": "task.task.artifacts",
     "where": {
       "and": [
-        { "eq": { "name": "public/test_info/xulsummary.txt" } },
-        { "gte": { "repo.push.date": { "date": rev } } },
-        { "lt": { "repo.push.date": { "date": tomorrowRev } } },
+        // { "eq": { "name": "public/test_info/xulsummary.txt" } },
+        { "eq": { "name": "public/test_info/test-info-fission.json" } },
+        // { "eq": { "name": "builds/worker/artifacts/test-info-fission.json" } },
+        // { "gte": { "repo.push.date": { "date": rev } } },
+        // { "lt": { "repo.push.date": { "date": tomorrowRev } } },
       ]
     },
     "select": ["task.artifacts.url", "repo"],
@@ -92,7 +95,8 @@ async function populateUsageData(rev) {
     method: "POST",
     json: query,
   });
-  let firstMcPush = queryResult.data.filter(d => d.repo.branch.name === "mozilla-central")[0];
+  console.log(queryResult)
+  let firstMcPush = queryResult.data.filter(d => d.repo.branch.name === "try")[0];
   if (!firstMcPush) {
     console.log(`Skipping result for ${rev} (${queryResult.data.length} pushes, 0 on m-c)`, JSON.stringify(queryResult));
     return;
@@ -126,4 +130,5 @@ async function populateCaches(rev) {
     return chain.then(populateUsageData.bind(null, item));
   }, populateUsageData(revsEveryDay[0]));
 }
-populateCaches();
+populateUsageData(revsEveryDay[revsEveryDay.length - 10]);
+// populateCaches();

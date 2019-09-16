@@ -57096,6 +57096,347 @@ var DATA = {
       basecontrol: 15
     },
     label: "2019-08-26"
+  },
+  "master@{2019-08-28}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-28"
+  },
+  "master@{2019-08-30}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-08-30"
+  },
+  "master@{2019-09-01}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-01"
+  },
+  "master@{2019-09-03}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-03"
+  },
+  "master@{2019-09-05}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-05"
+  },
+  "master@{2019-09-07}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-07"
+  },
+  "master@{2019-09-09}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-09"
+  },
+  "master@{2019-09-11}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-11"
+  },
+  "master@{2019-09-13}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-13"
+  },
+  "master@{2019-09-15}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-15"
+  },
+  "master@{2019-09-16}": {
+    numBindings: 7,
+    numInContentBindings: 0,
+    loc: 1974,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1974,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 7,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      autocomplete: 585,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-16"
   }
 };
 var SORTED_BINDINGS = {
