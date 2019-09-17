@@ -125,10 +125,9 @@ async function populateCaches(rev) {
     return chain.then(populateBindingCache.bind(null, item));
   }, populateBindingCache(revsEveryDay[0]));
 
-  console.log(`Caching usage data for ${revsEveryDay.length} revs`);
-  await revsEveryDay.reduce(function (chain, item) {
-    return chain.then(populateUsageData.bind(null, item));
-  }, populateUsageData(revsEveryDay[0]));
+  // console.log(`Caching usage data for ${revsEveryDay.length} revs`);
+  // await revsEveryDay.reduce(function (chain, item) {
+  //   return chain.then(populateUsageData.bind(null, item));
+  // }, populateUsageData(revsEveryDay[0]));
 }
-populateUsageData(revsEveryDay[revsEveryDay.length - 10]);
-// populateCaches();
+populateCaches();
