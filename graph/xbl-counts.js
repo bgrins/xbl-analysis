@@ -57436,6 +57436,65 @@ var DATA = {
       basecontrol: 15
     },
     label: "2019-09-17"
+  },
+  "master@{2019-09-19}": {
+    numBindings: 6,
+    numInContentBindings: 0,
+    loc: 1389,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1389,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 6,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      textbox: 199,
+      popup: 166,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-19"
+  },
+  "master@{2019-09-20}": {
+    numBindings: 5,
+    numInContentBindings: 0,
+    loc: 1223,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1223,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 5,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      textbox: 199,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-20"
   }
 };
 var SORTED_BINDINGS = {
