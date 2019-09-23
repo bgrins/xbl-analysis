@@ -57467,7 +57467,7 @@ var DATA = {
     },
     label: "2019-09-19"
   },
-  "master@{2019-09-20}": {
+  "master@{2019-09-21}": {
     numBindings: 5,
     numInContentBindings: 0,
     loc: 1223,
@@ -57494,7 +57494,36 @@ var DATA = {
       panel: 83,
       basecontrol: 15
     },
-    label: "2019-09-20"
+    label: "2019-09-21"
+  },
+  "master@{2019-09-23}": {
+    numBindings: 5,
+    numInContentBindings: 0,
+    loc: 1223,
+    directoryLOC: {
+      browser: 0,
+      dom: 0,
+      toolkit: 1223,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    directoryBindings: {
+      browser: 0,
+      dom: 0,
+      toolkit: 5,
+      mobile: 0,
+      layout: 0,
+      xpfe: 0
+    },
+    bindingsLOC: {
+      arrowscrollbox: 796,
+      textbox: 199,
+      arrowpanel: 130,
+      panel: 83,
+      basecontrol: 15
+    },
+    label: "2019-09-23"
   }
 };
 var SORTED_BINDINGS = {
