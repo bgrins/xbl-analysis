@@ -84,8 +84,6 @@ class MozTextbox extends MozXULElement {
       delete this._cachedInputFieldValue;
     }
 
-    this._setNewlineHandling();
-
     if (this.hasAttribute("emptytext"))
       this.placeholder = this.getAttribute("emptytext");
 
@@ -258,22 +256,6 @@ class MozTextbox extends MozXULElement {
     // setSelectionRange() is only available on a limited set of input types.
     if (this.inputField.type == "text") {
       this.inputField.setSelectionRange(aSelectionStart, aSelectionEnd);
-    }
-  }
-
-  _setNewlineHandling() {
-    var str = this.getAttribute("newlines");
-    if (str && this.editor) {
-      const nsIPlaintextEditor = Ci.nsIPlaintextEditor;
-      for (var x in nsIPlaintextEditor) {
-        if (/^eNewlines/.test(x)) {
-          if (str == RegExp.rightContext.toLowerCase()) {
-            this.editor.QueryInterface(nsIPlaintextEditor)
-              .newlineHandling = nsIPlaintextEditor[x];
-            break;
-          }
-        }
-      }
     }
   }
   disconnectedCallback() {

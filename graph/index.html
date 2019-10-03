@@ -75,7 +75,13 @@
       </div>
     </div>
   </main>
-  <script>var chartColors = {
+  <script>
+
+
+Chart.defaults.global.defaultFontFamily = "Fira Sans";
+Chart.defaults.global.defaultFontWeight = "300";
+
+var chartColors = {
   aqua: "#0ff",
   aquamarine: "#7fffd4",
   blue: "#00f",
@@ -298,7 +304,7 @@ new Chart(
       title: {
         display: true,
         fontSize: 20,
-        text: "Are We XBL Still?",
+        text: `Are We XBL Still? ${bindings[bindings.length - 1]} bindings to go`,
       },
       scales: {
         xAxes: [
