@@ -12,7 +12,6 @@ process.on('unhandledRejection', (reason, p) => {
 //  egrep -l1 -r -n -i --include="*.xml" "<binding id" .
 
 var allFiles = [
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/textbox.xml',
 ];
 
@@ -93,6 +92,7 @@ var deletedFiles = {
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/autocomplete.xml': '2019-09-17',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/scrollbox.xml': '2019-10-03',
   'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/general.xml': '2019-10-03',
+  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/widgets/popup.xml': '2019-10-08',
 };
 
 var exportedFiles = allFiles.slice();
