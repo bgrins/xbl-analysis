@@ -240,7 +240,7 @@ async function treeForRev(rev, metadataForBindings) {
     candidatesForFlattening
   );
 
-  for (let rootBinding of bindingTree["NO_EXTENDS"]) {
+  for (let rootBinding of bindingTree["NO_EXTENDS"] || []) {
     outputHTML.push(printSingleBinding(rootBinding));
   }
 

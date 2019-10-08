@@ -101,8 +101,10 @@ function countForRev(rev) {
         }
       });
       return docBindings.length;
-    }).reduce((a, b) => { return a + b; });
-    let loc = [...bindingsLOC.values()].reduce((a, b) => { return a + b; });
+    });
+    numBindings = numBindings.length ? numBindings.reduce((a, b) => { return a + b; }) : 0;
+    let loc = [...bindingsLOC.values()];
+    loc = loc.length ? loc.reduce((a, b) => { return a + b; }) : 0;
     let label = rev.match(/@{(.*)}/)[1];
     console.log(loc);
     data[rev] = {
