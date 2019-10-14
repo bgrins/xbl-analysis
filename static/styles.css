@@ -175,3 +175,19 @@ details ul { margin-top: 2px; margin-bottom: 0; }
   margin-right: 2px;
   padding: 3px;
 }
+
+.flash {
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  color: #032f62;
+  background-color: #dbedff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+}
+
+.flash-warn {
+  color: #735c0f;
+  background-color: #fff3dd;
+}
