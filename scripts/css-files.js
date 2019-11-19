@@ -25,7 +25,7 @@ var cssFiles = [
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/style/res/html.css',
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/layout/svg/svg.css',
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/mobile/android/themes/geckoview/content.css',
-  'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/xul.css',
+  // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/content/xul.css',
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/blocklist.css',
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/extensions/content/extensions.css',
   // 'https://raw.githubusercontent.com/mozilla/gecko-dev/master/toolkit/mozapps/handling/content/handler.css',

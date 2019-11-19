@@ -53,7 +53,7 @@ function getBindingsForRev(rev, last) {
 
 function getMarkup(added, date, name, metadata) {
   metadata = metadata || {};
-  var link = (metadata.bug && `<small><a href='${metadata.bug}'>bug ${metadata.bug.match(/\d+$/)[0]}</a></small>`);
+  var link = (metadata.bug && `<small><a href='${metadata.bug}'>bug ${metadata.bug.trim().match(/\d+$/)[0]}</a></small>`);
   var type = (metadata.type && `<small>${metadata.type}</small>`) || '';
   var assignee = (metadata.assignee && `<small>${metadata.assignee}</small>`) || '';
   var metadata = (metadata.bug && `<span style='float: right'>${assignee} ${type} ${link}</span>`) || '';

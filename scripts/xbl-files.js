@@ -125,7 +125,7 @@ module.exports.getAllFilesForRev = getAllFilesForRev;
 // ...
 function getRevsOverTime(daily = false) {
   let old = moment("2017-10-06");
-  let now = moment();
+  let now = moment("2019-10-10");
   let revs = [];
 
   if (daily) {
