@@ -9,7 +9,7 @@ var {
 } = require("./custom-element-utils");
 // var js_beautify = require("js-beautify").js_beautify;
 
-getParsedFiles().then(parsedFiles => {
+getParsedFiles('master@{2017-09-19}').then(parsedFiles => {
   var jsObj = [];
   parsedFiles.forEach(({file, doc, body}) => {
     jsObj.push({file, body});
