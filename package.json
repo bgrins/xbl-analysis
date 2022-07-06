@@ -14,7 +14,7 @@
   "author": "",
   "dependencies": {
     "js-beautify": "^1.10.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "prettier": "^1.17.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
